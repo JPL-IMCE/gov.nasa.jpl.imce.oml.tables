@@ -1,3 +1,8 @@
+*.log
+*.tgz
 .idea/
+.npmrc
+js/
 node_modules/
 target/
+gh-pages/
