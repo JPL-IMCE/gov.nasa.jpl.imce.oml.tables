@@ -156,10 +156,10 @@ lazy val tables = crossProject
               ds.mkString("[",",", "]")
             }
           ),
-          sourceDirectory := baseDirectory.value / ".." / ".." / "tables" / "src" / "npm-preprocess",
+          sourceDirectory := baseDirectory.value / ".." / "tables" / "src" / "npm-preprocess",
           preprocessIncludeFilter := "*.json",
           includeFilter := AllPassFilter,
-          target := baseDirectory.value / ".." / ".." / "target" / "npm-dist"
+          target := baseDirectory.value / ".." / "target" / "npm-dist"
         )
     ) : _*)
   .jsSettings(
@@ -173,8 +173,8 @@ lazy val tables = crossProject
     scalaJSOutputMode := ECMAScript6,
     requiresDOM := false,
 
-    crossTarget in (Compile, fastOptJS) := baseDirectory.value / ".." / ".." / "target" / "npm-dist",
-    crossTarget in (Compile, fullOptJS) := baseDirectory.value / ".." / ".." / "target" / "npm-dist",
+    crossTarget in (Compile, fastOptJS) := baseDirectory.value / ".." / "target" / "npm-dist",
+    crossTarget in (Compile, fullOptJS) := baseDirectory.value / ".." / "target" / "npm-dist",
 
     artifactPath in (Compile, fastOptJS) :=
       (crossTarget in (Compile, fastOptJS)).value / "jpl-omf-schema-tables.js",
@@ -185,9 +185,9 @@ lazy val tables = crossProject
       val result = (fastOptJS in Compile).value
       val p = (preprocess in config("npm")).value
       streams.value.log.info("npm/preprocess: "+p)
-      IO.copyFile(baseDirectory.value / ".." / ".." / ".npmrc", baseDirectory .value / ".." / ".." / "target" / "npm-dist" / ".npmrc")
-      IO.copyFile(baseDirectory.value / ".." / ".." / "README.md", baseDirectory .value / ".." / ".." / "target" / "npm-dist" / "README.md")
-      val ok = Process(command=Seq[String]("npm", "pack"), cwd = baseDirectory.value / ".." / ".." / "target" / "npm-dist" ).!
+      IO.copyFile(baseDirectory.value / ".." / ".npmrc", baseDirectory .value / ".." / "target" / "npm-dist" / ".npmrc")
+      IO.copyFile(baseDirectory.value / ".." / "README.md", baseDirectory .value / ".." / "target" / "npm-dist" / "README.md")
+      val ok = Process(command=Seq[String]("npm", "pack"), cwd = baseDirectory.value / ".." / "target" / "npm-dist" ).!
       require(0 == ok, "npm pack failed: " + ok)
       result
     },
@@ -196,9 +196,9 @@ lazy val tables = crossProject
       val result = (fullOptJS in Compile).value
       val p = (preprocess in config("npm")).value
       streams.value.log.info("npm/preprocess: "+p)
-      IO.copyFile(baseDirectory.value / ".." / ".." / ".npmrc", baseDirectory.value / ".." / ".." / "target" / "npm-dist" / ".npmrc")
-      IO.copyFile(baseDirectory.value / ".." / ".." / "README.md", baseDirectory .value / ".." / ".." / "target" / "npm-dist" / "README.md")
-      val ok = Process(command=Seq[String]("npm", "pack"), cwd = baseDirectory.value / ".." / ".." / "target" / "npm-dist" ).!
+      IO.copyFile(baseDirectory.value / ".." / ".npmrc", baseDirectory.value / ".." / "target" / "npm-dist" / ".npmrc")
+      IO.copyFile(baseDirectory.value / ".." / "README.md", baseDirectory .value / ".." / "target" / "npm-dist" / "README.md")
+      val ok = Process(command=Seq[String]("npm", "pack"), cwd = baseDirectory.value / ".." / "target" / "npm-dist" ).!
       require(0 == ok, "npm pack failed: " + ok)
       result
     }
