@@ -1,11 +1,108 @@
-import com.google.javascript.jscomp.CompilerOptions.LanguageMode
 import org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6
+
+import com.typesafe.sbt.license.{LicenseInfo, DepModuleInfo}
+
+import de.heikoseeberger.sbtheader.HeaderPlugin
+import de.heikoseeberger.sbtheader.HeaderPattern
+import de.heikoseeberger.sbtheader.license.CommentBlock
+
+val oti_mof_schema_license =
+  s"""|Copyright 2016 California Institute of Technology ("Caltech").
+      |U.S. Government sponsorship acknowledged.
+      |
+      |Licensed under the Apache License, Version 2.0 (the "License");
+      |you may not use this file except in compliance with the License.
+      |You may obtain a copy of the License at
+      |
+      |    http://www.apache.org/licenses/LICENSE-2.0
+      |
+      |Unless required by applicable law or agreed to in writing, software
+      |distributed under the License is distributed on an "AS IS" BASIS,
+      |WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+      |See the License for the specific language governing permissions and
+      |limitations under the License.
+      |License Terms
+      |""".stripMargin
 
 name := Settings.name+"Root"
 
 scalaVersion in ThisBuild := "2.11.8"
 
 shellPrompt in ThisBuild := { state => Project.extract(state).currentRef.project + "> " }
+
+val tablesLicenseSettings: Seq[Setting[_]] =
+  Seq(
+    licenses += "Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0.html"),
+
+    startYear  := Some(2016),
+
+    headers := Map("scala" -> (HeaderPattern.cStyleBlockComment, CommentBlock.cStyle(oti_mof_schema_license))),
+
+    licenseReportTitle := "LicenseReportOfAggregatedSBTPluginsAndLibraries",
+
+    licenseSelection += LicenseCategory("EPL", Seq("Eclipse Public License")),
+
+    // Add style rules to the report.
+    licenseReportStyleRules := Some("table, th, td {border: 1px solid black;}"),
+
+    // The ivy configurations we'd like to grab licenses for.
+    licenseConfigurations := Set("compile", "provided"),
+
+    // Override the license information from ivy, if it's non-existent or wrong
+    licenseOverrides := {
+      case DepModuleInfo("com.jsuereth", _, _) =>
+        LicenseInfo(LicenseCategory.BSD, "BSD-3-Clause", "http://opensource.org/licenses/BSD-3-Clause")
+    },
+
+    licenseReportTypes := Seq(Html)
+  )
+
+val tablesPublishSettings: Seq[Setting[_]] = Seq(
+  PgpKeys.useGpg := true,
+
+  PgpKeys.useGpgAgent := true,
+
+  pgpSecretRing := file("local.secring.gpg"),
+
+  pgpPublicRing := file("local.pubring.gpg"),
+
+  // include *.pom as an artifact
+  publishMavenStyle := true,
+
+  // do not include all repositories in the POM
+  pomAllRepositories := false,
+
+  // make sure no repositories show up in the POM file
+  pomIncludeRepository := { _ => false },
+
+  additionalProperties := {
+    <git.branch>
+      {git.gitCurrentBranch.value}
+    </git.branch>
+      <git.commit>
+        {git.gitHeadCommit.value.getOrElse("N/A") + (if (git.gitUncommittedChanges.value) "-SNAPSHOT" else "")}
+      </git.commit>
+      <git.tags>
+        {git.gitCurrentTags.value.map(tag => <git.tag>$tag</git.tag> )}
+      </git.tags>
+  },
+
+  pomPostProcess <<= additionalProperties { (additions) =>
+    new xml.transform.RuleTransformer(new xml.transform.RewriteRule {
+      override def transform(n: xml.Node): Seq[xml.Node] =
+        n match {
+          case <properties>{props @ _*}</properties> =>
+            <properties>{props}{additions}</properties>
+          case _ =>
+            n
+        }
+    })
+  },
+
+  git.baseVersion := Settings.version,
+
+  git.useGitDescribe := true
+) ++ versionWithGit
 
 val Npm = config("npm")
 
@@ -21,8 +118,14 @@ lazy val tables = crossProject
     git.baseVersion := Settings.version,
     scalaVersion := Settings.versions.scala,
     scalacOptions ++= Settings.scalacOptions,
-    libraryDependencies ++= Settings.sharedDependencies.value
+    libraryDependencies ++= Settings.sharedDependencies.value,
+    publishTo := Some(
+      "JPL-IMCE" at
+        s"https://api.bintray.com/content/jpl-imce/gov.nasa.jpl.imce/jpl.omf.schema.tables/${version.value}")
   )
+  .settings(tablesPublishSettings : _*)
+  .jvmConfigure(_ enablePlugins HeaderPlugin)
+  .jvmSettings(tablesLicenseSettings : _*)
   .jvmSettings(
     libraryDependencies ++= Settings.jvmDependencies.value
   )
