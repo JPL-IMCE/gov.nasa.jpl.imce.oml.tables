@@ -156,7 +156,7 @@ lazy val tables = crossProject
               ds.mkString("[",",", "]")
             }
           ),
-          sourceDirectory := baseDirectory.value / ".." / "tables" / "src" / "npm-preprocess",
+          sourceDirectory := baseDirectory.value / ".." / "shared" / "src" / "npm-preprocess",
           preprocessIncludeFilter := "*.json",
           includeFilter := AllPassFilter,
           target := baseDirectory.value / ".." / "target" / "npm-dist"
