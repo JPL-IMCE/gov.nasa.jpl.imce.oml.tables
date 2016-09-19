@@ -75,14 +75,34 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a href="Concept.html"><span class="name">Concept</span></a><span class="params">(<span name="resourceIRI">resourceIRI: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="uuid">uuid: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="isAbstract">isAbstract: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a href="Concept.html"><span class="name">Concept</span></a><span class="params">(<span name="graphUUID">graphUUID: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="uuid">uuid: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="isAbstract">isAbstract: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="resourceIRI">resourceIRI: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.package@ConceptextendsProductwithSerializable" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Annotations</dt><dd>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">graphUUID</dt><dd class="cmt"><p>(Foreign key) The UUID of the TerminologyGraph in which this Concept is asserted.</p></dd><dt class="param">uuid</dt><dd class="cmt"><p>(Primary key) The UUID of the Concept itself.</p></dd><dt class="param">isAbstract</dt><dd class="cmt"><p>Whether the Concept is abstract.</p></dd><dt class="param">name</dt><dd class="cmt"><p>Name of the Concept</p></dd><dt class="param">resourceIRI</dt><dd class="cmt"><p>The IRI of the Concept, which is a kind of Resource</p></dd></dl><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@JSExport</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.omf.schema.tables.TerminologyGraph" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="TerminologyGraphextendsProductwithSerializable"></a>
+      <a id="TerminologyGraph:TerminologyGraph"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="TerminologyGraph.html"><span class="name">TerminologyGraph</span></a><span class="params">(<span name="uuid">uuid: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="resourceIRI">resourceIRI: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.package@TerminologyGraphextendsProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uuid</dt><dd class="cmt"><p>(Primary key) The UUID of the TerminologyGraph.</p></dd><dt class="param">name</dt><dd class="cmt"><p>Name of the TerminologyGraph</p></dd><dt class="param">resourceIRI</dt><dd class="cmt"><p>The IRI of the TerminologyGraph, which is a kind of resouce.</p></dd></dl><dl class="attributes block"> <dt>Annotations</dt><dd>
                 <span class="name">@JSExport</span><span class="args">()</span>
               
         </dd></dl></div>
