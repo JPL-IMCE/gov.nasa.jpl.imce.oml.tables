@@ -24,8 +24,6 @@ val oti_mof_schema_license =
       |License Terms
       |""".stripMargin
 
-name := Settings.name+"Root"
-
 scalaVersion in ThisBuild := "2.11.8"
 
 shellPrompt in ThisBuild := { state => Project.extract(state).currentRef.project + "> " }
@@ -36,7 +34,12 @@ val tablesLicenseSettings: Seq[Setting[_]] =
 
     startYear  := Some(2016),
 
-    headers := Map("scala" -> (HeaderPattern.cStyleBlockComment, CommentBlock.cStyle(oti_mof_schema_license))),
+    headers := Map(
+      "java" -> (HeaderPattern.cStyleBlockComment, CommentBlock.cStyle(oti_mof_schema_license)),
+      "js" -> (HeaderPattern.cStyleBlockComment, CommentBlock.cStyle(oti_mof_schema_license)),
+      "scala" -> (HeaderPattern.cStyleBlockComment, CommentBlock.cStyle(oti_mof_schema_license))
+
+),
 
     licenseReportTitle := "LicenseReportOfAggregatedSBTPluginsAndLibraries",
 
@@ -112,9 +115,11 @@ lazy val tablesRoot = project.in(file("."))
 
 // a special crossProject for configuring a JS/JVM/shared structure
 lazy val tables = crossProject
-  .crossType(CrossType.Pure)
-  .in(file("tables"))
+  .in(file("."))
+  .settings(tablesLicenseSettings : _*)
+  .settings(tablesPublishSettings : _*)
   .settings(
+    name := Settings.name,
     git.baseVersion := Settings.version,
     scalaVersion := Settings.versions.scala,
     scalacOptions ++= Settings.scalacOptions,
@@ -123,9 +128,7 @@ lazy val tables = crossProject
       "JPL-IMCE" at
         s"https://api.bintray.com/content/jpl-imce/gov.nasa.jpl.imce/jpl.omf.schema.tables/${version.value}")
   )
-  .settings(tablesPublishSettings : _*)
   .jvmConfigure(_ enablePlugins HeaderPlugin)
-  .jvmSettings(tablesLicenseSettings : _*)
   .jvmSettings(
     libraryDependencies ++= Settings.jvmDependencies.value
   )
@@ -201,5 +204,5 @@ lazy val tables = crossProject
     }
   )
 
-lazy val tablesJVM = tables.jvm.settings(name := Settings.name+"JVM")
-lazy val tablesJS = tables.js.settings(name := Settings.name+"JS")
+lazy val tablesJVM = tables.jvm
+lazy val tablesJS = tables.js

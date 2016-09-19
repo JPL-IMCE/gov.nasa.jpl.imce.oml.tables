@@ -37,12 +37,14 @@ object Settings {
     * the special %%% function selects the correct version for each project
     */
   val sharedDependencies = Def.setting(Seq(
+    "org.scalacheck" %%% "scalacheck" % "1.13.2" % "test"
   ))
 
 
   /** Dependencies only used by the JVM project */
   val jvmDependencies = Def.setting(Seq(
-    "org.scala-js" %% "scalajs-stubs" % scalaJSVersion % "provided"
+    "org.scala-js" %% "scalajs-stubs" % scalaJSVersion % "provided",
+    "com.novocode" % "junit-interface" % "0.11" % "test"
   ))
 
 
