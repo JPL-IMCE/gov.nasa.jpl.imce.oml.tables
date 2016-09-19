@@ -59,6 +59,9 @@ lazy val tables = crossProject
   .jsSettings(
 
     jsEnv := NodeJSEnv().value,
+    scalaJSUseRhino := false,
+    scalaJSStage in Global := FullOptStage,
+    requiresDOM := false,
 
     libraryDependencies ++= Settings.scalajsDependencies.value,
     scalaJSOutputMode := ECMAScript6,
