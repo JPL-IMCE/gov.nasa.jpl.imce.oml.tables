@@ -1,6 +1,6 @@
 # JPL's Ontological Modeling Framework (OMF) Schema Tables for Integrated Model-Centric Engineering (IMCE).
 
-[![Build Status](https://travis-ci.org/JPL-IMCE/omf.schema.tables.svg?branch=master)](https://travis-ci.org/JPL-IMCE/omf.schema.tables)
+[![Build Status](https://travis-ci.org/JPL-IMCE/jpl.omf.schema.tables.svg?branch=master)](https://travis-ci.org/JPL-IMCE/jpl.omf.schema.tables)
  [ ![Download](https://api.bintray.com/packages/jpl-imce/gov.nasa.jpl.imce.npm/jpl-omf-schema-tables/images/download.svg) ](https://bintray.com/jpl-imce/gov.nasa.jpl.imce.npm/jpl-omf-schema-tables/_latestVersion)
  [ ![Download](https://api.bintray.com/packages/jpl-imce/gov.nasa.jpl.imce/omf.schema.tables/images/download.svg) ](https://bintray.com/jpl-imce/gov.nasa.jpl.imce/omf.schema.tables/_latestVersion)
  

@@ -1,8 +1,10 @@
 *.log
 *.tgz
 .idea/
+.js/
+.jvm/
 .npmrc
-js/
 node_modules/
 target/
 gh-pages/
+local.*

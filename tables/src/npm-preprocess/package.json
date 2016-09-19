@@ -1,0 +1,34 @@
+{
+  "name": "@HYPHENATED_NAME@",
+  "description": "@DESCRIPTION@",
+  "version": "@VERSION@",
+  "keywords": [
+    "scalajs",
+    "ontology",
+    "modeling",
+    "schema",
+    "normalized"
+  ],
+  "homepage": "@HOMEPAGE@",
+  "bugs": "@ISSUES@",
+  "licence": "Apache-2.0",
+  "dependencies": {},
+  "devDependencies": {},
+  "main": "dist/jpl-omf-schema-tables",
+  "scripts": {
+    "test": "node tables/test/js/index"
+  },
+  "author": @AUTHOR@,
+  "contributors": @CONTRIBUTORS@,
+  "publishConfig": {
+    "registry": "https://api.bintray.com/npm/jpl-imce/gov.nasa.jpl.imce.npm"
+  },
+  "repository": {
+    "type": "git",
+    "url": "@GIT@"
+  },
+  "files": [
+    "@HYPHENATED_NAME@.js",
+    "@HYPHENATED_NAME@.js.map"
+  ]
+}
