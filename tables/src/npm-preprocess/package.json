@@ -15,9 +15,7 @@
   "dependencies": {},
   "devDependencies": {},
   "main": "dist/jpl-omf-schema-tables",
-  "scripts": {
-    "test": "node tables/test/js/index"
-  },
+  "scripts": {},
   "author": @AUTHOR@,
   "contributors": @CONTRIBUTORS@,
   "publishConfig": {

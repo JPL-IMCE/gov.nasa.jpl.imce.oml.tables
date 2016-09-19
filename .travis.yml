@@ -15,6 +15,11 @@ before_cache:
 jdk:
 - oraclejdk8
 
+node_js:
+- "6"
+- "5.11"
+- "5.10"
+
 language: scala
 
 scala:

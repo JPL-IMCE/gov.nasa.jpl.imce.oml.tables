@@ -61,4 +61,10 @@ All 3 libraries are built on [Travis CI](https://travis-ci.org/JPL-IMCE/omf.sche
 on [Bintray NPM](https://bintray.com/jpl-imce/gov.nasa.jpl.imce.npm/jpl-omf-schema-tables)
 and [Bintray Maven](https://bintray.com/jpl-imce/gov.nasa.jpl.imce/omf.schema.tables).
 
+## Testing JS library
 
+```
+sbt fullOptJS
+cd target/npm-dist
+node ../../tables/test/js/index
+```
