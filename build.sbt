@@ -6,6 +6,8 @@ import de.heikoseeberger.sbtheader.HeaderPlugin
 import de.heikoseeberger.sbtheader.HeaderPattern
 import de.heikoseeberger.sbtheader.license.CommentBlock
 
+import com.typesafe.sbt.SbtGhPages._
+
 val oti_mof_schema_license =
   s"""|Copyright 2016 California Institute of Technology ("Caltech").
       |U.S. Government sponsorship acknowledged.
@@ -39,7 +41,7 @@ val tablesLicenseSettings: Seq[Setting[_]] =
       "js" -> (HeaderPattern.cStyleBlockComment, CommentBlock.cStyle(oti_mof_schema_license)),
       "scala" -> (HeaderPattern.cStyleBlockComment, CommentBlock.cStyle(oti_mof_schema_license))
 
-),
+    ),
 
     licenseReportTitle := "LicenseReportOfAggregatedSBTPluginsAndLibraries",
 
@@ -107,6 +109,82 @@ val tablesPublishSettings: Seq[Setting[_]] = Seq(
   git.useGitDescribe := true
 ) ++ versionWithGit
 
+lazy val filter: ScopeFilter = ScopeFilter(inProjects(ThisProject), inConfigurations(Compile))
+
+lazy val dependencySvgFile = settingKey[File]("Location of the dependency graph in SVG format")
+
+val tablesGhPagesSettings: Seq[Setting[_]] =
+  Seq(
+    preprocessVars in Preprocess := Map(
+      "CI" -> "https://travis-ci.org/JPL-IMCE/jpl.omf.schema.tables",
+      "GIT" -> "github.com",
+      "REPO" -> "jpl.omf.schema.tables",
+      "VER" -> version.value,
+      "ORG" -> "JPL-IMCE",
+      "SUBJECT" -> "JPL-IMCE",
+      "ORG_NAME" -> organizationName.value,
+      "DESC" -> description.value,
+      "PKG" -> moduleName.value,
+      "CONTRIBUTORS" -> {
+        val commit = Process("git rev-parse HEAD").lines.head
+        val p1 = Process(s"git shortlog -sne --no-merges $commit")
+        val p2 = Process(
+          Seq("sed",
+            "-e",
+            """s|^\s*\([0-9][0-9]*\)\s*\(\w.*\w\)\s*<\([a-zA-Z].*\)>.*$|<tr><td align='right'>\1</td><td>\2</td><td>\3</td></tr>|"""))
+        val whoswho = p1 #| p2
+        whoswho.lines.mkString("\n")
+      },
+      "VERSION" -> {
+        git.gitCurrentTags.value match {
+          case Seq(tag) =>
+            s"""<a href="https://@GIT@/@ORG@/${moduleName.value}/tree/$tag">$tag</a>"""
+          case _ =>
+            val v = version.value
+            git.gitHeadCommit.value.fold[String](v) { sha =>
+              if (git.gitUncommittedChanges.value)
+                v
+              else
+                s"""<a href="https://@GIT@/@ORG@/${moduleName.value}/tree/$sha">$v</a>"""
+            }
+        }
+      }
+    ),
+
+
+    sourceDirectory in preprocess := baseDirectory.value / ".." / "tables" / "src" / "site-preprocess",
+
+    target in preprocess := (target in makeSite).value
+  ) ++ ghpages.settings ++ Seq(
+
+    dependencyDotFile := baseDirectory.value / "target" / "dependencies.dot",
+
+    dependencySvgFile := baseDirectory.value / "target" / "dependencies.svg",
+
+    dumpLicenseReport := {
+      val dotFile = dependencyDot.all(filter).value
+      val ok = Process(command = "dot", arguments = Seq[String]("-Tsvg", dotFile.head.getAbsolutePath, "-o" + dependencySvgFile.value.getAbsolutePath)).!
+      require(0 == ok, "dot2svg failed: $ok")
+      dumpLicenseReport.value
+    },
+
+    makeSite <<= makeSite.dependsOn(dumpLicenseReport),
+
+    siteMappings <<= siteMappings.dependsOn(dumpLicenseReport),
+
+    siteMappings += (licenseReportDir.value / "LicenseReportOfAggregatedSBTPluginsAndLibraries.html") -> "LicenseReportOfAggregatedSBTPluginsAndLibraries.html",
+    siteMappings += dependencySvgFile.value -> "dependencies.svg",
+
+    previewFixedPort := Some(4004),
+
+    previewLaunchBrowser := false,
+
+    releasePublishArtifactsAction := {
+      val _ = GhPagesKeys.pushSite.value
+      releasePublishArtifactsAction.value
+    }
+  )
+
 val Npm = config("npm")
 
 lazy val tablesRoot = project.in(file("."))
@@ -118,6 +196,7 @@ lazy val tables = crossProject
   .in(file("."))
   .settings(tablesLicenseSettings : _*)
   .settings(tablesPublishSettings : _*)
+  .settings(tablesGhPagesSettings : _*)
   .settings(
     name := Settings.name,
     git.baseVersion := Settings.version,
@@ -129,10 +208,15 @@ lazy val tables = crossProject
         s"https://api.bintray.com/content/jpl-imce/gov.nasa.jpl.imce/jpl.omf.schema.tables/${version.value}")
   )
   .jvmConfigure(_ enablePlugins HeaderPlugin)
+  .jvmConfigure(_ enablePlugins PreprocessPlugin)
+  .jvmConfigure(_ enablePlugins SiteScaladocPlugin)
   .jvmSettings(
     libraryDependencies ++= Settings.jvmDependencies.value
   )
   // set up settings specific to the JS project
+  .jsConfigure(_ enablePlugins HeaderPlugin)
+  .jsConfigure(_ enablePlugins PreprocessPlugin)
+  .jsConfigure(_ enablePlugins SiteScaladocPlugin)
   .jsConfigure(_ enablePlugins ScalaJSPlugin)
   .jsSettings(
     inConfig(Npm)(

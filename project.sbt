@@ -11,14 +11,14 @@ homepage in ThisBuild := Some(url(s"https://jpl-imce.github.io/${moduleName.valu
 
 organizationName := "JPL-IMCE"
 
-organizationHomepage := Some(url(s"https://github.jpl.nasa.gov/imce"))
+organizationHomepage := Some(url(s"https://github.com/JPL-IMCE"))
 
-git.remoteRepo in ThisBuild := s"git@github.jpl.nasa.gov:imce/${moduleName.value}"
+git.remoteRepo in ThisBuild := s"git@github.com:JPL-IMCE/${moduleName.value}"
 
 startYear := Some(2016)
 
 scmInfo in ThisBuild := Some(ScmInfo(
-  browseUrl = url(s"https://github.jpl.nasa.gov/imce/${moduleName.value}"),
+  browseUrl = url(s"https://github.com/JPL-IMCE/${moduleName.value}"),
   connection = "scm:"+git.remoteRepo.value))
 
 developers in ThisBuild := List(
