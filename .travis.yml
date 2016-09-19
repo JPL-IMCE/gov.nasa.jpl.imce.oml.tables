@@ -7,6 +7,10 @@ cache:
   - "$HOME/.ivy2/cache"
   - "$HOME/.sbt/boot/"
 
+# http://austinpray.com/ops/2015/09/20/change-travis-node-version.html
+install:
+  - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $TRAVIS_NODE_VERSION
+
 before_cache:
   # Tricks to avoid unnecessary cache updates
   - find $HOME/.ivy2 -name "ivydata-*.properties" -delete
@@ -15,10 +19,8 @@ before_cache:
 jdk:
 - oraclejdk8
 
-node_js:
-- "6"
-- "5.11"
-- "5.10"
+env:
+- TRAVIS_NODE_VERSION="5.10"
 
 language: scala
 
