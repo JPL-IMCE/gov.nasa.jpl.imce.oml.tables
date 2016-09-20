@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 
-const omf = require('../../../target/npm-dist/jpl-omf-schema-tables');
+const omf = require('../../../jpl-omf-schema-tables');
 
 console.log("OMF Schema Tables...");
 

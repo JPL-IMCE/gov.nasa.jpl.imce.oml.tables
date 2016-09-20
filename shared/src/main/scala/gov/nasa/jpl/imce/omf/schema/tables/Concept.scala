@@ -23,9 +23,18 @@ import scala.scalajs.js.annotation.JSExport
 import scala.Boolean
 import scala.Predef.String
 
+
+/**
+  * @param graphUUID (Foreign key) The UUID of the TerminologyGraph in which this Concept is asserted.
+  * @param uuid (Primary key) The UUID of the Concept itself.
+  * @param isAbstract Whether the Concept is abstract.
+  * @param name Name of the Concept
+  * @param resourceIRI The IRI of the Concept, which is a kind of Resource
+  */
 @JSExport
 case class Concept
-( @(JSExport @field) resourceIRI: String,
+( @(JSExport @field) graphUUID: String,
   @(JSExport @field) uuid: String,
   @(JSExport @field) isAbstract: Boolean,
-  @(JSExport @field) name: String )
+  @(JSExport @field) name: String,
+  @(JSExport @field) resourceIRI: String )

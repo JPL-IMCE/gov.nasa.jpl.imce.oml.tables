@@ -24,11 +24,11 @@ import scala.Predef.{augmentString,String}
 
 object ConceptSpecificationScala extends Properties("Concept") {
 
-  property("construction") = forAll { (iri: String, uuid: String, isAbstract: Boolean, name: String) =>
-    val ok = iri.nonEmpty && uuid.nonEmpty && name.nonEmpty
+  property("construction") = forAll { (graphUUID: String, uuid: String, isAbstract: Boolean, name: String, iri: String) =>
+    val ok = iri.nonEmpty && uuid.nonEmpty && name.nonEmpty && graphUUID.nonEmpty
     if (ok) {
-      val c = gov.nasa.jpl.imce.omf.schema.tables.Concept(iri, uuid, isAbstract, name)
-      c.resourceIRI == iri && c.uuid == uuid && c.name == name
+      val c = gov.nasa.jpl.imce.omf.schema.tables.Concept(graphUUID, uuid, isAbstract, name, iri)
+      c.resourceIRI == iri && c.uuid == uuid && c.name == name && c.graphUUID == graphUUID && c.uuid == uuid
     } else
       true
   }

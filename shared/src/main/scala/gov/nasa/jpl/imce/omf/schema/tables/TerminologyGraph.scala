@@ -16,21 +16,19 @@
  * License Terms
  */
 
-import org.scalacheck.Properties
-import org.scalacheck.Prop.forAll
+package gov.nasa.jpl.imce.omf.schema.tables
 
-import scala.Boolean
-import scala.Predef.{augmentString,String}
+import scala.annotation.meta.field
+import scala.scalajs.js.annotation.JSExport
+import scala.Predef.String
 
-object ConceptSpecification extends Properties("Concept") {
-
-  property("construction") = forAll { (graphUUID: String, uuid: String, isAbstract: Boolean, name: String, iri: String) =>
-    val ok = iri.nonEmpty && uuid.nonEmpty && name.nonEmpty && graphUUID.nonEmpty
-    if (ok) {
-      val c = gov.nasa.jpl.imce.omf.schema.tables.Concept(graphUUID, uuid, isAbstract, name, iri)
-      c.resourceIRI == iri && c.uuid == uuid && c.name == name && c.graphUUID == graphUUID && c.uuid == uuid
-    } else
-      true
-  }
-
-}
+/**
+  * @param uuid (Primary key) The UUID of the TerminologyGraph.
+  * @param name Name of the TerminologyGraph
+  * @param resourceIRI The IRI of the TerminologyGraph, which is a kind of resouce.
+  */
+@JSExport
+case class TerminologyGraph
+( @(JSExport @field) uuid: String,
+  @(JSExport @field) name: String,
+  @(JSExport @field) resourceIRI: String )

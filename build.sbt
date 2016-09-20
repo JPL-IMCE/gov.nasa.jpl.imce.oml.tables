@@ -243,7 +243,7 @@ lazy val tables = crossProject
           sourceDirectory := baseDirectory.value / ".." / "shared" / "src" / "npm-preprocess",
           preprocessIncludeFilter := "*.json",
           includeFilter := AllPassFilter,
-          target := baseDirectory.value / ".." / "target" / "npm-dist"
+          target := baseDirectory.value / ".."
         )
     ) : _*)
   .jsSettings(
@@ -257,8 +257,8 @@ lazy val tables = crossProject
     scalaJSOutputMode := ECMAScript6,
     requiresDOM := false,
 
-    crossTarget in (Compile, fastOptJS) := baseDirectory.value / ".." / "target" / "npm-dist",
-    crossTarget in (Compile, fullOptJS) := baseDirectory.value / ".." / "target" / "npm-dist",
+    crossTarget in (Compile, fastOptJS) := baseDirectory.value / "..",
+    crossTarget in (Compile, fullOptJS) := baseDirectory.value / "..",
 
     artifactPath in (Compile, fastOptJS) :=
       (crossTarget in (Compile, fastOptJS)).value / "jpl-omf-schema-tables.js",
@@ -269,9 +269,7 @@ lazy val tables = crossProject
       val result = (fastOptJS in Compile).value
       val p = (preprocess in config("npm")).value
       streams.value.log.info("npm/preprocess: "+p)
-      IO.copyFile(baseDirectory.value / ".." / ".npmrc", baseDirectory .value / ".." / "target" / "npm-dist" / ".npmrc")
-      IO.copyFile(baseDirectory.value / ".." / "README.md", baseDirectory .value / ".." / "target" / "npm-dist" / "README.md")
-      val ok = Process(command=Seq[String]("npm", "pack"), cwd = baseDirectory.value / ".." / "target" / "npm-dist" ).!
+      val ok = Process(command=Seq[String]("npm", "pack"), cwd = baseDirectory.value / ".." ).!
       require(0 == ok, "npm pack failed: " + ok)
       result
     },
@@ -280,9 +278,7 @@ lazy val tables = crossProject
       val result = (fullOptJS in Compile).value
       val p = (preprocess in config("npm")).value
       streams.value.log.info("npm/preprocess: "+p)
-      IO.copyFile(baseDirectory.value / ".." / ".npmrc", baseDirectory.value / ".." / "target" / "npm-dist" / ".npmrc")
-      IO.copyFile(baseDirectory.value / ".." / "README.md", baseDirectory .value / ".." / "target" / "npm-dist" / "README.md")
-      val ok = Process(command=Seq[String]("npm", "pack"), cwd = baseDirectory.value / ".." / "target" / "npm-dist" ).!
+      val ok = Process(command=Seq[String]("npm", "pack"), cwd = baseDirectory.value / ".." ).!
       require(0 == ok, "npm pack failed: " + ok)
       result
     }

@@ -25,17 +25,19 @@ public class ConceptSpecificationJava {
     @Test
     public void creationTest() {
         Concept c1 = new Concept(
-                "https://imce.jpl.nasa.gov/project/VehicleExample#ElectricCar",
-                "12345-6789A-BCDEF-012345",
+                "01234-abcde-4569-fehi",
+                "12345-BCDEF-6789A-012345",
                 false,
-                "ElectricCar");
+                "ElectricCar",
+                "https://imce.jpl.nasa.gov/project/VehicleExample#ElectricCar");
         Assert.assertEquals(c1.name(), "ElectricCar");
 
         Concept c2 = new Concept(
-                "https://imce.jpl.nasa.gov/project/VehicleExample#ElectricBicycle",
+                "01234-abcde-4569-fehi",
                 "12345-6789A-BCDEF-012345",
                 false,
-                "ElectricBicycle");
+                "ElectricBicycle",
+                "https://imce.jpl.nasa.gov/project/VehicleExample#ElectricBicycle");
         Assert.assertEquals(c2.name(), "ElectricBicycle");
     }
 }
