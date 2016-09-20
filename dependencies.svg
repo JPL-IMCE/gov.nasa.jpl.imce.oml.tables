@@ -9,12 +9,12 @@
 <g id="graph1" class="graph" transform="scale(1 1) rotate(0) translate(4 286)">
 <title>dependency&#45;graph</title>
 <polygon fill="white" stroke="white" points="-4,5 -4,-286 1187,-286 1187,5 -4,5"/>
-<!-- gov.nasa.jpl.imce:jpl&#45;omf&#45;schema&#45;tables_sjs0.6_2.11:0.9.1 -->
-<g id="node1" class="node"><title>gov.nasa.jpl.imce:jpl&#45;omf&#45;schema&#45;tables_sjs0.6_2.11:0.9.1</title>
+<!-- gov.nasa.jpl.imce:jpl&#45;omf&#45;schema&#45;tables_sjs0.6_2.11:0.9.2 -->
+<g id="node1" class="node"><title>gov.nasa.jpl.imce:jpl&#45;omf&#45;schema&#45;tables_sjs0.6_2.11:0.9.2</title>
 <ellipse fill="none" stroke="black" cx="179" cy="-191" rx="178.898" ry="41.7193"/>
 <text text-anchor="start" x="120" y="-206.233" font-family="Times Roman,serif" font-size="14.00">gov.nasa.jpl.imce</text>
 <text text-anchor="start" x="61" y="-189.433" font-family="Times Roman,serif" font-size="14.00">jpl&#45;omf&#45;schema&#45;tables_sjs0.6_2.11</text>
-<text text-anchor="start" x="160.5" y="-172.633" font-family="Times Roman,serif" font-size="14.00">0.9.1</text>
+<text text-anchor="start" x="160.5" y="-172.633" font-family="Times Roman,serif" font-size="14.00">0.9.2</text>
 </g>
 <!-- org.scala&#45;js:scalajs&#45;library_2.11:0.6.12 -->
 <g id="node2" class="node"><title>org.scala&#45;js:scalajs&#45;library_2.11:0.6.12</title>
@@ -23,8 +23,8 @@
 <text text-anchor="start" x="482.5" y="-239.433" font-family="Times Roman,serif" font-size="14.00">scalajs&#45;library_2.11</text>
 <text text-anchor="start" x="526" y="-222.633" font-family="Times Roman,serif" font-size="14.00">0.6.12</text>
 </g>
-<!-- gov.nasa.jpl.imce:jpl&#45;omf&#45;schema&#45;tables_sjs0.6_2.11:0.9.1&#45;&gt;org.scala&#45;js:scalajs&#45;library_2.11:0.6.12 -->
-<g id="edge2" class="edge"><title>gov.nasa.jpl.imce:jpl&#45;omf&#45;schema&#45;tables_sjs0.6_2.11:0.9.1&#45;&gt;org.scala&#45;js:scalajs&#45;library_2.11:0.6.12</title>
+<!-- gov.nasa.jpl.imce:jpl&#45;omf&#45;schema&#45;tables_sjs0.6_2.11:0.9.2&#45;&gt;org.scala&#45;js:scalajs&#45;library_2.11:0.6.12 -->
+<g id="edge2" class="edge"><title>gov.nasa.jpl.imce:jpl&#45;omf&#45;schema&#45;tables_sjs0.6_2.11:0.9.2&#45;&gt;org.scala&#45;js:scalajs&#45;library_2.11:0.6.12</title>
 <path fill="none" stroke="black" d="M333.234,-211.842C368.635,-216.626 405.582,-221.619 438.693,-226.094"/>
 <polygon fill="black" stroke="black" points="438.461,-229.594 448.839,-227.465 439.398,-222.657 438.461,-229.594"/>
 </g>
@@ -35,8 +35,8 @@
 <text text-anchor="start" x="448" y="-139.433" font-family="Times Roman,serif" font-size="14.00">scalac&#45;scapegoat&#45;plugin_2.11</text>
 <text text-anchor="start" x="530.5" y="-122.633" font-family="Times Roman,serif" font-size="14.00">1.0.0</text>
 </g>
-<!-- gov.nasa.jpl.imce:jpl&#45;omf&#45;schema&#45;tables_sjs0.6_2.11:0.9.1&#45;&gt;com.sksamuel.scapegoat:scalac&#45;scapegoat&#45;plugin_2.11:1.0.0 -->
-<g id="edge8" class="edge"><title>gov.nasa.jpl.imce:jpl&#45;omf&#45;schema&#45;tables_sjs0.6_2.11:0.9.1&#45;&gt;com.sksamuel.scapegoat:scalac&#45;scapegoat&#45;plugin_2.11:1.0.0</title>
+<!-- gov.nasa.jpl.imce:jpl&#45;omf&#45;schema&#45;tables_sjs0.6_2.11:0.9.2&#45;&gt;com.sksamuel.scapegoat:scalac&#45;scapegoat&#45;plugin_2.11:1.0.0 -->
+<g id="edge8" class="edge"><title>gov.nasa.jpl.imce:jpl&#45;omf&#45;schema&#45;tables_sjs0.6_2.11:0.9.2&#45;&gt;com.sksamuel.scapegoat:scalac&#45;scapegoat&#45;plugin_2.11:1.0.0</title>
 <path fill="none" stroke="black" d="M333.234,-170.158C355.588,-167.137 378.559,-164.033 400.79,-161.028"/>
 <polygon fill="black" stroke="black" points="401.507,-164.463 410.948,-159.656 400.57,-157.526 401.507,-164.463"/>
 </g>
