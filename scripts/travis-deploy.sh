@@ -23,6 +23,6 @@ git config --global user.name "Travis CI"
 
 sbt -jvm-opts travis/jvmopts.compile -Dproject.version=$TRAVIS_TAG publishSigned fullOptJS
 # ghpagesPushSite
-(cd target/npm-dist; npm publish)
+npm publish
 
 
