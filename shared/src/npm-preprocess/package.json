@@ -14,7 +14,7 @@
   "licence": "Apache-2.0",
   "dependencies": {},
   "devDependencies": {},
-  "main": "dist/jpl-omf-schema-tables",
+  "main": "jpl-omf-schema-tables.js",
   "scripts": {},
   "author": @AUTHOR@,
   "contributors": @CONTRIBUTORS@,
