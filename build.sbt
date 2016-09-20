@@ -149,14 +149,8 @@ val tablesGhPagesSettings: Seq[Setting[_]] =
             }
         }
       }
-    ),
-
-
-    sourceDirectory in preprocess := baseDirectory.value / ".." / "tables" / "src" / "site-preprocess",
-
-    target in preprocess := (target in makeSite).value
+    )
   ) ++ ghpages.settings ++ Seq(
-
     dependencyDotFile := baseDirectory.value / "target" / "dependencies.dot",
 
     dependencySvgFile := baseDirectory.value / "target" / "dependencies.svg",
@@ -211,6 +205,11 @@ lazy val tables = crossProject
   .jvmConfigure(_ enablePlugins PreprocessPlugin)
   .jvmConfigure(_ enablePlugins SiteScaladocPlugin)
   .jvmSettings(
+    inConfig(Preprocess)(
+      sourceDirectory := baseDirectory.value / ".." / "shared" / "src" / "site-preprocess"
+    ) : _*
+  )
+  .jvmSettings(
     libraryDependencies ++= Settings.jvmDependencies.value
   )
   // set up settings specific to the JS project
@@ -247,8 +246,11 @@ lazy val tables = crossProject
         )
     ) : _*)
   .jsSettings(
-
-    jsEnv := NodeJSEnv().value,
+    inConfig(Preprocess)(
+      sourceDirectory := baseDirectory.value / ".." / "shared" / "src" / "site-preprocess"
+    ) : _*
+  )
+  .jsSettings(
     scalaJSUseRhino := false,
     scalaJSStage in Global := FullOptStage,
     requiresDOM := false,
