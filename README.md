@@ -61,6 +61,30 @@ All 3 libraries are built on [Travis CI](https://travis-ci.org/JPL-IMCE/omf.sche
 on [Bintray NPM](https://bintray.com/jpl-imce/gov.nasa.jpl.imce.npm/jpl-omf-schema-tables)
 and [Bintray Maven](https://bintray.com/jpl-imce/gov.nasa.jpl.imce/omf.schema.tables).
 
+## Publishing to & resolving from bintray.com as a scoped NPM package.
+
+Publishing a scoped NPM package is important for using a combination of multiple NPM repositories
+for resolving NPM packages:
+- Unscoped packages are resolved against the default NPM repository.
+- Scoped packages are resolved against a scoped entry in the project or user's `.npmrc`.
+
+For publishing, `.npmrc` needs:
+
+```
+@imce:registry=https://api.bintray.com/npm/jpl-imce/gov.nasa.jpl.imce.npm/
+//api.bintray.com/npm/jpl-imce/gov.nasa.jpl.imce.npm/:username=nrouquette
+//api.bintray.com/npm/jpl-imce/gov.nasa.jpl.imce.npm/:_authToken=<base64 API key>
+//api.bintray.com/npm/jpl-imce/gov.nasa.jpl.imce.npm/:email=nicolas.f.rouquette@jpl.nasa.gov
+//api.bintray.com/npm/jpl-imce/gov.nasa.jpl.imce.npm/:always-auth=true
+```
+
+For resolving, `.npmrc` needs:
+
+```
+@imce:registry=https://api.bintray.com/npm/jpl-imce/gov.nasa.jpl.imce.npm/
+//api.bintray.com/npm/jpl-imce/gov.nasa.jpl.imce.npm/:always-auth=false
+```
+
 ## Testing JS library
 
 ```

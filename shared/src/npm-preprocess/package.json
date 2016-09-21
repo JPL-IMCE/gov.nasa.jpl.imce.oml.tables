@@ -1,5 +1,5 @@
 {
-  "name": "@HYPHENATED_NAME@",
+  "name": "@imce/@HYPHENATED_NAME@",
   "description": "@DESCRIPTION@",
   "version": "@VERSION@",
   "keywords": [
@@ -18,9 +18,6 @@
   "scripts": {},
   "author": @AUTHOR@,
   "contributors": @CONTRIBUTORS@,
-  "publishConfig": {
-    "registry": "https://api.bintray.com/npm/jpl-imce/gov.nasa.jpl.imce.npm"
-  },
   "repository": {
     "type": "git",
     "url": "@GIT@"
