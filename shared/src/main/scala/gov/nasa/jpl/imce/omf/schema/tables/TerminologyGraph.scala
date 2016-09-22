@@ -20,7 +20,8 @@ package gov.nasa.jpl.imce.omf.schema.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.JSExport
-import scala.Predef.String
+import scala._
+import scala.Predef._
 
 /**
   * @param uuid (Primary key) The UUID of the TerminologyGraph.
@@ -32,3 +33,23 @@ case class TerminologyGraph
 ( @(JSExport @field) uuid: String,
   @(JSExport @field) name: String,
   @(JSExport @field) resourceIRI: String )
+
+@JSExport
+object TerminologyGraphHelper {
+
+  implicit val tgw: upickle.default.Writer[TerminologyGraph] = upickle.default.macroW[TerminologyGraph]
+
+  @JSExport
+  def toJSON(tg: TerminologyGraph)
+  : String
+  = upickle.default.write(expr=tg, indent=0)
+
+  implicit val tgr: upickle.default.Reader[TerminologyGraph] = upickle.default.macroR[TerminologyGraph]
+
+  @JSExport
+  def fromJSON(tg: String)
+  : TerminologyGraph
+  = upickle.default.read[TerminologyGraph](tg)
+
+
+}

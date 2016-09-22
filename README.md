@@ -61,6 +61,12 @@ All 3 libraries are built on [Travis CI](https://travis-ci.org/JPL-IMCE/omf.sche
 on [Bintray NPM](https://bintray.com/jpl-imce/gov.nasa.jpl.imce.npm/jpl-omf-schema-tables)
 and [Bintray Maven](https://bintray.com/jpl-imce/gov.nasa.jpl.imce/omf.schema.tables).
 
+## Polyglot interoperability of the OMF Schema tables.
+
+Java & Scala seem to be OK.
+
+For JavaScript, the accessors use the ScalaJS field names as functions; e.g.:
+
 ## Publishing to & resolving from bintray.com as a scoped NPM package.
 
 Publishing a scoped NPM package is important for using a combination of multiple NPM repositories
@@ -89,6 +95,5 @@ For resolving, `.npmrc` needs:
 
 ```
 sbt fullOptJS
-cd target/npm-dist
-node ../../tables/test/js/index
+node shared/test/js/index
 ```

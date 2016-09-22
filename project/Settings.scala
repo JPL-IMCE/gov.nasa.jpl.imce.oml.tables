@@ -7,9 +7,15 @@ object Settings {
 
   val organization = "gov.nasa.jpl.imce"
 
-  val version = "0.9.3"
+  val version = "0.10.0"
 
   val scalacOptions = Seq(
+    "-deprecation",
+    "-encoding", "utf8",
+    "-feature",
+    "-unchecked")
+
+  val scalacOptionsOff = Seq(
     "-deprecation",
     "-encoding", "UTF-8",     // yes, this is 2 args
     "-feature",
@@ -37,7 +43,8 @@ object Settings {
     * the special %%% function selects the correct version for each project
     */
   val sharedDependencies = Def.setting(Seq(
-    "org.scalacheck" %%% "scalacheck" % "1.13.2" % "test"
+    "org.scalacheck" %%% "scalacheck" % "1.13.2" % "test",
+    "com.lihaoyi" %%% "upickle" % "0.4.1"
   ))
 
 

@@ -16,21 +16,19 @@
  * License Terms
  */
 
-import org.scalacheck.Properties
-import org.scalacheck.Prop.forAll
+package test.jpl.omf.schema.tables
 
-import scala.Boolean
-import scala.Predef.{augmentString,String}
+import org.scalacheck._
 
-object ConceptSpecification extends Properties("Concept") {
+object SchemaGenerators {
 
-  property("construction") = forAll { (graphUUID: String, uuid: String, isAbstract: Boolean, name: String, iri: String) =>
-    val ok = iri.nonEmpty && uuid.nonEmpty && name.nonEmpty && graphUUID.nonEmpty
-    if (ok) {
-      val c = gov.nasa.jpl.imce.omf.schema.tables.Concept(graphUUID, uuid, isAbstract, name, iri)
-      c.resourceIRI == iri && c.uuid == uuid && c.name == name && c.graphUUID == graphUUID && c.uuid == uuid
-    } else
-      true
-  }
+  val name = Gen.identifier
 
+  val uuid = Gen.uuid
+
+  val iri = for {
+    n <- Gen.identifier
+  } yield s"http://imce.jpl.nasa.gov/example/omf.schema.tables/$n"
+
+  val isAbstract = Gen.oneOf(true, false)
 }

@@ -1,25 +1,26 @@
 #!/usr/bin/env node
 'use strict';
 
-const omf = require('../../../jpl-omf-schema-tables');
+const OMF = require('../../../jpl-omf-schema-tables').__ScalaJSExportsNamespace;
 
 console.log("OMF Schema Tables...");
 
-const c1 = new gov.nasa.jpl.imce.omf.schema.tables.Concept(
-    "https://imce.jpl.nasa.gov/project/VehicleExample#ElectricCar",
+const w1 = new OMF.gov.nasa.jpl.imce.omf.schema.tables.Concept(
+    "BCDEF-12345-6789A-012345",
     "12345-6789A-BCDEF-012345",
     false,
-    "ElectricCar");
+    "ElectricCar",
+    "https://imce.jpl.nasa.gov/project/VehicleExample#ElectricCar");
 
-const c2 = new gov.nasa.jpl.imce.omf.schema.tables.Concept(
-    "https://imce.jpl.nasa.gov/project/VehicleExample#ElectricBicycle",
-    "12345-6789A-BCDEF-012345",
-    false,
-    "ElectricBicycle");
+const s1 = OMF.gov.nasa.jpl.imce.omf.schema.tables.ConceptHelper().toJSON(w1);
+const r1 = OMF.gov.nasa.jpl.imce.omf.schema.tables.ConceptHelper().fromJSON(s1);
 
-console.log("C1: ", c1);
-console.log("Checking name...", c1.name === 'ElectricCar');
+console.log("W1: ", w1);
+console.log("S1: ", s1);
 
-console.log("C2: ", c2);
-console.log("Checking name...", c2.name === 'ElectricBicycle');
-
+console.log("Checking name...", w1.name === 'ElectricCar');
+console.log("Checking graphUUID...", w1.graphUUID === r1.graphUUID);
+console.log("Checking uuid...", w1.uuid === r1.uuid);
+console.log("Checking isAbstract...", w1.isAbstract === r1.isAbstract);
+console.log("Checking name...", w1.name === r1.name);
+console.log("Checking resourceIRI...", w1.resourceIRI === r1.resourceIRI);

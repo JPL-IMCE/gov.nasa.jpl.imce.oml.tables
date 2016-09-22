@@ -1,4 +1,4 @@
-import org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript51Isolated
+import org.scalajs.core.tools.linker.backend.OutputMode._
 
 import com.typesafe.sbt.license.{LicenseInfo, DepModuleInfo}
 
@@ -256,7 +256,9 @@ lazy val tables = crossProject
     requiresDOM := false,
 
     libraryDependencies ++= Settings.scalajsDependencies.value,
-    scalaJSOutputMode := ECMAScript51Isolated, // ECMAScript6 does not work with 'npm run dist' that uses webpack 1.13.2 & uglify 2.6.4
+    //scalaJSOutputMode := ECMAScript51Global,
+    scalaJSOutputMode := ECMAScript51Isolated,
+    //scalaJSOutputMode := ECMAScript6, // ECMAScript6 does not work with 'npm run dist' that uses webpack 1.13.2 & uglify 2.6.4
     requiresDOM := false,
 
     crossTarget in (Compile, fastOptJS) := baseDirectory.value / "..",

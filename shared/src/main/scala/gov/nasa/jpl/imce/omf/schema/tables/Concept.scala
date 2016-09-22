@@ -20,9 +20,8 @@ package gov.nasa.jpl.imce.omf.schema.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.JSExport
-import scala.Boolean
-import scala.Predef.String
-
+import scala._
+import scala.Predef._
 
 /**
   * @param graphUUID (Foreign key) The UUID of the TerminologyGraph in which this Concept is asserted.
@@ -38,3 +37,22 @@ case class Concept
   @(JSExport @field) isAbstract: Boolean,
   @(JSExport @field) name: String,
   @(JSExport @field) resourceIRI: String )
+
+@JSExport
+object ConceptHelper {
+
+  implicit val cw: upickle.default.Writer[Concept] = upickle.default.macroW[Concept]
+
+  @JSExport
+  def toJSON(c: Concept)
+  : String
+  = upickle.default.write(expr=c, indent=0)
+
+  implicit val cr: upickle.default.Reader[Concept] = upickle.default.macroR[Concept]
+
+  @JSExport
+  def fromJSON(c: String)
+  : Concept
+  = upickle.default.read[Concept](c)
+
+}

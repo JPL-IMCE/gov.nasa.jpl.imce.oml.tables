@@ -15,29 +15,39 @@
  * limitations under the License.
  * License Terms
  */
+
 import org.junit.Test;
 import org.junit.Assert;
 
 import gov.nasa.jpl.imce.omf.schema.tables.Concept;
+import gov.nasa.jpl.imce.omf.schema.tables.ConceptHelper;
 
 public class ConceptSpecificationJava {
 
     @Test
     public void creationTest() {
-        Concept c1 = new Concept(
-                "01234-abcde-4569-fehi",
-                "12345-BCDEF-6789A-012345",
-                false,
-                "ElectricCar",
-                "https://imce.jpl.nasa.gov/project/VehicleExample#ElectricCar");
-        Assert.assertEquals(c1.name(), "ElectricCar");
+        String graphUUID = "01234-abcde-4569-fehi";
+        String uuid = "12345-BCDEF-6789A-012345";
+        boolean isAbstract=false;
+        String name="ElectricCar";
+        String resourceIRI = "https://imce.jpl.nasa.gov/project/VehicleExample#ElectricCar";
 
-        Concept c2 = new Concept(
-                "01234-abcde-4569-fehi",
-                "12345-6789A-BCDEF-012345",
-                false,
-                "ElectricBicycle",
-                "https://imce.jpl.nasa.gov/project/VehicleExample#ElectricBicycle");
-        Assert.assertEquals(c2.name(), "ElectricBicycle");
+        Concept w1 = new Concept(graphUUID, uuid, isAbstract, name, resourceIRI);
+        Assert.assertEquals(w1.name(), name);
+        String s1 = ConceptHelper.toJSON(w1);
+        String t1 = String.format(
+                "{\"graphUUID\":\"%s\",\"uuid\":\"%s\",\"isAbstract\":%b,\"name\":\"%s\",\"resourceIRI\":\"%s\"}",
+                graphUUID, uuid, isAbstract,name,resourceIRI);
+        Assert.assertEquals(t1, s1);
+
+        Concept r1 = ConceptHelper.fromJSON(s1);
+        Assert.assertEquals(w1.graphUUID(), r1.graphUUID());
+        Assert.assertEquals(w1.uuid(), r1.uuid());
+        Assert.assertEquals(w1.isAbstract(), r1.isAbstract());
+        Assert.assertEquals(w1.name(), r1.name());
+        Assert.assertEquals(w1.resourceIRI(), r1.resourceIRI());
+        Assert.assertTrue(w1.equals(r1));
+
+
     }
 }
