@@ -41,14 +41,18 @@ case class Concept
 @JSExport
 object ConceptHelper {
 
-  implicit val cw: upickle.default.Writer[Concept] = upickle.default.macroW[Concept]
+  implicit val w
+  : upickle.default.Writer[Concept]
+  = upickle.default.macroW[Concept]
 
   @JSExport
   def toJSON(c: Concept)
   : String
   = upickle.default.write(expr=c, indent=0)
 
-  implicit val cr: upickle.default.Reader[Concept] = upickle.default.macroR[Concept]
+  implicit val r
+  : upickle.default.Reader[Concept]
+  = upickle.default.macroR[Concept]
 
   @JSExport
   def fromJSON(c: String)

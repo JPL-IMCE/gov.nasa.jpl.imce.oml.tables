@@ -18,6 +18,7 @@
 
 package test.jpl.omf.schema.tables
 
+import gov.nasa.jpl.imce.omf.schema.tables.{ClosedWorldDesignations, OpenWorldDefinitions}
 import org.scalacheck._
 
 object SchemaGenerators {
@@ -31,4 +32,6 @@ object SchemaGenerators {
   } yield s"http://imce.jpl.nasa.gov/example/omf.schema.tables/$n"
 
   val isAbstract = Gen.oneOf(true, false)
+
+  val kind = Gen.oneOf(OpenWorldDefinitions,ClosedWorldDesignations)
 }

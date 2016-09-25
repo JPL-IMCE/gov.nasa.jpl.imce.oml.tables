@@ -48,6 +48,5 @@ public class ConceptSpecificationJava {
         Assert.assertEquals(w1.resourceIRI(), r1.resourceIRI());
         Assert.assertTrue(w1.equals(r1));
 
-
     }
 }

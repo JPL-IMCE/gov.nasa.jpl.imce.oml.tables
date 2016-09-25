@@ -25,12 +25,14 @@ import scala.Predef._
 
 /**
   * @param uuid (Primary key) The UUID of the TerminologyGraph.
+  * @param kind The kind of TerminologyGraph
   * @param name Name of the TerminologyGraph
   * @param resourceIRI The IRI of the TerminologyGraph, which is a kind of resouce.
   */
 @JSExport
 case class TerminologyGraph
 ( @(JSExport @field) uuid: String,
+  @(JSExport @field) kind: TerminologyGraphKind,
   @(JSExport @field) name: String,
   @(JSExport @field) resourceIRI: String )
 
