@@ -32,13 +32,20 @@ case object ClosedWorldDesignations extends TerminologyGraphKind
 @JSExport
 object TerminologyGraphKind {
 
+  @JSExport
+  def toString(k: TerminologyGraphKind)
+  : String
+  = k match {
+    case OpenWorldDefinitions =>
+     "OpenWorldDefinitions"
+    case ClosedWorldDesignations =>
+     "ClosedWorldDesignations"
+  }
+
   implicit val w
   : upickle.default.Writer[TerminologyGraphKind]
-  = upickle.default.Writer[TerminologyGraphKind]{
-    case OpenWorldDefinitions =>
-      upickle.Js.Str("OpenWorldDefinitions")
-    case ClosedWorldDesignations =>
-      upickle.Js.Str("ClosedWorldDesignations")
+  = upickle.default.Writer[TerminologyGraphKind]{ (k: TerminologyGraphKind) =>
+    upickle.Js.Str(toString(k))
   }
 
   @JSExport
@@ -46,16 +53,21 @@ object TerminologyGraphKind {
   : String
   = upickle.default.write(expr=k, indent=0)
 
+  @JSExport
+  def fromString(k: String)
+  : TerminologyGraphKind
+  = k match {
+    case "OpenWorldDefinitions" =>
+      OpenWorldDefinitions
+    case "ClosedWorldDesignations" =>
+      ClosedWorldDesignations
+  }
+
   implicit val r
   : upickle.default.Reader[TerminologyGraphKind]
   = upickle.default.Reader[TerminologyGraphKind]{
     case upickle.Js.Str(k) =>
-      k match {
-        case "OpenWorldDefinitions" =>
-          OpenWorldDefinitions
-        case "ClosedWorldDesignations" =>
-          ClosedWorldDesignations
-      }
+      fromString(k)
   }
 
   @JSExport
