@@ -86,6 +86,26 @@
                 <span class="name">@JSExport</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.omf.schema.tables.ConceptSpecializationAxiom" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ConceptSpecializationAxiomextendsProductwithSerializable"></a>
+      <a id="ConceptSpecializationAxiom:ConceptSpecializationAxiom"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="ConceptSpecializationAxiom.html"><span class="name">ConceptSpecializationAxiom</span></a><span class="params">(<span name="graphUUID">graphUUID: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="supConcept">supConcept: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="subConcept">subConcept: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.package@ConceptSpecializationAxiomextendsProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">graphUUID</dt><dd class="cmt"><p>(Foreign key) The UUID of the TerminologyGraph in which this ConceptSpecializationAxiom is asserted.</p></dd><dt class="param">supConcept</dt><dd class="cmt"><p>(Foreign key) The UUID of the super Concept that is a specialization parent of the sub Concept.</p></dd><dt class="param">subConcept</dt><dd class="cmt"><p>(Foreign key) The UUID of the sub Concept that is a specialization child of the super Concept.</p></dd></dl><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@JSExport</span><span class="args">()</span>
+              
+        </dd></dl></div>
     </li><li name="gov.nasa.jpl.imce.omf.schema.tables.TerminologyGraph" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="TerminologyGraphextendsProductwithSerializable"></a>
       <a id="TerminologyGraph:TerminologyGraph"></a>
@@ -95,15 +115,35 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a href="TerminologyGraph.html"><span class="name">TerminologyGraph</span></a><span class="params">(<span name="uuid">uuid: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="resourceIRI">resourceIRI: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a href="TerminologyGraph.html"><span class="name">TerminologyGraph</span></a><span class="params">(<span name="uuid">uuid: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="kind">kind: <a href="TerminologyGraphKind.html" class="extype" name="gov.nasa.jpl.imce.omf.schema.tables.TerminologyGraphKind">TerminologyGraphKind</a></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="resourceIRI">resourceIRI: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.package@TerminologyGraphextendsProductwithSerializable" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uuid</dt><dd class="cmt"><p>(Primary key) The UUID of the TerminologyGraph.</p></dd><dt class="param">name</dt><dd class="cmt"><p>Name of the TerminologyGraph</p></dd><dt class="param">resourceIRI</dt><dd class="cmt"><p>The IRI of the TerminologyGraph, which is a kind of resouce.</p></dd></dl><dl class="attributes block"> <dt>Annotations</dt><dd>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uuid</dt><dd class="cmt"><p>(Primary key) The UUID of the TerminologyGraph.</p></dd><dt class="param">kind</dt><dd class="cmt"><p>The kind of TerminologyGraph</p></dd><dt class="param">name</dt><dd class="cmt"><p>Name of the TerminologyGraph</p></dd><dt class="param">resourceIRI</dt><dd class="cmt"><p>The IRI of the TerminologyGraph, which is a kind of resouce.</p></dd></dl><dl class="attributes block"> <dt>Annotations</dt><dd>
                 <span class="name">@JSExport</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.omf.schema.tables.TerminologyGraphKind" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="TerminologyGraphKindextendsAnyRef"></a>
+      <a id="TerminologyGraphKind:TerminologyGraphKind"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">sealed </span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="TerminologyGraphKind.html"><span class="name">TerminologyGraphKind</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.package@TerminologyGraphKindextendsAnyRef" title="Permalink" target="_top">
+        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@JSExportDescendentObjects</span><span class="args">()</span>
               
         </dd></dl></div>
     </li></ol>
@@ -113,7 +153,24 @@
 
         <div id="values" class="values members">
               <h3>Value Members</h3>
-              <ol><li name="gov.nasa.jpl.imce.omf.schema.tables.ConceptHelper" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+              <ol><li name="gov.nasa.jpl.imce.omf.schema.tables.ClosedWorldDesignations" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ClosedWorldDesignations"></a>
+      <a id="ClosedWorldDesignations:ClosedWorldDesignations"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="ClosedWorldDesignations$.html"><span class="name">ClosedWorldDesignations</span></a><span class="result"> extends <a href="TerminologyGraphKind.html" class="extype" name="gov.nasa.jpl.imce.omf.schema.tables.TerminologyGraphKind">TerminologyGraphKind</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.package@ClosedWorldDesignations" title="Permalink" target="_top">
+        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.omf.schema.tables.ConceptHelper" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ConceptHelper"></a>
       <a id="ConceptHelper:ConceptHelper"></a>
       <h4 class="signature">
@@ -133,6 +190,43 @@
                 <span class="name">@JSExport</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.omf.schema.tables.ConceptSpecializationAxiomHelper" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ConceptSpecializationAxiomHelper"></a>
+      <a id="ConceptSpecializationAxiomHelper:ConceptSpecializationAxiomHelper"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="ConceptSpecializationAxiomHelper$.html"><span class="name">ConceptSpecializationAxiomHelper</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.package@ConceptSpecializationAxiomHelper" title="Permalink" target="_top">
+        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@JSExport</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.omf.schema.tables.OpenWorldDefinitions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="OpenWorldDefinitions"></a>
+      <a id="OpenWorldDefinitions:OpenWorldDefinitions"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="OpenWorldDefinitions$.html"><span class="name">OpenWorldDefinitions</span></a><span class="result"> extends <a href="TerminologyGraphKind.html" class="extype" name="gov.nasa.jpl.imce.omf.schema.tables.TerminologyGraphKind">TerminologyGraphKind</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.package@OpenWorldDefinitions" title="Permalink" target="_top">
+        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="gov.nasa.jpl.imce.omf.schema.tables.TerminologyGraphHelper" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="TerminologyGraphHelper"></a>
       <a id="TerminologyGraphHelper:TerminologyGraphHelper"></a>
@@ -146,6 +240,26 @@
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.package@TerminologyGraphHelper" title="Permalink" target="_top">
+        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@JSExport</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.omf.schema.tables.TerminologyGraphKind" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="TerminologyGraphKind"></a>
+      <a id="TerminologyGraphKind:TerminologyGraphKind"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="TerminologyGraphKind$.html"><span class="name">TerminologyGraphKind</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.package@TerminologyGraphKind" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
