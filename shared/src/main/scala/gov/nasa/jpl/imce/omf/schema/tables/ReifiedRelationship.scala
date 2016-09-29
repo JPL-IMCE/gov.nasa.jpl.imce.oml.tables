@@ -44,22 +44,22 @@ import scala.Predef._
 @JSExport
 case class ReifiedRelationship
 (
- @(JSExport @field) graphUUID: TerminologyBox,
+ @(JSExport @field) graphUUID: UUID,
  @(JSExport @field) uuid: UUID,
- @(JSExport @field) asymmetric: EJavaObject,
- @(JSExport @field) essential: EJavaObject,
- @(JSExport @field) functional: EJavaObject,
- @(JSExport @field) inverseEssential: EJavaObject,
- @(JSExport @field) inverseFunctional: EJavaObject,
- @(JSExport @field) irreflexive: EJavaObject,
- @(JSExport @field) reflexive: EJavaObject,
- @(JSExport @field) symmetric: EJavaObject,
- @(JSExport @field) transitive: EJavaObject,
+ @(JSExport @field) asymmetric: Scala.Boolean,
+ @(JSExport @field) essential: Scala.Boolean,
+ @(JSExport @field) functional: Scala.Boolean,
+ @(JSExport @field) inverseEssential: Scala.Boolean,
+ @(JSExport @field) inverseFunctional: Scala.Boolean,
+ @(JSExport @field) irreflexive: Scala.Boolean,
+ @(JSExport @field) reflexive: Scala.Boolean,
+ @(JSExport @field) symmetric: Scala.Boolean,
+ @(JSExport @field) transitive: Scala.Boolean,
  @(JSExport @field) name: LocalName,
  @(JSExport @field) iri: IRI,
- @(JSExport @field) abstract: EJavaObject,
- @(JSExport @field) sourceUUID: Entity,
- @(JSExport @field) targetUUID: Entity
+ @(JSExport @field) abstract: Scala.Boolean,
+ @(JSExport @field) sourceUUID: UUID,
+ @(JSExport @field) targetUUID: UUID
 )
 
 @JSExport

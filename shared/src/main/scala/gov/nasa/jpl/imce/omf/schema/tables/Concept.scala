@@ -33,11 +33,11 @@ import scala.Predef._
 @JSExport
 case class Concept
 (
- @(JSExport @field) graphUUID: TerminologyBox,
+ @(JSExport @field) graphUUID: UUID,
  @(JSExport @field) uuid: UUID,
  @(JSExport @field) name: LocalName,
  @(JSExport @field) iri: IRI,
- @(JSExport @field) abstract: EJavaObject
+ @(JSExport @field) abstract: Scala.Boolean
 )
 
 @JSExport

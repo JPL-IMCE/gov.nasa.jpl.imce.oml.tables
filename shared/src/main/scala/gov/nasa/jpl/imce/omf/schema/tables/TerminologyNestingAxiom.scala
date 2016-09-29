@@ -33,11 +33,11 @@ import scala.Predef._
 @JSExport
 case class TerminologyNestingAxiom
 (
- @(JSExport @field) graphUUID: TerminologyBox,
+ @(JSExport @field) graphUUID: UUID,
  @(JSExport @field) uuid: UUID,
- @(JSExport @field) nestedTerminologyUUID: TerminologyGraph,
- @(JSExport @field) nestingContextUUID: Concept,
- @(JSExport @field) nestingTerminologyUUID: TerminologyGraph
+ @(JSExport @field) nestedTerminologyUUID: UUID,
+ @(JSExport @field) nestingContextUUID: UUID,
+ @(JSExport @field) nestingTerminologyUUID: UUID
 )
 
 @JSExport

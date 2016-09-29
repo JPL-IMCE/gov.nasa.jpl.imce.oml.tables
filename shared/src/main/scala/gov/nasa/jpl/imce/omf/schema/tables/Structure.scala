@@ -32,7 +32,7 @@ import scala.Predef._
 @JSExport
 case class Structure
 (
- @(JSExport @field) graphUUID: TerminologyBox,
+ @(JSExport @field) graphUUID: UUID,
  @(JSExport @field) uuid: UUID,
  @(JSExport @field) name: LocalName,
  @(JSExport @field) iri: IRI

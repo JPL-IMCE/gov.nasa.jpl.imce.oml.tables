@@ -36,14 +36,14 @@ import scala.Predef._
 @JSExport
 case class NumericScalarRestrictionAxoim
 (
- @(JSExport @field) graphUUID: TerminologyBox,
+ @(JSExport @field) graphUUID: UUID,
  @(JSExport @field) uuid: UUID,
  @(JSExport @field) maxExclusive: LexicalNumber,
  @(JSExport @field) maxInclusive: LexicalNumber,
  @(JSExport @field) minExclusive: LexicalNumber,
  @(JSExport @field) minInclusive: LexicalNumber,
- @(JSExport @field) restrictedScalarUUID: Scalar,
- @(JSExport @field) scalarUUID: Scalar
+ @(JSExport @field) restrictedScalarUUID: UUID,
+ @(JSExport @field) scalarUUID: UUID
 )
 
 @JSExport

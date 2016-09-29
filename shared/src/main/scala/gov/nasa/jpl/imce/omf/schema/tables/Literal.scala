@@ -30,7 +30,7 @@ import scala.Predef._
 @JSExport
 case class Literal
 (
- @(JSExport @field) typeUUID: Scalar,
+ @(JSExport @field) typeUUID: UUID,
  @(JSExport @field) value: LexicalValue
 )
 
