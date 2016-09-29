@@ -32,10 +32,10 @@ import scala.Predef._
 @JSExport
 case class ReifiedRelationshipSpecializationAxiom
 (
- @(JSExport @field) graphUUID: TerminologyBox,
+ @(JSExport @field) graphUUID: UUID,
  @(JSExport @field) uuid: UUID,
- @(JSExport @field) subRelationshipUUID: ReifiedRelationship,
- @(JSExport @field) superRelationshipUUID: ReifiedRelationship
+ @(JSExport @field) subRelationshipUUID: UUID,
+ @(JSExport @field) superRelationshipUUID: UUID
 )
 
 @JSExport

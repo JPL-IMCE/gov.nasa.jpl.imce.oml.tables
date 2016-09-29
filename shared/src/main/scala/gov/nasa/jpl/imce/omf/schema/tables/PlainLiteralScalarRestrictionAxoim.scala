@@ -37,15 +37,15 @@ import scala.Predef._
 @JSExport
 case class PlainLiteralScalarRestrictionAxoim
 (
- @(JSExport @field) graphUUID: TerminologyBox,
+ @(JSExport @field) graphUUID: UUID,
  @(JSExport @field) uuid: UUID,
  @(JSExport @field) language: Language,
- @(JSExport @field) length: EJavaObject,
- @(JSExport @field) maxLength: EJavaObject,
- @(JSExport @field) minLength: EJavaObject,
+ @(JSExport @field) length: Scala.Int,
+ @(JSExport @field) maxLength: Scala.Int,
+ @(JSExport @field) minLength: Scala.Int,
  @(JSExport @field) pattern: Pattern,
- @(JSExport @field) restrictedScalarUUID: Scalar,
- @(JSExport @field) scalarUUID: Scalar
+ @(JSExport @field) restrictedScalarUUID: UUID,
+ @(JSExport @field) scalarUUID: UUID
 )
 
 @JSExport

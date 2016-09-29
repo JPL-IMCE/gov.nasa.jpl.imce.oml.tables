@@ -34,12 +34,12 @@ import scala.Predef._
 @JSExport
 case class EntityScalarDataProperty
 (
- @(JSExport @field) graphUUID: TerminologyBox,
+ @(JSExport @field) graphUUID: UUID,
  @(JSExport @field) uuid: UUID,
  @(JSExport @field) name: LocalName,
  @(JSExport @field) iri: IRI,
- @(JSExport @field) domainUUID: Entity,
- @(JSExport @field) rangeUUID: Scalar
+ @(JSExport @field) domainUUID: UUID,
+ @(JSExport @field) rangeUUID: UUID
 )
 
 @JSExport

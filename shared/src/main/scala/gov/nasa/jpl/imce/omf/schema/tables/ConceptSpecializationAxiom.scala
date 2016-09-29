@@ -32,10 +32,10 @@ import scala.Predef._
 @JSExport
 case class ConceptSpecializationAxiom
 (
- @(JSExport @field) graphUUID: TerminologyBox,
+ @(JSExport @field) graphUUID: UUID,
  @(JSExport @field) uuid: UUID,
- @(JSExport @field) subConceptUUID: Concept,
- @(JSExport @field) superConceptUUID: Concept
+ @(JSExport @field) subConceptUUID: UUID,
+ @(JSExport @field) superConceptUUID: UUID
 )
 
 @JSExport

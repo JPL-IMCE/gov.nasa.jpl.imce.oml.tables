@@ -32,10 +32,10 @@ import scala.Predef._
 @JSExport
 case class ScalarOneOfAxiom
 (
- @(JSExport @field) graphUUID: TerminologyBox,
+ @(JSExport @field) graphUUID: UUID,
  @(JSExport @field) uuid: UUID,
- @(JSExport @field) literalsUUID: Literal,
- @(JSExport @field) scalarUUID: Scalar
+ @(JSExport @field) literalsUUID: UUID,
+ @(JSExport @field) scalarUUID: UUID
 )
 
 @JSExport

@@ -26,40 +26,40 @@ import scala.Predef._
 /**
   * @param graphUUID
   * @param uuid
-  * @param asymmetric
-  * @param essential
-  * @param functional
-  * @param inverseEssential
-  * @param inverseFunctional
-  * @param irreflexive
-  * @param reflexive
-  * @param symmetric
-  * @param transitive
+  * @param isAbstract
   * @param name
   * @param iri
-  * @param abstract
+  * @param isAsymmetric
+  * @param isEssential
+  * @param isFunctional
+  * @param isInverseEssential
+  * @param isInverseFunctional
+  * @param isIrreflexive
+  * @param isReflexive
+  * @param isSymmetric
+  * @param isTransitive
   * @param sourceUUID
   * @param targetUUID
   */
 @JSExport
 case class ReifiedRelationship
 (
- @(JSExport @field) graphUUID: TerminologyBox,
+ @(JSExport @field) graphUUID: UUID,
  @(JSExport @field) uuid: UUID,
- @(JSExport @field) asymmetric: EJavaObject,
- @(JSExport @field) essential: EJavaObject,
- @(JSExport @field) functional: EJavaObject,
- @(JSExport @field) inverseEssential: EJavaObject,
- @(JSExport @field) inverseFunctional: EJavaObject,
- @(JSExport @field) irreflexive: EJavaObject,
- @(JSExport @field) reflexive: EJavaObject,
- @(JSExport @field) symmetric: EJavaObject,
- @(JSExport @field) transitive: EJavaObject,
+ @(JSExport @field) isAbstract: Scala.Boolean,
  @(JSExport @field) name: LocalName,
  @(JSExport @field) iri: IRI,
- @(JSExport @field) abstract: EJavaObject,
- @(JSExport @field) sourceUUID: Entity,
- @(JSExport @field) targetUUID: Entity
+ @(JSExport @field) isAsymmetric: Scala.Boolean,
+ @(JSExport @field) isEssential: Scala.Boolean,
+ @(JSExport @field) isFunctional: Scala.Boolean,
+ @(JSExport @field) isInverseEssential: Scala.Boolean,
+ @(JSExport @field) isInverseFunctional: Scala.Boolean,
+ @(JSExport @field) isIrreflexive: Scala.Boolean,
+ @(JSExport @field) isReflexive: Scala.Boolean,
+ @(JSExport @field) isSymmetric: Scala.Boolean,
+ @(JSExport @field) isTransitive: Scala.Boolean,
+ @(JSExport @field) sourceUUID: UUID,
+ @(JSExport @field) targetUUID: UUID
 )
 
 @JSExport

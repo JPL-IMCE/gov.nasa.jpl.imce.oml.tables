@@ -33,11 +33,11 @@ import scala.Predef._
 @JSExport
 case class EntityExistentialRestrictionAxiom
 (
- @(JSExport @field) graphUUID: TerminologyBox,
+ @(JSExport @field) graphUUID: UUID,
  @(JSExport @field) uuid: UUID,
- @(JSExport @field) restrictedDomainUUID: Entity,
- @(JSExport @field) restrictedRangeUUID: Entity,
- @(JSExport @field) restrictedRelationUUID: ReifiedRelationship
+ @(JSExport @field) restrictedDomainUUID: UUID,
+ @(JSExport @field) restrictedRangeUUID: UUID,
+ @(JSExport @field) restrictedRelationUUID: UUID
 )
 
 @JSExport

@@ -36,14 +36,14 @@ import scala.Predef._
 @JSExport
 case class TimeScalarRestrictionAxoim
 (
- @(JSExport @field) graphUUID: TerminologyBox,
+ @(JSExport @field) graphUUID: UUID,
  @(JSExport @field) uuid: UUID,
  @(JSExport @field) maxExclusive: LexicalTime,
  @(JSExport @field) maxInclusive: LexicalTime,
  @(JSExport @field) minExclusive: LexicalTime,
  @(JSExport @field) minInclusive: LexicalTime,
- @(JSExport @field) restrictedScalarUUID: Scalar,
- @(JSExport @field) scalarUUID: Scalar
+ @(JSExport @field) restrictedScalarUUID: UUID,
+ @(JSExport @field) scalarUUID: UUID
 )
 
 @JSExport

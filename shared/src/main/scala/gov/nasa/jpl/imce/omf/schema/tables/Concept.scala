@@ -26,18 +26,18 @@ import scala.Predef._
 /**
   * @param graphUUID
   * @param uuid
+  * @param isAbstract
   * @param name
   * @param iri
-  * @param abstract
   */
 @JSExport
 case class Concept
 (
- @(JSExport @field) graphUUID: TerminologyBox,
+ @(JSExport @field) graphUUID: UUID,
  @(JSExport @field) uuid: UUID,
+ @(JSExport @field) isAbstract: Scala.Boolean,
  @(JSExport @field) name: LocalName,
- @(JSExport @field) iri: IRI,
- @(JSExport @field) abstract: EJavaObject
+ @(JSExport @field) iri: IRI
 )
 
 @JSExport
