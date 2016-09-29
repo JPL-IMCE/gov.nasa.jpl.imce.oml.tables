@@ -24,39 +24,49 @@ import scala._
 import scala.Predef._
 
 /**
+  * @param graphUUID
   * @param uuid
-  * @param name
-  * @param iri
-  * @param kind
+  * @param language
+  * @param length
+  * @param maxLength
+  * @param minLength
+  * @param pattern
+  * @param restrictedScalarUUID
+  * @param scalarUUID
   */
 @JSExport
-case class TerminologyGraph
+case class PlainLiteralScalarRestrictionAxoim
 (
+ @(JSExport @field) graphUUID: TerminologyBox,
  @(JSExport @field) uuid: UUID,
- @(JSExport @field) name: LocalName,
- @(JSExport @field) iri: IRI,
- @(JSExport @field) kind: TerminologyGraphKind
+ @(JSExport @field) language: Language,
+ @(JSExport @field) length: EJavaObject,
+ @(JSExport @field) maxLength: EJavaObject,
+ @(JSExport @field) minLength: EJavaObject,
+ @(JSExport @field) pattern: Pattern,
+ @(JSExport @field) restrictedScalarUUID: Scalar,
+ @(JSExport @field) scalarUUID: Scalar
 )
 
 @JSExport
-object TerminologyGraphHelper {
+object PlainLiteralScalarRestrictionAxoimHelper {
 
   implicit val w
-  : upickle.default.Writer[TerminologyGraph]
-  = upickle.default.macroW[TerminologyGraph]
+  : upickle.default.Writer[PlainLiteralScalarRestrictionAxoim]
+  = upickle.default.macroW[PlainLiteralScalarRestrictionAxoim]
 
   @JSExport
-  def toJSON(c: TerminologyGraph)
+  def toJSON(c: PlainLiteralScalarRestrictionAxoim)
   : String
   = upickle.default.write(expr=c, indent=0)
 
   implicit val r
-  : upickle.default.Reader[TerminologyGraph]
-  = upickle.default.macroR[TerminologyGraph]
+  : upickle.default.Reader[PlainLiteralScalarRestrictionAxoim]
+  = upickle.default.macroR[PlainLiteralScalarRestrictionAxoim]
 
   @JSExport
   def fromJSON(c: String)
-  : TerminologyGraph
-  = upickle.default.read[TerminologyGraph](c)
+  : PlainLiteralScalarRestrictionAxoim
+  = upickle.default.read[PlainLiteralScalarRestrictionAxoim](c)
 
 }	

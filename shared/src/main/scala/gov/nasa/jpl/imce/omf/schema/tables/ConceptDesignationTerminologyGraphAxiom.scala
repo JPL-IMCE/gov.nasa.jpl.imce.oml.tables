@@ -24,39 +24,39 @@ import scala._
 import scala.Predef._
 
 /**
+  * @param graphUUID
   * @param uuid
-  * @param name
-  * @param iri
-  * @param kind
+  * @param designatedConceptUUID
+  * @param designationTerminologyGraphUUID
   */
 @JSExport
-case class TerminologyGraph
+case class ConceptDesignationTerminologyGraphAxiom
 (
+ @(JSExport @field) graphUUID: TerminologyBox,
  @(JSExport @field) uuid: UUID,
- @(JSExport @field) name: LocalName,
- @(JSExport @field) iri: IRI,
- @(JSExport @field) kind: TerminologyGraphKind
+ @(JSExport @field) designatedConceptUUID: Concept,
+ @(JSExport @field) designationTerminologyGraphUUID: TerminologyGraph
 )
 
 @JSExport
-object TerminologyGraphHelper {
+object ConceptDesignationTerminologyGraphAxiomHelper {
 
   implicit val w
-  : upickle.default.Writer[TerminologyGraph]
-  = upickle.default.macroW[TerminologyGraph]
+  : upickle.default.Writer[ConceptDesignationTerminologyGraphAxiom]
+  = upickle.default.macroW[ConceptDesignationTerminologyGraphAxiom]
 
   @JSExport
-  def toJSON(c: TerminologyGraph)
+  def toJSON(c: ConceptDesignationTerminologyGraphAxiom)
   : String
   = upickle.default.write(expr=c, indent=0)
 
   implicit val r
-  : upickle.default.Reader[TerminologyGraph]
-  = upickle.default.macroR[TerminologyGraph]
+  : upickle.default.Reader[ConceptDesignationTerminologyGraphAxiom]
+  = upickle.default.macroR[ConceptDesignationTerminologyGraphAxiom]
 
   @JSExport
   def fromJSON(c: String)
-  : TerminologyGraph
-  = upickle.default.read[TerminologyGraph](c)
+  : ConceptDesignationTerminologyGraphAxiom
+  = upickle.default.read[ConceptDesignationTerminologyGraphAxiom](c)
 
 }	

@@ -24,39 +24,43 @@ import scala._
 import scala.Predef._
 
 /**
+  * @param graphUUID
   * @param uuid
   * @param name
   * @param iri
-  * @param kind
+  * @param domainUUID
+  * @param rangeUUID
   */
 @JSExport
-case class TerminologyGraph
+case class ScalarDataProperty
 (
+ @(JSExport @field) graphUUID: TerminologyBox,
  @(JSExport @field) uuid: UUID,
  @(JSExport @field) name: LocalName,
  @(JSExport @field) iri: IRI,
- @(JSExport @field) kind: TerminologyGraphKind
+ @(JSExport @field) domainUUID: Structure,
+ @(JSExport @field) rangeUUID: Scalar
 )
 
 @JSExport
-object TerminologyGraphHelper {
+object ScalarDataPropertyHelper {
 
   implicit val w
-  : upickle.default.Writer[TerminologyGraph]
-  = upickle.default.macroW[TerminologyGraph]
+  : upickle.default.Writer[ScalarDataProperty]
+  = upickle.default.macroW[ScalarDataProperty]
 
   @JSExport
-  def toJSON(c: TerminologyGraph)
+  def toJSON(c: ScalarDataProperty)
   : String
   = upickle.default.write(expr=c, indent=0)
 
   implicit val r
-  : upickle.default.Reader[TerminologyGraph]
-  = upickle.default.macroR[TerminologyGraph]
+  : upickle.default.Reader[ScalarDataProperty]
+  = upickle.default.macroR[ScalarDataProperty]
 
   @JSExport
   def fromJSON(c: String)
-  : TerminologyGraph
-  = upickle.default.read[TerminologyGraph](c)
+  : ScalarDataProperty
+  = upickle.default.read[ScalarDataProperty](c)
 
 }	

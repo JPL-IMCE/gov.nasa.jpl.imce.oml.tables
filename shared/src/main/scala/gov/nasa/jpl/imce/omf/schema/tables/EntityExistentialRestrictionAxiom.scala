@@ -24,39 +24,41 @@ import scala._
 import scala.Predef._
 
 /**
+  * @param graphUUID
   * @param uuid
-  * @param name
-  * @param iri
-  * @param kind
+  * @param restrictedDomainUUID
+  * @param restrictedRangeUUID
+  * @param restrictedRelationUUID
   */
 @JSExport
-case class TerminologyGraph
+case class EntityExistentialRestrictionAxiom
 (
+ @(JSExport @field) graphUUID: TerminologyBox,
  @(JSExport @field) uuid: UUID,
- @(JSExport @field) name: LocalName,
- @(JSExport @field) iri: IRI,
- @(JSExport @field) kind: TerminologyGraphKind
+ @(JSExport @field) restrictedDomainUUID: Entity,
+ @(JSExport @field) restrictedRangeUUID: Entity,
+ @(JSExport @field) restrictedRelationUUID: ReifiedRelationship
 )
 
 @JSExport
-object TerminologyGraphHelper {
+object EntityExistentialRestrictionAxiomHelper {
 
   implicit val w
-  : upickle.default.Writer[TerminologyGraph]
-  = upickle.default.macroW[TerminologyGraph]
+  : upickle.default.Writer[EntityExistentialRestrictionAxiom]
+  = upickle.default.macroW[EntityExistentialRestrictionAxiom]
 
   @JSExport
-  def toJSON(c: TerminologyGraph)
+  def toJSON(c: EntityExistentialRestrictionAxiom)
   : String
   = upickle.default.write(expr=c, indent=0)
 
   implicit val r
-  : upickle.default.Reader[TerminologyGraph]
-  = upickle.default.macroR[TerminologyGraph]
+  : upickle.default.Reader[EntityExistentialRestrictionAxiom]
+  = upickle.default.macroR[EntityExistentialRestrictionAxiom]
 
   @JSExport
   def fromJSON(c: String)
-  : TerminologyGraph
-  = upickle.default.read[TerminologyGraph](c)
+  : EntityExistentialRestrictionAxiom
+  = upickle.default.read[EntityExistentialRestrictionAxiom](c)
 
 }	

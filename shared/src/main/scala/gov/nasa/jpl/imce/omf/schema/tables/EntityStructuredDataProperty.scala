@@ -24,39 +24,43 @@ import scala._
 import scala.Predef._
 
 /**
+  * @param graphUUID
   * @param uuid
   * @param name
   * @param iri
-  * @param kind
+  * @param domainUUID
+  * @param rangeUUID
   */
 @JSExport
-case class TerminologyGraph
+case class EntityStructuredDataProperty
 (
+ @(JSExport @field) graphUUID: TerminologyBox,
  @(JSExport @field) uuid: UUID,
  @(JSExport @field) name: LocalName,
  @(JSExport @field) iri: IRI,
- @(JSExport @field) kind: TerminologyGraphKind
+ @(JSExport @field) domainUUID: Entity,
+ @(JSExport @field) rangeUUID: Structure
 )
 
 @JSExport
-object TerminologyGraphHelper {
+object EntityStructuredDataPropertyHelper {
 
   implicit val w
-  : upickle.default.Writer[TerminologyGraph]
-  = upickle.default.macroW[TerminologyGraph]
+  : upickle.default.Writer[EntityStructuredDataProperty]
+  = upickle.default.macroW[EntityStructuredDataProperty]
 
   @JSExport
-  def toJSON(c: TerminologyGraph)
+  def toJSON(c: EntityStructuredDataProperty)
   : String
   = upickle.default.write(expr=c, indent=0)
 
   implicit val r
-  : upickle.default.Reader[TerminologyGraph]
-  = upickle.default.macroR[TerminologyGraph]
+  : upickle.default.Reader[EntityStructuredDataProperty]
+  = upickle.default.macroR[EntityStructuredDataProperty]
 
   @JSExport
   def fromJSON(c: String)
-  : TerminologyGraph
-  = upickle.default.read[TerminologyGraph](c)
+  : EntityStructuredDataProperty
+  = upickle.default.read[EntityStructuredDataProperty](c)
 
 }	

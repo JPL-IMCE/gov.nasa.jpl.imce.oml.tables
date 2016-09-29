@@ -26,39 +26,59 @@ import scala.Predef._
 /**
   * @param graphUUID
   * @param uuid
+  * @param asymmetric
+  * @param essential
+  * @param functional
+  * @param inverseEssential
+  * @param inverseFunctional
+  * @param irreflexive
+  * @param reflexive
+  * @param symmetric
+  * @param transitive
   * @param name
   * @param iri
-  * @param abstract
+  * @param sourceUUID
+  * @param targetUUID
   */
 @JSExport
-case class Concept
+case class UnreifiedRelationship
 (
  @(JSExport @field) graphUUID: TerminologyBox,
  @(JSExport @field) uuid: UUID,
+ @(JSExport @field) asymmetric: EJavaObject,
+ @(JSExport @field) essential: EJavaObject,
+ @(JSExport @field) functional: EJavaObject,
+ @(JSExport @field) inverseEssential: EJavaObject,
+ @(JSExport @field) inverseFunctional: EJavaObject,
+ @(JSExport @field) irreflexive: EJavaObject,
+ @(JSExport @field) reflexive: EJavaObject,
+ @(JSExport @field) symmetric: EJavaObject,
+ @(JSExport @field) transitive: EJavaObject,
  @(JSExport @field) name: LocalName,
  @(JSExport @field) iri: IRI,
- @(JSExport @field) abstract: EJavaObject
+ @(JSExport @field) sourceUUID: Entity,
+ @(JSExport @field) targetUUID: Entity
 )
 
 @JSExport
-object ConceptHelper {
+object UnreifiedRelationshipHelper {
 
   implicit val w
-  : upickle.default.Writer[Concept]
-  = upickle.default.macroW[Concept]
+  : upickle.default.Writer[UnreifiedRelationship]
+  = upickle.default.macroW[UnreifiedRelationship]
 
   @JSExport
-  def toJSON(c: Concept)
+  def toJSON(c: UnreifiedRelationship)
   : String
   = upickle.default.write(expr=c, indent=0)
 
   implicit val r
-  : upickle.default.Reader[Concept]
-  = upickle.default.macroR[Concept]
+  : upickle.default.Reader[UnreifiedRelationship]
+  = upickle.default.macroR[UnreifiedRelationship]
 
   @JSExport
   def fromJSON(c: String)
-  : Concept
-  = upickle.default.read[Concept](c)
+  : UnreifiedRelationship
+  = upickle.default.read[UnreifiedRelationship](c)
 
 }	

@@ -15,7 +15,7 @@
  * limitations under the License.
  * License Terms
  */
-
+ 
 package gov.nasa.jpl.imce.omf.schema.tables
 
 import scala.annotation.meta.field
@@ -24,16 +24,19 @@ import scala._
 import scala.Predef._
 
 /**
-  *
-  * @param graphUUID (Foreign key) The UUID of the TerminologyGraph in which this ConceptSpecializationAxiom is asserted.
-  * @param supConcept (Foreign key) The UUID of the super Concept that is a specialization parent of the sub Concept.
-  * @param subConcept (Foreign key) The UUID of the sub Concept that is a specialization child of the super Concept.
+  * @param graphUUID
+  * @param uuid
+  * @param subConceptUUID
+  * @param superConceptUUID
   */
 @JSExport
 case class ConceptSpecializationAxiom
-( @(JSExport @field) graphUUID: String,
-  @(JSExport @field) supConcept: String,
-  @(JSExport @field) subConcept: String)
+(
+ @(JSExport @field) graphUUID: TerminologyBox,
+ @(JSExport @field) uuid: UUID,
+ @(JSExport @field) subConceptUUID: Concept,
+ @(JSExport @field) superConceptUUID: Concept
+)
 
 @JSExport
 object ConceptSpecializationAxiomHelper {
@@ -43,17 +46,17 @@ object ConceptSpecializationAxiomHelper {
   = upickle.default.macroW[ConceptSpecializationAxiom]
 
   @JSExport
-  def toJSON(csa: ConceptSpecializationAxiom)
+  def toJSON(c: ConceptSpecializationAxiom)
   : String
-  = upickle.default.write(expr=csa, indent=0)
+  = upickle.default.write(expr=c, indent=0)
 
   implicit val r
   : upickle.default.Reader[ConceptSpecializationAxiom]
   = upickle.default.macroR[ConceptSpecializationAxiom]
 
   @JSExport
-  def fromJSON(csa: String)
+  def fromJSON(c: String)
   : ConceptSpecializationAxiom
-  = upickle.default.read[ConceptSpecializationAxiom](csa)
+  = upickle.default.read[ConceptSpecializationAxiom](c)
 
-}
+}	

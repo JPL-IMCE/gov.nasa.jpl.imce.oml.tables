@@ -24,39 +24,39 @@ import scala._
 import scala.Predef._
 
 /**
+  * @param graphUUID
   * @param uuid
-  * @param name
-  * @param iri
-  * @param kind
+  * @param subEntityUUID
+  * @param superAspectUUID
   */
 @JSExport
-case class TerminologyGraph
+case class AspectSpecializationAxiom
 (
+ @(JSExport @field) graphUUID: TerminologyBox,
  @(JSExport @field) uuid: UUID,
- @(JSExport @field) name: LocalName,
- @(JSExport @field) iri: IRI,
- @(JSExport @field) kind: TerminologyGraphKind
+ @(JSExport @field) subEntityUUID: Entity,
+ @(JSExport @field) superAspectUUID: Aspect
 )
 
 @JSExport
-object TerminologyGraphHelper {
+object AspectSpecializationAxiomHelper {
 
   implicit val w
-  : upickle.default.Writer[TerminologyGraph]
-  = upickle.default.macroW[TerminologyGraph]
+  : upickle.default.Writer[AspectSpecializationAxiom]
+  = upickle.default.macroW[AspectSpecializationAxiom]
 
   @JSExport
-  def toJSON(c: TerminologyGraph)
+  def toJSON(c: AspectSpecializationAxiom)
   : String
   = upickle.default.write(expr=c, indent=0)
 
   implicit val r
-  : upickle.default.Reader[TerminologyGraph]
-  = upickle.default.macroR[TerminologyGraph]
+  : upickle.default.Reader[AspectSpecializationAxiom]
+  = upickle.default.macroR[AspectSpecializationAxiom]
 
   @JSExport
   def fromJSON(c: String)
-  : TerminologyGraph
-  = upickle.default.read[TerminologyGraph](c)
+  : AspectSpecializationAxiom
+  = upickle.default.read[AspectSpecializationAxiom](c)
 
 }	

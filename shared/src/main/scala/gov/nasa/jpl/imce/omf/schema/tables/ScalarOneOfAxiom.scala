@@ -24,39 +24,39 @@ import scala._
 import scala.Predef._
 
 /**
+  * @param graphUUID
   * @param uuid
-  * @param name
-  * @param iri
-  * @param kind
+  * @param literalsUUID
+  * @param scalarUUID
   */
 @JSExport
-case class TerminologyGraph
+case class ScalarOneOfAxiom
 (
+ @(JSExport @field) graphUUID: TerminologyBox,
  @(JSExport @field) uuid: UUID,
- @(JSExport @field) name: LocalName,
- @(JSExport @field) iri: IRI,
- @(JSExport @field) kind: TerminologyGraphKind
+ @(JSExport @field) literalsUUID: Literal,
+ @(JSExport @field) scalarUUID: Scalar
 )
 
 @JSExport
-object TerminologyGraphHelper {
+object ScalarOneOfAxiomHelper {
 
   implicit val w
-  : upickle.default.Writer[TerminologyGraph]
-  = upickle.default.macroW[TerminologyGraph]
+  : upickle.default.Writer[ScalarOneOfAxiom]
+  = upickle.default.macroW[ScalarOneOfAxiom]
 
   @JSExport
-  def toJSON(c: TerminologyGraph)
+  def toJSON(c: ScalarOneOfAxiom)
   : String
   = upickle.default.write(expr=c, indent=0)
 
   implicit val r
-  : upickle.default.Reader[TerminologyGraph]
-  = upickle.default.macroR[TerminologyGraph]
+  : upickle.default.Reader[ScalarOneOfAxiom]
+  = upickle.default.macroR[ScalarOneOfAxiom]
 
   @JSExport
   def fromJSON(c: String)
-  : TerminologyGraph
-  = upickle.default.read[TerminologyGraph](c)
+  : ScalarOneOfAxiom
+  = upickle.default.read[ScalarOneOfAxiom](c)
 
 }	

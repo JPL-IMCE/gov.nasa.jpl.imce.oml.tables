@@ -24,39 +24,41 @@ import scala._
 import scala.Predef._
 
 /**
+  * @param graphUUID
   * @param uuid
-  * @param name
-  * @param iri
-  * @param kind
+  * @param nestedTerminologyUUID
+  * @param nestingContextUUID
+  * @param nestingTerminologyUUID
   */
 @JSExport
-case class TerminologyGraph
+case class TerminologyNestingAxiom
 (
+ @(JSExport @field) graphUUID: TerminologyBox,
  @(JSExport @field) uuid: UUID,
- @(JSExport @field) name: LocalName,
- @(JSExport @field) iri: IRI,
- @(JSExport @field) kind: TerminologyGraphKind
+ @(JSExport @field) nestedTerminologyUUID: TerminologyGraph,
+ @(JSExport @field) nestingContextUUID: Concept,
+ @(JSExport @field) nestingTerminologyUUID: TerminologyGraph
 )
 
 @JSExport
-object TerminologyGraphHelper {
+object TerminologyNestingAxiomHelper {
 
   implicit val w
-  : upickle.default.Writer[TerminologyGraph]
-  = upickle.default.macroW[TerminologyGraph]
+  : upickle.default.Writer[TerminologyNestingAxiom]
+  = upickle.default.macroW[TerminologyNestingAxiom]
 
   @JSExport
-  def toJSON(c: TerminologyGraph)
+  def toJSON(c: TerminologyNestingAxiom)
   : String
   = upickle.default.write(expr=c, indent=0)
 
   implicit val r
-  : upickle.default.Reader[TerminologyGraph]
-  = upickle.default.macroR[TerminologyGraph]
+  : upickle.default.Reader[TerminologyNestingAxiom]
+  = upickle.default.macroR[TerminologyNestingAxiom]
 
   @JSExport
   def fromJSON(c: String)
-  : TerminologyGraph
-  = upickle.default.read[TerminologyGraph](c)
+  : TerminologyNestingAxiom
+  = upickle.default.read[TerminologyNestingAxiom](c)
 
 }	

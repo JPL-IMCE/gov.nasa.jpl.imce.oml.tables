@@ -24,39 +24,39 @@ import scala._
 import scala.Predef._
 
 /**
+  * @param graphUUID
   * @param uuid
-  * @param name
-  * @param iri
-  * @param kind
+  * @param subRelationshipUUID
+  * @param superRelationshipUUID
   */
 @JSExport
-case class TerminologyGraph
+case class ReifiedRelationshipSpecializationAxiom
 (
+ @(JSExport @field) graphUUID: TerminologyBox,
  @(JSExport @field) uuid: UUID,
- @(JSExport @field) name: LocalName,
- @(JSExport @field) iri: IRI,
- @(JSExport @field) kind: TerminologyGraphKind
+ @(JSExport @field) subRelationshipUUID: ReifiedRelationship,
+ @(JSExport @field) superRelationshipUUID: ReifiedRelationship
 )
 
 @JSExport
-object TerminologyGraphHelper {
+object ReifiedRelationshipSpecializationAxiomHelper {
 
   implicit val w
-  : upickle.default.Writer[TerminologyGraph]
-  = upickle.default.macroW[TerminologyGraph]
+  : upickle.default.Writer[ReifiedRelationshipSpecializationAxiom]
+  = upickle.default.macroW[ReifiedRelationshipSpecializationAxiom]
 
   @JSExport
-  def toJSON(c: TerminologyGraph)
+  def toJSON(c: ReifiedRelationshipSpecializationAxiom)
   : String
   = upickle.default.write(expr=c, indent=0)
 
   implicit val r
-  : upickle.default.Reader[TerminologyGraph]
-  = upickle.default.macroR[TerminologyGraph]
+  : upickle.default.Reader[ReifiedRelationshipSpecializationAxiom]
+  = upickle.default.macroR[ReifiedRelationshipSpecializationAxiom]
 
   @JSExport
   def fromJSON(c: String)
-  : TerminologyGraph
-  = upickle.default.read[TerminologyGraph](c)
+  : ReifiedRelationshipSpecializationAxiom
+  = upickle.default.read[ReifiedRelationshipSpecializationAxiom](c)
 
 }	
