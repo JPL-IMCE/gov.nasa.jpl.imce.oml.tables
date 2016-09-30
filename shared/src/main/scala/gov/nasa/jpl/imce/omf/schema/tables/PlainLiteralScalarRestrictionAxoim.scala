@@ -40,9 +40,9 @@ case class PlainLiteralScalarRestrictionAxoim
  @(JSExport @field) graphUUID: UUID,
  @(JSExport @field) uuid: UUID,
  @(JSExport @field) language: Language,
- @(JSExport @field) length: Scala.Int,
- @(JSExport @field) maxLength: Scala.Int,
- @(JSExport @field) minLength: Scala.Int,
+ @(JSExport @field) length: scala.Int,
+ @(JSExport @field) maxLength: scala.Int,
+ @(JSExport @field) minLength: scala.Int,
  @(JSExport @field) pattern: Pattern,
  @(JSExport @field) restrictedScalarUUID: UUID,
  @(JSExport @field) scalarUUID: UUID

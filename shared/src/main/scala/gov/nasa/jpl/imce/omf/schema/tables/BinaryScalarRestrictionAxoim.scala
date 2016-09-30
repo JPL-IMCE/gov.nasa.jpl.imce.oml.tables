@@ -37,9 +37,9 @@ case class BinaryScalarRestrictionAxoim
 (
  @(JSExport @field) graphUUID: UUID,
  @(JSExport @field) uuid: UUID,
- @(JSExport @field) length: Scala.Int,
- @(JSExport @field) maxLength: Scala.Int,
- @(JSExport @field) minLength: Scala.Int,
+ @(JSExport @field) length: scala.Int,
+ @(JSExport @field) maxLength: scala.Int,
+ @(JSExport @field) minLength: scala.Int,
  @(JSExport @field) restrictedScalarUUID: UUID,
  @(JSExport @field) scalarUUID: UUID
 )

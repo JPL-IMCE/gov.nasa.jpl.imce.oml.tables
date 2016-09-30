@@ -35,7 +35,7 @@ case class Concept
 (
  @(JSExport @field) graphUUID: UUID,
  @(JSExport @field) uuid: UUID,
- @(JSExport @field) isAbstract: Scala.Boolean,
+ @(JSExport @field) isAbstract: scala.Boolean,
  @(JSExport @field) name: LocalName,
  @(JSExport @field) iri: IRI
 )
