@@ -25,17 +25,17 @@ import scala.Predef._
 
 /**
   * @param uuid
+  * @param kind
   * @param name
   * @param iri
-  * @param kind
   */
 @JSExport
 case class TerminologyGraph
 (
  @(JSExport @field) uuid: UUID,
+ @(JSExport @field) kind: TerminologyGraphKind,
  @(JSExport @field) name: LocalName,
- @(JSExport @field) iri: IRI,
- @(JSExport @field) kind: TerminologyGraphKind
+ @(JSExport @field) iri: IRI
 )
 
 @JSExport
