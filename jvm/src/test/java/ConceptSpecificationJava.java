@@ -36,7 +36,7 @@ public class ConceptSpecificationJava {
         Assert.assertEquals(w1.name(), name);
         String s1 = ConceptHelper.toJSON(w1);
         String t1 = String.format(
-                "{\"graphUUID\":\"%s\",\"uuid\":\"%s\",\"isAbstract\":%b,\"name\":\"%s\",\"resourceIRI\":\"%s\"}",
+                "{\"graphUUID\":\"%s\",\"uuid\":\"%s\",\"isAbstract\":%b,\"name\":\"%s\",\"iri\":\"%s\"}",
                 graphUUID, uuid, isAbstract,name,resourceIRI);
         Assert.assertEquals(t1, s1);
 
