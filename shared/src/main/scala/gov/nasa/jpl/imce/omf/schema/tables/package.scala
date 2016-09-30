@@ -26,6 +26,5 @@ package object tables {
 	type LexicalValue = scala.Predef.String
 	type LocalName = scala.Predef.String
 	type Pattern = scala.Predef.String
-	type TerminologyGraphKind = scala.Predef.String
 	type UUID = scala.Predef.String
 }
