@@ -31,8 +31,8 @@ object TerminologyGraphSpecification extends Properties("TerminologyGraph") {
     SchemaGenerators.iri)( (uuid: java.util.UUID, name: String, kind: TerminologyGraphKind, iri: String) => {
     val w = new TerminologyGraph(uuid.toString, kind, name, iri)
     val s = TerminologyGraphHelper.toJSON(w)
-    val t = s"""{"uuid":"${w.uuid}","kind":"${w.kind}","name":"${w.name}","resourceIRI":"${w.resourceIRI}"}"""
+    val t = s"""{"uuid":"${w.uuid}","kind":"${w.kind}","name":"${w.name}","iri":"${w.iri}"}"""
     val r = TerminologyGraphHelper.fromJSON(s)
-    (s == t) && (w.uuid == r.uuid) && (w.kind == r.kind) && (w.name == r.name) && (w.resourceIRI == r.resourceIRI)
+    (s == t) && (w.uuid == r.uuid) && (w.kind == r.kind) && (w.name == r.name) && (w.iri == r.iri)
   })
 }

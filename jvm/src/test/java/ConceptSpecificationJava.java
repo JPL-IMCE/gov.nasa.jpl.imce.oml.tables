@@ -45,7 +45,7 @@ public class ConceptSpecificationJava {
         Assert.assertEquals(w1.uuid(), r1.uuid());
         Assert.assertEquals(w1.isAbstract(), r1.isAbstract());
         Assert.assertEquals(w1.name(), r1.name());
-        Assert.assertEquals(w1.resourceIRI(), r1.resourceIRI());
+        Assert.assertEquals(w1.iri(), r1.iri());
         Assert.assertTrue(w1.equals(r1));
 
     }
