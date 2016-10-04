@@ -24,10 +24,10 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param graphUUID
-  * @param uuid
-  * @param subConceptUUID
-  * @param superConceptUUID
+  * @param graphUUID[1,1]
+  * @param uuid[1,1]
+  * @param subConceptUUID[1,1]
+  * @param superConceptUUID[1,1]
   */
 @JSExport
 case class ConceptSpecializationAxiom

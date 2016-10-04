@@ -24,47 +24,46 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param graphUUID
-  * @param uuid
-  * @param maxExclusive
-  * @param maxInclusive
-  * @param minExclusive
-  * @param minInclusive
-  * @param restrictedScalarUUID
-  * @param scalarUUID
+  * @param graphUUID[1,1]
+  * @param uuid[1,1]
+  * @param maxExclusive[0,1]
+  * @param maxInclusive[0,1]
+  * @param minExclusive[0,1]
+  * @param minInclusive[0,1]
+  * @param restrictedScalarUUID[1,1]
+  * @param scalarUUID[1,1]
   */
-@JSExport
-case class TimeScalarRestrictionAxoim
+case class TimeScalarRestrictionAxiom
 (
  @(JSExport @field) graphUUID: UUID,
  @(JSExport @field) uuid: UUID,
- @(JSExport @field) maxExclusive: LexicalTime,
- @(JSExport @field) maxInclusive: LexicalTime,
- @(JSExport @field) minExclusive: LexicalTime,
- @(JSExport @field) minInclusive: LexicalTime,
+ @(JSExport @field) maxExclusive: scala.Option[LexicalTime],
+ @(JSExport @field) maxInclusive: scala.Option[LexicalTime],
+ @(JSExport @field) minExclusive: scala.Option[LexicalTime],
+ @(JSExport @field) minInclusive: scala.Option[LexicalTime],
  @(JSExport @field) restrictedScalarUUID: UUID,
  @(JSExport @field) scalarUUID: UUID
 )
 
 @JSExport
-object TimeScalarRestrictionAxoimHelper {
+object TimeScalarRestrictionAxiomHelper {
 
   implicit val w
-  : upickle.default.Writer[TimeScalarRestrictionAxoim]
-  = upickle.default.macroW[TimeScalarRestrictionAxoim]
+  : upickle.default.Writer[TimeScalarRestrictionAxiom]
+  = upickle.default.macroW[TimeScalarRestrictionAxiom]
 
   @JSExport
-  def toJSON(c: TimeScalarRestrictionAxoim)
+  def toJSON(c: TimeScalarRestrictionAxiom)
   : String
   = upickle.default.write(expr=c, indent=0)
 
   implicit val r
-  : upickle.default.Reader[TimeScalarRestrictionAxoim]
-  = upickle.default.macroR[TimeScalarRestrictionAxoim]
+  : upickle.default.Reader[TimeScalarRestrictionAxiom]
+  = upickle.default.macroR[TimeScalarRestrictionAxiom]
 
   @JSExport
   def fromJSON(c: String)
-  : TimeScalarRestrictionAxoim
-  = upickle.default.read[TimeScalarRestrictionAxoim](c)
+  : TimeScalarRestrictionAxiom
+  = upickle.default.read[TimeScalarRestrictionAxiom](c)
 
 }	

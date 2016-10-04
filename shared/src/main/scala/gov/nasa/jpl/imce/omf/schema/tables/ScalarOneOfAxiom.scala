@@ -24,10 +24,10 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param graphUUID
-  * @param uuid
-  * @param literalsUUID
-  * @param scalarUUID
+  * @param graphUUID[1,1]
+  * @param uuid[1,1]
+  * @param literalsUUID[1,-1]
+  * @param scalarUUID[1,1]
   */
 @JSExport
 case class ScalarOneOfAxiom

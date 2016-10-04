@@ -24,9 +24,9 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param uuid
-  * @param name
-  * @param iri
+  * @param uuid[1,1]
+  * @param name[1,1]
+  * @param iri[1,1]
   */
 @JSExport
 case class Bundle

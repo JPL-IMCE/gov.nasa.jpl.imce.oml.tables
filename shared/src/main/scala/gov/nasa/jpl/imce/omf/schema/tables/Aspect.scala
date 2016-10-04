@@ -24,10 +24,10 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param graphUUID
-  * @param uuid
-  * @param name
-  * @param iri
+  * @param graphUUID[1,1]
+  * @param uuid[1,1]
+  * @param name[1,1]
+  * @param iri[1,1]
   */
 @JSExport
 case class Aspect

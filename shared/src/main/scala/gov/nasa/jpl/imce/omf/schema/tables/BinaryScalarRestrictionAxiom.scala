@@ -24,47 +24,44 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param graphUUID
-  * @param uuid
-  * @param length
-  * @param maxLength
-  * @param minLength
-  * @param pattern
-  * @param restrictedScalarUUID
-  * @param scalarUUID
+  * @param graphUUID[1,1]
+  * @param uuid[1,1]
+  * @param length[0,1]
+  * @param maxLength[0,1]
+  * @param minLength[0,1]
+  * @param restrictedScalarUUID[1,1]
+  * @param scalarUUID[1,1]
   */
-@JSExport
-case class IRIScalarRestrictionAxoim
+case class BinaryScalarRestrictionAxiom
 (
  @(JSExport @field) graphUUID: UUID,
  @(JSExport @field) uuid: UUID,
- @(JSExport @field) length: scala.Int,
- @(JSExport @field) maxLength: scala.Int,
- @(JSExport @field) minLength: scala.Int,
- @(JSExport @field) pattern: Pattern,
+ @(JSExport @field) length: scala.Option[scala.Int],
+ @(JSExport @field) maxLength: scala.Option[scala.Int],
+ @(JSExport @field) minLength: scala.Option[scala.Int],
  @(JSExport @field) restrictedScalarUUID: UUID,
  @(JSExport @field) scalarUUID: UUID
 )
 
 @JSExport
-object IRIScalarRestrictionAxoimHelper {
+object BinaryScalarRestrictionAxiomHelper {
 
   implicit val w
-  : upickle.default.Writer[IRIScalarRestrictionAxoim]
-  = upickle.default.macroW[IRIScalarRestrictionAxoim]
+  : upickle.default.Writer[BinaryScalarRestrictionAxiom]
+  = upickle.default.macroW[BinaryScalarRestrictionAxiom]
 
   @JSExport
-  def toJSON(c: IRIScalarRestrictionAxoim)
+  def toJSON(c: BinaryScalarRestrictionAxiom)
   : String
   = upickle.default.write(expr=c, indent=0)
 
   implicit val r
-  : upickle.default.Reader[IRIScalarRestrictionAxoim]
-  = upickle.default.macroR[IRIScalarRestrictionAxoim]
+  : upickle.default.Reader[BinaryScalarRestrictionAxiom]
+  = upickle.default.macroR[BinaryScalarRestrictionAxiom]
 
   @JSExport
   def fromJSON(c: String)
-  : IRIScalarRestrictionAxoim
-  = upickle.default.read[IRIScalarRestrictionAxoim](c)
+  : BinaryScalarRestrictionAxiom
+  = upickle.default.read[BinaryScalarRestrictionAxiom](c)
 
 }	

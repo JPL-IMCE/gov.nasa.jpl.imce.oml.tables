@@ -24,10 +24,10 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param graphUUID
-  * @param uuid
-  * @param subRelationshipUUID
-  * @param superRelationshipUUID
+  * @param graphUUID[1,1]
+  * @param uuid[1,1]
+  * @param subRelationshipUUID[1,1]
+  * @param superRelationshipUUID[1,1]
   */
 @JSExport
 case class ReifiedRelationshipSpecializationAxiom

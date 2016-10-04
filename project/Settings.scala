@@ -11,12 +11,6 @@ object Settings {
 
   val scalacOptions = Seq(
     "-deprecation",
-    "-encoding", "utf8",
-    "-feature",
-    "-unchecked")
-
-  val scalacOptionsOff = Seq(
-    "-deprecation",
     "-encoding", "UTF-8",     // yes, this is 2 args
     "-feature",
     "-language:existentials",
@@ -36,6 +30,7 @@ object Settings {
 
   object versions {
     val scala = "2.11.8"
+    val scalaJ8CompatVersion = "0.8.0-RC7"
   }
 
   /**
@@ -50,6 +45,7 @@ object Settings {
 
   /** Dependencies only used by the JVM project */
   val jvmDependencies = Def.setting(Seq(
+    "org.scala-lang.modules" %% "scala-java8-compat" % versions.scalaJ8CompatVersion,
     "org.scala-js" %% "scalajs-stubs" % scalaJSVersion % "provided",
     "com.novocode" % "junit-interface" % "0.11" % "test"
   ))

@@ -24,21 +24,21 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param graphUUID
-  * @param uuid
-  * @param name
-  * @param iri
-  * @param isAsymmetric
-  * @param isEssential
-  * @param isFunctional
-  * @param isInverseEssential
-  * @param isInverseFunctional
-  * @param isIrreflexive
-  * @param isReflexive
-  * @param isSymmetric
-  * @param isTransitive
-  * @param sourceUUID
-  * @param targetUUID
+  * @param graphUUID[1,1]
+  * @param uuid[1,1]
+  * @param name[1,1]
+  * @param iri[1,1]
+  * @param isAsymmetric[1,1]
+  * @param isEssential[1,1]
+  * @param isFunctional[1,1]
+  * @param isInverseEssential[1,1]
+  * @param isInverseFunctional[1,1]
+  * @param isIrreflexive[1,1]
+  * @param isReflexive[1,1]
+  * @param isSymmetric[1,1]
+  * @param isTransitive[1,1]
+  * @param sourceUUID[1,1]
+  * @param targetUUID[1,1]
   */
 @JSExport
 case class UnreifiedRelationship

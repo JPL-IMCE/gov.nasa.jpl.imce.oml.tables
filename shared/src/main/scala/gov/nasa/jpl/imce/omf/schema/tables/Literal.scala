@@ -24,13 +24,13 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param typeUUID
-  * @param value
+  * @param scalarUUID[1,1]
+  * @param value[1,1]
   */
 @JSExport
 case class Literal
 (
- @(JSExport @field) typeUUID: UUID,
+ @(JSExport @field) scalarUUID: UUID,
  @(JSExport @field) value: LexicalValue
 )
 

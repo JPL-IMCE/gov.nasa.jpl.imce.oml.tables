@@ -1,0 +1,24 @@
+<projectDescription>
+  <name>jpl.omf.schema.tables.jvm</name>
+  <buildSpec>
+    <buildCommand>
+      <name>org.scala-ide.sdt.core.scalabuilder</name>
+    </buildCommand>
+  </buildSpec>
+  <natures>
+    <nature>org.scala-ide.sdt.core.scalanature</nature>
+    <nature>org.eclipse.jdt.core.javanature</nature>
+  </natures>
+  <linkedResources>
+    <link>
+      <name>jpl.omf.schema.tables-shared-src-main-scala</name>
+      <type>2</type>
+      <location>PARENT-1-PROJECT_LOC/shared/src/main/scala</location>
+    </link>
+    <link>
+	  <name>jpl.omf.schema.tables-shared-src-test-scala</name>
+      <type>2</type>
+	  <locationURI>PARENT-1-PROJECT_LOC/shared/src/test/scala</locationURI>
+	</link>
+  </linkedResources>
+</projectDescription>

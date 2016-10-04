@@ -24,10 +24,10 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param graphUUID
-  * @param uuid
-  * @param designatedConceptUUID
-  * @param designationTerminologyGraphUUID
+  * @param graphUUID[1,1]
+  * @param uuid[1,1]
+  * @param designatedConceptUUID[1,1]
+  * @param designationTerminologyGraphUUID[1,1]
   */
 @JSExport
 case class ConceptDesignationTerminologyGraphAxiom

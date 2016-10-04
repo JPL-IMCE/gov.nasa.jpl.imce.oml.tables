@@ -24,10 +24,10 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param graphUUID
-  * @param uuid
-  * @param bundleUUID
-  * @param bundledTerminologyGraphUUID
+  * @param graphUUID[1,1]
+  * @param uuid[1,1]
+  * @param bundleUUID[1,1]
+  * @param bundledTerminologyGraphUUID[1,1]
   */
 @JSExport
 case class BundledTerminologyGraphAxiom

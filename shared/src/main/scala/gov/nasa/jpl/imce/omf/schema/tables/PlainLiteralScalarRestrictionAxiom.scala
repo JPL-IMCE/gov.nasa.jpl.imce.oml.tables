@@ -24,49 +24,48 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param graphUUID
-  * @param uuid
-  * @param language
-  * @param length
-  * @param maxLength
-  * @param minLength
-  * @param pattern
-  * @param restrictedScalarUUID
-  * @param scalarUUID
+  * @param graphUUID[1,1]
+  * @param uuid[1,1]
+  * @param language[0,1]
+  * @param length[0,1]
+  * @param maxLength[0,1]
+  * @param minLength[0,1]
+  * @param pattern[0,1]
+  * @param restrictedScalarUUID[1,1]
+  * @param scalarUUID[1,1]
   */
-@JSExport
-case class PlainLiteralScalarRestrictionAxoim
+case class PlainLiteralScalarRestrictionAxiom
 (
  @(JSExport @field) graphUUID: UUID,
  @(JSExport @field) uuid: UUID,
- @(JSExport @field) language: Language,
- @(JSExport @field) length: scala.Int,
- @(JSExport @field) maxLength: scala.Int,
- @(JSExport @field) minLength: scala.Int,
- @(JSExport @field) pattern: Pattern,
+ @(JSExport @field) language: scala.Option[Language],
+ @(JSExport @field) length: scala.Option[scala.Int],
+ @(JSExport @field) maxLength: scala.Option[scala.Int],
+ @(JSExport @field) minLength: scala.Option[scala.Int],
+ @(JSExport @field) pattern: scala.Option[Pattern],
  @(JSExport @field) restrictedScalarUUID: UUID,
  @(JSExport @field) scalarUUID: UUID
 )
 
 @JSExport
-object PlainLiteralScalarRestrictionAxoimHelper {
+object PlainLiteralScalarRestrictionAxiomHelper {
 
   implicit val w
-  : upickle.default.Writer[PlainLiteralScalarRestrictionAxoim]
-  = upickle.default.macroW[PlainLiteralScalarRestrictionAxoim]
+  : upickle.default.Writer[PlainLiteralScalarRestrictionAxiom]
+  = upickle.default.macroW[PlainLiteralScalarRestrictionAxiom]
 
   @JSExport
-  def toJSON(c: PlainLiteralScalarRestrictionAxoim)
+  def toJSON(c: PlainLiteralScalarRestrictionAxiom)
   : String
   = upickle.default.write(expr=c, indent=0)
 
   implicit val r
-  : upickle.default.Reader[PlainLiteralScalarRestrictionAxoim]
-  = upickle.default.macroR[PlainLiteralScalarRestrictionAxoim]
+  : upickle.default.Reader[PlainLiteralScalarRestrictionAxiom]
+  = upickle.default.macroR[PlainLiteralScalarRestrictionAxiom]
 
   @JSExport
   def fromJSON(c: String)
-  : PlainLiteralScalarRestrictionAxoim
-  = upickle.default.read[PlainLiteralScalarRestrictionAxoim](c)
+  : PlainLiteralScalarRestrictionAxiom
+  = upickle.default.read[PlainLiteralScalarRestrictionAxiom](c)
 
 }	

@@ -19,7 +19,6 @@
 package gov.nasa.jpl.imce.omf.schema.tables
 
 import scala.scalajs.js.annotation.{JSExport,JSExportDescendentObjects}
-import scala._
 import scala.Predef._
 
 @JSExportDescendentObjects

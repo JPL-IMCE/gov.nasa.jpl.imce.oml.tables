@@ -24,11 +24,11 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param graphUUID
-  * @param uuid
-  * @param nestedTerminologyUUID
-  * @param nestingContextUUID
-  * @param nestingTerminologyUUID
+  * @param graphUUID[1,1]
+  * @param uuid[1,1]
+  * @param nestedTerminologyUUID[1,1]
+  * @param nestingContextUUID[1,1]
+  * @param nestingTerminologyUUID[1,1]
   */
 @JSExport
 case class TerminologyNestingAxiom

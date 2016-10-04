@@ -24,47 +24,46 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param graphUUID
-  * @param uuid
-  * @param length
-  * @param maxLength
-  * @param minLength
-  * @param pattern
-  * @param restrictedScalarUUID
-  * @param scalarUUID
+  * @param graphUUID[1,1]
+  * @param uuid[1,1]
+  * @param maxExclusive[0,1]
+  * @param maxInclusive[0,1]
+  * @param minExclusive[0,1]
+  * @param minInclusive[0,1]
+  * @param restrictedScalarUUID[1,1]
+  * @param scalarUUID[1,1]
   */
-@JSExport
-case class StringScalarRestrictionAxoim
+case class NumericScalarRestrictionAxiom
 (
  @(JSExport @field) graphUUID: UUID,
  @(JSExport @field) uuid: UUID,
- @(JSExport @field) length: scala.Int,
- @(JSExport @field) maxLength: scala.Int,
- @(JSExport @field) minLength: scala.Int,
- @(JSExport @field) pattern: Pattern,
+ @(JSExport @field) maxExclusive: scala.Option[LexicalNumber],
+ @(JSExport @field) maxInclusive: scala.Option[LexicalNumber],
+ @(JSExport @field) minExclusive: scala.Option[LexicalNumber],
+ @(JSExport @field) minInclusive: scala.Option[LexicalNumber],
  @(JSExport @field) restrictedScalarUUID: UUID,
  @(JSExport @field) scalarUUID: UUID
 )
 
 @JSExport
-object StringScalarRestrictionAxoimHelper {
+object NumericScalarRestrictionAxiomHelper {
 
   implicit val w
-  : upickle.default.Writer[StringScalarRestrictionAxoim]
-  = upickle.default.macroW[StringScalarRestrictionAxoim]
+  : upickle.default.Writer[NumericScalarRestrictionAxiom]
+  = upickle.default.macroW[NumericScalarRestrictionAxiom]
 
   @JSExport
-  def toJSON(c: StringScalarRestrictionAxoim)
+  def toJSON(c: NumericScalarRestrictionAxiom)
   : String
   = upickle.default.write(expr=c, indent=0)
 
   implicit val r
-  : upickle.default.Reader[StringScalarRestrictionAxoim]
-  = upickle.default.macroR[StringScalarRestrictionAxoim]
+  : upickle.default.Reader[NumericScalarRestrictionAxiom]
+  = upickle.default.macroR[NumericScalarRestrictionAxiom]
 
   @JSExport
   def fromJSON(c: String)
-  : StringScalarRestrictionAxoim
-  = upickle.default.read[StringScalarRestrictionAxoim](c)
+  : NumericScalarRestrictionAxiom
+  = upickle.default.read[NumericScalarRestrictionAxiom](c)
 
 }	

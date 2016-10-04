@@ -24,47 +24,46 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param graphUUID
-  * @param uuid
-  * @param maxExclusive
-  * @param maxInclusive
-  * @param minExclusive
-  * @param minInclusive
-  * @param restrictedScalarUUID
-  * @param scalarUUID
+  * @param graphUUID[1,1]
+  * @param uuid[1,1]
+  * @param length[0,1]
+  * @param maxLength[0,1]
+  * @param minLength[0,1]
+  * @param pattern[0,1]
+  * @param restrictedScalarUUID[1,1]
+  * @param scalarUUID[1,1]
   */
-@JSExport
-case class NumericScalarRestrictionAxoim
+case class StringScalarRestrictionAxiom
 (
  @(JSExport @field) graphUUID: UUID,
  @(JSExport @field) uuid: UUID,
- @(JSExport @field) maxExclusive: LexicalNumber,
- @(JSExport @field) maxInclusive: LexicalNumber,
- @(JSExport @field) minExclusive: LexicalNumber,
- @(JSExport @field) minInclusive: LexicalNumber,
+ @(JSExport @field) length: scala.Option[scala.Int],
+ @(JSExport @field) maxLength: scala.Option[scala.Int],
+ @(JSExport @field) minLength: scala.Option[scala.Int],
+ @(JSExport @field) pattern: scala.Option[Pattern],
  @(JSExport @field) restrictedScalarUUID: UUID,
  @(JSExport @field) scalarUUID: UUID
 )
 
 @JSExport
-object NumericScalarRestrictionAxoimHelper {
+object StringScalarRestrictionAxiomHelper {
 
   implicit val w
-  : upickle.default.Writer[NumericScalarRestrictionAxoim]
-  = upickle.default.macroW[NumericScalarRestrictionAxoim]
+  : upickle.default.Writer[StringScalarRestrictionAxiom]
+  = upickle.default.macroW[StringScalarRestrictionAxiom]
 
   @JSExport
-  def toJSON(c: NumericScalarRestrictionAxoim)
+  def toJSON(c: StringScalarRestrictionAxiom)
   : String
   = upickle.default.write(expr=c, indent=0)
 
   implicit val r
-  : upickle.default.Reader[NumericScalarRestrictionAxoim]
-  = upickle.default.macroR[NumericScalarRestrictionAxoim]
+  : upickle.default.Reader[StringScalarRestrictionAxiom]
+  = upickle.default.macroR[StringScalarRestrictionAxiom]
 
   @JSExport
   def fromJSON(c: String)
-  : NumericScalarRestrictionAxoim
-  = upickle.default.read[NumericScalarRestrictionAxoim](c)
+  : StringScalarRestrictionAxiom
+  = upickle.default.read[StringScalarRestrictionAxiom](c)
 
 }	

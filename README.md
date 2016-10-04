@@ -67,6 +67,63 @@ Java & Scala seem to be OK.
 
 For JavaScript, the accessors use the ScalaJS field names as functions; e.g.:
 
+## IDE Support
+
+### Intellij IDEA (2016.2.4)
+
+- Import the github project from existing sources as an SBT project.
+
+Intellij will import the root project (tablesRoot) and the two cross-build variants (tablesJS, tablesJVM).
+Since all the Intellij-specific metadata can be re-created by simply importing the project,
+it is unecessary to store this metadata in github.
+
+- It is possible to work using both Intellij IDEA and the SBT CLI in a terminal.
+
+### Eclipse Neon.1
+
+Unfortunately, Eclipse lacks good support for SBT projects of any kind.
+The Eclipse-specific metadata was initially generated with [sbt eclipse](https://github.com/typesafehub/sbteclipse)
+and subsequently edited as follows:
+
+- Fix the Eclipse resource links in `js/.project` and `jvm/.project` to use location-neutral paths:
+
+	  <linkedResources>
+	    <link>
+	      <name>jpl.omf.schema.tables-shared-src-main-scala</name>
+	      <type>2</type>
+	      <location>PARENT-1-PROJECT_LOC/shared/src/main/scala</location>
+	    </link>
+	    <link>
+		  <name>jpl.omf.schema.tables-shared-src-test-scala</name>
+	      <type>2</type>
+		  <locationURI>PARENT-1-PROJECT_LOC/shared/src/test/scala</locationURI>
+		</link>
+	  </linkedResources>
+  
+- Define an Eclipse Classpath variable, `IVY_CACHE` for the location of the Ivy cache used by SBT
+  (typically, `$HOME/.ivy2/cache`)
+  
+- Fix the Eclipse library paths in `js/.classpath` and `jvm/.project` to use the `IVY_CACHE` classpath variable:
+  
+    E.g., in `js/.classpath`:
+  
+       <classpathentry kind="var" path="IVY_CACHE/org.scala-js/scalajs-library_2.11/jars/scalajs-library_2.11-0.6.12.jar"/>
+       <classpathentry kind="var" path="IVY_CACHE/com.lihaoyi/upickle_sjs0.6_2.11/jars/upickle_sjs0.6_2.11-0.4.1.jar"/>
+       ...
+   	 	
+    E.g., in `jvm/.classpath`:
+  
+       <classpathentry kind="var" path="IVY_CACHE/org.scala-lang.modules/scala-xml_2.11/bundles/scala-xml_2.11-1.0.2.jar"/>
+       <classpathentry kind="var" path="IVY_CACHE/com.lihaoyi/upickle_2.11/jars/upickle_2.11-0.4.1.jar"/>
+       ...
+  
+- Limitations:
+ 
+ The Eclipse metadata files should be properly generated with `sbt eclipse`; the above is a workaround! 
+ Do not update this project dependencies by editing the Eclipse metadata files; 
+ instead, update the SBT configuration and either use `sbt eclipse` + post-editing or 
+ update the Eclipse metadata files accordingly.
+ 
 ## Publishing to & resolving from bintray.com as a scoped NPM package.
 
 Publishing a scoped NPM package is important for using a combination of multiple NPM repositories

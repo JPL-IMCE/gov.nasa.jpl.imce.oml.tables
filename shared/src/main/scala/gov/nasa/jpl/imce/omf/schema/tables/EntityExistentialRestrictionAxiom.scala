@@ -24,11 +24,11 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param graphUUID
-  * @param uuid
-  * @param restrictedDomainUUID
-  * @param restrictedRangeUUID
-  * @param restrictedRelationUUID
+  * @param graphUUID[1,1]
+  * @param uuid[1,1]
+  * @param restrictedDomainUUID[1,1]
+  * @param restrictedRangeUUID[1,1]
+  * @param restrictedRelationUUID[1,1]
   */
 @JSExport
 case class EntityExistentialRestrictionAxiom

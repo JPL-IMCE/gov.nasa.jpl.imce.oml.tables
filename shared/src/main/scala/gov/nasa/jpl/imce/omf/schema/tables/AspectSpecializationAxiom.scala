@@ -24,10 +24,10 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param graphUUID
-  * @param uuid
-  * @param subEntityUUID
-  * @param superAspectUUID
+  * @param graphUUID[1,1]
+  * @param uuid[1,1]
+  * @param subEntityUUID[1,1]
+  * @param superAspectUUID[1,1]
   */
 @JSExport
 case class AspectSpecializationAxiom
