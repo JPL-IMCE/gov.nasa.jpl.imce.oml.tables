@@ -124,6 +124,8 @@ and subsequently edited as follows:
  instead, update the SBT configuration and either use `sbt eclipse` + post-editing or 
  update the Eclipse metadata files accordingly.
  
+ Eclipse JavaScript does not properly recognize *.js files written as node shell scripts (See: `shared/test/js/`)
+ 
 ## Publishing to & resolving from bintray.com as a scoped NPM package.
 
 Publishing a scoped NPM package is important for using a combination of multiple NPM repositories
