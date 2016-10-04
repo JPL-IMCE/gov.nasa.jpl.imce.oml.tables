@@ -20,6 +20,7 @@ package test.jpl.omf.schema.tables
 
 import gov.nasa.jpl.imce.omf.schema.tables.{ClosedWorldDesignations, OpenWorldDefinitions}
 import org.scalacheck._
+import scala.StringContext
 
 object SchemaGenerators {
 

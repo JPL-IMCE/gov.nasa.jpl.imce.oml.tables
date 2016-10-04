@@ -39,6 +39,8 @@ package test.jpl.omf.schema.tables
 import gov.nasa.jpl.imce.omf.schema.tables._
 import org.scalacheck.Prop.forAll
 import org.scalacheck.Properties
+import scala.{Boolean,StringContext}
+import scala.Predef.String
 
 object ConceptSpecificationScala extends Properties("Concept") {
 
@@ -50,7 +52,7 @@ object ConceptSpecificationScala extends Properties("Concept") {
     SchemaGenerators.iri)((graphUUID: java.util.UUID, uuid: java.util.UUID, isAbstract: Boolean, name: String, iri: String) => {
     val w = new Concept(graphUUID.toString, uuid.toString, isAbstract, name, iri)
     val s = ConceptHelper.toJSON(w)
-    val t = s"""{"graphUUID":"${w.graphUUID}","uuid":"${w.uuid}","isAbstract":${w.isAbstract},"name":"${w.name}","resourceIRI":"${w.iri}"}"""
+    val t = s"""{"graphUUID":"${w.graphUUID}","uuid":"${w.uuid}","isAbstract":${w.isAbstract},"name":"${w.name}","iri":"${w.iri}"}"""
     val r = ConceptHelper.fromJSON(s)
     (s == t) && (w.graphUUID == r.graphUUID) && (w.uuid == r.uuid) && (w.isAbstract == r.isAbstract) && (w.name == r.name) && (w.iri == r.iri)
   })
