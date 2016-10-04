@@ -1,8 +1,8 @@
 # JPL's Ontological Modeling Framework (OMF) Schema Tables for Integrated Model-Centric Engineering (IMCE).
 
 [![Build Status](https://travis-ci.org/JPL-IMCE/jpl.omf.schema.tables.svg?branch=master)](https://travis-ci.org/JPL-IMCE/jpl.omf.schema.tables)
- [ ![Download](https://api.bintray.com/packages/jpl-imce/gov.nasa.jpl.imce.npm/jpl-omf-schema-tables/images/download.svg) ](https://bintray.com/jpl-imce/gov.nasa.jpl.imce.npm/jpl-omf-schema-tables/_latestVersion)
- [ ![Download](https://api.bintray.com/packages/jpl-imce/gov.nasa.jpl.imce/jpl.omf.schema.tables/images/download.svg) ](https://bintray.com/jpl-imce/gov.nasa.jpl.imce/jpl.omf.schema.tables/_latestVersion)
+  NPM: [ ![Download](https://api.bintray.com/packages/jpl-imce/gov.nasa.jpl.imce.npm/imce%3Ajpl-omf-schema-tables/images/download.svg) ](https://bintray.com/jpl-imce/gov.nasa.jpl.imce.npm/imce%3Ajpl-omf-schema-tables/_latestVersion)
+  Maven: [ ![Download](https://api.bintray.com/packages/jpl-imce/gov.nasa.jpl.imce/jpl.omf.schema.tables/images/download.svg) ](https://bintray.com/jpl-imce/gov.nasa.jpl.imce/jpl.omf.schema.tables/_latestVersion)
  
 This project specifies a set of normalized schema tables for JPL's Ontological Modeling Framework.
 By normalize schema tables, we mean precisely a [4th Normal Form database schema](http://www.bkent.net/Doc/simple5.htm#label4).
