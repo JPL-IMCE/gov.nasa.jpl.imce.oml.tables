@@ -7,7 +7,7 @@ object Settings {
 
   val organization = "gov.nasa.jpl.imce"
 
-  val version = "0.15.2"
+  val version = "0.15.3"
 
   val scalacOptions = Seq(
     "-deprecation",
@@ -39,7 +39,7 @@ object Settings {
     */
   val sharedDependencies = Def.setting(Seq(
     "org.scalacheck" %%% "scalacheck" % "1.13.2" % "test",
-    "com.lihaoyi" %%% "upickle" % "0.4.1"
+    "com.lihaoyi" %%% "upickle" % "0.4.3"
   ))
 
 
