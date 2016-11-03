@@ -18,9 +18,28 @@
  
 package gov.nasa.jpl.imce.omf.schema.resolved
 
+/*
+ * OMF: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.core/latest/api/index.html#gov.nasa.jpl.omf.scala.core.OMF@EntityDefinitionAspectSubClassAxiom<:OMFtbox.this.ModelTermAxiom
+ */
 trait AspectSpecializationAxiom
   extends SpecializationAxiom
 {
+
+  /*
+   * The sub (child) entity
+   */
   val subEntity: Entity
+  /*
+   * The super (parent) aspect
+   */
   val superAspect: Aspect
+
+  /*
+   * Get the sub (child) entity
+   */
+  override val child: Entity
+  /*
+   * Get the super (parent) entity
+   */
+  override val parent: Entity
 }

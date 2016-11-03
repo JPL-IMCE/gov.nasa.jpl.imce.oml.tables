@@ -18,10 +18,24 @@
  
 package gov.nasa.jpl.imce.omf.schema.resolved
 
+/*
+ * OMF: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.core/latest/api/index.html#gov.nasa.jpl.omf.scala.core.OMF@EntityConceptDesignationTerminologyGraphAxiom<:OMFtbox.this.ModelTermAxiom
+ * OWL: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.binding.owlapi/latest/api/gov/nasa/jpl/omf/scala/binding/owlapi/types/EntityConceptDesignationTerminologyGraphAxiom.html#inheritance-diagram
+ */
 trait ConceptDesignationTerminologyGraphAxiom
   extends TermAxiom
   with TerminologyAxiom
 {
+
   val designationTerminologyGraph: TerminologyGraph
   val designatedConcept: Concept
+
+  /*
+   * The designationTerminologyGraph is the source
+   */
+  override val source: TerminologyBox
+  /*
+   * The TerminologyBox that asserts the designatedConcept is the target
+   */
+  override val target: TerminologyBox
 }

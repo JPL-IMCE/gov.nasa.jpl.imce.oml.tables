@@ -18,7 +18,13 @@
  
 package gov.nasa.jpl.imce.omf.schema.resolved
 
+/*
+ * OMF: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.core/latest/api/index.html#gov.nasa.jpl.omf.scala.core.OMF@ModelDataRelationshipFromStructureToScalar<:OMFtbox.this.ModelDataRelationshipwithOMFtbox.this.ModelDataRelationshipFromStructurewithOMFtbox.this.ModelDataRelationshipToScalar
+ * OWL: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.binding.owlapi/latest/api/gov/nasa/jpl/omf/scala/binding/owlapi/types/ModelDataRelationshipFromStructureToScalar.html#inheritance-diagram
+ */
 trait ScalarDataProperty
   extends DataRelationship
   with DataRelationshipFromStructure
   with DataRelationshipToScalar
+{
+}

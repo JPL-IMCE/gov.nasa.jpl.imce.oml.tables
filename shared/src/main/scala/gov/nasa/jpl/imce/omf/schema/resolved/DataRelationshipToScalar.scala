@@ -21,5 +21,6 @@ package gov.nasa.jpl.imce.omf.schema.resolved
 trait DataRelationshipToScalar
   extends DataRelationshipRange
 {
+
   val range: Scalar
 }

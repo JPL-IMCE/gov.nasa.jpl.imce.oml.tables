@@ -18,5 +18,11 @@
  
 package gov.nasa.jpl.imce.omf.schema.resolved
 
+/*
+ * OMF: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.core/latest/api/index.html#gov.nasa.jpl.omf.scala.core.OMF@EntityDefinitionUniversalRestrictionAxiom<:OMFtbox.this.EntityDefinitionRestrictionAxiom
+ * OWL: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.binding.owlapi/latest/api/gov/nasa/jpl/omf/scala/binding/owlapi/types/EntityDefinitionUniversalRestrictionAxiom.html#inheritance-diagram
+ */
 trait EntityUniversalRestrictionAxiom
   extends EntityRestrictionAxiom
+{
+}

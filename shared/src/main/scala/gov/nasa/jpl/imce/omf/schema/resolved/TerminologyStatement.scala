@@ -21,5 +21,6 @@ package gov.nasa.jpl.imce.omf.schema.resolved
 trait TerminologyStatement
   extends TerminologyThing
 {
+
   val graph: TerminologyBox
 }

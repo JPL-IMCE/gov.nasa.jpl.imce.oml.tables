@@ -18,9 +18,29 @@
  
 package gov.nasa.jpl.imce.omf.schema.resolved
 
+/*
+ * OMF: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.core/latest/api/index.html#gov.nasa.jpl.omf.scala.core.OMF@EntityReifiedRelationshipSubClassAxiom<:OMFtbox.this.ModelTermAxiom
+ * OWL: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.binding.owlapi/latest/api/gov/nasa/jpl/omf/scala/binding/owlapi/types/EntityReifiedRelationshipSubClassAxiom.html#inheritance-diagram
+ */
 trait ReifiedRelationshipSpecializationAxiom
   extends SpecializationAxiom
 {
+
+  /*
+   * The sub (child) relationship
+   */
   val subRelationship: ReifiedRelationship
+  /*
+   * The super (parent) relationship
+   */
   val superRelationship: ReifiedRelationship
+
+  /*
+   * Get the sub (child) entity
+   */
+  val child: Entity
+  /*
+   * Get the super (parent) entity
+   */
+  val parent: Entity
 }

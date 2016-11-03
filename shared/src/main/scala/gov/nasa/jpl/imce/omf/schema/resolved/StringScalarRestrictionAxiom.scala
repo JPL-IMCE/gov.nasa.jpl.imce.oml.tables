@@ -18,11 +18,37 @@
  
 package gov.nasa.jpl.imce.omf.schema.resolved
 
+/*
+ * An axiom that specifies how one string scalar adds facet restrictions to another
+ * Applies when the restricted scalar represents strings (OWL2: 4.3)
+ * i.e., when it is one of the following scalars (or their transitively restricted ones):
+ * xsd:string
+ * xsd:normalizedString
+ * xsd:token
+ * xsd:language
+ * xsd:Name
+ * xsd:NCName
+ * xsd:NMTOKEN
+ * xsd:length, xsd:minLength, xsd:maxLength, xsd:pattern
+ */
 trait StringScalarRestrictionAxiom
   extends ScalarRestrictionAxiom
 {
+
+  /*
+   * The length of the string
+   */
   val length: scala.Option[scala.Int]
+  /*
+   * The minimum length of the string
+   */
   val minLength: scala.Option[scala.Int]
+  /*
+   * The maximum length of the string
+   */
   val maxLength: scala.Option[scala.Int]
+  /*
+   * The pattern of the string (https://www.w3.org/TR/xmlschema-2/#regexs)
+   */
   val pattern: scala.Option[gov.nasa.jpl.imce.omf.schema.tables.Pattern]
 }

@@ -18,5 +18,19 @@
  
 package gov.nasa.jpl.imce.omf.schema.resolved
 
+/*
+ * TODO: Review (comes from OML)
+ */
 trait SpecializationAxiom
   extends TermAxiom
+{
+
+  /*
+   * Get the sub (child) entity
+   */
+  val child: Entity
+  /*
+   * Get the super (parent) entity
+   */
+  val parent: Entity
+}

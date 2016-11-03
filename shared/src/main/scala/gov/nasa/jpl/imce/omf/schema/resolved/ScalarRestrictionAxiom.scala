@@ -18,8 +18,20 @@
  
 package gov.nasa.jpl.imce.omf.schema.resolved
 
+/*
+ * An axiom that specifies the range of values for a scalar as a restriction on another scalar's range.
+ * Each specialization of ScalarRestrictionAxiom corresponds to a particular subset of the OWL2-DL datatype map.
+ * @see https://www.w3.org/TR/owl2-syntax/#Datatype_Maps
+ * Each specialization supports only the datatype constraint facets of the corresponding OWL2-DL datatype map subset.
+ * The vocabulary of XSD fundamental facets is not included in OWL2-DL, consequently, there is no support in OMF
+ * for specifying datatype restrictions involving XSD fundamental facets.
+ */
 trait ScalarRestrictionAxiom
   extends ScalarRangeAxiom
 {
+
+  /*
+   * The restricted (general) scalar
+   */
   val restrictedScalar: Scalar
 }

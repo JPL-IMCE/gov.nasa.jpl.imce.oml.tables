@@ -19,10 +19,24 @@
 package gov.nasa.jpl.imce.omf.schema.resolved
 
 /*
- * OMF: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.core/latest/api/index.html#gov.nasa.jpl.omf.scala.core.OMF@ModelEntityAspect<:OMFtbox.this.ModelEntityDefinition
- * OWL: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.binding.owlapi/latest/api/gov/nasa/jpl/omf/scala/binding/owlapi/types/ModelEntityAspect.html#inheritance-diagram
+ * This axiom specifies a TerminologyBox that a Bundle aggregates.
+ * A BundledTerminologyAxiom allows a bundle to
+ * make references (via TerminologyStatements) to TerminologyThings
+ * within the transitive closure of a bundledTerminology.
  */
-trait Aspect
-  extends Entity
+trait BundledTerminologyAxiom
+  extends TerminologyAxiom
 {
+
+  val bundle: Bundle
+  val bundledTerminology: TerminologyBox
+
+  /*
+   * The bundle is the source
+   */
+  override val source: TerminologyBox
+  /*
+   * The bundledTerminology is the target
+   */
+  override val target: TerminologyBox
 }

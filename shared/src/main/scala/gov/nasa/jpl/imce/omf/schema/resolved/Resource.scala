@@ -20,6 +20,7 @@ package gov.nasa.jpl.imce.omf.schema.resolved
 
 trait Resource
 {
+
   val iri: gov.nasa.jpl.imce.omf.schema.tables.IRI
   val name: gov.nasa.jpl.imce.omf.schema.tables.LocalName
 }

@@ -20,5 +20,6 @@ package gov.nasa.jpl.imce.omf.schema.resolved
 
 trait TerminologyThing
 {
+
   val uuid: java.util.UUID
 }

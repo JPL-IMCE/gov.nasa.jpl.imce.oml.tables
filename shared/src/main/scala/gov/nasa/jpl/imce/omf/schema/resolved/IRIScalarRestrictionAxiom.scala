@@ -18,11 +18,30 @@
  
 package gov.nasa.jpl.imce.omf.schema.resolved
 
+/*
+ * An axiom that specifies how one IRI scalar adds facet restrictions to another
+ * Applies when the restricted scalar represents IRIs (OWL2: 4.6)
+ * i.e., when it is one of the following scalars (or their transitively restricted ones):
+ * xsd:anyURI
+ */
 trait IRIScalarRestrictionAxiom
   extends ScalarRestrictionAxiom
 {
+
+  /*
+   * The length of the IRI
+   */
   val length: scala.Option[scala.Int]
+  /*
+   * The minimum length of the IRI
+   */
   val minLength: scala.Option[scala.Int]
+  /*
+   * The maximum length of the IRI
+   */
   val maxLength: scala.Option[scala.Int]
+  /*
+   * The pattern of the IRI (https://www.w3.org/TR/xmlschema-2/#regexs)
+   */
   val pattern: scala.Option[gov.nasa.jpl.imce.omf.schema.tables.Pattern]
 }

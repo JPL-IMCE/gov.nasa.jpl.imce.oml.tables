@@ -18,8 +18,13 @@
  
 package gov.nasa.jpl.imce.omf.schema.resolved
 
+/*
+ * *
+ * Semantics: OWL2 Data Property Restrictions
+ */
 trait EntityScalarDataPropertyRestrictionAxiom
   extends SpecializationAxiom
 {
+
   val scalarProperty: EntityScalarDataProperty
 }

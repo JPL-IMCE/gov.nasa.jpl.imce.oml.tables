@@ -18,7 +18,13 @@
  
 package gov.nasa.jpl.imce.omf.schema.resolved
 
+/*
+ * OMF: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.core/latest/api/index.html#gov.nasa.jpl.omf.scala.core.OMF@ModelDataRelationshipFromStructureToStructure<:OMFtbox.this.ModelDataRelationshipwithOMFtbox.this.ModelDataRelationshipFromStructurewithOMFtbox.this.ModelDataRelationshipToStructure
+ * OWL: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.binding.owlapi/latest/api/gov/nasa/jpl/omf/scala/binding/owlapi/types/ModelDataRelationshipFromStructureToStructure.html#inheritance-diagram
+ */
 trait StructuredDataProperty
   extends DataRelationship
   with DataRelationshipFromStructure
   with DataRelationshipToStructure
+{
+}

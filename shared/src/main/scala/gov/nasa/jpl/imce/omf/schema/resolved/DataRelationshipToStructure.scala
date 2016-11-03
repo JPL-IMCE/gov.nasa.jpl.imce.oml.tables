@@ -21,5 +21,6 @@ package gov.nasa.jpl.imce.omf.schema.resolved
 trait DataRelationshipToStructure
   extends DataRelationshipRange
 {
+
   val range: Structure
 }

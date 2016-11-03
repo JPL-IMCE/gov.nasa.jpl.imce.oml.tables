@@ -18,10 +18,28 @@
  
 package gov.nasa.jpl.imce.omf.schema.resolved
 
+/*
+ * An axiom that specifies how one binary scalar adds facet restrictions to another
+ * Applies when the restricted scalar represents binary data (OWL2: 4.5)
+ * i.e., when it is one of the following scalars (or their transitively restricted ones):
+ * xsd:hexBinary
+ * xsd:base64Binary
+ * xsd:minLength, xsd:maxLength, and xsd:length
+ */
 trait BinaryScalarRestrictionAxiom
   extends ScalarRestrictionAxiom
 {
+
+  /*
+   * The length of the binary data
+   */
   val length: scala.Option[scala.Int]
+  /*
+   * The minimum length of the binary data
+   */
   val minLength: scala.Option[scala.Int]
+  /*
+   * The maximum length of the binary data
+   */
   val maxLength: scala.Option[scala.Int]
 }

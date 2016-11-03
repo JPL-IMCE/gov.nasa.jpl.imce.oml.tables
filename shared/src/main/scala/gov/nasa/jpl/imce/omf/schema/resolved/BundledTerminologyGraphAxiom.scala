@@ -21,6 +21,7 @@ package gov.nasa.jpl.imce.omf.schema.resolved
 trait BundledTerminologyGraphAxiom
   extends TerminologyAxiom
 {
+
   val bundle: Bundle
   val bundledTerminologyGraph: TerminologyGraph
 }

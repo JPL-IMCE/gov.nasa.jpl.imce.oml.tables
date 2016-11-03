@@ -21,6 +21,10 @@ package gov.nasa.jpl.imce.omf.schema.resolved
 trait ScalarOneOfLiteral
   extends Axiom
 {
+
   val axiom: ScalarOneOfRestrictionAxiom
+  /*
+   * The value of the literal from the restrictedScalar datatype
+   */
   val value: gov.nasa.jpl.imce.omf.schema.tables.LexicalValue
 }

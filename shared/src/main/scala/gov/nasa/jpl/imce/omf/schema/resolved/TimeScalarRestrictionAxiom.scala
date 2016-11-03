@@ -18,11 +18,31 @@
  
 package gov.nasa.jpl.imce.omf.schema.resolved
 
+/*
+ * An axiom that specifies how one time scalar adds facet restrictions to another
+ * Applies when the restricted scalar represents time instants (OWL2: 4.7)
+ * i.e., when it is one of the following scalars (or their transitively restricted ones):
+ * xsd:dateTime
+ * xsd:dateTimeStamp
+ */
 trait TimeScalarRestrictionAxiom
   extends ScalarRestrictionAxiom
 {
+
+  /*
+   * The inclusive minimum value in the range
+   */
   val minInclusive: scala.Option[gov.nasa.jpl.imce.omf.schema.tables.LexicalTime]
+  /*
+   * The inclusive maximum value in the range
+   */
   val maxInclusive: scala.Option[gov.nasa.jpl.imce.omf.schema.tables.LexicalTime]
+  /*
+   * The exclusive minimum value in the range
+   */
   val minExclusive: scala.Option[gov.nasa.jpl.imce.omf.schema.tables.LexicalTime]
+  /*
+   * The exclusive maximum value in the range
+   */
   val maxExclusive: scala.Option[gov.nasa.jpl.imce.omf.schema.tables.LexicalTime]
 }

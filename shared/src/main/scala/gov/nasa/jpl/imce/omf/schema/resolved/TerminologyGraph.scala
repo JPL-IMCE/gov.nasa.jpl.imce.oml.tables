@@ -18,8 +18,34 @@
  
 package gov.nasa.jpl.imce.omf.schema.resolved
 
+/*
+ * A TerminologyGraph is a concrete TerminologyBox.
+ * OMF: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.core/latest/api/index.html#gov.nasa.jpl.omf.scala.core.OMF@ModelTerminologyGraph
+ * OWL: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.binding.owlapi/latest/api/gov/nasa/jpl/omf/scala/binding/owlapi/types/ModelTerminologyGraph.html#inheritance-diagram
+ */
 trait TerminologyGraph
   extends TerminologyBox
 {
+
+  /*
+   * OMF: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.core/latest/api/index.html#gov.nasa.jpl.omf.scala.core.TerminologyGraphSignature@kind:gov.nasa.jpl.omf.scala.core.TerminologyKind.TerminologyKind
+   * OWL: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.binding.owlapi/latest/api/index.html#gov.nasa.jpl.omf.scala.binding.owlapi.types.ModelTerminologyGraph@kind:gov.nasa.jpl.omf.scala.core.TerminologyKind.TerminologyKind
+   */
   val kind: gov.nasa.jpl.imce.omf.schema.tables.TerminologyGraphKind
+
+  /*
+   * c, if there is a unique axiom
+   * TerminologyNestingAxiom(nestedTerminology=this, nestingContext=c, nestingTerminology=_)
+   */
+  val nestingConcept: Concept
+  /*
+   * p, if there is a unique axiom
+   * TerminologyNestingAxiom(nestedTerminology=this, nestingContext=_, nestingTerminology=p)
+   */
+  val nestingParent: TerminologyGraph
+  /*
+   * the set e from all axioms
+   * TerminologyExtensionAxiom(extendedTerminology=e, extendingTerminology=this)
+   */
+  val extendedGraphs: TerminologyGraph
 }

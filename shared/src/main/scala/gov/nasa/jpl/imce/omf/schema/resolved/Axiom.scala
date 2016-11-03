@@ -20,3 +20,5 @@ package gov.nasa.jpl.imce.omf.schema.resolved
 
 trait Axiom
   extends TerminologyStatement
+{
+}

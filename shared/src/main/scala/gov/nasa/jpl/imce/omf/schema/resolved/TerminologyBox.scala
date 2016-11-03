@@ -18,9 +18,37 @@
  
 package gov.nasa.jpl.imce.omf.schema.resolved
 
+/*
+ * A TerminologyBox is a logical container for a set of TerminologyStatements.
+ */
 trait TerminologyBox
   extends TerminologyThing
   with Resource
 {
+
   val statements: scala.collection.immutable.Set[TerminologyStatement]
+
+  /*
+   * A map for the subset of statements that are
+   * entities terms indexed by their iri.
+   */
+  val entities: scala.collection.immutable.Map[java.net.URI,Entity]
+  /*
+   * A map for the subset of statements that are
+   * datatype terms indexed by their iri.
+   */
+  val dataRelationships: scala.collection.immutable.Map[java.net.URI,DataRelationship]
+  /*
+   * A map for the subset of statements that are
+   * datatype terms indexed by their iri.
+   */
+  val datatypes: scala.collection.immutable.Map[java.net.URI,Datatype]
+  /*
+   * The subset of axioms about terminologies.
+   */
+  val terminologyAxioms: scala.collection.immutable.Set[TerminologyAxiom]
+  /*
+   * The subset of axioms about terms.
+   */
+  val termAxioms: scala.collection.immutable.Set[TermAxiom]
 }

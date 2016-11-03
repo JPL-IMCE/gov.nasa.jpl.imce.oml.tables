@@ -18,8 +18,13 @@
  
 package gov.nasa.jpl.imce.omf.schema.resolved
 
+/*
+ * *
+ * Semantics: OWL2 DataHasValue
+ */
 trait EntityScalarDataPropertyParticularRestrictionAxiom
   extends EntityScalarDataPropertyRestrictionAxiom
 {
+
   val literalValue: gov.nasa.jpl.imce.omf.schema.tables.LexicalValue
 }

@@ -18,10 +18,33 @@
  
 package gov.nasa.jpl.imce.omf.schema.resolved
 
+/*
+ * OMF: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.core/latest/api/index.html#gov.nasa.jpl.omf.scala.core.OMF@TerminologyGraphDirectNestingAxiom<:OMFtbox.this.TerminologyGraphAxiom
+ * OWL: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.binding.owlapi/latest/api/gov/nasa/jpl/omf/scala/binding/owlapi/types/TerminologyGraphDirectNestingAxiom.html#inheritance-diagram
+ */
 trait TerminologyNestingAxiom
   extends TerminologyAxiom
 {
-  val nestingTerminology: TerminologyGraph
+
+  /*
+   * OWL: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.binding.owlapi/latest/api/index.html#gov.nasa.jpl.omf.scala.binding.owlapi.types.TerminologyGraphDirectNestingAxiom@nestingParent:gov.nasa.jpl.omf.scala.binding.owlapi.types.ModelTerminologyGraph
+   */
+  val nestingTerminology: TerminologyBox
+  /*
+   * OWL: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.binding.owlapi/latest/api/index.html#gov.nasa.jpl.omf.scala.binding.owlapi.types.TerminologyGraphDirectNestingAxiom@nestedChild:gov.nasa.jpl.omf.scala.binding.owlapi.types.ModelTerminologyGraph
+   */
   val nestedTerminology: TerminologyGraph
+  /*
+   * OWL: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.binding.owlapi/latest/api/index.html#gov.nasa.jpl.omf.scala.binding.owlapi.types.TerminologyGraphDirectNestingAxiom@nestingContext:gov.nasa.jpl.omf.scala.binding.owlapi.types.ModelEntityConcept
+   */
   val nestingContext: Concept
+
+  /*
+   * The nestedTerminology is the source
+   */
+  override val source: TerminologyBox
+  /*
+   * The nestingTerminology is the target
+   */
+  override val target: TerminologyBox
 }

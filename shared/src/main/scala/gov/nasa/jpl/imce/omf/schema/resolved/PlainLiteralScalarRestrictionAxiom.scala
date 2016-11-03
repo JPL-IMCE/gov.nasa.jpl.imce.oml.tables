@@ -18,12 +18,34 @@
  
 package gov.nasa.jpl.imce.omf.schema.resolved
 
+/*
+ * An axiom that specifies how one plain literal scalar adds facet restrictions to another
+ * Applies when the restricted scalar represents plain literals (OWL2: 4.3)
+ * i.e., when it is one of the following scalars (or their transitively restricted ones):
+ * rdf:PlainLiteral
+ */
 trait PlainLiteralScalarRestrictionAxiom
   extends ScalarRestrictionAxiom
 {
+
+  /*
+   * The length of the plain literal
+   */
   val length: scala.Option[scala.Int]
+  /*
+   * The minimum length of the plain literal
+   */
   val minLength: scala.Option[scala.Int]
+  /*
+   * The maximum length of the plain literal
+   */
   val maxLength: scala.Option[scala.Int]
+  /*
+   * The pattern of the plain literal (https://www.w3.org/TR/xmlschema-2/#regexs)
+   */
   val pattern: scala.Option[gov.nasa.jpl.imce.omf.schema.tables.Pattern]
+  /*
+   * The language of the plain literal (http://www.rfc-editor.org/rfc/bcp/bcp47.txt)
+   */
   val language: scala.Option[gov.nasa.jpl.imce.omf.schema.tables.Language]
 }

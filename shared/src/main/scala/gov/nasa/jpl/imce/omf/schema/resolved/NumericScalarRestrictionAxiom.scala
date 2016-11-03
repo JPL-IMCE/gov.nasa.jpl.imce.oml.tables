@@ -18,11 +18,47 @@
  
 package gov.nasa.jpl.imce.omf.schema.resolved
 
+/*
+ * An axiom that specifies how one numeric scalar adds facet restrictions to another
+ * Applies when the restricted scalar represents real, decimal or integer numbers (OWL2: 4.1/4.2)
+ * i.e., when it is one of the following scalars (or their transitively restricted ones):
+ * owl:real
+ * owl:rational
+ * xsd:decimal
+ * xsd:integer
+ * xsd:nonNegativeInteger
+ * xsd:nonPositiveInteger
+ * xsd:positiveInteger
+ * xsd:negativeInteger
+ * xsd:long
+ * xsd:int
+ * xsd:short
+ * xsd:byte
+ * xsd:unsignedLong
+ * xsd:unsignedInt
+ * xsd:unsignedShort
+ * xsd:unsignedByte
+ * xsd:double
+ * xsd:float
+ */
 trait NumericScalarRestrictionAxiom
   extends ScalarRestrictionAxiom
 {
+
+  /*
+   * The inclusive minimum value in the range
+   */
   val minInclusive: scala.Option[gov.nasa.jpl.imce.omf.schema.tables.LexicalNumber]
+  /*
+   * The inclusive maximum value in the range
+   */
   val maxInclusive: scala.Option[gov.nasa.jpl.imce.omf.schema.tables.LexicalNumber]
+  /*
+   * The exclusive minimum value in the range
+   */
   val minExclusive: scala.Option[gov.nasa.jpl.imce.omf.schema.tables.LexicalNumber]
+  /*
+   * The exclusive maximum value in the range
+   */
   val maxExclusive: scala.Option[gov.nasa.jpl.imce.omf.schema.tables.LexicalNumber]
 }

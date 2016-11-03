@@ -18,5 +18,11 @@
  
 package gov.nasa.jpl.imce.omf.schema.resolved
 
+/*
+ * An axiom that specifies how a scalar is a restricted set of literal values of another scalar
+ * Semantics: OWL2 DataOneOf
+ */
 trait ScalarOneOfRestrictionAxiom
   extends ScalarRestrictionAxiom
+{
+}

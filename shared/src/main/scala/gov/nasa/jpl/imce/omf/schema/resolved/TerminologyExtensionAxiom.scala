@@ -18,9 +18,26 @@
  
 package gov.nasa.jpl.imce.omf.schema.resolved
 
+/*
+ * A TerminologyExtensionAxiom allows an extendingTerminology to
+ * make references (via TerminologyStatements) to TerminologyThings
+ * within the transitive closure of the extendedTerminlogy.
+ * OMF: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.core/latest/api/index.html#gov.nasa.jpl.omf.scala.core.OMF@TerminologyGraphDirectExtensionAxiom<:OMFtbox.this.TerminologyGraphAxiom
+ * OWL: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.binding.owlapi/latest/api/gov/nasa/jpl/omf/scala/binding/owlapi/types/TerminologyGraphDirectExtensionAxiom.html#inheritance-diagram
+ */
 trait TerminologyExtensionAxiom
   extends TerminologyAxiom
 {
-  val extendingTerminology: TerminologyGraph
-  val extendedTerminology: TerminologyGraph
+
+  val extendingTerminology: TerminologyBox
+  val extendedTerminology: TerminologyBox
+
+  /*
+   * The extendingTerminology is the source
+   */
+  override val source: TerminologyBox
+  /*
+   * The extendedTerminology is the target
+   */
+  override val target: TerminologyBox
 }

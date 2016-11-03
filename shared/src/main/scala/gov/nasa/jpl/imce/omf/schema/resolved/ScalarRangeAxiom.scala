@@ -18,8 +18,15 @@
  
 package gov.nasa.jpl.imce.omf.schema.resolved
 
+/*
+ * An axiom that specifies a range of values for a scalar datatype.
+ */
 trait ScalarRangeAxiom
   extends TermAxiom
 {
+
+  /*
+   * The scalar the axiom is about
+   */
   val scalar: Scalar
 }

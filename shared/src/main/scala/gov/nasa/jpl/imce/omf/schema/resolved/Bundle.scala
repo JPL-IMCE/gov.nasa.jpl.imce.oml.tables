@@ -18,5 +18,11 @@
  
 package gov.nasa.jpl.imce.omf.schema.resolved
 
+/*
+ * A Bundle is a concrete TerminologyBox that is
+ * an acyclic logical aggregate of other TerminologyBoxes.
+ */
 trait Bundle
   extends TerminologyBox
+{
+}

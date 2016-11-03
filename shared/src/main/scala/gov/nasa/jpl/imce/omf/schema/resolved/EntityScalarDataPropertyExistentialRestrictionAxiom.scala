@@ -18,8 +18,13 @@
  
 package gov.nasa.jpl.imce.omf.schema.resolved
 
+/*
+ * *
+ * Semantics: OWL2 DataSomeValuesFrom (the range must be explicitly defined as a Scalar datatype)
+ */
 trait EntityScalarDataPropertyExistentialRestrictionAxiom
   extends EntityScalarDataPropertyRestrictionAxiom
 {
+
   val scalarRestriction: ScalarRestrictionAxiom
 }
