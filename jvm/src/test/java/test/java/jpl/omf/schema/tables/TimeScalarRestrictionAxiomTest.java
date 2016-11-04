@@ -1,4 +1,4 @@
-/*
+package test.java.jpl.omf.schema.tables;/*
  * Copyright 2016 California Institute of Technology ("Caltech").
  * U.S. Government sponsorship acknowledged.
  *
@@ -30,6 +30,7 @@ import java.util.Optional;
 public class TimeScalarRestrictionAxiomTest {
 
     @Test
+    @SuppressWarnings("unchecked")
     public void creationTest() {
         String graphUUID = "01234-abcde-4569-fehi";
         String uuid = "12345-BCDEF-6789A-012345";
@@ -48,11 +49,23 @@ public class TimeScalarRestrictionAxiomTest {
         Assert.assertEquals(w1.minExclusive(), OptionConverters.toScala(minExclusive));
         String s1 = TimeScalarRestrictionAxiomHelper.toJSON(w1);
 
-        String t1 = String.format(
-                "{\"graphUUID\":\"%s\",\"uuid\":\"%s\",\"maxExclusive\":[\"%s\"],\"maxInclusive\":[\"%s\"],\"minExclusive\":[\"%s\"],\"minInclusive\":[\"%s\"],\"restrictedScalarUUID\":\"%s\",\"scalarUUID\":\"%s\"}",
-                graphUUID, uuid, OptionConverters.toScala(maxExclusive).get(), OptionConverters.toScala(maxInclusive).get(), OptionConverters.toScala(minExclusive).get(), OptionConverters.toScala(minInclusive).get(), restrictedScalarUUID, scalarUUID);
+        scala.Option maxE = OptionConverters.toScala(maxExclusive);
+        String maxE_s = "[\"" + maxE.get() + "\"]";
 
+        scala.Option maxI = OptionConverters.toScala(maxInclusive);
+        String maxI_s = "[\"" + maxI.get() + "\"]";
+
+        scala.Option minE = OptionConverters.toScala(minExclusive);
+        String minE_s = "[\"" + minE.get() + "\"]";
+
+        scala.Option minI = OptionConverters.toScala(minInclusive);
+        String minI_s = "[\"" + minI.get() + "\"]";
+
+        String t1 = String.format(
+                "{\"graphUUID\":\"%s\",\"uuid\":\"%s\",\"maxExclusive\":%s,\"maxInclusive\":%s,\"minExclusive\":%s,\"minInclusive\":%s,\"restrictedScalarUUID\":\"%s\",\"scalarUUID\":\"%s\"}",
+                graphUUID, uuid, maxE_s, maxI_s, minE_s, minI_s, restrictedScalarUUID, scalarUUID);
         Assert.assertEquals(t1, s1);
+
 
         TimeScalarRestrictionAxiom r1 = TimeScalarRestrictionAxiomHelper.fromJSON(s1);
         Assert.assertEquals(w1.graphUUID(), r1.graphUUID());

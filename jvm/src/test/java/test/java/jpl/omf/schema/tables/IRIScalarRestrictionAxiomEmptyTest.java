@@ -15,6 +15,7 @@
  * limitations under the License.
  * License Terms
  */
+package test.java.jpl.omf.schema.tables;
 
 import org.junit.Test;
 import org.junit.Assert;
@@ -30,9 +31,11 @@ import java.util.Optional;
 public class IRIScalarRestrictionAxiomEmptyTest {
 
     @Test
+    @SuppressWarnings("unchecked")
     public void creationTest() {
         String graphUUID = "01234-abcde-4569-fehi";
         String uuid = "12345-BCDEF-6789A-012345";
+
         Optional length = Optional.empty();
         Optional maxLength = Optional.empty();
         Optional minLength = Optional.empty();
@@ -44,9 +47,23 @@ public class IRIScalarRestrictionAxiomEmptyTest {
 
         Assert.assertEquals(w1.pattern(), OptionConverters.toScala(pattern));
         String s1 = IRIScalarRestrictionAxiomHelper.toJSON(w1);
+
+        // converting None value to an empty array for JSON comparison
+        scala.Option len = OptionConverters.toScala(length);
+        String ls = (len.isEmpty()) ? "[]" : len.toString();
+
+        scala.Option maxLen = OptionConverters.toScala(maxLength);
+        String maxL = (maxLen.isEmpty()) ? "[]" : maxLen.toString();
+
+        scala.Option minLen = OptionConverters.toScala(minLength);
+        String minL = (minLen.isEmpty()) ? "[]" : minLen.toString();
+
+        scala.Option pat = OptionConverters.toScala(pattern);
+        String ps = (pat.isEmpty()) ? "[]" : pat.toString();
+
         String t1 = String.format(
-                "{\"graphUUID\":\"%s\",\"uuid\":\"%s\",\"length\":%s\",\"minLength\":%s\",\"maxLength\":%s\",\"pattern\":%s\",\"restrictedScalarUUID\":\"%s\",\"scalarUUID\":\"%s\"}",
-                graphUUID, uuid, OptionConverters.toScala(length), OptionConverters.toScala(minLength), OptionConverters.toScala(maxLength), OptionConverters.toScala(pattern), restrictedScalarUUID, scalarUUID);
+                "{\"graphUUID\":\"%s\",\"uuid\":\"%s\",\"length\":%s,\"maxLength\":%s,\"minLength\":%s,\"pattern\":%s,\"restrictedScalarUUID\":\"%s\",\"scalarUUID\":\"%s\"}",
+                graphUUID, uuid, ls, maxL, minL, ps, restrictedScalarUUID, scalarUUID);
         Assert.assertEquals(t1, s1);
 
         IRIScalarRestrictionAxiom r1 = IRIScalarRestrictionAxiomHelper.fromJSON(s1);

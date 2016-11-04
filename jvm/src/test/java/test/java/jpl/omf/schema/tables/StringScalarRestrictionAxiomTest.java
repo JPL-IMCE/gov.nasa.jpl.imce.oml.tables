@@ -1,4 +1,4 @@
-/*
+package test.java.jpl.omf.schema.tables;/*
  * Copyright 2016 California Institute of Technology ("Caltech").
  * U.S. Government sponsorship acknowledged.
  *
@@ -27,17 +27,18 @@ import scala.compat.java8.OptionConverters;
 
 import java.util.Optional;
 
-public class StringScalarRestrictionAxiomEmptyTest {
+public class StringScalarRestrictionAxiomTest {
 
     @Test
+    @SuppressWarnings("unchecked")
     public void creationTest() {
         String graphUUID = "01234-abcde-4569-fehi";
         String uuid = "12345-BCDEF-6789A-012345";
 
-        Optional length = Optional.empty();
-        Optional maxLength = Optional.empty();
-        Optional minLength = Optional.empty();
-        Optional pattern = Optional.empty();
+        Optional length = Optional.of(9);
+        Optional maxLength = Optional.of(1000);
+        Optional minLength = Optional.of(9);
+        Optional pattern = Optional.of("ABC");
 
         String restrictedScalarUUID = "4567-2345-ABCD-1245";
         String scalarUUID = "1245-ABCD-2345-4567";
@@ -46,10 +47,23 @@ public class StringScalarRestrictionAxiomEmptyTest {
 
         Assert.assertEquals(w1.pattern(), OptionConverters.toScala(pattern));
         String s1 = StringScalarRestrictionAxiomHelper.toJSON(w1);
+
+        scala.Option len = OptionConverters.toScala(length);
+        String ls = "[" + len.get() + "]";
+
+        scala.Option maxLen = OptionConverters.toScala(maxLength);
+        String maxL = "[" + maxLen.get() + "]";
+
+        scala.Option minLen = OptionConverters.toScala(minLength);
+        String minL = "[" + minLen.get() + "]";
+
+        scala.Option pat = OptionConverters.toScala(pattern);
+        String ps = "[\"" + pat.get() + "\"]";
+
         String t1 = String.format(
-                "{\"graphUUID\":\"%s\",\"uuid\":\"%s\",\"length\":%s\",\"minLength\":%s\",\"maxLength\":%s\",\"restrictedScalarUUID\":\"%s\",\"scalarUUID\":\"%s\"}",
-                graphUUID, uuid, OptionConverters.toScala(length), OptionConverters.toScala(minLength), OptionConverters.toScala(maxLength), restrictedScalarUUID, scalarUUID);
-        //Assert.assertEquals(t1, s1);
+                "{\"graphUUID\":\"%s\",\"uuid\":\"%s\",\"length\":%s,\"maxLength\":%s,\"minLength\":%s,\"pattern\":%s,\"restrictedScalarUUID\":\"%s\",\"scalarUUID\":\"%s\"}",
+                graphUUID, uuid, ls, maxL, minL, ps, restrictedScalarUUID, scalarUUID);
+        Assert.assertEquals(t1, s1);
 
         StringScalarRestrictionAxiom r1 = StringScalarRestrictionAxiomHelper.fromJSON(s1);
         Assert.assertEquals(w1.graphUUID(), r1.graphUUID());

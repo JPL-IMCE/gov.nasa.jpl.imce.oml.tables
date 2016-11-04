@@ -15,6 +15,7 @@
  * limitations under the License.
  * License Terms
  */
+package test.java.jpl.omf.schema.tables;
 
 import org.junit.Test;
 import org.junit.Assert;
@@ -27,15 +28,16 @@ import scala.compat.java8.OptionConverters;
 
 import java.util.Optional;
 
-public class BinaryScalarRestrictionAxiomEmptyTest {
+public class BinaryScalarRestrictionAxiomTest {
 
     @Test
+    @SuppressWarnings("unchecked")
     public void creationTest() {
         String graphUUID = "01234-abcde-4569-fehi";
         String uuid = "12345-BCDEF-6789A-012345";
-        Optional length = Optional.empty();
-        Optional maxLength = Optional.empty();
-        Optional minLength = Optional.empty();
+        Optional length = Optional.of(5);
+        Optional maxLength = Optional.of(50);
+        Optional minLength = Optional.of(1);
         String restrictedScalarUUID = "4567-2345-ABCD-1245";
         String scalarUUID = "1245-ABCD-2345-4567";
 
@@ -43,9 +45,19 @@ public class BinaryScalarRestrictionAxiomEmptyTest {
 
         Assert.assertEquals(w1.minLength(), OptionConverters.toScala(minLength));
         String s1 = BinaryScalarRestrictionAxiomHelper.toJSON(w1);
+
+        scala.Option len = OptionConverters.toScala(length);
+        String ls = "[" + len.get() + "]";
+
+        scala.Option maxLen = OptionConverters.toScala(maxLength);
+        String maxL = "[" + maxLen.get() + "]";
+
+        scala.Option minLen = OptionConverters.toScala(minLength);
+        String minL = "[" + minLen.get() + "]";
+
         String t1 = String.format(
-                "{\"graphUUID\":\"%s\",\"uuid\":\"%s\",\"length\":%s\",\"maxLength\":%s\",\"minLength\":%s\",\"restrictedScalarUUID\":\"%s\",\"scalarUUID\":\"%s\"}",
-                graphUUID, uuid, OptionConverters.toScala(length), OptionConverters.toScala(maxLength), OptionConverters.toScala(minLength), restrictedScalarUUID, scalarUUID);
+                "{\"graphUUID\":\"%s\",\"uuid\":\"%s\",\"length\":%s,\"maxLength\":%s,\"minLength\":%s,\"restrictedScalarUUID\":\"%s\",\"scalarUUID\":\"%s\"}",
+                graphUUID, uuid, ls, maxL, minL, restrictedScalarUUID, scalarUUID);
         Assert.assertEquals(t1, s1);
 
         BinaryScalarRestrictionAxiom r1 = BinaryScalarRestrictionAxiomHelper.fromJSON(s1);

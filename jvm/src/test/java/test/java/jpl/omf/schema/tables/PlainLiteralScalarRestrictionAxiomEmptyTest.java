@@ -1,4 +1,4 @@
-/*
+package test.java.jpl.omf.schema.tables;/*
  * Copyright 2016 California Institute of Technology ("Caltech").
  * U.S. Government sponsorship acknowledged.
  *
@@ -27,18 +27,19 @@ import scala.compat.java8.OptionConverters;
 
 import java.util.Optional;
 
-public class PlainLiteralScalarRestrictionAxiomTest {
+public class PlainLiteralScalarRestrictionAxiomEmptyTest {
 
     @Test
+    @SuppressWarnings("unchecked")
     public void creationTest() {
         String graphUUID = "01234-abcde-4569-fehi";
         String uuid = "12345-BCDEF-6789A-012345";
 
-        Optional language = Optional.of("English");
-        Optional length = Optional.of(10);
-        Optional maxLength = Optional.of(75);
-        Optional minLength = Optional.of(14);
-        Optional pattern = Optional.of("XYZ");
+        Optional language = Optional.empty();
+        Optional length = Optional.empty();
+        Optional maxLength = Optional.empty();
+        Optional minLength = Optional.empty();
+        Optional pattern = Optional.empty();
 
         String restrictedScalarUUID = "4567-2345-ABCD-1245";
         String scalarUUID = "1245-ABCD-2345-4567";
@@ -47,9 +48,27 @@ public class PlainLiteralScalarRestrictionAxiomTest {
 
         Assert.assertEquals(w1.language(), OptionConverters.toScala(language));
         String s1 = PlainLiteralScalarRestrictionAxiomHelper.toJSON(w1);
+
+
+        // converting None value to an empty array for JSON comparison
+        scala.Option lan = OptionConverters.toScala(language);
+        String lan_s = (lan.isEmpty()) ? "[]" : lan.toString();
+
+        scala.Option len = OptionConverters.toScala(length);
+        String ls = (len.isEmpty()) ? "[]" : len.toString();
+
+        scala.Option maxLen = OptionConverters.toScala(maxLength);
+        String maxL = (maxLen.isEmpty()) ? "[]" : maxLen.toString();
+
+        scala.Option minLen = OptionConverters.toScala(minLength);
+        String minL = (minLen.isEmpty()) ? "[]" : minLen.toString();
+
+        scala.Option pat = OptionConverters.toScala(pattern);
+        String ps = (pat.isEmpty()) ? "[]" : pat.toString();
+
         String t1 = String.format(
-                "{\"graphUUID\":\"%s\",\"uuid\":\"%s\",\"language\":[\"%s\"],\"length\":[%s],\"maxLength\":[%s],\"minLength\":[%s],\"pattern\":[\"%s\"],\"restrictedScalarUUID\":\"%s\",\"scalarUUID\":\"%s\"}",
-                graphUUID, uuid, OptionConverters.toScala(language).get(), OptionConverters.toScala(length).get(), OptionConverters.toScala(maxLength).get(), OptionConverters.toScala(minLength).get(), OptionConverters.toScala(pattern).get(), restrictedScalarUUID, scalarUUID);
+                "{\"graphUUID\":\"%s\",\"uuid\":\"%s\",\"language\":%s,\"length\":%s,\"maxLength\":%s,\"minLength\":%s,\"pattern\":%s,\"restrictedScalarUUID\":\"%s\",\"scalarUUID\":\"%s\"}",
+                graphUUID, uuid, lan_s, ls, maxL, minL, ps, restrictedScalarUUID, scalarUUID);
         Assert.assertEquals(t1, s1);
 
         PlainLiteralScalarRestrictionAxiom r1 = PlainLiteralScalarRestrictionAxiomHelper.fromJSON(s1);
