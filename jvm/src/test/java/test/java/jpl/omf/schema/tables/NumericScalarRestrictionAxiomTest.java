@@ -1,4 +1,4 @@
-package test.java.jpl.omf.schema.tables;/*
+/*
  * Copyright 2016 California Institute of Technology ("Caltech").
  * U.S. Government sponsorship acknowledged.
  *
@@ -15,6 +15,8 @@ package test.java.jpl.omf.schema.tables;/*
  * limitations under the License.
  * License Terms
  */
+
+package test.java.jpl.omf.schema.tables;
 
 import org.junit.Test;
 import org.junit.Assert;

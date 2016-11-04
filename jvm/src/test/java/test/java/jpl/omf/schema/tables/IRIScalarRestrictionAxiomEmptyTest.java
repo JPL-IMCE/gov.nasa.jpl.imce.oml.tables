@@ -15,6 +15,7 @@
  * limitations under the License.
  * License Terms
  */
+
 package test.java.jpl.omf.schema.tables;
 
 import org.junit.Test;
