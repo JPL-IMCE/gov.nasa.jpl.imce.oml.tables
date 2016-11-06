@@ -24,37 +24,39 @@ import scala._
 import scala.Predef._
 
 /**
+  * @param graphUUID[1,1]
   * @param uuid[1,1]
-  * @param name[1,1]
-  * @param iri[1,1]
+  * @param bundleUUID[1,1]
+  * @param bundledTerminologyUUID[1,1]
   */
 @JSExport
-case class Bundle
+case class BundledTerminologyAxiom
 (
+ @(JSExport @field) graphUUID: UUID,
  @(JSExport @field) uuid: UUID,
- @(JSExport @field) name: LocalName,
- @(JSExport @field) iri: IRI
+ @(JSExport @field) bundleUUID: UUID,
+ @(JSExport @field) bundledTerminologyUUID: UUID
 )
 
 @JSExport
-object BundleHelper {
+object BundledTerminologyAxiomHelper {
 
   implicit val w
-  : upickle.default.Writer[Bundle]
-  = upickle.default.macroW[Bundle]
+  : upickle.default.Writer[BundledTerminologyAxiom]
+  = upickle.default.macroW[BundledTerminologyAxiom]
 
   @JSExport
-  def toJSON(c: Bundle)
+  def toJSON(c: BundledTerminologyAxiom)
   : String
   = upickle.default.write(expr=c, indent=0)
 
   implicit val r
-  : upickle.default.Reader[Bundle]
-  = upickle.default.macroR[Bundle]
+  : upickle.default.Reader[BundledTerminologyAxiom]
+  = upickle.default.macroR[BundledTerminologyAxiom]
 
   @JSExport
   def fromJSON(c: String)
-  : Bundle
-  = upickle.default.read[Bundle](c)
+  : BundledTerminologyAxiom
+  = upickle.default.read[BundledTerminologyAxiom](c)
 
 }	

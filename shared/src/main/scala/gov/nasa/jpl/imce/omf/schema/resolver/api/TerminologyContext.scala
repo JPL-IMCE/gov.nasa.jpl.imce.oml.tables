@@ -16,7 +16,7 @@
  * License Terms
  */
  
-package gov.nasa.jpl.imce.omf.schema.resolved
+package gov.nasa.jpl.imce.omf.schema.resolver.api
 
 /*
  * A TerminologyContext is a directed, acyclic hypergraph
@@ -31,8 +31,8 @@ package gov.nasa.jpl.imce.omf.schema.resolved
 trait TerminologyContext
 {
 
-  val nodes: scala.collection.immutable.Set[TerminologyBox]
+  val nodes: scala.collection.immutable.Set[_ <: TerminologyBox]
 
-  val bottomNodes: scala.collection.immutable.Set[TerminologyBox]
-  val rootNodes: scala.collection.immutable.Set[TerminologyBox]
+  val bottomNodes: scala.collection.immutable.Set[_ <: TerminologyBox]
+  val rootNodes: scala.collection.immutable.Set[_ <: TerminologyBox]
 }

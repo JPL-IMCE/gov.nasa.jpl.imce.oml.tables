@@ -16,7 +16,7 @@
  * License Terms
  */
  
-package gov.nasa.jpl.imce.omf.schema.resolved
+package gov.nasa.jpl.imce.omf.schema.resolver.api
 
 /*
  * This axiom specifies a TerminologyBox that a Bundle aggregates.
