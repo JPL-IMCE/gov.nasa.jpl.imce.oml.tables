@@ -46,6 +46,10 @@ case class BinaryScalarRestrictionAxiom
 @JSExport
 object BinaryScalarRestrictionAxiomHelper {
 
+  val TABLE_JSON_FILENAME 
+  : scala.Predef.String 
+  = "BinaryScalarRestrictionAxioms.json"
+  
   implicit val w
   : upickle.default.Writer[BinaryScalarRestrictionAxiom]
   = upickle.default.macroW[BinaryScalarRestrictionAxiom]

@@ -41,6 +41,10 @@ case class Scalar
 @JSExport
 object ScalarHelper {
 
+  val TABLE_JSON_FILENAME 
+  : scala.Predef.String 
+  = "Scalars.json"
+  
   implicit val w
   : upickle.default.Writer[Scalar]
   = upickle.default.macroW[Scalar]

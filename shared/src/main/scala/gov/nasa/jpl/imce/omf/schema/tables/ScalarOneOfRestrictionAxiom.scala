@@ -41,6 +41,10 @@ case class ScalarOneOfRestrictionAxiom
 @JSExport
 object ScalarOneOfRestrictionAxiomHelper {
 
+  val TABLE_JSON_FILENAME 
+  : scala.Predef.String 
+  = "ScalarOneOfRestrictionAxioms.json"
+  
   implicit val w
   : upickle.default.Writer[ScalarOneOfRestrictionAxiom]
   = upickle.default.macroW[ScalarOneOfRestrictionAxiom]

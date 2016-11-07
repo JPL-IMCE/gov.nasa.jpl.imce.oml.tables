@@ -45,6 +45,10 @@ case class EntityScalarDataProperty
 @JSExport
 object EntityScalarDataPropertyHelper {
 
+  val TABLE_JSON_FILENAME 
+  : scala.Predef.String 
+  = "EntityScalarDataPropertys.json"
+  
   implicit val w
   : upickle.default.Writer[EntityScalarDataProperty]
   = upickle.default.macroW[EntityScalarDataProperty]

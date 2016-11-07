@@ -41,6 +41,10 @@ case class AspectSpecializationAxiom
 @JSExport
 object AspectSpecializationAxiomHelper {
 
+  val TABLE_JSON_FILENAME 
+  : scala.Predef.String 
+  = "AspectSpecializationAxioms.json"
+  
   implicit val w
   : upickle.default.Writer[AspectSpecializationAxiom]
   = upickle.default.macroW[AspectSpecializationAxiom]

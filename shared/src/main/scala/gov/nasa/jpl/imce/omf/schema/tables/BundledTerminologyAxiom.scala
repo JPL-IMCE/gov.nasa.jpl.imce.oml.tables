@@ -41,6 +41,10 @@ case class BundledTerminologyAxiom
 @JSExport
 object BundledTerminologyAxiomHelper {
 
+  val TABLE_JSON_FILENAME 
+  : scala.Predef.String 
+  = "BundledTerminologyAxioms.json"
+  
   implicit val w
   : upickle.default.Writer[BundledTerminologyAxiom]
   = upickle.default.macroW[BundledTerminologyAxiom]

@@ -41,6 +41,10 @@ case class TerminologyExtensionAxiom
 @JSExport
 object TerminologyExtensionAxiomHelper {
 
+  val TABLE_JSON_FILENAME 
+  : scala.Predef.String 
+  = "TerminologyExtensionAxioms.json"
+  
   implicit val w
   : upickle.default.Writer[TerminologyExtensionAxiom]
   = upickle.default.macroW[TerminologyExtensionAxiom]

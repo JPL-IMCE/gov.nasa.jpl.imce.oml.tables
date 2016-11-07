@@ -41,6 +41,10 @@ case class ConceptDesignationTerminologyGraphAxiom
 @JSExport
 object ConceptDesignationTerminologyGraphAxiomHelper {
 
+  val TABLE_JSON_FILENAME 
+  : scala.Predef.String 
+  = "ConceptDesignationTerminologyGraphAxioms.json"
+  
   implicit val w
   : upickle.default.Writer[ConceptDesignationTerminologyGraphAxiom]
   = upickle.default.macroW[ConceptDesignationTerminologyGraphAxiom]

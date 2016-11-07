@@ -48,6 +48,10 @@ case class TimeScalarRestrictionAxiom
 @JSExport
 object TimeScalarRestrictionAxiomHelper {
 
+  val TABLE_JSON_FILENAME 
+  : scala.Predef.String 
+  = "TimeScalarRestrictionAxioms.json"
+  
   implicit val w
   : upickle.default.Writer[TimeScalarRestrictionAxiom]
   = upickle.default.macroW[TimeScalarRestrictionAxiom]

@@ -41,6 +41,10 @@ case class TerminologyGraph
 @JSExport
 object TerminologyGraphHelper {
 
+  val TABLE_JSON_FILENAME 
+  : scala.Predef.String 
+  = "TerminologyGraphs.json"
+  
   implicit val w
   : upickle.default.Writer[TerminologyGraph]
   = upickle.default.macroW[TerminologyGraph]

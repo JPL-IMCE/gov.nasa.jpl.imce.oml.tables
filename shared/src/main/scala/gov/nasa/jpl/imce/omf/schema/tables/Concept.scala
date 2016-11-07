@@ -43,6 +43,10 @@ case class Concept
 @JSExport
 object ConceptHelper {
 
+  val TABLE_JSON_FILENAME 
+  : scala.Predef.String 
+  = "Concepts.json"
+  
   implicit val w
   : upickle.default.Writer[Concept]
   = upickle.default.macroW[Concept]

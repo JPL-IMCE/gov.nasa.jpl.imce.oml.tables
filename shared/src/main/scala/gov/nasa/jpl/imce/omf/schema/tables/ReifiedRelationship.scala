@@ -65,6 +65,10 @@ case class ReifiedRelationship
 @JSExport
 object ReifiedRelationshipHelper {
 
+  val TABLE_JSON_FILENAME 
+  : scala.Predef.String 
+  = "ReifiedRelationships.json"
+  
   implicit val w
   : upickle.default.Writer[ReifiedRelationship]
   = upickle.default.macroW[ReifiedRelationship]

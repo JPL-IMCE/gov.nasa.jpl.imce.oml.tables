@@ -4,6 +4,7 @@
 	<classpathentry kind="src" path="src/main/scala"/>
 	<classpathentry kind="src" path="jpl.omf.schema.tables-shared-src-test-scala"/>
 	<classpathentry kind="con" path="org.scala-ide.sdt.launching.SCALA_CONTAINER"/>
+	<classpathentry kind="var" path="IVY_CACHE/org.apache.commons/commons-compress/jars/commons-compress-1.4.1.jar"/>
 	<classpathentry kind="var" path="IVY_CACHE/com.sksamuel.scapegoat/scalac-scapegoat-plugin_2.11/jars/scalac-scapegoat-plugin_2.11-1.0.0.jar"/>
 	<classpathentry kind="var" path="IVY_CACHE/org.scala-lang.modules/scala-xml_2.11/bundles/scala-xml_2.11-1.0.2.jar"/>
 	<classpathentry kind="var" path="IVY_CACHE/org.scaldi/scaldi_2.11/jars/scaldi_2.11-0.4.jar"/>

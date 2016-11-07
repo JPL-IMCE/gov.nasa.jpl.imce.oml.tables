@@ -43,6 +43,10 @@ case class EntityUniversalRestrictionAxiom
 @JSExport
 object EntityUniversalRestrictionAxiomHelper {
 
+  val TABLE_JSON_FILENAME 
+  : scala.Predef.String 
+  = "EntityUniversalRestrictionAxioms.json"
+  
   implicit val w
   : upickle.default.Writer[EntityUniversalRestrictionAxiom]
   = upickle.default.macroW[EntityUniversalRestrictionAxiom]

@@ -39,6 +39,10 @@ case class Bundle
 @JSExport
 object BundleHelper {
 
+  val TABLE_JSON_FILENAME 
+  : scala.Predef.String 
+  = "Bundles.json"
+  
   implicit val w
   : upickle.default.Writer[Bundle]
   = upickle.default.macroW[Bundle]

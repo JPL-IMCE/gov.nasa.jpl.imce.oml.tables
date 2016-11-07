@@ -41,6 +41,10 @@ case class ConceptSpecializationAxiom
 @JSExport
 object ConceptSpecializationAxiomHelper {
 
+  val TABLE_JSON_FILENAME 
+  : scala.Predef.String 
+  = "ConceptSpecializationAxioms.json"
+  
   implicit val w
   : upickle.default.Writer[ConceptSpecializationAxiom]
   = upickle.default.macroW[ConceptSpecializationAxiom]
