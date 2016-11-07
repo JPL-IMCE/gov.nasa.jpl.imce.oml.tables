@@ -15,8 +15,8 @@
  * limitations under the License.
  * License Terms
  */
- 
-package gov.nasa.jpl.imce.omf.schema.resolved
+
+package gov.nasa.jpl.imce.omf.schema.resolver.api
 
 /*
  * *
@@ -24,7 +24,11 @@ package gov.nasa.jpl.imce.omf.schema.resolved
  */
 trait EntityScalarDataPropertyUniversalRestrictionAxiom
   extends EntityScalarDataPropertyRestrictionAxiom
+  with SpecializationAxiom
 {
 
   val scalarRestriction: ScalarRestrictionAxiom
+
+  val child: Term
+  val parent: Term
 }

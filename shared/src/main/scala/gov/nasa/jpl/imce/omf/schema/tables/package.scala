@@ -18,13 +18,22 @@
 
 package gov.nasa.jpl.imce.omf.schema
 
+import java.io.InputStream
+import scala.collection.immutable.Seq
+import scala.io
+import scala.Predef.String
+
 package object tables {
-	type IRI = scala.Predef.String
-	type Language = scala.Predef.String
-	type LexicalNumber = scala.Predef.String
-	type LexicalTime = scala.Predef.String
-	type LexicalValue = scala.Predef.String
-	type LocalName = scala.Predef.String
-	type Pattern = scala.Predef.String
-	type UUID = scala.Predef.String
+	type IRI = String
+	type Language = String
+	type LexicalNumber = String
+	type LexicalTime = String
+	type LexicalValue = String
+	type LocalName = String
+	type Pattern = String
+	type UUID = String
+  	
+  def readJSonTable[T](is: InputStream, fromJSon: String => T)
+  : Seq[T]
+  = io.Source.fromInputStream(is).getLines.map(fromJSon).to[Seq]
 }

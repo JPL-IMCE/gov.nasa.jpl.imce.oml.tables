@@ -15,8 +15,8 @@
  * limitations under the License.
  * License Terms
  */
- 
-package gov.nasa.jpl.imce.omf.schema.resolved
+
+package gov.nasa.jpl.imce.omf.schema.resolver.api
 
 /*
  * An axiom that specifies how one plain literal scalar adds facet restrictions to another

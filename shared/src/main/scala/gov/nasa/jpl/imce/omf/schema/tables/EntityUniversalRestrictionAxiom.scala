@@ -15,7 +15,6 @@
  * limitations under the License.
  * License Terms
  */
-
  
 package gov.nasa.jpl.imce.omf.schema.tables
 
@@ -44,6 +43,10 @@ case class EntityUniversalRestrictionAxiom
 @JSExport
 object EntityUniversalRestrictionAxiomHelper {
 
+  val TABLE_JSON_FILENAME 
+  : scala.Predef.String 
+  = "EntityUniversalRestrictionAxioms.json"
+  
   implicit val w
   : upickle.default.Writer[EntityUniversalRestrictionAxiom]
   = upickle.default.macroW[EntityUniversalRestrictionAxiom]

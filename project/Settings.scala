@@ -7,7 +7,7 @@ object Settings {
 
   val organization = "gov.nasa.jpl.imce"
 
-  val version = "0.15.7"
+  val version = "0.20.0"
 
   val scalacOptions = Seq(
     "-deprecation",
@@ -38,6 +38,7 @@ object Settings {
     * the special %%% function selects the correct version for each project
     */
   val sharedDependencies = Def.setting(Seq(
+    "org.apache.commons" % "commons-compress" % "1.4.1",
     "org.scalacheck" %%% "scalacheck" % "1.13.2" % "test",
     "com.lihaoyi" %%% "upickle" % "0.4.3"
   ))

@@ -15,7 +15,6 @@
  * limitations under the License.
  * License Terms
  */
-
  
 package gov.nasa.jpl.imce.omf.schema.tables
 
@@ -42,6 +41,10 @@ case class ConceptDesignationTerminologyGraphAxiom
 @JSExport
 object ConceptDesignationTerminologyGraphAxiomHelper {
 
+  val TABLE_JSON_FILENAME 
+  : scala.Predef.String 
+  = "ConceptDesignationTerminologyGraphAxioms.json"
+  
   implicit val w
   : upickle.default.Writer[ConceptDesignationTerminologyGraphAxiom]
   = upickle.default.macroW[ConceptDesignationTerminologyGraphAxiom]

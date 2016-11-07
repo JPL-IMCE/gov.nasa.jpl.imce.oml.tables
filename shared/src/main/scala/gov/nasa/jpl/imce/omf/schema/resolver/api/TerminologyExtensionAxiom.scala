@@ -15,8 +15,8 @@
  * limitations under the License.
  * License Terms
  */
- 
-package gov.nasa.jpl.imce.omf.schema.resolved
+
+package gov.nasa.jpl.imce.omf.schema.resolver.api
 
 /*
  * A TerminologyExtensionAxiom allows an extendingTerminology to

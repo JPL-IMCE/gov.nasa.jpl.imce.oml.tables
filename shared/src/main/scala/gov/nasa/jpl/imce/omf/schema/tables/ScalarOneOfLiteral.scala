@@ -15,7 +15,6 @@
  * limitations under the License.
  * License Terms
  */
-
  
 package gov.nasa.jpl.imce.omf.schema.tables
 
@@ -42,6 +41,10 @@ case class ScalarOneOfLiteral
 @JSExport
 object ScalarOneOfLiteralHelper {
 
+  val TABLE_JSON_FILENAME 
+  : scala.Predef.String 
+  = "ScalarOneOfLiterals.json"
+  
   implicit val w
   : upickle.default.Writer[ScalarOneOfLiteral]
   = upickle.default.macroW[ScalarOneOfLiteral]

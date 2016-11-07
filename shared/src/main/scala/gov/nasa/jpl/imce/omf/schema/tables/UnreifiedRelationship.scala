@@ -15,7 +15,6 @@
  * limitations under the License.
  * License Terms
  */
-
  
 package gov.nasa.jpl.imce.omf.schema.tables
 
@@ -64,6 +63,10 @@ case class UnreifiedRelationship
 @JSExport
 object UnreifiedRelationshipHelper {
 
+  val TABLE_JSON_FILENAME 
+  : scala.Predef.String 
+  = "UnreifiedRelationships.json"
+  
   implicit val w
   : upickle.default.Writer[UnreifiedRelationship]
   = upickle.default.macroW[UnreifiedRelationship]

@@ -15,7 +15,6 @@
  * limitations under the License.
  * License Terms
  */
-
  
 package gov.nasa.jpl.imce.omf.schema.tables
 
@@ -49,6 +48,10 @@ case class StringScalarRestrictionAxiom
 @JSExport
 object StringScalarRestrictionAxiomHelper {
 
+  val TABLE_JSON_FILENAME 
+  : scala.Predef.String 
+  = "StringScalarRestrictionAxioms.json"
+  
   implicit val w
   : upickle.default.Writer[StringScalarRestrictionAxiom]
   = upickle.default.macroW[StringScalarRestrictionAxiom]

@@ -15,8 +15,8 @@
  * limitations under the License.
  * License Terms
  */
- 
-package gov.nasa.jpl.imce.omf.schema.resolved
+
+package gov.nasa.jpl.imce.omf.schema.resolver.api
 
 /*
  * An axiom that specifies the range of values for a scalar as a restriction on another scalar's range.

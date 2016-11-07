@@ -24,43 +24,43 @@ import scala._
 import scala.Predef._
 
 /**
+  * @param graphUUID[1,1]
   * @param uuid[1,1]
-  * @param kind[1,1]
-  * @param name[1,1]
-  * @param iri[1,1]
+  * @param bundleUUID[1,1]
+  * @param bundledTerminologyUUID[1,1]
   */
 @JSExport
-case class TerminologyGraph
+case class BundledTerminologyAxiom
 (
+ @(JSExport @field) graphUUID: UUID,
  @(JSExport @field) uuid: UUID,
- @(JSExport @field) kind: TerminologyGraphKind,
- @(JSExport @field) name: LocalName,
- @(JSExport @field) iri: IRI
+ @(JSExport @field) bundleUUID: UUID,
+ @(JSExport @field) bundledTerminologyUUID: UUID
 )
 
 @JSExport
-object TerminologyGraphHelper {
+object BundledTerminologyAxiomHelper {
 
   val TABLE_JSON_FILENAME 
   : scala.Predef.String 
-  = "TerminologyGraphs.json"
+  = "BundledTerminologyAxioms.json"
   
   implicit val w
-  : upickle.default.Writer[TerminologyGraph]
-  = upickle.default.macroW[TerminologyGraph]
+  : upickle.default.Writer[BundledTerminologyAxiom]
+  = upickle.default.macroW[BundledTerminologyAxiom]
 
   @JSExport
-  def toJSON(c: TerminologyGraph)
+  def toJSON(c: BundledTerminologyAxiom)
   : String
   = upickle.default.write(expr=c, indent=0)
 
   implicit val r
-  : upickle.default.Reader[TerminologyGraph]
-  = upickle.default.macroR[TerminologyGraph]
+  : upickle.default.Reader[BundledTerminologyAxiom]
+  = upickle.default.macroR[BundledTerminologyAxiom]
 
   @JSExport
   def fromJSON(c: String)
-  : TerminologyGraph
-  = upickle.default.read[TerminologyGraph](c)
+  : BundledTerminologyAxiom
+  = upickle.default.read[BundledTerminologyAxiom](c)
 
 }	
