@@ -41,7 +41,38 @@ case class BinaryScalarRestrictionAxiom
  @(JSExport @field) minLength: scala.Option[scala.Int],
  @(JSExport @field) restrictedScalarUUID: UUID,
  @(JSExport @field) scalarUUID: UUID
-)
+) {
+	
+def this(
+	@(JSExport @field) graphUUID: UUID,
+	@(JSExport @field) uuid: UUID,
+	@(JSExport @field) restrictedScalarUUID: UUID,
+	@(JSExport @field) scalarUUID: UUID
+) 
+= this(
+graphUUID,
+uuid,
+None,
+None,
+None,
+restrictedScalarUUID,
+scalarUUID
+) 
+
+def withLength(l: scala.Int)	 
+: BinaryScalarRestrictionAxiom
+= copy(length=Some(l))
+
+def withMaxLength(l: scala.Int)	 
+: BinaryScalarRestrictionAxiom
+= copy(maxLength=Some(l))
+
+def withMinLength(l: scala.Int)	 
+: BinaryScalarRestrictionAxiom
+= copy(minLength=Some(l))
+
+}
+
 
 @JSExport
 object BinaryScalarRestrictionAxiomHelper {

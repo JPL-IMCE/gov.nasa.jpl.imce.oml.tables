@@ -36,8 +36,7 @@ case class BundledTerminologyAxiom
  @(JSExport @field) uuid: UUID,
  @(JSExport @field) bundleUUID: UUID,
  @(JSExport @field) bundledTerminologyUUID: UUID
-)
-
+) 
 @JSExport
 object BundledTerminologyAxiomHelper {
 

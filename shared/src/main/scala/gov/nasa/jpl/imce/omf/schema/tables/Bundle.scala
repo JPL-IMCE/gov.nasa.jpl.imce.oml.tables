@@ -34,8 +34,7 @@ case class Bundle
  @(JSExport @field) uuid: UUID,
  @(JSExport @field) name: LocalName,
  @(JSExport @field) iri: IRI
-)
-
+) 
 @JSExport
 object BundleHelper {
 

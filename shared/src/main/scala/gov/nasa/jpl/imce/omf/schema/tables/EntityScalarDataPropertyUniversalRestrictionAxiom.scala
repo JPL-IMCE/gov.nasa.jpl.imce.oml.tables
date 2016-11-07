@@ -36,8 +36,7 @@ case class EntityScalarDataPropertyUniversalRestrictionAxiom
  @(JSExport @field) uuid: UUID,
  @(JSExport @field) scalarPropertyUUID: UUID,
  @(JSExport @field) scalarRestrictionUUID: UUID
-)
-
+) 
 @JSExport
 object EntityScalarDataPropertyUniversalRestrictionAxiomHelper {
 

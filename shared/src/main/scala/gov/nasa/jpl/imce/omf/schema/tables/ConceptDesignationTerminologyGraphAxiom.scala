@@ -36,8 +36,7 @@ case class ConceptDesignationTerminologyGraphAxiom
  @(JSExport @field) uuid: UUID,
  @(JSExport @field) designatedConceptUUID: UUID,
  @(JSExport @field) designationTerminologyGraphUUID: UUID
-)
-
+) 
 @JSExport
 object ConceptDesignationTerminologyGraphAxiomHelper {
 

@@ -36,8 +36,7 @@ case class ScalarOneOfLiteral
  @(JSExport @field) uuid: UUID,
  @(JSExport @field) axiomUUID: UUID,
  @(JSExport @field) value: LexicalValue
-)
-
+) 
 @JSExport
 object ScalarOneOfLiteralHelper {
 

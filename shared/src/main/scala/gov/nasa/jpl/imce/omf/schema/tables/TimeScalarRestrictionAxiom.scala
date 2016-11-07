@@ -43,7 +43,43 @@ case class TimeScalarRestrictionAxiom
  @(JSExport @field) minInclusive: scala.Option[LexicalTime],
  @(JSExport @field) restrictedScalarUUID: UUID,
  @(JSExport @field) scalarUUID: UUID
-)
+) {
+	
+def this(
+	@(JSExport @field) graphUUID: UUID,
+	@(JSExport @field) uuid: UUID,
+	@(JSExport @field) restrictedScalarUUID: UUID,
+	@(JSExport @field) scalarUUID: UUID
+) 
+= this(
+graphUUID,
+uuid,
+None,
+None,
+None,
+None,
+restrictedScalarUUID,
+scalarUUID
+) 
+
+def withMaxExclusive(l: LexicalTime)	 
+: TimeScalarRestrictionAxiom
+= copy(maxExclusive=Some(l))
+
+def withMaxInclusive(l: LexicalTime)	 
+: TimeScalarRestrictionAxiom
+= copy(maxInclusive=Some(l))
+
+def withMinExclusive(l: LexicalTime)	 
+: TimeScalarRestrictionAxiom
+= copy(minExclusive=Some(l))
+
+def withMinInclusive(l: LexicalTime)	 
+: TimeScalarRestrictionAxiom
+= copy(minInclusive=Some(l))
+
+}
+
 
 @JSExport
 object TimeScalarRestrictionAxiomHelper {

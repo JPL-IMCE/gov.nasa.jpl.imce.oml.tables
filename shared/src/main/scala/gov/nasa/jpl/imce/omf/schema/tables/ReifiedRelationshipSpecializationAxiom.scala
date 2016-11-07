@@ -36,8 +36,7 @@ case class ReifiedRelationshipSpecializationAxiom
  @(JSExport @field) uuid: UUID,
  @(JSExport @field) subRelationshipUUID: UUID,
  @(JSExport @field) superRelationshipUUID: UUID
-)
-
+) 
 @JSExport
 object ReifiedRelationshipSpecializationAxiomHelper {
 

@@ -45,7 +45,48 @@ case class PlainLiteralScalarRestrictionAxiom
  @(JSExport @field) pattern: scala.Option[Pattern],
  @(JSExport @field) restrictedScalarUUID: UUID,
  @(JSExport @field) scalarUUID: UUID
-)
+) {
+	
+def this(
+	@(JSExport @field) graphUUID: UUID,
+	@(JSExport @field) uuid: UUID,
+	@(JSExport @field) restrictedScalarUUID: UUID,
+	@(JSExport @field) scalarUUID: UUID
+) 
+= this(
+graphUUID,
+uuid,
+None,
+None,
+None,
+None,
+None,
+restrictedScalarUUID,
+scalarUUID
+) 
+
+def withLanguage(l: Language)	 
+: PlainLiteralScalarRestrictionAxiom
+= copy(language=Some(l))
+
+def withLength(l: scala.Int)	 
+: PlainLiteralScalarRestrictionAxiom
+= copy(length=Some(l))
+
+def withMaxLength(l: scala.Int)	 
+: PlainLiteralScalarRestrictionAxiom
+= copy(maxLength=Some(l))
+
+def withMinLength(l: scala.Int)	 
+: PlainLiteralScalarRestrictionAxiom
+= copy(minLength=Some(l))
+
+def withPattern(l: Pattern)	 
+: PlainLiteralScalarRestrictionAxiom
+= copy(pattern=Some(l))
+
+}
+
 
 @JSExport
 object PlainLiteralScalarRestrictionAxiomHelper {

@@ -36,8 +36,7 @@ case class ScalarOneOfRestrictionAxiom
  @(JSExport @field) uuid: UUID,
  @(JSExport @field) restrictedScalarUUID: UUID,
  @(JSExport @field) scalarUUID: UUID
-)
-
+) 
 @JSExport
 object ScalarOneOfRestrictionAxiomHelper {
 

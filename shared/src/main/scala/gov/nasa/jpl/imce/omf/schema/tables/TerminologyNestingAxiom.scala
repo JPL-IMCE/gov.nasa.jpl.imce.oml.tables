@@ -38,8 +38,7 @@ case class TerminologyNestingAxiom
  @(JSExport @field) nestedTerminologyUUID: UUID,
  @(JSExport @field) nestingContextUUID: UUID,
  @(JSExport @field) nestingTerminologyUUID: UUID
-)
-
+) 
 @JSExport
 object TerminologyNestingAxiomHelper {
 

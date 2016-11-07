@@ -38,8 +38,7 @@ case class Concept
  @(JSExport @field) isAbstract: scala.Boolean,
  @(JSExport @field) name: LocalName,
  @(JSExport @field) iri: IRI
-)
-
+) 
 @JSExport
 object ConceptHelper {
 

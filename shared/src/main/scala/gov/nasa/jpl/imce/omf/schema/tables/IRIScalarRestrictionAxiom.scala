@@ -43,7 +43,43 @@ case class IRIScalarRestrictionAxiom
  @(JSExport @field) pattern: scala.Option[Pattern],
  @(JSExport @field) restrictedScalarUUID: UUID,
  @(JSExport @field) scalarUUID: UUID
-)
+) {
+	
+def this(
+	@(JSExport @field) graphUUID: UUID,
+	@(JSExport @field) uuid: UUID,
+	@(JSExport @field) restrictedScalarUUID: UUID,
+	@(JSExport @field) scalarUUID: UUID
+) 
+= this(
+graphUUID,
+uuid,
+None,
+None,
+None,
+None,
+restrictedScalarUUID,
+scalarUUID
+) 
+
+def withLength(l: scala.Int)	 
+: IRIScalarRestrictionAxiom
+= copy(length=Some(l))
+
+def withMaxLength(l: scala.Int)	 
+: IRIScalarRestrictionAxiom
+= copy(maxLength=Some(l))
+
+def withMinLength(l: scala.Int)	 
+: IRIScalarRestrictionAxiom
+= copy(minLength=Some(l))
+
+def withPattern(l: Pattern)	 
+: IRIScalarRestrictionAxiom
+= copy(pattern=Some(l))
+
+}
+
 
 @JSExport
 object IRIScalarRestrictionAxiomHelper {

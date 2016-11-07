@@ -324,28 +324,221 @@ object OMFTables {
   	    tables.readUnreifiedRelationships(is)
     }
   }
-
-	def saveOMFTables
-	(tables: OMFTables,
-	 omfSchemaJsonZipFile: File)
-	: Try[Unit]
-	= nonFatalCatch[Try[Unit]]
+  
+  def saveOMFTables
+  (tables: OMFTables,
+   omfSchemaJsonZipFile: File)
+  : Try[Unit]
+  = nonFatalCatch[Try[Unit]]
     .withApply {
       (cause: java.lang.Throwable) =>
         cause.fillInStackTrace()
         Failure(cause)
     }
     .apply {
-			// @see http://www.oracle.com/technetwork/articles/java/compress-1565076.html
-			val fos = new java.io.FileOutputStream(omfSchemaJsonZipFile)
-			val bos = new java.io.BufferedOutputStream(fos, 100000)
-			val cos = new java.util.zip.CheckedOutputStream(bos, new java.util.zip.Adler32())
-			val zos = new java.util.zip.ZipOutputStream(new java.io.BufferedOutputStream(cos))
+  	  // @see http://www.oracle.com/technetwork/articles/java/compress-1565076.html
+  	  val fos = new java.io.FileOutputStream(omfSchemaJsonZipFile)
+  	  val bos = new java.io.BufferedOutputStream(fos, 100000)
+  	  val cos = new java.util.zip.CheckedOutputStream(bos, new java.util.zip.Adler32())
+  	  val zos = new java.util.zip.ZipOutputStream(new java.io.BufferedOutputStream(cos))
+  
+  	  zos.setMethod(java.util.zip.ZipOutputStream.DEFLATED)
+  
+      zos.putNextEntry(new java.util.zip.ZipEntry(AspectHelper.TABLE_JSON_FILENAME))
+      tables.aspects.foreach { t =>
+         val line = AspectHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(AspectSpecializationAxiomHelper.TABLE_JSON_FILENAME))
+      tables.aspectSpecializationAxioms.foreach { t =>
+         val line = AspectSpecializationAxiomHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(BinaryScalarRestrictionAxiomHelper.TABLE_JSON_FILENAME))
+      tables.binaryScalarRestrictionAxioms.foreach { t =>
+         val line = BinaryScalarRestrictionAxiomHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(BundleHelper.TABLE_JSON_FILENAME))
+      tables.bundles.foreach { t =>
+         val line = BundleHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(BundledTerminologyAxiomHelper.TABLE_JSON_FILENAME))
+      tables.bundledTerminologyAxioms.foreach { t =>
+         val line = BundledTerminologyAxiomHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(ConceptHelper.TABLE_JSON_FILENAME))
+      tables.concepts.foreach { t =>
+         val line = ConceptHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(ConceptDesignationTerminologyGraphAxiomHelper.TABLE_JSON_FILENAME))
+      tables.conceptDesignationTerminologyGraphAxioms.foreach { t =>
+         val line = ConceptDesignationTerminologyGraphAxiomHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(ConceptSpecializationAxiomHelper.TABLE_JSON_FILENAME))
+      tables.conceptSpecializationAxioms.foreach { t =>
+         val line = ConceptSpecializationAxiomHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(EntityExistentialRestrictionAxiomHelper.TABLE_JSON_FILENAME))
+      tables.entityExistentialRestrictionAxioms.foreach { t =>
+         val line = EntityExistentialRestrictionAxiomHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(EntityScalarDataPropertyHelper.TABLE_JSON_FILENAME))
+      tables.entityScalarDataPropertys.foreach { t =>
+         val line = EntityScalarDataPropertyHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(EntityScalarDataPropertyExistentialRestrictionAxiomHelper.TABLE_JSON_FILENAME))
+      tables.entityScalarDataPropertyExistentialRestrictionAxioms.foreach { t =>
+         val line = EntityScalarDataPropertyExistentialRestrictionAxiomHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(EntityScalarDataPropertyParticularRestrictionAxiomHelper.TABLE_JSON_FILENAME))
+      tables.entityScalarDataPropertyParticularRestrictionAxioms.foreach { t =>
+         val line = EntityScalarDataPropertyParticularRestrictionAxiomHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(EntityScalarDataPropertyUniversalRestrictionAxiomHelper.TABLE_JSON_FILENAME))
+      tables.entityScalarDataPropertyUniversalRestrictionAxioms.foreach { t =>
+         val line = EntityScalarDataPropertyUniversalRestrictionAxiomHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(EntityStructuredDataPropertyHelper.TABLE_JSON_FILENAME))
+      tables.entityStructuredDataPropertys.foreach { t =>
+         val line = EntityStructuredDataPropertyHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(EntityUniversalRestrictionAxiomHelper.TABLE_JSON_FILENAME))
+      tables.entityUniversalRestrictionAxioms.foreach { t =>
+         val line = EntityUniversalRestrictionAxiomHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(IRIScalarRestrictionAxiomHelper.TABLE_JSON_FILENAME))
+      tables.iRIScalarRestrictionAxioms.foreach { t =>
+         val line = IRIScalarRestrictionAxiomHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(NumericScalarRestrictionAxiomHelper.TABLE_JSON_FILENAME))
+      tables.numericScalarRestrictionAxioms.foreach { t =>
+         val line = NumericScalarRestrictionAxiomHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(PlainLiteralScalarRestrictionAxiomHelper.TABLE_JSON_FILENAME))
+      tables.plainLiteralScalarRestrictionAxioms.foreach { t =>
+         val line = PlainLiteralScalarRestrictionAxiomHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(ReifiedRelationshipHelper.TABLE_JSON_FILENAME))
+      tables.reifiedRelationships.foreach { t =>
+         val line = ReifiedRelationshipHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(ReifiedRelationshipSpecializationAxiomHelper.TABLE_JSON_FILENAME))
+      tables.reifiedRelationshipSpecializationAxioms.foreach { t =>
+         val line = ReifiedRelationshipSpecializationAxiomHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(ScalarHelper.TABLE_JSON_FILENAME))
+      tables.scalars.foreach { t =>
+         val line = ScalarHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(ScalarDataPropertyHelper.TABLE_JSON_FILENAME))
+      tables.scalarDataPropertys.foreach { t =>
+         val line = ScalarDataPropertyHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(ScalarOneOfLiteralHelper.TABLE_JSON_FILENAME))
+      tables.scalarOneOfLiterals.foreach { t =>
+         val line = ScalarOneOfLiteralHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(ScalarOneOfRestrictionAxiomHelper.TABLE_JSON_FILENAME))
+      tables.scalarOneOfRestrictionAxioms.foreach { t =>
+         val line = ScalarOneOfRestrictionAxiomHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(StringScalarRestrictionAxiomHelper.TABLE_JSON_FILENAME))
+      tables.stringScalarRestrictionAxioms.foreach { t =>
+         val line = StringScalarRestrictionAxiomHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(StructureHelper.TABLE_JSON_FILENAME))
+      tables.structures.foreach { t =>
+         val line = StructureHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(StructuredDataPropertyHelper.TABLE_JSON_FILENAME))
+      tables.structuredDataPropertys.foreach { t =>
+         val line = StructuredDataPropertyHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(TerminologyExtensionAxiomHelper.TABLE_JSON_FILENAME))
+      tables.terminologyExtensionAxioms.foreach { t =>
+         val line = TerminologyExtensionAxiomHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(TerminologyGraphHelper.TABLE_JSON_FILENAME))
+      tables.terminologyGraphs.foreach { t =>
+         val line = TerminologyGraphHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(TerminologyNestingAxiomHelper.TABLE_JSON_FILENAME))
+      tables.terminologyNestingAxioms.foreach { t =>
+         val line = TerminologyNestingAxiomHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(TimeScalarRestrictionAxiomHelper.TABLE_JSON_FILENAME))
+      tables.timeScalarRestrictionAxioms.foreach { t =>
+         val line = TimeScalarRestrictionAxiomHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(UnreifiedRelationshipHelper.TABLE_JSON_FILENAME))
+      tables.unreifiedRelationships.foreach { t =>
+         val line = UnreifiedRelationshipHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+  
+      zos.close()
+  	  Success(())
+  	}
 
-			zos.setMethod(java.util.zip.ZipOutputStream.DEFLATED)
-
-			zos.putNextEntry(new java.util.zip.ZipEntry(TerminologyGraphHelper.TABLE_JSON_FILENAME))
-
-			Success(())
-		}
 }

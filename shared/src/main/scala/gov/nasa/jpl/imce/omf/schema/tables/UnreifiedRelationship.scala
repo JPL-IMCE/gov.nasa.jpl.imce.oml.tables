@@ -58,8 +58,7 @@ case class UnreifiedRelationship
  @(JSExport @field) isTransitive: scala.Boolean,
  @(JSExport @field) sourceUUID: UUID,
  @(JSExport @field) targetUUID: UUID
-)
-
+) 
 @JSExport
 object UnreifiedRelationshipHelper {
 

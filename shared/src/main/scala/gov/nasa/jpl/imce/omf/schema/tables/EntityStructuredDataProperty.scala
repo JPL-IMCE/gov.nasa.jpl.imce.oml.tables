@@ -40,8 +40,7 @@ case class EntityStructuredDataProperty
  @(JSExport @field) iri: IRI,
  @(JSExport @field) domainUUID: UUID,
  @(JSExport @field) rangeUUID: UUID
-)
-
+) 
 @JSExport
 object EntityStructuredDataPropertyHelper {
 
