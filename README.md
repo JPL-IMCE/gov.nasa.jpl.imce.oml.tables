@@ -81,6 +81,46 @@ it is unecessary to store this metadata in github.
 
 ### Eclipse Neon.1
 
+### Eclipse Installation
+
+- Scala
+
+  Use the Eclipse Marketplace and search for 'Scala'.
+  Install *all* components of Scala IDE 4.2.x 
+  
+- SDKs 
+
+  Install the following components by going to Install New Software and searching for...
+  
+  Eclipse EMF SDK
+  Eclipse EMF XCore SDK
+  Eclipse Xtend SDK
+  Eclipse SDK
+  Eclipse EMF Parsley CDO
+  Eclipse EMF/MWE2 runtime & language
+
+### Eclipse Projects
+
+There are several projects related to the OMF Schema Tables:
+
+- https://github.com/JPL-IMCE/gov.nasa.jpl.imce.omf.schema.specification
+
+  This is the Eclipse XCore specification of the OMF Schema Tables
+  This project needs to be checked out.
+  
+- https://github.com/JPL-IMCE/gov.nasa.jpl.imce.omf.schema.generators
+
+  This is a set of 3 Eclipse XTend code generators, 1 for the OMF Schema Tables, 2 for the OMF Schema Resolvers
+  
+- https://github.com/JPL-IMCE/jpl.omf.schema.tables
+
+  (this project)
+  
+- https://github.com/JPL-IMCE/jpl.omf.schema.resolver
+
+
+### Why is Eclipse so complicated?
+
 Unfortunately, Eclipse lacks good support for SBT projects of any kind.
 The Eclipse-specific metadata was initially generated with [sbt eclipse](https://github.com/typesafehub/sbteclipse)
 and subsequently edited as follows:
@@ -103,7 +143,7 @@ and subsequently edited as follows:
 - Define an Eclipse Classpath variable, `IVY_CACHE` for the location of the Ivy cache used by SBT
   (typically, `$HOME/.ivy2/cache`)
   
-- Fix the Eclipse library paths in `js/.classpath` and `jvm/.project` to use the `IVY_CACHE` classpath variable:
+- Fix the Eclipse library paths in `js/.classpath` and `jvm/.classpath` to use the `IVY_CACHE` classpath variable:
   
     E.g., in `js/.classpath`:
   
@@ -125,6 +165,10 @@ and subsequently edited as follows:
  update the Eclipse metadata files accordingly.
  
  Eclipse JavaScript does not properly recognize *.js files written as node shell scripts (See: `shared/test/js/`)
+ 
+## Eclipse Configuration
+
+  Go to Configure Contents and then tick the checkbox for Error/Warnings on Project
  
 ## Publishing to & resolving from bintray.com as a scoped NPM package.
 
