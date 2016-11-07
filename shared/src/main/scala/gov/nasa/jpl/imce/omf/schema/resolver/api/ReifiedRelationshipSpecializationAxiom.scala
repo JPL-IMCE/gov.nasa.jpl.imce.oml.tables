@@ -15,7 +15,7 @@
  * limitations under the License.
  * License Terms
  */
- 
+
 package gov.nasa.jpl.imce.omf.schema.resolver.api
 
 /*
@@ -38,9 +38,9 @@ trait ReifiedRelationshipSpecializationAxiom
   /*
    * Get the sub (child) entity
    */
-  val child: Entity
+  val child: Term
   /*
    * Get the super (parent) entity
    */
-  val parent: Entity
+  val parent: Term
 }

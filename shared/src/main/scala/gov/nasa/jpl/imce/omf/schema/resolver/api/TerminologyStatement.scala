@@ -15,10 +15,12 @@
  * limitations under the License.
  * License Terms
  */
- 
+
 package gov.nasa.jpl.imce.omf.schema.resolver.api
 
 trait TerminologyStatement
   extends TerminologyThing
 {
+
+  val graph: TerminologyBox
 }

@@ -15,7 +15,7 @@
  * limitations under the License.
  * License Terms
  */
- 
+
 package gov.nasa.jpl.imce.omf.schema.resolver.api
 
 /*
@@ -23,7 +23,7 @@ package gov.nasa.jpl.imce.omf.schema.resolver.api
  * Semantics: OWL2 Data Property Restrictions
  */
 trait EntityScalarDataPropertyRestrictionAxiom
-  extends SpecializationAxiom
+  extends TermAxiom
 {
 
   val scalarProperty: EntityScalarDataProperty

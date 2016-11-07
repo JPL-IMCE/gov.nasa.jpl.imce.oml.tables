@@ -15,7 +15,7 @@
  * limitations under the License.
  * License Terms
  */
- 
+
 package gov.nasa.jpl.imce.omf.schema.resolver.api
 
 /*
@@ -37,9 +37,9 @@ trait AspectSpecializationAxiom
   /*
    * Get the sub (child) entity
    */
-  override val child: Entity
+  override val child: Term
   /*
    * Get the super (parent) entity
    */
-  override val parent: Entity
+  override val parent: Term
 }

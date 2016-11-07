@@ -15,7 +15,7 @@
  * limitations under the License.
  * License Terms
  */
- 
+
 package gov.nasa.jpl.imce.omf.schema.resolver.api
 
 /*
@@ -26,7 +26,10 @@ trait TerminologyBox
   with Resource
 {
 
-  val statements: scala.collection.immutable.Set[TerminologyStatement]
+  /*
+   * The TerminologyStatements asserted in this TerminologyBox
+   */
+  val statements: scala.collection.immutable.Set[_ <: TerminologyStatement]
 
   /*
    * A map for the subset of statements that are
@@ -46,9 +49,9 @@ trait TerminologyBox
   /*
    * The subset of axioms about terminologies.
    */
-  val terminologyAxioms: scala.collection.immutable.Set[TerminologyAxiom]
+  val terminologyAxioms: scala.collection.immutable.Set[_ <: TerminologyAxiom]
   /*
    * The subset of axioms about terms.
    */
-  val termAxioms: scala.collection.immutable.Set[TermAxiom]
+  val termAxioms: scala.collection.immutable.Set[_ <: TermAxiom]
 }

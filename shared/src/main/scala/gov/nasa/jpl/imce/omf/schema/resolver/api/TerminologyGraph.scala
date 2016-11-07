@@ -15,7 +15,7 @@
  * limitations under the License.
  * License Terms
  */
- 
+
 package gov.nasa.jpl.imce.omf.schema.resolver.api
 
 /*
@@ -37,15 +37,15 @@ trait TerminologyGraph
    * c, if there is a unique axiom
    * TerminologyNestingAxiom(nestedTerminology=this, nestingContext=c, nestingTerminology=_)
    */
-  val nestingConcept: Concept
+  val nestingConcept: scala.Option[Concept]
   /*
    * p, if there is a unique axiom
    * TerminologyNestingAxiom(nestedTerminology=this, nestingContext=_, nestingTerminology=p)
    */
-  val nestingParent: TerminologyGraph
+  val nestingParent: scala.Option[TerminologyBox]
   /*
    * the set e from all axioms
    * TerminologyExtensionAxiom(extendedTerminology=e, extendingTerminology=this)
    */
-  val extendedGraphs: TerminologyGraph
+  val extendedGraphs: scala.collection.immutable.Set[_ <: TerminologyBox]
 }

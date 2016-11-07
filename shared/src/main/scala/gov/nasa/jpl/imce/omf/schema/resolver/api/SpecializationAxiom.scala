@@ -15,7 +15,7 @@
  * limitations under the License.
  * License Terms
  */
- 
+
 package gov.nasa.jpl.imce.omf.schema.resolver.api
 
 /*
@@ -26,11 +26,11 @@ trait SpecializationAxiom
 {
 
   /*
-   * Get the sub (child) entity
+   * Get the sub (child) term
    */
-  val child: Entity
+  val child: Term
   /*
-   * Get the super (parent) entity
+   * Get the super (parent) term
    */
-  val parent: Entity
+  val parent: Term
 }

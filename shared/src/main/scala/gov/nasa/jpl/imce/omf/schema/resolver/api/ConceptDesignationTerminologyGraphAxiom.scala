@@ -15,7 +15,7 @@
  * limitations under the License.
  * License Terms
  */
- 
+
 package gov.nasa.jpl.imce.omf.schema.resolver.api
 
 /*
@@ -28,6 +28,7 @@ trait ConceptDesignationTerminologyGraphAxiom
 {
 
   val designationTerminologyGraph: TerminologyGraph
+  val designatedConceptTerminology: TerminologyBox
   val designatedConcept: Concept
 
   /*
