@@ -89,6 +89,48 @@ def withPattern(l: Pattern)
 
 
 @JSExport
+def this(
+	graphUUID: UUID,
+	uuid: UUID,
+	restrictedScalarUUID: UUID,
+	scalarUUID: UUID
+) 
+= this(
+graphUUID,
+uuid,
+None,
+None,
+None,
+None,
+None,
+restrictedScalarUUID,
+scalarUUID
+) 
+
+def withLanguage(l: Language)	 
+: PlainLiteralScalarRestrictionAxiom
+= copy(language=Some(l))
+
+def withLength(l: scala.Int)	 
+: PlainLiteralScalarRestrictionAxiom
+= copy(length=Some(l))
+
+def withMaxLength(l: scala.Int)	 
+: PlainLiteralScalarRestrictionAxiom
+= copy(maxLength=Some(l))
+
+def withMinLength(l: scala.Int)	 
+: PlainLiteralScalarRestrictionAxiom
+= copy(minLength=Some(l))
+
+def withPattern(l: Pattern)	 
+: PlainLiteralScalarRestrictionAxiom
+= copy(pattern=Some(l))
+
+}
+
+
+@JSExport
 object PlainLiteralScalarRestrictionAxiomHelper {
 
   val TABLE_JSON_FILENAME 

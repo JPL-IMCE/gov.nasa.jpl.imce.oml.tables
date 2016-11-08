@@ -82,6 +82,43 @@ def withMinInclusive(l: LexicalNumber)
 
 
 @JSExport
+def this(
+	graphUUID: UUID,
+	uuid: UUID,
+	restrictedScalarUUID: UUID,
+	scalarUUID: UUID
+) 
+= this(
+graphUUID,
+uuid,
+None,
+None,
+None,
+None,
+restrictedScalarUUID,
+scalarUUID
+) 
+
+def withMaxExclusive(l: LexicalNumber)	 
+: NumericScalarRestrictionAxiom
+= copy(maxExclusive=Some(l))
+
+def withMaxInclusive(l: LexicalNumber)	 
+: NumericScalarRestrictionAxiom
+= copy(maxInclusive=Some(l))
+
+def withMinExclusive(l: LexicalNumber)	 
+: NumericScalarRestrictionAxiom
+= copy(minExclusive=Some(l))
+
+def withMinInclusive(l: LexicalNumber)	 
+: NumericScalarRestrictionAxiom
+= copy(minInclusive=Some(l))
+
+}
+
+
+@JSExport
 object NumericScalarRestrictionAxiomHelper {
 
   val TABLE_JSON_FILENAME 
