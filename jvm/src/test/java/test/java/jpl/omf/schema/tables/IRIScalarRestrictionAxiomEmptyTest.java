@@ -22,12 +22,7 @@ import org.junit.Test;
 import org.junit.Assert;
 
 import gov.nasa.jpl.imce.omf.schema.tables.IRIScalarRestrictionAxiom;
-import gov.nasa.jpl.imce.omf.schema.tables.IRIScalarRestrictionAxiomJava;
 import gov.nasa.jpl.imce.omf.schema.tables.IRIScalarRestrictionAxiomHelper;
-
-import scala.compat.java8.OptionConverters;
-
-import java.util.Optional;
 
 public class IRIScalarRestrictionAxiomEmptyTest {
 
@@ -36,31 +31,20 @@ public class IRIScalarRestrictionAxiomEmptyTest {
     public void creationTest() {
         String graphUUID = "01234-abcde-4569-fehi";
         String uuid = "12345-BCDEF-6789A-012345";
-
-        Optional length = Optional.empty();
-        Optional maxLength = Optional.empty();
-        Optional minLength = Optional.empty();
-        Optional pattern = Optional.empty();
         String restrictedScalarUUID = "4567-2345-ABCD-1245";
         String scalarUUID = "1245-ABCD-2345-4567";
 
-        IRIScalarRestrictionAxiom w1 = IRIScalarRestrictionAxiomJava.javaIRIScalarRestrictionAxiom(graphUUID, uuid, length, maxLength, minLength, pattern, restrictedScalarUUID, scalarUUID);
+        IRIScalarRestrictionAxiom w1 = new IRIScalarRestrictionAxiom(graphUUID, uuid, restrictedScalarUUID, scalarUUID);
 
-        Assert.assertEquals(w1.pattern(), OptionConverters.toScala(pattern));
         String s1 = IRIScalarRestrictionAxiomHelper.toJSON(w1);
 
-        // converting None value to an empty array for JSON comparison
-        scala.Option len = OptionConverters.toScala(length);
-        String ls = (len.isEmpty()) ? "[]" : len.toString();
+        String ls = (w1.length().isEmpty()) ? "[]" : w1.length().toString();
 
-        scala.Option maxLen = OptionConverters.toScala(maxLength);
-        String maxL = (maxLen.isEmpty()) ? "[]" : maxLen.toString();
+        String maxL = (w1.maxLength().isEmpty()) ? "[]" : w1.maxLength().toString();
 
-        scala.Option minLen = OptionConverters.toScala(minLength);
-        String minL = (minLen.isEmpty()) ? "[]" : minLen.toString();
+        String minL = (w1.minLength().isEmpty()) ? "[]" : w1.minLength().toString();
 
-        scala.Option pat = OptionConverters.toScala(pattern);
-        String ps = (pat.isEmpty()) ? "[]" : pat.toString();
+        String ps = (w1.pattern().isEmpty()) ? "[]" : w1.pattern().toString();
 
         String t1 = String.format(
                 "{\"graphUUID\":\"%s\",\"uuid\":\"%s\",\"length\":%s,\"maxLength\":%s,\"minLength\":%s,\"pattern\":%s,\"restrictedScalarUUID\":\"%s\",\"scalarUUID\":\"%s\"}",

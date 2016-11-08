@@ -36,8 +36,7 @@ case class Structure
  @(JSExport @field) uuid: UUID,
  @(JSExport @field) name: LocalName,
  @(JSExport @field) iri: IRI
-)
-
+) 
 @JSExport
 object StructureHelper {
 

@@ -38,8 +38,7 @@ case class EntityUniversalRestrictionAxiom
  @(JSExport @field) restrictedDomainUUID: UUID,
  @(JSExport @field) restrictedRangeUUID: UUID,
  @(JSExport @field) restrictedRelationUUID: UUID
-)
-
+) 
 @JSExport
 object EntityUniversalRestrictionAxiomHelper {
 

@@ -22,12 +22,7 @@ import org.junit.Test;
 import org.junit.Assert;
 
 import gov.nasa.jpl.imce.omf.schema.tables.NumericScalarRestrictionAxiom;
-import gov.nasa.jpl.imce.omf.schema.tables.NumericScalarRestrictionAxiomJava;
 import gov.nasa.jpl.imce.omf.schema.tables.NumericScalarRestrictionAxiomHelper;
-
-import scala.compat.java8.OptionConverters;
-
-import java.util.Optional;
 
 
 public class NumericScalarRestrictionAxiomEmptyTest {
@@ -37,30 +32,20 @@ public class NumericScalarRestrictionAxiomEmptyTest {
     public void creationTest() {
         String graphUUID = "01234-abcde-4569-fehi";
         String uuid = "12345-BCDEF-6789A-012345";
-
-        Optional maxExclusive = Optional.empty();
-        Optional maxInclusive = Optional.empty();
-        Optional minExclusive = Optional.empty();
-        Optional minInclusive = Optional.empty();
-
         String restrictedScalarUUID = "4567-2345-ABCD-1245";
         String scalarUUID = "1245-ABCD-2345-4567";
 
-        NumericScalarRestrictionAxiom w1 = NumericScalarRestrictionAxiomJava.javaNumericScalarRestrictionAxiom(graphUUID, uuid, maxExclusive, maxInclusive, minExclusive, minInclusive, restrictedScalarUUID, scalarUUID);
-        Assert.assertEquals(w1.minExclusive(), OptionConverters.toScala(minExclusive));
+        NumericScalarRestrictionAxiom w1 = new NumericScalarRestrictionAxiom(graphUUID, uuid, restrictedScalarUUID, scalarUUID);
+
         String s1 = NumericScalarRestrictionAxiomHelper.toJSON(w1);
 
-        scala.Option maxE = OptionConverters.toScala(maxExclusive);
-        String maxE_s = (maxE.isEmpty()) ? "[]" : maxE.toString();
+        String maxE_s = (w1.maxExclusive().isEmpty()) ? "[]" : w1.maxExclusive().toString();
 
-        scala.Option maxI = OptionConverters.toScala(maxInclusive);
-        String maxI_s = (maxI.isEmpty()) ? "[]" : maxI.toString();
+        String maxI_s = (w1.maxInclusive().isEmpty()) ? "[]" : w1.maxInclusive().toString();
 
-        scala.Option minE = OptionConverters.toScala(minExclusive);
-        String minE_s = (minE.isEmpty()) ? "[]" : minE.toString();
+        String minE_s = (w1.minExclusive().isEmpty()) ? "[]" : w1.minExclusive().toString();
 
-        scala.Option minI = OptionConverters.toScala(minInclusive);
-        String minI_s = (minI.isEmpty()) ? "[]" : minI.toString();
+        String minI_s = (w1.minInclusive().isEmpty()) ? "[]" : w1.minInclusive().toString();
 
         String t1 = String.format(
                 "{\"graphUUID\":\"%s\",\"uuid\":\"%s\",\"maxExclusive\":%s,\"maxInclusive\":%s,\"minExclusive\":%s,\"minInclusive\":%s,\"restrictedScalarUUID\":\"%s\",\"scalarUUID\":\"%s\"}",

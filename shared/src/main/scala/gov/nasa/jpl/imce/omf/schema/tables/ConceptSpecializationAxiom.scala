@@ -36,8 +36,7 @@ case class ConceptSpecializationAxiom
  @(JSExport @field) uuid: UUID,
  @(JSExport @field) subConceptUUID: UUID,
  @(JSExport @field) superConceptUUID: UUID
-)
-
+) 
 @JSExport
 object ConceptSpecializationAxiomHelper {
 

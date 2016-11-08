@@ -40,8 +40,7 @@ case class EntityScalarDataProperty
  @(JSExport @field) iri: IRI,
  @(JSExport @field) domainUUID: UUID,
  @(JSExport @field) rangeUUID: UUID
-)
-
+) 
 @JSExport
 object EntityScalarDataPropertyHelper {
 

@@ -36,8 +36,7 @@ case class TerminologyGraph
  @(JSExport @field) kind: TerminologyGraphKind,
  @(JSExport @field) name: LocalName,
  @(JSExport @field) iri: IRI
-)
-
+) 
 @JSExport
 object TerminologyGraphHelper {
 

@@ -36,8 +36,7 @@ case class TerminologyExtensionAxiom
  @(JSExport @field) uuid: UUID,
  @(JSExport @field) extendedTerminologyUUID: UUID,
  @(JSExport @field) extendingTerminologyUUID: UUID
-)
-
+) 
 @JSExport
 object TerminologyExtensionAxiomHelper {
 

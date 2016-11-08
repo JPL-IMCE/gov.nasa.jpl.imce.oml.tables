@@ -36,8 +36,7 @@ case class AspectSpecializationAxiom
  @(JSExport @field) uuid: UUID,
  @(JSExport @field) subEntityUUID: UUID,
  @(JSExport @field) superAspectUUID: UUID
-)
-
+) 
 @JSExport
 object AspectSpecializationAxiomHelper {
 

@@ -22,12 +22,7 @@ import org.junit.Test;
 import org.junit.Assert;
 
 import gov.nasa.jpl.imce.omf.schema.tables.StringScalarRestrictionAxiom;
-import gov.nasa.jpl.imce.omf.schema.tables.StringScalarRestrictionAxiomJava;
 import gov.nasa.jpl.imce.omf.schema.tables.StringScalarRestrictionAxiomHelper;
-
-import scala.compat.java8.OptionConverters;
-
-import java.util.Optional;
 
 public class StringScalarRestrictionAxiomTest {
 
@@ -36,31 +31,25 @@ public class StringScalarRestrictionAxiomTest {
     public void creationTest() {
         String graphUUID = "01234-abcde-4569-fehi";
         String uuid = "12345-BCDEF-6789A-012345";
-
-        Optional length = Optional.of(9);
-        Optional maxLength = Optional.of(1000);
-        Optional minLength = Optional.of(9);
-        Optional pattern = Optional.of("ABC");
-
         String restrictedScalarUUID = "4567-2345-ABCD-1245";
         String scalarUUID = "1245-ABCD-2345-4567";
 
-        StringScalarRestrictionAxiom w1 = StringScalarRestrictionAxiomJava.javaStringScalarRestrictionAxiom(graphUUID, uuid, length, maxLength, minLength, pattern, restrictedScalarUUID, scalarUUID);
+        StringScalarRestrictionAxiom w1 =
+                (new StringScalarRestrictionAxiom(graphUUID, uuid, restrictedScalarUUID, scalarUUID))
+                .withLength(9)
+                .withMaxLength(1000)
+                .withMinLength(9)
+                .withPattern("ABC");
 
-        Assert.assertEquals(w1.pattern(), OptionConverters.toScala(pattern));
         String s1 = StringScalarRestrictionAxiomHelper.toJSON(w1);
 
-        scala.Option len = OptionConverters.toScala(length);
-        String ls = "[" + len.get() + "]";
+        String ls = "[" + w1.length().get() + "]";
 
-        scala.Option maxLen = OptionConverters.toScala(maxLength);
-        String maxL = "[" + maxLen.get() + "]";
+        String maxL = "[" + w1.maxLength().get() + "]";
 
-        scala.Option minLen = OptionConverters.toScala(minLength);
-        String minL = "[" + minLen.get() + "]";
+        String minL = "[" + w1.minLength().get() + "]";
 
-        scala.Option pat = OptionConverters.toScala(pattern);
-        String ps = "[\"" + pat.get() + "\"]";
+        String ps = "[\"" + w1.pattern().get() + "\"]";
 
         String t1 = String.format(
                 "{\"graphUUID\":\"%s\",\"uuid\":\"%s\",\"length\":%s,\"maxLength\":%s,\"minLength\":%s,\"pattern\":%s,\"restrictedScalarUUID\":\"%s\",\"scalarUUID\":\"%s\"}",
