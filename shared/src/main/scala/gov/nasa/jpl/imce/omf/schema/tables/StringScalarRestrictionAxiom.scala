@@ -44,42 +44,6 @@ case class StringScalarRestrictionAxiom
  @(JSExport @field) restrictedScalarUUID: UUID,
  @(JSExport @field) scalarUUID: UUID
 ) {
-	
-def this(
-	@(JSExport @field) graphUUID: UUID,
-	@(JSExport @field) uuid: UUID,
-	@(JSExport @field) restrictedScalarUUID: UUID,
-	@(JSExport @field) scalarUUID: UUID
-) 
-= this(
-graphUUID,
-uuid,
-None,
-None,
-None,
-None,
-restrictedScalarUUID,
-scalarUUID
-) 
-
-def withLength(l: scala.Int)	 
-: StringScalarRestrictionAxiom
-= copy(length=Some(l))
-
-def withMaxLength(l: scala.Int)	 
-: StringScalarRestrictionAxiom
-= copy(maxLength=Some(l))
-
-def withMinLength(l: scala.Int)	 
-: StringScalarRestrictionAxiom
-= copy(minLength=Some(l))
-
-def withPattern(l: Pattern)	 
-: StringScalarRestrictionAxiom
-= copy(pattern=Some(l))
-
-}
-
 
 @JSExport
 def this(

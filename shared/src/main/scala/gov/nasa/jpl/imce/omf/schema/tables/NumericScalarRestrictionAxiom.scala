@@ -44,42 +44,6 @@ case class NumericScalarRestrictionAxiom
  @(JSExport @field) restrictedScalarUUID: UUID,
  @(JSExport @field) scalarUUID: UUID
 ) {
-	
-def this(
-	@(JSExport @field) graphUUID: UUID,
-	@(JSExport @field) uuid: UUID,
-	@(JSExport @field) restrictedScalarUUID: UUID,
-	@(JSExport @field) scalarUUID: UUID
-) 
-= this(
-graphUUID,
-uuid,
-None,
-None,
-None,
-None,
-restrictedScalarUUID,
-scalarUUID
-) 
-
-def withMaxExclusive(l: LexicalNumber)	 
-: NumericScalarRestrictionAxiom
-= copy(maxExclusive=Some(l))
-
-def withMaxInclusive(l: LexicalNumber)	 
-: NumericScalarRestrictionAxiom
-= copy(maxInclusive=Some(l))
-
-def withMinExclusive(l: LexicalNumber)	 
-: NumericScalarRestrictionAxiom
-= copy(minExclusive=Some(l))
-
-def withMinInclusive(l: LexicalNumber)	 
-: NumericScalarRestrictionAxiom
-= copy(minInclusive=Some(l))
-
-}
-
 
 @JSExport
 def this(
