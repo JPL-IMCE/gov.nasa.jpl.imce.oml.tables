@@ -22,12 +22,7 @@ import org.junit.Test;
 import org.junit.Assert;
 
 import gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestrictionAxiom;
-import gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestrictionAxiomJava;
 import gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestrictionAxiomHelper;
-
-import scala.compat.java8.OptionConverters;
-
-import java.util.Optional;
 
 public class BinaryScalarRestrictionAxiomTest {
 
@@ -36,25 +31,22 @@ public class BinaryScalarRestrictionAxiomTest {
     public void creationTest() {
         String graphUUID = "01234-abcde-4569-fehi";
         String uuid = "12345-BCDEF-6789A-012345";
-        Optional length = Optional.of(5);
-        Optional maxLength = Optional.of(50);
-        Optional minLength = Optional.of(1);
         String restrictedScalarUUID = "4567-2345-ABCD-1245";
         String scalarUUID = "1245-ABCD-2345-4567";
 
-        BinaryScalarRestrictionAxiom w1 = BinaryScalarRestrictionAxiomJava.javaBinaryScalarRestrictionAxiom(graphUUID, uuid, length, maxLength, minLength, restrictedScalarUUID, scalarUUID);
+        BinaryScalarRestrictionAxiom w1 = 
+                (new BinaryScalarRestrictionAxiom(graphUUID, uuid, restrictedScalarUUID, scalarUUID))
+                .withLength(5)
+                .withMaxLength(50)
+                .withMinLength(1);
 
-        Assert.assertEquals(w1.minLength(), OptionConverters.toScala(minLength));
         String s1 = BinaryScalarRestrictionAxiomHelper.toJSON(w1);
 
-        scala.Option len = OptionConverters.toScala(length);
-        String ls = "[" + len.get() + "]";
+        String ls = "[" + w1.length().get() + "]";
 
-        scala.Option maxLen = OptionConverters.toScala(maxLength);
-        String maxL = "[" + maxLen.get() + "]";
+        String maxL = "[" + w1.maxLength().get() + "]";
 
-        scala.Option minLen = OptionConverters.toScala(minLength);
-        String minL = "[" + minLen.get() + "]";
+        String minL = "[" + w1.minLength().get() + "]";
 
         String t1 = String.format(
                 "{\"graphUUID\":\"%s\",\"uuid\":\"%s\",\"length\":%s,\"maxLength\":%s,\"minLength\":%s,\"restrictedScalarUUID\":\"%s\",\"scalarUUID\":\"%s\"}",

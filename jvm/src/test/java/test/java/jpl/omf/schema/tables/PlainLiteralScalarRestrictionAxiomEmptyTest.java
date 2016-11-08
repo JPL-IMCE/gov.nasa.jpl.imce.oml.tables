@@ -22,12 +22,7 @@ import org.junit.Test;
 import org.junit.Assert;
 
 import gov.nasa.jpl.imce.omf.schema.tables.PlainLiteralScalarRestrictionAxiom;
-import gov.nasa.jpl.imce.omf.schema.tables.PlainLiteralScalarRestrictionAxiomJava;
 import gov.nasa.jpl.imce.omf.schema.tables.PlainLiteralScalarRestrictionAxiomHelper;
-
-import scala.compat.java8.OptionConverters;
-
-import java.util.Optional;
 
 public class PlainLiteralScalarRestrictionAxiomEmptyTest {
 
@@ -37,36 +32,29 @@ public class PlainLiteralScalarRestrictionAxiomEmptyTest {
         String graphUUID = "01234-abcde-4569-fehi";
         String uuid = "12345-BCDEF-6789A-012345";
 
-        Optional language = Optional.empty();
-        Optional length = Optional.empty();
-        Optional maxLength = Optional.empty();
-        Optional minLength = Optional.empty();
-        Optional pattern = Optional.empty();
+//        Optional language = Optional.empty();
+//        Optional length = Optional.empty();
+//        Optional maxLength = Optional.empty();
+//        Optional minLength = Optional.empty();
+//        Optional pattern = Optional.empty();
 
         String restrictedScalarUUID = "4567-2345-ABCD-1245";
         String scalarUUID = "1245-ABCD-2345-4567";
 
-        PlainLiteralScalarRestrictionAxiom w1 = PlainLiteralScalarRestrictionAxiomJava.javaPlainLiteralScalarRestrictionAxiom(graphUUID, uuid, language, length, maxLength, minLength, pattern, restrictedScalarUUID, scalarUUID);
+        PlainLiteralScalarRestrictionAxiom w1 = new PlainLiteralScalarRestrictionAxiom(graphUUID, uuid, restrictedScalarUUID, scalarUUID);
 
-        Assert.assertEquals(w1.language(), OptionConverters.toScala(language));
         String s1 = PlainLiteralScalarRestrictionAxiomHelper.toJSON(w1);
 
+        String lan_s = (w1.language().isEmpty()) ? "[]" : w1.language().toString();
 
-        // converting None value to an empty array for JSON comparison
-        scala.Option lan = OptionConverters.toScala(language);
-        String lan_s = (lan.isEmpty()) ? "[]" : lan.toString();
+        String ls = (w1.length().isEmpty()) ? "[]" : w1.length().toString();
 
-        scala.Option len = OptionConverters.toScala(length);
-        String ls = (len.isEmpty()) ? "[]" : len.toString();
+        String maxL = (w1.maxLength().isEmpty()) ? "[]" : w1.maxLength().toString();
 
-        scala.Option maxLen = OptionConverters.toScala(maxLength);
-        String maxL = (maxLen.isEmpty()) ? "[]" : maxLen.toString();
+        String minL = (w1.minLength().isEmpty()) ? "[]" : w1.minLength().toString();
 
-        scala.Option minLen = OptionConverters.toScala(minLength);
-        String minL = (minLen.isEmpty()) ? "[]" : minLen.toString();
+        String ps = (w1.pattern().isEmpty()) ? "[]" : w1.pattern().toString();
 
-        scala.Option pat = OptionConverters.toScala(pattern);
-        String ps = (pat.isEmpty()) ? "[]" : pat.toString();
 
         String t1 = String.format(
                 "{\"graphUUID\":\"%s\",\"uuid\":\"%s\",\"language\":%s,\"length\":%s,\"maxLength\":%s,\"minLength\":%s,\"pattern\":%s,\"restrictedScalarUUID\":\"%s\",\"scalarUUID\":\"%s\"}",
