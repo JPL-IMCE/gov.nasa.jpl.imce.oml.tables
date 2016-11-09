@@ -31,25 +31,49 @@ trait TerminologyBox
    */
   val statements: scala.collection.immutable.Set[_ <: TerminologyStatement]
 
+  def withStatements
+  (s: scala.collection.immutable.Set[_ <: TerminologyStatement]
+  ): TerminologyBox
   /*
    * A map for the subset of statements that are
-   * entities terms indexed by their iri.
+   * entities terms indexed by their uuid.
    */
-  val entities: scala.collection.immutable.Map[java.net.URI,Entity]
+  val entities: scala.collection.immutable.Map[java.util.UUID,Entity]
   /*
    * A map for the subset of statements that are
-   * datatype terms indexed by their iri.
+   * aspects terms indexed by their uuid.
    */
-  val dataRelationships: scala.collection.immutable.Map[java.net.URI,DataRelationship]
+  val aspects: scala.collection.immutable.Map[java.util.UUID,Aspect]
   /*
    * A map for the subset of statements that are
-   * datatype terms indexed by their iri.
+   * concepts terms indexed by their uuid.
    */
-  val datatypes: scala.collection.immutable.Map[java.net.URI,Datatype]
+  val concepts: scala.collection.immutable.Map[java.util.UUID,Concept]
   /*
-   * The subset of axioms about terminologies.
+   * A map for the subset of statements that are
+   * reified relationship terms indexed by their uuid.
    */
-  val terminologyAxioms: scala.collection.immutable.Set[_ <: TerminologyAxiom]
+  val reifiedRelationships: scala.collection.immutable.Map[java.util.UUID,ReifiedRelationship]
+  /*
+   * A map for the subset of statements that are
+   * datatype terms indexed by their uuid.
+   */
+  val dataRelationships: scala.collection.immutable.Map[java.util.UUID,DataRelationship]
+  /*
+   * A map for the subset of statements that are
+   * datatype terms indexed by their uuid.
+   */
+  val datatypes: scala.collection.immutable.Map[java.util.UUID,Datatype]
+  /*
+   * A map for the subset of statements that are
+   * scalar datatype terms indexed by their uuid.
+   */
+  val scalars: scala.collection.immutable.Map[java.util.UUID,Scalar]
+  /*
+   * A map for the subset of statements that are
+   * structured datatype terms indexed by their uuid.
+   */
+  val structures: scala.collection.immutable.Map[java.util.UUID,Structure]
   /*
    * The subset of axioms about terms.
    */

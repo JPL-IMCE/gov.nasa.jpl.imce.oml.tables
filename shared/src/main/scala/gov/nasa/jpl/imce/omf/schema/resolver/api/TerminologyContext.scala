@@ -31,7 +31,9 @@ package gov.nasa.jpl.imce.omf.schema.resolver.api
 trait TerminologyContext
 {
 
-  val nodes: scala.collection.immutable.Set[_ <: TerminologyBox]
+  val nodes: scala.collection.immutable.Map[java.util.UUID, TerminologyBox]
+  val graphs: scala.collection.immutable.Map[java.util.UUID, TerminologyGraph]
+  val bundles: scala.collection.immutable.Map[java.util.UUID, Bundle]
 
   val bottomNodes: scala.collection.immutable.Set[_ <: TerminologyBox]
   val rootNodes: scala.collection.immutable.Set[_ <: TerminologyBox]

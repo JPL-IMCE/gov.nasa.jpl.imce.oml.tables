@@ -4,6 +4,7 @@
 .js/
 .jvm/
 .npmrc
+.tmpBin
 node_modules/
 target/
 gh-pages/

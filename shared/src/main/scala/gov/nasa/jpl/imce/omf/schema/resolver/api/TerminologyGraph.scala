@@ -33,19 +33,7 @@ trait TerminologyGraph
    */
   val kind: gov.nasa.jpl.imce.omf.schema.tables.TerminologyGraphKind
 
-  /*
-   * c, if there is a unique axiom
-   * TerminologyNestingAxiom(nestedTerminology=this, nestingContext=c, nestingTerminology=_)
-   */
-  val nestingConcept: scala.Option[Concept]
-  /*
-   * p, if there is a unique axiom
-   * TerminologyNestingAxiom(nestedTerminology=this, nestingContext=_, nestingTerminology=p)
-   */
-  val nestingParent: scala.Option[TerminologyBox]
-  /*
-   * the set e from all axioms
-   * TerminologyExtensionAxiom(extendedTerminology=e, extendingTerminology=this)
-   */
-  val extendedGraphs: scala.collection.immutable.Set[_ <: TerminologyBox]
+  override def withStatements
+  (s: scala.collection.immutable.Set[_ <: TerminologyStatement]
+  ): TerminologyBox
 }

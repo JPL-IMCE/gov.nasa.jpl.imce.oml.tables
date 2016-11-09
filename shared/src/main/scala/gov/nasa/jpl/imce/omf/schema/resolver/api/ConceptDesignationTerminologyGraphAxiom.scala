@@ -23,8 +23,7 @@ package gov.nasa.jpl.imce.omf.schema.resolver.api
  * OWL: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.binding.owlapi/latest/api/gov/nasa/jpl/omf/scala/binding/owlapi/types/EntityConceptDesignationTerminologyGraphAxiom.html#inheritance-diagram
  */
 trait ConceptDesignationTerminologyGraphAxiom
-  extends TermAxiom
-  with TerminologyAxiom
+  extends TerminologyAxiom
 {
 
   val designationTerminologyGraph: TerminologyGraph

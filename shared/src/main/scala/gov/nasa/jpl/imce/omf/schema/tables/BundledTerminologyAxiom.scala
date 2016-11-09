@@ -24,7 +24,6 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param graphUUID[1,1]
   * @param uuid[1,1]
   * @param bundleUUID[1,1]
   * @param bundledTerminologyUUID[1,1]
@@ -32,7 +31,6 @@ import scala.Predef._
 @JSExport
 case class BundledTerminologyAxiom
 (
- @(JSExport @field) graphUUID: UUID,
  @(JSExport @field) uuid: UUID,
  @(JSExport @field) bundleUUID: UUID,
  @(JSExport @field) bundledTerminologyUUID: UUID

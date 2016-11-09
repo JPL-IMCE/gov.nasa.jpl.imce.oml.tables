@@ -24,7 +24,6 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param graphUUID[1,1]
   * @param uuid[1,1]
   * @param designatedConceptUUID[1,1]
   * @param designationTerminologyGraphUUID[1,1]
@@ -32,7 +31,6 @@ import scala.Predef._
 @JSExport
 case class ConceptDesignationTerminologyGraphAxiom
 (
- @(JSExport @field) graphUUID: UUID,
  @(JSExport @field) uuid: UUID,
  @(JSExport @field) designatedConceptUUID: UUID,
  @(JSExport @field) designationTerminologyGraphUUID: UUID

@@ -24,7 +24,6 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param graphUUID[1,1]
   * @param uuid[1,1]
   * @param nestedTerminologyUUID[1,1]
   * @param nestingContextUUID[1,1]
@@ -33,7 +32,6 @@ import scala.Predef._
 @JSExport
 case class TerminologyNestingAxiom
 (
- @(JSExport @field) graphUUID: UUID,
  @(JSExport @field) uuid: UUID,
  @(JSExport @field) nestedTerminologyUUID: UUID,
  @(JSExport @field) nestingContextUUID: UUID,

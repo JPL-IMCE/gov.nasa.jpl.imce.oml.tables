@@ -23,7 +23,7 @@ import org.apache.commons.compress.archivers.zip.{ZipArchiveEntry, ZipFile}
 
 import scala.collection.immutable.Seq
 import scala.collection.JavaConversions._
-import scala.Unit
+import scala.{Boolean,Unit}
 import scala.util.control.Exception._
 import scala.util.{Failure,Success,Try}
 
@@ -63,135 +63,138 @@ case class OMFTables private[tables]
   unreifiedRelationships : Seq[UnreifiedRelationship] = Seq.empty
 ) 
 {
-def readAspects(is: InputStream)
-: OMFTables
-= copy(aspects = readJSonTable(is, AspectHelper.fromJSON))
+  def readAspects(is: InputStream)
+  : OMFTables
+  = copy(aspects = readJSonTable(is, AspectHelper.fromJSON))
+  def readAspectSpecializationAxioms(is: InputStream)
+  : OMFTables
+  = copy(aspectSpecializationAxioms = readJSonTable(is, AspectSpecializationAxiomHelper.fromJSON))
+  def readBinaryScalarRestrictionAxioms(is: InputStream)
+  : OMFTables
+  = copy(binaryScalarRestrictionAxioms = readJSonTable(is, BinaryScalarRestrictionAxiomHelper.fromJSON))
+  def readBundles(is: InputStream)
+  : OMFTables
+  = copy(bundles = readJSonTable(is, BundleHelper.fromJSON))
+  def readBundledTerminologyAxioms(is: InputStream)
+  : OMFTables
+  = copy(bundledTerminologyAxioms = readJSonTable(is, BundledTerminologyAxiomHelper.fromJSON))
+  def readConcepts(is: InputStream)
+  : OMFTables
+  = copy(concepts = readJSonTable(is, ConceptHelper.fromJSON))
+  def readConceptDesignationTerminologyGraphAxioms(is: InputStream)
+  : OMFTables
+  = copy(conceptDesignationTerminologyGraphAxioms = readJSonTable(is, ConceptDesignationTerminologyGraphAxiomHelper.fromJSON))
+  def readConceptSpecializationAxioms(is: InputStream)
+  : OMFTables
+  = copy(conceptSpecializationAxioms = readJSonTable(is, ConceptSpecializationAxiomHelper.fromJSON))
+  def readEntityExistentialRestrictionAxioms(is: InputStream)
+  : OMFTables
+  = copy(entityExistentialRestrictionAxioms = readJSonTable(is, EntityExistentialRestrictionAxiomHelper.fromJSON))
+  def readEntityScalarDataPropertys(is: InputStream)
+  : OMFTables
+  = copy(entityScalarDataPropertys = readJSonTable(is, EntityScalarDataPropertyHelper.fromJSON))
+  def readEntityScalarDataPropertyExistentialRestrictionAxioms(is: InputStream)
+  : OMFTables
+  = copy(entityScalarDataPropertyExistentialRestrictionAxioms = readJSonTable(is, EntityScalarDataPropertyExistentialRestrictionAxiomHelper.fromJSON))
+  def readEntityScalarDataPropertyParticularRestrictionAxioms(is: InputStream)
+  : OMFTables
+  = copy(entityScalarDataPropertyParticularRestrictionAxioms = readJSonTable(is, EntityScalarDataPropertyParticularRestrictionAxiomHelper.fromJSON))
+  def readEntityScalarDataPropertyUniversalRestrictionAxioms(is: InputStream)
+  : OMFTables
+  = copy(entityScalarDataPropertyUniversalRestrictionAxioms = readJSonTable(is, EntityScalarDataPropertyUniversalRestrictionAxiomHelper.fromJSON))
+  def readEntityStructuredDataPropertys(is: InputStream)
+  : OMFTables
+  = copy(entityStructuredDataPropertys = readJSonTable(is, EntityStructuredDataPropertyHelper.fromJSON))
+  def readEntityUniversalRestrictionAxioms(is: InputStream)
+  : OMFTables
+  = copy(entityUniversalRestrictionAxioms = readJSonTable(is, EntityUniversalRestrictionAxiomHelper.fromJSON))
+  def readIRIScalarRestrictionAxioms(is: InputStream)
+  : OMFTables
+  = copy(iRIScalarRestrictionAxioms = readJSonTable(is, IRIScalarRestrictionAxiomHelper.fromJSON))
+  def readNumericScalarRestrictionAxioms(is: InputStream)
+  : OMFTables
+  = copy(numericScalarRestrictionAxioms = readJSonTable(is, NumericScalarRestrictionAxiomHelper.fromJSON))
+  def readPlainLiteralScalarRestrictionAxioms(is: InputStream)
+  : OMFTables
+  = copy(plainLiteralScalarRestrictionAxioms = readJSonTable(is, PlainLiteralScalarRestrictionAxiomHelper.fromJSON))
+  def readReifiedRelationships(is: InputStream)
+  : OMFTables
+  = copy(reifiedRelationships = readJSonTable(is, ReifiedRelationshipHelper.fromJSON))
+  def readReifiedRelationshipSpecializationAxioms(is: InputStream)
+  : OMFTables
+  = copy(reifiedRelationshipSpecializationAxioms = readJSonTable(is, ReifiedRelationshipSpecializationAxiomHelper.fromJSON))
+  def readScalars(is: InputStream)
+  : OMFTables
+  = copy(scalars = readJSonTable(is, ScalarHelper.fromJSON))
+  def readScalarDataPropertys(is: InputStream)
+  : OMFTables
+  = copy(scalarDataPropertys = readJSonTable(is, ScalarDataPropertyHelper.fromJSON))
+  def readScalarOneOfLiterals(is: InputStream)
+  : OMFTables
+  = copy(scalarOneOfLiterals = readJSonTable(is, ScalarOneOfLiteralHelper.fromJSON))
+  def readScalarOneOfRestrictionAxioms(is: InputStream)
+  : OMFTables
+  = copy(scalarOneOfRestrictionAxioms = readJSonTable(is, ScalarOneOfRestrictionAxiomHelper.fromJSON))
+  def readStringScalarRestrictionAxioms(is: InputStream)
+  : OMFTables
+  = copy(stringScalarRestrictionAxioms = readJSonTable(is, StringScalarRestrictionAxiomHelper.fromJSON))
+  def readStructures(is: InputStream)
+  : OMFTables
+  = copy(structures = readJSonTable(is, StructureHelper.fromJSON))
+  def readStructuredDataPropertys(is: InputStream)
+  : OMFTables
+  = copy(structuredDataPropertys = readJSonTable(is, StructuredDataPropertyHelper.fromJSON))
+  def readTerminologyExtensionAxioms(is: InputStream)
+  : OMFTables
+  = copy(terminologyExtensionAxioms = readJSonTable(is, TerminologyExtensionAxiomHelper.fromJSON))
+  def readTerminologyGraphs(is: InputStream)
+  : OMFTables
+  = copy(terminologyGraphs = readJSonTable(is, TerminologyGraphHelper.fromJSON))
+  def readTerminologyNestingAxioms(is: InputStream)
+  : OMFTables
+  = copy(terminologyNestingAxioms = readJSonTable(is, TerminologyNestingAxiomHelper.fromJSON))
+  def readTimeScalarRestrictionAxioms(is: InputStream)
+  : OMFTables
+  = copy(timeScalarRestrictionAxioms = readJSonTable(is, TimeScalarRestrictionAxiomHelper.fromJSON))
+  def readUnreifiedRelationships(is: InputStream)
+  : OMFTables
+  = copy(unreifiedRelationships = readJSonTable(is, UnreifiedRelationshipHelper.fromJSON))
 
-def readAspectSpecializationAxioms(is: InputStream)
-: OMFTables
-= copy(aspectSpecializationAxioms = readJSonTable(is, AspectSpecializationAxiomHelper.fromJSON))
-
-def readBinaryScalarRestrictionAxioms(is: InputStream)
-: OMFTables
-= copy(binaryScalarRestrictionAxioms = readJSonTable(is, BinaryScalarRestrictionAxiomHelper.fromJSON))
-
-def readBundles(is: InputStream)
-: OMFTables
-= copy(bundles = readJSonTable(is, BundleHelper.fromJSON))
-
-def readBundledTerminologyAxioms(is: InputStream)
-: OMFTables
-= copy(bundledTerminologyAxioms = readJSonTable(is, BundledTerminologyAxiomHelper.fromJSON))
-
-def readConcepts(is: InputStream)
-: OMFTables
-= copy(concepts = readJSonTable(is, ConceptHelper.fromJSON))
-
-def readConceptDesignationTerminologyGraphAxioms(is: InputStream)
-: OMFTables
-= copy(conceptDesignationTerminologyGraphAxioms = readJSonTable(is, ConceptDesignationTerminologyGraphAxiomHelper.fromJSON))
-
-def readConceptSpecializationAxioms(is: InputStream)
-: OMFTables
-= copy(conceptSpecializationAxioms = readJSonTable(is, ConceptSpecializationAxiomHelper.fromJSON))
-
-def readEntityExistentialRestrictionAxioms(is: InputStream)
-: OMFTables
-= copy(entityExistentialRestrictionAxioms = readJSonTable(is, EntityExistentialRestrictionAxiomHelper.fromJSON))
-
-def readEntityScalarDataPropertys(is: InputStream)
-: OMFTables
-= copy(entityScalarDataPropertys = readJSonTable(is, EntityScalarDataPropertyHelper.fromJSON))
-
-def readEntityScalarDataPropertyExistentialRestrictionAxioms(is: InputStream)
-: OMFTables
-= copy(entityScalarDataPropertyExistentialRestrictionAxioms = readJSonTable(is, EntityScalarDataPropertyExistentialRestrictionAxiomHelper.fromJSON))
-
-def readEntityScalarDataPropertyParticularRestrictionAxioms(is: InputStream)
-: OMFTables
-= copy(entityScalarDataPropertyParticularRestrictionAxioms = readJSonTable(is, EntityScalarDataPropertyParticularRestrictionAxiomHelper.fromJSON))
-
-def readEntityScalarDataPropertyUniversalRestrictionAxioms(is: InputStream)
-: OMFTables
-= copy(entityScalarDataPropertyUniversalRestrictionAxioms = readJSonTable(is, EntityScalarDataPropertyUniversalRestrictionAxiomHelper.fromJSON))
-
-def readEntityStructuredDataPropertys(is: InputStream)
-: OMFTables
-= copy(entityStructuredDataPropertys = readJSonTable(is, EntityStructuredDataPropertyHelper.fromJSON))
-
-def readEntityUniversalRestrictionAxioms(is: InputStream)
-: OMFTables
-= copy(entityUniversalRestrictionAxioms = readJSonTable(is, EntityUniversalRestrictionAxiomHelper.fromJSON))
-
-def readIRIScalarRestrictionAxioms(is: InputStream)
-: OMFTables
-= copy(iRIScalarRestrictionAxioms = readJSonTable(is, IRIScalarRestrictionAxiomHelper.fromJSON))
-
-def readNumericScalarRestrictionAxioms(is: InputStream)
-: OMFTables
-= copy(numericScalarRestrictionAxioms = readJSonTable(is, NumericScalarRestrictionAxiomHelper.fromJSON))
-
-def readPlainLiteralScalarRestrictionAxioms(is: InputStream)
-: OMFTables
-= copy(plainLiteralScalarRestrictionAxioms = readJSonTable(is, PlainLiteralScalarRestrictionAxiomHelper.fromJSON))
-
-def readReifiedRelationships(is: InputStream)
-: OMFTables
-= copy(reifiedRelationships = readJSonTable(is, ReifiedRelationshipHelper.fromJSON))
-
-def readReifiedRelationshipSpecializationAxioms(is: InputStream)
-: OMFTables
-= copy(reifiedRelationshipSpecializationAxioms = readJSonTable(is, ReifiedRelationshipSpecializationAxiomHelper.fromJSON))
-
-def readScalars(is: InputStream)
-: OMFTables
-= copy(scalars = readJSonTable(is, ScalarHelper.fromJSON))
-
-def readScalarDataPropertys(is: InputStream)
-: OMFTables
-= copy(scalarDataPropertys = readJSonTable(is, ScalarDataPropertyHelper.fromJSON))
-
-def readScalarOneOfLiterals(is: InputStream)
-: OMFTables
-= copy(scalarOneOfLiterals = readJSonTable(is, ScalarOneOfLiteralHelper.fromJSON))
-
-def readScalarOneOfRestrictionAxioms(is: InputStream)
-: OMFTables
-= copy(scalarOneOfRestrictionAxioms = readJSonTable(is, ScalarOneOfRestrictionAxiomHelper.fromJSON))
-
-def readStringScalarRestrictionAxioms(is: InputStream)
-: OMFTables
-= copy(stringScalarRestrictionAxioms = readJSonTable(is, StringScalarRestrictionAxiomHelper.fromJSON))
-
-def readStructures(is: InputStream)
-: OMFTables
-= copy(structures = readJSonTable(is, StructureHelper.fromJSON))
-
-def readStructuredDataPropertys(is: InputStream)
-: OMFTables
-= copy(structuredDataPropertys = readJSonTable(is, StructuredDataPropertyHelper.fromJSON))
-
-def readTerminologyExtensionAxioms(is: InputStream)
-: OMFTables
-= copy(terminologyExtensionAxioms = readJSonTable(is, TerminologyExtensionAxiomHelper.fromJSON))
-
-def readTerminologyGraphs(is: InputStream)
-: OMFTables
-= copy(terminologyGraphs = readJSonTable(is, TerminologyGraphHelper.fromJSON))
-
-def readTerminologyNestingAxioms(is: InputStream)
-: OMFTables
-= copy(terminologyNestingAxioms = readJSonTable(is, TerminologyNestingAxiomHelper.fromJSON))
-
-def readTimeScalarRestrictionAxioms(is: InputStream)
-: OMFTables
-= copy(timeScalarRestrictionAxioms = readJSonTable(is, TimeScalarRestrictionAxiomHelper.fromJSON))
-
-def readUnreifiedRelationships(is: InputStream)
-: OMFTables
-= copy(unreifiedRelationships = readJSonTable(is, UnreifiedRelationshipHelper.fromJSON))
-
+  def isEmpty: Boolean
+  = aspects.isEmpty &&
+    aspectSpecializationAxioms.isEmpty &&
+    binaryScalarRestrictionAxioms.isEmpty &&
+    bundles.isEmpty &&
+    bundledTerminologyAxioms.isEmpty &&
+    concepts.isEmpty &&
+    conceptDesignationTerminologyGraphAxioms.isEmpty &&
+    conceptSpecializationAxioms.isEmpty &&
+    entityExistentialRestrictionAxioms.isEmpty &&
+    entityScalarDataPropertys.isEmpty &&
+    entityScalarDataPropertyExistentialRestrictionAxioms.isEmpty &&
+    entityScalarDataPropertyParticularRestrictionAxioms.isEmpty &&
+    entityScalarDataPropertyUniversalRestrictionAxioms.isEmpty &&
+    entityStructuredDataPropertys.isEmpty &&
+    entityUniversalRestrictionAxioms.isEmpty &&
+    iRIScalarRestrictionAxioms.isEmpty &&
+    numericScalarRestrictionAxioms.isEmpty &&
+    plainLiteralScalarRestrictionAxioms.isEmpty &&
+    reifiedRelationships.isEmpty &&
+    reifiedRelationshipSpecializationAxioms.isEmpty &&
+    scalars.isEmpty &&
+    scalarDataPropertys.isEmpty &&
+    scalarOneOfLiterals.isEmpty &&
+    scalarOneOfRestrictionAxioms.isEmpty &&
+    stringScalarRestrictionAxioms.isEmpty &&
+    structures.isEmpty &&
+    structuredDataPropertys.isEmpty &&
+    terminologyExtensionAxioms.isEmpty &&
+    terminologyGraphs.isEmpty &&
+    terminologyNestingAxioms.isEmpty &&
+    timeScalarRestrictionAxioms.isEmpty &&
+    unreifiedRelationships.isEmpty
 }
+
 object OMFTables {
 	
   def loadOMFTables(omfSchemaJsonZipFile: File)

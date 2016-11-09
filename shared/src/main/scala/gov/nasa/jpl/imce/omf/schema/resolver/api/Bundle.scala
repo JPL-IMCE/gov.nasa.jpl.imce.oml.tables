@@ -25,4 +25,8 @@ package gov.nasa.jpl.imce.omf.schema.resolver.api
 trait Bundle
   extends TerminologyBox
 {
+
+  override def withStatements
+  (s: scala.collection.immutable.Set[_ <: TerminologyStatement]
+  ): TerminologyBox
 }
