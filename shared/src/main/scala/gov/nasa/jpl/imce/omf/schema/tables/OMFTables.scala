@@ -44,7 +44,7 @@ case class OMFTables private[tables]
   entityScalarDataPropertyUniversalRestrictionAxioms : Seq[EntityScalarDataPropertyUniversalRestrictionAxiom] = Seq.empty,
   entityStructuredDataPropertys : Seq[EntityStructuredDataProperty] = Seq.empty,
   entityUniversalRestrictionAxioms : Seq[EntityUniversalRestrictionAxiom] = Seq.empty,
-  iRIScalarRestrictionAxioms : Seq[IRIScalarRestrictionAxiom] = Seq.empty,
+  iriscalarRestrictionAxioms : Seq[IRIScalarRestrictionAxiom] = Seq.empty,
   numericScalarRestrictionAxioms : Seq[NumericScalarRestrictionAxiom] = Seq.empty,
   plainLiteralScalarRestrictionAxioms : Seq[PlainLiteralScalarRestrictionAxiom] = Seq.empty,
   reifiedRelationships : Seq[ReifiedRelationship] = Seq.empty,
@@ -110,7 +110,7 @@ case class OMFTables private[tables]
   = copy(entityUniversalRestrictionAxioms = readJSonTable(is, EntityUniversalRestrictionAxiomHelper.fromJSON))
   def readIRIScalarRestrictionAxioms(is: InputStream)
   : OMFTables
-  = copy(iRIScalarRestrictionAxioms = readJSonTable(is, IRIScalarRestrictionAxiomHelper.fromJSON))
+  = copy(iriscalarRestrictionAxioms = readJSonTable(is, IRIScalarRestrictionAxiomHelper.fromJSON))
   def readNumericScalarRestrictionAxioms(is: InputStream)
   : OMFTables
   = copy(numericScalarRestrictionAxioms = readJSonTable(is, NumericScalarRestrictionAxiomHelper.fromJSON))
@@ -176,7 +176,7 @@ case class OMFTables private[tables]
     entityScalarDataPropertyUniversalRestrictionAxioms.isEmpty &&
     entityStructuredDataPropertys.isEmpty &&
     entityUniversalRestrictionAxioms.isEmpty &&
-    iRIScalarRestrictionAxioms.isEmpty &&
+    iriscalarRestrictionAxioms.isEmpty &&
     numericScalarRestrictionAxioms.isEmpty &&
     plainLiteralScalarRestrictionAxioms.isEmpty &&
     reifiedRelationships.isEmpty &&
@@ -236,7 +236,7 @@ object OMFTables {
       entityScalarDataPropertyUniversalRestrictionAxioms = t1.entityScalarDataPropertyUniversalRestrictionAxioms ++ t2.entityScalarDataPropertyUniversalRestrictionAxioms,
       entityStructuredDataPropertys = t1.entityStructuredDataPropertys ++ t2.entityStructuredDataPropertys,
       entityUniversalRestrictionAxioms = t1.entityUniversalRestrictionAxioms ++ t2.entityUniversalRestrictionAxioms,
-      iRIScalarRestrictionAxioms = t1.iRIScalarRestrictionAxioms ++ t2.iRIScalarRestrictionAxioms,
+      iriscalarRestrictionAxioms = t1.iriscalarRestrictionAxioms ++ t2.iriscalarRestrictionAxioms,
       numericScalarRestrictionAxioms = t1.numericScalarRestrictionAxioms ++ t2.numericScalarRestrictionAxioms,
       plainLiteralScalarRestrictionAxioms = t1.plainLiteralScalarRestrictionAxioms ++ t2.plainLiteralScalarRestrictionAxioms,
       reifiedRelationships = t1.reifiedRelationships ++ t2.reifiedRelationships,
@@ -438,7 +438,7 @@ object OMFTables {
       }
       zos.closeEntry()
       zos.putNextEntry(new java.util.zip.ZipEntry(IRIScalarRestrictionAxiomHelper.TABLE_JSON_FILENAME))
-      tables.iRIScalarRestrictionAxioms.foreach { t =>
+      tables.iriscalarRestrictionAxioms.foreach { t =>
          val line = IRIScalarRestrictionAxiomHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
