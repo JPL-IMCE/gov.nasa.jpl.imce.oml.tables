@@ -24,6 +24,7 @@ import scala._
 import scala.Predef._
 
 /**
+  * @param explanation[1,1]
   * @param omfUUID[1,1]
   * @param otiID[1,1]
   * @param otiURL[1,1]
@@ -31,6 +32,7 @@ import scala.Predef._
   */
 case class OMF2OTIProvenance
 (
+ @(JSExport @field) explanation: scala.Predef.String,
  @(JSExport @field) omfUUID: UUID,
  @(JSExport @field) otiID: OTI_TOOL_SPECIFIC_ID,
  @(JSExport @field) otiURL: OTI_TOOL_SPECIFIC_URL,
@@ -39,11 +41,13 @@ case class OMF2OTIProvenance
 
 @JSExport
 def this(
+	explanation: scala.Predef.String,
 	omfUUID: UUID,
 	otiID: OTI_TOOL_SPECIFIC_ID,
 	otiURL: OTI_TOOL_SPECIFIC_URL
 ) 
 = this(
+explanation,
 omfUUID,
 otiID,
 otiURL,
