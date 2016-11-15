@@ -130,12 +130,12 @@ val tablesGhPagesSettings: Seq[Setting[_]] =
     },
 
     makeSite := {
-      val _ = dumpLicenseReport
+      val _ = dumpLicenseReport.value
       makeSite.value
     },
 
       siteMappings := {
-      val _ = dumpLicenseReport
+      val _ = dumpLicenseReport.value
       siteMappings.value
     },
 
