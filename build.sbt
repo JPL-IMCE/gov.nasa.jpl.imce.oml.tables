@@ -8,6 +8,8 @@ import de.heikoseeberger.sbtheader.license.CommentBlock
 
 import com.typesafe.sbt.SbtGhPages._
 
+import gov.nasa.jpl.imce.sbt._
+
 val oti_mof_schema_license =
   s"""|Copyright 2016 California Institute of Technology ("Caltech").
       |U.S. Government sponsorship acknowledged.
@@ -127,9 +129,15 @@ val tablesGhPagesSettings: Seq[Setting[_]] =
       dumpLicenseReport.value
     },
 
-    makeSite <<= makeSite.dependsOn(dumpLicenseReport),
+    makeSite := {
+      val _ = dumpLicenseReport
+      makeSite.value
+    },
 
-    siteMappings <<= siteMappings.dependsOn(dumpLicenseReport),
+      siteMappings := {
+      val _ = dumpLicenseReport
+      siteMappings.value
+    },
 
     siteMappings += (licenseReportDir.value / "LicenseReportOfAggregatedSBTPluginsAndLibraries.html") -> "LicenseReportOfAggregatedSBTPluginsAndLibraries.html",
     siteMappings += dependencySvgFile.value -> "dependencies.svg",
@@ -153,6 +161,16 @@ lazy val tablesRoot = project.in(file("."))
 // a special crossProject for configuring a JS/JVM/shared structure
 lazy val tables = crossProject
   .in(file("."))
+  .enablePlugins(IMCEGitPlugin)
+  .settings(
+    IMCEKeys.licenseYearOrRange := "2016",
+    IMCEKeys.organizationInfo :=
+      OrganizationInfo(
+        Settings.organization,
+        Settings.organizationName,
+        Some(url(s"https://github.com/${Settings.organizationName}"))),
+    IMCEKeys.targetJDK := IMCEKeys.jdk18.value
+  )
   .settings(tablesLicenseSettings : _*)
   .settings(tablesPublishSettings : _*)
   .settings(tablesGhPagesSettings : _*)
@@ -175,7 +193,8 @@ lazy val tables = crossProject
     ) : _*
   )
   .jvmSettings(
-    libraryDependencies ++= Settings.jvmDependencies.value
+    libraryDependencies ++= Settings.jvmDependencies.value,
+    dynamicScriptsResourceSettings("jpl.omf.schema.tables")
   )
   // set up settings specific to the JS project
   .jsConfigure(_ enablePlugins HeaderPlugin)
@@ -255,3 +274,55 @@ lazy val tables = crossProject
 
 lazy val tablesJVM = tables.jvm
 lazy val tablesJS = tables.js
+
+def dynamicScriptsResourceSettings(projectName: String): Seq[Setting[_]] = {
+
+  import com.typesafe.sbt.packager.universal.UniversalPlugin.autoImport._
+
+  def addIfExists(f: File, name: String): Seq[(File, String)] =
+    if (!f.exists) Seq()
+    else Seq((f, name))
+
+  val QUALIFIED_NAME = "^[a-zA-Z][\\w_]*(\\.[a-zA-Z][\\w_]*)*$".r
+
+  Seq(
+    // the '*-resource.zip' archive will start from: 'dynamicScripts/<dynamicScriptsProjectName>'
+    com.typesafe.sbt.packager.Keys.topLevelDirectory in Universal := None,
+
+    // name the '*-resource.zip' in the same way as other artifacts
+    com.typesafe.sbt.packager.Keys.packageName in Universal :=
+      normalizedName.value + "_" + scalaBinaryVersion.value + "-" + version.value + "-resource",
+
+    // contents of the '*-resource.zip' to be produced by 'universal:packageBin'
+    mappings in Universal in packageBin ++= {
+      val dir = baseDirectory.value
+      val bin = (packageBin in Compile).value
+      val src = (packageSrc in Compile).value
+      val doc = (packageDoc in Compile).value
+      val binT = (packageBin in Test).value
+      val srcT = (packageSrc in Test).value
+      val docT = (packageDoc in Test).value
+
+      (dir * ".classpath").pair(rebase(dir, projectName)) ++
+        (dir * "*.md").pair(rebase(dir, projectName)) ++
+        (dir / "resources" ***).pair(rebase(dir, projectName)) ++
+        addIfExists(bin, projectName + "/lib/" + bin.name) ++
+        addIfExists(binT, projectName + "/lib/" + binT.name) ++
+        addIfExists(src, projectName + "/lib.sources/" + src.name) ++
+        addIfExists(srcT, projectName + "/lib.sources/" + srcT.name) ++
+        addIfExists(doc, projectName + "/lib.javadoc/" + doc.name) ++
+        addIfExists(docT, projectName + "/lib.javadoc/" + docT.name)
+    },
+
+    artifacts += {
+      val n = (name in Universal).value
+      Artifact(n, "zip", "zip", Some("resource"), Seq(), None, Map())
+    },
+    packagedArtifacts += {
+      val p = (packageBin in Universal).value
+      val n = (name in Universal).value
+      Artifact(n, "zip", "zip", Some("resource"), Seq(), None, Map()) -> p
+    }
+  )
+}
+

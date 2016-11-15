@@ -9,7 +9,7 @@ organization in ThisBuild := Settings.organization
 
 homepage in ThisBuild := Some(url(s"https://jpl-imce.github.io/${moduleName.value}"))
 
-organizationName := "JPL-IMCE"
+organizationName := Settings.organizationName
 
 organizationHomepage := Some(url(s"https://github.com/${organizationName.value}"))
 
