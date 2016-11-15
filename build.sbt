@@ -290,7 +290,8 @@ def dynamicScriptsResourceSettings(projectName: String): Seq[Setting[_]] = {
 
     // name the '*-resource.zip' in the same way as other artifacts
     com.typesafe.sbt.packager.Keys.packageName in Universal :=
-      normalizedName.value + "_" + scalaBinaryVersion.value + "-" + version.value + "-resource",
+      // normalizedName.value + "_" + scalaBinaryVersion.value + "-" + version.value + "-resource",
+      projectName + "_" + scalaBinaryVersion.value + "-" + version.value + "-resource",
 
     // contents of the '*-resource.zip' to be produced by 'universal:packageBin'
     mappings in Universal in packageBin ++= {
@@ -314,12 +315,12 @@ def dynamicScriptsResourceSettings(projectName: String): Seq[Setting[_]] = {
     },
 
     artifacts += {
-      val n = (name in Universal).value
+      val n = projectName // (name in Universal).value
       Artifact(n, "zip", "zip", Some("resource"), Seq(), None, Map())
     },
     packagedArtifacts += {
       val p = (packageBin in Universal).value
-      val n = (name in Universal).value
+      val n = projectName // (name in Universal).value
       Artifact(n, "zip", "zip", Some("resource"), Seq(), None, Map()) -> p
     }
   )
