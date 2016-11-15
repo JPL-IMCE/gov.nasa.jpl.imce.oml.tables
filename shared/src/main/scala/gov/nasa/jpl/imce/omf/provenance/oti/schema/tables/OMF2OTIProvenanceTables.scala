@@ -27,28 +27,28 @@ import scala.{Boolean,Unit}
 import scala.util.control.Exception._
 import scala.util.{Failure,Success,Try}
 
-case class OMFTables private[tables]
+case class OMF2OTIProvenanceTables private[tables]
 (
   omf2OTIProvenances : Seq[OMF2OTIProvenance] = Seq.empty
 ) 
 {
   def readOMF2OTIProvenances(is: InputStream)
-  : OMFTables
+  : OMF2OTIProvenanceTables
   = copy(omf2OTIProvenances = readJSonTable(is, OMF2OTIProvenanceHelper.fromJSON))
 
   def isEmpty: Boolean
   = omf2OTIProvenances.isEmpty
 }
 
-object OMFTables {
+object OMF2OTIProvenanceTables {
 	
-  def createOMFTables()
-  : OMFTables
-  = new OMFTables()
+  def createEmptyOMF2OTIProvenanceTables()
+  : OMF2OTIProvenanceTables
+  = new OMF2OTIProvenanceTables()
   
-  def loadOMFTables(omfSchemaJsonZipFile: File)
-  : Try[OMFTables]
-  = nonFatalCatch[Try[OMFTables]]
+  def loadOMF2OTIProvenanceTables(omfSchemaJsonZipFile: File)
+  : Try[OMF2OTIProvenanceTables]
+  = nonFatalCatch[Try[OMF2OTIProvenanceTables]]
     .withApply {
       (cause: java.lang.Throwable) =>
         cause.fillInStackTrace()
@@ -61,21 +61,21 @@ object OMFTables {
         .getEntries
         .toIterable
         .par
-         .aggregate(OMFTables())(seqop = readZipArchive(zipFile), combop = mergeTables)
+         .aggregate(OMF2OTIProvenanceTables())(seqop = readZipArchive(zipFile), combop = mergeTables)
       zipFile.close()
       Success(omfTables)
     }
 
   private[tables] def mergeTables
-  (t1: OMFTables, t2: OMFTables)
-  : OMFTables
-  = OMFTables(
+  (t1: OMF2OTIProvenanceTables, t2: OMF2OTIProvenanceTables)
+  : OMF2OTIProvenanceTables
+  = OMF2OTIProvenanceTables(
       omf2OTIProvenances = t1.omf2OTIProvenances ++ t2.omf2OTIProvenances) 
 
   private[tables] def readZipArchive
   (zipFile: ZipFile)
-  (tables: OMFTables, ze: ZipArchiveEntry)
-  : OMFTables
+  (tables: OMF2OTIProvenanceTables, ze: ZipArchiveEntry)
+  : OMF2OTIProvenanceTables
   = {
   	val is = zipFile.getInputStream(ze)
   	ze.getName match {
@@ -84,8 +84,8 @@ object OMFTables {
     }
   }
   
-  def saveOMFTables
-  (tables: OMFTables,
+  def saveOMF2OTIProvenanceTables
+  (tables: OMF2OTIProvenanceTables,
    omfSchemaJsonZipFile: File)
   : Try[Unit]
   = nonFatalCatch[Try[Unit]]

@@ -27,7 +27,7 @@ import scala.{Boolean,Unit}
 import scala.util.control.Exception._
 import scala.util.{Failure,Success,Try}
 
-case class OMFTables private[tables]
+case class OMFSchemaTables private[tables]
 (
   aspects : Seq[Aspect] = Seq.empty,
   aspectSpecializationAxioms : Seq[AspectSpecializationAxiom] = Seq.empty,
@@ -64,100 +64,100 @@ case class OMFTables private[tables]
 ) 
 {
   def readAspects(is: InputStream)
-  : OMFTables
+  : OMFSchemaTables
   = copy(aspects = readJSonTable(is, AspectHelper.fromJSON))
   def readAspectSpecializationAxioms(is: InputStream)
-  : OMFTables
+  : OMFSchemaTables
   = copy(aspectSpecializationAxioms = readJSonTable(is, AspectSpecializationAxiomHelper.fromJSON))
   def readBinaryScalarRestrictionAxioms(is: InputStream)
-  : OMFTables
+  : OMFSchemaTables
   = copy(binaryScalarRestrictionAxioms = readJSonTable(is, BinaryScalarRestrictionAxiomHelper.fromJSON))
   def readBundles(is: InputStream)
-  : OMFTables
+  : OMFSchemaTables
   = copy(bundles = readJSonTable(is, BundleHelper.fromJSON))
   def readBundledTerminologyAxioms(is: InputStream)
-  : OMFTables
+  : OMFSchemaTables
   = copy(bundledTerminologyAxioms = readJSonTable(is, BundledTerminologyAxiomHelper.fromJSON))
   def readConcepts(is: InputStream)
-  : OMFTables
+  : OMFSchemaTables
   = copy(concepts = readJSonTable(is, ConceptHelper.fromJSON))
   def readConceptDesignationTerminologyGraphAxioms(is: InputStream)
-  : OMFTables
+  : OMFSchemaTables
   = copy(conceptDesignationTerminologyGraphAxioms = readJSonTable(is, ConceptDesignationTerminologyGraphAxiomHelper.fromJSON))
   def readConceptSpecializationAxioms(is: InputStream)
-  : OMFTables
+  : OMFSchemaTables
   = copy(conceptSpecializationAxioms = readJSonTable(is, ConceptSpecializationAxiomHelper.fromJSON))
   def readEntityExistentialRestrictionAxioms(is: InputStream)
-  : OMFTables
+  : OMFSchemaTables
   = copy(entityExistentialRestrictionAxioms = readJSonTable(is, EntityExistentialRestrictionAxiomHelper.fromJSON))
   def readEntityScalarDataPropertys(is: InputStream)
-  : OMFTables
+  : OMFSchemaTables
   = copy(entityScalarDataPropertys = readJSonTable(is, EntityScalarDataPropertyHelper.fromJSON))
   def readEntityScalarDataPropertyExistentialRestrictionAxioms(is: InputStream)
-  : OMFTables
+  : OMFSchemaTables
   = copy(entityScalarDataPropertyExistentialRestrictionAxioms = readJSonTable(is, EntityScalarDataPropertyExistentialRestrictionAxiomHelper.fromJSON))
   def readEntityScalarDataPropertyParticularRestrictionAxioms(is: InputStream)
-  : OMFTables
+  : OMFSchemaTables
   = copy(entityScalarDataPropertyParticularRestrictionAxioms = readJSonTable(is, EntityScalarDataPropertyParticularRestrictionAxiomHelper.fromJSON))
   def readEntityScalarDataPropertyUniversalRestrictionAxioms(is: InputStream)
-  : OMFTables
+  : OMFSchemaTables
   = copy(entityScalarDataPropertyUniversalRestrictionAxioms = readJSonTable(is, EntityScalarDataPropertyUniversalRestrictionAxiomHelper.fromJSON))
   def readEntityStructuredDataPropertys(is: InputStream)
-  : OMFTables
+  : OMFSchemaTables
   = copy(entityStructuredDataPropertys = readJSonTable(is, EntityStructuredDataPropertyHelper.fromJSON))
   def readEntityUniversalRestrictionAxioms(is: InputStream)
-  : OMFTables
+  : OMFSchemaTables
   = copy(entityUniversalRestrictionAxioms = readJSonTable(is, EntityUniversalRestrictionAxiomHelper.fromJSON))
   def readIRIScalarRestrictionAxioms(is: InputStream)
-  : OMFTables
+  : OMFSchemaTables
   = copy(iriscalarRestrictionAxioms = readJSonTable(is, IRIScalarRestrictionAxiomHelper.fromJSON))
   def readNumericScalarRestrictionAxioms(is: InputStream)
-  : OMFTables
+  : OMFSchemaTables
   = copy(numericScalarRestrictionAxioms = readJSonTable(is, NumericScalarRestrictionAxiomHelper.fromJSON))
   def readPlainLiteralScalarRestrictionAxioms(is: InputStream)
-  : OMFTables
+  : OMFSchemaTables
   = copy(plainLiteralScalarRestrictionAxioms = readJSonTable(is, PlainLiteralScalarRestrictionAxiomHelper.fromJSON))
   def readReifiedRelationships(is: InputStream)
-  : OMFTables
+  : OMFSchemaTables
   = copy(reifiedRelationships = readJSonTable(is, ReifiedRelationshipHelper.fromJSON))
   def readReifiedRelationshipSpecializationAxioms(is: InputStream)
-  : OMFTables
+  : OMFSchemaTables
   = copy(reifiedRelationshipSpecializationAxioms = readJSonTable(is, ReifiedRelationshipSpecializationAxiomHelper.fromJSON))
   def readScalars(is: InputStream)
-  : OMFTables
+  : OMFSchemaTables
   = copy(scalars = readJSonTable(is, ScalarHelper.fromJSON))
   def readScalarDataPropertys(is: InputStream)
-  : OMFTables
+  : OMFSchemaTables
   = copy(scalarDataPropertys = readJSonTable(is, ScalarDataPropertyHelper.fromJSON))
   def readScalarOneOfLiterals(is: InputStream)
-  : OMFTables
+  : OMFSchemaTables
   = copy(scalarOneOfLiterals = readJSonTable(is, ScalarOneOfLiteralHelper.fromJSON))
   def readScalarOneOfRestrictionAxioms(is: InputStream)
-  : OMFTables
+  : OMFSchemaTables
   = copy(scalarOneOfRestrictionAxioms = readJSonTable(is, ScalarOneOfRestrictionAxiomHelper.fromJSON))
   def readStringScalarRestrictionAxioms(is: InputStream)
-  : OMFTables
+  : OMFSchemaTables
   = copy(stringScalarRestrictionAxioms = readJSonTable(is, StringScalarRestrictionAxiomHelper.fromJSON))
   def readStructures(is: InputStream)
-  : OMFTables
+  : OMFSchemaTables
   = copy(structures = readJSonTable(is, StructureHelper.fromJSON))
   def readStructuredDataPropertys(is: InputStream)
-  : OMFTables
+  : OMFSchemaTables
   = copy(structuredDataPropertys = readJSonTable(is, StructuredDataPropertyHelper.fromJSON))
   def readTerminologyExtensionAxioms(is: InputStream)
-  : OMFTables
+  : OMFSchemaTables
   = copy(terminologyExtensionAxioms = readJSonTable(is, TerminologyExtensionAxiomHelper.fromJSON))
   def readTerminologyGraphs(is: InputStream)
-  : OMFTables
+  : OMFSchemaTables
   = copy(terminologyGraphs = readJSonTable(is, TerminologyGraphHelper.fromJSON))
   def readTerminologyNestingAxioms(is: InputStream)
-  : OMFTables
+  : OMFSchemaTables
   = copy(terminologyNestingAxioms = readJSonTable(is, TerminologyNestingAxiomHelper.fromJSON))
   def readTimeScalarRestrictionAxioms(is: InputStream)
-  : OMFTables
+  : OMFSchemaTables
   = copy(timeScalarRestrictionAxioms = readJSonTable(is, TimeScalarRestrictionAxiomHelper.fromJSON))
   def readUnreifiedRelationships(is: InputStream)
-  : OMFTables
+  : OMFSchemaTables
   = copy(unreifiedRelationships = readJSonTable(is, UnreifiedRelationshipHelper.fromJSON))
 
   def isEmpty: Boolean
@@ -195,15 +195,15 @@ case class OMFTables private[tables]
     unreifiedRelationships.isEmpty
 }
 
-object OMFTables {
+object OMFSchemaTables {
 	
-  def createOMFTables()
-  : OMFTables
-  = new OMFTables()
+  def createEmptyOMFSchemaTables()
+  : OMFSchemaTables
+  = new OMFSchemaTables()
   
-  def loadOMFTables(omfSchemaJsonZipFile: File)
-  : Try[OMFTables]
-  = nonFatalCatch[Try[OMFTables]]
+  def loadOMFSchemaTables(omfSchemaJsonZipFile: File)
+  : Try[OMFSchemaTables]
+  = nonFatalCatch[Try[OMFSchemaTables]]
     .withApply {
       (cause: java.lang.Throwable) =>
         cause.fillInStackTrace()
@@ -216,15 +216,15 @@ object OMFTables {
         .getEntries
         .toIterable
         .par
-         .aggregate(OMFTables())(seqop = readZipArchive(zipFile), combop = mergeTables)
+         .aggregate(OMFSchemaTables())(seqop = readZipArchive(zipFile), combop = mergeTables)
       zipFile.close()
       Success(omfTables)
     }
 
   private[tables] def mergeTables
-  (t1: OMFTables, t2: OMFTables)
-  : OMFTables
-  = OMFTables(
+  (t1: OMFSchemaTables, t2: OMFSchemaTables)
+  : OMFSchemaTables
+  = OMFSchemaTables(
       aspects = t1.aspects ++ t2.aspects,
       aspectSpecializationAxioms = t1.aspectSpecializationAxioms ++ t2.aspectSpecializationAxioms,
       binaryScalarRestrictionAxioms = t1.binaryScalarRestrictionAxioms ++ t2.binaryScalarRestrictionAxioms,
@@ -260,8 +260,8 @@ object OMFTables {
 
   private[tables] def readZipArchive
   (zipFile: ZipFile)
-  (tables: OMFTables, ze: ZipArchiveEntry)
-  : OMFTables
+  (tables: OMFSchemaTables, ze: ZipArchiveEntry)
+  : OMFSchemaTables
   = {
   	val is = zipFile.getInputStream(ze)
   	ze.getName match {
@@ -332,8 +332,8 @@ object OMFTables {
     }
   }
   
-  def saveOMFTables
-  (tables: OMFTables,
+  def saveOMFSchemaTables
+  (tables: OMFSchemaTables,
    omfSchemaJsonZipFile: File)
   : Try[Unit]
   = nonFatalCatch[Try[Unit]]
