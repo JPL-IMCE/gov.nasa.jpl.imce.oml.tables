@@ -194,7 +194,7 @@ lazy val tables = crossProject
   )
   .jvmSettings(
     libraryDependencies ++= Settings.jvmDependencies.value,
-    dynamicScriptsResourceSettings("jpl.omf.schema.tables")
+    dynamicScriptsResourceSettings("jpl-omf-schema-tables")
   )
   // set up settings specific to the JS project
   .jsConfigure(_ enablePlugins HeaderPlugin)
