@@ -235,7 +235,6 @@ lazy val tables = crossProject
     ) : _*
   )
   .jsSettings(
-    scalaJSUseRhino := false,
     scalaJSStage in Global := FullOptStage,
     requiresDOM := false,
 
