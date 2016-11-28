@@ -28,6 +28,7 @@ import scala.Predef._
   * @param graphUUID[1,1]
   * @param uuid[1,1]
   * @param literalValue[1,1]
+  * @param restrictedEntityUUID[1,1]
   * @param scalarPropertyUUID[1,1]
   */
 @JSExport
@@ -36,6 +37,7 @@ case class EntityScalarDataPropertyParticularRestrictionAxiom
  @(JSExport @field) graphUUID: UUID,
  @(JSExport @field) uuid: UUID,
  @(JSExport @field) literalValue: LexicalValue,
+ @(JSExport @field) restrictedEntityUUID: UUID,
  @(JSExport @field) scalarPropertyUUID: UUID
 ) 
 @JSExport

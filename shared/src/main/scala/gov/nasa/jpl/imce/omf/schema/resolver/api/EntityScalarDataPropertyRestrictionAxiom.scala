@@ -25,5 +25,6 @@ trait EntityScalarDataPropertyRestrictionAxiom
   extends TermAxiom
 {
 
+  val restrictedEntity: Entity
   val scalarProperty: EntityScalarDataProperty
 }
