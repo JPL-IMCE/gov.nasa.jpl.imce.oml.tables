@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>ScalarOneOfLiteral - gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral</title>
-          <meta name="description" content="ScalarOneOfLiteral - gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral" />
-          <meta name="keywords" content="ScalarOneOfLiteral gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral" />
+          <title>BinaryScalarRestriction - gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction</title>
+          <meta name="description" content="BinaryScalarRestriction - gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction" />
+          <meta name="keywords" content="BinaryScalarRestriction gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -16,7 +16,7 @@
       <script type="text/javascript">
          if(top === self) {
             var url = '../../../../../../../index.html';
-            var hash = 'gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral';
+            var hash = 'gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -30,10 +30,10 @@
       <div id="definition">
         <img alt="Class" src="../../../../../../../lib/class_big.png" />
         <p id="owner"><a href="../../../../../../package.html" class="extype" name="gov">gov</a>.<a href="../../../../../package.html" class="extype" name="gov.nasa">nasa</a>.<a href="../../../../package.html" class="extype" name="gov.nasa.jpl">jpl</a>.<a href="../../../package.html" class="extype" name="gov.nasa.jpl.imce">imce</a>.<a href="../../package.html" class="extype" name="gov.nasa.jpl.imce.omf">omf</a>.<a href="../package.html" class="extype" name="gov.nasa.jpl.imce.omf.schema">schema</a>.<a href="package.html" class="extype" name="gov.nasa.jpl.imce.omf.schema.tables">tables</a></p>
-        <h1>ScalarOneOfLiteral</h1><h3><span class="morelinks"><div>Related Doc:
+        <h1>BinaryScalarRestriction</h1><h3><span class="morelinks"><div>Related Doc:
             <a href="package.html" class="extype" name="gov.nasa.jpl.imce.omf.schema.tables">package tables</a>
           </div></span></h3><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral" title="Permalink" target="_top">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -45,14 +45,11 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">ScalarOneOfLiteral</span><span class="params">(<span name="graphUUID">graphUUID: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.UUID">UUID</a></span>, <span name="uuid">uuid: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.UUID">UUID</a></span>, <span name="axiomUUID">axiomUUID: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.UUID">UUID</a></span>, <span name="value">value: <a href="package.html#LexicalValue=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.LexicalValue">LexicalValue</a></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <span class="name">BinaryScalarRestriction</span><span class="params">(<span name="graphUUID">graphUUID: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.UUID">UUID</a></span>, <span name="uuid">uuid: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.UUID">UUID</a></span>, <span name="name">name: <a href="package.html#LocalName=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.LocalName">LocalName</a></span>, <span name="iri">iri: <a href="package.html#IRI=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.IRI">IRI</a></span>, <span name="length">length: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="maxLength">maxLength: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="minLength">minLength: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="restrictedRangeUUID">restrictedRangeUUID: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.UUID">UUID</a></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"></div><dl class="attributes block"> <dt>Annotations</dt><dd>
-                <span class="name">@JSExport</span><span class="args">()</span>
-              
-        </dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.Product">Product</span>, <span class="extype" name="scala.Equals">Equals</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -72,7 +69,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral"><span>ScalarOneOfLiteral</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.Product"><span>Product</span></li><li class="in" name="scala.Equals"><span>Equals</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction"><span>BinaryScalarRestriction</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.Product"><span>Product</span></li><li class="in" name="scala.Equals"><span>Equals</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -91,19 +88,39 @@
         <div id="allMembers">
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
-              <ol><li name="gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(graphUUID:gov.nasa.jpl.imce.omf.schema.tables.UUID,uuid:gov.nasa.jpl.imce.omf.schema.tables.UUID,axiomUUID:gov.nasa.jpl.imce.omf.schema.tables.UUID,value:gov.nasa.jpl.imce.omf.schema.tables.LexicalValue):gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral"></a>
-      <a id="&lt;init&gt;:ScalarOneOfLiteral"></a>
+              <ol><li name="gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="&lt;init&gt;(graphUUID:gov.nasa.jpl.imce.omf.schema.tables.UUID,uuid:gov.nasa.jpl.imce.omf.schema.tables.UUID,name:gov.nasa.jpl.imce.omf.schema.tables.LocalName,iri:gov.nasa.jpl.imce.omf.schema.tables.IRI,restrictedRangeUUID:gov.nasa.jpl.imce.omf.schema.tables.UUID):gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction"></a>
+      <a id="&lt;init&gt;:BinaryScalarRestriction"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">ScalarOneOfLiteral</span><span class="params">(<span name="graphUUID">graphUUID: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.UUID">UUID</a></span>, <span name="uuid">uuid: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.UUID">UUID</a></span>, <span name="axiomUUID">axiomUUID: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.UUID">UUID</a></span>, <span name="value">value: <a href="package.html#LexicalValue=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.LexicalValue">LexicalValue</a></span>)</span>
+        <span class="name">BinaryScalarRestriction</span><span class="params">(<span name="graphUUID">graphUUID: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.UUID">UUID</a></span>, <span name="uuid">uuid: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.UUID">UUID</a></span>, <span name="name">name: <a href="package.html#LocalName=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.LocalName">LocalName</a></span>, <span name="iri">iri: <a href="package.html#IRI=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.IRI">IRI</a></span>, <span name="restrictedRangeUUID">restrictedRangeUUID: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.UUID">UUID</a></span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral@&lt;init&gt;(graphUUID:gov.nasa.jpl.imce.omf.schema.tables.UUID,uuid:gov.nasa.jpl.imce.omf.schema.tables.UUID,axiomUUID:gov.nasa.jpl.imce.omf.schema.tables.UUID,value:gov.nasa.jpl.imce.omf.schema.tables.LexicalValue):gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral" title="Permalink" target="_top">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction@&lt;init&gt;(graphUUID:gov.nasa.jpl.imce.omf.schema.tables.UUID,uuid:gov.nasa.jpl.imce.omf.schema.tables.UUID,name:gov.nasa.jpl.imce.omf.schema.tables.LocalName,iri:gov.nasa.jpl.imce.omf.schema.tables.IRI,restrictedRangeUUID:gov.nasa.jpl.imce.omf.schema.tables.UUID):gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction" title="Permalink" target="_top">
+        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@JSExport</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="&lt;init&gt;(graphUUID:gov.nasa.jpl.imce.omf.schema.tables.UUID,uuid:gov.nasa.jpl.imce.omf.schema.tables.UUID,name:gov.nasa.jpl.imce.omf.schema.tables.LocalName,iri:gov.nasa.jpl.imce.omf.schema.tables.IRI,length:Option[Int],maxLength:Option[Int],minLength:Option[Int],restrictedRangeUUID:gov.nasa.jpl.imce.omf.schema.tables.UUID):gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction"></a>
+      <a id="&lt;init&gt;:BinaryScalarRestriction"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">new</span>
+      </span>
+      <span class="symbol">
+        <span class="name">BinaryScalarRestriction</span><span class="params">(<span name="graphUUID">graphUUID: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.UUID">UUID</a></span>, <span name="uuid">uuid: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.UUID">UUID</a></span>, <span name="name">name: <a href="package.html#LocalName=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.LocalName">LocalName</a></span>, <span name="iri">iri: <a href="package.html#IRI=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.IRI">IRI</a></span>, <span name="length">length: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="maxLength">maxLength: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="minLength">minLength: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="restrictedRangeUUID">restrictedRangeUUID: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.UUID">UUID</a></span>)</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction@&lt;init&gt;(graphUUID:gov.nasa.jpl.imce.omf.schema.tables.UUID,uuid:gov.nasa.jpl.imce.omf.schema.tables.UUID,name:gov.nasa.jpl.imce.omf.schema.tables.LocalName,iri:gov.nasa.jpl.imce.omf.schema.tables.IRI,length:Option[Int],maxLength:Option[Int],minLength:Option[Int],restrictedRangeUUID:gov.nasa.jpl.imce.omf.schema.tables.UUID):gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -129,7 +146,7 @@
         <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction@!=(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -146,7 +163,7 @@
         <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral@##():Int" title="Permalink" target="_top">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction@##():Int" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -163,7 +180,7 @@
         <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral@==(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction@==(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -180,28 +197,11 @@
         <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction@asInstanceOf[T0]:T0" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral#axiomUUID" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="axiomUUID:gov.nasa.jpl.imce.omf.schema.tables.UUID"></a>
-      <a id="axiomUUID:UUID"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">axiomUUID</span><span class="result">: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.UUID">UUID</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral@axiomUUID:gov.nasa.jpl.imce.omf.schema.tables.UUID" title="Permalink" target="_top">
-        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a>
       <a id="clone():AnyRef"></a>
@@ -214,7 +214,7 @@
         <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral@clone():Object" title="Permalink" target="_top">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction@clone():Object" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -237,7 +237,7 @@
         <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -254,7 +254,7 @@
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral@finalize():Unit" title="Permalink" target="_top">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction@finalize():Unit" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -277,12 +277,12 @@
         <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral@getClass():Class[_]" title="Permalink" target="_top">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction@getClass():Class[_]" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral#graphUUID" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction#graphUUID" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="graphUUID:gov.nasa.jpl.imce.omf.schema.tables.UUID"></a>
       <a id="graphUUID:UUID"></a>
       <h4 class="signature">
@@ -294,7 +294,24 @@
         <span class="name">graphUUID</span><span class="result">: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.UUID">UUID</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral@graphUUID:gov.nasa.jpl.imce.omf.schema.tables.UUID" title="Permalink" target="_top">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction@graphUUID:gov.nasa.jpl.imce.omf.schema.tables.UUID" title="Permalink" target="_top">
+        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction#iri" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="iri:gov.nasa.jpl.imce.omf.schema.tables.IRI"></a>
+      <a id="iri:IRI"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">iri</span><span class="result">: <a href="package.html#IRI=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.IRI">IRI</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction@iri:gov.nasa.jpl.imce.omf.schema.tables.IRI" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -311,11 +328,79 @@
         <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction#length" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="length:Option[Int]"></a>
+      <a id="length:Option[Int]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">length</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction@length:Option[Int]" title="Permalink" target="_top">
+        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction#maxLength" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="maxLength:Option[Int]"></a>
+      <a id="maxLength:Option[Int]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">maxLength</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction@maxLength:Option[Int]" title="Permalink" target="_top">
+        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction#minLength" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="minLength:Option[Int]"></a>
+      <a id="minLength:Option[Int]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">minLength</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction@minLength:Option[Int]" title="Permalink" target="_top">
+        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction#name" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="name:gov.nasa.jpl.imce.omf.schema.tables.LocalName"></a>
+      <a id="name:LocalName"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">name</span><span class="result">: <a href="package.html#LocalName=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.LocalName">LocalName</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction@name:gov.nasa.jpl.imce.omf.schema.tables.LocalName" title="Permalink" target="_top">
+        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -328,7 +413,7 @@
         <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -345,7 +430,7 @@
         <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral@notify():Unit" title="Permalink" target="_top">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction@notify():Unit" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -362,11 +447,28 @@
         <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral@notifyAll():Unit" title="Permalink" target="_top">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction@notifyAll():Unit" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction#restrictedRangeUUID" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="restrictedRangeUUID:gov.nasa.jpl.imce.omf.schema.tables.UUID"></a>
+      <a id="restrictedRangeUUID:UUID"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">restrictedRangeUUID</span><span class="result">: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.UUID">UUID</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction@restrictedRangeUUID:gov.nasa.jpl.imce.omf.schema.tables.UUID" title="Permalink" target="_top">
+        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -379,12 +481,12 @@
         <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral#uuid" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction#uuid" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="uuid:gov.nasa.jpl.imce.omf.schema.tables.UUID"></a>
       <a id="uuid:UUID"></a>
       <h4 class="signature">
@@ -396,24 +498,7 @@
         <span class="name">uuid</span><span class="result">: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.UUID">UUID</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral@uuid:gov.nasa.jpl.imce.omf.schema.tables.UUID" title="Permalink" target="_top">
-        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral#value" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="value:gov.nasa.jpl.imce.omf.schema.tables.LexicalValue"></a>
-      <a id="value:LexicalValue"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">value</span><span class="result">: <a href="package.html#LexicalValue=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.LexicalValue">LexicalValue</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral@value:gov.nasa.jpl.imce.omf.schema.tables.LexicalValue" title="Permalink" target="_top">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction@uuid:gov.nasa.jpl.imce.omf.schema.tables.UUID" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -430,7 +515,7 @@
         <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral@wait():Unit" title="Permalink" target="_top">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction@wait():Unit" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -453,7 +538,7 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -476,7 +561,7 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfLiteral@wait(x$1:Long):Unit" title="Permalink" target="_top">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction@wait(x$1:Long):Unit" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -487,6 +572,57 @@
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction#withLength" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="withLength(l:Int):gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction"></a>
+      <a id="withLength(Int):BinaryScalarRestriction"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">withLength</span><span class="params">(<span name="l">l: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction">BinaryScalarRestriction</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction@withLength(l:Int):gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction" title="Permalink" target="_top">
+        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction#withMaxLength" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="withMaxLength(l:Int):gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction"></a>
+      <a id="withMaxLength(Int):BinaryScalarRestriction"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">withMaxLength</span><span class="params">(<span name="l">l: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction">BinaryScalarRestriction</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction@withMaxLength(l:Int):gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction" title="Permalink" target="_top">
+        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction#withMinLength" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="withMinLength(l:Int):gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction"></a>
+      <a id="withMinLength(Int):BinaryScalarRestriction"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">withMinLength</span><span class="params">(<span name="l">l: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction">BinaryScalarRestriction</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction@withMinLength(l:Int):gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestriction" title="Permalink" target="_top">
+        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li></ol>
             </div>
 
