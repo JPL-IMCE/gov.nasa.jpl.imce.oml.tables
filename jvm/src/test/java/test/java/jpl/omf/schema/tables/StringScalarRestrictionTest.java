@@ -51,7 +51,7 @@ public class StringScalarRestrictionTest {
         String ps = "[\"" + w1.pattern().get() + "\"]";
 
         String t1 = String.format(
-                "{\"graphUUID\":\"%s\",\"uuid\":\"%s\",\"name\":\"%s\",\"iri\":\"%s\",\"length\":%s,\"maxLength\":%s,\"minLength\":%s,\"pattern\":%s,\"restrictedScalarUUID\":\"%s\"}",
+                "{\"graphUUID\":\"%s\",\"uuid\":\"%s\",\"name\":\"%s\",\"iri\":\"%s\",\"length\":%s,\"maxLength\":%s,\"minLength\":%s,\"pattern\":%s,\"restrictedRangeUUID\":\"%s\"}",
                 graphUUID, uuid, name, iri, ls, maxL, minL, ps, restrictedRangeUUID);
         Assert.assertEquals(t1, s1);
 

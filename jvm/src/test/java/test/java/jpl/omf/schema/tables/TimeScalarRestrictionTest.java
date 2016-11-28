@@ -51,7 +51,7 @@ public class TimeScalarRestrictionTest {
         String minI_s = "[\"" + w1.minInclusive().get() + "\"]";
 
         String t1 = String.format(
-                "{\"graphUUID\":\"%s\",\"uuid\":\"%s\",\"name\":\"%s\",\"iri\",\"%s\",\"maxExclusive\":\"%s\",\"maxInclusive\":\"%s\",\"minExclusive\":\"%s\",\"minInclusive\":\"%s\",\"restrictedRangeUUID\":\"%s\"}",
+                "{\"graphUUID\":\"%s\",\"uuid\":\"%s\",\"name\":\"%s\",\"iri\":\"%s\",\"maxExclusive\":%s,\"maxInclusive\":%s,\"minExclusive\":%s,\"minInclusive\":%s,\"restrictedRangeUUID\":\"%s\"}",
                 graphUUID, uuid, name, iri, maxE_s, maxI_s, minE_s, minI_s, restrictedRangeUUID);
         Assert.assertEquals(t1, s1);
 
