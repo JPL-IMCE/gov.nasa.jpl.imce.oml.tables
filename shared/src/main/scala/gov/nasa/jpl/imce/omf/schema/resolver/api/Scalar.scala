@@ -19,10 +19,11 @@
 package gov.nasa.jpl.imce.omf.schema.resolver.api
 
 /*
+ * Corresponds to an OWL2 Declaration of a Datatype with arity=1.
  * OMF: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.core/latest/api/index.html#gov.nasa.jpl.omf.scala.core.OMF@ModelScalarDataType<:OMFtbox.this.ModelDataTypeDefinition
  * OWL: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.binding.owlapi/latest/api/gov/nasa/jpl/omf/scala/binding/owlapi/types/ModelScalarDataType.html#inheritance-diagram
  */
 trait Scalar
-  extends Datatype
+  extends DataRange
 {
 }

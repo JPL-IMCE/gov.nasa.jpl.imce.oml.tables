@@ -19,13 +19,29 @@
 package gov.nasa.jpl.imce.omf.schema.resolver.api
 
 /*
- * Corresponds to an OWL2 Declaration of a Datatype with arity > 1.
- * The arity corresponds to the cardinality of the set of ScalarDataProperty & StructuredDataProperty
- * relationships whose domain is this structure.
- * OMF: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.core/latest/api/index.html#gov.nasa.jpl.omf.scala.core.OMF@ModelStructuredDataType<:OMFtbox.this.ModelDataTypeDefinition
- * OWL: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.binding.owlapi/latest/api/gov/nasa/jpl/omf/scala/binding/owlapi/types/ModelStructuredDataType.html#inheritance-diagram
+ * A data range that specifies how one IRI scalar adds facet restrictions to another.
+ * Applies when the restricted scalar represents IRIs (OWL2: 4.6)
+ * i.e., when it is one of the following scalars (or their transitively restricted ones):
+ * xsd:anyURI
  */
-trait Structure
-  extends Datatype
+trait IRIScalarRestriction
+  extends RestrictedDataRange
 {
+
+  /*
+   * The length of the IRI
+   */
+  val length: scala.Option[scala.Int]
+  /*
+   * The minimum length of the IRI
+   */
+  val minLength: scala.Option[scala.Int]
+  /*
+   * The maximum length of the IRI
+   */
+  val maxLength: scala.Option[scala.Int]
+  /*
+   * The pattern of the IRI (https://www.w3.org/TR/xmlschema-2/#regexs)
+   */
+  val pattern: scala.Option[gov.nasa.jpl.imce.omf.schema.tables.Pattern]
 }

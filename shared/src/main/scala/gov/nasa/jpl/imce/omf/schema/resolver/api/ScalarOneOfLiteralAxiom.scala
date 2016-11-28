@@ -19,13 +19,15 @@
 package gov.nasa.jpl.imce.omf.schema.resolver.api
 
 /*
- * Corresponds to an OWL2 Declaration of a Datatype with arity > 1.
- * The arity corresponds to the cardinality of the set of ScalarDataProperty & StructuredDataProperty
- * relationships whose domain is this structure.
- * OMF: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.core/latest/api/index.html#gov.nasa.jpl.omf.scala.core.OMF@ModelStructuredDataType<:OMFtbox.this.ModelDataTypeDefinition
- * OWL: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.binding.owlapi/latest/api/gov/nasa/jpl/omf/scala/binding/owlapi/types/ModelStructuredDataType.html#inheritance-diagram
+ * An axiom specifying a literal in a ScalarOneOfRestriction data range.
  */
-trait Structure
-  extends Datatype
+trait ScalarOneOfLiteralAxiom
+  extends Axiom
 {
+
+  val axiom: ScalarOneOfRestriction
+  /*
+   * The value of the literal from the restrictedScalar datatype
+   */
+  val value: gov.nasa.jpl.imce.omf.schema.tables.LexicalValue
 }

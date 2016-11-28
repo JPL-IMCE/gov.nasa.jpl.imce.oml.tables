@@ -27,7 +27,6 @@ import gov.nasa.jpl.imce.omf.schema.tables.ConceptHelper;
 public class ConceptSpecificationJava {
 
     @Test
-    @SuppressWarnings("unchecked")
     public void creationTest() {
         String graphUUID = "01234-abcde-4569-fehi";
         String uuid = "12345-BCDEF-6789A-012345";

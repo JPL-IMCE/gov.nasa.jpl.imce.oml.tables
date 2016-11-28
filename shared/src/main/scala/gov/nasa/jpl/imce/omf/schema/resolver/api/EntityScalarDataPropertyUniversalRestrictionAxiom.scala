@@ -19,16 +19,11 @@
 package gov.nasa.jpl.imce.omf.schema.resolver.api
 
 /*
- * *
  * Semantics: OWL2 DataAllValuesFrom (the range must be explicitly defined as a Scalar datatype)
  */
 trait EntityScalarDataPropertyUniversalRestrictionAxiom
   extends EntityScalarDataPropertyRestrictionAxiom
-  with SpecializationAxiom
 {
 
-  val scalarRestriction: ScalarRestrictionAxiom
-
-  val child: Term
-  val parent: Term
+  val scalarRestriction: DataRange
 }

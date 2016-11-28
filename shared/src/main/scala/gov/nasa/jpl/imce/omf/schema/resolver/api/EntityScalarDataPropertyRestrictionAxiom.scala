@@ -19,7 +19,6 @@
 package gov.nasa.jpl.imce.omf.schema.resolver.api
 
 /*
- * *
  * Semantics: OWL2 Data Property Restrictions
  */
 trait EntityScalarDataPropertyRestrictionAxiom
