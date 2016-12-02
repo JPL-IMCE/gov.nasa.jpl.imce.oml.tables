@@ -27,7 +27,7 @@ trait ConceptDesignationTerminologyGraphAxiom
 {
 
   val designationTerminologyGraph: TerminologyGraph
-  val designatedConceptTerminology: TerminologyBox
+  val designatedTerminology: TerminologyBox
   val designatedConcept: Concept
 
   /*

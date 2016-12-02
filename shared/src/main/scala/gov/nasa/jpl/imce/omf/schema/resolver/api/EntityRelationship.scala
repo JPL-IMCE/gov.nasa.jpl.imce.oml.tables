@@ -19,7 +19,7 @@
 package gov.nasa.jpl.imce.omf.schema.resolver.api
 
 trait EntityRelationship
-  extends Entity
+  extends Term
 {
 
   val source: Entity

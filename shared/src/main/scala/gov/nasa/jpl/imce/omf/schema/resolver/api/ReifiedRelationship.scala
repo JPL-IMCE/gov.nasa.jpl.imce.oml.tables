@@ -24,6 +24,7 @@ package gov.nasa.jpl.imce.omf.schema.resolver.api
  */
 trait ReifiedRelationship
   extends EntityRelationship
+  with Entity
 {
 
   val isAbstract: scala.Boolean

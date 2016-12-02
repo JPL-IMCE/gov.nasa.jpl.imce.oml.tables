@@ -26,15 +26,15 @@ import scala.Predef._
 
 /**
   * @param uuid[1,1]
-  * @param bundleUUID[1,1]
   * @param bundledTerminologyUUID[1,1]
+  * @param terminologyBundleUUID[1,1]
   */
 @JSExport
 case class BundledTerminologyAxiom
 (
  @(JSExport @field) uuid: UUID,
- @(JSExport @field) bundleUUID: UUID,
- @(JSExport @field) bundledTerminologyUUID: UUID
+ @(JSExport @field) bundledTerminologyUUID: UUID,
+ @(JSExport @field) terminologyBundleUUID: UUID
 ) 
 @JSExport
 object BundledTerminologyAxiomHelper {

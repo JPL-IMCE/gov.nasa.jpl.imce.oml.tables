@@ -29,20 +29,10 @@ package gov.nasa.jpl.imce.omf.schema.resolver.api
  */
 trait RestrictedDataRange
   extends DataRange
-  with SpecializationAxiom
 {
 
   /*
-   * The restricted (general) data range
+   * The restricted (general) data range of this data range (specific)
    */
   val restrictedRange: DataRange
-
-  /*
-   * Get the sub (child) entity
-   */
-  val child: Term
-  /*
-   * Get the super (parent) entity
-   */
-  val parent: Term
 }
