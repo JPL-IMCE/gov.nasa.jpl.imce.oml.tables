@@ -45,7 +45,7 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">Bundle</span><span class="params">(<span name="uuid">uuid: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.UUID">UUID</a></span>, <span name="name">name: <a href="package.html#LocalName=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.LocalName">LocalName</a></span>, <span name="iri">iri: <a href="package.html#IRI=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.IRI">IRI</a></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <span class="name">Bundle</span><span class="params">(<span name="uuid">uuid: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.UUID">UUID</a></span>, <span name="kind">kind: <a href="TerminologyGraphKind.html" class="extype" name="gov.nasa.jpl.imce.omf.schema.tables.TerminologyGraphKind">TerminologyGraphKind</a></span>, <span name="name">name: <a href="package.html#LocalName=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.LocalName">LocalName</a></span>, <span name="iri">iri: <a href="package.html#IRI=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.IRI">IRI</a></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
@@ -92,7 +92,7 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="gov.nasa.jpl.imce.omf.schema.tables.Bundle#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(uuid:gov.nasa.jpl.imce.omf.schema.tables.UUID,name:gov.nasa.jpl.imce.omf.schema.tables.LocalName,iri:gov.nasa.jpl.imce.omf.schema.tables.IRI):gov.nasa.jpl.imce.omf.schema.tables.Bundle"></a>
+      <a id="&lt;init&gt;(uuid:gov.nasa.jpl.imce.omf.schema.tables.UUID,kind:gov.nasa.jpl.imce.omf.schema.tables.TerminologyGraphKind,name:gov.nasa.jpl.imce.omf.schema.tables.LocalName,iri:gov.nasa.jpl.imce.omf.schema.tables.IRI):gov.nasa.jpl.imce.omf.schema.tables.Bundle"></a>
       <a id="&lt;init&gt;:Bundle"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -100,10 +100,10 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">Bundle</span><span class="params">(<span name="uuid">uuid: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.UUID">UUID</a></span>, <span name="name">name: <a href="package.html#LocalName=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.LocalName">LocalName</a></span>, <span name="iri">iri: <a href="package.html#IRI=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.IRI">IRI</a></span>)</span>
+        <span class="name">Bundle</span><span class="params">(<span name="uuid">uuid: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.UUID">UUID</a></span>, <span name="kind">kind: <a href="TerminologyGraphKind.html" class="extype" name="gov.nasa.jpl.imce.omf.schema.tables.TerminologyGraphKind">TerminologyGraphKind</a></span>, <span name="name">name: <a href="package.html#LocalName=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.LocalName">LocalName</a></span>, <span name="iri">iri: <a href="package.html#IRI=String" class="extmbr" name="gov.nasa.jpl.imce.omf.schema.tables.IRI">IRI</a></span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.Bundle@&lt;init&gt;(uuid:gov.nasa.jpl.imce.omf.schema.tables.UUID,name:gov.nasa.jpl.imce.omf.schema.tables.LocalName,iri:gov.nasa.jpl.imce.omf.schema.tables.IRI):gov.nasa.jpl.imce.omf.schema.tables.Bundle" title="Permalink" target="_top">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.Bundle@&lt;init&gt;(uuid:gov.nasa.jpl.imce.omf.schema.tables.UUID,kind:gov.nasa.jpl.imce.omf.schema.tables.TerminologyGraphKind,name:gov.nasa.jpl.imce.omf.schema.tables.LocalName,iri:gov.nasa.jpl.imce.omf.schema.tables.IRI):gov.nasa.jpl.imce.omf.schema.tables.Bundle" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -299,6 +299,23 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.omf.schema.tables.Bundle#kind" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="kind:gov.nasa.jpl.imce.omf.schema.tables.TerminologyGraphKind"></a>
+      <a id="kind:TerminologyGraphKind"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">kind</span><span class="result">: <a href="TerminologyGraphKind.html" class="extype" name="gov.nasa.jpl.imce.omf.schema.tables.TerminologyGraphKind">TerminologyGraphKind</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.omf.schema.tables.Bundle@kind:gov.nasa.jpl.imce.omf.schema.tables.TerminologyGraphKind" title="Permalink" target="_top">
+        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="gov.nasa.jpl.imce.omf.schema.tables.Bundle#name" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="name:gov.nasa.jpl.imce.omf.schema.tables.LocalName"></a>
       <a id="name:LocalName"></a>
