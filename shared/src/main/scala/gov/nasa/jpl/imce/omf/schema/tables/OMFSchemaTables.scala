@@ -56,11 +56,14 @@ case class OMFSchemaTables private[tables]
   entityScalarDataPropertyExistentialRestrictionAxioms : Seq[EntityScalarDataPropertyExistentialRestrictionAxiom] = Seq.empty,
   entityScalarDataPropertyParticularRestrictionAxioms : Seq[EntityScalarDataPropertyParticularRestrictionAxiom] = Seq.empty,
   entityScalarDataPropertyUniversalRestrictionAxioms : Seq[EntityScalarDataPropertyUniversalRestrictionAxiom] = Seq.empty,
+  anonymousConceptTaxonomyAxioms : Seq[AnonymousConceptTaxonomyAxiom] = Seq.empty,
   bundledTerminologyAxioms : Seq[BundledTerminologyAxiom] = Seq.empty,
   entityScalarDataProperties : Seq[EntityScalarDataProperty] = Seq.empty,
   entityStructuredDataProperties : Seq[EntityStructuredDataProperty] = Seq.empty,
+  rootConceptTaxonomyAxioms : Seq[RootConceptTaxonomyAxiom] = Seq.empty,
   scalarDataProperties : Seq[ScalarDataProperty] = Seq.empty,
   scalarOneOfLiteralAxioms : Seq[ScalarOneOfLiteralAxiom] = Seq.empty,
+  specificDisjointConceptAxioms : Seq[SpecificDisjointConceptAxiom] = Seq.empty,
   structuredDataProperties : Seq[StructuredDataProperty] = Seq.empty
 ) 
 {
@@ -142,6 +145,9 @@ case class OMFSchemaTables private[tables]
   def readEntityScalarDataPropertyUniversalRestrictionAxioms(is: InputStream)
   : OMFSchemaTables
   = copy(entityScalarDataPropertyUniversalRestrictionAxioms = readJSonTable(is, EntityScalarDataPropertyUniversalRestrictionAxiomHelper.fromJSON))
+  def readAnonymousConceptTaxonomyAxioms(is: InputStream)
+  : OMFSchemaTables
+  = copy(anonymousConceptTaxonomyAxioms = readJSonTable(is, AnonymousConceptTaxonomyAxiomHelper.fromJSON))
   def readBundledTerminologyAxioms(is: InputStream)
   : OMFSchemaTables
   = copy(bundledTerminologyAxioms = readJSonTable(is, BundledTerminologyAxiomHelper.fromJSON))
@@ -151,12 +157,18 @@ case class OMFSchemaTables private[tables]
   def readEntityStructuredDataProperties(is: InputStream)
   : OMFSchemaTables
   = copy(entityStructuredDataProperties = readJSonTable(is, EntityStructuredDataPropertyHelper.fromJSON))
+  def readRootConceptTaxonomyAxioms(is: InputStream)
+  : OMFSchemaTables
+  = copy(rootConceptTaxonomyAxioms = readJSonTable(is, RootConceptTaxonomyAxiomHelper.fromJSON))
   def readScalarDataProperties(is: InputStream)
   : OMFSchemaTables
   = copy(scalarDataProperties = readJSonTable(is, ScalarDataPropertyHelper.fromJSON))
   def readScalarOneOfLiteralAxioms(is: InputStream)
   : OMFSchemaTables
   = copy(scalarOneOfLiteralAxioms = readJSonTable(is, ScalarOneOfLiteralAxiomHelper.fromJSON))
+  def readSpecificDisjointConceptAxioms(is: InputStream)
+  : OMFSchemaTables
+  = copy(specificDisjointConceptAxioms = readJSonTable(is, SpecificDisjointConceptAxiomHelper.fromJSON))
   def readStructuredDataProperties(is: InputStream)
   : OMFSchemaTables
   = copy(structuredDataProperties = readJSonTable(is, StructuredDataPropertyHelper.fromJSON))
@@ -188,11 +200,14 @@ case class OMFSchemaTables private[tables]
     entityScalarDataPropertyExistentialRestrictionAxioms.isEmpty &&
     entityScalarDataPropertyParticularRestrictionAxioms.isEmpty &&
     entityScalarDataPropertyUniversalRestrictionAxioms.isEmpty &&
+    anonymousConceptTaxonomyAxioms.isEmpty &&
     bundledTerminologyAxioms.isEmpty &&
     entityScalarDataProperties.isEmpty &&
     entityStructuredDataProperties.isEmpty &&
+    rootConceptTaxonomyAxioms.isEmpty &&
     scalarDataProperties.isEmpty &&
     scalarOneOfLiteralAxioms.isEmpty &&
+    specificDisjointConceptAxioms.isEmpty &&
     structuredDataProperties.isEmpty
 }
 
@@ -252,11 +267,14 @@ object OMFSchemaTables {
       entityScalarDataPropertyExistentialRestrictionAxioms = t1.entityScalarDataPropertyExistentialRestrictionAxioms ++ t2.entityScalarDataPropertyExistentialRestrictionAxioms,
       entityScalarDataPropertyParticularRestrictionAxioms = t1.entityScalarDataPropertyParticularRestrictionAxioms ++ t2.entityScalarDataPropertyParticularRestrictionAxioms,
       entityScalarDataPropertyUniversalRestrictionAxioms = t1.entityScalarDataPropertyUniversalRestrictionAxioms ++ t2.entityScalarDataPropertyUniversalRestrictionAxioms,
+      anonymousConceptTaxonomyAxioms = t1.anonymousConceptTaxonomyAxioms ++ t2.anonymousConceptTaxonomyAxioms,
       bundledTerminologyAxioms = t1.bundledTerminologyAxioms ++ t2.bundledTerminologyAxioms,
       entityScalarDataProperties = t1.entityScalarDataProperties ++ t2.entityScalarDataProperties,
       entityStructuredDataProperties = t1.entityStructuredDataProperties ++ t2.entityStructuredDataProperties,
+      rootConceptTaxonomyAxioms = t1.rootConceptTaxonomyAxioms ++ t2.rootConceptTaxonomyAxioms,
       scalarDataProperties = t1.scalarDataProperties ++ t2.scalarDataProperties,
       scalarOneOfLiteralAxioms = t1.scalarOneOfLiteralAxioms ++ t2.scalarOneOfLiteralAxioms,
+      specificDisjointConceptAxioms = t1.specificDisjointConceptAxioms ++ t2.specificDisjointConceptAxioms,
       structuredDataProperties = t1.structuredDataProperties ++ t2.structuredDataProperties) 
 
   private[tables] def readZipArchive
@@ -318,16 +336,22 @@ object OMFSchemaTables {
   	    tables.readEntityScalarDataPropertyParticularRestrictionAxioms(is)
   	  case EntityScalarDataPropertyUniversalRestrictionAxiomHelper.TABLE_JSON_FILENAME =>
   	    tables.readEntityScalarDataPropertyUniversalRestrictionAxioms(is)
+  	  case AnonymousConceptTaxonomyAxiomHelper.TABLE_JSON_FILENAME =>
+  	    tables.readAnonymousConceptTaxonomyAxioms(is)
   	  case BundledTerminologyAxiomHelper.TABLE_JSON_FILENAME =>
   	    tables.readBundledTerminologyAxioms(is)
   	  case EntityScalarDataPropertyHelper.TABLE_JSON_FILENAME =>
   	    tables.readEntityScalarDataProperties(is)
   	  case EntityStructuredDataPropertyHelper.TABLE_JSON_FILENAME =>
   	    tables.readEntityStructuredDataProperties(is)
+  	  case RootConceptTaxonomyAxiomHelper.TABLE_JSON_FILENAME =>
+  	    tables.readRootConceptTaxonomyAxioms(is)
   	  case ScalarDataPropertyHelper.TABLE_JSON_FILENAME =>
   	    tables.readScalarDataProperties(is)
   	  case ScalarOneOfLiteralAxiomHelper.TABLE_JSON_FILENAME =>
   	    tables.readScalarOneOfLiteralAxioms(is)
+  	  case SpecificDisjointConceptAxiomHelper.TABLE_JSON_FILENAME =>
+  	    tables.readSpecificDisjointConceptAxioms(is)
   	  case StructuredDataPropertyHelper.TABLE_JSON_FILENAME =>
   	    tables.readStructuredDataProperties(is)
     }
@@ -508,6 +532,12 @@ object OMFSchemaTables {
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(AnonymousConceptTaxonomyAxiomHelper.TABLE_JSON_FILENAME))
+      tables.anonymousConceptTaxonomyAxioms.foreach { t =>
+         val line = AnonymousConceptTaxonomyAxiomHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
       zos.putNextEntry(new java.util.zip.ZipEntry(BundledTerminologyAxiomHelper.TABLE_JSON_FILENAME))
       tables.bundledTerminologyAxioms.foreach { t =>
          val line = BundledTerminologyAxiomHelper.toJSON(t)+"\n"
@@ -526,6 +556,12 @@ object OMFSchemaTables {
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(RootConceptTaxonomyAxiomHelper.TABLE_JSON_FILENAME))
+      tables.rootConceptTaxonomyAxioms.foreach { t =>
+         val line = RootConceptTaxonomyAxiomHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
       zos.putNextEntry(new java.util.zip.ZipEntry(ScalarDataPropertyHelper.TABLE_JSON_FILENAME))
       tables.scalarDataProperties.foreach { t =>
          val line = ScalarDataPropertyHelper.toJSON(t)+"\n"
@@ -535,6 +571,12 @@ object OMFSchemaTables {
       zos.putNextEntry(new java.util.zip.ZipEntry(ScalarOneOfLiteralAxiomHelper.TABLE_JSON_FILENAME))
       tables.scalarOneOfLiteralAxioms.foreach { t =>
          val line = ScalarOneOfLiteralAxiomHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(SpecificDisjointConceptAxiomHelper.TABLE_JSON_FILENAME))
+      tables.specificDisjointConceptAxioms.foreach { t =>
+         val line = SpecificDisjointConceptAxiomHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry()

@@ -19,7 +19,7 @@
 package gov.nasa.jpl.imce.omf.schema.resolver.api
 
 /*
- * A TerminologyAxiom is a directed relationship between two TerminologyBoxes.
+ * A TerminologyAxiom is asserted in a TerminologyBox of some kind.
  * OMF: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.core/latest/api/index.html#gov.nasa.jpl.omf.scala.core.OMF@TerminologyGraphAxiom
  * OWL: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.binding.owlapi/latest/api/gov/nasa/jpl/omf/scala/binding/owlapi/types/TerminologyGraphAxiom.html#inheritance-diagram
  */

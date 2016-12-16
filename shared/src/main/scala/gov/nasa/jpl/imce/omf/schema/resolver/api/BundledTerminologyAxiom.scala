@@ -25,10 +25,9 @@ package gov.nasa.jpl.imce.omf.schema.resolver.api
  * within the transitive closure of a bundledTerminology.
  */
 trait BundledTerminologyAxiom
-  extends TerminologyAxiom
+  extends TerminologyBundleAxiom
 {
 
-  val terminologyBundle: Bundle
   val bundledTerminology: TerminologyBox
 
   /*

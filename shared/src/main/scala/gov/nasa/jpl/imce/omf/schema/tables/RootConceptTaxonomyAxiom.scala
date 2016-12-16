@@ -26,41 +26,39 @@ import scala.Predef._
 
 /**
   * @param uuid[1,1]
-  * @param kind[1,1]
-  * @param name[1,1]
-  * @param iri[1,1]
+  * @param bundleUUID[1,1]
+  * @param rootUUID[1,1]
   */
 @JSExport
-case class Bundle
+case class RootConceptTaxonomyAxiom
 (
  @(JSExport @field) uuid: UUID,
- @(JSExport @field) kind: TerminologyGraphKind,
- @(JSExport @field) name: LocalName,
- @(JSExport @field) iri: IRI
+ @(JSExport @field) bundleUUID: UUID,
+ @(JSExport @field) rootUUID: UUID
 ) 
 @JSExport
-object BundleHelper {
+object RootConceptTaxonomyAxiomHelper {
 
   val TABLE_JSON_FILENAME 
   : scala.Predef.String 
-  = "Bundles.json"
+  = "RootConceptTaxonomyAxioms.json"
   
   implicit val w
-  : upickle.default.Writer[Bundle]
-  = upickle.default.macroW[Bundle]
+  : upickle.default.Writer[RootConceptTaxonomyAxiom]
+  = upickle.default.macroW[RootConceptTaxonomyAxiom]
 
   @JSExport
-  def toJSON(c: Bundle)
+  def toJSON(c: RootConceptTaxonomyAxiom)
   : String
   = upickle.default.write(expr=c, indent=0)
 
   implicit val r
-  : upickle.default.Reader[Bundle]
-  = upickle.default.macroR[Bundle]
+  : upickle.default.Reader[RootConceptTaxonomyAxiom]
+  = upickle.default.macroR[RootConceptTaxonomyAxiom]
 
   @JSExport
   def fromJSON(c: String)
-  : Bundle
-  = upickle.default.read[Bundle](c)
+  : RootConceptTaxonomyAxiom
+  = upickle.default.read[RootConceptTaxonomyAxiom](c)
 
 }	

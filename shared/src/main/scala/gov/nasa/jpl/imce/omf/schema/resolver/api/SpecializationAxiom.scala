@@ -18,9 +18,6 @@
 
 package gov.nasa.jpl.imce.omf.schema.resolver.api
 
-/*
- * TODO: Review (comes from OML)
- */
 trait SpecializationAxiom
   extends TermAxiom
 {

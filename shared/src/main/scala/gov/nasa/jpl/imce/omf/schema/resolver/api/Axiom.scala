@@ -19,6 +19,6 @@
 package gov.nasa.jpl.imce.omf.schema.resolver.api
 
 trait Axiom
-  extends TerminologyStatement
+  extends TerminologyBoxStatement
 {
 }

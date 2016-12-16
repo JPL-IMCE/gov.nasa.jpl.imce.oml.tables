@@ -23,7 +23,7 @@ package gov.nasa.jpl.imce.omf.schema.resolver.api
  * OWL: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.binding.owlapi/latest/api/gov/nasa/jpl/omf/scala/binding/owlapi/types/TerminologyGraphDirectNestingAxiom.html#inheritance-diagram
  */
 trait TerminologyNestingAxiom
-  extends TerminologyAxiom
+  extends TerminologyBoxAxiom
 {
 
   /*

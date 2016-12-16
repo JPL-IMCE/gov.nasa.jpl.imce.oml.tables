@@ -23,7 +23,7 @@ package gov.nasa.jpl.imce.omf.schema.resolver.api
  * OWL: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.binding.owlapi/latest/api/gov/nasa/jpl/omf/scala/binding/owlapi/types/ModelTypeTerm.html#inheritance-diagram
  */
 trait Term
-  extends TerminologyStatement
+  extends TerminologyBoxStatement
   with Resource
 {
 }

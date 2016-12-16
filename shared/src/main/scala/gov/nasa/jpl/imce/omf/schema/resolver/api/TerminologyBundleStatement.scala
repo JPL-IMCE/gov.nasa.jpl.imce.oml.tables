@@ -18,25 +18,7 @@
 
 package gov.nasa.jpl.imce.omf.schema.resolver.api
 
-/*
- * A Bundle is a concrete TerminologyBox that is
- * an acyclic logical aggregate of other TerminologyBoxes.
- */
-trait Bundle
-  extends TerminologyBox
+trait TerminologyBundleStatement
+  extends TerminologyStatement
 {
-
-  /*
-   * The TerminologyBundleStatements asserted in this Bundle
-   */
-  val bundleStatements: scala.collection.immutable.Set[_ <: TerminologyBundleStatement]
-  /*
-   * The BundledTerminologyAxioms asserted in this Bundle
-   */
-  val terminologyBundleAxioms: scala.collection.immutable.Set[_ <: TerminologyBundleAxiom]
-  val disjointUnionOfConceptsAxioms: scala.collection.immutable.Set[_ <: DisjointUnionOfConceptsAxiom]
-
-  def withBundleStatements
-  (s: scala.collection.immutable.Set[_ <: TerminologyBundleStatement]
-  ): Bundle
 }

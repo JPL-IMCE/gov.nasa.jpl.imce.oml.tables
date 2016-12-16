@@ -19,24 +19,14 @@
 package gov.nasa.jpl.imce.omf.schema.resolver.api
 
 /*
- * A Bundle is a concrete TerminologyBox that is
- * an acyclic logical aggregate of other TerminologyBoxes.
+ * A SpecificDisjointConceptAxiom specifies a leaf in a taxonomy tree.
  */
-trait Bundle
-  extends TerminologyBox
+trait SpecificDisjointConceptAxiom
+  extends DisjointUnionOfConceptsAxiom
 {
 
   /*
-   * The TerminologyBundleStatements asserted in this Bundle
+   * A Concept that is a disjoint leaf in a taxonomy tree.
    */
-  val bundleStatements: scala.collection.immutable.Set[_ <: TerminologyBundleStatement]
-  /*
-   * The BundledTerminologyAxioms asserted in this Bundle
-   */
-  val terminologyBundleAxioms: scala.collection.immutable.Set[_ <: TerminologyBundleAxiom]
-  val disjointUnionOfConceptsAxioms: scala.collection.immutable.Set[_ <: DisjointUnionOfConceptsAxiom]
-
-  def withBundleStatements
-  (s: scala.collection.immutable.Set[_ <: TerminologyBundleStatement]
-  ): Bundle
+  val disjointLeaf: Concept
 }

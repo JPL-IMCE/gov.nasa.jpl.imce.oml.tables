@@ -22,5 +22,5 @@ trait DataRelationshipToScalar
   extends DataRelationshipRange
 {
 
-  val range: Scalar
+  val range: DataRange
 }

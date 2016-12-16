@@ -19,7 +19,7 @@
 package gov.nasa.jpl.imce.omf.schema.resolver.api
 
 /*
- * A TerminologyBox is a logical container for a set of TerminologyStatements.
+ * A TerminologyBox is a logical container for a set of TerminologyBoxStatements.
  */
 trait TerminologyBox
   extends TerminologyThing
@@ -27,12 +27,17 @@ trait TerminologyBox
 {
 
   /*
-   * The TerminologyStatements asserted in this TerminologyBox
+   * OMF: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.core/latest/api/index.html#gov.nasa.jpl.omf.scala.core.TerminologyGraphSignature@kind:gov.nasa.jpl.omf.scala.core.TerminologyKind.TerminologyKind
+   * OWL: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.binding.owlapi/latest/api/index.html#gov.nasa.jpl.omf.scala.binding.owlapi.types.ModelTerminologyGraph@kind:gov.nasa.jpl.omf.scala.core.TerminologyKind.TerminologyKind
    */
-  val statements: scala.collection.immutable.Set[_ <: TerminologyStatement]
+  val kind: gov.nasa.jpl.imce.omf.schema.tables.TerminologyGraphKind
+  /*
+   * The TerminologyBoxStatements asserted in this TerminologyBox
+   */
+  val boxStatements: scala.collection.immutable.Set[_ <: TerminologyBoxStatement]
 
-  def withStatements
-  (s: scala.collection.immutable.Set[_ <: TerminologyStatement]
+  def withBoxStatements
+  (s: scala.collection.immutable.Set[_ <: TerminologyBoxStatement]
   ): TerminologyBox
   /*
    * A map for the subset of statements that are
@@ -54,6 +59,11 @@ trait TerminologyBox
    * reified relationship terms indexed by their uuid.
    */
   val reifiedRelationships: scala.collection.immutable.Map[java.util.UUID,ReifiedRelationship]
+  /*
+   * A map for the subset of statements that are
+   * unreified relationship terms indexed by their uuid.
+   */
+  val unreifiedRelationships: scala.collection.immutable.Map[java.util.UUID,UnreifiedRelationship]
   /*
    * A map for the subset of statements that are
    * datatype terms indexed by their uuid.

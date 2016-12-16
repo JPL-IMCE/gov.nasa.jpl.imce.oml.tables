@@ -26,14 +26,4 @@ package gov.nasa.jpl.imce.omf.schema.resolver.api
 trait TerminologyGraph
   extends TerminologyBox
 {
-
-  /*
-   * OMF: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.core/latest/api/index.html#gov.nasa.jpl.omf.scala.core.TerminologyGraphSignature@kind:gov.nasa.jpl.omf.scala.core.TerminologyKind.TerminologyKind
-   * OWL: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.binding.owlapi/latest/api/index.html#gov.nasa.jpl.omf.scala.binding.owlapi.types.ModelTerminologyGraph@kind:gov.nasa.jpl.omf.scala.core.TerminologyKind.TerminologyKind
-   */
-  val kind: gov.nasa.jpl.imce.omf.schema.tables.TerminologyGraphKind
-
-  override def withStatements
-  (s: scala.collection.immutable.Set[_ <: TerminologyStatement]
-  ): TerminologyBox
 }
