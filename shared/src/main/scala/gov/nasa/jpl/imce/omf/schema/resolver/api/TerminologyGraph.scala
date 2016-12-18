@@ -26,4 +26,8 @@ package gov.nasa.jpl.imce.omf.schema.resolver.api
 trait TerminologyGraph
   extends TerminologyBox
 {
+
+  def withBoxStatements
+  (s: scala.collection.immutable.Set[_ <: TerminologyBoxStatement]
+  ): TerminologyGraph
 }
