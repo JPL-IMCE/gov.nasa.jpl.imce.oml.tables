@@ -32,7 +32,6 @@ case class OMFSchemaTables private[tables]
 (
   terminologyGraphs : Seq[TerminologyGraph] = Seq.empty,
   bundles : Seq[Bundle] = Seq.empty,
-  conceptDesignationTerminologyGraphAxioms : Seq[ConceptDesignationTerminologyGraphAxiom] = Seq.empty,
   terminologyExtensionAxioms : Seq[TerminologyExtensionAxiom] = Seq.empty,
   terminologyNestingAxioms : Seq[TerminologyNestingAxiom] = Seq.empty,
   aspects : Seq[Aspect] = Seq.empty,
@@ -58,6 +57,7 @@ case class OMFSchemaTables private[tables]
   entityScalarDataPropertyUniversalRestrictionAxioms : Seq[EntityScalarDataPropertyUniversalRestrictionAxiom] = Seq.empty,
   anonymousConceptTaxonomyAxioms : Seq[AnonymousConceptTaxonomyAxiom] = Seq.empty,
   bundledTerminologyAxioms : Seq[BundledTerminologyAxiom] = Seq.empty,
+  conceptDesignationTerminologyAxioms : Seq[ConceptDesignationTerminologyAxiom] = Seq.empty,
   entityScalarDataProperties : Seq[EntityScalarDataProperty] = Seq.empty,
   entityStructuredDataProperties : Seq[EntityStructuredDataProperty] = Seq.empty,
   rootConceptTaxonomyAxioms : Seq[RootConceptTaxonomyAxiom] = Seq.empty,
@@ -73,9 +73,6 @@ case class OMFSchemaTables private[tables]
   def readBundles(is: InputStream)
   : OMFSchemaTables
   = copy(bundles = readJSonTable(is, BundleHelper.fromJSON))
-  def readConceptDesignationTerminologyGraphAxioms(is: InputStream)
-  : OMFSchemaTables
-  = copy(conceptDesignationTerminologyGraphAxioms = readJSonTable(is, ConceptDesignationTerminologyGraphAxiomHelper.fromJSON))
   def readTerminologyExtensionAxioms(is: InputStream)
   : OMFSchemaTables
   = copy(terminologyExtensionAxioms = readJSonTable(is, TerminologyExtensionAxiomHelper.fromJSON))
@@ -151,6 +148,9 @@ case class OMFSchemaTables private[tables]
   def readBundledTerminologyAxioms(is: InputStream)
   : OMFSchemaTables
   = copy(bundledTerminologyAxioms = readJSonTable(is, BundledTerminologyAxiomHelper.fromJSON))
+  def readConceptDesignationTerminologyAxioms(is: InputStream)
+  : OMFSchemaTables
+  = copy(conceptDesignationTerminologyAxioms = readJSonTable(is, ConceptDesignationTerminologyAxiomHelper.fromJSON))
   def readEntityScalarDataProperties(is: InputStream)
   : OMFSchemaTables
   = copy(entityScalarDataProperties = readJSonTable(is, EntityScalarDataPropertyHelper.fromJSON))
@@ -176,7 +176,6 @@ case class OMFSchemaTables private[tables]
   def isEmpty: Boolean
   = terminologyGraphs.isEmpty &&
     bundles.isEmpty &&
-    conceptDesignationTerminologyGraphAxioms.isEmpty &&
     terminologyExtensionAxioms.isEmpty &&
     terminologyNestingAxioms.isEmpty &&
     aspects.isEmpty &&
@@ -202,6 +201,7 @@ case class OMFSchemaTables private[tables]
     entityScalarDataPropertyUniversalRestrictionAxioms.isEmpty &&
     anonymousConceptTaxonomyAxioms.isEmpty &&
     bundledTerminologyAxioms.isEmpty &&
+    conceptDesignationTerminologyAxioms.isEmpty &&
     entityScalarDataProperties.isEmpty &&
     entityStructuredDataProperties.isEmpty &&
     rootConceptTaxonomyAxioms.isEmpty &&
@@ -243,7 +243,6 @@ object OMFSchemaTables {
   = OMFSchemaTables(
       terminologyGraphs = t1.terminologyGraphs ++ t2.terminologyGraphs,
       bundles = t1.bundles ++ t2.bundles,
-      conceptDesignationTerminologyGraphAxioms = t1.conceptDesignationTerminologyGraphAxioms ++ t2.conceptDesignationTerminologyGraphAxioms,
       terminologyExtensionAxioms = t1.terminologyExtensionAxioms ++ t2.terminologyExtensionAxioms,
       terminologyNestingAxioms = t1.terminologyNestingAxioms ++ t2.terminologyNestingAxioms,
       aspects = t1.aspects ++ t2.aspects,
@@ -269,6 +268,7 @@ object OMFSchemaTables {
       entityScalarDataPropertyUniversalRestrictionAxioms = t1.entityScalarDataPropertyUniversalRestrictionAxioms ++ t2.entityScalarDataPropertyUniversalRestrictionAxioms,
       anonymousConceptTaxonomyAxioms = t1.anonymousConceptTaxonomyAxioms ++ t2.anonymousConceptTaxonomyAxioms,
       bundledTerminologyAxioms = t1.bundledTerminologyAxioms ++ t2.bundledTerminologyAxioms,
+      conceptDesignationTerminologyAxioms = t1.conceptDesignationTerminologyAxioms ++ t2.conceptDesignationTerminologyAxioms,
       entityScalarDataProperties = t1.entityScalarDataProperties ++ t2.entityScalarDataProperties,
       entityStructuredDataProperties = t1.entityStructuredDataProperties ++ t2.entityStructuredDataProperties,
       rootConceptTaxonomyAxioms = t1.rootConceptTaxonomyAxioms ++ t2.rootConceptTaxonomyAxioms,
@@ -288,8 +288,6 @@ object OMFSchemaTables {
   	    tables.readTerminologyGraphs(is)
   	  case BundleHelper.TABLE_JSON_FILENAME =>
   	    tables.readBundles(is)
-  	  case ConceptDesignationTerminologyGraphAxiomHelper.TABLE_JSON_FILENAME =>
-  	    tables.readConceptDesignationTerminologyGraphAxioms(is)
   	  case TerminologyExtensionAxiomHelper.TABLE_JSON_FILENAME =>
   	    tables.readTerminologyExtensionAxioms(is)
   	  case TerminologyNestingAxiomHelper.TABLE_JSON_FILENAME =>
@@ -340,6 +338,8 @@ object OMFSchemaTables {
   	    tables.readAnonymousConceptTaxonomyAxioms(is)
   	  case BundledTerminologyAxiomHelper.TABLE_JSON_FILENAME =>
   	    tables.readBundledTerminologyAxioms(is)
+  	  case ConceptDesignationTerminologyAxiomHelper.TABLE_JSON_FILENAME =>
+  	    tables.readConceptDesignationTerminologyAxioms(is)
   	  case EntityScalarDataPropertyHelper.TABLE_JSON_FILENAME =>
   	    tables.readEntityScalarDataProperties(is)
   	  case EntityStructuredDataPropertyHelper.TABLE_JSON_FILENAME =>
@@ -385,12 +385,6 @@ object OMFSchemaTables {
       zos.putNextEntry(new java.util.zip.ZipEntry(BundleHelper.TABLE_JSON_FILENAME))
       tables.bundles.foreach { t =>
          val line = BundleHelper.toJSON(t)+"\n"
-         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
-      }
-      zos.closeEntry()
-      zos.putNextEntry(new java.util.zip.ZipEntry(ConceptDesignationTerminologyGraphAxiomHelper.TABLE_JSON_FILENAME))
-      tables.conceptDesignationTerminologyGraphAxioms.foreach { t =>
-         val line = ConceptDesignationTerminologyGraphAxiomHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry()
@@ -541,6 +535,12 @@ object OMFSchemaTables {
       zos.putNextEntry(new java.util.zip.ZipEntry(BundledTerminologyAxiomHelper.TABLE_JSON_FILENAME))
       tables.bundledTerminologyAxioms.foreach { t =>
          val line = BundledTerminologyAxiomHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(ConceptDesignationTerminologyAxiomHelper.TABLE_JSON_FILENAME))
+      tables.conceptDesignationTerminologyAxioms.foreach { t =>
+         val line = ConceptDesignationTerminologyAxiomHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry()

@@ -30,35 +30,35 @@ import scala.Predef._
   * @param designationTerminologyGraphUUID[1,1]
   */
 @JSExport
-case class ConceptDesignationTerminologyGraphAxiom
+case class ConceptDesignationTerminologyAxiom
 (
  @(JSExport @field) uuid: UUID,
  @(JSExport @field) designatedConceptUUID: UUID,
  @(JSExport @field) designationTerminologyGraphUUID: UUID
 ) 
 @JSExport
-object ConceptDesignationTerminologyGraphAxiomHelper {
+object ConceptDesignationTerminologyAxiomHelper {
 
   val TABLE_JSON_FILENAME 
   : scala.Predef.String 
-  = "ConceptDesignationTerminologyGraphAxioms.json"
+  = "ConceptDesignationTerminologyAxioms.json"
   
   implicit val w
-  : upickle.default.Writer[ConceptDesignationTerminologyGraphAxiom]
-  = upickle.default.macroW[ConceptDesignationTerminologyGraphAxiom]
+  : upickle.default.Writer[ConceptDesignationTerminologyAxiom]
+  = upickle.default.macroW[ConceptDesignationTerminologyAxiom]
 
   @JSExport
-  def toJSON(c: ConceptDesignationTerminologyGraphAxiom)
+  def toJSON(c: ConceptDesignationTerminologyAxiom)
   : String
   = upickle.default.write(expr=c, indent=0)
 
   implicit val r
-  : upickle.default.Reader[ConceptDesignationTerminologyGraphAxiom]
-  = upickle.default.macroR[ConceptDesignationTerminologyGraphAxiom]
+  : upickle.default.Reader[ConceptDesignationTerminologyAxiom]
+  = upickle.default.macroR[ConceptDesignationTerminologyAxiom]
 
   @JSExport
   def fromJSON(c: String)
-  : ConceptDesignationTerminologyGraphAxiom
-  = upickle.default.read[ConceptDesignationTerminologyGraphAxiom](c)
+  : ConceptDesignationTerminologyAxiom
+  = upickle.default.read[ConceptDesignationTerminologyAxiom](c)
 
 }	

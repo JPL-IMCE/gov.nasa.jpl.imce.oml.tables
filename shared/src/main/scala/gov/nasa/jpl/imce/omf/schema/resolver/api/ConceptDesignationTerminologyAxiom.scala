@@ -22,7 +22,7 @@ package gov.nasa.jpl.imce.omf.schema.resolver.api
  * OMF: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.core/latest/api/index.html#gov.nasa.jpl.omf.scala.core.OMF@EntityConceptDesignationTerminologyGraphAxiom<:OMFtbox.this.ModelTermAxiom
  * OWL: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.binding.owlapi/latest/api/gov/nasa/jpl/omf/scala/binding/owlapi/types/EntityConceptDesignationTerminologyGraphAxiom.html#inheritance-diagram
  */
-trait ConceptDesignationTerminologyGraphAxiom
+trait ConceptDesignationTerminologyAxiom
   extends TerminologyBoxAxiom
 {
 
