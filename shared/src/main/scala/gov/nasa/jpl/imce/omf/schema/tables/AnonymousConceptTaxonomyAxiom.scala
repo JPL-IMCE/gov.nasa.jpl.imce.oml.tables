@@ -25,12 +25,14 @@ import scala._
 import scala.Predef._
 
 /**
+  * @param uuid[1,1]
   * @param bundleUUID[1,1]
   * @param disjointTaxonomyParentUUID[1,1]
   */
 @JSExport
 case class AnonymousConceptTaxonomyAxiom
 (
+ @(JSExport @field) uuid: UUID,
  @(JSExport @field) bundleUUID: UUID,
  @(JSExport @field) disjointTaxonomyParentUUID: UUID
 ) 

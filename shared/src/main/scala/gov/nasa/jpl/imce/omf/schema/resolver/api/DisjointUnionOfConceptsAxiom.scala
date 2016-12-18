@@ -24,12 +24,9 @@ package gov.nasa.jpl.imce.omf.schema.resolver.api
  * - Leaf nodes are SpecificDisjointConceptAxioms.
  */
 trait DisjointUnionOfConceptsAxiom
+  extends TerminologyBundleStatement
 {
 
-  /*
-   * The bundle that asserts this disjoint concept taxonomy tree.
-   */
-  val bundle: Bundle
   /*
    * The parent of this node in a disjoint concept taxonomy tree.
    */

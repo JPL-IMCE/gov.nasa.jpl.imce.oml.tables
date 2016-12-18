@@ -25,6 +25,7 @@ import scala._
 import scala.Predef._
 
 /**
+  * @param uuid[1,1]
   * @param bundleUUID[1,1]
   * @param disjointLeafUUID[1,1]
   * @param disjointTaxonomyParentUUID[1,1]
@@ -32,6 +33,7 @@ import scala.Predef._
 @JSExport
 case class SpecificDisjointConceptAxiom
 (
+ @(JSExport @field) uuid: UUID,
  @(JSExport @field) bundleUUID: UUID,
  @(JSExport @field) disjointLeafUUID: UUID,
  @(JSExport @field) disjointTaxonomyParentUUID: UUID

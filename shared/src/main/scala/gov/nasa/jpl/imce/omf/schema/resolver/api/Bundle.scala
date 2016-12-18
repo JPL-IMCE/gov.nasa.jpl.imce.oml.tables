@@ -34,7 +34,6 @@ trait Bundle
    * The BundledTerminologyAxioms asserted in this Bundle
    */
   val terminologyBundleAxioms: scala.collection.immutable.Set[_ <: TerminologyBundleAxiom]
-  val disjointUnionOfConceptsAxioms: scala.collection.immutable.Set[_ <: DisjointUnionOfConceptsAxiom]
 
   def withBundleStatements
   (s: scala.collection.immutable.Set[_ <: TerminologyBundleStatement]
