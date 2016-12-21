@@ -20,6 +20,7 @@
 package gov.nasa.jpl.imce.omf.schema.tables
 
 import java.io.{File,InputStream}
+import java.nio.file.Files
 import org.apache.commons.compress.archivers.zip.{ZipArchiveEntry, ZipFile}
 
 import scala.collection.immutable.Seq
@@ -368,6 +369,9 @@ object OMFSchemaTables {
         Failure(cause)
     }
     .apply {
+      // Make sure the directory exists before saving the file!
+      Files.createDirectories(omfSchemaJsonZipFile.getParentFile.toPath)
+
   	  // @see http://www.oracle.com/technetwork/articles/java/compress-1565076.html
   	  val fos = new java.io.FileOutputStream(omfSchemaJsonZipFile)
   	  val bos = new java.io.BufferedOutputStream(fos, 100000)
