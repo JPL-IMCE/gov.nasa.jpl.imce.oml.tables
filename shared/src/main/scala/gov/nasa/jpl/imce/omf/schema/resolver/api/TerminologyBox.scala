@@ -71,9 +71,9 @@ trait TerminologyBox
   val dataRelationships: scala.collection.immutable.Map[java.util.UUID,DataRelationship]
   /*
    * A map for the subset of statements that are
-   * datatype terms indexed by their uuid.
+   * data range terms indexed by their uuid.
    */
-  val datatypes: scala.collection.immutable.Map[java.util.UUID,Datatype]
+  val dataranges: scala.collection.immutable.Map[java.util.UUID,DataRange]
   /*
    * A map for the subset of statements that are
    * scalar datatype terms indexed by their uuid.
