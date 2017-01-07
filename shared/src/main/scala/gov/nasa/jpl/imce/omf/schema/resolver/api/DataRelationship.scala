@@ -25,4 +25,7 @@ package gov.nasa.jpl.imce.omf.schema.resolver.api
 trait DataRelationship
   extends Term
 {
+
+  val source: Term
+  val target: Datatype
 }

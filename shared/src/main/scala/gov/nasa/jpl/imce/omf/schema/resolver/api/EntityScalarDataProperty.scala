@@ -27,4 +27,7 @@ trait EntityScalarDataProperty
   with DataRelationshipFromEntity
   with DataRelationshipToScalar
 {
+
+  override val source: Term
+  override val target: Datatype
 }

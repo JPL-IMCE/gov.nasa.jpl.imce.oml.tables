@@ -27,4 +27,7 @@ trait EntityStructuredDataProperty
   with DataRelationshipFromEntity
   with DataRelationshipToStructure
 {
+
+  override val source: Term
+  override val target: Datatype
 }
