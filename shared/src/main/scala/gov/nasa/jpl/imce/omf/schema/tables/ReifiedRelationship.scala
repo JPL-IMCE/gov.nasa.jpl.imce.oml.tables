@@ -29,6 +29,8 @@ import scala.Predef._
   * @param uuid[1,1]
   * @param isAbstract[1,1]
   * @param name[1,1]
+  * @param unreifiedPropertyName[1,1]
+  * @param unreifiedInversePropertyName[0,1]
   * @param iri[1,1]
   * @param isAsymmetric[1,1]
   * @param isEssential[1,1]
@@ -41,8 +43,6 @@ import scala.Predef._
   * @param isTransitive[1,1]
   * @param sourceUUID[1,1]
   * @param targetUUID[1,1]
-  * @param unreifiedInversePropertyName[0,1]
-  * @param unreifiedPropertyName[1,1]
   */
 case class ReifiedRelationship
 (
@@ -50,6 +50,8 @@ case class ReifiedRelationship
  @(JSExport @field) uuid: UUID,
  @(JSExport @field) isAbstract: scala.Boolean,
  @(JSExport @field) name: LocalName,
+ @(JSExport @field) unreifiedPropertyName: LocalName,
+ @(JSExport @field) unreifiedInversePropertyName: scala.Option[LocalName],
  @(JSExport @field) iri: IRI,
  @(JSExport @field) isAsymmetric: scala.Boolean,
  @(JSExport @field) isEssential: scala.Boolean,
@@ -61,9 +63,7 @@ case class ReifiedRelationship
  @(JSExport @field) isSymmetric: scala.Boolean,
  @(JSExport @field) isTransitive: scala.Boolean,
  @(JSExport @field) sourceUUID: UUID,
- @(JSExport @field) targetUUID: UUID,
- @(JSExport @field) unreifiedInversePropertyName: scala.Option[LocalName],
- @(JSExport @field) unreifiedPropertyName: LocalName
+ @(JSExport @field) targetUUID: UUID
 ) {
 
 @JSExport
@@ -72,6 +72,7 @@ def this(
 	uuid: UUID,
 	isAbstract: scala.Boolean,
 	name: LocalName,
+	unreifiedPropertyName: LocalName,
 	iri: IRI,
 	isAsymmetric: scala.Boolean,
 	isEssential: scala.Boolean,
@@ -83,14 +84,15 @@ def this(
 	isSymmetric: scala.Boolean,
 	isTransitive: scala.Boolean,
 	sourceUUID: UUID,
-	targetUUID: UUID,
-	unreifiedPropertyName: LocalName
+	targetUUID: UUID
 ) 
 = this(
 graphUUID,
 uuid,
 isAbstract,
 name,
+unreifiedPropertyName,
+None,
 iri,
 isAsymmetric,
 isEssential,
@@ -102,9 +104,7 @@ isReflexive,
 isSymmetric,
 isTransitive,
 sourceUUID,
-targetUUID,
-None,
-unreifiedPropertyName
+targetUUID
 ) 
 
 def withUnreifiedInversePropertyName(l: LocalName)	 

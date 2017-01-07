@@ -9,7 +9,7 @@ object Settings {
 
   val organizationName = "JPL-IMCE"
 
-  val version = "0.34.0"
+  val version = "0.35.0"
 
   val scalacOptions = Seq(
     "-deprecation",

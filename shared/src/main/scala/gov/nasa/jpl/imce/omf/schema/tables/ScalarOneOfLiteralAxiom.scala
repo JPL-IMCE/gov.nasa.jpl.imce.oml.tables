@@ -27,16 +27,16 @@ import scala.Predef._
 /**
   * @param graphUUID[1,1]
   * @param uuid[1,1]
-  * @param value[1,1]
   * @param axiomUUID[1,1]
+  * @param value[1,1]
   */
 @JSExport
 case class ScalarOneOfLiteralAxiom
 (
  @(JSExport @field) graphUUID: UUID,
  @(JSExport @field) uuid: UUID,
- @(JSExport @field) value: LexicalValue,
- @(JSExport @field) axiomUUID: UUID
+ @(JSExport @field) axiomUUID: UUID,
+ @(JSExport @field) value: LexicalValue
 ) 
 @JSExport
 object ScalarOneOfLiteralAxiomHelper {
