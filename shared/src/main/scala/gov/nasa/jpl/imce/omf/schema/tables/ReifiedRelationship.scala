@@ -41,8 +41,9 @@ import scala.Predef._
   * @param isTransitive[1,1]
   * @param sourceUUID[1,1]
   * @param targetUUID[1,1]
+  * @param unreifiedInversePropertyName[0,1]
+  * @param unreifiedPropertyName[1,1]
   */
-@JSExport
 case class ReifiedRelationship
 (
  @(JSExport @field) graphUUID: UUID,
@@ -60,8 +61,59 @@ case class ReifiedRelationship
  @(JSExport @field) isSymmetric: scala.Boolean,
  @(JSExport @field) isTransitive: scala.Boolean,
  @(JSExport @field) sourceUUID: UUID,
- @(JSExport @field) targetUUID: UUID
+ @(JSExport @field) targetUUID: UUID,
+ @(JSExport @field) unreifiedInversePropertyName: scala.Option[LocalName],
+ @(JSExport @field) unreifiedPropertyName: LocalName
+) {
+
+@JSExport
+def this(
+	graphUUID: UUID,
+	uuid: UUID,
+	isAbstract: scala.Boolean,
+	name: LocalName,
+	iri: IRI,
+	isAsymmetric: scala.Boolean,
+	isEssential: scala.Boolean,
+	isFunctional: scala.Boolean,
+	isInverseEssential: scala.Boolean,
+	isInverseFunctional: scala.Boolean,
+	isIrreflexive: scala.Boolean,
+	isReflexive: scala.Boolean,
+	isSymmetric: scala.Boolean,
+	isTransitive: scala.Boolean,
+	sourceUUID: UUID,
+	targetUUID: UUID,
+	unreifiedPropertyName: LocalName
 ) 
+= this(
+graphUUID,
+uuid,
+isAbstract,
+name,
+iri,
+isAsymmetric,
+isEssential,
+isFunctional,
+isInverseEssential,
+isInverseFunctional,
+isIrreflexive,
+isReflexive,
+isSymmetric,
+isTransitive,
+sourceUUID,
+targetUUID,
+None,
+unreifiedPropertyName
+) 
+
+def withUnreifiedInversePropertyName(l: LocalName)	 
+: ReifiedRelationship
+= copy(unreifiedInversePropertyName=Some(l))
+
+}
+
+
 @JSExport
 object ReifiedRelationshipHelper {
 

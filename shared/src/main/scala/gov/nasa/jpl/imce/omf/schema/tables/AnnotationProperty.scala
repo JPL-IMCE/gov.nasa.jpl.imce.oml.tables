@@ -25,42 +25,38 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param graphUUID[1,1]
   * @param uuid[1,1]
-  * @param value[1,1]
-  * @param axiomUUID[1,1]
+  * @param iri[1,1]
   */
 @JSExport
-case class ScalarOneOfLiteralAxiom
+case class AnnotationProperty
 (
- @(JSExport @field) graphUUID: UUID,
  @(JSExport @field) uuid: UUID,
- @(JSExport @field) value: LexicalValue,
- @(JSExport @field) axiomUUID: UUID
+ @(JSExport @field) iri: IRI
 ) 
 @JSExport
-object ScalarOneOfLiteralAxiomHelper {
+object AnnotationPropertyHelper {
 
   val TABLE_JSON_FILENAME 
   : scala.Predef.String 
-  = "ScalarOneOfLiteralAxioms.json"
+  = "AnnotationPropertys.json"
   
   implicit val w
-  : upickle.default.Writer[ScalarOneOfLiteralAxiom]
-  = upickle.default.macroW[ScalarOneOfLiteralAxiom]
+  : upickle.default.Writer[AnnotationProperty]
+  = upickle.default.macroW[AnnotationProperty]
 
   @JSExport
-  def toJSON(c: ScalarOneOfLiteralAxiom)
+  def toJSON(c: AnnotationProperty)
   : String
   = upickle.default.write(expr=c, indent=0)
 
   implicit val r
-  : upickle.default.Reader[ScalarOneOfLiteralAxiom]
-  = upickle.default.macroR[ScalarOneOfLiteralAxiom]
+  : upickle.default.Reader[AnnotationProperty]
+  = upickle.default.macroR[AnnotationProperty]
 
   @JSExport
   def fromJSON(c: String)
-  : ScalarOneOfLiteralAxiom
-  = upickle.default.read[ScalarOneOfLiteralAxiom](c)
+  : AnnotationProperty
+  = upickle.default.read[AnnotationProperty](c)
 
 }	

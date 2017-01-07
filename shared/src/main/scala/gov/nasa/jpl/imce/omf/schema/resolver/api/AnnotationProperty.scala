@@ -18,16 +18,9 @@
 
 package gov.nasa.jpl.imce.omf.schema.resolver.api
 
-/*
- * OMF: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.core/latest/api/index.html#gov.nasa.jpl.omf.scala.core.OMF@ModelEntityReifiedRelationship<:OMFtbox.this.ModelEntityDefinition
- * OWL: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.binding.owlapi/latest/api/gov/nasa/jpl/omf/scala/binding/owlapi/types/ModelEntityReifiedRelationship.html#inheritance-diagram
- */
-trait ReifiedRelationship
-  extends EntityRelationship
-  with Entity
+trait AnnotationProperty
+  extends TerminologyThing
 {
 
-  val isAbstract: scala.Boolean
-  val unreifiedPropertyName: gov.nasa.jpl.imce.omf.schema.tables.LocalName
-  val unreifiedInversePropertyName: scala.Option[gov.nasa.jpl.imce.omf.schema.tables.LocalName]
+  val iri: gov.nasa.jpl.imce.omf.schema.tables.IRI
 }

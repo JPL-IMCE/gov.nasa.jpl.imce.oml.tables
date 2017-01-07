@@ -30,6 +30,7 @@ import scala.util.{Failure,Success,Try}
 
 case class OMFSchemaTables private[tables]
 (
+  annotationProperties : Seq[AnnotationProperty] = Seq.empty,
   terminologyGraphs : Seq[TerminologyGraph] = Seq.empty,
   bundles : Seq[Bundle] = Seq.empty,
   conceptDesignationTerminologyAxioms : Seq[ConceptDesignationTerminologyAxiom] = Seq.empty,
@@ -64,9 +65,13 @@ case class OMFSchemaTables private[tables]
   bundledTerminologyAxioms : Seq[BundledTerminologyAxiom] = Seq.empty,
   anonymousConceptTaxonomyAxioms : Seq[AnonymousConceptTaxonomyAxiom] = Seq.empty,
   rootConceptTaxonomyAxioms : Seq[RootConceptTaxonomyAxiom] = Seq.empty,
-  specificDisjointConceptAxioms : Seq[SpecificDisjointConceptAxiom] = Seq.empty
+  specificDisjointConceptAxioms : Seq[SpecificDisjointConceptAxiom] = Seq.empty,
+  annotationPairs : Seq[AnnotationPair] = Seq.empty
 ) 
 {
+  def readAnnotationProperties(is: InputStream)
+  : OMFSchemaTables
+  = copy(annotationProperties = readJSonTable(is, AnnotationPropertyHelper.fromJSON))
   def readTerminologyGraphs(is: InputStream)
   : OMFSchemaTables
   = copy(terminologyGraphs = readJSonTable(is, TerminologyGraphHelper.fromJSON))
@@ -172,9 +177,13 @@ case class OMFSchemaTables private[tables]
   def readSpecificDisjointConceptAxioms(is: InputStream)
   : OMFSchemaTables
   = copy(specificDisjointConceptAxioms = readJSonTable(is, SpecificDisjointConceptAxiomHelper.fromJSON))
+  def readAnnotationPairs(is: InputStream)
+  : OMFSchemaTables
+  = copy(annotationPairs = readJSonTable(is, AnnotationPairHelper.fromJSON))
 
   def isEmpty: Boolean
-  = terminologyGraphs.isEmpty &&
+  = annotationProperties.isEmpty &&
+    terminologyGraphs.isEmpty &&
     bundles.isEmpty &&
     conceptDesignationTerminologyAxioms.isEmpty &&
     terminologyExtensionAxioms.isEmpty &&
@@ -208,7 +217,8 @@ case class OMFSchemaTables private[tables]
     bundledTerminologyAxioms.isEmpty &&
     anonymousConceptTaxonomyAxioms.isEmpty &&
     rootConceptTaxonomyAxioms.isEmpty &&
-    specificDisjointConceptAxioms.isEmpty
+    specificDisjointConceptAxioms.isEmpty &&
+    annotationPairs.isEmpty
 }
 
 object OMFSchemaTables {
@@ -241,6 +251,7 @@ object OMFSchemaTables {
   (t1: OMFSchemaTables, t2: OMFSchemaTables)
   : OMFSchemaTables
   = OMFSchemaTables(
+      annotationProperties = t1.annotationProperties ++ t2.annotationProperties,
       terminologyGraphs = t1.terminologyGraphs ++ t2.terminologyGraphs,
       bundles = t1.bundles ++ t2.bundles,
       conceptDesignationTerminologyAxioms = t1.conceptDesignationTerminologyAxioms ++ t2.conceptDesignationTerminologyAxioms,
@@ -275,7 +286,8 @@ object OMFSchemaTables {
       bundledTerminologyAxioms = t1.bundledTerminologyAxioms ++ t2.bundledTerminologyAxioms,
       anonymousConceptTaxonomyAxioms = t1.anonymousConceptTaxonomyAxioms ++ t2.anonymousConceptTaxonomyAxioms,
       rootConceptTaxonomyAxioms = t1.rootConceptTaxonomyAxioms ++ t2.rootConceptTaxonomyAxioms,
-      specificDisjointConceptAxioms = t1.specificDisjointConceptAxioms ++ t2.specificDisjointConceptAxioms) 
+      specificDisjointConceptAxioms = t1.specificDisjointConceptAxioms ++ t2.specificDisjointConceptAxioms,
+      annotationPairs = t1.annotationPairs ++ t2.annotationPairs) 
 
   private[tables] def readZipArchive
   (zipFile: ZipFile)
@@ -284,6 +296,8 @@ object OMFSchemaTables {
   = {
   	val is = zipFile.getInputStream(ze)
   	ze.getName match {
+  	  case AnnotationPropertyHelper.TABLE_JSON_FILENAME =>
+  	    tables.readAnnotationProperties(is)
   	  case TerminologyGraphHelper.TABLE_JSON_FILENAME =>
   	    tables.readTerminologyGraphs(is)
   	  case BundleHelper.TABLE_JSON_FILENAME =>
@@ -354,6 +368,8 @@ object OMFSchemaTables {
   	    tables.readRootConceptTaxonomyAxioms(is)
   	  case SpecificDisjointConceptAxiomHelper.TABLE_JSON_FILENAME =>
   	    tables.readSpecificDisjointConceptAxioms(is)
+  	  case AnnotationPairHelper.TABLE_JSON_FILENAME =>
+  	    tables.readAnnotationPairs(is)
     }
   }
   
@@ -376,6 +392,12 @@ object OMFSchemaTables {
   
   	  zos.setMethod(java.util.zip.ZipOutputStream.DEFLATED)
   
+      zos.putNextEntry(new java.util.zip.ZipEntry(AnnotationPropertyHelper.TABLE_JSON_FILENAME))
+      tables.annotationProperties.foreach { t =>
+         val line = AnnotationPropertyHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
       zos.putNextEntry(new java.util.zip.ZipEntry(TerminologyGraphHelper.TABLE_JSON_FILENAME))
       tables.terminologyGraphs.foreach { t =>
          val line = TerminologyGraphHelper.toJSON(t)+"\n"
@@ -583,6 +605,12 @@ object OMFSchemaTables {
       zos.putNextEntry(new java.util.zip.ZipEntry(SpecificDisjointConceptAxiomHelper.TABLE_JSON_FILENAME))
       tables.specificDisjointConceptAxioms.foreach { t =>
          val line = SpecificDisjointConceptAxiomHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(AnnotationPairHelper.TABLE_JSON_FILENAME))
+      tables.annotationPairs.foreach { t =>
+         val line = AnnotationPairHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry()
