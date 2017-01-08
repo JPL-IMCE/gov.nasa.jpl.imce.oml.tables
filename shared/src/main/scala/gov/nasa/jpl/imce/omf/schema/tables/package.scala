@@ -49,4 +49,35 @@ package object tables {
     = x.uuid.compareTo(y.uuid)
 
   }
+
+  implicit def annotationOrdering
+  : Ordering[Annotation]
+  = new Ordering[Annotation] {
+
+    def compare(x: Annotation, y: Annotation)
+    : Int
+    = x.terminologyUUID.compareTo(y.terminologyUUID) match {
+      case -1 =>
+        -1
+      case 1 =>
+        1
+      case 0 =>
+        x.propertyUUID.compareTo(y.propertyUUID) match {
+          case -1 =>
+            -1
+          case 1 =>
+            1
+          case 0 =>
+            x.subjectUUID.compareTo(y.subjectUUID) match {
+              case -1 =>
+                -1
+              case 1 =>
+                1
+              case 0 =>
+                x.value.compareTo(y.value)
+            }
+        }
+    }
+
+  }
 }
