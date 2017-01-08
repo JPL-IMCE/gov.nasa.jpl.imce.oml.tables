@@ -19,8 +19,8 @@
 package gov.nasa.jpl.imce.omf.schema.resolver.api
 
 trait AnnotationProperty
-  extends TerminologyThing
 {
 
+  val uuid: java.util.UUID
   val iri: gov.nasa.jpl.imce.omf.schema.tables.IRI
 }

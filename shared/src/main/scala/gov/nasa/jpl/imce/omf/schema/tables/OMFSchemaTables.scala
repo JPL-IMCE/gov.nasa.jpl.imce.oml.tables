@@ -66,7 +66,7 @@ case class OMFSchemaTables private[tables]
   anonymousConceptTaxonomyAxioms : Seq[AnonymousConceptTaxonomyAxiom] = Seq.empty,
   rootConceptTaxonomyAxioms : Seq[RootConceptTaxonomyAxiom] = Seq.empty,
   specificDisjointConceptAxioms : Seq[SpecificDisjointConceptAxiom] = Seq.empty,
-  annotationPairs : Seq[AnnotationPair] = Seq.empty
+  annotations : Seq[Annotation] = Seq.empty
 ) 
 {
   def readAnnotationProperties(is: InputStream)
@@ -177,9 +177,9 @@ case class OMFSchemaTables private[tables]
   def readSpecificDisjointConceptAxioms(is: InputStream)
   : OMFSchemaTables
   = copy(specificDisjointConceptAxioms = readJSonTable(is, SpecificDisjointConceptAxiomHelper.fromJSON))
-  def readAnnotationPairs(is: InputStream)
+  def readAnnotations(is: InputStream)
   : OMFSchemaTables
-  = copy(annotationPairs = readJSonTable(is, AnnotationPairHelper.fromJSON))
+  = copy(annotations = readJSonTable(is, AnnotationHelper.fromJSON))
 
   def isEmpty: Boolean
   = annotationProperties.isEmpty &&
@@ -218,7 +218,7 @@ case class OMFSchemaTables private[tables]
     anonymousConceptTaxonomyAxioms.isEmpty &&
     rootConceptTaxonomyAxioms.isEmpty &&
     specificDisjointConceptAxioms.isEmpty &&
-    annotationPairs.isEmpty
+    annotations.isEmpty
 }
 
 object OMFSchemaTables {
@@ -287,7 +287,7 @@ object OMFSchemaTables {
       anonymousConceptTaxonomyAxioms = t1.anonymousConceptTaxonomyAxioms ++ t2.anonymousConceptTaxonomyAxioms,
       rootConceptTaxonomyAxioms = t1.rootConceptTaxonomyAxioms ++ t2.rootConceptTaxonomyAxioms,
       specificDisjointConceptAxioms = t1.specificDisjointConceptAxioms ++ t2.specificDisjointConceptAxioms,
-      annotationPairs = t1.annotationPairs ++ t2.annotationPairs) 
+      annotations = t1.annotations ++ t2.annotations) 
 
   private[tables] def readZipArchive
   (zipFile: ZipFile)
@@ -368,8 +368,8 @@ object OMFSchemaTables {
   	    tables.readRootConceptTaxonomyAxioms(is)
   	  case SpecificDisjointConceptAxiomHelper.TABLE_JSON_FILENAME =>
   	    tables.readSpecificDisjointConceptAxioms(is)
-  	  case AnnotationPairHelper.TABLE_JSON_FILENAME =>
-  	    tables.readAnnotationPairs(is)
+  	  case AnnotationHelper.TABLE_JSON_FILENAME =>
+  	    tables.readAnnotations(is)
     }
   }
   
@@ -608,9 +608,9 @@ object OMFSchemaTables {
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry()
-      zos.putNextEntry(new java.util.zip.ZipEntry(AnnotationPairHelper.TABLE_JSON_FILENAME))
-      tables.annotationPairs.foreach { t =>
-         val line = AnnotationPairHelper.toJSON(t)+"\n"
+      zos.putNextEntry(new java.util.zip.ZipEntry(AnnotationHelper.TABLE_JSON_FILENAME))
+      tables.annotations.foreach { t =>
+         val line = AnnotationHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry()

@@ -18,9 +18,10 @@
 
 package gov.nasa.jpl.imce.omf.schema.resolver.api
 
-trait AnnotationPair
+trait Annotation
 {
 
+  val subject: TerminologyThing
   val property: AnnotationProperty
   val value: scala.Predef.String
 }

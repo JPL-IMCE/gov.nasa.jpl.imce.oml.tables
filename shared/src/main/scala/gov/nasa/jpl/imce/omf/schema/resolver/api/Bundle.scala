@@ -41,4 +41,5 @@ trait Bundle
   def withBoxStatements
   (s: scala.collection.immutable.Set[_ <: TerminologyBoxStatement]
   ): Bundle
+  override val everything: scala.collection.immutable.Set[_ <: TerminologyThing]
 }

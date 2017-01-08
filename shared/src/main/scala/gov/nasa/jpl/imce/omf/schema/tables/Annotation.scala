@@ -26,39 +26,41 @@ import scala.Predef._
 
 /**
   * @param terminologyUUID[1,1]
+  * @param subjectUUID[1,1]
   * @param propertyUUID[1,1]
   * @param value[1,1]
   */
 @JSExport
-case class AnnotationPair
+case class Annotation
 (
  @(JSExport @field) terminologyUUID: UUID,
+ @(JSExport @field) subjectUUID: UUID,
  @(JSExport @field) propertyUUID: UUID,
  @(JSExport @field) value: scala.Predef.String
 ) 
 @JSExport
-object AnnotationPairHelper {
+object AnnotationHelper {
 
   val TABLE_JSON_FILENAME 
   : scala.Predef.String 
-  = "AnnotationPairs.json"
+  = "Annotations.json"
   
   implicit val w
-  : upickle.default.Writer[AnnotationPair]
-  = upickle.default.macroW[AnnotationPair]
+  : upickle.default.Writer[Annotation]
+  = upickle.default.macroW[Annotation]
 
   @JSExport
-  def toJSON(c: AnnotationPair)
+  def toJSON(c: Annotation)
   : String
   = upickle.default.write(expr=c, indent=0)
 
   implicit val r
-  : upickle.default.Reader[AnnotationPair]
-  = upickle.default.macroR[AnnotationPair]
+  : upickle.default.Reader[Annotation]
+  = upickle.default.macroR[Annotation]
 
   @JSExport
   def fromJSON(c: String)
-  : AnnotationPair
-  = upickle.default.read[AnnotationPair](c)
+  : Annotation
+  = upickle.default.read[Annotation](c)
 
 }	
