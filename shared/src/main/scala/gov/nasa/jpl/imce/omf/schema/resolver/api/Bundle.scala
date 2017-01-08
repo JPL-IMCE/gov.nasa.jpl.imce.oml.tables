@@ -38,6 +38,9 @@ trait Bundle
   def withBundleStatements
   (s: scala.collection.immutable.Set[_ <: TerminologyBundleStatement]
   ): Bundle
+  def withAnnotations
+  (a: scala.collection.immutable.Set[_ <: Annotation]
+  ): Bundle
   def withBoxStatements
   (s: scala.collection.immutable.Set[_ <: TerminologyBoxStatement]
   ): Bundle
