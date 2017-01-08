@@ -39,10 +39,10 @@ trait TerminologyBox
 
   def withAnnotations
   (a: scala.collection.immutable.Set[_ <: Annotation]
-  : TerminologyBox
+  ): TerminologyBox
   def withBoxStatements
   (s: scala.collection.immutable.Set[_ <: TerminologyBoxStatement]
-  : TerminologyBox
+  ): TerminologyBox
   /*
    * A map for the subset of statements that are
    * entities terms indexed by their uuid.
