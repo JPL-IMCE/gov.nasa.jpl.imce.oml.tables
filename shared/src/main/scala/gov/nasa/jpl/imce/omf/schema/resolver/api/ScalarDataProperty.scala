@@ -28,6 +28,8 @@ trait ScalarDataProperty
   with DataRelationshipToScalar
 {
 
-  override val source: Term
-  override val target: Datatype
+  override def source
+  (): Term
+  override def target
+  (): Datatype
 }

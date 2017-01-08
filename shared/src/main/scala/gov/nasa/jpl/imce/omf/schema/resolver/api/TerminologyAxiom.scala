@@ -30,9 +30,11 @@ trait TerminologyAxiom
   /*
    * The source TerminologyBox
    */
-  val source: TerminologyBox
+  def source
+  (): TerminologyBox
   /*
    * The target TerminologyBox
    */
-  val target: TerminologyBox
+  def target
+  (): TerminologyBox
 }

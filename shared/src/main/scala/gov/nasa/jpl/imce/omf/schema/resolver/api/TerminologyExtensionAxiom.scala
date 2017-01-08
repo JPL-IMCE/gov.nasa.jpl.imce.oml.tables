@@ -35,9 +35,11 @@ trait TerminologyExtensionAxiom
   /*
    * The extendingTerminology is the source
    */
-  override val source: TerminologyBox
+  override def source
+  (): TerminologyBox
   /*
    * The extendedTerminology is the target
    */
-  override val target: TerminologyBox
+  override def target
+  (): TerminologyBox
 }

@@ -33,9 +33,11 @@ trait BundledTerminologyAxiom
   /*
    * The bundle is the source
    */
-  override val source: TerminologyBox
+  override def source
+  (): TerminologyBox
   /*
    * The bundledTerminology is the target
    */
-  override val target: TerminologyBox
+  override def target
+  (): TerminologyBox
 }

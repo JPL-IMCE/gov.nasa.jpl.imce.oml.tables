@@ -39,63 +39,75 @@ trait TerminologyBox
 
   def withAnnotations
   (a: scala.collection.immutable.Set[_ <: Annotation]
-  ): TerminologyBox
+  : TerminologyBox
   def withBoxStatements
   (s: scala.collection.immutable.Set[_ <: TerminologyBoxStatement]
-  ): TerminologyBox
+  : TerminologyBox
   /*
    * A map for the subset of statements that are
    * entities terms indexed by their uuid.
    */
-  val entities: scala.collection.immutable.Map[java.util.UUID,Entity]
+  def entities
+  (): scala.collection.immutable.Map[java.util.UUID,Entity]
   /*
    * A map for the subset of statements that are
    * aspects terms indexed by their uuid.
    */
-  val aspects: scala.collection.immutable.Map[java.util.UUID,Aspect]
+  def aspects
+  (): scala.collection.immutable.Map[java.util.UUID,Aspect]
   /*
    * A map for the subset of statements that are
    * concepts terms indexed by their uuid.
    */
-  val concepts: scala.collection.immutable.Map[java.util.UUID,Concept]
+  def concepts
+  (): scala.collection.immutable.Map[java.util.UUID,Concept]
   /*
    * A map for the subset of statements that are
    * reified relationship terms indexed by their uuid.
    */
-  val reifiedRelationships: scala.collection.immutable.Map[java.util.UUID,ReifiedRelationship]
+  def reifiedRelationships
+  (): scala.collection.immutable.Map[java.util.UUID,ReifiedRelationship]
   /*
    * A map for the subset of statements that are
    * unreified relationship terms indexed by their uuid.
    */
-  val unreifiedRelationships: scala.collection.immutable.Map[java.util.UUID,UnreifiedRelationship]
+  def unreifiedRelationships
+  (): scala.collection.immutable.Map[java.util.UUID,UnreifiedRelationship]
   /*
    * A map for the subset of statements that are
    * datatype terms indexed by their uuid.
    */
-  val dataRelationships: scala.collection.immutable.Map[java.util.UUID,DataRelationship]
+  def dataRelationships
+  (): scala.collection.immutable.Map[java.util.UUID,DataRelationship]
   /*
    * A map for the subset of statements that are
    * entity scalar data property terms indexed by their uuid.
    */
-  val entityScalarDataProperties: scala.collection.immutable.Map[java.util.UUID,EntityScalarDataProperty]
+  def entityScalarDataProperties
+  (): scala.collection.immutable.Map[java.util.UUID,EntityScalarDataProperty]
   /*
    * A map for the subset of statements that are
    * data range terms indexed by their uuid.
    */
-  val dataranges: scala.collection.immutable.Map[java.util.UUID,DataRange]
+  def dataranges
+  (): scala.collection.immutable.Map[java.util.UUID,DataRange]
   /*
    * A map for the subset of statements that are
    * scalar datatype terms indexed by their uuid.
    */
-  val scalars: scala.collection.immutable.Map[java.util.UUID,Scalar]
+  def scalars
+  (): scala.collection.immutable.Map[java.util.UUID,Scalar]
   /*
    * A map for the subset of statements that are
    * structured datatype terms indexed by their uuid.
    */
-  val structures: scala.collection.immutable.Map[java.util.UUID,Structure]
+  def structures
+  (): scala.collection.immutable.Map[java.util.UUID,Structure]
   /*
    * The subset of axioms about terms.
    */
-  val termAxioms: scala.collection.immutable.Set[_ <: TermAxiom]
-  val everything: scala.collection.immutable.Set[_ <: TerminologyThing]
+  def termAxioms
+  (): scala.collection.immutable.Set[_ <: TermAxiom]
+  def everything
+  (): scala.collection.immutable.Set[_ <: TerminologyThing]
 }

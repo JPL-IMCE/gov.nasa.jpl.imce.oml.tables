@@ -33,9 +33,11 @@ trait ConceptDesignationTerminologyAxiom
   /*
    * The designationTerminologyGraph is the source
    */
-  override val source: TerminologyBox
+  override def source
+  (): TerminologyBox
   /*
    * The TerminologyBox that asserts the designatedConcept is the target
    */
-  override val target: TerminologyBox
+  override def target
+  (): TerminologyBox
 }

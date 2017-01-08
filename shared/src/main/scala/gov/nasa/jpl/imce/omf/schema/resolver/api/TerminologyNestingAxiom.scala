@@ -42,9 +42,11 @@ trait TerminologyNestingAxiom
   /*
    * The nestedTerminology is the source
    */
-  override val source: TerminologyBox
+  override def source
+  (): TerminologyBox
   /*
    * The nestingTerminology is the target
    */
-  override val target: TerminologyBox
+  override def target
+  (): TerminologyBox
 }

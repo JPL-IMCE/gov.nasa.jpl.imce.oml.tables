@@ -37,12 +37,13 @@ trait Bundle
 
   def withBundleStatements
   (s: scala.collection.immutable.Set[_ <: TerminologyBundleStatement]
-  ): Bundle
+  : Bundle
   def withAnnotations
   (a: scala.collection.immutable.Set[_ <: Annotation]
-  ): Bundle
+  : Bundle
   def withBoxStatements
   (s: scala.collection.immutable.Set[_ <: TerminologyBoxStatement]
-  ): Bundle
-  override val everything: scala.collection.immutable.Set[_ <: TerminologyThing]
+  : Bundle
+  override def everything
+  (): scala.collection.immutable.Set[_ <: TerminologyThing]
 }

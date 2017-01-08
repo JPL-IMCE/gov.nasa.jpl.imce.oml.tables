@@ -26,6 +26,8 @@ trait DataRelationship
   extends Term
 {
 
-  val source: Term
-  val target: Datatype
+  def source
+  (): Term
+  def target
+  (): Datatype
 }

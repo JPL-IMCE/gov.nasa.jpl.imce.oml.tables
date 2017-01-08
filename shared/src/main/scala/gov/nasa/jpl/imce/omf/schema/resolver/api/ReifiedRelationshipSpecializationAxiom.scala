@@ -38,9 +38,11 @@ trait ReifiedRelationshipSpecializationAxiom
   /*
    * Get the sub (child) entity
    */
-  val child: Term
+  def child
+  (): Term
   /*
    * Get the super (parent) entity
    */
-  val parent: Term
+  def parent
+  (): Term
 }

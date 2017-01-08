@@ -2,4 +2,4 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Tables
 Bundle-SymbolicName: jpl.omf.schema.tables
-Bundle-Version: 0.41.0.qualifier
+Bundle-Version: 0.42.0.qualifier

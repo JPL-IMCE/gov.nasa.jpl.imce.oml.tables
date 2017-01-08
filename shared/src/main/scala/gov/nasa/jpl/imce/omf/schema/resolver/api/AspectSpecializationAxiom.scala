@@ -37,9 +37,11 @@ trait AspectSpecializationAxiom
   /*
    * Get the sub (child) entity
    */
-  override val child: Term
+  override def child
+  (): Term
   /*
    * Get the super (parent) entity
    */
-  override val parent: Term
+  override def parent
+  (): Term
 }

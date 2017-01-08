@@ -25,9 +25,11 @@ trait SpecializationAxiom
   /*
    * Get the sub (child) term
    */
-  val child: Term
+  def child
+  (): Term
   /*
    * Get the super (parent) term
    */
-  val parent: Term
+  def parent
+  (): Term
 }

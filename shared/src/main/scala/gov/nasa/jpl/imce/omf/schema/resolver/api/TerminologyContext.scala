@@ -36,6 +36,8 @@ trait TerminologyContext
   val graphs: scala.collection.immutable.Map[java.util.UUID, TerminologyGraph]
   val bundles: scala.collection.immutable.Map[java.util.UUID, Bundle]
 
-  val bottomNodes: scala.collection.immutable.Set[_ <: TerminologyBox]
-  val rootNodes: scala.collection.immutable.Set[_ <: TerminologyBox]
+  def bottomNodes
+  (): scala.collection.immutable.Set[_ <: TerminologyBox]
+  def rootNodes
+  (): scala.collection.immutable.Set[_ <: TerminologyBox]
 }
