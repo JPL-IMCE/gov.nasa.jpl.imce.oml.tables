@@ -25,14 +25,16 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param value[1,1]
+  * @param terminologyUUID[1,1]
   * @param propertyUUID[1,1]
+  * @param value[1,1]
   */
 @JSExport
 case class AnnotationPair
 (
- @(JSExport @field) value: scala.Predef.String,
- @(JSExport @field) propertyUUID: UUID
+ @(JSExport @field) terminologyUUID: UUID,
+ @(JSExport @field) propertyUUID: UUID,
+ @(JSExport @field) value: scala.Predef.String
 ) 
 @JSExport
 object AnnotationPairHelper {
