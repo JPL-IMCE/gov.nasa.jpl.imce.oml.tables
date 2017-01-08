@@ -20,8 +20,10 @@
 package gov.nasa.jpl.imce.omf.schema
 
 import java.io.InputStream
+
 import scala.collection.immutable.Seq
 import scala.io
+import scala.{Int,Ordering}
 import scala.Predef.String
 
 package object tables {
@@ -37,4 +39,14 @@ package object tables {
   def readJSonTable[T](is: InputStream, fromJSon: String => T)
   : Seq[T]
   = io.Source.fromInputStream(is).getLines.map(fromJSon).to[Seq]
+
+	implicit def annotationPropertyOrdering
+  : Ordering[AnnotationProperty]
+  = new Ordering[AnnotationProperty] {
+
+    def compare(x: AnnotationProperty, y: AnnotationProperty)
+    : Int
+    = x.uuid.compareTo(y.uuid)
+
+  }
 }
