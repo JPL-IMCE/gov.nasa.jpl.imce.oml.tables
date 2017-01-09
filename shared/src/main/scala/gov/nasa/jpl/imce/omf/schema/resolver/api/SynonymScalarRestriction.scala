@@ -16,25 +16,12 @@
  * License Terms
  */
 
+package gov.nasa.jpl.imce.omf.schema.resolver.api
 
-package gov.nasa.jpl.imce.omf.schema
-
-import java.io.InputStream
-import scala.collection.immutable.Seq
-import scala.io
-import scala.Predef.String
-
-package object tables {
-	type IRI = String
-	type Language = String
-	type LexicalNumber = String
-	type LexicalTime = String
-	type LexicalValue = String
-	type LocalName = String
-	type Pattern = String
-	type UUID = String
-  	
-  def readJSonTable[T](is: InputStream, fromJSon: String => T)
-  : Seq[T]
-  = io.Source.fromInputStream(is).getLines.map(fromJSon).to[Seq]
+/*
+ * A data range that is defined as a synonym for another (i.e. the restrictedRange).
+ */
+trait SynonymScalarRestriction
+  extends RestrictedDataRange
+{
 }

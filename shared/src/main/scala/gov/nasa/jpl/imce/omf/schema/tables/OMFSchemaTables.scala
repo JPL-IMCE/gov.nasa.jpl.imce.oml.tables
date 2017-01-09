@@ -48,6 +48,7 @@ case class OMFSchemaTables private[tables]
   plainLiteralScalarRestrictions : Seq[PlainLiteralScalarRestriction] = Seq.empty,
   scalarOneOfRestrictions : Seq[ScalarOneOfRestriction] = Seq.empty,
   stringScalarRestrictions : Seq[StringScalarRestriction] = Seq.empty,
+  synonymScalarRestrictions : Seq[SynonymScalarRestriction] = Seq.empty,
   timeScalarRestrictions : Seq[TimeScalarRestriction] = Seq.empty,
   entityScalarDataProperties : Seq[EntityScalarDataProperty] = Seq.empty,
   entityStructuredDataProperties : Seq[EntityStructuredDataProperty] = Seq.empty,
@@ -123,6 +124,9 @@ case class OMFSchemaTables private[tables]
   def readStringScalarRestrictions(is: InputStream)
   : OMFSchemaTables
   = copy(stringScalarRestrictions = readJSonTable(is, StringScalarRestrictionHelper.fromJSON))
+  def readSynonymScalarRestrictions(is: InputStream)
+  : OMFSchemaTables
+  = copy(synonymScalarRestrictions = readJSonTable(is, SynonymScalarRestrictionHelper.fromJSON))
   def readTimeScalarRestrictions(is: InputStream)
   : OMFSchemaTables
   = copy(timeScalarRestrictions = readJSonTable(is, TimeScalarRestrictionHelper.fromJSON))
@@ -200,6 +204,7 @@ case class OMFSchemaTables private[tables]
     plainLiteralScalarRestrictions.isEmpty &&
     scalarOneOfRestrictions.isEmpty &&
     stringScalarRestrictions.isEmpty &&
+    synonymScalarRestrictions.isEmpty &&
     timeScalarRestrictions.isEmpty &&
     entityScalarDataProperties.isEmpty &&
     entityStructuredDataProperties.isEmpty &&
@@ -269,6 +274,7 @@ object OMFSchemaTables {
       plainLiteralScalarRestrictions = t1.plainLiteralScalarRestrictions ++ t2.plainLiteralScalarRestrictions,
       scalarOneOfRestrictions = t1.scalarOneOfRestrictions ++ t2.scalarOneOfRestrictions,
       stringScalarRestrictions = t1.stringScalarRestrictions ++ t2.stringScalarRestrictions,
+      synonymScalarRestrictions = t1.synonymScalarRestrictions ++ t2.synonymScalarRestrictions,
       timeScalarRestrictions = t1.timeScalarRestrictions ++ t2.timeScalarRestrictions,
       entityScalarDataProperties = t1.entityScalarDataProperties ++ t2.entityScalarDataProperties,
       entityStructuredDataProperties = t1.entityStructuredDataProperties ++ t2.entityStructuredDataProperties,
@@ -332,6 +338,8 @@ object OMFSchemaTables {
   	    tables.readScalarOneOfRestrictions(is)
   	  case StringScalarRestrictionHelper.TABLE_JSON_FILENAME =>
   	    tables.readStringScalarRestrictions(is)
+  	  case SynonymScalarRestrictionHelper.TABLE_JSON_FILENAME =>
+  	    tables.readSynonymScalarRestrictions(is)
   	  case TimeScalarRestrictionHelper.TABLE_JSON_FILENAME =>
   	    tables.readTimeScalarRestrictions(is)
   	  case EntityScalarDataPropertyHelper.TABLE_JSON_FILENAME =>
@@ -497,6 +505,12 @@ object OMFSchemaTables {
       zos.putNextEntry(new java.util.zip.ZipEntry(StringScalarRestrictionHelper.TABLE_JSON_FILENAME))
       tables.stringScalarRestrictions.foreach { t =>
          val line = StringScalarRestrictionHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(SynonymScalarRestrictionHelper.TABLE_JSON_FILENAME))
+      tables.synonymScalarRestrictions.foreach { t =>
+         val line = SynonymScalarRestrictionHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry()
