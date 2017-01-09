@@ -57,22 +57,16 @@ package object tables {
     def compare(x: Annotation, y: Annotation)
     : Int
     = x.terminologyUUID.compareTo(y.terminologyUUID) match {
-      case -1 =>
-        -1
-      case 1 =>
-        1
+      case c if 0 != c =>
+        c
       case 0 =>
         x.propertyUUID.compareTo(y.propertyUUID) match {
-          case -1 =>
-            -1
-          case 1 =>
-            1
+          case c if 0 != c =>
+            c
           case 0 =>
             x.subjectUUID.compareTo(y.subjectUUID) match {
-              case -1 =>
-                -1
-              case 1 =>
-                1
+              case c if 0 != c =>
+                c
               case 0 =>
                 x.value.compareTo(y.value)
             }
