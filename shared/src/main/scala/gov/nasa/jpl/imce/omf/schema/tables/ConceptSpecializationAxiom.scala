@@ -33,11 +33,27 @@ import scala.Predef._
 @JSExport
 case class ConceptSpecializationAxiom
 (
- @(JSExport @field) graphUUID: UUID,
- @(JSExport @field) uuid: UUID,
- @(JSExport @field) subConceptUUID: UUID,
- @(JSExport @field) superConceptUUID: UUID
-) 
+  @(JSExport @field) graphUUID: UUID,
+  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) subConceptUUID: UUID,
+  @(JSExport @field) superConceptUUID: UUID
+) {
+  override val hashCode
+  : scala.Int 
+  = (graphUUID, uuid, subConceptUUID, superConceptUUID).##
+  
+  override def equals(other: scala.Any): scala.Boolean = other match {
+  	case that: ConceptSpecializationAxiom =>
+  	  (this.graphUUID == that.graphUUID) &&
+  	  (this.uuid == that.uuid) &&
+  	  (this.subConceptUUID == that.subConceptUUID) &&
+  	  (this.superConceptUUID == that.superConceptUUID)
+    case _ =>
+      false
+  }
+  
+}
+
 @JSExport
 object ConceptSpecializationAxiomHelper {
 

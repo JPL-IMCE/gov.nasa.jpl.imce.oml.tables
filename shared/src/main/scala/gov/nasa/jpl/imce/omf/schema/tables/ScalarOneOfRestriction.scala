@@ -34,12 +34,29 @@ import scala.Predef._
 @JSExport
 case class ScalarOneOfRestriction
 (
- @(JSExport @field) graphUUID: UUID,
- @(JSExport @field) uuid: UUID,
- @(JSExport @field) name: LocalName,
- @(JSExport @field) iri: IRI,
- @(JSExport @field) restrictedRangeUUID: UUID
-) 
+  @(JSExport @field) graphUUID: UUID,
+  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) name: LocalName,
+  @(JSExport @field) iri: IRI,
+  @(JSExport @field) restrictedRangeUUID: UUID
+) {
+  override val hashCode
+  : scala.Int 
+  = (graphUUID, uuid, name, iri, restrictedRangeUUID).##
+  
+  override def equals(other: scala.Any): scala.Boolean = other match {
+  	case that: ScalarOneOfRestriction =>
+  	  (this.graphUUID == that.graphUUID) &&
+  	  (this.uuid == that.uuid) &&
+  	  (this.name == that.name) &&
+  	  (this.iri == that.iri) &&
+  	  (this.restrictedRangeUUID == that.restrictedRangeUUID)
+    case _ =>
+      false
+  }
+  
+}
+
 @JSExport
 object ScalarOneOfRestrictionHelper {
 

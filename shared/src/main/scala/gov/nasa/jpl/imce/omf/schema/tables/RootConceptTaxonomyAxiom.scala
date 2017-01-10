@@ -32,10 +32,25 @@ import scala.Predef._
 @JSExport
 case class RootConceptTaxonomyAxiom
 (
- @(JSExport @field) uuid: UUID,
- @(JSExport @field) bundleUUID: UUID,
- @(JSExport @field) rootUUID: UUID
-) 
+  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) bundleUUID: UUID,
+  @(JSExport @field) rootUUID: UUID
+) {
+  override val hashCode
+  : scala.Int 
+  = (uuid, bundleUUID, rootUUID).##
+  
+  override def equals(other: scala.Any): scala.Boolean = other match {
+  	case that: RootConceptTaxonomyAxiom =>
+  	  (this.uuid == that.uuid) &&
+  	  (this.bundleUUID == that.bundleUUID) &&
+  	  (this.rootUUID == that.rootUUID)
+    case _ =>
+      false
+  }
+  
+}
+
 @JSExport
 object RootConceptTaxonomyAxiomHelper {
 

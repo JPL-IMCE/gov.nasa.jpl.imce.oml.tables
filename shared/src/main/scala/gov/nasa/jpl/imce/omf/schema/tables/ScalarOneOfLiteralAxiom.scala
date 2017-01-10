@@ -33,11 +33,27 @@ import scala.Predef._
 @JSExport
 case class ScalarOneOfLiteralAxiom
 (
- @(JSExport @field) graphUUID: UUID,
- @(JSExport @field) uuid: UUID,
- @(JSExport @field) axiomUUID: UUID,
- @(JSExport @field) value: LexicalValue
-) 
+  @(JSExport @field) graphUUID: UUID,
+  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) axiomUUID: UUID,
+  @(JSExport @field) value: LexicalValue
+) {
+  override val hashCode
+  : scala.Int 
+  = (graphUUID, uuid, axiomUUID, value).##
+  
+  override def equals(other: scala.Any): scala.Boolean = other match {
+  	case that: ScalarOneOfLiteralAxiom =>
+  	  (this.graphUUID == that.graphUUID) &&
+  	  (this.uuid == that.uuid) &&
+  	  (this.axiomUUID == that.axiomUUID) &&
+  	  (this.value == that.value)
+    case _ =>
+      false
+  }
+  
+}
+
 @JSExport
 object ScalarOneOfLiteralAxiomHelper {
 

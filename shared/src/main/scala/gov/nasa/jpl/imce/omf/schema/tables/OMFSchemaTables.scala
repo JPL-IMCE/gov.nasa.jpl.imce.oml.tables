@@ -22,11 +22,12 @@ package gov.nasa.jpl.imce.omf.schema.tables
 import java.io.{File,InputStream}
 import org.apache.commons.compress.archivers.zip.{ZipArchiveEntry, ZipFile}
 
-import scala.collection.immutable.Seq
+import scala.collection.immutable.{Map,Seq}
 import scala.collection.JavaConversions._
-import scala.{Boolean,Unit}
 import scala.util.control.Exception._
 import scala.util.{Failure,Success,Try}
+import scala.{Boolean,Unit}
+import scala.Predef.ArrowAssoc
 
 case class OMFSchemaTables private[tables]
 (
@@ -67,8 +68,7 @@ case class OMFSchemaTables private[tables]
   anonymousConceptTaxonomyAxioms : Seq[AnonymousConceptTaxonomyAxiom] = Seq.empty,
   rootConceptTaxonomyAxioms : Seq[RootConceptTaxonomyAxiom] = Seq.empty,
   specificDisjointConceptAxioms : Seq[SpecificDisjointConceptAxiom] = Seq.empty,
-  annotations : Seq[Annotation] = Seq.empty
-) 
+  annotations: Map[AnnotationProperty, Seq[Annotation]] = Map.empty)
 {
   def readAnnotationProperties(is: InputStream)
   : OMFSchemaTables
@@ -181,10 +181,7 @@ case class OMFSchemaTables private[tables]
   def readSpecificDisjointConceptAxioms(is: InputStream)
   : OMFSchemaTables
   = copy(specificDisjointConceptAxioms = readJSonTable(is, SpecificDisjointConceptAxiomHelper.fromJSON))
-  def readAnnotations(is: InputStream)
-  : OMFSchemaTables
-  = copy(annotations = readJSonTable(is, AnnotationHelper.fromJSON))
-
+  
   def isEmpty: Boolean
   = annotationProperties.isEmpty &&
     terminologyGraphs.isEmpty &&
@@ -376,8 +373,14 @@ object OMFSchemaTables {
   	    tables.readRootConceptTaxonomyAxioms(is)
   	  case SpecificDisjointConceptAxiomHelper.TABLE_JSON_FILENAME =>
   	    tables.readSpecificDisjointConceptAxioms(is)
-  	  case AnnotationHelper.TABLE_JSON_FILENAME =>
-  	    tables.readAnnotations(is)
+      case annotationPropertyIRI =>
+        tables
+          .annotationProperties
+          .find(_.iri == annotationPropertyIRI)
+          .fold[OMFSchemaTables](tables) { ap =>
+          val annotationPropertyTable = ap -> readJSonTable[Annotation](is, AnnotationHelper.fromJSON)
+          tables.copy(annotations = tables.annotations + annotationPropertyTable)
+        }
     }
   }
   
@@ -622,12 +625,22 @@ object OMFSchemaTables {
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry()
-      zos.putNextEntry(new java.util.zip.ZipEntry(AnnotationHelper.TABLE_JSON_FILENAME))
-      tables.annotations.foreach { t =>
-         val line = AnnotationHelper.toJSON(t)+"\n"
-         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
-      }
-      zos.closeEntry()
+      
+      tables
+        .annotationProperties
+        .foreach { ap =>
+          tables
+            .annotations
+            .get(ap)
+            .foreach { as =>
+              zos.putNextEntry(new java.util.zip.ZipEntry(ap.iri))
+              as.foreach { a =>
+                val line = AnnotationHelper.toJSON(a)+"\n"
+                zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+              }
+              zos.closeEntry()
+            }
+        }
   
       zos.close()
   	  Success(())

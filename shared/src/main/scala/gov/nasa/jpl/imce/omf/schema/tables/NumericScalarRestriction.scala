@@ -37,55 +37,70 @@ import scala.Predef._
   */
 case class NumericScalarRestriction
 (
- @(JSExport @field) graphUUID: UUID,
- @(JSExport @field) uuid: UUID,
- @(JSExport @field) name: LocalName,
- @(JSExport @field) iri: IRI,
- @(JSExport @field) maxExclusive: scala.Option[LexicalNumber],
- @(JSExport @field) maxInclusive: scala.Option[LexicalNumber],
- @(JSExport @field) minExclusive: scala.Option[LexicalNumber],
- @(JSExport @field) minInclusive: scala.Option[LexicalNumber],
- @(JSExport @field) restrictedRangeUUID: UUID
+  @(JSExport @field) graphUUID: UUID,
+  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) name: LocalName,
+  @(JSExport @field) iri: IRI,
+  @(JSExport @field) maxExclusive: scala.Option[LexicalNumber],
+  @(JSExport @field) maxInclusive: scala.Option[LexicalNumber],
+  @(JSExport @field) minExclusive: scala.Option[LexicalNumber],
+  @(JSExport @field) minInclusive: scala.Option[LexicalNumber],
+  @(JSExport @field) restrictedRangeUUID: UUID
 ) {
+  @JSExport
+  def this(
+    graphUUID: UUID,
+    uuid: UUID,
+    name: LocalName,
+    iri: IRI,
+    restrictedRangeUUID: UUID)
+  = this(
+      graphUUID,
+      uuid,
+      name,
+      iri,
+      None /* maxExclusive */,
+      None /* maxInclusive */,
+      None /* minExclusive */,
+      None /* minInclusive */,
+      restrictedRangeUUID)
 
-@JSExport
-def this(
-	graphUUID: UUID,
-	uuid: UUID,
-	name: LocalName,
-	iri: IRI,
-	restrictedRangeUUID: UUID
-) 
-= this(
-graphUUID,
-uuid,
-name,
-iri,
-None,
-None,
-None,
-None,
-restrictedRangeUUID
-) 
-
-def withMaxExclusive(l: LexicalNumber)	 
-: NumericScalarRestriction
-= copy(maxExclusive=Some(l))
-
-def withMaxInclusive(l: LexicalNumber)	 
-: NumericScalarRestriction
-= copy(maxInclusive=Some(l))
-
-def withMinExclusive(l: LexicalNumber)	 
-: NumericScalarRestriction
-= copy(minExclusive=Some(l))
-
-def withMinInclusive(l: LexicalNumber)	 
-: NumericScalarRestriction
-= copy(minInclusive=Some(l))
-
+  def withMaxExclusive(l: LexicalNumber)	 
+  : NumericScalarRestriction
+  = copy(maxExclusive=Some(l))
+  
+  def withMaxInclusive(l: LexicalNumber)	 
+  : NumericScalarRestriction
+  = copy(maxInclusive=Some(l))
+  
+  def withMinExclusive(l: LexicalNumber)	 
+  : NumericScalarRestriction
+  = copy(minExclusive=Some(l))
+  
+  def withMinInclusive(l: LexicalNumber)	 
+  : NumericScalarRestriction
+  = copy(minInclusive=Some(l))
+  
+  override val hashCode
+  : scala.Int 
+  = (graphUUID, uuid, name, iri, maxExclusive, maxInclusive, minExclusive, minInclusive, restrictedRangeUUID).##
+  
+  override def equals(other: scala.Any): scala.Boolean = other match {
+  	case that: NumericScalarRestriction =>
+  	  (this.graphUUID == that.graphUUID) &&
+  	  (this.uuid == that.uuid) &&
+  	  (this.name == that.name) &&
+  	  (this.iri == that.iri) &&
+  	  (this.maxExclusive == that.maxExclusive) &&
+  	  (this.maxInclusive == that.maxInclusive) &&
+  	  (this.minExclusive == that.minExclusive) &&
+  	  (this.minInclusive == that.minInclusive) &&
+  	  (this.restrictedRangeUUID == that.restrictedRangeUUID)
+    case _ =>
+      false
+  }
+  
 }
-
 
 @JSExport
 object NumericScalarRestrictionHelper {

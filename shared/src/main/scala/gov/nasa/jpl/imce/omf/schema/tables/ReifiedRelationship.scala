@@ -46,73 +46,97 @@ import scala.Predef._
   */
 case class ReifiedRelationship
 (
- @(JSExport @field) graphUUID: UUID,
- @(JSExport @field) uuid: UUID,
- @(JSExport @field) isAbstract: scala.Boolean,
- @(JSExport @field) name: LocalName,
- @(JSExport @field) unreifiedPropertyName: LocalName,
- @(JSExport @field) unreifiedInversePropertyName: scala.Option[LocalName],
- @(JSExport @field) iri: IRI,
- @(JSExport @field) isAsymmetric: scala.Boolean,
- @(JSExport @field) isEssential: scala.Boolean,
- @(JSExport @field) isFunctional: scala.Boolean,
- @(JSExport @field) isInverseEssential: scala.Boolean,
- @(JSExport @field) isInverseFunctional: scala.Boolean,
- @(JSExport @field) isIrreflexive: scala.Boolean,
- @(JSExport @field) isReflexive: scala.Boolean,
- @(JSExport @field) isSymmetric: scala.Boolean,
- @(JSExport @field) isTransitive: scala.Boolean,
- @(JSExport @field) sourceUUID: UUID,
- @(JSExport @field) targetUUID: UUID
+  @(JSExport @field) graphUUID: UUID,
+  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) isAbstract: scala.Boolean,
+  @(JSExport @field) name: LocalName,
+  @(JSExport @field) unreifiedPropertyName: LocalName,
+  @(JSExport @field) unreifiedInversePropertyName: scala.Option[LocalName],
+  @(JSExport @field) iri: IRI,
+  @(JSExport @field) isAsymmetric: scala.Boolean,
+  @(JSExport @field) isEssential: scala.Boolean,
+  @(JSExport @field) isFunctional: scala.Boolean,
+  @(JSExport @field) isInverseEssential: scala.Boolean,
+  @(JSExport @field) isInverseFunctional: scala.Boolean,
+  @(JSExport @field) isIrreflexive: scala.Boolean,
+  @(JSExport @field) isReflexive: scala.Boolean,
+  @(JSExport @field) isSymmetric: scala.Boolean,
+  @(JSExport @field) isTransitive: scala.Boolean,
+  @(JSExport @field) sourceUUID: UUID,
+  @(JSExport @field) targetUUID: UUID
 ) {
+  @JSExport
+  def this(
+    graphUUID: UUID,
+    uuid: UUID,
+    isAbstract: scala.Boolean,
+    name: LocalName,
+    unreifiedPropertyName: LocalName,
+    iri: IRI,
+    isAsymmetric: scala.Boolean,
+    isEssential: scala.Boolean,
+    isFunctional: scala.Boolean,
+    isInverseEssential: scala.Boolean,
+    isInverseFunctional: scala.Boolean,
+    isIrreflexive: scala.Boolean,
+    isReflexive: scala.Boolean,
+    isSymmetric: scala.Boolean,
+    isTransitive: scala.Boolean,
+    sourceUUID: UUID,
+    targetUUID: UUID)
+  = this(
+      graphUUID,
+      uuid,
+      isAbstract,
+      name,
+      unreifiedPropertyName,
+      None /* unreifiedInversePropertyName */,
+      iri,
+      isAsymmetric,
+      isEssential,
+      isFunctional,
+      isInverseEssential,
+      isInverseFunctional,
+      isIrreflexive,
+      isReflexive,
+      isSymmetric,
+      isTransitive,
+      sourceUUID,
+      targetUUID)
 
-@JSExport
-def this(
-	graphUUID: UUID,
-	uuid: UUID,
-	isAbstract: scala.Boolean,
-	name: LocalName,
-	unreifiedPropertyName: LocalName,
-	iri: IRI,
-	isAsymmetric: scala.Boolean,
-	isEssential: scala.Boolean,
-	isFunctional: scala.Boolean,
-	isInverseEssential: scala.Boolean,
-	isInverseFunctional: scala.Boolean,
-	isIrreflexive: scala.Boolean,
-	isReflexive: scala.Boolean,
-	isSymmetric: scala.Boolean,
-	isTransitive: scala.Boolean,
-	sourceUUID: UUID,
-	targetUUID: UUID
-) 
-= this(
-graphUUID,
-uuid,
-isAbstract,
-name,
-unreifiedPropertyName,
-None,
-iri,
-isAsymmetric,
-isEssential,
-isFunctional,
-isInverseEssential,
-isInverseFunctional,
-isIrreflexive,
-isReflexive,
-isSymmetric,
-isTransitive,
-sourceUUID,
-targetUUID
-) 
-
-def withUnreifiedInversePropertyName(l: LocalName)	 
-: ReifiedRelationship
-= copy(unreifiedInversePropertyName=Some(l))
-
+  def withUnreifiedInversePropertyName(l: LocalName)	 
+  : ReifiedRelationship
+  = copy(unreifiedInversePropertyName=Some(l))
+  
+  override val hashCode
+  : scala.Int 
+  = (graphUUID, uuid, isAbstract, name, unreifiedPropertyName, unreifiedInversePropertyName, iri, isAsymmetric, isEssential, isFunctional, isInverseEssential, isInverseFunctional, isIrreflexive, isReflexive, isSymmetric, isTransitive, sourceUUID, targetUUID).##
+  
+  override def equals(other: scala.Any): scala.Boolean = other match {
+  	case that: ReifiedRelationship =>
+  	  (this.graphUUID == that.graphUUID) &&
+  	  (this.uuid == that.uuid) &&
+  	  (this.isAbstract == that.isAbstract) &&
+  	  (this.name == that.name) &&
+  	  (this.unreifiedPropertyName == that.unreifiedPropertyName) &&
+  	  (this.unreifiedInversePropertyName == that.unreifiedInversePropertyName) &&
+  	  (this.iri == that.iri) &&
+  	  (this.isAsymmetric == that.isAsymmetric) &&
+  	  (this.isEssential == that.isEssential) &&
+  	  (this.isFunctional == that.isFunctional) &&
+  	  (this.isInverseEssential == that.isInverseEssential) &&
+  	  (this.isInverseFunctional == that.isInverseFunctional) &&
+  	  (this.isIrreflexive == that.isIrreflexive) &&
+  	  (this.isReflexive == that.isReflexive) &&
+  	  (this.isSymmetric == that.isSymmetric) &&
+  	  (this.isTransitive == that.isTransitive) &&
+  	  (this.sourceUUID == that.sourceUUID) &&
+  	  (this.targetUUID == that.targetUUID)
+    case _ =>
+      false
+  }
+  
 }
-
 
 @JSExport
 object ReifiedRelationshipHelper {

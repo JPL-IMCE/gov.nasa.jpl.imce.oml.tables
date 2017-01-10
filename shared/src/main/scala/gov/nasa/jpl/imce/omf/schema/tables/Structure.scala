@@ -33,11 +33,27 @@ import scala.Predef._
 @JSExport
 case class Structure
 (
- @(JSExport @field) graphUUID: UUID,
- @(JSExport @field) uuid: UUID,
- @(JSExport @field) name: LocalName,
- @(JSExport @field) iri: IRI
-) 
+  @(JSExport @field) graphUUID: UUID,
+  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) name: LocalName,
+  @(JSExport @field) iri: IRI
+) {
+  override val hashCode
+  : scala.Int 
+  = (graphUUID, uuid, name, iri).##
+  
+  override def equals(other: scala.Any): scala.Boolean = other match {
+  	case that: Structure =>
+  	  (this.graphUUID == that.graphUUID) &&
+  	  (this.uuid == that.uuid) &&
+  	  (this.name == that.name) &&
+  	  (this.iri == that.iri)
+    case _ =>
+      false
+  }
+  
+}
+
 @JSExport
 object StructureHelper {
 

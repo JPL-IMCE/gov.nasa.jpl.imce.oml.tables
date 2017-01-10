@@ -34,12 +34,29 @@ import scala.Predef._
 @JSExport
 case class EntityScalarDataPropertyUniversalRestrictionAxiom
 (
- @(JSExport @field) graphUUID: UUID,
- @(JSExport @field) uuid: UUID,
- @(JSExport @field) restrictedEntityUUID: UUID,
- @(JSExport @field) scalarPropertyUUID: UUID,
- @(JSExport @field) scalarRestrictionUUID: UUID
-) 
+  @(JSExport @field) graphUUID: UUID,
+  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) restrictedEntityUUID: UUID,
+  @(JSExport @field) scalarPropertyUUID: UUID,
+  @(JSExport @field) scalarRestrictionUUID: UUID
+) {
+  override val hashCode
+  : scala.Int 
+  = (graphUUID, uuid, restrictedEntityUUID, scalarPropertyUUID, scalarRestrictionUUID).##
+  
+  override def equals(other: scala.Any): scala.Boolean = other match {
+  	case that: EntityScalarDataPropertyUniversalRestrictionAxiom =>
+  	  (this.graphUUID == that.graphUUID) &&
+  	  (this.uuid == that.uuid) &&
+  	  (this.restrictedEntityUUID == that.restrictedEntityUUID) &&
+  	  (this.scalarPropertyUUID == that.scalarPropertyUUID) &&
+  	  (this.scalarRestrictionUUID == that.scalarRestrictionUUID)
+    case _ =>
+      false
+  }
+  
+}
+
 @JSExport
 object EntityScalarDataPropertyUniversalRestrictionAxiomHelper {
 

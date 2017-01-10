@@ -34,12 +34,29 @@ import scala.Predef._
 @JSExport
 case class Concept
 (
- @(JSExport @field) graphUUID: UUID,
- @(JSExport @field) uuid: UUID,
- @(JSExport @field) isAbstract: scala.Boolean,
- @(JSExport @field) name: LocalName,
- @(JSExport @field) iri: IRI
-) 
+  @(JSExport @field) graphUUID: UUID,
+  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) isAbstract: scala.Boolean,
+  @(JSExport @field) name: LocalName,
+  @(JSExport @field) iri: IRI
+) {
+  override val hashCode
+  : scala.Int 
+  = (graphUUID, uuid, isAbstract, name, iri).##
+  
+  override def equals(other: scala.Any): scala.Boolean = other match {
+  	case that: Concept =>
+  	  (this.graphUUID == that.graphUUID) &&
+  	  (this.uuid == that.uuid) &&
+  	  (this.isAbstract == that.isAbstract) &&
+  	  (this.name == that.name) &&
+  	  (this.iri == that.iri)
+    case _ =>
+      false
+  }
+  
+}
+
 @JSExport
 object ConceptHelper {
 

@@ -37,55 +37,70 @@ import scala.Predef._
   */
 case class TimeScalarRestriction
 (
- @(JSExport @field) graphUUID: UUID,
- @(JSExport @field) uuid: UUID,
- @(JSExport @field) name: LocalName,
- @(JSExport @field) iri: IRI,
- @(JSExport @field) maxExclusive: scala.Option[LexicalTime],
- @(JSExport @field) maxInclusive: scala.Option[LexicalTime],
- @(JSExport @field) minExclusive: scala.Option[LexicalTime],
- @(JSExport @field) minInclusive: scala.Option[LexicalTime],
- @(JSExport @field) restrictedRangeUUID: UUID
+  @(JSExport @field) graphUUID: UUID,
+  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) name: LocalName,
+  @(JSExport @field) iri: IRI,
+  @(JSExport @field) maxExclusive: scala.Option[LexicalTime],
+  @(JSExport @field) maxInclusive: scala.Option[LexicalTime],
+  @(JSExport @field) minExclusive: scala.Option[LexicalTime],
+  @(JSExport @field) minInclusive: scala.Option[LexicalTime],
+  @(JSExport @field) restrictedRangeUUID: UUID
 ) {
+  @JSExport
+  def this(
+    graphUUID: UUID,
+    uuid: UUID,
+    name: LocalName,
+    iri: IRI,
+    restrictedRangeUUID: UUID)
+  = this(
+      graphUUID,
+      uuid,
+      name,
+      iri,
+      None /* maxExclusive */,
+      None /* maxInclusive */,
+      None /* minExclusive */,
+      None /* minInclusive */,
+      restrictedRangeUUID)
 
-@JSExport
-def this(
-	graphUUID: UUID,
-	uuid: UUID,
-	name: LocalName,
-	iri: IRI,
-	restrictedRangeUUID: UUID
-) 
-= this(
-graphUUID,
-uuid,
-name,
-iri,
-None,
-None,
-None,
-None,
-restrictedRangeUUID
-) 
-
-def withMaxExclusive(l: LexicalTime)	 
-: TimeScalarRestriction
-= copy(maxExclusive=Some(l))
-
-def withMaxInclusive(l: LexicalTime)	 
-: TimeScalarRestriction
-= copy(maxInclusive=Some(l))
-
-def withMinExclusive(l: LexicalTime)	 
-: TimeScalarRestriction
-= copy(minExclusive=Some(l))
-
-def withMinInclusive(l: LexicalTime)	 
-: TimeScalarRestriction
-= copy(minInclusive=Some(l))
-
+  def withMaxExclusive(l: LexicalTime)	 
+  : TimeScalarRestriction
+  = copy(maxExclusive=Some(l))
+  
+  def withMaxInclusive(l: LexicalTime)	 
+  : TimeScalarRestriction
+  = copy(maxInclusive=Some(l))
+  
+  def withMinExclusive(l: LexicalTime)	 
+  : TimeScalarRestriction
+  = copy(minExclusive=Some(l))
+  
+  def withMinInclusive(l: LexicalTime)	 
+  : TimeScalarRestriction
+  = copy(minInclusive=Some(l))
+  
+  override val hashCode
+  : scala.Int 
+  = (graphUUID, uuid, name, iri, maxExclusive, maxInclusive, minExclusive, minInclusive, restrictedRangeUUID).##
+  
+  override def equals(other: scala.Any): scala.Boolean = other match {
+  	case that: TimeScalarRestriction =>
+  	  (this.graphUUID == that.graphUUID) &&
+  	  (this.uuid == that.uuid) &&
+  	  (this.name == that.name) &&
+  	  (this.iri == that.iri) &&
+  	  (this.maxExclusive == that.maxExclusive) &&
+  	  (this.maxInclusive == that.maxInclusive) &&
+  	  (this.minExclusive == that.minExclusive) &&
+  	  (this.minInclusive == that.minInclusive) &&
+  	  (this.restrictedRangeUUID == that.restrictedRangeUUID)
+    case _ =>
+      false
+  }
+  
 }
-
 
 @JSExport
 object TimeScalarRestrictionHelper {

@@ -32,10 +32,25 @@ import scala.Predef._
 @JSExport
 case class BundledTerminologyAxiom
 (
- @(JSExport @field) uuid: UUID,
- @(JSExport @field) bundledTerminologyUUID: UUID,
- @(JSExport @field) terminologyBundleUUID: UUID
-) 
+  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) bundledTerminologyUUID: UUID,
+  @(JSExport @field) terminologyBundleUUID: UUID
+) {
+  override val hashCode
+  : scala.Int 
+  = (uuid, bundledTerminologyUUID, terminologyBundleUUID).##
+  
+  override def equals(other: scala.Any): scala.Boolean = other match {
+  	case that: BundledTerminologyAxiom =>
+  	  (this.uuid == that.uuid) &&
+  	  (this.bundledTerminologyUUID == that.bundledTerminologyUUID) &&
+  	  (this.terminologyBundleUUID == that.terminologyBundleUUID)
+    case _ =>
+      false
+  }
+  
+}
+
 @JSExport
 object BundledTerminologyAxiomHelper {
 

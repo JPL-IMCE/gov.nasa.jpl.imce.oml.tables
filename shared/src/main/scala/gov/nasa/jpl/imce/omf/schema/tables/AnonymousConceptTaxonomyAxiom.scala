@@ -32,10 +32,25 @@ import scala.Predef._
 @JSExport
 case class AnonymousConceptTaxonomyAxiom
 (
- @(JSExport @field) uuid: UUID,
- @(JSExport @field) bundleUUID: UUID,
- @(JSExport @field) disjointTaxonomyParentUUID: UUID
-) 
+  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) bundleUUID: UUID,
+  @(JSExport @field) disjointTaxonomyParentUUID: UUID
+) {
+  override val hashCode
+  : scala.Int 
+  = (uuid, bundleUUID, disjointTaxonomyParentUUID).##
+  
+  override def equals(other: scala.Any): scala.Boolean = other match {
+  	case that: AnonymousConceptTaxonomyAxiom =>
+  	  (this.uuid == that.uuid) &&
+  	  (this.bundleUUID == that.bundleUUID) &&
+  	  (this.disjointTaxonomyParentUUID == that.disjointTaxonomyParentUUID)
+    case _ =>
+      false
+  }
+  
+}
+
 @JSExport
 object AnonymousConceptTaxonomyAxiomHelper {
 

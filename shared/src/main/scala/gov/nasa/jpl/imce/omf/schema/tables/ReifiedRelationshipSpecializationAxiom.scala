@@ -33,11 +33,27 @@ import scala.Predef._
 @JSExport
 case class ReifiedRelationshipSpecializationAxiom
 (
- @(JSExport @field) graphUUID: UUID,
- @(JSExport @field) uuid: UUID,
- @(JSExport @field) subRelationshipUUID: UUID,
- @(JSExport @field) superRelationshipUUID: UUID
-) 
+  @(JSExport @field) graphUUID: UUID,
+  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) subRelationshipUUID: UUID,
+  @(JSExport @field) superRelationshipUUID: UUID
+) {
+  override val hashCode
+  : scala.Int 
+  = (graphUUID, uuid, subRelationshipUUID, superRelationshipUUID).##
+  
+  override def equals(other: scala.Any): scala.Boolean = other match {
+  	case that: ReifiedRelationshipSpecializationAxiom =>
+  	  (this.graphUUID == that.graphUUID) &&
+  	  (this.uuid == that.uuid) &&
+  	  (this.subRelationshipUUID == that.subRelationshipUUID) &&
+  	  (this.superRelationshipUUID == that.superRelationshipUUID)
+    case _ =>
+      false
+  }
+  
+}
+
 @JSExport
 object ReifiedRelationshipSpecializationAxiomHelper {
 

@@ -32,10 +32,25 @@ import scala.Predef._
 @JSExport
 case class ConceptDesignationTerminologyAxiom
 (
- @(JSExport @field) uuid: UUID,
- @(JSExport @field) designatedConceptUUID: UUID,
- @(JSExport @field) designationTerminologyGraphUUID: UUID
-) 
+  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) designatedConceptUUID: UUID,
+  @(JSExport @field) designationTerminologyGraphUUID: UUID
+) {
+  override val hashCode
+  : scala.Int 
+  = (uuid, designatedConceptUUID, designationTerminologyGraphUUID).##
+  
+  override def equals(other: scala.Any): scala.Boolean = other match {
+  	case that: ConceptDesignationTerminologyAxiom =>
+  	  (this.uuid == that.uuid) &&
+  	  (this.designatedConceptUUID == that.designatedConceptUUID) &&
+  	  (this.designationTerminologyGraphUUID == that.designationTerminologyGraphUUID)
+    case _ =>
+      false
+  }
+  
+}
+
 @JSExport
 object ConceptDesignationTerminologyAxiomHelper {
 

@@ -33,34 +33,45 @@ import scala.Predef._
   */
 case class OMF2OTIProvenance
 (
- @(JSExport @field) explanation: scala.Predef.String,
- @(JSExport @field) omfUUID: UUID,
- @(JSExport @field) otiID: OTI_TOOL_SPECIFIC_ID,
- @(JSExport @field) otiURL: OTI_TOOL_SPECIFIC_URL,
- @(JSExport @field) otiUUID: scala.Option[OTI_TOOL_SPECIFIC_UUID]
+  @(JSExport @field) explanation: scala.Predef.String,
+  @(JSExport @field) omfUUID: UUID,
+  @(JSExport @field) otiID: OTI_TOOL_SPECIFIC_ID,
+  @(JSExport @field) otiURL: OTI_TOOL_SPECIFIC_URL,
+  @(JSExport @field) otiUUID: scala.Option[OTI_TOOL_SPECIFIC_UUID]
 ) {
+  @JSExport
+  def this(
+    explanation: scala.Predef.String,
+    omfUUID: UUID,
+    otiID: OTI_TOOL_SPECIFIC_ID,
+    otiURL: OTI_TOOL_SPECIFIC_URL)
+  = this(
+      explanation,
+      omfUUID,
+      otiID,
+      otiURL,
+      None /* otiUUID */)
 
-@JSExport
-def this(
-	explanation: scala.Predef.String,
-	omfUUID: UUID,
-	otiID: OTI_TOOL_SPECIFIC_ID,
-	otiURL: OTI_TOOL_SPECIFIC_URL
-) 
-= this(
-explanation,
-omfUUID,
-otiID,
-otiURL,
-None
-) 
-
-def withOtiUUID(l: OTI_TOOL_SPECIFIC_UUID)	 
-: OMF2OTIProvenance
-= copy(otiUUID=Some(l))
-
+  def withOtiUUID(l: OTI_TOOL_SPECIFIC_UUID)	 
+  : OMF2OTIProvenance
+  = copy(otiUUID=Some(l))
+  
+  override val hashCode
+  : scala.Int 
+  = (explanation, omfUUID, otiID, otiURL, otiUUID).##
+  
+  override def equals(other: scala.Any): scala.Boolean = other match {
+  	case that: OMF2OTIProvenance =>
+  	  (this.explanation == that.explanation) &&
+  	  (this.omfUUID == that.omfUUID) &&
+  	  (this.otiID == that.otiID) &&
+  	  (this.otiURL == that.otiURL) &&
+  	  (this.otiUUID == that.otiUUID)
+    case _ =>
+      false
+  }
+  
 }
-
 
 @JSExport
 object OMF2OTIProvenanceHelper {

@@ -31,9 +31,23 @@ import scala.Predef._
 @JSExport
 case class AnnotationProperty
 (
- @(JSExport @field) uuid: UUID,
- @(JSExport @field) iri: IRI
-) 
+  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) iri: IRI
+) {
+  override val hashCode
+  : scala.Int 
+  = (uuid, iri).##
+  
+  override def equals(other: scala.Any): scala.Boolean = other match {
+  	case that: AnnotationProperty =>
+  	  (this.uuid == that.uuid) &&
+  	  (this.iri == that.iri)
+    case _ =>
+      false
+  }
+  
+}
+
 @JSExport
 object AnnotationPropertyHelper {
 

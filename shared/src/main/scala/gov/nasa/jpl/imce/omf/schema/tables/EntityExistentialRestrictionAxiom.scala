@@ -34,12 +34,29 @@ import scala.Predef._
 @JSExport
 case class EntityExistentialRestrictionAxiom
 (
- @(JSExport @field) graphUUID: UUID,
- @(JSExport @field) uuid: UUID,
- @(JSExport @field) restrictedDomainUUID: UUID,
- @(JSExport @field) restrictedRangeUUID: UUID,
- @(JSExport @field) restrictedRelationUUID: UUID
-) 
+  @(JSExport @field) graphUUID: UUID,
+  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) restrictedDomainUUID: UUID,
+  @(JSExport @field) restrictedRangeUUID: UUID,
+  @(JSExport @field) restrictedRelationUUID: UUID
+) {
+  override val hashCode
+  : scala.Int 
+  = (graphUUID, uuid, restrictedDomainUUID, restrictedRangeUUID, restrictedRelationUUID).##
+  
+  override def equals(other: scala.Any): scala.Boolean = other match {
+  	case that: EntityExistentialRestrictionAxiom =>
+  	  (this.graphUUID == that.graphUUID) &&
+  	  (this.uuid == that.uuid) &&
+  	  (this.restrictedDomainUUID == that.restrictedDomainUUID) &&
+  	  (this.restrictedRangeUUID == that.restrictedRangeUUID) &&
+  	  (this.restrictedRelationUUID == that.restrictedRelationUUID)
+    case _ =>
+      false
+  }
+  
+}
+
 @JSExport
 object EntityExistentialRestrictionAxiomHelper {
 

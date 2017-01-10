@@ -33,11 +33,27 @@ import scala.Predef._
 @JSExport
 case class Bundle
 (
- @(JSExport @field) uuid: UUID,
- @(JSExport @field) kind: TerminologyGraphKind,
- @(JSExport @field) name: LocalName,
- @(JSExport @field) iri: IRI
-) 
+  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) kind: TerminologyGraphKind,
+  @(JSExport @field) name: LocalName,
+  @(JSExport @field) iri: IRI
+) {
+  override val hashCode
+  : scala.Int 
+  = (uuid, kind, name, iri).##
+  
+  override def equals(other: scala.Any): scala.Boolean = other match {
+  	case that: Bundle =>
+  	  (this.uuid == that.uuid) &&
+  	  (this.kind == that.kind) &&
+  	  (this.name == that.name) &&
+  	  (this.iri == that.iri)
+    case _ =>
+      false
+  }
+  
+}
+
 @JSExport
 object BundleHelper {
 

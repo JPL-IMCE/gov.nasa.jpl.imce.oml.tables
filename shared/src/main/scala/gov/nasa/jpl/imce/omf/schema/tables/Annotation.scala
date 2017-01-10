@@ -27,17 +27,30 @@ import scala.Predef._
 /**
   * @param terminologyUUID[1,1]
   * @param subjectUUID[1,1]
-  * @param propertyUUID[1,1]
   * @param value[1,1]
   */
 @JSExport
 case class Annotation
 (
- @(JSExport @field) terminologyUUID: UUID,
- @(JSExport @field) subjectUUID: UUID,
- @(JSExport @field) propertyUUID: UUID,
- @(JSExport @field) value: scala.Predef.String
-) 
+  @(JSExport @field) terminologyUUID: UUID,
+  @(JSExport @field) subjectUUID: UUID,
+  @(JSExport @field) value: scala.Predef.String
+) {
+  override val hashCode
+  : scala.Int 
+  = (terminologyUUID, subjectUUID, value).##
+  
+  override def equals(other: scala.Any): scala.Boolean = other match {
+  	case that: Annotation =>
+  	  (this.terminologyUUID == that.terminologyUUID) &&
+  	  (this.subjectUUID == that.subjectUUID) &&
+  	  (this.value == that.value)
+    case _ =>
+      false
+  }
+  
+}
+
 @JSExport
 object AnnotationHelper {
 

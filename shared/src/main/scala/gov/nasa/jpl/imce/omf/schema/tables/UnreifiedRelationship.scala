@@ -44,22 +44,49 @@ import scala.Predef._
 @JSExport
 case class UnreifiedRelationship
 (
- @(JSExport @field) graphUUID: UUID,
- @(JSExport @field) uuid: UUID,
- @(JSExport @field) name: LocalName,
- @(JSExport @field) iri: IRI,
- @(JSExport @field) isAsymmetric: scala.Boolean,
- @(JSExport @field) isEssential: scala.Boolean,
- @(JSExport @field) isFunctional: scala.Boolean,
- @(JSExport @field) isInverseEssential: scala.Boolean,
- @(JSExport @field) isInverseFunctional: scala.Boolean,
- @(JSExport @field) isIrreflexive: scala.Boolean,
- @(JSExport @field) isReflexive: scala.Boolean,
- @(JSExport @field) isSymmetric: scala.Boolean,
- @(JSExport @field) isTransitive: scala.Boolean,
- @(JSExport @field) sourceUUID: UUID,
- @(JSExport @field) targetUUID: UUID
-) 
+  @(JSExport @field) graphUUID: UUID,
+  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) name: LocalName,
+  @(JSExport @field) iri: IRI,
+  @(JSExport @field) isAsymmetric: scala.Boolean,
+  @(JSExport @field) isEssential: scala.Boolean,
+  @(JSExport @field) isFunctional: scala.Boolean,
+  @(JSExport @field) isInverseEssential: scala.Boolean,
+  @(JSExport @field) isInverseFunctional: scala.Boolean,
+  @(JSExport @field) isIrreflexive: scala.Boolean,
+  @(JSExport @field) isReflexive: scala.Boolean,
+  @(JSExport @field) isSymmetric: scala.Boolean,
+  @(JSExport @field) isTransitive: scala.Boolean,
+  @(JSExport @field) sourceUUID: UUID,
+  @(JSExport @field) targetUUID: UUID
+) {
+  override val hashCode
+  : scala.Int 
+  = (graphUUID, uuid, name, iri, isAsymmetric, isEssential, isFunctional, isInverseEssential, isInverseFunctional, isIrreflexive, isReflexive, isSymmetric, isTransitive, sourceUUID, targetUUID).##
+  
+  override def equals(other: scala.Any): scala.Boolean = other match {
+  	case that: UnreifiedRelationship =>
+  	  (this.graphUUID == that.graphUUID) &&
+  	  (this.uuid == that.uuid) &&
+  	  (this.name == that.name) &&
+  	  (this.iri == that.iri) &&
+  	  (this.isAsymmetric == that.isAsymmetric) &&
+  	  (this.isEssential == that.isEssential) &&
+  	  (this.isFunctional == that.isFunctional) &&
+  	  (this.isInverseEssential == that.isInverseEssential) &&
+  	  (this.isInverseFunctional == that.isInverseFunctional) &&
+  	  (this.isIrreflexive == that.isIrreflexive) &&
+  	  (this.isReflexive == that.isReflexive) &&
+  	  (this.isSymmetric == that.isSymmetric) &&
+  	  (this.isTransitive == that.isTransitive) &&
+  	  (this.sourceUUID == that.sourceUUID) &&
+  	  (this.targetUUID == that.targetUUID)
+    case _ =>
+      false
+  }
+  
+}
+
 @JSExport
 object UnreifiedRelationshipHelper {
 

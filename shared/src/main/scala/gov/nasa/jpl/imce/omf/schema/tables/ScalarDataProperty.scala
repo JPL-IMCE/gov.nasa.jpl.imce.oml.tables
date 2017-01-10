@@ -35,13 +35,31 @@ import scala.Predef._
 @JSExport
 case class ScalarDataProperty
 (
- @(JSExport @field) graphUUID: UUID,
- @(JSExport @field) uuid: UUID,
- @(JSExport @field) name: LocalName,
- @(JSExport @field) iri: IRI,
- @(JSExport @field) domainUUID: UUID,
- @(JSExport @field) rangeUUID: UUID
-) 
+  @(JSExport @field) graphUUID: UUID,
+  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) name: LocalName,
+  @(JSExport @field) iri: IRI,
+  @(JSExport @field) domainUUID: UUID,
+  @(JSExport @field) rangeUUID: UUID
+) {
+  override val hashCode
+  : scala.Int 
+  = (graphUUID, uuid, name, iri, domainUUID, rangeUUID).##
+  
+  override def equals(other: scala.Any): scala.Boolean = other match {
+  	case that: ScalarDataProperty =>
+  	  (this.graphUUID == that.graphUUID) &&
+  	  (this.uuid == that.uuid) &&
+  	  (this.name == that.name) &&
+  	  (this.iri == that.iri) &&
+  	  (this.domainUUID == that.domainUUID) &&
+  	  (this.rangeUUID == that.rangeUUID)
+    case _ =>
+      false
+  }
+  
+}
+
 @JSExport
 object ScalarDataPropertyHelper {
 

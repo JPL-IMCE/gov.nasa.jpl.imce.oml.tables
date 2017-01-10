@@ -24,9 +24,9 @@ import org.apache.commons.compress.archivers.zip.{ZipArchiveEntry, ZipFile}
 
 import scala.collection.immutable.Seq
 import scala.collection.JavaConversions._
-import scala.{Boolean,Unit}
 import scala.util.control.Exception._
 import scala.util.{Failure,Success,Try}
+import scala.{Boolean,Unit}
 
 case class OMF2OTIProvenanceTables private[tables]
 (
@@ -36,7 +36,7 @@ case class OMF2OTIProvenanceTables private[tables]
   def readOMF2OTIProvenances(is: InputStream)
   : OMF2OTIProvenanceTables
   = copy(omf2OTIProvenances = readJSonTable(is, OMF2OTIProvenanceHelper.fromJSON))
-
+  
   def isEmpty: Boolean
   = omf2OTIProvenances.isEmpty
 }
@@ -110,6 +110,7 @@ object OMF2OTIProvenanceTables {
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry()
+      
   
       zos.close()
   	  Success(())
