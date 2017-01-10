@@ -28,7 +28,7 @@ trait TerminologyGraph
 {
 
   def withAnnotations
-  (a: scala.collection.immutable.Set[_ <: Annotation]
+  (a: scala.collection.immutable.Map[AnnotationProperty, scala.collection.immutable.Seq[Annotation]]
   ): TerminologyGraph
   def withBoxStatements
   (s: scala.collection.immutable.Set[_ <: TerminologyBoxStatement]

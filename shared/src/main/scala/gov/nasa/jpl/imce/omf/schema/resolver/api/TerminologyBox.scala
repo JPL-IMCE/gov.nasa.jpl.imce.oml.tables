@@ -38,7 +38,7 @@ trait TerminologyBox
   val boxStatements: scala.collection.immutable.Set[_ <: TerminologyBoxStatement]
 
   def withAnnotations
-  (a: scala.collection.immutable.Set[_ <: Annotation]
+  (a: scala.collection.immutable.Map[AnnotationProperty, scala.collection.immutable.Seq[Annotation]]
   ): TerminologyBox
   def withBoxStatements
   (s: scala.collection.immutable.Set[_ <: TerminologyBoxStatement]

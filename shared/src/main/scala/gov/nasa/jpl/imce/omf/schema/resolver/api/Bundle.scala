@@ -39,7 +39,7 @@ trait Bundle
   (s: scala.collection.immutable.Set[_ <: TerminologyBundleStatement]
   ): Bundle
   def withAnnotations
-  (a: scala.collection.immutable.Set[_ <: Annotation]
+  (a: scala.collection.immutable.Map[AnnotationProperty, scala.collection.immutable.Seq[Annotation]]
   ): Bundle
   def withBoxStatements
   (s: scala.collection.immutable.Set[_ <: TerminologyBoxStatement]
