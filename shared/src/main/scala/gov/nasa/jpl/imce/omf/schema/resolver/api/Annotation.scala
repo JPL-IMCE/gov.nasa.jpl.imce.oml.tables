@@ -22,6 +22,5 @@ trait Annotation
 {
 
   val subject: TerminologyThing
-  val property: AnnotationProperty
   val value: scala.Predef.String
 }

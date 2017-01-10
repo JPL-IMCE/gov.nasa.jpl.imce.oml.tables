@@ -26,7 +26,7 @@ trait TerminologyBox
   with Resource
 {
 
-  val annotations: scala.collection.immutable.Set[_ <: Annotation]
+  val annotations: scala.collection.immutable.Map[AnnotationProperty, scala.collection.immutable.Seq[Annotation]]
   /*
    * OMF: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.core/latest/api/index.html#gov.nasa.jpl.omf.scala.core.TerminologyGraphSignature@kind:gov.nasa.jpl.omf.scala.core.TerminologyKind.TerminologyKind
    * OWL: https://github.jpl.nasa.gov/pages/imce/gov.nasa.jpl.omf.scala.binding.owlapi/latest/api/index.html#gov.nasa.jpl.omf.scala.binding.owlapi.types.ModelTerminologyGraph@kind:gov.nasa.jpl.omf.scala.core.TerminologyKind.TerminologyKind
