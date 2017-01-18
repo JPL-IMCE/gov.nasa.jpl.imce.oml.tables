@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Tables
-Bundle-SymbolicName: jpl.omf.schema.tables
+Bundle-SymbolicName: gov.nasa.jpl.imce.oml.specification.tables
 Bundle-Version: 0.48.0.qualifier
