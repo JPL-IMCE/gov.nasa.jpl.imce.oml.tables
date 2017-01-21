@@ -26,7 +26,7 @@ import scala.Predef._
 
 /**
   * @param uuid[1,1]
-  * @param nestedTerminologyUUID[1,1]
+  * @param terminologyUUID[1,1]
   * @param nestingContextUUID[1,1]
   * @param nestingTerminologyUUID[1,1]
   */
@@ -34,18 +34,18 @@ import scala.Predef._
 case class TerminologyNestingAxiom
 (
   @(JSExport @field) uuid: UUID,
-  @(JSExport @field) nestedTerminologyUUID: UUID,
+  @(JSExport @field) terminologyUUID: UUID,
   @(JSExport @field) nestingContextUUID: UUID,
   @(JSExport @field) nestingTerminologyUUID: UUID
 ) {
   override val hashCode
   : scala.Int 
-  = (uuid, nestedTerminologyUUID, nestingContextUUID, nestingTerminologyUUID).##
+  = (uuid, terminologyUUID, nestingContextUUID, nestingTerminologyUUID).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: TerminologyNestingAxiom =>
   	  (this.uuid == that.uuid) &&
-  	  (this.nestedTerminologyUUID == that.nestedTerminologyUUID) &&
+  	  (this.terminologyUUID == that.terminologyUUID) &&
   	  (this.nestingContextUUID == that.nestingContextUUID) &&
   	  (this.nestingTerminologyUUID == that.nestingTerminologyUUID)
     case _ =>

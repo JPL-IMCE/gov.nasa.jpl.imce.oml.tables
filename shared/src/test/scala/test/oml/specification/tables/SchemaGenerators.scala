@@ -35,4 +35,6 @@ object SchemaGenerators {
   val isAbstract = Gen.oneOf(true, false)
 
   val kind = Gen.oneOf(OpenWorldDefinitions,ClosedWorldDesignations)
+
+  val nsPrefix = Gen.identifier
 }

@@ -18,12 +18,10 @@
 
 package gov.nasa.jpl.imce.oml.specification.resolver.api
 
-/*
- * A TerminologyBoxAxiom is a TerminologyAxiom that asserts a logical statement about a Term.
- */
-trait TerminologyBoxAxiom
-  extends TerminologyAxiom
+trait TerminologyExtent
 {
 
-  val terminology: TerminologyBox
+  val annotationProperties: scala.collection.immutable.SortedSet[AnnotationProperty]
+  val terminologyGraphs: scala.collection.immutable.SortedSet[TerminologyGraph]
+  val bundles: scala.collection.immutable.SortedSet[Bundle]
 }

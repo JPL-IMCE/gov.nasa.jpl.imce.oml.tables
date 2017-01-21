@@ -23,9 +23,10 @@ trait TerminologyNestingAxiom
 {
 
   val nestingTerminology: TerminologyBox
-  val nestedTerminology: TerminologyGraph
   val nestingContext: Concept
 
+  def nestedTerminology
+  (): TerminologyGraph
   /*
    * The nestedTerminology is the source
    */

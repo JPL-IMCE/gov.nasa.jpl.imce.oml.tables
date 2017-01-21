@@ -29,6 +29,7 @@ import scala.Predef._
   * @param kind[1,1]
   * @param name[1,1]
   * @param iri[1,1]
+  * @param nsPrefix[1,1]
   */
 @JSExport
 case class Bundle
@@ -36,18 +37,20 @@ case class Bundle
   @(JSExport @field) uuid: UUID,
   @(JSExport @field) kind: TerminologyGraphKind,
   @(JSExport @field) name: LocalName,
-  @(JSExport @field) iri: IRI
+  @(JSExport @field) iri: IRI,
+  @(JSExport @field) nsPrefix: NamespacePrefix
 ) {
   override val hashCode
   : scala.Int 
-  = (uuid, kind, name, iri).##
+  = (uuid, kind, name, iri, nsPrefix).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: Bundle =>
   	  (this.uuid == that.uuid) &&
   	  (this.kind == that.kind) &&
   	  (this.name == that.name) &&
-  	  (this.iri == that.iri)
+  	  (this.iri == that.iri) &&
+  	  (this.nsPrefix == that.nsPrefix)
     case _ =>
       false
   }

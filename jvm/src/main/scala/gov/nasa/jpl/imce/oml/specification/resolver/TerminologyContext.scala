@@ -22,7 +22,7 @@ import java.util.UUID
 
 import gov.nasa.jpl.imce.oml.specification._
 
-import scala.collection.immutable.{Map, Set}
+import scala.collection.immutable.{Map, Set, TreeSet}
 import scala.util.control.Exception._
 import scala.util.{Failure, Success, Try}
 import scala.{Option,None,PartialFunction,Some,StringContext,Tuple2}
@@ -32,7 +32,7 @@ import scalax.collection.GraphPredef._
 import scalax.collection.immutable.Graph
 
 case class TerminologyContext private[resolver]
-(annotationProperties: Map[UUID, resolver.api.AnnotationProperty] = Map.empty,
+(extent: resolver.api.TerminologyExtent,
  g: Graph[resolver.api.TerminologyBox, TerminologyEdge] = Graph[resolver.api.TerminologyBox, TerminologyEdge]()) {
 
   def topologicalOrder()
@@ -121,7 +121,12 @@ object TerminologyContext {
       }
   }
 
-  def initialize()
+  def initialize
+  (factory: resolver.api.OMLResolvedFactory)
   : TerminologyContext
-  = TerminologyContext()
+  = TerminologyContext(
+    factory.createTerminologyExtent(
+      annotationProperties = TreeSet.empty[resolver.api.AnnotationProperty],
+      bundles = TreeSet.empty[resolver.api.Bundle],
+      terminologyGraphs = TreeSet.empty[resolver.api.TerminologyGraph]))
 }

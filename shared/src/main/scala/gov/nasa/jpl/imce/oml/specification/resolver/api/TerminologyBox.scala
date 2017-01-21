@@ -27,8 +27,13 @@ trait TerminologyBox
 {
 
   override val iri: gov.nasa.jpl.imce.oml.specification.tables.IRI
+  val nsPrefix: gov.nasa.jpl.imce.oml.specification.tables.NamespacePrefix
   val annotations: scala.collection.immutable.SortedSet[Annotation]
   val kind: gov.nasa.jpl.imce.oml.specification.tables.TerminologyGraphKind
+  /*
+   * The TerminologyBoxAxioms asserted in this TerminologyBox
+   */
+  val terminologyBoxAxioms: scala.collection.immutable.SortedSet[TerminologyBoxAxiom]
   /*
    * The TerminologyBoxStatements asserted in this TerminologyBox
    */

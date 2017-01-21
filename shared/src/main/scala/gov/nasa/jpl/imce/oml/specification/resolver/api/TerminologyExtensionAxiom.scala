@@ -27,9 +27,10 @@ trait TerminologyExtensionAxiom
   extends TerminologyBoxAxiom
 {
 
-  val extendingTerminology: TerminologyBox
   val extendedTerminology: TerminologyBox
 
+  def extendingTerminology
+  (): TerminologyBox
   /*
    * The extendingTerminology is the source
    */

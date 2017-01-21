@@ -42,8 +42,18 @@ object OMLTablesResolver {
   : Try[OMLTablesResolver]
   = for {
     init <- Try.apply(OMLTablesResolver(
-      resolver.TerminologyContext(t.annotationProperties.map { ap =>
-        UUID.fromString(ap.uuid) -> factory.createAnnotationProperty(UUID.fromString(ap.uuid), ap.iri) }.toMap),
+      resolver.TerminologyContext(
+        factory.createTerminologyExtent(
+          annotationProperties =
+            t
+              .annotationProperties
+              .foldLeft[SortedSet[resolver.api.AnnotationProperty]](TreeSet.empty[resolver.api.AnnotationProperty]) {
+              case (acc, ap) =>
+                acc +
+                  factory.createAnnotationProperty(UUID.fromString(ap.uuid), ap.iri, ap.abbrevIRI)
+            },
+          bundles = TreeSet.empty[resolver.api.Bundle],
+          terminologyGraphs = TreeSet.empty[resolver.api.TerminologyGraph])),
       t,
       factory))
     // Terminologies
@@ -89,7 +99,28 @@ object OMLTablesResolver {
     step10c <- mapSpecificDisjointConceptAxioms(step10b)
     // AnnotationPairs
     step11 <- mapAnnotationPairs(step10c)
-  } yield step11
+  } yield {
+    val c = step11.context
+    val e1 =
+      factory
+        .copyTerminologyExtent_terminologyGraphs(
+          c.extent,
+          c.graphs.foldLeft[SortedSet[resolver.api.TerminologyGraph]](TreeSet.empty[resolver.api.TerminologyGraph]) {
+            case (acc, (_, g)) =>
+              acc + g
+          })
+    val e2 =
+      factory
+      .copyTerminologyExtent_bundles(
+        c.extent,
+        c.bundles.foldLeft[SortedSet[resolver.api.Bundle]](TreeSet.empty[resolver.api.Bundle]) {
+          case (acc, (_, b)) =>
+            acc + b
+        })
+
+    step11.copy(context = c.copy(extent = e2))
+  }
+
 
   def mapTerminologyGraphs
   (resolver: OMLTablesResolver)
@@ -97,9 +128,10 @@ object OMLTablesResolver {
   = {
     val gN = resolver.queue.terminologyGraphs.foldLeft(resolver.context.g) { (gi, t) =>
       gi + resolver.factory.createTerminologyGraph(
-        java.util.UUID.fromString(t.uuid), t.kind, t.name, t.iri,
+        java.util.UUID.fromString(t.uuid), t.kind, t.name, t.iri, t.nsPrefix,
         annotations=TreeSet.empty[api.Annotation],
-        boxStatements=TreeSet.empty[api.TerminologyBoxStatement])
+        boxStatements=TreeSet.empty[api.TerminologyBoxStatement],
+        terminologyBoxAxioms=TreeSet.empty[api.TerminologyBoxAxiom])
     }
 
     val r = resolver.copy(
@@ -113,10 +145,11 @@ object OMLTablesResolver {
   : Try[OMLTablesResolver]
   = {
     val gN = resolver.queue.bundles.foldLeft(resolver.context.g) { (gi, b) =>
-      gi + resolver.factory.createBundle(java.util.UUID.fromString(b.uuid), b.kind, b.name, b.iri,
+      gi + resolver.factory.createBundle(java.util.UUID.fromString(b.uuid), b.kind, b.name, b.iri, b.nsPrefix,
         annotations=TreeSet.empty[api.Annotation],
         boxStatements=TreeSet.empty[api.TerminologyBoxStatement],
         bundleStatements=TreeSet.empty[api.TerminologyBundleStatement],
+        terminologyBoxAxioms=TreeSet.empty[api.TerminologyBoxAxiom],
         terminologyBundleAxioms=TreeSet.empty[api.TerminologyBundleAxiom])
     }
 
@@ -188,7 +221,7 @@ object OMLTablesResolver {
       .map { g =>
         resolver
           .copy(
-            context = TerminologyContext(resolver.context.annotationProperties, g),
+            context = TerminologyContext(resolver.context.extent, g),
             queue = resolver.queue.copy(aspects = unresolvable.flatMap(_._2).to[Seq]))
       }
   }
@@ -238,7 +271,7 @@ object OMLTablesResolver {
       .map { g =>
         resolver
           .copy(
-            context = TerminologyContext(resolver.context.annotationProperties, g),
+            context = TerminologyContext(resolver.context.extent, g),
             queue = resolver.queue.copy(concepts = unresolvable.flatMap(_._2).to[Seq]))
       }
   }
@@ -287,7 +320,7 @@ object OMLTablesResolver {
       .map { g =>
         resolver
           .copy(
-            context = TerminologyContext(resolver.context.annotationProperties, g),
+            context = TerminologyContext(resolver.context.extent, g),
             queue = resolver.queue.copy(scalars = unresolvable.flatMap(_._2).to[Seq]))
       }
   }
@@ -335,7 +368,7 @@ object OMLTablesResolver {
       .map { g =>
         resolver
           .copy(
-            context = TerminologyContext(resolver.context.annotationProperties, g),
+            context = TerminologyContext(resolver.context.extent, g),
             queue = resolver.queue.copy(structures = unresolvable.flatMap(_._2).to[Seq]))
       }
   }
@@ -354,7 +387,7 @@ object OMLTablesResolver {
       extending, extended,
       factory.createTerminologyExtensionAxiom(
         uuid = UUID.fromString(entry._2.uuid),
-        extendingTerminology = extending,
+        terminology = extending,
         extendedTerminology = extended))
 
     result
@@ -368,7 +401,7 @@ object OMLTablesResolver {
     val byUUID =
       resolver.queue.terminologyExtensionAxioms.par
         .map { tAxiom =>
-          (UUID.fromString(tAxiom.extendingTerminologyUUID), UUID.fromString(tAxiom.extendedTerminologyUUID)) -> tAxiom
+          (UUID.fromString(tAxiom.terminologyUUID), UUID.fromString(tAxiom.extendedTerminologyUUID)) -> tAxiom
         }
 
     val (resolvable, unresolvable) =
@@ -384,7 +417,7 @@ object OMLTablesResolver {
     val r =
       resolver
         .copy(
-          context = TerminologyContext(resolver.context.annotationProperties, g),
+          context = TerminologyContext(resolver.context.extent, g),
           queue = resolver.queue.copy(terminologyExtensionAxioms = s))
 
     Success(r)
@@ -405,7 +438,7 @@ object OMLTablesResolver {
       nestedT, nestingT,
       factory.createTerminologyNestingAxiom(
         uuid = UUID.fromString(entry._2.uuid),
-        nestedTerminology = nestedT,
+        terminology = nestedT,
         nestingContext = nestingC,
         nestingTerminology = nestingT))
     result
@@ -438,7 +471,7 @@ object OMLTablesResolver {
     : Seq[((tables.UUID, tables.UUID), tables.TerminologyNestingAxiom)]
     = resolver.queue.terminologyNestingAxioms
       .map { tAxiom =>
-        (tAxiom.nestedTerminologyUUID -> tAxiom.nestingContextUUID) -> tAxiom
+        (tAxiom.terminologyUUID -> tAxiom.nestingContextUUID) -> tAxiom
       }
 
     val (resolvable, unresolvable) =
@@ -460,7 +493,7 @@ object OMLTablesResolver {
     val r =
       resolver
         .copy(
-          context = TerminologyContext(resolver.context.annotationProperties, g),
+          context = TerminologyContext(resolver.context.extent, g),
           queue = resolver.queue.copy(terminologyNestingAxioms = s))
 
     Success(r)
@@ -483,7 +516,7 @@ object OMLTablesResolver {
         uuid = UUID.fromString(entry._2.uuid),
         designatedConcept = designatedC,
         designatedTerminology = designatedTBox,
-        designationTerminologyGraph = designationG))
+        terminology = designationG))
 
     result
   }
@@ -515,7 +548,7 @@ object OMLTablesResolver {
     : Seq[((tables.UUID, tables.UUID), tables.ConceptDesignationTerminologyAxiom)]
     = resolver.queue.conceptDesignationTerminologyAxioms
       .map { tAxiom =>
-        (tAxiom.designationTerminologyGraphUUID -> tAxiom.designatedConceptUUID) -> tAxiom
+        (tAxiom.terminologyUUID -> tAxiom.designatedConceptUUID) -> tAxiom
       }
 
     val (resolvable, unresolvable) =
@@ -537,7 +570,7 @@ object OMLTablesResolver {
     val r =
       resolver
         .copy(
-          context = TerminologyContext(resolver.context.annotationProperties, g),
+          context = TerminologyContext(resolver.context.extent, g),
           queue = resolver.queue.copy(conceptDesignationTerminologyAxioms = s))
 
     Success(r)
@@ -591,7 +624,7 @@ object OMLTablesResolver {
     val r =
       resolver
         .copy(
-          context = TerminologyContext(resolver.context.annotationProperties, g),
+          context = TerminologyContext(resolver.context.extent, g),
           queue = resolver.queue.copy(bundledTerminologyAxioms = s))
 
     Success(r)
@@ -751,7 +784,7 @@ object OMLTablesResolver {
           .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.annotationProperties, gj)),
+              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
               mi + (guuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -835,7 +868,7 @@ object OMLTablesResolver {
           .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.annotationProperties, gj)),
+              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
               mi + (guuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -916,7 +949,7 @@ object OMLTablesResolver {
           .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.annotationProperties, gj)),
+              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
               mi + (guuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -997,7 +1030,7 @@ object OMLTablesResolver {
           .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.annotationProperties, gj)),
+              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
               mi + (guuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -1078,7 +1111,7 @@ object OMLTablesResolver {
           .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.annotationProperties, gj)),
+              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
               mi + (guuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -1154,7 +1187,7 @@ object OMLTablesResolver {
           .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.annotationProperties, gj)),
+              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
               mi + (guuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -1226,7 +1259,7 @@ object OMLTablesResolver {
           .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.annotationProperties, gj)),
+              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
               mi + (guuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -1307,7 +1340,7 @@ object OMLTablesResolver {
           .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.annotationProperties, gj)),
+              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
               mi + (guuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -1388,7 +1421,7 @@ object OMLTablesResolver {
           .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.annotationProperties, gj)),
+              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
               mi + (guuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -1474,7 +1507,7 @@ object OMLTablesResolver {
           .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.annotationProperties, gj)),
+              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
               mi + (guuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -1555,7 +1588,7 @@ object OMLTablesResolver {
           .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.annotationProperties, gj)),
+              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
               mi + (guuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -1641,7 +1674,7 @@ object OMLTablesResolver {
           .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.annotationProperties, gj)),
+              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
               mi + (guuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -1720,7 +1753,7 @@ object OMLTablesResolver {
           .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.annotationProperties, gj)),
+              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
               mi + (guuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -1794,7 +1827,7 @@ object OMLTablesResolver {
           .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.annotationProperties, gj)),
+              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
               mi + (guuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -1868,7 +1901,7 @@ object OMLTablesResolver {
           .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.annotationProperties, gj)),
+              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
               mi + (guuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -1940,7 +1973,7 @@ object OMLTablesResolver {
           .replaceNode(ri.factory, gi, bundle, bundle.withBundleStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.annotationProperties, gj)),
+              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
               mi + (buuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -2025,7 +2058,7 @@ object OMLTablesResolver {
           .replaceNode(ri.factory, gi, bundle, bundle.withBundleStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.annotationProperties, gj)),
+              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
               mi + (buuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -2117,7 +2150,7 @@ object OMLTablesResolver {
           .replaceNode(ri.factory, gi, bundle, bundle.withBundleStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.annotationProperties, gj)),
+              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
               mi + (buuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -2204,17 +2237,18 @@ object OMLTablesResolver {
   def annotationMapS
   (factory: api.OMLResolvedFactory,
    subjects_by_terminology: Map[tables.UUID, (api.TerminologyBox, Map[tables.UUID, api.TerminologyThing])],
-   aps: Map[UUID, api.AnnotationProperty])
+   aps: SortedSet[api.AnnotationProperty])
   (q_u: (ResolvedAnnotationMap, AnnotationMapTables),
    ap_as: (tables.AnnotationProperty, Seq[tables.AnnotationEntry]))
   : (ResolvedAnnotationMap, AnnotationMapTables)
   = {
+    val apByUUID: Map[tables.UUID, api.AnnotationProperty] = aps.map { ap => ap.uuid.toString -> ap }.toMap
     val (q1: ResolvedAnnotationMap, u1: AnnotationMapTables) = q_u
     val (ap: tables.AnnotationProperty, as: Seq[tables.AnnotationEntry]) = ap_as
 
     // Q: is this a known annotation property?
-    aps
-      .get(UUID.fromString(ap.uuid))
+    apByUUID
+      .get(ap.uuid)
       .fold[(ResolvedAnnotationMap, AnnotationMapTables)] {
 
       // A: No, add the annotations to the (unresolved) tables.
@@ -2289,7 +2323,7 @@ object OMLTablesResolver {
       .queue
       .annotations.par
       .aggregate[(ResolvedAnnotationMap, AnnotationMapTables)](Map.empty, Map.empty)(
-      seqop = annotationMapS(resolver.factory, t2everything, resolver.context.annotationProperties),
+      seqop = annotationMapS(resolver.factory, t2everything, resolver.context.extent.annotationProperties),
       combop = annotationMapC)
 
     val unresolved
@@ -2313,7 +2347,7 @@ object OMLTablesResolver {
         val rk = TerminologyContext
           .replaceNode(rj.factory, rj.context.g, tbox, tbox.withAnnotations(additions))
           .map { gi =>
-            rj.copy(context = TerminologyContext(rj.context.annotationProperties, gi))
+            rj.copy(context = TerminologyContext(rj.context.extent, gi))
           }
         rk
       }
@@ -2343,13 +2377,13 @@ object OMLTablesResolver {
 
         val (available, remaining) = x.partition { a =>
           statements.contains(UUID.fromString(a.subjectUUID)) &&
-          resolver.context.annotationProperties.contains(UUID.fromString(a.propertyUUID))
+          resolver.context.extent.contains(UUID.fromString(a.propertyUUID))
         }
         val si = available
           .map { a =>
             impl.Annotation(
               statements(UUID.fromString(a.subjectUUID)),
-              resolver.context.annotationProperties(UUID.fromString(a.propertyUUID)),
+              resolver.context.extent(UUID.fromString(a.propertyUUID)),
               a.value)
           }
           .to[Set]
@@ -2357,7 +2391,7 @@ object OMLTablesResolver {
           .replaceNode(gi, tbox, tbox.withAnnotations(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = impl.TerminologyContext(ri.context.annotationProperties, gj)),
+              ri.copy(context = impl.TerminologyContext(ri.context.extent, gj)),
               mi + (uuid -> remaining),
               fi || si.nonEmpty)
           }

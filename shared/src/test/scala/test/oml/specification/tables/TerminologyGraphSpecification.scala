@@ -30,11 +30,22 @@ object TerminologyGraphSpecification extends Properties("TerminologyGraph") {
     SchemaGenerators.uuid,
     SchemaGenerators.name,
     SchemaGenerators.kind,
-    SchemaGenerators.iri)( (uuid: java.util.UUID, name: String, kind: TerminologyGraphKind, iri: String) => {
-    val w = new TerminologyGraph(uuid.toString, kind, name, iri)
+    SchemaGenerators.iri,
+    SchemaGenerators.nsPrefix)(
+    (uuid: java.util.UUID,
+     name: String,
+     kind: TerminologyGraphKind,
+     iri: String,
+     nsPrefix: String) => {
+    val w = new TerminologyGraph(uuid.toString, kind, name, iri, nsPrefix)
     val s = TerminologyGraphHelper.toJSON(w)
-    val t = s"""{"uuid":"${w.uuid}","kind":"${w.kind}","name":"${w.name}","iri":"${w.iri}"}"""
+    val t = s"""{"uuid":"${w.uuid}","kind":"${w.kind}","name":"${w.name}","iri":"${w.iri}","nsPrefix":"${w.nsPrefix}"}"""
     val r = TerminologyGraphHelper.fromJSON(s)
-    (s == t) && (w.uuid == r.uuid) && (w.kind == r.kind) && (w.name == r.name) && (w.iri == r.iri)
+    (s == t) &&
+      (w.uuid == r.uuid) &&
+      (w.kind == r.kind) &&
+      (w.name == r.name) &&
+      (w.iri == r.iri) &&
+      (w.nsPrefix == r.nsPrefix)
   })
 }

@@ -41,7 +41,8 @@ trait OMLResolvedFactory {
   
   def createAnnotationProperty
   ( uuid: java.util.UUID,
-    iri: gov.nasa.jpl.imce.oml.specification.tables.IRI )
+    iri: gov.nasa.jpl.imce.oml.specification.tables.IRI,
+    abbrevIRI: gov.nasa.jpl.imce.oml.specification.tables.AbbrevIRI )
   : AnnotationProperty
   
   // AnnotationPropertyTable
@@ -95,9 +96,11 @@ trait OMLResolvedFactory {
     kind: gov.nasa.jpl.imce.oml.specification.tables.TerminologyGraphKind,
     name: gov.nasa.jpl.imce.oml.specification.tables.LocalName,
     iri: gov.nasa.jpl.imce.oml.specification.tables.IRI,
+    nsPrefix: gov.nasa.jpl.imce.oml.specification.tables.NamespacePrefix,
     annotations: scala.collection.immutable.SortedSet[Annotation],
     boxStatements: scala.collection.immutable.SortedSet[TerminologyBoxStatement],
     bundleStatements: scala.collection.immutable.SortedSet[TerminologyBundleStatement],
+    terminologyBoxAxioms: scala.collection.immutable.SortedSet[TerminologyBoxAxiom],
     terminologyBundleAxioms: scala.collection.immutable.SortedSet[TerminologyBundleAxiom] )
   : Bundle
   
@@ -132,19 +135,19 @@ trait OMLResolvedFactory {
   
   def createConceptDesignationTerminologyAxiom
   ( uuid: java.util.UUID,
+    terminology: TerminologyBox,
     designatedConcept: Concept,
-    designatedTerminology: TerminologyBox,
-    designationTerminologyGraph: TerminologyGraph )
+    designatedTerminology: TerminologyBox )
+  : ConceptDesignationTerminologyAxiom
+  
+  def copyConceptDesignationTerminologyAxiom_terminology
+  ( that: ConceptDesignationTerminologyAxiom,
+    terminology: TerminologyBox )
   : ConceptDesignationTerminologyAxiom
   
   def copyConceptDesignationTerminologyAxiom_designatedTerminology
   ( that: ConceptDesignationTerminologyAxiom,
     designatedTerminology: TerminologyBox )
-  : ConceptDesignationTerminologyAxiom
-  
-  def copyConceptDesignationTerminologyAxiom_designationTerminologyGraph
-  ( that: ConceptDesignationTerminologyAxiom,
-    designationTerminologyGraph: TerminologyGraph )
   : ConceptDesignationTerminologyAxiom
   
   // ConceptSpecializationAxiom
@@ -394,8 +397,13 @@ trait OMLResolvedFactory {
   
   def createTerminologyExtensionAxiom
   ( uuid: java.util.UUID,
-    extendedTerminology: TerminologyBox,
-    extendingTerminology: TerminologyBox )
+    terminology: TerminologyBox,
+    extendedTerminology: TerminologyBox )
+  : TerminologyExtensionAxiom
+  
+  def copyTerminologyExtensionAxiom_terminology
+  ( that: TerminologyExtensionAxiom,
+    terminology: TerminologyBox )
   : TerminologyExtensionAxiom
   
   def copyTerminologyExtensionAxiom_extendedTerminology
@@ -403,10 +411,28 @@ trait OMLResolvedFactory {
     extendedTerminology: TerminologyBox )
   : TerminologyExtensionAxiom
   
-  def copyTerminologyExtensionAxiom_extendingTerminology
-  ( that: TerminologyExtensionAxiom,
-    extendingTerminology: TerminologyBox )
-  : TerminologyExtensionAxiom
+  // TerminologyExtent
+  
+  def createTerminologyExtent
+  ( annotationProperties: scala.collection.immutable.SortedSet[AnnotationProperty],
+    bundles: scala.collection.immutable.SortedSet[Bundle],
+    terminologyGraphs: scala.collection.immutable.SortedSet[TerminologyGraph] )
+  : TerminologyExtent
+  
+  def copyTerminologyExtent_annotationProperties
+  ( that: TerminologyExtent,
+    annotationProperties: scala.collection.immutable.SortedSet[AnnotationProperty] )
+  : TerminologyExtent
+  
+  def copyTerminologyExtent_bundles
+  ( that: TerminologyExtent,
+    bundles: scala.collection.immutable.SortedSet[Bundle] )
+  : TerminologyExtent
+  
+  def copyTerminologyExtent_terminologyGraphs
+  ( that: TerminologyExtent,
+    terminologyGraphs: scala.collection.immutable.SortedSet[TerminologyGraph] )
+  : TerminologyExtent
   
   // TerminologyGraph
   
@@ -415,22 +441,24 @@ trait OMLResolvedFactory {
     kind: gov.nasa.jpl.imce.oml.specification.tables.TerminologyGraphKind,
     name: gov.nasa.jpl.imce.oml.specification.tables.LocalName,
     iri: gov.nasa.jpl.imce.oml.specification.tables.IRI,
+    nsPrefix: gov.nasa.jpl.imce.oml.specification.tables.NamespacePrefix,
     annotations: scala.collection.immutable.SortedSet[Annotation],
-    boxStatements: scala.collection.immutable.SortedSet[TerminologyBoxStatement] )
+    boxStatements: scala.collection.immutable.SortedSet[TerminologyBoxStatement],
+    terminologyBoxAxioms: scala.collection.immutable.SortedSet[TerminologyBoxAxiom] )
   : TerminologyGraph
   
   // TerminologyNestingAxiom
   
   def createTerminologyNestingAxiom
   ( uuid: java.util.UUID,
-    nestedTerminology: TerminologyGraph,
+    terminology: TerminologyBox,
     nestingContext: Concept,
     nestingTerminology: TerminologyBox )
   : TerminologyNestingAxiom
   
-  def copyTerminologyNestingAxiom_nestedTerminology
+  def copyTerminologyNestingAxiom_terminology
   ( that: TerminologyNestingAxiom,
-    nestedTerminology: TerminologyGraph )
+    terminology: TerminologyBox )
   : TerminologyNestingAxiom
   
   def copyTerminologyNestingAxiom_nestingTerminology

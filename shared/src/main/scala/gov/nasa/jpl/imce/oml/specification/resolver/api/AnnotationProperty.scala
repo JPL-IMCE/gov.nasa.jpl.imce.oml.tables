@@ -23,4 +23,5 @@ trait AnnotationProperty
 
   val uuid: java.util.UUID
   val iri: gov.nasa.jpl.imce.oml.specification.tables.IRI
+  val abbrevIRI: gov.nasa.jpl.imce.oml.specification.tables.AbbrevIRI
 }

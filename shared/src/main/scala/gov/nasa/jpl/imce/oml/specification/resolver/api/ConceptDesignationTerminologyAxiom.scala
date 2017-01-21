@@ -22,10 +22,11 @@ trait ConceptDesignationTerminologyAxiom
   extends TerminologyBoxAxiom
 {
 
-  val designationTerminologyGraph: TerminologyGraph
   val designatedTerminology: TerminologyBox
   val designatedConcept: Concept
 
+  def designationTerminologyGraph
+  (): TerminologyGraph
   /*
    * The designationTerminologyGraph is the source
    */

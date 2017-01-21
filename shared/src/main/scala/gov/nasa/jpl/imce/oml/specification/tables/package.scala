@@ -25,12 +25,14 @@ import scala.io
 import scala.Predef.String
 
 package object tables {
+	type AbbrevIRI = String
 	type IRI = String
 	type Language = String
 	type LexicalNumber = String
 	type LexicalTime = String
 	type LexicalValue = String
 	type LocalName = String
+	type NamespacePrefix = String
 	type Pattern = String
 	type UUID = String
   	

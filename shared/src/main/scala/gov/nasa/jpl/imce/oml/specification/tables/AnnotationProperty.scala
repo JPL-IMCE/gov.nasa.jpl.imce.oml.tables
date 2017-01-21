@@ -27,21 +27,24 @@ import scala.Predef._
 /**
   * @param uuid[1,1]
   * @param iri[1,1]
+  * @param abbrevIRI[1,1]
   */
 @JSExport
 case class AnnotationProperty
 (
   @(JSExport @field) uuid: UUID,
-  @(JSExport @field) iri: IRI
+  @(JSExport @field) iri: IRI,
+  @(JSExport @field) abbrevIRI: AbbrevIRI
 ) {
   override val hashCode
   : scala.Int 
-  = (uuid, iri).##
+  = (uuid, iri, abbrevIRI).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: AnnotationProperty =>
   	  (this.uuid == that.uuid) &&
-  	  (this.iri == that.iri)
+  	  (this.iri == that.iri) &&
+  	  (this.abbrevIRI == that.abbrevIRI)
     case _ =>
       false
   }
