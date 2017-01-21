@@ -54,7 +54,6 @@ object ConceptSpecificationScala extends Properties("Concept") {
     val t = s"""{"graphUUID":"${w.graphUUID}","uuid":"${w.uuid}","isAbstract":${w.isAbstract},"name":"${w.name}"}"""
     val r = ConceptHelper.fromJSON(s)
     (s == t) &&
-      (w.graphUUID == r.graphUUID) &&
       (w.uuid == r.uuid) &&
       (w.isAbstract == r.isAbstract) &&
       (w.name == r.name)

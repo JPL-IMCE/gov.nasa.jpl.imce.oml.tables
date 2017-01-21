@@ -25,10 +25,12 @@ trait TerminologyGraph
   extends TerminologyBox
 {
 
-  def withAnnotations
-  (a: scala.collection.immutable.SortedSet[_ <: AnnotationPropertyTable]
+  override def withAnnotations
+  (a: scala.collection.immutable.SortedSet[AnnotationPropertyTable]
   ): TerminologyGraph
-  def withBoxStatements
-  (s: scala.collection.immutable.SortedSet[_ <: TerminologyBoxStatement]
+  override def annotationsByProperty
+  (): scala.collection.immutable.SortedSet[AnnotationPropertyTable]
+  override def withBoxStatements
+  (s: scala.collection.immutable.SortedSet[TerminologyBoxStatement]
   ): TerminologyGraph
 }

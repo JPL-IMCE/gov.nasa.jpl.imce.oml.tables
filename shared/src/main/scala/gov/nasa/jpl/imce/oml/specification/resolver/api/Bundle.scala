@@ -30,21 +30,23 @@ trait Bundle
   /*
    * The TerminologyBundleStatements asserted in this Bundle
    */
-  val bundleStatements: scala.collection.immutable.SortedSet[_ <: TerminologyBundleStatement]
+  val bundleStatements: scala.collection.immutable.SortedSet[TerminologyBundleStatement]
   /*
    * The BundledTerminologyAxioms asserted in this Bundle
    */
-  val terminologyBundleAxioms: scala.collection.immutable.SortedSet[_ <: TerminologyBundleAxiom]
+  val terminologyBundleAxioms: scala.collection.immutable.SortedSet[TerminologyBundleAxiom]
 
+  override def withAnnotations
+  (a: scala.collection.immutable.SortedSet[AnnotationPropertyTable]
+  ): Bundle
+  override def annotationsByProperty
+  (): scala.collection.immutable.SortedSet[AnnotationPropertyTable]
   def withBundleStatements
-  (s: scala.collection.immutable.SortedSet[_ <: TerminologyBundleStatement]
+  (s: scala.collection.immutable.SortedSet[TerminologyBundleStatement]
   ): Bundle
-  def withAnnotations
-  (a: scala.collection.immutable.SortedSet[_ <: AnnotationPropertyTable]
-  ): Bundle
-  def withBoxStatements
-  (s: scala.collection.immutable.SortedSet[_ <: TerminologyBoxStatement]
+  override def withBoxStatements
+  (s: scala.collection.immutable.SortedSet[TerminologyBoxStatement]
   ): Bundle
   override def everything
-  (): scala.collection.immutable.SortedSet[_ <: TerminologyThing]
+  (): scala.collection.immutable.SortedSet[TerminologyThing]
 }

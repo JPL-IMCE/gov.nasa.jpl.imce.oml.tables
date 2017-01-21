@@ -26,83 +26,81 @@ trait TerminologyBox
   with Resource
 {
 
-  val iri: gov.nasa.jpl.imce.oml.specification.tables.IRI
-  val annotations: scala.collection.immutable.SortedSet[_ <: Annotation]
+  override val iri: gov.nasa.jpl.imce.oml.specification.tables.IRI
+  val annotations: scala.collection.immutable.SortedSet[Annotation]
   val kind: gov.nasa.jpl.imce.oml.specification.tables.TerminologyGraphKind
   /*
    * The TerminologyBoxStatements asserted in this TerminologyBox
    */
-  val boxStatements: scala.collection.immutable.SortedSet[_ <: TerminologyBoxStatement]
+  val boxStatements: scala.collection.immutable.SortedSet[TerminologyBoxStatement]
 
-  def annotationsBySubject
-  (): scala.collection.immutable.SortedSet[_ <: AnnotationSubjectTable]
   def annotationsByProperty
-  (): scala.collection.immutable.SortedSet[_ <: AnnotationPropertyTable]
+  (): scala.collection.immutable.SortedSet[AnnotationPropertyTable]
   def withAnnotations
-  (a: scala.collection.immutable.SortedSet[_ <: AnnotationPropertyTable]
+  (a: scala.collection.immutable.SortedSet[AnnotationPropertyTable]
   ): TerminologyBox
   def withBoxStatements
-  (s: scala.collection.immutable.SortedSet[_ <: TerminologyBoxStatement]
+  (s: scala.collection.immutable.SortedSet[TerminologyBoxStatement]
   ): TerminologyBox
   /*
    * The subset of statements that are entities.
    */
   def entities
-  (): scala.collection.immutable.SortedSet[_ <: Entity]
+  (): scala.collection.immutable.SortedSet[Entity]
   /*
    * The subset of statements that are aspects.
    */
   def aspects
-  (): scala.collection.immutable.SortedSet[_ <: Aspect]
+  (): scala.collection.immutable.SortedSet[Aspect]
   /*
    * The subset of statements that are concepts.
    */
   def concepts
-  (): scala.collection.immutable.SortedSet[_ <: Concept]
+  (): scala.collection.immutable.SortedSet[Concept]
   /*
    * The subset of statements that are reified relationships.
    */
   def reifiedRelationships
-  (): scala.collection.immutable.SortedSet[_ <: ReifiedRelationship]
+  (): scala.collection.immutable.SortedSet[ReifiedRelationship]
   /*
    * The subset of statements that are unreified relationships.
    */
   def unreifiedRelationships
-  (): scala.collection.immutable.SortedSet[_ <: UnreifiedRelationship]
+  (): scala.collection.immutable.SortedSet[UnreifiedRelationship]
   /*
    * The subset of statements that are data relationships.
    */
   def dataRelationships
-  (): scala.collection.immutable.SortedSet[_ <: DataRelationship]
+  (): scala.collection.immutable.SortedSet[DataRelationship]
   /*
    * A map for the subset of statements that are
    * entity scalar data property terms indexed by their uuid.
    */
   def entityScalarDataProperties
-  (): scala.collection.immutable.SortedSet[_ <: EntityScalarDataProperty]
+  (): scala.collection.immutable.SortedSet[EntityScalarDataProperty]
   /*
    * A map for the subset of statements that are
    * data range terms indexed by their uuid.
    */
   def dataranges
-  (): scala.collection.immutable.SortedSet[_ <: DataRange]
+  (): scala.collection.immutable.SortedSet[DataRange]
   /*
    * A map for the subset of statements that are
    * scalar datatype terms indexed by their uuid.
    */
   def scalars
-  (): scala.collection.immutable.SortedSet[_ <: Scalar]
+  (): scala.collection.immutable.SortedSet[Scalar]
   /*
    * A map for the subset of statements that are
    * structured datatype terms indexed by their uuid.
    */
   def structures
-  (): scala.collection.immutable.SortedSet[_ <: Structure]
+  (): scala.collection.immutable.SortedSet[Structure]
   /*
    * The subset of axioms about terms.
    */
   def termAxioms
-  (): scala.collection.immutable.SortedSet[_ <: TermAxiom]
+  (): scala.collection.immutable.SortedSet[TermAxiom]
   def everything
-  (): scala.collection.immutable.SortedSet[_ <: TerminologyThing]
+  (): scala.collection.immutable.SortedSet[TerminologyThing]
 }

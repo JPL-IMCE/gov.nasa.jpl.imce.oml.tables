@@ -33,6 +33,7 @@ object Settings {
   object versions {
     val scala = "2.11.8"
     val scalaJ8CompatVersion = "0.8.0-RC8"
+    val scalaGraphLibraries = "3.4.+"
   }
 
   /**
@@ -50,9 +51,11 @@ object Settings {
   val jvmDependencies = Def.setting(Seq(
     "org.scala-lang.modules" %% "scala-java8-compat" % versions.scalaJ8CompatVersion,
     "org.scala-js" %% "scalajs-stubs" % scalaJSVersion % "provided",
-    "com.novocode" % "junit-interface" % "0.11" % "test"
+    "com.novocode" % "junit-interface" % "0.11" % "test",
+    "gov.nasa.jpl.imce" %% "imce.third_party.scala_graph_libraries"
+      % versions.scalaGraphLibraries artifacts
+      Artifact("imce.third_party.scala_graph_libraries", "zip", "zip", "resource")
   ))
-
 
   /** Dependencies only used by the JS project (note the use of %%% instead of %%) */
   val scalajsDependencies = Def.setting(Seq(

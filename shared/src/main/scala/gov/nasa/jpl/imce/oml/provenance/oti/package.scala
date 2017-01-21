@@ -33,4 +33,5 @@ package object tables {
   def readJSonTable[T](is: InputStream, fromJSon: String => T)
   : Seq[T]
   = io.Source.fromInputStream(is).getLines.map(fromJSon).to[Seq]
+  
 }

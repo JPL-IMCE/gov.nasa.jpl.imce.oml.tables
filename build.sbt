@@ -193,6 +193,7 @@ lazy val tables = crossProject
     ) : _*
   )
   .jvmSettings(
+    resolvers += Resolver.bintrayRepo("jpl-imce", "gov.nasa.jpl.imce"),
     libraryDependencies ++= Settings.jvmDependencies.value,
     dynamicScriptsResourceSettings("jpl-omf-schema-tables")
   )

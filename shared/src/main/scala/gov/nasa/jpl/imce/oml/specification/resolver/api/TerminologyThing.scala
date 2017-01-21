@@ -22,4 +22,6 @@ trait TerminologyThing
 {
 
   val uuid: java.util.UUID
+
+def canEqual(that: scala.Any): scala.Boolean
 }

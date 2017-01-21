@@ -22,4 +22,7 @@ trait Term
   extends TerminologyBoxStatement
   with Resource
 {
+
+  override def iri
+  (): gov.nasa.jpl.imce.oml.specification.tables.IRI
 }
