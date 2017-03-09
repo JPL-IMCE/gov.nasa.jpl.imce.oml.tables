@@ -179,6 +179,11 @@ lazy val tables = crossProject
     git.baseVersion := Settings.version,
     scalaVersion := Settings.versions.scala,
     scalacOptions ++= Settings.scalacOptions,
+    resolvers += "Artima Maven Repository" at "http://repo.artima.com/releases",
+    scalacOptions in (Compile, compile) += s"-P:artima-supersafe:config-file:${baseDirectory.value}/project/supersafe.cfg",
+    scalacOptions in (Test, compile) += s"-P:artima-supersafe:config-file:${baseDirectory.value}/project/supersafe.cfg",
+    scalacOptions in (Compile, doc) += "-Xplugin-disable:artima-supersafe",
+    scalacOptions in (Test, doc) += "-Xplugin-disable:artima-supersafe",
     libraryDependencies ++= Settings.sharedDependencies.value,
     publishTo := Some(
       "JPL-IMCE" at
@@ -193,12 +198,6 @@ lazy val tables = crossProject
     ) : _*
   )
   .jvmSettings(
-    resolvers += "Artima Maven Repository" at "http://repo.artima.com/releases",
-    scalacOptions in (Compile, compile) += s"-P:artima-supersafe:config-file:${baseDirectory.value}/project/supersafe.cfg",
-    scalacOptions in (Test, compile) += s"-P:artima-supersafe:config-file:${baseDirectory.value}/project/supersafe.cfg",
-    scalacOptions in (Compile, doc) += "-Xplugin-disable:artima-supersafe",
-    scalacOptions in (Test, doc) += "-Xplugin-disable:artima-supersafe",
-
     resolvers += Resolver.bintrayRepo(Settings.organizationName.toLowerCase, Settings.organization),
     libraryDependencies ++= Settings.jvmDependencies.value,
     dynamicScriptsResourceSettings(Settings.name)
