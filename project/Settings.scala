@@ -5,11 +5,13 @@ object Settings {
 
   val name = "gov.nasa.jpl.imce.oml.tables"
 
+  val dashName = name.replace('.', '-')
+
   val organization = "gov.nasa.jpl.imce"
 
   val organizationName = "JPL-IMCE"
 
-  val version = "0.49.4"
+  val version = "0.49.6"
 
   val scalacOptions = Seq(
     "-deprecation",

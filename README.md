@@ -1,9 +1,9 @@
 # Normalized Database Schema Tables for JPL's Ontological Modeling Language (OML)
 
 [![Build Status](https://travis-ci.org/JPL-IMCE/gov.nasa.jpl.imce.oml.tables.svg?branch=master)](https://travis-ci.org/JPL-IMCE/gov.nasa.jpl.imce.oml.tables)
-  NPM: [ ![Download](https://api.bintray.com/packages/jpl-imce/gov.nasa.jpl.imce.npm/imce%3Agov-nasa-jpl-oml-tables/images/download.svg) ](https://bintray.com/jpl-imce/gov.nasa.jpl.imce.npm/imce%3Agov-nasa-jpl-oml-tables/_latestVersion)
-  Maven: [ ![Download](https://api.bintray.com/packages/jpl-imce/gov.nasa.jpl.imce/gov.nasa.jpl.imce.oml.tables/images/download.svg) ](https://bintray.com/jpl-imce/gov.nasa.jpl.imce/gov.nasa.jpl.imce.oml.tables/_latestVersion)
-    
+  NPM: [ ![Download](https://api.bintray.com/packages/jpl-imce/gov.nasa.jpl.imce.npm/imce%3Agov-nasa-jpl-imce-oml-tables/images/download.svg) ](https://bintray.com/jpl-imce/gov.nasa.jpl.imce.npm/imce%3Agov-nasa-jpl-imce-oml-tables/_latestVersion)
+  Maven: [ ![Download](https://api.bintray.com/packages/jpl-imce/gov.nasa.jpl.imce/gov-nasa-jpl-imce-oml-tables/images/download.svg) ](https://bintray.com/jpl-imce/gov.nasa.jpl.imce/gov-nasa-jpl-imce-oml-tables/_latestVersion)
+  
 This project specifies a set of normalized schema tables for JPL's Ontological Modeling Language.
 By normalize schema tables, we mean precisely a [4th Normal Form database schema](http://www.bkent.net/Doc/simple5.htm#label4).
 

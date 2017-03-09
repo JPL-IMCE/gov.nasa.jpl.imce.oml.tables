@@ -154,6 +154,12 @@ val tablesGhPagesSettings: Seq[Setting[_]] =
 
 val Npm = config("npm")
 
+pomIncludeRepository := { _ => false }
+
+publishTo := Some(
+  "JPL-IMCE" at
+    s"https://api.bintray.com/content/jpl-imce/gov.nasa.jpl.imce/${Settings.dashName}/${version.value}")
+
 lazy val tablesRoot = project.in(file("."))
   .aggregate(tablesJS, tablesJVM)
   .settings(publishArtifact := false)
@@ -179,15 +185,25 @@ lazy val tables = crossProject
     git.baseVersion := Settings.version,
     scalaVersion := Settings.versions.scala,
     scalacOptions ++= Settings.scalacOptions,
+
+    logLevel in update := Level.Warn,
+    logLevel in aether.AetherKeys.aetherDeploy := Level.Warn,
+
+    pomIncludeRepository := { _ => false },
+
+    resolvers += Resolver.bintrayRepo(Settings.organizationName.toLowerCase, Settings.organization),
+
+    publishTo := Some(
+      "JPL-IMCE" at
+        s"https://api.bintray.com/content/jpl-imce/gov.nasa.jpl.imce/${Settings.dashName}/${version.value}"),
+
+
     resolvers += "Artima Maven Repository" at "http://repo.artima.com/releases",
     scalacOptions in (Compile, compile) += s"-P:artima-supersafe:config-file:${baseDirectory.value}/project/supersafe.cfg",
     scalacOptions in (Test, compile) += s"-P:artima-supersafe:config-file:${baseDirectory.value}/project/supersafe.cfg",
     scalacOptions in (Compile, doc) += "-Xplugin-disable:artima-supersafe",
     scalacOptions in (Test, doc) += "-Xplugin-disable:artima-supersafe",
-    libraryDependencies ++= Settings.sharedDependencies.value,
-    publishTo := Some(
-      "JPL-IMCE" at
-        s"https://api.bintray.com/content/${Settings.organizationName.toLowerCase}/${Settings.organization}/${Settings.name}/${version.value}")
+    libraryDependencies ++= Settings.sharedDependencies.value
   )
   .jvmConfigure(_ enablePlugins HeaderPlugin)
   .jvmConfigure(_ enablePlugins PreprocessPlugin)
@@ -198,9 +214,8 @@ lazy val tables = crossProject
     ) : _*
   )
   .jvmSettings(
-    resolvers += Resolver.bintrayRepo(Settings.organizationName.toLowerCase, Settings.organization),
     libraryDependencies ++= Settings.jvmDependencies.value,
-    dynamicScriptsResourceSettings(Settings.name)
+    dynamicScriptsResourceSettings(Settings.dashName)
   )
   // set up settings specific to the JS project
   .jsConfigure(_ enablePlugins HeaderPlugin)
@@ -212,7 +227,7 @@ lazy val tables = crossProject
       PreprocessPlugin.preprocessSettings(Npm) ++
         Seq(
           preprocessVars := Map(
-            "HYPHENATED_NAME" -> s"${Settings.name.replace('.', '-')}",
+            "HYPHENATED_NAME" -> Settings.dashName,
             "DESCRIPTION" -> description.value,
             "VERSION" -> version.value,
             "HOMEPAGE" -> (homepage in ThisBuild).value.get.toString,
@@ -254,9 +269,9 @@ lazy val tables = crossProject
     crossTarget in (Compile, fullOptJS) := baseDirectory.value / "..",
 
     artifactPath in (Compile, fastOptJS) :=
-      (crossTarget in (Compile, fastOptJS)).value / s"${Settings.name}.js",
+      (crossTarget in (Compile, fastOptJS)).value / s"${Settings.dashName}.js",
     artifactPath in (Compile, fullOptJS) :=
-      (crossTarget in (Compile, fullOptJS)).value / s"${Settings.name}.js",
+      (crossTarget in (Compile, fullOptJS)).value / s"${Settings.dashName}.js",
 
     fastOptJS in Compile := {
       val result = (fastOptJS in Compile).value
