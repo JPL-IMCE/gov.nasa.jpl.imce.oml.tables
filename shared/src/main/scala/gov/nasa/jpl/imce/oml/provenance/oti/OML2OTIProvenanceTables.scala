@@ -17,7 +17,7 @@
  */
 
 
-package gov.nasa.jpl.imce.oml.provenance.oti.tables
+package gov.nasa.jpl.imce.oml.provenance.oti
 
 import java.io.{File,InputStream}
 import org.apache.commons.compress.archivers.zip.{ZipArchiveEntry, ZipFile}
@@ -28,7 +28,7 @@ import scala.util.control.Exception._
 import scala.util.{Failure,Success,Try}
 import scala.{Boolean,Unit}
 
-case class OML2OTIProvenanceTables private[tables]
+case class OML2OTIProvenanceTables
 (
   oml2OTIProvenances : Seq[OML2OTIProvenance] = Seq.empty
 ) 
@@ -67,13 +67,13 @@ object OML2OTIProvenanceTables {
       Success(omlTables)
     }
 
-  private[tables] def mergeTables
+  def mergeTables
   (t1: OML2OTIProvenanceTables, t2: OML2OTIProvenanceTables)
   : OML2OTIProvenanceTables
   = OML2OTIProvenanceTables(
       oml2OTIProvenances = t1.oml2OTIProvenances ++ t2.oml2OTIProvenances) 
   
-  private[tables] def readZipArchive
+  def readZipArchive
   (zipFile: ZipFile)
   (tables: OML2OTIProvenanceTables, ze: ZipArchiveEntry)
   : OML2OTIProvenanceTables

@@ -1,7 +1,7 @@
 
 sbtPlugin := false
 
-description := "JPL's Ontological Modeling Framework (OMF) Schema Tables for Integrated Model-Centric Engineering (IMCE)."
+description := "Normalized Database Schema Tables for JPL's Ontological Modeling Language"
 
 moduleName := Settings.name
 

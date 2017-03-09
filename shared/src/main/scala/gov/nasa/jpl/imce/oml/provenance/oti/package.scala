@@ -17,14 +17,14 @@
  */
 
 
-package gov.nasa.jpl.imce.oml.provenance.oti
+package gov.nasa.jpl.imce.oml.provenance
 
 import java.io.InputStream
 import scala.collection.immutable.Seq
 import scala.io
 import scala.Predef.String
 
-package object tables {
+package object oti {
 	type OTI_TOOL_SPECIFIC_ID = String
 	type OTI_TOOL_SPECIFIC_URL = String
 	type OTI_TOOL_SPECIFIC_UUID = String

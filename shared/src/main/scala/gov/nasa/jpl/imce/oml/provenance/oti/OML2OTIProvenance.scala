@@ -17,7 +17,7 @@
  */
 
  
-package gov.nasa.jpl.imce.oml.provenance.oti.tables
+package gov.nasa.jpl.imce.oml.provenance.oti
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.JSExport
