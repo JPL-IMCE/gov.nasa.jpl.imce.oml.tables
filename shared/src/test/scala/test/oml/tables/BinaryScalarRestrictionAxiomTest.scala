@@ -39,7 +39,8 @@ package test.oml.tables
 import gov.nasa.jpl.imce.oml.tables._
 import org.scalacheck.Prop.forAll
 import org.scalacheck.Properties
-import scala.{Option,StringContext}
+
+import scala.{None, Option, Some, StringContext}
 
 object BinaryScalarRestrictionAxiomTest extends Properties("") {
 
@@ -50,12 +51,31 @@ object BinaryScalarRestrictionAxiomTest extends Properties("") {
     SchemaGenerators.optInt_0_to_3,
     SchemaGenerators.optInt_0_to_3,
     SchemaGenerators.uuid,
-    SchemaGenerators.name)((graphUUID: java.util.UUID, uuid: java.util.UUID, length: Option[scala.Int], maxLength: Option[scala.Int], minLength: Option[scala.Int], restrictedScalarUUID: java.util.UUID, scalarName: LocalName) => {
-    val w = new BinaryScalarRestriction(graphUUID.toString, uuid.toString, restrictedScalarUUID.toString, length, maxLength, minLength, scalarName)
-    val s = BinaryScalarRestrictionHelper.toJSON(w)
-    val t = s"""{"uuid":"${w.uuid}","tboxUUID":"${w.tboxUUID}","restrictedRangeUUID":"${w.restrictedRangeUUID}""length":${w.length},"maxLength":${w.maxLength},"minLength":${w.minLength},"iri":"${w.name}"}"""
-    val r = BinaryScalarRestrictionHelper.fromJSON(s)
-    (s == t) && (w.tboxUUID == r.tboxUUID) && (w.uuid == r.uuid) && (w.length == r.length) && (w.maxLength == r.maxLength) && (w.minLength == r.minLength) && (w.restrictedRangeUUID == r.restrictedRangeUUID) && (w.name == r.name)
-  })
+    SchemaGenerators.name)(
+    (tboxUUID: java.util.UUID,
+     uuid: java.util.UUID,
+     length: Option[scala.Int],
+     maxLength: Option[scala.Int],
+     minLength: Option[scala.Int],
+     restrictedScalarUUID: java.util.UUID,
+     scalarName: LocalName) => {
+      val w = new BinaryScalarRestriction(uuid.toString, tboxUUID.toString, restrictedScalarUUID.toString, length, minLength, maxLength, scalarName)
+      val s = BinaryScalarRestrictionHelper.toJSON(w)
+      val l = w.length match {
+        case None => "[]"
+        case Some(n) => s"[$n]"
+      }
+      val min = w.minLength match {
+        case None => "[]"
+        case Some(n) => s"[$n]"
+      }
+      val max = w.maxLength match {
+        case None => "[]"
+        case Some(n) => s"[$n]"
+      }
+      val t = s"""{"uuid":"${w.uuid}","tboxUUID":"${w.tboxUUID}","restrictedRangeUUID":"${w.restrictedRangeUUID}","length":$l,"minLength":$min,"maxLength":$max,"name":"${w.name}"}"""
+      val r = BinaryScalarRestrictionHelper.fromJSON(s)
+      (s == t) && (w.tboxUUID == r.tboxUUID) && (w.uuid == r.uuid) && (w.length == r.length) && (w.maxLength == r.maxLength) && (w.minLength == r.minLength) && (w.restrictedRangeUUID == r.restrictedRangeUUID) && (w.name == r.name)
+    })
 
 }

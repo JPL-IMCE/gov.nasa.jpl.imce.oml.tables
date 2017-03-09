@@ -28,12 +28,12 @@ public class BinaryScalarRestrictionTest {
 
     @Test
     public void creationTest() {
-        String graphUUID = "01234-abcde-4569-fehi";
+        String tboxUUID = "01234-abcde-4569-fehi";
         String uuid = "12345-BCDEF-6789A-012345";
         String name = "abc";
         String restrictedRangeUUID = "1245-ABCD-2345-4567";
 
-        BinaryScalarRestriction w1 = new BinaryScalarRestriction(graphUUID, uuid, name, restrictedRangeUUID)
+        BinaryScalarRestriction w1 = new BinaryScalarRestriction(uuid, tboxUUID, restrictedRangeUUID, name)
                 .withLength(5)
                 .withMaxLength(50)
                 .withMinLength(1);
@@ -47,8 +47,8 @@ public class BinaryScalarRestrictionTest {
         String minL = "[" + w1.minLength().get() + "]";
 
         String t1 = String.format(
-                "{\"graphUUID\":\"%s\",\"uuid\":\"%s\",\"name\":\"%s\",\"length\":%s,\"maxLength\":%s,\"minLength\":%s,\"restrictedRangeUUID\":\"%s\"}",
-                graphUUID, uuid, name, ls, maxL, minL, restrictedRangeUUID);
+                "{\"uuid\":\"%s\",\"tboxUUID\":\"%s\",\"restrictedRangeUUID\":\"%s\",\"length\":%s,\"minLength\":%s,\"maxLength\":%s,\"name\":\"%s\"}",
+                uuid, tboxUUID, restrictedRangeUUID, ls, minL, maxL, name);
         Assert.assertEquals(t1, s1);
 
         BinaryScalarRestriction r1 = BinaryScalarRestrictionHelper.fromJSON(s1);

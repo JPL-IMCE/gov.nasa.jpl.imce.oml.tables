@@ -14,4 +14,5 @@ object BinaryScalarRestrictionTests extends Properties("BinaryScalarRestrictions
     new BinaryScalarRestrictionTest().creationTest()
     true
   }
+
 }

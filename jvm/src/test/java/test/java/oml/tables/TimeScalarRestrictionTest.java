@@ -28,12 +28,12 @@ public class TimeScalarRestrictionTest {
 
     @Test
     public void creationTest() {
-        String graphUUID = "01234-abcde-4569-fehi";
+        String tboxUUID = "01234-abcde-4569-fehi";
         String uuid = "12345-BCDEF-6789A-012345";
         String name = "abc";
         String restrictedRangeUUID = "1245-ABCD-2345-4567";
 
-        TimeScalarRestriction w1 = new TimeScalarRestriction(graphUUID, uuid, name, restrictedRangeUUID)
+        TimeScalarRestriction w1 = new TimeScalarRestriction(uuid, tboxUUID, restrictedRangeUUID, name)
                 .withMaxExclusive("123")
                 .withMinExclusive("4567")
                 .withMaxInclusive("333")
@@ -50,8 +50,8 @@ public class TimeScalarRestrictionTest {
         String minI_s = "[\"" + w1.minInclusive().get() + "\"]";
 
         String t1 = String.format(
-                "{\"graphUUID\":\"%s\",\"uuid\":\"%s\",\"name\":\"%s\",\"maxExclusive\":%s,\"maxInclusive\":%s,\"minExclusive\":%s,\"minInclusive\":%s,\"restrictedRangeUUID\":\"%s\"}",
-                graphUUID, uuid, name, maxE_s, maxI_s, minE_s, minI_s, restrictedRangeUUID);
+                "{\"uuid\":\"%s\",\"tboxUUID\":\"%s\",\"restrictedRangeUUID\":\"%s\",\"minExclusive\":%s,\"minInclusive\":%s,\"maxExclusive\":%s,\"maxInclusive\":%s,\"name\":\"%s\"}",
+                uuid, tboxUUID, restrictedRangeUUID, minE_s, minI_s, maxE_s, maxI_s, name);
         Assert.assertEquals(t1, s1);
 
         TimeScalarRestriction r1 = TimeScalarRestrictionHelper.fromJSON(s1);

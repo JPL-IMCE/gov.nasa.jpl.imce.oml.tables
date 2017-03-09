@@ -28,12 +28,12 @@ public class IRIScalarRestrictionEmptyTest {
 
     @Test
     public void creationTest() {
-        String graphUUID = "01234-abcde-4569-fehi";
+        String tboxUUID = "01234-abcde-4569-fehi";
         String uuid = "12345-BCDEF-6789A-012345";
         String name = "abc";
         String restrictedRangeUUID = "4567-2345-ABCD-1245";
 
-        IRIScalarRestriction w1 = new IRIScalarRestriction(graphUUID, uuid, name, restrictedRangeUUID);
+        IRIScalarRestriction w1 = new IRIScalarRestriction(uuid, tboxUUID, restrictedRangeUUID, name);
 
         String s1 = IRIScalarRestrictionHelper.toJSON(w1);
 
@@ -46,8 +46,8 @@ public class IRIScalarRestrictionEmptyTest {
         String ps = (w1.pattern().isEmpty()) ? "[]" : w1.pattern().toString();
 
         String t1 = String.format(
-                "{\"graphUUID\":\"%s\",\"uuid\":\"%s\",\"name\":\"%s\",\"length\":%s,\"maxLength\":%s,\"minLength\":%s,\"pattern\":%s,\"restrictedRangeUUID\":\"%s\"}",
-                graphUUID, uuid, name, ls, maxL, minL, ps, restrictedRangeUUID);
+                "{\"uuid\":\"%s\",\"tboxUUID\":\"%s\",\"restrictedRangeUUID\":\"%s\",\"length\":%s,\"minLength\":%s,\"maxLength\":%s,\"name\":\"%s\",\"pattern\":%s}",
+                uuid, tboxUUID, restrictedRangeUUID, ls, minL, maxL, name, ps);
         Assert.assertEquals(t1, s1);
 
         IRIScalarRestriction r1 = IRIScalarRestrictionHelper.fromJSON(s1);
