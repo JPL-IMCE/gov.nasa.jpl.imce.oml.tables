@@ -83,12 +83,12 @@ lazy val dependencySvgFile = settingKey[File]("Location of the dependency graph 
 val tablesGhPagesSettings: Seq[Setting[_]] =
   Seq(
     preprocessVars in Preprocess := Map(
-      "CI" -> "https://travis-ci.org/JPL-IMCE/jpl.omf.schema.tables",
+      "CI" -> s"https://travis-ci.org/${Settings.organizationName}/${Settings.name}",
       "GIT" -> "github.com",
-      "REPO" -> "jpl.omf.schema.tables",
+      "REPO" -> Settings.name,
       "VER" -> version.value,
-      "ORG" -> "JPL-IMCE",
-      "SUBJECT" -> "JPL-IMCE",
+      "ORG" -> Settings.organizationName,
+      "SUBJECT" -> Settings.organizationName,
       "ORG_NAME" -> organizationName.value,
       "DESC" -> description.value,
       "PKG" -> moduleName.value,
@@ -182,7 +182,7 @@ lazy val tables = crossProject
     libraryDependencies ++= Settings.sharedDependencies.value,
     publishTo := Some(
       "JPL-IMCE" at
-        s"https://api.bintray.com/content/jpl-imce/gov.nasa.jpl.imce/gov.nasa.jpl.imce.oml.tables/${version.value}")
+        s"https://api.bintray.com/content/${Settings.organizationName}/${Settings.organization}/${Settings.name}/${version.value}")
   )
   .jvmConfigure(_ enablePlugins HeaderPlugin)
   .jvmConfigure(_ enablePlugins PreprocessPlugin)
@@ -199,9 +199,9 @@ lazy val tables = crossProject
     scalacOptions in (Compile, doc) += "-Xplugin-disable:artima-supersafe",
     scalacOptions in (Test, doc) += "-Xplugin-disable:artima-supersafe",
 
-    resolvers += Resolver.bintrayRepo("jpl-imce", "gov.nasa.jpl.imce"),
+    resolvers += Resolver.bintrayRepo(Settings.organizationName, Settings.organization),
     libraryDependencies ++= Settings.jvmDependencies.value,
-    dynamicScriptsResourceSettings("jpl-omf-schema-tables")
+    dynamicScriptsResourceSettings(Settings.name)
   )
   // set up settings specific to the JS project
   .jsConfigure(_ enablePlugins HeaderPlugin)
@@ -255,9 +255,9 @@ lazy val tables = crossProject
     crossTarget in (Compile, fullOptJS) := baseDirectory.value / "..",
 
     artifactPath in (Compile, fastOptJS) :=
-      (crossTarget in (Compile, fastOptJS)).value / "jpl-omf-schema-tables.js",
+      (crossTarget in (Compile, fastOptJS)).value / s"${Settings.name}.js",
     artifactPath in (Compile, fullOptJS) :=
-      (crossTarget in (Compile, fullOptJS)).value / "jpl-omf-schema-tables.js",
+      (crossTarget in (Compile, fullOptJS)).value / s"${Settings.name}.js",
 
     fastOptJS in Compile := {
       val result = (fastOptJS in Compile).value

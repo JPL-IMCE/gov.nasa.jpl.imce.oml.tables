@@ -3,7 +3,7 @@ import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport._
 
 object Settings {
 
-  val name = "jpl.omf.schema.tables"
+  val name = "gov.nasa.jpl.imce.oml.tables"
 
   val organization = "gov.nasa.jpl.imce"
 
