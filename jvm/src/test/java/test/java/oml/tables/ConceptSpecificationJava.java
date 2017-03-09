@@ -28,16 +28,16 @@ public class ConceptSpecificationJava {
 
     @Test
     public void creationTest() {
-        String graphUUID = "01234-abcde-4569-fehi";
+        String tboxUUID = "01234-abcde-4569-fehi";
         String uuid = "12345-BCDEF-6789A-012345";
         String name="ElectricCar";
 
-        Concept w1 = new Concept(graphUUID, uuid, name);
+        Concept w1 = new Concept(uuid, tboxUUID, name);
         Assert.assertEquals(w1.name(), name);
         String s1 = ConceptHelper.toJSON(w1);
         String t1 = String.format(
-                "{\"graphUUID\":\"%s\",\"uuid\":\"%s\",\"name\":\"%s\"}",
-                graphUUID, uuid,name);
+                "{\"uuid\":\"%s\",\"tboxUUID\":\"%s\",\"name\":\"%s\"}",
+                uuid, tboxUUID, name);
         Assert.assertEquals(t1, s1);
 
         Concept r1 = ConceptHelper.fromJSON(s1);
