@@ -83,11 +83,11 @@ lazy val dependencySvgFile = settingKey[File]("Location of the dependency graph 
 val tablesGhPagesSettings: Seq[Setting[_]] =
   Seq(
     preprocessVars in Preprocess := Map(
-      "CI" -> s"https://travis-ci.org/${Settings.organizationName}/${Settings.name}",
+      "CI" -> s"https://travis-ci.org/${Settings.organizationName.toLowerCase}/${Settings.name}",
       "GIT" -> "github.com",
       "REPO" -> Settings.name,
       "VER" -> version.value,
-      "ORG" -> Settings.organizationName,
+      "ORG" -> Settings.organizationName.toLowerCase,
       "SUBJECT" -> Settings.organizationName,
       "ORG_NAME" -> organizationName.value,
       "DESC" -> description.value,
@@ -182,7 +182,7 @@ lazy val tables = crossProject
     libraryDependencies ++= Settings.sharedDependencies.value,
     publishTo := Some(
       "JPL-IMCE" at
-        s"https://api.bintray.com/content/${Settings.organizationName}/${Settings.organization}/${Settings.name}/${version.value}")
+        s"https://api.bintray.com/content/${Settings.organizationName.toLowerCase}/${Settings.organization}/${Settings.name}/${version.value}")
   )
   .jvmConfigure(_ enablePlugins HeaderPlugin)
   .jvmConfigure(_ enablePlugins PreprocessPlugin)
@@ -199,7 +199,7 @@ lazy val tables = crossProject
     scalacOptions in (Compile, doc) += "-Xplugin-disable:artima-supersafe",
     scalacOptions in (Test, doc) += "-Xplugin-disable:artima-supersafe",
 
-    resolvers += Resolver.bintrayRepo(Settings.organizationName, Settings.organization),
+    resolvers += Resolver.bintrayRepo(Settings.organizationName.toLowerCase, Settings.organization),
     libraryDependencies ++= Settings.jvmDependencies.value,
     dynamicScriptsResourceSettings(Settings.name)
   )
