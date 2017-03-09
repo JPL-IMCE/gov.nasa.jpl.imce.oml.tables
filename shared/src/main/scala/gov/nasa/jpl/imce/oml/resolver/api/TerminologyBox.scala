@@ -31,7 +31,7 @@ trait TerminologyBox
   extends Module
 {
 
-  val kind: gov.nasa.jpl.imce.oml.specification.tables.TerminologyKind
+  val kind: gov.nasa.jpl.imce.oml.tables.TerminologyKind
   /*
    * The OML TerminologyBoxAxiom(s) asserted in this OML TerminologyBox
    */

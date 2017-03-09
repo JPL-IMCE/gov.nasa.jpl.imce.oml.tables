@@ -1,7 +1,7 @@
-package test.scala.oml.specification.tables
+package test.scala.oml.tables
 
 import org.scalacheck.{Prop, Properties}
-import test.java.oml.specification.tables.{BinaryScalarRestrictionEmptyTest, BinaryScalarRestrictionTest}
+import test.java.oml.tables.{BinaryScalarRestrictionEmptyTest, BinaryScalarRestrictionTest}
 
 object BinaryScalarRestrictionTests extends Properties("BinaryScalarRestrictions") {
 

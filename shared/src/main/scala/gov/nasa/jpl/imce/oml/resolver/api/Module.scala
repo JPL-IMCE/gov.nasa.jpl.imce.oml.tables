@@ -29,15 +29,15 @@ trait Module
 {
 
   val extent: Extent
-  override val iri: gov.nasa.jpl.imce.oml.specification.tables.IRI
+  override val iri: gov.nasa.jpl.imce.oml.tables.IRI
   val annotations: scala.collection.immutable.SortedSet[Annotation]
 
   override def calculateUUID
   (): java.util.UUID
   def nsPrefix
-  (): gov.nasa.jpl.imce.oml.specification.tables.NamespacePrefix
+  (): gov.nasa.jpl.imce.oml.tables.NamespacePrefix
   def name
-  (): gov.nasa.jpl.imce.oml.specification.tables.LocalName
+  (): gov.nasa.jpl.imce.oml.tables.LocalName
   def annotationsByProperty
   (): scala.collection.immutable.SortedSet[AnnotationPropertyTable]
   def withAnnotations

@@ -16,13 +16,13 @@
  * License Terms
  */
 
-package test.java.oml.specification.tables;
+package test.java.oml.tables;
 
 import org.junit.Test;
 import org.junit.Assert;
 
-import gov.nasa.jpl.imce.oml.specification.tables.BinaryScalarRestriction;
-import gov.nasa.jpl.imce.oml.specification.tables.BinaryScalarRestrictionHelper;
+import gov.nasa.jpl.imce.oml.tables.BinaryScalarRestriction;
+import gov.nasa.jpl.imce.oml.tables.BinaryScalarRestrictionHelper;
 
 public class BinaryScalarRestrictionTest {
 

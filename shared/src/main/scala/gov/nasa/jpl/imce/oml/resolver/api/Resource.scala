@@ -30,7 +30,7 @@ trait Resource
 {
 
   def iri
-  (): gov.nasa.jpl.imce.oml.specification.tables.IRI
+  (): gov.nasa.jpl.imce.oml.tables.IRI
   def name
-  (): gov.nasa.jpl.imce.oml.specification.tables.LocalName
+  (): gov.nasa.jpl.imce.oml.tables.LocalName
 }

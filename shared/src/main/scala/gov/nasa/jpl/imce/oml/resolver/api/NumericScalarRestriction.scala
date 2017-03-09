@@ -55,19 +55,19 @@ trait NumericScalarRestriction
   /*
    * The inclusive minimum value in the range
    */
-  val minInclusive: scala.Option[gov.nasa.jpl.imce.oml.specification.tables.LexicalNumber]
+  val minInclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LexicalNumber]
   /*
    * The inclusive maximum value in the range
    */
-  val maxInclusive: scala.Option[gov.nasa.jpl.imce.oml.specification.tables.LexicalNumber]
+  val maxInclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LexicalNumber]
   /*
    * The exclusive minimum value in the range
    */
-  val minExclusive: scala.Option[gov.nasa.jpl.imce.oml.specification.tables.LexicalNumber]
+  val minExclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LexicalNumber]
   /*
    * The exclusive maximum value in the range
    */
-  val maxExclusive: scala.Option[gov.nasa.jpl.imce.oml.specification.tables.LexicalNumber]
+  val maxExclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LexicalNumber]
 
   override def calculateUUID
   (): java.util.UUID

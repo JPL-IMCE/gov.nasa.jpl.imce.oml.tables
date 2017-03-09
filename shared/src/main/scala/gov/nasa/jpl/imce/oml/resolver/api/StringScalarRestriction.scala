@@ -56,7 +56,7 @@ trait StringScalarRestriction
   /*
    * The pattern of the string (https://www.w3.org/TR/xmlschema-2/#regexs)
    */
-  val pattern: scala.Option[gov.nasa.jpl.imce.oml.specification.tables.Pattern]
+  val pattern: scala.Option[gov.nasa.jpl.imce.oml.tables.Pattern]
 
   override def calculateUUID
   (): java.util.UUID

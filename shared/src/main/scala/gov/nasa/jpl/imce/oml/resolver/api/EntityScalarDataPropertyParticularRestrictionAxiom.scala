@@ -26,7 +26,7 @@ trait EntityScalarDataPropertyParticularRestrictionAxiom
   extends EntityScalarDataPropertyRestrictionAxiom
 {
 
-  val literalValue: gov.nasa.jpl.imce.oml.specification.tables.LexicalValue
+  val literalValue: gov.nasa.jpl.imce.oml.tables.LexicalValue
 
   override def calculateUUID
   (): java.util.UUID

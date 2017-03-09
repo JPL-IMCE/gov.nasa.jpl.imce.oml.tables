@@ -51,11 +51,11 @@ trait PlainLiteralScalarRestriction
   /*
    * The pattern of the plain literal (https://www.w3.org/TR/xmlschema-2/#regexs)
    */
-  val pattern: scala.Option[gov.nasa.jpl.imce.oml.specification.tables.Pattern]
+  val pattern: scala.Option[gov.nasa.jpl.imce.oml.tables.Pattern]
   /*
    * The language of the plain literal (http://www.rfc-editor.org/rfc/bcp/bcp47.txt)
    */
-  val langRange: scala.Option[gov.nasa.jpl.imce.oml.specification.tables.LangRange]
+  val langRange: scala.Option[gov.nasa.jpl.imce.oml.tables.LangRange]
 
   override def calculateUUID
   (): java.util.UUID

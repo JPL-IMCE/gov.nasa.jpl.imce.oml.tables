@@ -1,7 +1,7 @@
-package test.scala.oml.specification.tables
+package test.scala.oml.tables
 
 import org.scalacheck.{Prop, Properties}
-import test.java.oml.specification.tables.{NumericScalarRestrictionEmptyTest, NumericScalarRestrictionTest}
+import test.java.oml.tables.{NumericScalarRestrictionEmptyTest, NumericScalarRestrictionTest}
 
 object NumericScalarRestrictionTests extends Properties("NumericScalarRestrictions") {
 

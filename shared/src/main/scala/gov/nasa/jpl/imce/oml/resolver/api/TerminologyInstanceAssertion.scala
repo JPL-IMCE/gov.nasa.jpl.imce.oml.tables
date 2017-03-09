@@ -26,12 +26,12 @@ trait TerminologyInstanceAssertion
   with Resource
 {
 
-  override val name: gov.nasa.jpl.imce.oml.specification.tables.LocalName
+  override val name: gov.nasa.jpl.imce.oml.tables.LocalName
 
   def descriptionBox
   (): DescriptionBox
   override def iri
-  (): gov.nasa.jpl.imce.oml.specification.tables.IRI
+  (): gov.nasa.jpl.imce.oml.tables.IRI
   /*
    * The UUID of a Term is a Version5 namespace UUID based on the term's IRI.
    */

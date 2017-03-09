@@ -16,13 +16,13 @@
  * License Terms
  */
 
-package test.java.oml.specification.tables;
+package test.java.oml.tables;
 
 import org.junit.Test;
 import org.junit.Assert;
 
-import gov.nasa.jpl.imce.oml.specification.tables.Concept;
-import gov.nasa.jpl.imce.oml.specification.tables.ConceptHelper;
+import gov.nasa.jpl.imce.oml.tables.Concept;
+import gov.nasa.jpl.imce.oml.tables.ConceptHelper;
 
 public class ConceptSpecificationJava {
 

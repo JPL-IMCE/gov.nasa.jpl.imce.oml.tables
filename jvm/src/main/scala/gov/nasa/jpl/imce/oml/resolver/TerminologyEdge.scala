@@ -16,9 +16,9 @@
  * License Terms
  */
 
-package gov.nasa.jpl.imce.oml.specification.resolver
+package gov.nasa.jpl.imce.oml.resolver
 
-import gov.nasa.jpl.imce.oml.specification._
+import gov.nasa.jpl.imce.oml._
 
 import scala.collection.immutable.Seq
 import scala.{Product,StringContext,Tuple2}

@@ -16,13 +16,13 @@
  * License Terms
  */
 
-package test.java.oml.specification.tables;
+package test.java.oml.tables;
 
 import org.junit.Test;
 import org.junit.Assert;
 
-import gov.nasa.jpl.imce.oml.specification.tables.StringScalarRestriction;
-import gov.nasa.jpl.imce.oml.specification.tables.StringScalarRestrictionHelper;
+import gov.nasa.jpl.imce.oml.tables.StringScalarRestriction;
+import gov.nasa.jpl.imce.oml.tables.StringScalarRestrictionHelper;
 
 public class StringScalarRestrictionTest {
 

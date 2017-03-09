@@ -26,7 +26,7 @@ trait DescriptionBox
   extends Module
 {
 
-  val kind: gov.nasa.jpl.imce.oml.specification.tables.DescriptionKind
+  val kind: gov.nasa.jpl.imce.oml.tables.DescriptionKind
   val closedWorldDefinitions: scala.collection.immutable.SortedSet[DescriptionBoxExtendsClosedWorldDefinitions]
   val descriptionBoxRefinements: scala.collection.immutable.SortedSet[DescriptionBoxRefinement]
   val conceptInstances: scala.collection.immutable.SortedSet[ConceptInstance]

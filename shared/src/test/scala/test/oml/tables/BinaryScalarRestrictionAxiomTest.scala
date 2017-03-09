@@ -39,24 +39,23 @@ package test.oml.tables
 import gov.nasa.jpl.imce.oml.tables._
 import org.scalacheck.Prop.forAll
 import org.scalacheck.Properties
-import scala.{Boolean,StringContext}
-import scala.Predef.String
+import scala.{Option,StringContext}
 
 object BinaryScalarRestrictionAxiomTest extends Properties("") {
 
   property("construction") = forAll(
     SchemaGenerators.uuid,
     SchemaGenerators.uuid,
-    Option[Int],
-    Option[Int],
-    Option[Int],
+    SchemaGenerators.optInt_0_to_3,
+    SchemaGenerators.optInt_0_to_3,
+    SchemaGenerators.optInt_0_to_3,
     SchemaGenerators.uuid,
-    SchemaGenerators.uuid)((graphUUID: java.util.UUID, uuid: java.util.UUID, length: Option[scala.Int], maxLength: Option[scala.Int], minLength: Option[scala.Int], restrictedScalarUUID: java.util.UUID, scalarUUID: java.util.UUID) => {
-    val w = new BinaryScalarRestrictionAxiom(graphUUID.toString, uuid.toString, length, maxLength, minLength, restrictedScalarUUID.toString, scalarUUID.toString)
-    val s = BinaryScalarRestrictionAxiomHelper.toJSON(w)
-    val t = s"""{"graphUUID":"${w.graphUUID}","uuid":"${w.uuid}","length":${w.length},"maxLength":${w.maxLength},"minLength":${w.minLength},"name":"${w.restrictedScalarUUID}","iri":"${w.scalarUUID}"}"""
-    val r = BinaryScalarRestrictionAxiomHelper.fromJSON(s)
-    (s == t) && (w.graphUUID == r.graphUUID) && (w.uuid == r.uuid) && (w.length == r.length) && (w.maxLength == r.maxLength) && (w.minLength == r.minLength) && (w.restrictedScalarUUID == r.restrictedScalarUUID) && (w.scalarUUID == r.scalarUUID)
+    SchemaGenerators.name)((graphUUID: java.util.UUID, uuid: java.util.UUID, length: Option[scala.Int], maxLength: Option[scala.Int], minLength: Option[scala.Int], restrictedScalarUUID: java.util.UUID, scalarName: LocalName) => {
+    val w = new BinaryScalarRestriction(graphUUID.toString, uuid.toString, restrictedScalarUUID.toString, length, maxLength, minLength, scalarName)
+    val s = BinaryScalarRestrictionHelper.toJSON(w)
+    val t = s"""{"uuid":"${w.uuid}","tboxUUID":"${w.tboxUUID}","restrictedRangeUUID":"${w.restrictedRangeUUID}""length":${w.length},"maxLength":${w.maxLength},"minLength":${w.minLength},"iri":"${w.name}"}"""
+    val r = BinaryScalarRestrictionHelper.fromJSON(s)
+    (s == t) && (w.tboxUUID == r.tboxUUID) && (w.uuid == r.uuid) && (w.length == r.length) && (w.maxLength == r.maxLength) && (w.minLength == r.minLength) && (w.restrictedRangeUUID == r.restrictedRangeUUID) && (w.name == r.name)
   })
 
 }

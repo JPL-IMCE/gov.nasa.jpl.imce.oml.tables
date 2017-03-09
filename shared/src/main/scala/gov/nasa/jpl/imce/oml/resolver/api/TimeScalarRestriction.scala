@@ -39,19 +39,19 @@ trait TimeScalarRestriction
   /*
    * The inclusive minimum value in the range
    */
-  val minInclusive: scala.Option[gov.nasa.jpl.imce.oml.specification.tables.LexicalTime]
+  val minInclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LexicalTime]
   /*
    * The inclusive maximum value in the range
    */
-  val maxInclusive: scala.Option[gov.nasa.jpl.imce.oml.specification.tables.LexicalTime]
+  val maxInclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LexicalTime]
   /*
    * The exclusive minimum value in the range
    */
-  val minExclusive: scala.Option[gov.nasa.jpl.imce.oml.specification.tables.LexicalTime]
+  val minExclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LexicalTime]
   /*
    * The exclusive maximum value in the range
    */
-  val maxExclusive: scala.Option[gov.nasa.jpl.imce.oml.specification.tables.LexicalTime]
+  val maxExclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LexicalTime]
 
   override def calculateUUID
   (): java.util.UUID

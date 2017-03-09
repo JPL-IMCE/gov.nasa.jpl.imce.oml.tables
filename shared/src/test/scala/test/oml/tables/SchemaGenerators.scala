@@ -20,7 +20,7 @@ package test.oml.tables
 
 import gov.nasa.jpl.imce.oml.tables.{ClosedWorldDesignations, OpenWorldDefinitions}
 import org.scalacheck._
-import scala.StringContext
+import scala.{Int,StringContext}
 
 object SchemaGenerators {
 
@@ -37,4 +37,6 @@ object SchemaGenerators {
   val kind = Gen.oneOf(OpenWorldDefinitions,ClosedWorldDesignations)
 
   val nsPrefix = Gen.identifier
+
+  val optInt_0_to_3 = Gen.option(Gen.chooseNum[Int](0, 3))
 }

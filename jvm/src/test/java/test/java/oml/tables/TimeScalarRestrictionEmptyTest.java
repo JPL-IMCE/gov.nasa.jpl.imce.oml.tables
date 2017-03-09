@@ -16,13 +16,13 @@
  * License Terms
  */
 
-package test.java.oml.specification.tables;
+package test.java.oml.tables;
 
 import org.junit.Test;
 import org.junit.Assert;
 
-import gov.nasa.jpl.imce.oml.specification.tables.TimeScalarRestriction;
-import gov.nasa.jpl.imce.oml.specification.tables.TimeScalarRestrictionHelper;
+import gov.nasa.jpl.imce.oml.tables.TimeScalarRestriction;
+import gov.nasa.jpl.imce.oml.tables.TimeScalarRestrictionHelper;
 
 public class TimeScalarRestrictionEmptyTest {
 

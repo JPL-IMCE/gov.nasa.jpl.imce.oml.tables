@@ -16,11 +16,11 @@
  * License Terms
  */
 
-package gov.nasa.jpl.imce.oml.specification.resolver
+package gov.nasa.jpl.imce.oml.resolver
 
 import java.util.UUID
 
-import gov.nasa.jpl.imce.oml.specification._
+import gov.nasa.jpl.imce.oml._
 
 import scala.collection.immutable.{Map, Set, TreeSet}
 import scala.util.control.Exception._
