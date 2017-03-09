@@ -1,0 +1,2127 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <title>OMLSpecificationTables - gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables</title>
+          <meta name="description" content="OMLSpecificationTables - gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" />
+          <meta name="keywords" content="OMLSpecificationTables gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../../../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../../../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../../../../lib/tools.tooltip.js"></script>
+      
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../../../../index.html';
+            var hash = 'gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="type">
+      <div id="definition">
+        <a href="OMLSpecificationTables$.html" title="See companion object"><img alt="Class/Object" src="../../../../../../lib/class_to_object_big.png" /></a>
+        <p id="owner"><a href="../../../../../package.html" class="extype" name="gov">gov</a>.<a href="../../../../package.html" class="extype" name="gov.nasa">nasa</a>.<a href="../../../package.html" class="extype" name="gov.nasa.jpl">jpl</a>.<a href="../../package.html" class="extype" name="gov.nasa.jpl.imce">imce</a>.<a href="../package.html" class="extype" name="gov.nasa.jpl.imce.oml">oml</a>.<a href="package.html" class="extype" name="gov.nasa.jpl.imce.oml.tables">tables</a></p>
+        <h1><a href="OMLSpecificationTables$.html" title="See companion object">OMLSpecificationTables</a></h1><h3><span class="morelinks"><div>
+            Related Docs:
+            <a href="OMLSpecificationTables$.html" title="See companion object">object OMLSpecificationTables</a>
+            | <a href="package.html" class="extype" name="gov.nasa.jpl.imce.oml.tables">package tables</a>
+          </div></span></h3><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <span class="name">OMLSpecificationTables</span><span class="params">(<span name="annotationProperties">annotationProperties: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="AnnotationProperty.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.AnnotationProperty">AnnotationProperty</a>] = <span class="symbol">Seq.empty</span></span>, <span name="terminologyGraphs">terminologyGraphs: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="TerminologyGraph.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.TerminologyGraph">TerminologyGraph</a>] = <span class="symbol">Seq.empty</span></span>, <span name="bundles">bundles: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="Bundle.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.Bundle">Bundle</a>] = <span class="symbol">Seq.empty</span></span>, <span name="conceptDesignationTerminologyAxioms">conceptDesignationTerminologyAxioms: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ConceptDesignationTerminologyAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ConceptDesignationTerminologyAxiom">ConceptDesignationTerminologyAxiom</a>] = <span class="symbol">Seq.empty</span></span>, <span name="terminologyExtensionAxioms">terminologyExtensionAxioms: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="TerminologyExtensionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.TerminologyExtensionAxiom">TerminologyExtensionAxiom</a>] = <span class="symbol">Seq.empty</span></span>, <span name="terminologyNestingAxioms">terminologyNestingAxioms: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="TerminologyNestingAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.TerminologyNestingAxiom">TerminologyNestingAxiom</a>] = <span class="symbol">Seq.empty</span></span>, <span name="aspects">aspects: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="Aspect.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.Aspect">Aspect</a>] = <span class="symbol">Seq.empty</span></span>, <span name="concepts">concepts: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="Concept.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.Concept">Concept</a>] = <span class="symbol">Seq.empty</span></span>, <span name="reifiedRelationships">reifiedRelationships: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ReifiedRelationship.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ReifiedRelationship">ReifiedRelationship</a>] = <span class="symbol">Seq.empty</span></span>, <span name="unreifiedRelationships">unreifiedRelationships: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="UnreifiedRelationship.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.UnreifiedRelationship">UnreifiedRelationship</a>] = <span class="symbol">Seq.empty</span></span>, <span name="scalars">scalars: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="Scalar.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.Scalar">Scalar</a>] = <span class="symbol">Seq.empty</span></span>, <span name="structures">structures: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="Structure.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.Structure">Structure</a>] = <span class="symbol">Seq.empty</span></span>, <span name="binaryScalarRestrictions">binaryScalarRestrictions: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="BinaryScalarRestriction.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.BinaryScalarRestriction">BinaryScalarRestriction</a>] = <span class="symbol">Seq.empty</span></span>, <span name="iriScalarRestrictions">iriScalarRestrictions: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="IRIScalarRestriction.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.IRIScalarRestriction">IRIScalarRestriction</a>] = <span class="symbol">Seq.empty</span></span>, <span name="numericScalarRestrictions">numericScalarRestrictions: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="NumericScalarRestriction.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.NumericScalarRestriction">NumericScalarRestriction</a>] = <span class="symbol">Seq.empty</span></span>, <span name="plainLiteralScalarRestrictions">plainLiteralScalarRestrictions: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="PlainLiteralScalarRestriction.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.PlainLiteralScalarRestriction">PlainLiteralScalarRestriction</a>] = <span class="symbol">Seq.empty</span></span>, <span name="scalarOneOfRestrictions">scalarOneOfRestrictions: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ScalarOneOfRestriction.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ScalarOneOfRestriction">ScalarOneOfRestriction</a>] = <span class="symbol">Seq.empty</span></span>, <span name="stringScalarRestrictions">stringScalarRestrictions: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="StringScalarRestriction.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.StringScalarRestriction">StringScalarRestriction</a>] = <span class="symbol">Seq.empty</span></span>, <span name="synonymScalarRestrictions">synonymScalarRestrictions: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="SynonymScalarRestriction.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.SynonymScalarRestriction">SynonymScalarRestriction</a>] = <span class="symbol">Seq.empty</span></span>, <span name="timeScalarRestrictions">timeScalarRestrictions: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="TimeScalarRestriction.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.TimeScalarRestriction">TimeScalarRestriction</a>] = <span class="symbol">Seq.empty</span></span>, <span name="entityScalarDataProperties">entityScalarDataProperties: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="EntityScalarDataProperty.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityScalarDataProperty">EntityScalarDataProperty</a>] = <span class="symbol">Seq.empty</span></span>, <span name="entityStructuredDataProperties">entityStructuredDataProperties: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="EntityStructuredDataProperty.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityStructuredDataProperty">EntityStructuredDataProperty</a>] = <span class="symbol">Seq.empty</span></span>, <span name="scalarDataProperties">scalarDataProperties: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ScalarDataProperty.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ScalarDataProperty">ScalarDataProperty</a>] = <span class="symbol">Seq.empty</span></span>, <span name="structuredDataProperties">structuredDataProperties: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="StructuredDataProperty.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.StructuredDataProperty">StructuredDataProperty</a>] = <span class="symbol">Seq.empty</span></span>, <span name="aspectSpecializationAxioms">aspectSpecializationAxioms: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="AspectSpecializationAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.AspectSpecializationAxiom">AspectSpecializationAxiom</a>] = <span class="symbol">Seq.empty</span></span>, <span name="conceptSpecializationAxioms">conceptSpecializationAxioms: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ConceptSpecializationAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ConceptSpecializationAxiom">ConceptSpecializationAxiom</a>] = <span class="symbol">Seq.empty</span></span>, <span name="reifiedRelationshipSpecializationAxioms">reifiedRelationshipSpecializationAxioms: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ReifiedRelationshipSpecializationAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ReifiedRelationshipSpecializationAxiom">ReifiedRelationshipSpecializationAxiom</a>] = <span class="symbol">Seq.empty</span></span>, <span name="entityExistentialRestrictionAxioms">entityExistentialRestrictionAxioms: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="EntityExistentialRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom">EntityExistentialRestrictionAxiom</a>] = <span class="symbol">Seq.empty</span></span>, <span name="entityUniversalRestrictionAxioms">entityUniversalRestrictionAxioms: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="EntityUniversalRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityUniversalRestrictionAxiom">EntityUniversalRestrictionAxiom</a>] = <span class="symbol">Seq.empty</span></span>, <span name="entityScalarDataPropertyExistentialRestrictionAxioms">entityScalarDataPropertyExistentialRestrictionAxioms: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="EntityScalarDataPropertyExistentialRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityScalarDataPropertyExistentialRestrictionAxiom">EntityScalarDataPropertyExistentialRestrictionAxiom</a>] = <span class="symbol">Seq.empty</span></span>, <span name="entityScalarDataPropertyParticularRestrictionAxioms">entityScalarDataPropertyParticularRestrictionAxioms: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="EntityScalarDataPropertyParticularRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityScalarDataPropertyParticularRestrictionAxiom">EntityScalarDataPropertyParticularRestrictionAxiom</a>] = <span class="symbol">Seq.empty</span></span>, <span name="entityScalarDataPropertyUniversalRestrictionAxioms">entityScalarDataPropertyUniversalRestrictionAxioms: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="EntityScalarDataPropertyUniversalRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityScalarDataPropertyUniversalRestrictionAxiom">EntityScalarDataPropertyUniversalRestrictionAxiom</a>] = <span class="symbol">Seq.empty</span></span>, <span name="scalarOneOfLiteralAxioms">scalarOneOfLiteralAxioms: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ScalarOneOfLiteralAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ScalarOneOfLiteralAxiom">ScalarOneOfLiteralAxiom</a>] = <span class="symbol">Seq.empty</span></span>, <span name="bundledTerminologyAxioms">bundledTerminologyAxioms: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="BundledTerminologyAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.BundledTerminologyAxiom">BundledTerminologyAxiom</a>] = <span class="symbol">Seq.empty</span></span>, <span name="anonymousConceptTaxonomyAxioms">anonymousConceptTaxonomyAxioms: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="AnonymousConceptTaxonomyAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.AnonymousConceptTaxonomyAxiom">AnonymousConceptTaxonomyAxiom</a>] = <span class="symbol">Seq.empty</span></span>, <span name="rootConceptTaxonomyAxioms">rootConceptTaxonomyAxioms: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="RootConceptTaxonomyAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.RootConceptTaxonomyAxiom">RootConceptTaxonomyAxiom</a>] = <span class="symbol">Seq.empty</span></span>, <span name="specificDisjointConceptAxioms">specificDisjointConceptAxioms: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="SpecificDisjointConceptAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.SpecificDisjointConceptAxiom">SpecificDisjointConceptAxiom</a>] = <span class="symbol">Seq.empty</span></span>, <span name="conceptInstances">conceptInstances: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ConceptInstance.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ConceptInstance">ConceptInstance</a>] = <span class="symbol">Seq.empty</span></span>, <span name="dataStructureTuples">dataStructureTuples: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="DataStructureTuple.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.DataStructureTuple">DataStructureTuple</a>] = <span class="symbol">Seq.empty</span></span>, <span name="descriptionBoxs">descriptionBoxs: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="DescriptionBox.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.DescriptionBox">DescriptionBox</a>] = <span class="symbol">Seq.empty</span></span>, <span name="descriptionBoxExtendsClosedWorldDefinitionss">descriptionBoxExtendsClosedWorldDefinitionss: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="DescriptionBoxExtendsClosedWorldDefinitions.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.DescriptionBoxExtendsClosedWorldDefinitions">DescriptionBoxExtendsClosedWorldDefinitions</a>] = <span class="symbol">Seq.empty</span></span>, <span name="descriptionBoxRefinements">descriptionBoxRefinements: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="DescriptionBoxRefinement.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.DescriptionBoxRefinement">DescriptionBoxRefinement</a>] = <span class="symbol">Seq.empty</span></span>, <span name="reifiedRelationshipInstances">reifiedRelationshipInstances: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ReifiedRelationshipInstance.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ReifiedRelationshipInstance">ReifiedRelationshipInstance</a>] = <span class="symbol">Seq.empty</span></span>, <span name="reifiedRelationshipInstanceDomains">reifiedRelationshipInstanceDomains: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ReifiedRelationshipInstanceDomain.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ReifiedRelationshipInstanceDomain">ReifiedRelationshipInstanceDomain</a>] = <span class="symbol">Seq.empty</span></span>, <span name="reifiedRelationshipInstanceRanges">reifiedRelationshipInstanceRanges: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ReifiedRelationshipInstanceRange.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ReifiedRelationshipInstanceRange">ReifiedRelationshipInstanceRange</a>] = <span class="symbol">Seq.empty</span></span>, <span name="scalarDataPropertyValues">scalarDataPropertyValues: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ScalarDataPropertyValue.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ScalarDataPropertyValue">ScalarDataPropertyValue</a>] = <span class="symbol">Seq.empty</span></span>, <span name="structuredDataPropertyValues">structuredDataPropertyValues: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="StructuredDataPropertyValue.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.StructuredDataPropertyValue">StructuredDataPropertyValue</a>] = <span class="symbol">Seq.empty</span></span>, <span name="unreifiedRelationshipInstanceTuples">unreifiedRelationshipInstanceTuples: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="UnreifiedRelationshipInstanceTuple.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.UnreifiedRelationshipInstanceTuple">UnreifiedRelationshipInstanceTuple</a>] = <span class="symbol">Seq.empty</span></span>, <span name="annotations">annotations: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<a href="AnnotationProperty.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.AnnotationProperty">AnnotationProperty</a>, <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="AnnotationEntry.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.AnnotationEntry">AnnotationEntry</a>]] = <span class="symbol">Map.empty</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <span class="toggle">Linear Supertypes</span>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.Product">Product</span>, <span class="extype" name="scala.Equals">Equals</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+        </div></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        <div id="order">
+              <span class="filtertype">Ordering</span>
+              <ol>
+                
+                <li class="alpha in"><span>Alphabetic</span></li>
+                <li class="inherit out"><span>By Inheritance</span></li>
+              </ol>
+            </div>
+        <div id="ancestors">
+                <span class="filtertype">Inherited<br />
+                </span>
+                <ol id="linearization">
+                  <li class="in" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"><span>OMLSpecificationTables</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.Product"><span>Product</span></li><li class="in" name="scala.Equals"><span>Equals</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                </ol>
+              </div><div id="ancestors">
+            <span class="filtertype"></span>
+            <ol>
+              <li class="hideall out"><span>Hide All</span></li>
+              <li class="showall in"><span>Show All</span></li>
+            </ol>
+          </div>
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        <div id="constructors" class="members">
+              <h3>Instance Constructors</h3>
+              <ol><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="&lt;init&gt;(annotationProperties:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.AnnotationProperty],terminologyGraphs:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.TerminologyGraph],bundles:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.Bundle],conceptDesignationTerminologyAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ConceptDesignationTerminologyAxiom],terminologyExtensionAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.TerminologyExtensionAxiom],terminologyNestingAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.TerminologyNestingAxiom],aspects:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.Aspect],concepts:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.Concept],reifiedRelationships:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ReifiedRelationship],unreifiedRelationships:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.UnreifiedRelationship],scalars:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.Scalar],structures:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.Structure],binaryScalarRestrictions:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.BinaryScalarRestriction],iriScalarRestrictions:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.IRIScalarRestriction],numericScalarRestrictions:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.NumericScalarRestriction],plainLiteralScalarRestrictions:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.PlainLiteralScalarRestriction],scalarOneOfRestrictions:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ScalarOneOfRestriction],stringScalarRestrictions:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.StringScalarRestriction],synonymScalarRestrictions:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.SynonymScalarRestriction],timeScalarRestrictions:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.TimeScalarRestriction],entityScalarDataProperties:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.EntityScalarDataProperty],entityStructuredDataProperties:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.EntityStructuredDataProperty],scalarDataProperties:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ScalarDataProperty],structuredDataProperties:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.StructuredDataProperty],aspectSpecializationAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.AspectSpecializationAxiom],conceptSpecializationAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ConceptSpecializationAxiom],reifiedRelationshipSpecializationAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ReifiedRelationshipSpecializationAxiom],entityExistentialRestrictionAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom],entityUniversalRestrictionAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.EntityUniversalRestrictionAxiom],entityScalarDataPropertyExistentialRestrictionAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.EntityScalarDataPropertyExistentialRestrictionAxiom],entityScalarDataPropertyParticularRestrictionAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.EntityScalarDataPropertyParticularRestrictionAxiom],entityScalarDataPropertyUniversalRestrictionAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.EntityScalarDataPropertyUniversalRestrictionAxiom],scalarOneOfLiteralAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ScalarOneOfLiteralAxiom],bundledTerminologyAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.BundledTerminologyAxiom],anonymousConceptTaxonomyAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.AnonymousConceptTaxonomyAxiom],rootConceptTaxonomyAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.RootConceptTaxonomyAxiom],specificDisjointConceptAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.SpecificDisjointConceptAxiom],conceptInstances:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ConceptInstance],dataStructureTuples:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.DataStructureTuple],descriptionBoxs:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.DescriptionBox],descriptionBoxExtendsClosedWorldDefinitionss:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.DescriptionBoxExtendsClosedWorldDefinitions],descriptionBoxRefinements:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.DescriptionBoxRefinement],reifiedRelationshipInstances:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ReifiedRelationshipInstance],reifiedRelationshipInstanceDomains:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ReifiedRelationshipInstanceDomain],reifiedRelationshipInstanceRanges:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ReifiedRelationshipInstanceRange],scalarDataPropertyValues:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ScalarDataPropertyValue],structuredDataPropertyValues:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.StructuredDataPropertyValue],unreifiedRelationshipInstanceTuples:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.UnreifiedRelationshipInstanceTuple],annotations:scala.collection.immutable.Map[gov.nasa.jpl.imce.oml.tables.AnnotationProperty,scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.AnnotationEntry]]):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="&lt;init&gt;:OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">new</span>
+      </span>
+      <span class="symbol">
+        <span class="name">OMLSpecificationTables</span><span class="params">(<span name="annotationProperties">annotationProperties: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="AnnotationProperty.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.AnnotationProperty">AnnotationProperty</a>] = <span class="symbol">Seq.empty</span></span>, <span name="terminologyGraphs">terminologyGraphs: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="TerminologyGraph.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.TerminologyGraph">TerminologyGraph</a>] = <span class="symbol">Seq.empty</span></span>, <span name="bundles">bundles: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="Bundle.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.Bundle">Bundle</a>] = <span class="symbol">Seq.empty</span></span>, <span name="conceptDesignationTerminologyAxioms">conceptDesignationTerminologyAxioms: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ConceptDesignationTerminologyAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ConceptDesignationTerminologyAxiom">ConceptDesignationTerminologyAxiom</a>] = <span class="symbol">Seq.empty</span></span>, <span name="terminologyExtensionAxioms">terminologyExtensionAxioms: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="TerminologyExtensionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.TerminologyExtensionAxiom">TerminologyExtensionAxiom</a>] = <span class="symbol">Seq.empty</span></span>, <span name="terminologyNestingAxioms">terminologyNestingAxioms: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="TerminologyNestingAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.TerminologyNestingAxiom">TerminologyNestingAxiom</a>] = <span class="symbol">Seq.empty</span></span>, <span name="aspects">aspects: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="Aspect.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.Aspect">Aspect</a>] = <span class="symbol">Seq.empty</span></span>, <span name="concepts">concepts: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="Concept.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.Concept">Concept</a>] = <span class="symbol">Seq.empty</span></span>, <span name="reifiedRelationships">reifiedRelationships: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ReifiedRelationship.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ReifiedRelationship">ReifiedRelationship</a>] = <span class="symbol">Seq.empty</span></span>, <span name="unreifiedRelationships">unreifiedRelationships: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="UnreifiedRelationship.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.UnreifiedRelationship">UnreifiedRelationship</a>] = <span class="symbol">Seq.empty</span></span>, <span name="scalars">scalars: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="Scalar.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.Scalar">Scalar</a>] = <span class="symbol">Seq.empty</span></span>, <span name="structures">structures: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="Structure.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.Structure">Structure</a>] = <span class="symbol">Seq.empty</span></span>, <span name="binaryScalarRestrictions">binaryScalarRestrictions: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="BinaryScalarRestriction.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.BinaryScalarRestriction">BinaryScalarRestriction</a>] = <span class="symbol">Seq.empty</span></span>, <span name="iriScalarRestrictions">iriScalarRestrictions: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="IRIScalarRestriction.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.IRIScalarRestriction">IRIScalarRestriction</a>] = <span class="symbol">Seq.empty</span></span>, <span name="numericScalarRestrictions">numericScalarRestrictions: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="NumericScalarRestriction.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.NumericScalarRestriction">NumericScalarRestriction</a>] = <span class="symbol">Seq.empty</span></span>, <span name="plainLiteralScalarRestrictions">plainLiteralScalarRestrictions: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="PlainLiteralScalarRestriction.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.PlainLiteralScalarRestriction">PlainLiteralScalarRestriction</a>] = <span class="symbol">Seq.empty</span></span>, <span name="scalarOneOfRestrictions">scalarOneOfRestrictions: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ScalarOneOfRestriction.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ScalarOneOfRestriction">ScalarOneOfRestriction</a>] = <span class="symbol">Seq.empty</span></span>, <span name="stringScalarRestrictions">stringScalarRestrictions: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="StringScalarRestriction.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.StringScalarRestriction">StringScalarRestriction</a>] = <span class="symbol">Seq.empty</span></span>, <span name="synonymScalarRestrictions">synonymScalarRestrictions: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="SynonymScalarRestriction.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.SynonymScalarRestriction">SynonymScalarRestriction</a>] = <span class="symbol">Seq.empty</span></span>, <span name="timeScalarRestrictions">timeScalarRestrictions: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="TimeScalarRestriction.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.TimeScalarRestriction">TimeScalarRestriction</a>] = <span class="symbol">Seq.empty</span></span>, <span name="entityScalarDataProperties">entityScalarDataProperties: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="EntityScalarDataProperty.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityScalarDataProperty">EntityScalarDataProperty</a>] = <span class="symbol">Seq.empty</span></span>, <span name="entityStructuredDataProperties">entityStructuredDataProperties: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="EntityStructuredDataProperty.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityStructuredDataProperty">EntityStructuredDataProperty</a>] = <span class="symbol">Seq.empty</span></span>, <span name="scalarDataProperties">scalarDataProperties: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ScalarDataProperty.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ScalarDataProperty">ScalarDataProperty</a>] = <span class="symbol">Seq.empty</span></span>, <span name="structuredDataProperties">structuredDataProperties: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="StructuredDataProperty.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.StructuredDataProperty">StructuredDataProperty</a>] = <span class="symbol">Seq.empty</span></span>, <span name="aspectSpecializationAxioms">aspectSpecializationAxioms: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="AspectSpecializationAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.AspectSpecializationAxiom">AspectSpecializationAxiom</a>] = <span class="symbol">Seq.empty</span></span>, <span name="conceptSpecializationAxioms">conceptSpecializationAxioms: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ConceptSpecializationAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ConceptSpecializationAxiom">ConceptSpecializationAxiom</a>] = <span class="symbol">Seq.empty</span></span>, <span name="reifiedRelationshipSpecializationAxioms">reifiedRelationshipSpecializationAxioms: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ReifiedRelationshipSpecializationAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ReifiedRelationshipSpecializationAxiom">ReifiedRelationshipSpecializationAxiom</a>] = <span class="symbol">Seq.empty</span></span>, <span name="entityExistentialRestrictionAxioms">entityExistentialRestrictionAxioms: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="EntityExistentialRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom">EntityExistentialRestrictionAxiom</a>] = <span class="symbol">Seq.empty</span></span>, <span name="entityUniversalRestrictionAxioms">entityUniversalRestrictionAxioms: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="EntityUniversalRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityUniversalRestrictionAxiom">EntityUniversalRestrictionAxiom</a>] = <span class="symbol">Seq.empty</span></span>, <span name="entityScalarDataPropertyExistentialRestrictionAxioms">entityScalarDataPropertyExistentialRestrictionAxioms: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="EntityScalarDataPropertyExistentialRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityScalarDataPropertyExistentialRestrictionAxiom">EntityScalarDataPropertyExistentialRestrictionAxiom</a>] = <span class="symbol">Seq.empty</span></span>, <span name="entityScalarDataPropertyParticularRestrictionAxioms">entityScalarDataPropertyParticularRestrictionAxioms: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="EntityScalarDataPropertyParticularRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityScalarDataPropertyParticularRestrictionAxiom">EntityScalarDataPropertyParticularRestrictionAxiom</a>] = <span class="symbol">Seq.empty</span></span>, <span name="entityScalarDataPropertyUniversalRestrictionAxioms">entityScalarDataPropertyUniversalRestrictionAxioms: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="EntityScalarDataPropertyUniversalRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityScalarDataPropertyUniversalRestrictionAxiom">EntityScalarDataPropertyUniversalRestrictionAxiom</a>] = <span class="symbol">Seq.empty</span></span>, <span name="scalarOneOfLiteralAxioms">scalarOneOfLiteralAxioms: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ScalarOneOfLiteralAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ScalarOneOfLiteralAxiom">ScalarOneOfLiteralAxiom</a>] = <span class="symbol">Seq.empty</span></span>, <span name="bundledTerminologyAxioms">bundledTerminologyAxioms: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="BundledTerminologyAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.BundledTerminologyAxiom">BundledTerminologyAxiom</a>] = <span class="symbol">Seq.empty</span></span>, <span name="anonymousConceptTaxonomyAxioms">anonymousConceptTaxonomyAxioms: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="AnonymousConceptTaxonomyAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.AnonymousConceptTaxonomyAxiom">AnonymousConceptTaxonomyAxiom</a>] = <span class="symbol">Seq.empty</span></span>, <span name="rootConceptTaxonomyAxioms">rootConceptTaxonomyAxioms: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="RootConceptTaxonomyAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.RootConceptTaxonomyAxiom">RootConceptTaxonomyAxiom</a>] = <span class="symbol">Seq.empty</span></span>, <span name="specificDisjointConceptAxioms">specificDisjointConceptAxioms: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="SpecificDisjointConceptAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.SpecificDisjointConceptAxiom">SpecificDisjointConceptAxiom</a>] = <span class="symbol">Seq.empty</span></span>, <span name="conceptInstances">conceptInstances: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ConceptInstance.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ConceptInstance">ConceptInstance</a>] = <span class="symbol">Seq.empty</span></span>, <span name="dataStructureTuples">dataStructureTuples: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="DataStructureTuple.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.DataStructureTuple">DataStructureTuple</a>] = <span class="symbol">Seq.empty</span></span>, <span name="descriptionBoxs">descriptionBoxs: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="DescriptionBox.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.DescriptionBox">DescriptionBox</a>] = <span class="symbol">Seq.empty</span></span>, <span name="descriptionBoxExtendsClosedWorldDefinitionss">descriptionBoxExtendsClosedWorldDefinitionss: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="DescriptionBoxExtendsClosedWorldDefinitions.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.DescriptionBoxExtendsClosedWorldDefinitions">DescriptionBoxExtendsClosedWorldDefinitions</a>] = <span class="symbol">Seq.empty</span></span>, <span name="descriptionBoxRefinements">descriptionBoxRefinements: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="DescriptionBoxRefinement.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.DescriptionBoxRefinement">DescriptionBoxRefinement</a>] = <span class="symbol">Seq.empty</span></span>, <span name="reifiedRelationshipInstances">reifiedRelationshipInstances: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ReifiedRelationshipInstance.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ReifiedRelationshipInstance">ReifiedRelationshipInstance</a>] = <span class="symbol">Seq.empty</span></span>, <span name="reifiedRelationshipInstanceDomains">reifiedRelationshipInstanceDomains: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ReifiedRelationshipInstanceDomain.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ReifiedRelationshipInstanceDomain">ReifiedRelationshipInstanceDomain</a>] = <span class="symbol">Seq.empty</span></span>, <span name="reifiedRelationshipInstanceRanges">reifiedRelationshipInstanceRanges: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ReifiedRelationshipInstanceRange.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ReifiedRelationshipInstanceRange">ReifiedRelationshipInstanceRange</a>] = <span class="symbol">Seq.empty</span></span>, <span name="scalarDataPropertyValues">scalarDataPropertyValues: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ScalarDataPropertyValue.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ScalarDataPropertyValue">ScalarDataPropertyValue</a>] = <span class="symbol">Seq.empty</span></span>, <span name="structuredDataPropertyValues">structuredDataPropertyValues: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="StructuredDataPropertyValue.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.StructuredDataPropertyValue">StructuredDataPropertyValue</a>] = <span class="symbol">Seq.empty</span></span>, <span name="unreifiedRelationshipInstanceTuples">unreifiedRelationshipInstanceTuples: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="UnreifiedRelationshipInstanceTuple.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.UnreifiedRelationshipInstanceTuple">UnreifiedRelationshipInstanceTuple</a>] = <span class="symbol">Seq.empty</span></span>, <span name="annotations">annotations: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<a href="AnnotationProperty.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.AnnotationProperty">AnnotationProperty</a>, <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="AnnotationEntry.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.AnnotationEntry">AnnotationEntry</a>]] = <span class="symbol">Map.empty</span></span>)</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@&lt;init&gt;(annotationProperties:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.AnnotationProperty],terminologyGraphs:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.TerminologyGraph],bundles:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.Bundle],conceptDesignationTerminologyAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ConceptDesignationTerminologyAxiom],terminologyExtensionAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.TerminologyExtensionAxiom],terminologyNestingAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.TerminologyNestingAxiom],aspects:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.Aspect],concepts:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.Concept],reifiedRelationships:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ReifiedRelationship],unreifiedRelationships:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.UnreifiedRelationship],scalars:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.Scalar],structures:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.Structure],binaryScalarRestrictions:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.BinaryScalarRestriction],iriScalarRestrictions:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.IRIScalarRestriction],numericScalarRestrictions:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.NumericScalarRestriction],plainLiteralScalarRestrictions:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.PlainLiteralScalarRestriction],scalarOneOfRestrictions:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ScalarOneOfRestriction],stringScalarRestrictions:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.StringScalarRestriction],synonymScalarRestrictions:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.SynonymScalarRestriction],timeScalarRestrictions:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.TimeScalarRestriction],entityScalarDataProperties:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.EntityScalarDataProperty],entityStructuredDataProperties:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.EntityStructuredDataProperty],scalarDataProperties:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ScalarDataProperty],structuredDataProperties:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.StructuredDataProperty],aspectSpecializationAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.AspectSpecializationAxiom],conceptSpecializationAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ConceptSpecializationAxiom],reifiedRelationshipSpecializationAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ReifiedRelationshipSpecializationAxiom],entityExistentialRestrictionAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom],entityUniversalRestrictionAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.EntityUniversalRestrictionAxiom],entityScalarDataPropertyExistentialRestrictionAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.EntityScalarDataPropertyExistentialRestrictionAxiom],entityScalarDataPropertyParticularRestrictionAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.EntityScalarDataPropertyParticularRestrictionAxiom],entityScalarDataPropertyUniversalRestrictionAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.EntityScalarDataPropertyUniversalRestrictionAxiom],scalarOneOfLiteralAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ScalarOneOfLiteralAxiom],bundledTerminologyAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.BundledTerminologyAxiom],anonymousConceptTaxonomyAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.AnonymousConceptTaxonomyAxiom],rootConceptTaxonomyAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.RootConceptTaxonomyAxiom],specificDisjointConceptAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.SpecificDisjointConceptAxiom],conceptInstances:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ConceptInstance],dataStructureTuples:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.DataStructureTuple],descriptionBoxs:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.DescriptionBox],descriptionBoxExtendsClosedWorldDefinitionss:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.DescriptionBoxExtendsClosedWorldDefinitions],descriptionBoxRefinements:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.DescriptionBoxRefinement],reifiedRelationshipInstances:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ReifiedRelationshipInstance],reifiedRelationshipInstanceDomains:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ReifiedRelationshipInstanceDomain],reifiedRelationshipInstanceRanges:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ReifiedRelationshipInstanceRange],scalarDataPropertyValues:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ScalarDataPropertyValue],structuredDataPropertyValues:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.StructuredDataPropertyValue],unreifiedRelationshipInstanceTuples:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.UnreifiedRelationshipInstanceTuple],annotations:scala.collection.immutable.Map[gov.nasa.jpl.imce.oml.tables.AnnotationProperty,scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.AnnotationEntry]]):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li></ol>
+            </div>
+
+        
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="scala.AnyRef#!=" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="!=(x$1:Any):Boolean"></a>
+      <a id="!=(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef###" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="##():Int"></a>
+      <a id="##():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@##():Int" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#==" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="==(x$1:Any):Boolean"></a>
+      <a id="==(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@==(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#annotationProperties" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="annotationProperties:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.AnnotationProperty]"></a>
+      <a id="annotationProperties:Seq[AnnotationProperty]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">annotationProperties</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="AnnotationProperty.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.AnnotationProperty">AnnotationProperty</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@annotationProperties:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.AnnotationProperty]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#annotations" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="annotations:scala.collection.immutable.Map[gov.nasa.jpl.imce.oml.tables.AnnotationProperty,scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.AnnotationEntry]]"></a>
+      <a id="annotations:Map[AnnotationProperty,Seq[AnnotationEntry]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">annotations</span><span class="result">: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<a href="AnnotationProperty.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.AnnotationProperty">AnnotationProperty</a>, <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="AnnotationEntry.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.AnnotationEntry">AnnotationEntry</a>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@annotations:scala.collection.immutable.Map[gov.nasa.jpl.imce.oml.tables.AnnotationProperty,scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.AnnotationEntry]]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#anonymousConceptTaxonomyAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="anonymousConceptTaxonomyAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.AnonymousConceptTaxonomyAxiom]"></a>
+      <a id="anonymousConceptTaxonomyAxioms:Seq[AnonymousConceptTaxonomyAxiom]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">anonymousConceptTaxonomyAxioms</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="AnonymousConceptTaxonomyAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.AnonymousConceptTaxonomyAxiom">AnonymousConceptTaxonomyAxiom</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@anonymousConceptTaxonomyAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.AnonymousConceptTaxonomyAxiom]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="asInstanceOf[T0]:T0"></a>
+      <a id="asInstanceOf[T0]:T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#aspectSpecializationAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="aspectSpecializationAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.AspectSpecializationAxiom]"></a>
+      <a id="aspectSpecializationAxioms:Seq[AspectSpecializationAxiom]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">aspectSpecializationAxioms</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="AspectSpecializationAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.AspectSpecializationAxiom">AspectSpecializationAxiom</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@aspectSpecializationAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.AspectSpecializationAxiom]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#aspects" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="aspects:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.Aspect]"></a>
+      <a id="aspects:Seq[Aspect]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">aspects</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="Aspect.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.Aspect">Aspect</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@aspects:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.Aspect]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#binaryScalarRestrictions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="binaryScalarRestrictions:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.BinaryScalarRestriction]"></a>
+      <a id="binaryScalarRestrictions:Seq[BinaryScalarRestriction]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">binaryScalarRestrictions</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="BinaryScalarRestriction.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.BinaryScalarRestriction">BinaryScalarRestriction</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@binaryScalarRestrictions:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.BinaryScalarRestriction]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#bundledTerminologyAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="bundledTerminologyAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.BundledTerminologyAxiom]"></a>
+      <a id="bundledTerminologyAxioms:Seq[BundledTerminologyAxiom]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">bundledTerminologyAxioms</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="BundledTerminologyAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.BundledTerminologyAxiom">BundledTerminologyAxiom</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@bundledTerminologyAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.BundledTerminologyAxiom]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#bundles" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="bundles:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.Bundle]"></a>
+      <a id="bundles:Seq[Bundle]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">bundles</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="Bundle.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.Bundle">Bundle</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@bundles:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.Bundle]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="clone():Object"></a>
+      <a id="clone():AnyRef"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@clone():Object" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.CloneNotSupportedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#conceptDesignationTerminologyAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="conceptDesignationTerminologyAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ConceptDesignationTerminologyAxiom]"></a>
+      <a id="conceptDesignationTerminologyAxioms:Seq[ConceptDesignationTerminologyAxiom]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">conceptDesignationTerminologyAxioms</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ConceptDesignationTerminologyAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ConceptDesignationTerminologyAxiom">ConceptDesignationTerminologyAxiom</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@conceptDesignationTerminologyAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ConceptDesignationTerminologyAxiom]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#conceptInstances" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="conceptInstances:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ConceptInstance]"></a>
+      <a id="conceptInstances:Seq[ConceptInstance]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">conceptInstances</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ConceptInstance.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ConceptInstance">ConceptInstance</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@conceptInstances:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ConceptInstance]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#conceptSpecializationAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="conceptSpecializationAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ConceptSpecializationAxiom]"></a>
+      <a id="conceptSpecializationAxioms:Seq[ConceptSpecializationAxiom]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">conceptSpecializationAxioms</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ConceptSpecializationAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ConceptSpecializationAxiom">ConceptSpecializationAxiom</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@conceptSpecializationAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ConceptSpecializationAxiom]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#concepts" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="concepts:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.Concept]"></a>
+      <a id="concepts:Seq[Concept]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">concepts</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="Concept.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.Concept">Concept</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@concepts:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.Concept]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#dataStructureTuples" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="dataStructureTuples:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.DataStructureTuple]"></a>
+      <a id="dataStructureTuples:Seq[DataStructureTuple]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dataStructureTuples</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="DataStructureTuple.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.DataStructureTuple">DataStructureTuple</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@dataStructureTuples:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.DataStructureTuple]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#descriptionBoxExtendsClosedWorldDefinitionss" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="descriptionBoxExtendsClosedWorldDefinitionss:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.DescriptionBoxExtendsClosedWorldDefinitions]"></a>
+      <a id="descriptionBoxExtendsClosedWorldDefinitionss:Seq[DescriptionBoxExtendsClosedWorldDefinitions]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">descriptionBoxExtendsClosedWorldDefinitionss</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="DescriptionBoxExtendsClosedWorldDefinitions.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.DescriptionBoxExtendsClosedWorldDefinitions">DescriptionBoxExtendsClosedWorldDefinitions</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@descriptionBoxExtendsClosedWorldDefinitionss:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.DescriptionBoxExtendsClosedWorldDefinitions]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#descriptionBoxRefinements" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="descriptionBoxRefinements:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.DescriptionBoxRefinement]"></a>
+      <a id="descriptionBoxRefinements:Seq[DescriptionBoxRefinement]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">descriptionBoxRefinements</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="DescriptionBoxRefinement.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.DescriptionBoxRefinement">DescriptionBoxRefinement</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@descriptionBoxRefinements:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.DescriptionBoxRefinement]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#descriptionBoxs" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="descriptionBoxs:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.DescriptionBox]"></a>
+      <a id="descriptionBoxs:Seq[DescriptionBox]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">descriptionBoxs</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="DescriptionBox.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.DescriptionBox">DescriptionBox</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@descriptionBoxs:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.DescriptionBox]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#entityExistentialRestrictionAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="entityExistentialRestrictionAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom]"></a>
+      <a id="entityExistentialRestrictionAxioms:Seq[EntityExistentialRestrictionAxiom]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">entityExistentialRestrictionAxioms</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="EntityExistentialRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom">EntityExistentialRestrictionAxiom</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@entityExistentialRestrictionAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#entityScalarDataProperties" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="entityScalarDataProperties:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.EntityScalarDataProperty]"></a>
+      <a id="entityScalarDataProperties:Seq[EntityScalarDataProperty]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">entityScalarDataProperties</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="EntityScalarDataProperty.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityScalarDataProperty">EntityScalarDataProperty</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@entityScalarDataProperties:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.EntityScalarDataProperty]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#entityScalarDataPropertyExistentialRestrictionAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="entityScalarDataPropertyExistentialRestrictionAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.EntityScalarDataPropertyExistentialRestrictionAxiom]"></a>
+      <a id="entityScalarDataPropertyExistentialRestrictionAxioms:Seq[EntityScalarDataPropertyExistentialRestrictionAxiom]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">entityScalarDataPropertyExistentialRestrictionAxioms</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="EntityScalarDataPropertyExistentialRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityScalarDataPropertyExistentialRestrictionAxiom">EntityScalarDataPropertyExistentialRestrictionAxiom</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@entityScalarDataPropertyExistentialRestrictionAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.EntityScalarDataPropertyExistentialRestrictionAxiom]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#entityScalarDataPropertyParticularRestrictionAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="entityScalarDataPropertyParticularRestrictionAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.EntityScalarDataPropertyParticularRestrictionAxiom]"></a>
+      <a id="entityScalarDataPropertyParticularRestrictionAxioms:Seq[EntityScalarDataPropertyParticularRestrictionAxiom]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">entityScalarDataPropertyParticularRestrictionAxioms</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="EntityScalarDataPropertyParticularRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityScalarDataPropertyParticularRestrictionAxiom">EntityScalarDataPropertyParticularRestrictionAxiom</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@entityScalarDataPropertyParticularRestrictionAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.EntityScalarDataPropertyParticularRestrictionAxiom]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#entityScalarDataPropertyUniversalRestrictionAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="entityScalarDataPropertyUniversalRestrictionAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.EntityScalarDataPropertyUniversalRestrictionAxiom]"></a>
+      <a id="entityScalarDataPropertyUniversalRestrictionAxioms:Seq[EntityScalarDataPropertyUniversalRestrictionAxiom]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">entityScalarDataPropertyUniversalRestrictionAxioms</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="EntityScalarDataPropertyUniversalRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityScalarDataPropertyUniversalRestrictionAxiom">EntityScalarDataPropertyUniversalRestrictionAxiom</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@entityScalarDataPropertyUniversalRestrictionAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.EntityScalarDataPropertyUniversalRestrictionAxiom]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#entityStructuredDataProperties" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="entityStructuredDataProperties:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.EntityStructuredDataProperty]"></a>
+      <a id="entityStructuredDataProperties:Seq[EntityStructuredDataProperty]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">entityStructuredDataProperties</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="EntityStructuredDataProperty.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityStructuredDataProperty">EntityStructuredDataProperty</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@entityStructuredDataProperties:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.EntityStructuredDataProperty]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#entityUniversalRestrictionAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="entityUniversalRestrictionAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.EntityUniversalRestrictionAxiom]"></a>
+      <a id="entityUniversalRestrictionAxioms:Seq[EntityUniversalRestrictionAxiom]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">entityUniversalRestrictionAxioms</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="EntityUniversalRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityUniversalRestrictionAxiom">EntityUniversalRestrictionAxiom</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@entityUniversalRestrictionAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.EntityUniversalRestrictionAxiom]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="eq(x$1:AnyRef):Boolean"></a>
+      <a id="eq(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="finalize():Unit"></a>
+      <a id="finalize():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@finalize():Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="symbol">classOf[java.lang.Throwable]</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getClass():Class[_]"></a>
+      <a id="getClass():Class[_]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@getClass():Class[_]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#iriScalarRestrictions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="iriScalarRestrictions:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.IRIScalarRestriction]"></a>
+      <a id="iriScalarRestrictions:Seq[IRIScalarRestriction]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">iriScalarRestrictions</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="IRIScalarRestriction.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.IRIScalarRestriction">IRIScalarRestriction</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@iriScalarRestrictions:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.IRIScalarRestriction]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#isEmpty" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="isEmpty:Boolean"></a>
+      <a id="isEmpty:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isEmpty</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@isEmpty:Boolean" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ne(x$1:AnyRef):Boolean"></a>
+      <a id="ne(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notify" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notify():Unit"></a>
+      <a id="notify():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@notify():Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notifyAll" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notifyAll():Unit"></a>
+      <a id="notifyAll():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@notifyAll():Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#numericScalarRestrictions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="numericScalarRestrictions:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.NumericScalarRestriction]"></a>
+      <a id="numericScalarRestrictions:Seq[NumericScalarRestriction]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">numericScalarRestrictions</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="NumericScalarRestriction.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.NumericScalarRestriction">NumericScalarRestriction</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@numericScalarRestrictions:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.NumericScalarRestriction]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#plainLiteralScalarRestrictions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="plainLiteralScalarRestrictions:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.PlainLiteralScalarRestriction]"></a>
+      <a id="plainLiteralScalarRestrictions:Seq[PlainLiteralScalarRestriction]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">plainLiteralScalarRestrictions</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="PlainLiteralScalarRestriction.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.PlainLiteralScalarRestriction">PlainLiteralScalarRestriction</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@plainLiteralScalarRestrictions:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.PlainLiteralScalarRestriction]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readAnnotationProperties" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readAnnotationProperties(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readAnnotationProperties(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readAnnotationProperties</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readAnnotationProperties(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readAnonymousConceptTaxonomyAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readAnonymousConceptTaxonomyAxioms(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readAnonymousConceptTaxonomyAxioms(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readAnonymousConceptTaxonomyAxioms</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readAnonymousConceptTaxonomyAxioms(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readAspectSpecializationAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readAspectSpecializationAxioms(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readAspectSpecializationAxioms(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readAspectSpecializationAxioms</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readAspectSpecializationAxioms(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readAspects" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readAspects(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readAspects(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readAspects</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readAspects(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readBinaryScalarRestrictions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readBinaryScalarRestrictions(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readBinaryScalarRestrictions(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readBinaryScalarRestrictions</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readBinaryScalarRestrictions(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readBundledTerminologyAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readBundledTerminologyAxioms(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readBundledTerminologyAxioms(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readBundledTerminologyAxioms</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readBundledTerminologyAxioms(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readBundles" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readBundles(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readBundles(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readBundles</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readBundles(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readConceptDesignationTerminologyAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readConceptDesignationTerminologyAxioms(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readConceptDesignationTerminologyAxioms(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readConceptDesignationTerminologyAxioms</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readConceptDesignationTerminologyAxioms(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readConceptInstances" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readConceptInstances(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readConceptInstances(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readConceptInstances</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readConceptInstances(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readConceptSpecializationAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readConceptSpecializationAxioms(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readConceptSpecializationAxioms(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readConceptSpecializationAxioms</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readConceptSpecializationAxioms(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readConcepts" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readConcepts(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readConcepts(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readConcepts</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readConcepts(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readDataStructureTuples" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readDataStructureTuples(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readDataStructureTuples(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readDataStructureTuples</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readDataStructureTuples(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readDescriptionBoxExtendsClosedWorldDefinitionss" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readDescriptionBoxExtendsClosedWorldDefinitionss(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readDescriptionBoxExtendsClosedWorldDefinitionss(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readDescriptionBoxExtendsClosedWorldDefinitionss</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readDescriptionBoxExtendsClosedWorldDefinitionss(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readDescriptionBoxRefinements" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readDescriptionBoxRefinements(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readDescriptionBoxRefinements(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readDescriptionBoxRefinements</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readDescriptionBoxRefinements(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readDescriptionBoxs" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readDescriptionBoxs(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readDescriptionBoxs(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readDescriptionBoxs</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readDescriptionBoxs(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readEntityExistentialRestrictionAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readEntityExistentialRestrictionAxioms(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readEntityExistentialRestrictionAxioms(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readEntityExistentialRestrictionAxioms</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readEntityExistentialRestrictionAxioms(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readEntityScalarDataProperties" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readEntityScalarDataProperties(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readEntityScalarDataProperties(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readEntityScalarDataProperties</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readEntityScalarDataProperties(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readEntityScalarDataPropertyExistentialRestrictionAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readEntityScalarDataPropertyExistentialRestrictionAxioms(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readEntityScalarDataPropertyExistentialRestrictionAxioms(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readEntityScalarDataPropertyExistentialRestrictionAxioms</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readEntityScalarDataPropertyExistentialRestrictionAxioms(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readEntityScalarDataPropertyParticularRestrictionAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readEntityScalarDataPropertyParticularRestrictionAxioms(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readEntityScalarDataPropertyParticularRestrictionAxioms(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readEntityScalarDataPropertyParticularRestrictionAxioms</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readEntityScalarDataPropertyParticularRestrictionAxioms(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readEntityScalarDataPropertyUniversalRestrictionAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readEntityScalarDataPropertyUniversalRestrictionAxioms(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readEntityScalarDataPropertyUniversalRestrictionAxioms(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readEntityScalarDataPropertyUniversalRestrictionAxioms</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readEntityScalarDataPropertyUniversalRestrictionAxioms(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readEntityStructuredDataProperties" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readEntityStructuredDataProperties(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readEntityStructuredDataProperties(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readEntityStructuredDataProperties</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readEntityStructuredDataProperties(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readEntityUniversalRestrictionAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readEntityUniversalRestrictionAxioms(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readEntityUniversalRestrictionAxioms(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readEntityUniversalRestrictionAxioms</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readEntityUniversalRestrictionAxioms(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readIRIScalarRestrictions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readIRIScalarRestrictions(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readIRIScalarRestrictions(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readIRIScalarRestrictions</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readIRIScalarRestrictions(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readNumericScalarRestrictions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readNumericScalarRestrictions(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readNumericScalarRestrictions(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readNumericScalarRestrictions</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readNumericScalarRestrictions(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readPlainLiteralScalarRestrictions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readPlainLiteralScalarRestrictions(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readPlainLiteralScalarRestrictions(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readPlainLiteralScalarRestrictions</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readPlainLiteralScalarRestrictions(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readReifiedRelationshipInstanceDomains" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readReifiedRelationshipInstanceDomains(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readReifiedRelationshipInstanceDomains(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readReifiedRelationshipInstanceDomains</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readReifiedRelationshipInstanceDomains(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readReifiedRelationshipInstanceRanges" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readReifiedRelationshipInstanceRanges(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readReifiedRelationshipInstanceRanges(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readReifiedRelationshipInstanceRanges</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readReifiedRelationshipInstanceRanges(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readReifiedRelationshipInstances" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readReifiedRelationshipInstances(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readReifiedRelationshipInstances(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readReifiedRelationshipInstances</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readReifiedRelationshipInstances(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readReifiedRelationshipSpecializationAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readReifiedRelationshipSpecializationAxioms(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readReifiedRelationshipSpecializationAxioms(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readReifiedRelationshipSpecializationAxioms</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readReifiedRelationshipSpecializationAxioms(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readReifiedRelationships" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readReifiedRelationships(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readReifiedRelationships(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readReifiedRelationships</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readReifiedRelationships(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readRootConceptTaxonomyAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readRootConceptTaxonomyAxioms(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readRootConceptTaxonomyAxioms(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readRootConceptTaxonomyAxioms</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readRootConceptTaxonomyAxioms(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readScalarDataProperties" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readScalarDataProperties(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readScalarDataProperties(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readScalarDataProperties</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readScalarDataProperties(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readScalarDataPropertyValues" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readScalarDataPropertyValues(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readScalarDataPropertyValues(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readScalarDataPropertyValues</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readScalarDataPropertyValues(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readScalarOneOfLiteralAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readScalarOneOfLiteralAxioms(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readScalarOneOfLiteralAxioms(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readScalarOneOfLiteralAxioms</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readScalarOneOfLiteralAxioms(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readScalarOneOfRestrictions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readScalarOneOfRestrictions(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readScalarOneOfRestrictions(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readScalarOneOfRestrictions</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readScalarOneOfRestrictions(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readScalars" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readScalars(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readScalars(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readScalars</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readScalars(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readSpecificDisjointConceptAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readSpecificDisjointConceptAxioms(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readSpecificDisjointConceptAxioms(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readSpecificDisjointConceptAxioms</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readSpecificDisjointConceptAxioms(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readStringScalarRestrictions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readStringScalarRestrictions(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readStringScalarRestrictions(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readStringScalarRestrictions</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readStringScalarRestrictions(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readStructuredDataProperties" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readStructuredDataProperties(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readStructuredDataProperties(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readStructuredDataProperties</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readStructuredDataProperties(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readStructuredDataPropertyValues" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readStructuredDataPropertyValues(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readStructuredDataPropertyValues(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readStructuredDataPropertyValues</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readStructuredDataPropertyValues(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readStructures" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readStructures(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readStructures(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readStructures</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readStructures(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readSynonymScalarRestrictions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readSynonymScalarRestrictions(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readSynonymScalarRestrictions(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readSynonymScalarRestrictions</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readSynonymScalarRestrictions(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readTerminologyExtensionAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readTerminologyExtensionAxioms(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readTerminologyExtensionAxioms(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readTerminologyExtensionAxioms</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readTerminologyExtensionAxioms(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readTerminologyGraphs" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readTerminologyGraphs(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readTerminologyGraphs(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readTerminologyGraphs</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readTerminologyGraphs(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readTerminologyNestingAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readTerminologyNestingAxioms(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readTerminologyNestingAxioms(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readTerminologyNestingAxioms</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readTerminologyNestingAxioms(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readTimeScalarRestrictions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readTimeScalarRestrictions(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readTimeScalarRestrictions(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readTimeScalarRestrictions</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readTimeScalarRestrictions(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readUnreifiedRelationshipInstanceTuples" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readUnreifiedRelationshipInstanceTuples(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readUnreifiedRelationshipInstanceTuples(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readUnreifiedRelationshipInstanceTuples</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readUnreifiedRelationshipInstanceTuples(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#readUnreifiedRelationships" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readUnreifiedRelationships(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables"></a>
+      <a id="readUnreifiedRelationships(InputStream):OMLSpecificationTables"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readUnreifiedRelationships</span><span class="params">(<span name="is">is: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables">OMLSpecificationTables</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@readUnreifiedRelationships(is:java.io.InputStream):gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#reifiedRelationshipInstanceDomains" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="reifiedRelationshipInstanceDomains:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ReifiedRelationshipInstanceDomain]"></a>
+      <a id="reifiedRelationshipInstanceDomains:Seq[ReifiedRelationshipInstanceDomain]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">reifiedRelationshipInstanceDomains</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ReifiedRelationshipInstanceDomain.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ReifiedRelationshipInstanceDomain">ReifiedRelationshipInstanceDomain</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@reifiedRelationshipInstanceDomains:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ReifiedRelationshipInstanceDomain]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#reifiedRelationshipInstanceRanges" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="reifiedRelationshipInstanceRanges:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ReifiedRelationshipInstanceRange]"></a>
+      <a id="reifiedRelationshipInstanceRanges:Seq[ReifiedRelationshipInstanceRange]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">reifiedRelationshipInstanceRanges</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ReifiedRelationshipInstanceRange.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ReifiedRelationshipInstanceRange">ReifiedRelationshipInstanceRange</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@reifiedRelationshipInstanceRanges:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ReifiedRelationshipInstanceRange]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#reifiedRelationshipInstances" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="reifiedRelationshipInstances:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ReifiedRelationshipInstance]"></a>
+      <a id="reifiedRelationshipInstances:Seq[ReifiedRelationshipInstance]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">reifiedRelationshipInstances</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ReifiedRelationshipInstance.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ReifiedRelationshipInstance">ReifiedRelationshipInstance</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@reifiedRelationshipInstances:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ReifiedRelationshipInstance]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#reifiedRelationshipSpecializationAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="reifiedRelationshipSpecializationAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ReifiedRelationshipSpecializationAxiom]"></a>
+      <a id="reifiedRelationshipSpecializationAxioms:Seq[ReifiedRelationshipSpecializationAxiom]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">reifiedRelationshipSpecializationAxioms</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ReifiedRelationshipSpecializationAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ReifiedRelationshipSpecializationAxiom">ReifiedRelationshipSpecializationAxiom</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@reifiedRelationshipSpecializationAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ReifiedRelationshipSpecializationAxiom]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#reifiedRelationships" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="reifiedRelationships:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ReifiedRelationship]"></a>
+      <a id="reifiedRelationships:Seq[ReifiedRelationship]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">reifiedRelationships</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ReifiedRelationship.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ReifiedRelationship">ReifiedRelationship</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@reifiedRelationships:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ReifiedRelationship]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#rootConceptTaxonomyAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="rootConceptTaxonomyAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.RootConceptTaxonomyAxiom]"></a>
+      <a id="rootConceptTaxonomyAxioms:Seq[RootConceptTaxonomyAxiom]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">rootConceptTaxonomyAxioms</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="RootConceptTaxonomyAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.RootConceptTaxonomyAxiom">RootConceptTaxonomyAxiom</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@rootConceptTaxonomyAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.RootConceptTaxonomyAxiom]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#scalarDataProperties" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="scalarDataProperties:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ScalarDataProperty]"></a>
+      <a id="scalarDataProperties:Seq[ScalarDataProperty]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">scalarDataProperties</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ScalarDataProperty.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ScalarDataProperty">ScalarDataProperty</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@scalarDataProperties:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ScalarDataProperty]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#scalarDataPropertyValues" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="scalarDataPropertyValues:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ScalarDataPropertyValue]"></a>
+      <a id="scalarDataPropertyValues:Seq[ScalarDataPropertyValue]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">scalarDataPropertyValues</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ScalarDataPropertyValue.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ScalarDataPropertyValue">ScalarDataPropertyValue</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@scalarDataPropertyValues:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ScalarDataPropertyValue]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#scalarOneOfLiteralAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="scalarOneOfLiteralAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ScalarOneOfLiteralAxiom]"></a>
+      <a id="scalarOneOfLiteralAxioms:Seq[ScalarOneOfLiteralAxiom]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">scalarOneOfLiteralAxioms</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ScalarOneOfLiteralAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ScalarOneOfLiteralAxiom">ScalarOneOfLiteralAxiom</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@scalarOneOfLiteralAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ScalarOneOfLiteralAxiom]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#scalarOneOfRestrictions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="scalarOneOfRestrictions:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ScalarOneOfRestriction]"></a>
+      <a id="scalarOneOfRestrictions:Seq[ScalarOneOfRestriction]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">scalarOneOfRestrictions</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="ScalarOneOfRestriction.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ScalarOneOfRestriction">ScalarOneOfRestriction</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@scalarOneOfRestrictions:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.ScalarOneOfRestriction]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#scalars" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="scalars:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.Scalar]"></a>
+      <a id="scalars:Seq[Scalar]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">scalars</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="Scalar.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.Scalar">Scalar</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@scalars:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.Scalar]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#specificDisjointConceptAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="specificDisjointConceptAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.SpecificDisjointConceptAxiom]"></a>
+      <a id="specificDisjointConceptAxioms:Seq[SpecificDisjointConceptAxiom]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">specificDisjointConceptAxioms</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="SpecificDisjointConceptAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.SpecificDisjointConceptAxiom">SpecificDisjointConceptAxiom</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@specificDisjointConceptAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.SpecificDisjointConceptAxiom]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#stringScalarRestrictions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="stringScalarRestrictions:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.StringScalarRestriction]"></a>
+      <a id="stringScalarRestrictions:Seq[StringScalarRestriction]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">stringScalarRestrictions</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="StringScalarRestriction.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.StringScalarRestriction">StringScalarRestriction</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@stringScalarRestrictions:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.StringScalarRestriction]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#structuredDataProperties" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="structuredDataProperties:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.StructuredDataProperty]"></a>
+      <a id="structuredDataProperties:Seq[StructuredDataProperty]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">structuredDataProperties</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="StructuredDataProperty.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.StructuredDataProperty">StructuredDataProperty</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@structuredDataProperties:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.StructuredDataProperty]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#structuredDataPropertyValues" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="structuredDataPropertyValues:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.StructuredDataPropertyValue]"></a>
+      <a id="structuredDataPropertyValues:Seq[StructuredDataPropertyValue]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">structuredDataPropertyValues</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="StructuredDataPropertyValue.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.StructuredDataPropertyValue">StructuredDataPropertyValue</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@structuredDataPropertyValues:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.StructuredDataPropertyValue]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#structures" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="structures:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.Structure]"></a>
+      <a id="structures:Seq[Structure]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">structures</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="Structure.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.Structure">Structure</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@structures:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.Structure]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
+      <a id="synchronized[T0](⇒T0):T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#synonymScalarRestrictions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="synonymScalarRestrictions:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.SynonymScalarRestriction]"></a>
+      <a id="synonymScalarRestrictions:Seq[SynonymScalarRestriction]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">synonymScalarRestrictions</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="SynonymScalarRestriction.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.SynonymScalarRestriction">SynonymScalarRestriction</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@synonymScalarRestrictions:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.SynonymScalarRestriction]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#terminologyExtensionAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="terminologyExtensionAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.TerminologyExtensionAxiom]"></a>
+      <a id="terminologyExtensionAxioms:Seq[TerminologyExtensionAxiom]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">terminologyExtensionAxioms</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="TerminologyExtensionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.TerminologyExtensionAxiom">TerminologyExtensionAxiom</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@terminologyExtensionAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.TerminologyExtensionAxiom]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#terminologyGraphs" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="terminologyGraphs:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.TerminologyGraph]"></a>
+      <a id="terminologyGraphs:Seq[TerminologyGraph]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">terminologyGraphs</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="TerminologyGraph.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.TerminologyGraph">TerminologyGraph</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@terminologyGraphs:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.TerminologyGraph]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#terminologyNestingAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="terminologyNestingAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.TerminologyNestingAxiom]"></a>
+      <a id="terminologyNestingAxioms:Seq[TerminologyNestingAxiom]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">terminologyNestingAxioms</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="TerminologyNestingAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.TerminologyNestingAxiom">TerminologyNestingAxiom</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@terminologyNestingAxioms:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.TerminologyNestingAxiom]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#timeScalarRestrictions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="timeScalarRestrictions:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.TimeScalarRestriction]"></a>
+      <a id="timeScalarRestrictions:Seq[TimeScalarRestriction]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">timeScalarRestrictions</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="TimeScalarRestriction.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.TimeScalarRestriction">TimeScalarRestriction</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@timeScalarRestrictions:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.TimeScalarRestriction]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#unreifiedRelationshipInstanceTuples" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="unreifiedRelationshipInstanceTuples:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.UnreifiedRelationshipInstanceTuple]"></a>
+      <a id="unreifiedRelationshipInstanceTuples:Seq[UnreifiedRelationshipInstanceTuple]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">unreifiedRelationshipInstanceTuples</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="UnreifiedRelationshipInstanceTuple.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.UnreifiedRelationshipInstanceTuple">UnreifiedRelationshipInstanceTuple</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@unreifiedRelationshipInstanceTuples:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.UnreifiedRelationshipInstanceTuple]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables#unreifiedRelationships" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="unreifiedRelationships:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.UnreifiedRelationship]"></a>
+      <a id="unreifiedRelationships:Seq[UnreifiedRelationship]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">unreifiedRelationships</span><span class="result">: <span class="extype" name="scala.collection.immutable.Seq">Seq</span>[<a href="UnreifiedRelationship.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.UnreifiedRelationship">UnreifiedRelationship</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@unreifiedRelationships:scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.UnreifiedRelationship]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait():Unit"></a>
+      <a id="wait():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@wait():Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long,x$2:Int):Unit"></a>
+      <a id="wait(Long,Int):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long):Unit"></a>
+      <a id="wait(Long):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables@wait(x$1:Long):Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        <div class="parent" name="scala.Serializable">
+              <h3>Inherited from <span class="extype" name="scala.Serializable">Serializable</span></h3>
+            </div><div class="parent" name="java.io.Serializable">
+              <h3>Inherited from <span class="extype" name="java.io.Serializable">Serializable</span></h3>
+            </div><div class="parent" name="scala.Product">
+              <h3>Inherited from <span class="extype" name="scala.Product">Product</span></h3>
+            </div><div class="parent" name="scala.Equals">
+              <h3>Inherited from <span class="extype" name="scala.Equals">Equals</span></h3>
+            </div><div class="parent" name="scala.AnyRef">
+              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
+            </div><div class="parent" name="scala.Any">
+              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
+            </div>
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>
