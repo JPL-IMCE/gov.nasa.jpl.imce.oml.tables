@@ -1,10 +1,10 @@
-# JPL's Ontological Modeling Framework (OMF) Schema Tables for Integrated Model-Centric Engineering (IMCE).
+# Normalized Database Schema Tables for JPL's Ontological Modeling Language (OML)
 
-[![Build Status](https://travis-ci.org/JPL-IMCE/jpl.omf.schema.tables.svg?branch=master)](https://travis-ci.org/JPL-IMCE/jpl.omf.schema.tables)
-  NPM: [ ![Download](https://api.bintray.com/packages/jpl-imce/gov.nasa.jpl.imce.npm/imce%3Ajpl-omf-schema-tables/images/download.svg) ](https://bintray.com/jpl-imce/gov.nasa.jpl.imce.npm/imce%3Ajpl-omf-schema-tables/_latestVersion)
-  Maven: [ ![Download](https://api.bintray.com/packages/jpl-imce/gov.nasa.jpl.imce/jpl.omf.schema.tables/images/download.svg) ](https://bintray.com/jpl-imce/gov.nasa.jpl.imce/jpl.omf.schema.tables/_latestVersion)
- 
-This project specifies a set of normalized schema tables for JPL's Ontological Modeling Framework.
+[![Build Status](https://travis-ci.org/JPL-IMCE/gov.nasa.jpl.imce.oml.tables.svg?branch=master)](https://travis-ci.org/JPL-IMCE/gov.nasa.jpl.imce.oml.tables)
+  NPM: [ ![Download](https://api.bintray.com/packages/jpl-imce/gov.nasa.jpl.imce.npm/imce%3Agov-nasa-jpl-oml-tables/images/download.svg) ](https://bintray.com/jpl-imce/gov.nasa.jpl.imce.npm/imce%3Agov-nasa-jpl-oml-tables/_latestVersion)
+  Maven: [ ![Download](https://api.bintray.com/packages/jpl-imce/gov.nasa.jpl.imce/gov.nasa.jpl.imce.oml.tables/images/download.svg) ](https://bintray.com/jpl-imce/gov.nasa.jpl.imce/gov.nasa.jpl.imce.oml.tables/_latestVersion)
+    
+This project specifies a set of normalized schema tables for JPL's Ontological Modeling Language.
 By normalize schema tables, we mean precisely a [4th Normal Form database schema](http://www.bkent.net/Doc/simple5.htm#label4).
 
 This schema is intended to be a single source of truth for technology-neutral data interchange of OMF models.
@@ -40,9 +40,11 @@ for example, using [Apache Spark](http://spark.apache.org).
 
 ## Scala as a single-source of truth
 
-The OMF normalized schema tables are specified in the Scala programming language:
+The OML normalized schema tables are specified in the Scala programming language:
 - each table is a Scala case class
 - each table column is an immutable field of a Scala case class
+
+The source code for these normalized schema tables was generated from the [OML Specification](https://github.com/jpl-imce/gov.nasa.jpl.imce.oml.core).
 
 Via cross-compilation using [scala.js](http://scala-js.org), 
 tables and column fields are annotated 
@@ -57,9 +59,9 @@ Cross-compiling this project results in three distinct libraries:
    
 3. An NPM module for developing pure JavaScript applications using conventional JavaScript practices.
 
-All 3 libraries are built on [Travis CI](https://travis-ci.org/JPL-IMCE/omf.schema.tables) and published 
-on [Bintray NPM](https://bintray.com/jpl-imce/gov.nasa.jpl.imce.npm/jpl-omf-schema-tables)
-and [Bintray Maven](https://bintray.com/jpl-imce/gov.nasa.jpl.imce/omf.schema.tables).
+All 3 libraries are built on [Travis CI](https://travis-ci.org/JPL-IMCE/gov.nasa.jpl.imce.oml.tables) and published 
+on [Bintray NPM](https://bintray.com/jpl-imce/gov.nasa.jpl.imce.npm/imce%3Agov-nasa-jpl-oml-tables)
+and [Bintray Maven](https://bintray.com/jpl-imce/gov.nasa.jpl.imce/gov.nasa.jpl.imce.oml.tables).
 
 ## Polyglot interoperability of the OMF Schema tables.
 
