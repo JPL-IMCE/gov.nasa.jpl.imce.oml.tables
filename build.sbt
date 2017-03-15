@@ -182,6 +182,25 @@ lazy val tables = crossProject
   .settings(tablesGhPagesSettings : _*)
   .settings(
     name := Settings.name,
+
+    // https://github.com/typesafehub/sbteclipse/wiki/Using-sbteclipse#useprojectid
+    EclipseKeys.useProjectId := true,
+
+    // https://github.com/typesafehub/sbteclipse/wiki/Using-sbteclipse#skipparents
+    EclipseKeys.skipParents in ThisBuild := false,
+
+    // https://github.com/typesafehub/sbteclipse/wiki/Using-sbteclipse#withsource
+    EclipseKeys.withSource := true,
+
+    // https://github.com/typesafehub/sbteclipse/wiki/Using-sbteclipse#relativizelibs
+    EclipseKeys.relativizeLibs := true,
+
+    // https://github.com/typesafehub/sbteclipse/wiki/Using-sbteclipse#executionenvironment
+    EclipseKeys.executionEnvironment := Some(EclipseExecutionEnvironment.JavaSE18),
+
+    // https://github.com/typesafehub/sbteclipse/wiki/Using-sbteclipse#withbundledscalacontainers
+    EclipseKeys.withBundledScalaContainers := true,
+
     git.baseVersion := Settings.version,
     scalaVersion := Settings.versions.scala,
     scalacOptions ++= Settings.scalacOptions,
