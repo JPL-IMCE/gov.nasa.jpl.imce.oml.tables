@@ -26,6 +26,7 @@ import scala.Predef._
 
 /**
   * @param explanation[1,1]
+  * @param omlIRI[0,1]
   * @param omlUUID[1,1]
   * @param otiID[1,1]
   * @param otiURL[1,1]
@@ -34,6 +35,7 @@ import scala.Predef._
 case class OML2OTIProvenance
 (
   @(JSExport @field) explanation: scala.Predef.String,
+  @(JSExport @field) omlIRI: scala.Option[OML_IRI],
   @(JSExport @field) omlUUID: UUID,
   @(JSExport @field) otiID: OTI_TOOL_SPECIFIC_ID,
   @(JSExport @field) otiURL: OTI_TOOL_SPECIFIC_URL,
@@ -47,22 +49,28 @@ case class OML2OTIProvenance
     otiURL: OTI_TOOL_SPECIFIC_URL)
   = this(
       explanation,
+      None /* omlIRI */,
       omlUUID,
       otiID,
       otiURL,
       None /* otiUUID */)
 
+  def withOmlIRI(l: OML_IRI)	 
+  : OML2OTIProvenance
+  = copy(omlIRI=Some(l))
+  
   def withOtiUUID(l: OTI_TOOL_SPECIFIC_UUID)	 
   : OML2OTIProvenance
   = copy(otiUUID=Some(l))
   
   override val hashCode
   : scala.Int 
-  = (explanation, omlUUID, otiID, otiURL, otiUUID).##
+  = (explanation, omlIRI, omlUUID, otiID, otiURL, otiUUID).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: OML2OTIProvenance =>
   	  (this.explanation == that.explanation) &&
+  	  (this.omlIRI == that.omlIRI) &&
   	  (this.omlUUID == that.omlUUID) &&
   	  (this.otiID == that.otiID) &&
   	  (this.otiURL == that.otiURL) &&

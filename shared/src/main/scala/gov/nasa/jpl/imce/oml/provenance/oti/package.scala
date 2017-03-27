@@ -25,6 +25,7 @@ import scala.io
 import scala.Predef.String
 
 package object oti {
+	type OML_IRI = String
 	type OTI_TOOL_SPECIFIC_ID = String
 	type OTI_TOOL_SPECIFIC_URL = String
 	type OTI_TOOL_SPECIFIC_UUID = String
