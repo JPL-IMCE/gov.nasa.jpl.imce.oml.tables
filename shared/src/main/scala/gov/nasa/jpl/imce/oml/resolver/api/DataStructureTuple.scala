@@ -25,11 +25,6 @@ trait DataStructureTuple
   extends SingletonInstance
 {
 
-  val structuredDataPropertyValue: StructuredDataPropertyValue
+  val structuredDataPropertyValue: scala.Option[java.util.UUID] /* reference to a StructuredDataPropertyValue */
   val dataStructureType: Structure
-
-  override def calculateUUID
-  (): java.util.UUID
-  def descriptionBox
-  (): DescriptionBox
 }

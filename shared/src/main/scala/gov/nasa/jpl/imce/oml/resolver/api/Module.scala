@@ -28,12 +28,14 @@ trait Module
   with Resource
 {
 
-  val extent: Extent
-  override val iri: gov.nasa.jpl.imce.oml.tables.IRI
+  val extent: scala.Option[java.util.UUID] /* reference to a Extent */
+  val iri: gov.nasa.jpl.imce.oml.tables.IRI
   val annotations: scala.collection.immutable.SortedSet[Annotation]
 
-  override def calculateUUID
-  (): java.util.UUID
+  override def uuid
+  (extent: Extent): scala.Option[java.util.UUID]
+  override def iri
+  (extent: Extent): scala.Option[gov.nasa.jpl.imce.oml.tables.IRI]
   def nsPrefix
   (): gov.nasa.jpl.imce.oml.tables.NamespacePrefix
   def name

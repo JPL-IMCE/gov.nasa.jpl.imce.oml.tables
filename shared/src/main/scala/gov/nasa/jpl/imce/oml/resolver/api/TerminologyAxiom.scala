@@ -29,10 +29,10 @@ trait TerminologyAxiom
    * The source TerminologyBox
    */
   def source
-  (): TerminologyBox
+  (extent: Extent): scala.Option[TerminologyBox]
   /*
    * The target TerminologyBox
    */
   def target
-  (): TerminologyBox
+  (extent: Extent): TerminologyBox
 }

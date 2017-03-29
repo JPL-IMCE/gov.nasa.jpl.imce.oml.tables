@@ -26,5 +26,5 @@ trait TerminologyBundleStatement
   extends ModuleElement
 {
 
-  val bundle: Bundle
+  val bundle: scala.Option[java.util.UUID] /* reference to a Bundle */
 }

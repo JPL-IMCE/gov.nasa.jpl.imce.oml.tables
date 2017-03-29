@@ -25,21 +25,37 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param uuid[1,1]
+  * @param uuid[0,1]
   * @param singletonInstanceUUID[1,1]
   * @param scalarDataPropertyUUID[1,1]
   * @param name[1,1]
   * @param scalarPropertyValue[1,1]
   */
-@JSExport
 case class ScalarDataPropertyValue
 (
-  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) uuid: scala.Option[UUID],
   @(JSExport @field) singletonInstanceUUID: UUID,
   @(JSExport @field) scalarDataPropertyUUID: UUID,
   @(JSExport @field) name: LocalName,
   @(JSExport @field) scalarPropertyValue: scala.Predef.String
 ) {
+  @JSExport
+  def this(
+    singletonInstanceUUID: UUID,
+    scalarDataPropertyUUID: UUID,
+    name: LocalName,
+    scalarPropertyValue: scala.Predef.String)
+  = this(
+      None /* uuid */,
+      singletonInstanceUUID,
+      scalarDataPropertyUUID,
+      name,
+      scalarPropertyValue)
+
+  def withUuid(l: UUID)	 
+  : ScalarDataPropertyValue
+  = copy(uuid=Some(l))
+  
   override val hashCode
   : scala.Int 
   = (uuid, singletonInstanceUUID, scalarDataPropertyUUID, name, scalarPropertyValue).##

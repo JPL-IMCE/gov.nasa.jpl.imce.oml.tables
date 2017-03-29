@@ -25,5 +25,5 @@ trait TerminologyBundleAxiom
   extends TerminologyAxiom
 {
 
-  val bundle: Bundle
+  val bundle: scala.Option[java.util.UUID] /* reference to a Bundle */
 }

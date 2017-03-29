@@ -33,7 +33,8 @@ public class TimeScalarRestrictionTest {
         String name = "abc";
         String restrictedRangeUUID = "1245-ABCD-2345-4567";
 
-        TimeScalarRestriction w1 = new TimeScalarRestriction(uuid, tboxUUID, restrictedRangeUUID, name)
+        TimeScalarRestriction w1 = new TimeScalarRestriction(tboxUUID, restrictedRangeUUID, name)
+                .withUuid(uuid)
                 .withMaxExclusive("123")
                 .withMinExclusive("4567")
                 .withMaxInclusive("333")
@@ -50,7 +51,7 @@ public class TimeScalarRestrictionTest {
         String minI_s = "[\"" + w1.minInclusive().get() + "\"]";
 
         String t1 = String.format(
-                "{\"uuid\":\"%s\",\"tboxUUID\":\"%s\",\"restrictedRangeUUID\":\"%s\",\"minExclusive\":%s,\"minInclusive\":%s,\"maxExclusive\":%s,\"maxInclusive\":%s,\"name\":\"%s\"}",
+                "{\"uuid\":[\"%s\"],\"tboxUUID\":\"%s\",\"restrictedRangeUUID\":\"%s\",\"minExclusive\":%s,\"minInclusive\":%s,\"maxExclusive\":%s,\"maxInclusive\":%s,\"name\":\"%s\"}",
                 uuid, tboxUUID, restrictedRangeUUID, minE_s, minI_s, maxE_s, maxI_s, name);
         Assert.assertEquals(t1, s1);
 

@@ -21,7 +21,7 @@ package test.oml.tables
 import gov.nasa.jpl.imce.oml.tables._
 import org.scalacheck.Prop.forAll
 import org.scalacheck.Properties
-import scala.StringContext
+import scala.{Some,StringContext}
 import scala.Predef.String
 
 object TerminologyGraphSpecification extends Properties("TerminologyGraph") {
@@ -33,9 +33,9 @@ object TerminologyGraphSpecification extends Properties("TerminologyGraph") {
     (uuid: java.util.UUID,
      kind: TerminologyKind,
      iri: String) => {
-    val w = TerminologyGraph(uuid.toString, kind, iri)
+    val w = TerminologyGraph(Some(uuid.toString), kind, iri)
     val s = TerminologyGraphHelper.toJSON(w)
-    val t = s"""{"uuid":"${w.uuid}","kind":"${w.kind}","iri":"${w.iri}"}"""
+    val t = s"""{"uuid":["${w.uuid}"],"kind":"${w.kind}","iri":"${w.iri}"}"""
     val r = TerminologyGraphHelper.fromJSON(s)
     (s == t) &&
       (w.uuid == r.uuid) &&

@@ -25,19 +25,33 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param uuid[1,1]
+  * @param uuid[0,1]
   * @param tboxUUID[1,1]
   * @param superAspectUUID[1,1]
   * @param subEntityUUID[1,1]
   */
-@JSExport
 case class AspectSpecializationAxiom
 (
-  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) uuid: scala.Option[UUID],
   @(JSExport @field) tboxUUID: UUID,
   @(JSExport @field) superAspectUUID: UUID,
   @(JSExport @field) subEntityUUID: UUID
 ) {
+  @JSExport
+  def this(
+    tboxUUID: UUID,
+    superAspectUUID: UUID,
+    subEntityUUID: UUID)
+  = this(
+      None /* uuid */,
+      tboxUUID,
+      superAspectUUID,
+      subEntityUUID)
+
+  def withUuid(l: UUID)	 
+  : AspectSpecializationAxiom
+  = copy(uuid=Some(l))
+  
   override val hashCode
   : scala.Int 
   = (uuid, tboxUUID, superAspectUUID, subEntityUUID).##

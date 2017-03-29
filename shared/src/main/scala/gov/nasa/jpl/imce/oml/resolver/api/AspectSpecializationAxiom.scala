@@ -36,8 +36,8 @@ trait AspectSpecializationAxiom
    */
   val superAspect: Aspect
 
-  override def calculateUUID
-  (): java.util.UUID
+  override def uuid
+  (extent: Extent): scala.Option[java.util.UUID]
   /*
    * Get the sub (child) entity
    */

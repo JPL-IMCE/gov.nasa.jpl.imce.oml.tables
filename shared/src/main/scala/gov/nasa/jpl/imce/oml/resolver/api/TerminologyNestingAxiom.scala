@@ -32,18 +32,18 @@ trait TerminologyNestingAxiom
   val nestingTerminology: TerminologyBox
   val nestingContext: Concept
 
-  override def calculateUUID
-  (): java.util.UUID
+  override def uuid
+  (extent: Extent): scala.Option[java.util.UUID]
   def nestedTerminology
-  (): TerminologyGraph
+  (extent: Extent): scala.Option[TerminologyGraph]
   /*
    * The nestedTerminology is the source
    */
   override def source
-  (): TerminologyBox
+  (extent: Extent): scala.Option[TerminologyBox]
   /*
    * The nestingTerminology is the target
    */
   override def target
-  (): TerminologyBox
+  (extent: Extent): TerminologyBox
 }

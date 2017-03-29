@@ -25,19 +25,33 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param uuid[1,1]
+  * @param uuid[0,1]
   * @param tboxUUID[1,1]
   * @param superRelationshipUUID[1,1]
   * @param subRelationshipUUID[1,1]
   */
-@JSExport
 case class ReifiedRelationshipSpecializationAxiom
 (
-  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) uuid: scala.Option[UUID],
   @(JSExport @field) tboxUUID: UUID,
   @(JSExport @field) superRelationshipUUID: UUID,
   @(JSExport @field) subRelationshipUUID: UUID
 ) {
+  @JSExport
+  def this(
+    tboxUUID: UUID,
+    superRelationshipUUID: UUID,
+    subRelationshipUUID: UUID)
+  = this(
+      None /* uuid */,
+      tboxUUID,
+      superRelationshipUUID,
+      subRelationshipUUID)
+
+  def withUuid(l: UUID)	 
+  : ReifiedRelationshipSpecializationAxiom
+  = copy(uuid=Some(l))
+  
   override val hashCode
   : scala.Int 
   = (uuid, tboxUUID, superRelationshipUUID, subRelationshipUUID).##

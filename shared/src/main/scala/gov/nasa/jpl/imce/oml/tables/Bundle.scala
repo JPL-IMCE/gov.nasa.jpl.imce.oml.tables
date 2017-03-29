@@ -25,17 +25,29 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param uuid[1,1]
+  * @param uuid[0,1]
   * @param kind[1,1]
   * @param iri[1,1]
   */
-@JSExport
 case class Bundle
 (
-  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) uuid: scala.Option[UUID],
   @(JSExport @field) kind: TerminologyKind,
   @(JSExport @field) iri: IRI
 ) {
+  @JSExport
+  def this(
+    kind: TerminologyKind,
+    iri: IRI)
+  = this(
+      None /* uuid */,
+      kind,
+      iri)
+
+  def withUuid(l: UUID)	 
+  : Bundle
+  = copy(uuid=Some(l))
+  
   override val hashCode
   : scala.Int 
   = (uuid, kind, iri).##

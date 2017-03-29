@@ -27,7 +27,7 @@ trait DescriptionBoxRelationship
 {
 
   def descriptionDomain
-  (): DescriptionBox
+  (extent: Extent): scala.Option[DescriptionBox]
   def targetModule
   (): Module
 }

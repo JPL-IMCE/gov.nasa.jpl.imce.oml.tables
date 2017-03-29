@@ -33,7 +33,8 @@ public class StringScalarRestrictionEmptyTest {
         String name = "abc";
         String restrictedRangeUUID = "1245-ABCD-2345-4567";
 
-        StringScalarRestriction w1 = new StringScalarRestriction(uuid, tboxUUID, restrictedRangeUUID, name);
+        StringScalarRestriction w1 = new StringScalarRestriction(tboxUUID, restrictedRangeUUID, name)
+                .withUuid(uuid);
 
         String s1 = StringScalarRestrictionHelper.toJSON(w1);
 
@@ -46,7 +47,7 @@ public class StringScalarRestrictionEmptyTest {
         String ps = (w1.pattern().isEmpty()) ? "[]" : w1.pattern().toString();
 
         String t1 = String.format(
-                "{\"uuid\":\"%s\",\"tboxUUID\":\"%s\",\"restrictedRangeUUID\":\"%s\",\"length\":%s,\"minLength\":%s,\"maxLength\":%s,\"name\":\"%s\",\"pattern\":%s}",
+                "{\"uuid\":[\"%s\"],\"tboxUUID\":\"%s\",\"restrictedRangeUUID\":\"%s\",\"length\":%s,\"minLength\":%s,\"maxLength\":%s,\"name\":\"%s\",\"pattern\":%s}",
                 uuid, tboxUUID, restrictedRangeUUID, ls, minL, maxL, name, ps);
         Assert.assertEquals(t1, s1);
 

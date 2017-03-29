@@ -60,7 +60,9 @@ object DataRangesToResolve {
     val restrictableDataRanges
     : Map[tables.UUID, api.DataRange]
     = r.context.g.outerNodeTraverser(r.context.g.get(tbox))
-      .foldLeft[Map[tables.UUID, api.DataRange]](Map.empty)(_ ++ _.dataranges().map(dr => dr.uuid.toString -> dr))
+      .foldLeft[Map[tables.UUID, api.DataRange]](Map.empty)(
+      _ ++ _.dataranges(r.context.extent).map(dr => dr.uuid(r.context.extent).toString -> dr)
+    )
 
     val (available, remaining) =
       drs
@@ -80,7 +82,7 @@ object DataRangesToResolve {
   final def resolve(resolver: OMLTablesResolver, queue: DataRangesToResolve)
   : Try[(OMLTablesResolver, DataRangesToResolve)]
   = {
-
+    implicit val e: api.Extent = resolver.context.extent
     val r0 = resolver
     val q0 = DataRangesToResolve.empty
     val f0 = false
@@ -95,6 +97,7 @@ object DataRangesToResolve {
           val (restrictableDataRanges, available, remaining) =
             partitionRestrictableDataRanges[tables.BinaryScalarRestriction](ri, tbox, drs, _.restrictedRangeUUID)
 
+
           val si
           : SortedSet[api.TerminologyBoxStatement]
           = available
@@ -102,19 +105,19 @@ object DataRangesToResolve {
             case (acc, (ruuid, dr)) =>
               val x =
                 ri.factory.createBinaryScalarRestriction(
-                  tbox,
+                  tbox.uuid(ri.context.extent),
                   restrictableDataRanges(ruuid.toString),
                   dr.length,
                   dr.minLength,
                   dr.maxLength,
                   dr.name)
-              if (x.uuid.toString != dr.uuid)
+              if (!uuidEquivalent(x.uuid(ri.context.extent), dr.uuid))
                 throw new java.lang.IllegalArgumentException(s"DataRangteResolver.BinaryScalarRestriction UUID mismatch: read: $dr, created: $x")
               acc + x
           }
 
           TerminologyContext
-            .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
+            .replaceNode(ri, gi, tbox, tbox.withBoxStatements(si))
             .map { gj =>
               Tuple3(
                 ri.copy(context = TerminologyContext(ri.context.extent, gj)),
@@ -140,20 +143,20 @@ object DataRangesToResolve {
               .foldLeft[SortedSet[api.TerminologyBoxStatement]](TreeSet.empty[api.TerminologyBoxStatement]) {
             case (acc, (ruuid, dr)) =>
               val x = ri.factory.createIRIScalarRestriction(
-                  tbox,
+                  tbox.uuid(ri.context.extent),
                   restrictableDataRanges(ruuid.toString),
                   dr.length,
                   dr.minLength,
                   dr.maxLength,
                   dr.name,
                   dr.pattern)
-              if (x.uuid.toString != dr.uuid)
+              if (!uuidEquivalent(x.uuid(ri.context.extent), dr.uuid))
                 throw new java.lang.IllegalArgumentException(s"DataRangteResolver.IRIScalarRestriction UUID mismatch: read: $dr, created: $x")
               acc + x
           }
 
           TerminologyContext
-            .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
+            .replaceNode(ri, gi, tbox, tbox.withBoxStatements(si))
             .map { gj =>
               Tuple3(
                 ri.copy(context = TerminologyContext(ri.context.extent, gj)),
@@ -180,20 +183,20 @@ object DataRangesToResolve {
             case (acc, (ruuid, dr)) =>
               val x =
               ri.factory.createNumericScalarRestriction(
-                tbox,
+                tbox.uuid(ri.context.extent),
                 restrictableDataRanges(ruuid.toString),
                 dr.minExclusive,
                 dr.minInclusive,
                 dr.maxExclusive,
                 dr.maxInclusive,
                 dr.name)
-              if (x.uuid.toString != dr.uuid)
+              if (!uuidEquivalent(x.uuid(ri.context.extent), dr.uuid))
                 throw new java.lang.IllegalArgumentException(s"DataRangteResolver.NumericScalarRestriction UUID mismatch: read: $dr, created: $x")
               acc + x
             }
 
           TerminologyContext
-            .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
+            .replaceNode(ri, gi, tbox, tbox.withBoxStatements(si))
             .map { gj =>
               Tuple3(
                 ri.copy(context = TerminologyContext(ri.context.extent, gj)),
@@ -220,7 +223,7 @@ object DataRangesToResolve {
             case (acc, (ruuid, dr)) =>
               val x =
               ri.factory.createPlainLiteralScalarRestriction(
-                tbox,
+                tbox.uuid(ri.context.extent),
                 restrictableDataRanges(ruuid.toString),
                 dr.length,
                 dr.minLength,
@@ -228,13 +231,13 @@ object DataRangesToResolve {
                 dr.name,
                 dr.langRange,
                 dr.pattern)
-              if (x.uuid.toString != dr.uuid)
+              if (!uuidEquivalent(x.uuid(ri.context.extent), dr.uuid))
                 throw new java.lang.IllegalArgumentException(s"DataRangteResolver.PlainLiteralScalarRestriction UUID mismatch: read: $dr, created: $x")
               acc + x
             }
 
           TerminologyContext
-            .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
+            .replaceNode(ri, gi, tbox, tbox.withBoxStatements(si))
             .map { gj =>
               Tuple3(
                 ri.copy(context = TerminologyContext(ri.context.extent, gj)),
@@ -261,16 +264,16 @@ object DataRangesToResolve {
             case (acc, (ruuid, dr)) =>
               val x =
               ri.factory.createScalarOneOfRestriction(
-                tbox,
+                tbox.uuid(ri.context.extent),
                 restrictableDataRanges(ruuid.toString),
                 dr.name)
-              if (x.uuid.toString != dr.uuid)
+              if (!uuidEquivalent(x.uuid(ri.context.extent), dr.uuid))
                 throw new java.lang.IllegalArgumentException(s"DataRangteResolver.ScalarOneOfRestriction UUID mismatch: read: $dr, created: $x")
               acc + x
             }
 
           TerminologyContext
-            .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
+            .replaceNode(ri, gi, tbox, tbox.withBoxStatements(si))
             .map { gj =>
               Tuple3(
                 ri.copy(context = TerminologyContext(ri.context.extent, gj)),
@@ -297,20 +300,20 @@ object DataRangesToResolve {
             case (acc, (ruuid, dr)) =>
               val x =
               ri.factory.createStringScalarRestriction(
-                tbox,
+                tbox.uuid(ri.context.extent),
                 restrictableDataRanges(ruuid.toString),
                 dr.length,
                 dr.minLength,
                 dr.maxLength,
                 dr.name,
                 dr.pattern)
-              if (x.uuid.toString != dr.uuid)
+              if (!uuidEquivalent(x.uuid(ri.context.extent), dr.uuid))
                 throw new java.lang.IllegalArgumentException(s"DataRangteResolver.StringScalarRestriction UUID mismatch: read: $dr, created: $x")
               acc + x
           }
 
           TerminologyContext
-            .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
+            .replaceNode(ri, gi, tbox, tbox.withBoxStatements(si))
             .map { gj =>
               Tuple3(
                 ri.copy(context = TerminologyContext(ri.context.extent, gj)),
@@ -337,20 +340,20 @@ object DataRangesToResolve {
             case (acc, (ruuid, dr)) =>
               val x =
               ri.factory.createTimeScalarRestriction(
-                tbox,
+                tbox.uuid(ri.context.extent),
                 restrictableDataRanges(ruuid.toString),
                 dr.minExclusive,
                 dr.minInclusive,
                 dr.maxExclusive,
                 dr.maxInclusive,
                 dr.name)
-              if (x.uuid.toString != dr.uuid)
+              if (!uuidEquivalent(x.uuid(ri.context.extent), dr.uuid))
                 throw new java.lang.IllegalArgumentException(s"DataRangteResolver.TimeScalarRestriction UUID mismatch: read: $dr, created: $x")
               acc + x
           }
 
           TerminologyContext
-            .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
+            .replaceNode(ri, gi, tbox, tbox.withBoxStatements(si))
             .map { gj =>
               Tuple3(
                 ri.copy(context = TerminologyContext(ri.context.extent, gj)),

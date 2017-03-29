@@ -52,6 +52,6 @@ trait IRIScalarRestriction
    */
   val pattern: scala.Option[gov.nasa.jpl.imce.oml.tables.Pattern]
 
-  override def calculateUUID
-  (): java.util.UUID
+  override def uuid
+  (extent: Extent): scala.Option[java.util.UUID]
 }

@@ -26,5 +26,5 @@ trait TerminologyBoxStatement
   extends ModuleElement
 {
 
-  val tbox: TerminologyBox
+  val tbox: scala.Option[java.util.UUID] /* reference to a TerminologyBox */
 }

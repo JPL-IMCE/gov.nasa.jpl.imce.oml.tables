@@ -25,17 +25,29 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param uuid[1,1]
+  * @param uuid[0,1]
   * @param bundledTerminologyUUID[1,1]
   * @param bundleUUID[1,1]
   */
-@JSExport
 case class BundledTerminologyAxiom
 (
-  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) uuid: scala.Option[UUID],
   @(JSExport @field) bundledTerminologyUUID: UUID,
   @(JSExport @field) bundleUUID: UUID
 ) {
+  @JSExport
+  def this(
+    bundledTerminologyUUID: UUID,
+    bundleUUID: UUID)
+  = this(
+      None /* uuid */,
+      bundledTerminologyUUID,
+      bundleUUID)
+
+  def withUuid(l: UUID)	 
+  : BundledTerminologyAxiom
+  = copy(uuid=Some(l))
+  
   override val hashCode
   : scala.Int 
   = (uuid, bundledTerminologyUUID, bundleUUID).##

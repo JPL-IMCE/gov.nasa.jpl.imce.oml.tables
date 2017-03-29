@@ -38,12 +38,14 @@ object OMLTablesResolver {
 
   def resolve
   (t: tables.OMLSpecificationTables,
-   factory: api.OMLResolvedFactory)
+   factory: api.OMLResolvedFactory,
+   extentUUID: java.util.UUID)
   : Try[OMLTablesResolver]
   = for {
     init <- Try.apply(OMLTablesResolver(
       resolver.TerminologyContext(
         factory.createExtent(
+          uuid = extentUUID,
           annotationProperties =
             t
               .annotationProperties
@@ -52,7 +54,7 @@ object OMLTablesResolver {
                 acc +
                   factory.createAnnotationProperty(ap.iri, ap.abbrevIRI)
             },
-          modules = TreeSet.empty[resolver.api.Module])),
+          modules = Map.empty[java.util.UUID, resolver.api.Module])),
       t,
       factory))
     // Terminologies
@@ -104,17 +106,17 @@ object OMLTablesResolver {
       factory
         .copyExtent_modules(
           c.extent,
-          c.graphs.foldLeft[SortedSet[resolver.api.Module]](TreeSet.empty[resolver.api.Module]) {
-            case (acc, (_, g)) =>
-              acc + g
+          c.graphs.foldLeft[Map[java.util.UUID, resolver.api.TerminologyGraph]](Map.empty[java.util.UUID, resolver.api.TerminologyGraph]) {
+            case (acc, (uuid, g)) =>
+              acc + (uuid -> g)
           })
     val e2 =
       factory
       .copyExtent_modules(
         c.extent,
-        c.bundles.foldLeft[SortedSet[resolver.api.Module]](TreeSet.empty[resolver.api.Module]) {
-          case (acc, (_, b)) =>
-            acc + b
+        c.bundles.foldLeft[Map[java.util.UUID, resolver.api.Bundle]](Map.empty[java.util.UUID, resolver.api.Bundle]) {
+          case (acc, (uuid, b)) =>
+            acc + (uuid -> b)
         })
 
     step11.copy(context = c.copy(extent = e2))
@@ -122,48 +124,51 @@ object OMLTablesResolver {
 
 
   def mapTerminologyGraphs
-  (resolver: OMLTablesResolver)
+  (r: OMLTablesResolver)
   : Try[OMLTablesResolver]
   = {
-    val gN = resolver.queue.terminologyGraphs.foldLeft(resolver.context.g) { (gi, t) =>
-      val tg = resolver.factory.createTerminologyGraph(
-        resolver.context.extent, t.kind, t.iri,
+    implicit val e: api.Extent = r.context.extent
+    val gN = r.queue.terminologyGraphs.foldLeft(r.context.g) { (gi, t) =>
+      val tg = r.factory.createTerminologyGraph(
+        Some(r.context.extent.uuid),
+        t.kind, t.iri,
         annotations=TreeSet.empty[api.Annotation],
         boxStatements=TreeSet.empty[api.TerminologyBoxStatement],
         boxAxioms=TreeSet.empty[api.TerminologyBoxAxiom])
-      if (tg.uuid.toString != t.uuid)
+      if (!OMLOps.uuidEquivalent(tg.uuid(r.context.extent), t.uuid))
         throw new java.lang.IllegalArgumentException(s"OMLTablesResolver.TerminologyGraph UUID mismatch: read: $t; created: $tg")
       gi + tg
     }
 
-    val r = resolver.copy(
-      context = resolver.context.copy(g = gN),
-      queue = resolver.queue.copy(terminologyGraphs = Seq()))
-    Success(r)
+    val t = r.copy(
+      context = r.context.copy(g = gN),
+      queue = r.queue.copy(terminologyGraphs = Seq()))
+    Success(t)
   }
 
   def mapBundles
-  (resolver: OMLTablesResolver)
+  (r: OMLTablesResolver)
   : Try[OMLTablesResolver]
   = {
-    val gN = resolver.queue.bundles.foldLeft(resolver.context.g) { (gi, b) =>
-      val tb = resolver.factory.createBundle(
-        resolver.context.extent,
+    implicit val e: api.Extent = r.context.extent
+    val gN = r.queue.bundles.foldLeft(r.context.g) { (gi, b) =>
+      val tb = r.factory.createBundle(
+        Some(r.context.extent.uuid),
         b.kind, b.iri,
         annotations=TreeSet.empty[api.Annotation],
         boxStatements=TreeSet.empty[api.TerminologyBoxStatement],
         boxAxioms=TreeSet.empty[api.TerminologyBoxAxiom],
         bundleStatements=TreeSet.empty[api.TerminologyBundleStatement],
         bundleAxioms=TreeSet.empty[api.TerminologyBundleAxiom])
-      if (tb.uuid.toString != b.uuid)
+      if (!OMLOps.uuidEquivalent(tb.uuid(r.context.extent), b.uuid))
         throw new java.lang.IllegalArgumentException(s"OMLTablesResolver.Bundle UUID mismatch: read: $b; created: $tb")
       gi + tb
     }
 
-    val r = resolver.copy(
-      context = resolver.context.copy(g = gN),
-      queue = resolver.queue.copy(bundles = Seq()))
-    Success(r)
+    val t = r.copy(
+      context = r.context.copy(g = gN),
+      queue = r.queue.copy(bundles = Seq()))
+    Success(t)
   }
 
   def seqopAppend[T]
@@ -185,43 +190,43 @@ object OMLTablesResolver {
   type HyperGraphV = Try[Graph[api.Module, TerminologyEdge]]
 
   def seqopAspects
-  (factory: api.OMLResolvedFactory)
+  (r: OMLTablesResolver)
   (h: HyperGraphV, entry: (UUID, Seq[tables.Aspect]))
   : HyperGraphV
   = h.flatMap { g =>
     g
       .toOuterNodes
-      .find(_.uuid == entry._1)
+      .find(_.uuid(r.context.extent).contains(entry._1))
       .fold[HyperGraphV](
       Failure(new java.lang.Error(
         s"OMFSchemaResolver.seqopAspects: there should be a graph with UUID=${entry._1}"))
     ) {
       case n0: api.TerminologyBox =>
+        implicit val ex: api.Extent = r.context.extent
+        val s = entry
+          ._2
+          .foldLeft[SortedSet[api.TerminologyBoxStatement]](TreeSet.empty[api.TerminologyBoxStatement]) {
+          case (acc, e) =>
+            val ae = r.factory.createAspect(
+              tbox = n0.uuid(r.context.extent),
+              name = e.name)
+            if (!OMLOps.uuidEquivalent(ae.uuid(r.context.extent), e.uuid))
+              throw new java.lang.IllegalArgumentException(s"OMLTablesResolver.Aspect UUID mismatch: read: $e; created: $ae")
+            acc + ae
+        }
 
-      val s = entry
-        ._2
-        .foldLeft[SortedSet[api.TerminologyBoxStatement]](TreeSet.empty[api.TerminologyBoxStatement]) {
-        case (acc, e) =>
-          val ae = factory.createAspect(
-            tbox=n0,
-            name=e.name)
-          if (ae.uuid.toString != e.uuid)
-            throw new java.lang.IllegalArgumentException(s"OMLTablesResolver.Aspect UUID mismatch: read: $e; created: $ae")
-          acc + ae
-      }
-
-      val result = resolver.TerminologyContext.replaceNode(factory, g, n0, n0.withBoxStatements(s))
-      result
+        val result = resolver.TerminologyContext.replaceNode(r, g, n0, n0.withBoxStatements(s))
+        result
     }
   }
 
   def mapAspects
-  (resolver: OMLTablesResolver)
+  (r: OMLTablesResolver)
   : Try[OMLTablesResolver]
   = {
-    val ns = resolver.context.tboxes
+    val ns = r.context.tboxes
     val byUUID =
-      resolver.queue.aspects
+      r.queue.aspects
         .groupBy(_.tboxUUID)
         .map { case (uuid, aspects) => UUID.fromString(uuid) -> aspects }
 
@@ -230,54 +235,53 @@ object OMLTablesResolver {
         .partition { case (tboxUUID, _) => ns.contains(tboxUUID) }
 
     resolvable
-      .foldLeft[HyperGraphV](Success(resolver.context.g))(seqopAspects(resolver.factory))
+      .foldLeft[HyperGraphV](Success(r.context.g))(seqopAspects(r))
       .map { g =>
-        resolver
-          .copy(
-            context = TerminologyContext(resolver.context.extent, g),
-            queue = resolver.queue.copy(aspects = unresolvable.flatMap(_._2).to[Seq]))
+        r.copy(
+          context = TerminologyContext(r.context.extent, g),
+          queue = r.queue.copy(aspects = unresolvable.flatMap(_._2).to[Seq]))
       }
   }
 
   def seqopConcepts
-  (factory: api.OMLResolvedFactory)
+  (r: OMLTablesResolver)
   (h: HyperGraphV, entry: (UUID, Seq[tables.Concept]))
   : HyperGraphV
   = h.flatMap { g =>
     g
       .toOuterNodes
-      .find(_.uuid == entry._1)
+      .find(_.uuid(r.context.extent).contains(entry._1))
       .fold[HyperGraphV](
       Failure(new java.lang.Error(
         s"OMFSchemaResolver.seqopConcepts: there should be a graph with UUID=${entry._1}"))
     ) {
       case n0: api.TerminologyBox =>
+        implicit val ex: api.Extent = r.context.extent
+        val s =
+          entry
+            ._2
+            .foldLeft[SortedSet[api.TerminologyBoxStatement]](TreeSet.empty[api.TerminologyBoxStatement]) {
+            case (acc, e) =>
+              val c = r.factory.createConcept(
+                tbox = n0.uuid(r.context.extent),
+                name = e.name)
+              if (!OMLOps.uuidEquivalent(c.uuid(r.context.extent), e.uuid))
+                throw new java.lang.IllegalArgumentException(s"OMLTablesResolver.concepts UUID mismatch; read: $e; got $c")
+              acc + c
+          }
 
-      val s =
-        entry
-          ._2
-          .foldLeft[SortedSet[api.TerminologyBoxStatement]](TreeSet.empty[api.TerminologyBoxStatement]) {
-          case (acc, e) =>
-            val c = factory.createConcept(
-              tbox=n0,
-              name=e.name)
-            if (c.uuid.toString != e.uuid)
-              throw new java.lang.IllegalArgumentException(s"OMLTablesResolver.concepts UUID mismatch; read: $e; got $c")
-            acc + c
-        }
-
-      val result = resolver.TerminologyContext.replaceNode(factory, g, n0, n0.withBoxStatements(s))
-      result
+        val result = TerminologyContext.replaceNode(r, g, n0, n0.withBoxStatements(s))
+        result
     }
   }
 
   def mapConcepts
-  (resolver: OMLTablesResolver)
+  (r: OMLTablesResolver)
   : Try[OMLTablesResolver]
   = {
-    val ns = resolver.context.tboxes
+    val ns = r.context.tboxes
     val byUUID =
-      resolver.queue.concepts
+      r.queue.concepts
         .groupBy(_.tboxUUID)
         .map { case (uuid, concepts) => UUID.fromString(uuid) -> concepts }
 
@@ -286,54 +290,53 @@ object OMLTablesResolver {
         .partition { case (tboxUUID, _) => ns.contains(tboxUUID) }
 
     resolvable
-      .foldLeft[HyperGraphV](Success(resolver.context.g))(seqopConcepts(resolver.factory))
+      .foldLeft[HyperGraphV](Success(r.context.g))(seqopConcepts(r))
       .map { g =>
-        resolver
-          .copy(
-            context = TerminologyContext(resolver.context.extent, g),
-            queue = resolver.queue.copy(concepts = unresolvable.flatMap(_._2).to[Seq]))
+        r.copy(
+            context = TerminologyContext(r.context.extent, g),
+            queue = r.queue.copy(concepts = unresolvable.flatMap(_._2).to[Seq]))
       }
   }
 
   def seqopScalars
-  (factory: api.OMLResolvedFactory)
+  (r: OMLTablesResolver)
   (h: HyperGraphV, entry: (UUID, Seq[tables.Scalar]))
   : HyperGraphV
   = h.flatMap { g =>
     g
       .toOuterNodes
-      .find(_.uuid == entry._1)
+      .find(_.uuid(r.context.extent).contains(entry._1))
       .fold[HyperGraphV](
       Failure(new java.lang.Error(
         s"OMFSchemaResolver.seqopScalars: there should be a graph with UUID=${entry._1}"))
     ) {
       case n0: api.TerminologyBox =>
+        implicit val ex: api.Extent = r.context.extent
+        val s = entry
+          ._2
+          .foldLeft[SortedSet[api.TerminologyBoxStatement]](TreeSet.empty[api.TerminologyBoxStatement]) {
+          case (acc, e) =>
+            val x =
+              r.factory.createScalar(
+                tbox = n0.uuid(r.context.extent),
+                name = e.name)
+            if (!OMLOps.uuidEquivalent(x.uuid(r.context.extent), e.uuid))
+              throw new java.lang.IllegalArgumentException(s"DataRangteResolver.Scalar UUID mismatch: read: $e, created: $x")
+            acc + x
+        }
 
-      val s = entry
-        ._2
-        .foldLeft[SortedSet[api.TerminologyBoxStatement]](TreeSet.empty[api.TerminologyBoxStatement]) {
-        case (acc, e) =>
-          val x =
-            factory.createScalar(
-            tbox=n0,
-            name=e.name)
-          if (x.uuid.toString != e.uuid)
-            throw new java.lang.IllegalArgumentException(s"DataRangteResolver.Scalar UUID mismatch: read: $e, created: $x")
-          acc + x
-      }
-
-      val result = resolver.TerminologyContext.replaceNode(factory, g, n0, n0.withBoxStatements(s))
-      result
+        val result = TerminologyContext.replaceNode(r, g, n0, n0.withBoxStatements(s))
+        result
     }
   }
 
   def mapScalars
-  (resolver: OMLTablesResolver)
+  (r: OMLTablesResolver)
   : Try[OMLTablesResolver]
   = {
-    val ns = resolver.context.tboxes
+    val ns = r.context.tboxes
     val byUUID =
-      resolver.queue.scalars
+      r.queue.scalars
         .groupBy(_.tboxUUID)
         .map { case (uuid, scalars) => UUID.fromString(uuid) -> scalars }
 
@@ -342,53 +345,53 @@ object OMLTablesResolver {
         .partition { case (tboxUUID, _) => ns.contains(tboxUUID) }
 
     resolvable
-      .foldLeft[HyperGraphV](Success(resolver.context.g))(seqopScalars(resolver.factory))
+      .foldLeft[HyperGraphV](Success(r.context.g))(seqopScalars(r))
       .map { g =>
-        resolver
-          .copy(
-            context = TerminologyContext(resolver.context.extent, g),
-            queue = resolver.queue.copy(scalars = unresolvable.flatMap(_._2).to[Seq]))
+        r.copy(
+            context = TerminologyContext(r.context.extent, g),
+            queue = r.queue.copy(scalars = unresolvable.flatMap(_._2).to[Seq]))
       }
   }
 
   def seqopStructures
-  (factory: api.OMLResolvedFactory)
+  (r: OMLTablesResolver)
   (h: HyperGraphV, entry: (UUID, Seq[tables.Structure]))
   : HyperGraphV
   = h.flatMap { g =>
     g
       .toOuterNodes
-      .find(_.uuid == entry._1)
+      .find(_.uuid(r.context.extent).contains(entry._1))
       .fold[HyperGraphV](
       Failure(new java.lang.Error(
         s"OMFSchemaResolver.seqopStructures: there should be a graph with UUID=${entry._1}"))
     ) {
       case n0: api.TerminologyBox =>
-      val s = entry
-        ._2
-        .foldLeft[SortedSet[api.TerminologyBoxStatement]](TreeSet.empty[api.TerminologyBoxStatement]) {
-        case (acc, e) =>
-          val x =
-            factory.createStructure(
-            tbox=n0,
-            name=e.name)
-          if (x.uuid.toString != e.uuid)
-            throw new java.lang.IllegalArgumentException(s"DataRangteResolver.Structure UUID mismatch: read: $e, created: $x")
-          acc + x
-      }
+        implicit val ex: api.Extent = r.context.extent
+        val s = entry
+          ._2
+          .foldLeft[SortedSet[api.TerminologyBoxStatement]](TreeSet.empty[api.TerminologyBoxStatement]) {
+          case (acc, e) =>
+            val x =
+              r.factory.createStructure(
+                tbox = n0.uuid(r.context.extent),
+                name = e.name)
+            if (!OMLOps.uuidEquivalent(x.uuid(r.context.extent), e.uuid))
+              throw new java.lang.IllegalArgumentException(s"DataRangteResolver.Structure UUID mismatch: read: $e, created: $x")
+            acc + x
+        }
 
-      val result = resolver.TerminologyContext.replaceNode(factory, g, n0, n0.withBoxStatements(s))
-      result
+        val result = TerminologyContext.replaceNode(r, g, n0, n0.withBoxStatements(s))
+        result
     }
   }
 
   def mapStructures
-  (resolver: OMLTablesResolver)
+  (r: OMLTablesResolver)
   : Try[OMLTablesResolver]
   = {
-    val ns = resolver.context.tboxes
+    val ns = r.context.tboxes
     val byUUID =
-      resolver.queue.structures
+      r.queue.structures
         .groupBy(_.tboxUUID)
         .map { case (uuid, structures) => UUID.fromString(uuid) -> structures }
 
@@ -397,17 +400,16 @@ object OMLTablesResolver {
         .partition { case (tboxUUID, _) => ns.contains(tboxUUID) }
 
     resolvable
-      .foldLeft[HyperGraphV](Success(resolver.context.g))(seqopStructures(resolver.factory))
+      .foldLeft[HyperGraphV](Success(r.context.g))(seqopStructures(r))
       .map { g =>
-        resolver
-          .copy(
-            context = TerminologyContext(resolver.context.extent, g),
-            queue = resolver.queue.copy(structures = unresolvable.flatMap(_._2).to[Seq]))
+        r.copy(
+            context = TerminologyContext(r.context.extent, g),
+            queue = r.queue.copy(structures = unresolvable.flatMap(_._2).to[Seq]))
       }
   }
 
   def seqopTerminologyExtends
-  (factory: api.OMLResolvedFactory,
+  (r: OMLTablesResolver,
    nodes: Map[UUID, api.TerminologyBox])
   (g: Graph[api.Module, TerminologyEdge],
    entry: ((UUID, UUID), tables.TerminologyExtensionAxiom))
@@ -416,10 +418,11 @@ object OMLTablesResolver {
     val extending = nodes(entry._1._1)
     val extended = nodes(entry._1._2)
 
-      val x = factory.createTerminologyExtensionAxiom(
-        tbox=extending,
+      val x = r.factory.createTerminologyExtensionAxiom(
+        tbox=extending.uuid(r.context.extent),
         extendedTerminology=extended)
-    if (x.uuid.toString != entry._2.uuid)
+
+    if (!OMLOps.uuidEquivalent(x.uuid(r.context.extent), entry._2.uuid))
       throw new java.lang.IllegalArgumentException(s"OMLTablesResolver.TerminologyExtends UUID mismatch: read: ${entry._2}, created: $x")
     val result = g + resolver.TerminologyEdge(extending, extended, x)
 
@@ -427,12 +430,12 @@ object OMLTablesResolver {
   }
 
   def mapTerminologyExtends
-  (resolver: OMLTablesResolver)
+  (r: OMLTablesResolver)
   : Try[OMLTablesResolver]
   = {
-    val ns = resolver.context.tboxes
+    val ns = r.context.tboxes
     val byUUID =
-      resolver.queue.terminologyExtensionAxioms.par
+      r.queue.terminologyExtensionAxioms.par
         .map { tAxiom =>
           (UUID.fromString(tAxiom.tboxUUID), UUID.fromString(tAxiom.extendedTerminologyUUID)) -> tAxiom
         }
@@ -443,21 +446,21 @@ object OMLTablesResolver {
           ns.contains(tboxUUIDPair._1) && ns.contains(tboxUUIDPair._2)
         }
 
-    val g = resolvable.aggregate(resolver.context.g)(seqopTerminologyExtends(resolver.factory,ns), combopGraphs)
+    val g = resolvable.aggregate(r.context.g)(seqopTerminologyExtends(r,ns), combopGraphs)
 
     val s = unresolvable.map(_._2).seq
 
-    val r =
-      resolver
+    val t =
+      r
         .copy(
-          context = TerminologyContext(resolver.context.extent, g),
-          queue = resolver.queue.copy(terminologyExtensionAxioms = s))
+          context = TerminologyContext(r.context.extent, g),
+          queue = r.queue.copy(terminologyExtensionAxioms = s))
 
-    Success(r)
+    Success(t)
   }
 
   def seqopTerminologyNesting
-  (factory: api.OMLResolvedFactory,
+  (r: OMLTablesResolver,
    ns: Map[tables.UUID, api.TerminologyGraph],
    cs: Map[tables.UUID, (api.Concept, api.TerminologyBox)])
   (g: Graph[api.Module, TerminologyEdge],
@@ -467,43 +470,44 @@ object OMLTablesResolver {
     val nestedT = ns(entry._1._1)
     val (nestingC, nestingT) = cs(entry._1._2)
 
-    val x = factory.createTerminologyNestingAxiom(
-        tbox=nestedT,
+    val x = r.factory.createTerminologyNestingAxiom(
+        tbox=nestedT.uuid(r.context.extent),
         nestingTerminology=nestingT,
         nestingContext=nestingC)
 
-    if (x.uuid.toString != entry._2.uuid)
+    if (!OMLOps.uuidEquivalent(x.uuid(r.context.extent), entry._2.uuid))
       throw new java.lang.IllegalArgumentException(s"OMLTablesResolver.TerminologyNestingAxiom UUID mismatch: read: ${entry._2}, created: $x")
     val result = g + resolver.TerminologyEdge(nestedT, nestingT, x)
     result
   }
 
   def mapTerminologyNestings
-  (resolver: OMLTablesResolver)
+  (r: OMLTablesResolver)
   : Try[OMLTablesResolver]
   = {
     import OMLOps._
+    implicit val ex: api.Extent = r.context.extent
 
     val ns
     : Map[tables.UUID, api.TerminologyGraph]
-    = resolver.context.graphs.map {
+    = r.context.graphs.map {
       case (uuid, g: api.TerminologyGraph) =>
         uuid.toString -> g
     }
 
     val referencableConcepts
     : Map[tables.UUID, (api.Concept, api.TerminologyBox)]
-    = resolver.context.g.nodes.toOuter
+    = r.context.g.nodes.toOuter
       .foldLeft[Map[tables.UUID, (api.Concept, api.TerminologyBox)]](Map.empty) { case (acc, t: api.TerminologyBox) =>
       acc ++
-      t.concepts().map { c =>
-        c.uuid.toString -> (c -> t)
+      t.concepts.map { c =>
+        c.uuid(r.context.extent).toString -> (c -> t)
       }
     }
 
     val byUUID
     : Seq[((tables.UUID, tables.UUID), tables.TerminologyNestingAxiom)]
-    = resolver.queue.terminologyNestingAxioms
+    = r.queue.terminologyNestingAxioms
       .map { tAxiom =>
         (tAxiom.tboxUUID -> tAxiom.nestingContextUUID) -> tAxiom
       }
@@ -513,28 +517,28 @@ object OMLTablesResolver {
         .partition { case (tboxUUIDPair, tx) =>
           ns.contains(tboxUUIDPair._1) &&
             referencableConcepts.get(tboxUUIDPair._2).fold[Boolean](false){ case (c,tbox) =>
-                tbox.uuid == UUID.fromString(tx.nestingTerminologyUUID)
+                tbox.uuid(r.context.extent).contains(UUID.fromString(tx.nestingTerminologyUUID))
             }
         }
 
     val g =
       resolvable
-        .aggregate(resolver.context.g)(seqopTerminologyNesting(resolver.factory, ns, referencableConcepts), combopGraphs)
+        .aggregate(r.context.g)(seqopTerminologyNesting(r, ns, referencableConcepts), combopGraphs)
 
     val s =
       unresolvable.map(_._2).seq
 
-    val r =
-      resolver
+    val t =
+      r
         .copy(
-          context = TerminologyContext(resolver.context.extent, g),
-          queue = resolver.queue.copy(terminologyNestingAxioms = s))
+          context = TerminologyContext(r.context.extent, g),
+          queue = r.queue.copy(terminologyNestingAxioms = s))
 
-    Success(r)
+    Success(t)
   }
 
   def seqopConceptDesignationTerminology
-  (factory: api.OMLResolvedFactory,
+  (r: OMLTablesResolver,
    ns: Map[tables.UUID, api.TerminologyGraph],
    cs: Map[tables.UUID, (api.Concept, api.TerminologyBox)])
   (g: Graph[api.Module, TerminologyEdge],
@@ -543,12 +547,12 @@ object OMLTablesResolver {
   = {
     val designationG = ns(entry._1._1)
     val (designatedC, designatedTBox) = cs(entry._1._2)
-    val x = factory.createConceptDesignationTerminologyAxiom(
-        tbox=designationG,
+    val x = r.factory.createConceptDesignationTerminologyAxiom(
+        tbox=designationG.uuid(r.context.extent),
         designatedConcept=designatedC,
         designatedTerminology=designatedTBox)
 
-    if (x.uuid.toString != entry._2.uuid)
+    if (!OMLOps.uuidEquivalent(x.uuid(r.context.extent), entry._2.uuid))
       throw new java.lang.IllegalArgumentException(s"OMLTablesResolver.ConceptDesignationTerminologyAxiom UUID mismatch: read: ${entry._2}, created: $x")
     val result = g + resolver.TerminologyEdge(designationG, designatedTBox, x)
 
@@ -556,14 +560,15 @@ object OMLTablesResolver {
   }
 
   def mapConceptDesignationTerminologyAxioms
-  (resolver: OMLTablesResolver)
+  (r: OMLTablesResolver)
   : Try[OMLTablesResolver]
   = {
     import OMLOps._
+    implicit val ex: api.Extent = r.context.extent
 
     val ns
     : Map[tables.UUID, api.TerminologyGraph]
-    = resolver.context.tboxes.flatMap {
+    = r.context.tboxes.flatMap {
       case (uuid, g: api.TerminologyGraph) =>
         Some(uuid.toString -> g)
       case _ =>
@@ -572,17 +577,17 @@ object OMLTablesResolver {
 
     val referencableConcepts
     : Map[tables.UUID, (api.Concept, api.TerminologyBox)]
-    = resolver.context.g.nodes.toOuter
+    = r.context.g.nodes.toOuter
       .foldLeft[Map[tables.UUID, (api.Concept, api.TerminologyBox)]](Map.empty) { case (acc, t: api.TerminologyBox) =>
       acc ++
-        t.concepts().map { c =>
-          c.uuid.toString -> (c -> t)
+        t.concepts.map { c =>
+          c.uuid(r.context.extent).toString -> (c -> t)
         }
     }
 
     val byUUID
     : Seq[((tables.UUID, tables.UUID), tables.ConceptDesignationTerminologyAxiom)]
-    = resolver.queue.conceptDesignationTerminologyAxioms
+    = r.queue.conceptDesignationTerminologyAxioms
       .map { tAxiom =>
         (tAxiom.tboxUUID -> tAxiom.designatedConceptUUID) -> tAxiom
       }
@@ -596,24 +601,24 @@ object OMLTablesResolver {
 
     val g =
       resolvable
-        .aggregate(resolver.context.g)(
-          seqopConceptDesignationTerminology(resolver.factory, ns, referencableConcepts),
+        .aggregate(r.context.g)(
+          seqopConceptDesignationTerminology(r, ns, referencableConcepts),
           combopGraphs)
 
     val s =
       unresolvable.map(_._2).seq
 
-    val r =
-      resolver
+    val t =
+      r
         .copy(
-          context = TerminologyContext(resolver.context.extent, g),
-          queue = resolver.queue.copy(conceptDesignationTerminologyAxioms = s))
+          context = TerminologyContext(r.context.extent, g),
+          queue = r.queue.copy(conceptDesignationTerminologyAxioms = s))
 
-    Success(r)
+    Success(t)
   }
 
   def seqopBundledTerminologyAxioms
-  (factory: api.OMLResolvedFactory,
+  (r: OMLTablesResolver,
    bundles: Map[UUID, api.Bundle],
    nodes: Map[UUID, api.TerminologyBox])
   (g: Graph[api.Module, TerminologyEdge],
@@ -623,11 +628,11 @@ object OMLTablesResolver {
     val bundling = bundles(entry._1._1)
     val bundled = nodes(entry._1._2)
 
-    val x = factory.createBundledTerminologyAxiom(
-        bundle = bundling,
+    val x = r.factory.createBundledTerminologyAxiom(
+        bundle = bundling.uuid(r.context.extent),
         bundledTerminology = bundled)
 
-    if (x.uuid.toString != entry._2.uuid)
+    if (!OMLOps.uuidEquivalent(x.uuid(r.context.extent), entry._2.uuid))
       throw new java.lang.IllegalArgumentException(s"OMLTablesResolver.BundledTerminologyAxiom UUID mismatch: read: ${entry._2}, created: $x")
     val result = g + resolver.TerminologyEdge(bundling, bundled, x)
 
@@ -635,15 +640,15 @@ object OMLTablesResolver {
   }
 
   def mapBundledTerminologyAxioms
-  (resolver: OMLTablesResolver)
+  (r: OMLTablesResolver)
   : Try[OMLTablesResolver]
   = {
-    val bs = resolver.context.bundles
-    val ns = resolver.context.tboxes
+    val bs = r.context.bundles
+    val ns = r.context.tboxes
     val byUUID =
-      resolver.queue.bundledTerminologyAxioms.par
-        .map { tAxiom =>
-          (UUID.fromString(tAxiom.uuid), UUID.fromString(tAxiom.bundledTerminologyUUID)) -> tAxiom
+      r.queue.bundledTerminologyAxioms.par
+        .flatMap { tAxiom =>
+          tAxiom.uuid.map(id => (UUID.fromString(id), UUID.fromString(tAxiom.bundledTerminologyUUID)) -> tAxiom)
         }
 
     val (resolvable, unresolvable) =
@@ -652,59 +657,59 @@ object OMLTablesResolver {
           bs.contains(tboxUUIDPair._1) && ns.contains(tboxUUIDPair._2)
         }
 
-    val g = resolvable.aggregate(resolver.context.g)(
-      seqopBundledTerminologyAxioms(resolver.factory, bs, ns),
+    val g = resolvable.aggregate(r.context.g)(
+      seqopBundledTerminologyAxioms(r, bs, ns),
       combopGraphs)
 
     val s = unresolvable.map(_._2).seq
 
-    val r =
-      resolver
+    val t =
+      r
         .copy(
-          context = TerminologyContext(resolver.context.extent, g),
-          queue = resolver.queue.copy(bundledTerminologyAxioms = s))
+          context = TerminologyContext(r.context.extent, g),
+          queue = r.queue.copy(bundledTerminologyAxioms = s))
 
-    Success(r)
+    Success(t)
   }
 
   def mapRestrictedDataRanges
-  (resolver: OMLTablesResolver)
+  (r: OMLTablesResolver)
   : Try[OMLTablesResolver]
   = {
-    val ns = resolver.context.tboxes
-    val g = resolver.context.g
+    val ns = r.context.tboxes
+    val g = r.context.g
     val (r1, u1) =
-      resolver.queue.binaryScalarRestrictions
+      r.queue.binaryScalarRestrictions
         .groupBy(_.tboxUUID)
         .map { case (uuid, ranges) => UUID.fromString(uuid) -> ranges }
         .partition { case (tboxUUID, _) => ns.contains(tboxUUID) }
     val (r2, u2) =
-      resolver.queue.iriScalarRestrictions
+      r.queue.iriScalarRestrictions
         .groupBy(_.tboxUUID)
         .map { case (uuid, ranges) => UUID.fromString(uuid) -> ranges }
         .partition { case (tboxUUID, _) => ns.contains(tboxUUID) }
     val (r3, u3) =
-      resolver.queue.numericScalarRestrictions
+      r.queue.numericScalarRestrictions
         .groupBy(_.tboxUUID)
         .map { case (uuid, ranges) => UUID.fromString(uuid) -> ranges }
         .partition { case (tboxUUID, _) => ns.contains(tboxUUID) }
     val (r4, u4) =
-      resolver.queue.plainLiteralScalarRestrictions
+      r.queue.plainLiteralScalarRestrictions
         .groupBy(_.tboxUUID)
         .map { case (uuid, ranges) => UUID.fromString(uuid) -> ranges }
         .partition { case (tboxUUID, _) => ns.contains(tboxUUID) }
     val (r5, u5) =
-      resolver.queue.scalarOneOfRestrictions
+      r.queue.scalarOneOfRestrictions
         .groupBy(_.tboxUUID)
         .map { case (uuid, ranges) => UUID.fromString(uuid) -> ranges }
         .partition { case (tboxUUID, _) => ns.contains(tboxUUID) }
     val (r6, u6) =
-      resolver.queue.stringScalarRestrictions
+      r.queue.stringScalarRestrictions
         .groupBy(_.tboxUUID)
         .map { case (uuid, ranges) => UUID.fromString(uuid) -> ranges }
         .partition { case (tboxUUID, _) => ns.contains(tboxUUID) }
     val (r7, u7) =
-      resolver.queue.timeScalarRestrictions
+      r.queue.timeScalarRestrictions
         .groupBy(_.tboxUUID)
         .map { case (uuid, ranges) => UUID.fromString(uuid) -> ranges }
         .partition { case (tboxUUID, _) => ns.contains(tboxUUID) }
@@ -727,7 +732,7 @@ object OMLTablesResolver {
     )
 
     DataRangesToResolve
-      .resolve(resolver, worklist)
+      .resolve(r, worklist)
       .map { case (resolved, remaining) =>
 
         val updated = resolved.queue.copy(
@@ -752,18 +757,18 @@ object OMLTablesResolver {
   }
 
   def mapReifiedRelationships
-  (resolver: OMLTablesResolver)
+  (r: OMLTablesResolver)
   : Try[OMLTablesResolver]
   = {
-    val ns = resolver.context.tboxes
-    val g = resolver.context.g
+    val ns = r.context.tboxes
+    val g = r.context.g
     val (resolvable, unresolved) =
-      resolver.queue.reifiedRelationships
+      r.queue.reifiedRelationships
         .groupBy(_.tboxUUID)
         .map { case (uuid, ranges) => UUID.fromString(uuid) -> ranges }
         .partition { case (tboxUUID, _) => ns.contains(tboxUUID) }
 
-    val r1 = resolver.copy(queue = resolver.queue.copy(reifiedRelationships = unresolved.flatMap(_._2).to[Seq]))
+    val r1 = r.copy(queue = r.queue.copy(reifiedRelationships = unresolved.flatMap(_._2).to[Seq]))
     resolveReifiedRelationships(r1, resolvable).map {
       case (r2, remaining) =>
         r2.copy(queue = r2.queue.copy(reifiedRelationships = r2.queue.reifiedRelationships ++ remaining))
@@ -771,23 +776,24 @@ object OMLTablesResolver {
   }
 
   final def resolveReifiedRelationships
-  (resolver: OMLTablesResolver, queue: Map[UUID, Seq[tables.ReifiedRelationship]])
+  (r: OMLTablesResolver, queue: Map[UUID, Seq[tables.ReifiedRelationship]])
   : Try[(OMLTablesResolver, Seq[tables.ReifiedRelationship])]
   = {
     import OMLOps._
 
     queue
       .foldLeft[Try[(OMLTablesResolver, Map[UUID, Seq[tables.ReifiedRelationship]], Boolean)]](
-      Success(Tuple3(resolver, Map.empty, false))
+      Success(Tuple3(r, Map.empty, false))
     ) {
       case (Success(Tuple3(ri, mi, fi)), (guuid, x)) =>
+        implicit val ex: api.Extent = r.context.extent
         val gi = ri.context.g
         val tbox = ri.context.tboxes(guuid)
 
         val referencableEntities
         : Map[tables.UUID, api.Entity]
         = gi.outerNodeTraverser(gi.get(tbox))
-          .foldLeft[Map[tables.UUID, api.Entity]](Map.empty)(_ ++ _.entities().map(e => e.uuid.toString -> e))
+          .foldLeft[Map[tables.UUID, api.Entity]](Map.empty)(_ ++ _.entities.flatMap(e => e.uuid(ex).map(id => id.toString -> e)))
 
         val (available, remaining) = x.partition { rr =>
           referencableEntities.contains(rr.sourceUUID) && referencableEntities.contains(rr.targetUUID)
@@ -800,7 +806,7 @@ object OMLTablesResolver {
           case (acc, rr) =>
             val x =
               ri.factory.createReifiedRelationship(
-                tbox,
+                tbox.uuid(ri.context.extent),
                 referencableEntities(rr.sourceUUID),
                 referencableEntities(rr.targetUUID),
                 rr.isAsymmetric,
@@ -816,26 +822,26 @@ object OMLTablesResolver {
                 rr.unreifiedPropertyName,
                 rr.unreifiedInversePropertyName)
 
-            if (x.uuid.toString != rr.uuid)
+            if (!OMLOps.uuidEquivalent(x.uuid(ex), rr.uuid))
               throw new java.lang.IllegalArgumentException(s"OMLTablesResolver.ReifiedRelationship UUID mismatch: read: $rr, created: $x")
 
             acc + x
         }
 
         TerminologyContext
-          .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
+          .replaceNode(ri, gi, tbox, tbox.withBoxStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
+              ri.copy(context = TerminologyContext(ex, gj)),
               mi + (guuid -> remaining),
               fi || si.nonEmpty)
           }
       case (Failure(t), _) =>
         Failure(t)
     } match {
-      case Success(Tuple3(r, m, f)) =>
+      case Success(Tuple3(rr, m, f)) =>
         if (f)
-          resolveReifiedRelationships(r, m)
+          resolveReifiedRelationships(rr, m)
         else
           Success(Tuple2(r, m.flatMap(_._2).to[Seq]))
       case Failure(t) =>
@@ -844,18 +850,18 @@ object OMLTablesResolver {
   }
 
   def mapUnreifiedRelationships
-  (resolver: OMLTablesResolver)
+  (r: OMLTablesResolver)
   : Try[OMLTablesResolver]
   = {
-    val ns = resolver.context.tboxes
-    val g = resolver.context.g
+    val ns = r.context.tboxes
+    val g = r.context.g
     val (resolvable, unresolved) =
-      resolver.queue.unreifiedRelationships
+      r.queue.unreifiedRelationships
         .groupBy(_.tboxUUID)
         .map { case (uuid, ranges) => UUID.fromString(uuid) -> ranges }
         .partition { case (tboxUUID, _) => ns.contains(tboxUUID) }
 
-    val r1 = resolver.copy(queue = resolver.queue.copy(unreifiedRelationships = unresolved.flatMap(_._2).to[Seq]))
+    val r1 = r.copy(queue = r.queue.copy(unreifiedRelationships = unresolved.flatMap(_._2).to[Seq]))
     resolveUnreifiedRelationships(r1, resolvable).map {
       case (r2, remaining) =>
         r2.copy(queue = r2.queue.copy(unreifiedRelationships = r2.queue.unreifiedRelationships ++ remaining))
@@ -863,23 +869,24 @@ object OMLTablesResolver {
   }
 
   final def resolveUnreifiedRelationships
-  (resolver: OMLTablesResolver, queue: Map[UUID, Seq[tables.UnreifiedRelationship]] )
+  (r: OMLTablesResolver, queue: Map[UUID, Seq[tables.UnreifiedRelationship]] )
   : Try[(OMLTablesResolver, Seq[tables.UnreifiedRelationship])]
   = {
     import OMLOps._
 
     queue
       .foldLeft[Try[(OMLTablesResolver, Map[UUID, Seq[tables.UnreifiedRelationship]], Boolean)]](
-      Success(Tuple3(resolver, Map.empty, false))
+      Success(Tuple3(r, Map.empty, false))
     ) {
       case (Success(Tuple3(ri, mi, fi)), (guuid, x)) =>
+        implicit val ex: api.Extent = ri.context.extent
         val gi = ri.context.g
         val tbox = ri.context.tboxes(guuid)
 
         val referencableEntities
         : Map[tables.UUID, api.Entity]
         = gi.outerNodeTraverser(gi.get(tbox))
-          .foldLeft[Map[tables.UUID, api.Entity]](Map.empty)(_ ++ _.entities().map(e => e.uuid.toString -> e))
+          .foldLeft[Map[tables.UUID, api.Entity]](Map.empty)(_ ++ _.entities.flatMap(e => e.uuid(ex).map(id => id.toString -> e)))
 
         val (available, remaining) = x.partition { ur =>
           referencableEntities.contains(ur.sourceUUID) && referencableEntities.contains(ur.targetUUID)
@@ -892,7 +899,7 @@ object OMLTablesResolver {
           case (acc, ur) =>
             val x =
               ri.factory.createUnreifiedRelationship(
-                tbox,
+                tbox.uuid(ex),
                 referencableEntities(ur.sourceUUID),
                 referencableEntities(ur.targetUUID),
                 ur.isAsymmetric,
@@ -906,46 +913,46 @@ object OMLTablesResolver {
                 ur.isTransitive,
                 ur.name)
 
-            if (x.uuid.toString != ur.uuid)
+            if (!OMLOps.uuidEquivalent(x.uuid(ex), ur.uuid))
               throw new java.lang.IllegalArgumentException(s"OMLTablesResolver.ReifiedRelationship UUID mismatch: read: $ur, created: $x")
 
             acc + x
         }
 
         TerminologyContext
-          .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
+          .replaceNode(ri, gi, tbox, tbox.withBoxStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
+              ri.copy(context = TerminologyContext(ex, gj)),
               mi + (guuid -> remaining),
               fi || si.nonEmpty)
           }
       case (Failure(t), _) =>
         Failure(t)
     } match {
-      case Success(Tuple3(r, m, f)) =>
+      case Success(Tuple3(ur, m, f)) =>
         if (f)
-          resolveUnreifiedRelationships(r, m)
+          resolveUnreifiedRelationships(ur, m)
         else
-          Success(Tuple2(r, m.flatMap(_._2).to[Seq]))
+          Success(Tuple2(ur, m.flatMap(_._2).to[Seq]))
       case Failure(t) =>
         Failure(t)
     }
   }
 
   def mapEntityScalarDataProperties
-  (resolver: OMLTablesResolver)
+  (r: OMLTablesResolver)
   : Try[OMLTablesResolver]
   = {
-    val ns = resolver.context.tboxes
-    val g = resolver.context.g
+    val ns = r.context.tboxes
+    val g = r.context.g
     val (resolvable, unresolved) =
-      resolver.queue.entityScalarDataProperties
+      r.queue.entityScalarDataProperties
         .groupBy(_.tboxUUID)
         .map { case (uuid, ranges) => UUID.fromString(uuid) -> ranges }
         .partition { case (tboxUUID, _) => ns.contains(tboxUUID) }
 
-    val r1 = resolver.copy(queue = resolver.queue.copy(entityScalarDataProperties = unresolved.flatMap(_._2).to[Seq]))
+    val r1 = r.copy(queue = r.queue.copy(entityScalarDataProperties = unresolved.flatMap(_._2).to[Seq]))
     resolveEntityScalarDataProperties(r1, resolvable).map {
       case (r2, remaining) =>
         r2.copy(queue = r2.queue.copy(entityScalarDataProperties = r2.queue.entityScalarDataProperties ++ remaining))
@@ -963,18 +970,19 @@ object OMLTablesResolver {
       Success(Tuple3(resolver, Map.empty, false))
     ) {
       case (Success(Tuple3(ri, mi, fi)), (guuid, x)) =>
+        implicit val ex: api.Extent = ri.context.extent
         val gi = ri.context.g
         val tbox = ri.context.tboxes(guuid)
 
         val referencableEntities
         : Map[tables.UUID, api.Entity]
         = gi.outerNodeTraverser(gi.get(tbox))
-          .foldLeft[Map[tables.UUID, api.Entity]](Map.empty)(_ ++ _.entities().map(e => e.uuid.toString -> e))
+          .foldLeft[Map[tables.UUID, api.Entity]](Map.empty)(_ ++ _.entities.flatMap(e => e.uuid(ex).map(id => id.toString -> e)))
 
         val referencableDataRanges
         : Map[tables.UUID, api.DataRange]
         = gi.outerNodeTraverser(gi.get(tbox))
-          .foldLeft[Map[tables.UUID, api.DataRange]](Map.empty)(_ ++ _.dataranges().map(dr => dr.uuid.toString -> dr))
+          .foldLeft[Map[tables.UUID, api.DataRange]](Map.empty)(_ ++ _.dataranges.flatMap(dr => dr.uuid(ex).map(id => id.toString -> dr)))
 
         val (available, remaining) = x.partition { dr =>
           referencableEntities.contains(dr.domainUUID) &&
@@ -988,23 +996,23 @@ object OMLTablesResolver {
           case (acc, dr) =>
             val x =
               ri.factory.createEntityScalarDataProperty(
-                tbox,
+                tbox.uuid(ex),
                 referencableEntities(dr.domainUUID),
                 referencableDataRanges(dr.rangeUUID),
                 dr.isIdentityCriteria,
                 dr.name)
 
-            if (x.uuid.toString != dr.uuid)
+            if (!OMLOps.uuidEquivalent(x.uuid(ex), dr.uuid))
               throw new java.lang.IllegalArgumentException(s"OMLTablesResolver.UnreifiedRelationship UUID mismatch: read: $dr, created: $x")
 
             acc + x
         }
 
         TerminologyContext
-          .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
+          .replaceNode(ri, gi, tbox, tbox.withBoxStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
+              ri.copy(context = TerminologyContext(ex, gj)),
               mi + (guuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -1051,18 +1059,19 @@ object OMLTablesResolver {
       Success(Tuple3(resolver, Map.empty, false))
     ) {
       case (Success(Tuple3(ri, mi, fi)), (guuid, x)) =>
+        implicit val ex: api.Extent = ri.context.extent
         val gi = ri.context.g
         val tbox = ri.context.tboxes(guuid)
 
         val referencableEntities
         : Map[tables.UUID, api.Entity]
         = gi.outerNodeTraverser(gi.get(tbox))
-          .foldLeft[Map[tables.UUID, api.Entity]](Map.empty)(_ ++ _.entities().map(e => e.uuid.toString -> e))
+          .foldLeft[Map[tables.UUID, api.Entity]](Map.empty)(_ ++ _.entities.flatMap(e => e.uuid(ex).map(id => id.toString -> e)))
 
         val referencableStructures
         : Map[tables.UUID, api.Structure]
         = gi.outerNodeTraverser(gi.get(tbox))
-          .foldLeft[Map[tables.UUID, api.Structure]](Map.empty)(_ ++ _.structures().map(dr => dr.uuid.toString -> dr))
+          .foldLeft[Map[tables.UUID, api.Structure]](Map.empty)(_ ++ _.structures.flatMap(dr => dr.uuid(ex).map(id => id.toString -> dr)))
 
         val (available, remaining) = x.partition { dr =>
           referencableEntities.contains(dr.domainUUID) &&
@@ -1075,24 +1084,24 @@ object OMLTablesResolver {
           .foldLeft[SortedSet[api.TerminologyBoxStatement]](TreeSet.empty[api.TerminologyBoxStatement]) {
           case (acc, dr) =>
             val x =
-            ri.factory.createEntityStructuredDataProperty(
-              tbox,
-              referencableEntities(dr.domainUUID),
-              referencableStructures(dr.rangeUUID),
-              dr.isIdentityCriteria,
-              dr.name)
+              ri.factory.createEntityStructuredDataProperty(
+                tbox.uuid(ex),
+                referencableEntities(dr.domainUUID),
+                referencableStructures(dr.rangeUUID),
+                dr.isIdentityCriteria,
+                dr.name)
 
-            if (x.uuid.toString != dr.uuid)
+            if (!OMLOps.uuidEquivalent(x.uuid(ex), dr.uuid))
               throw new java.lang.IllegalArgumentException(s"OMLTablesResolver.EntityStructuredDataProperty UUID mismatch: read: $dr, created: $x")
 
             acc + x
         }
 
         TerminologyContext
-          .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
+          .replaceNode(ri, gi, tbox, tbox.withBoxStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
+              ri.copy(context = TerminologyContext(ex, gj)),
               mi + (guuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -1139,18 +1148,19 @@ object OMLTablesResolver {
       Success(Tuple3(resolver, Map.empty, false))
     ) {
       case (Success(Tuple3(ri, mi, fi)), (guuid, x)) =>
+        implicit val ex: api.Extent = ri.context.extent
         val gi = ri.context.g
         val tbox = ri.context.tboxes(guuid)
 
         val referencableStructures
         : Map[tables.UUID, api.Structure]
         = gi.outerNodeTraverser(gi.get(tbox))
-          .foldLeft[Map[tables.UUID, api.Structure]](Map.empty)(_ ++ _.structures().map(dr => dr.uuid.toString -> dr))
+          .foldLeft[Map[tables.UUID, api.Structure]](Map.empty)(_ ++ _.structures.flatMap(dr => dr.uuid(ex).map(id => id.toString -> dr)))
 
         val referencableDataRanges
         : Map[tables.UUID, api.DataRange]
         = gi.outerNodeTraverser(gi.get(tbox))
-          .foldLeft[Map[tables.UUID, api.DataRange]](Map.empty)(_ ++ _.dataranges().map(dr => dr.uuid.toString -> dr))
+          .foldLeft[Map[tables.UUID, api.DataRange]](Map.empty)(_ ++ _.dataranges.flatMap(dr => dr.uuid(ex).map(id => id.toString -> dr)))
 
         val (available, remaining) = x.partition { dr =>
           referencableStructures.contains(dr.domainUUID) &&
@@ -1163,23 +1173,23 @@ object OMLTablesResolver {
           .foldLeft[SortedSet[api.TerminologyBoxStatement]](TreeSet.empty[api.TerminologyBoxStatement]) {
           case (acc, dr) =>
             val x =
-            ri.factory.createScalarDataProperty(
-              tbox,
-              referencableStructures(dr.domainUUID),
-              referencableDataRanges(dr.rangeUUID),
-              dr.name)
+              ri.factory.createScalarDataProperty(
+                tbox.uuid(ex),
+                referencableStructures(dr.domainUUID),
+                referencableDataRanges(dr.rangeUUID),
+                dr.name)
 
-            if (x.uuid.toString != dr.uuid)
+            if (!OMLOps.uuidEquivalent(x.uuid(ex), dr.uuid))
               throw new java.lang.IllegalArgumentException(s"OMLTablesResolver.ScalarDataProperty UUID mismatch: read: $dr, created: $x")
 
             acc + x
         }
 
         TerminologyContext
-          .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
+          .replaceNode(ri, gi, tbox, tbox.withBoxStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
+              ri.copy(context = TerminologyContext(ex, gj)),
               mi + (guuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -1226,13 +1236,14 @@ object OMLTablesResolver {
       Success(Tuple3(resolver, Map.empty, false))
     ) {
       case (Success(Tuple3(ri, mi, fi)), (guuid, x)) =>
+        implicit val ex: api.Extent = ri.context.extent
         val gi = ri.context.g
         val tbox = ri.context.tboxes(guuid)
 
         val referencableStructures
         : Map[tables.UUID, api.Structure]
         = gi.outerNodeTraverser(gi.get(tbox))
-          .foldLeft[Map[tables.UUID, api.Structure]](Map.empty)(_ ++ _.structures().map(dr => dr.uuid.toString -> dr))
+          .foldLeft[Map[tables.UUID, api.Structure]](Map.empty)(_ ++ _.structures.flatMap(dr => dr.uuid(ex).map(id => id.toString -> dr)))
 
         val (available, remaining) = x.partition { dr =>
           referencableStructures.contains(dr.domainUUID) &&
@@ -1246,22 +1257,22 @@ object OMLTablesResolver {
           case (acc, dr) =>
             val x =
             ri.factory.createStructuredDataProperty(
-              tbox,
+              tbox.uuid(ex),
               referencableStructures(dr.domainUUID),
               referencableStructures(dr.rangeUUID),
               dr.name)
 
-            if (x.uuid.toString != dr.uuid)
+            if (!OMLOps.uuidEquivalent(x.uuid(ex), dr.uuid))
               throw new java.lang.IllegalArgumentException(s"OMLTablesResolver.StructuredDataProperty UUID mismatch: read: $dr, created: $x")
 
             acc + x
         }
 
         TerminologyContext
-          .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
+          .replaceNode(ri, gi, tbox, tbox.withBoxStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
+              ri.copy(context = TerminologyContext(ex, gj)),
               mi + (guuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -1305,6 +1316,7 @@ object OMLTablesResolver {
       Success(Tuple3(resolver, Map.empty, false))
     ) {
       case (Success(Tuple3(ri, mi, fi)), (guuid, x)) =>
+        implicit val ex: api.Extent = ri.context.extent
         val gi = ri.context.g
         val tbox = ri.context.tboxes(guuid)
         val scalarOneOfRestrictions =
@@ -1314,7 +1326,7 @@ object OMLTablesResolver {
               case t: api.TerminologyBox =>
                 t.boxStatements.flatMap {
                   case ax: api.ScalarOneOfRestriction =>
-                    Some(ax.uuid -> ax)
+                    ax.uuid(ex).map(id => id -> ax)
                   case _ =>
                     None
                 }
@@ -1330,21 +1342,21 @@ object OMLTablesResolver {
           case (acc, ax) =>
             val x =
               ri.factory.createScalarOneOfLiteralAxiom(
-                tbox,
+                tbox.uuid(ex),
                 scalarOneOfRestrictions(UUID.fromString(ax.axiomUUID)),
                 ax.value)
 
-            if (x.uuid.toString != ax.uuid)
+            if (!OMLOps.uuidEquivalent(x.uuid(ex), ax.uuid))
               throw new java.lang.IllegalArgumentException(s"OMLTablesResolver.ScalarOneOfLiteralAxiom UUID mismatch: read: $ax, created: $x")
 
             acc + x
         }
 
         TerminologyContext
-          .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
+          .replaceNode(ri, gi, tbox, tbox.withBoxStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
+              ri.copy(context = TerminologyContext(ex, gj)),
               mi + (guuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -1390,18 +1402,19 @@ object OMLTablesResolver {
       Success(Tuple3(resolver, Map.empty, false))
     ) {
       case (Success(Tuple3(ri, mi, fi)), (guuid, x)) =>
+        implicit val ex: api.Extent = ri.context.extent
         val gi = ri.context.g
         val tbox = ri.context.tboxes(guuid)
 
         val referencableEntities
         : Map[tables.UUID, api.Entity]
         = gi.outerNodeTraverser(gi.get(tbox))
-          .foldLeft[Map[tables.UUID, api.Entity]](Map.empty)(_ ++ _.entities().map(e => e.uuid.toString -> e))
+          .foldLeft[Map[tables.UUID, api.Entity]](Map.empty)(_ ++ _.entities.flatMap(e => e.uuid(ex).map(id => id.toString -> e)))
 
         val referencableReifiedRelationships
         : Map[tables.UUID, api.ReifiedRelationship]
         = gi.outerNodeTraverser(gi.get(tbox))
-          .foldLeft[Map[tables.UUID, api.ReifiedRelationship]](Map.empty)(_ ++ _.reifiedRelationships().map(e => e.uuid.toString -> e))
+          .foldLeft[Map[tables.UUID, api.ReifiedRelationship]](Map.empty)(_ ++ _.reifiedRelationships.flatMap(e => e.uuid(ex).map(id => id.toString -> e)))
 
         val (available, remaining) = x.partition { ax =>
           referencableEntities.contains(ax.restrictedDomainUUID) &&
@@ -1416,22 +1429,22 @@ object OMLTablesResolver {
           case (acc, ax) =>
             val x =
             ri.factory.createEntityExistentialRestrictionAxiom(
-             tbox,
+              tbox.uuid(ex),
               referencableReifiedRelationships(ax.restrictedRelationUUID),
               referencableEntities(ax.restrictedDomainUUID),
               referencableEntities(ax.restrictedRangeUUID))
 
-            if (x.uuid.toString != ax.uuid)
+            if (!OMLOps.uuidEquivalent(x.uuid(ex), ax.uuid))
               throw new java.lang.IllegalArgumentException(s"OMLTablesResolver.ExistentialRestrictionAxiom UUID mismatch: read: $ax created: $x")
 
             acc + x
           }
 
         TerminologyContext
-          .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
+          .replaceNode(ri, gi, tbox, tbox.withBoxStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
+              ri.copy(context = TerminologyContext(ex, gj)),
               mi + (guuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -1477,18 +1490,19 @@ object OMLTablesResolver {
       Success(Tuple3(resolver, Map.empty, false))
     ) {
       case (Success(Tuple3(ri, mi, fi)), (guuid, x)) =>
+        implicit val ex: api.Extent = ri.context.extent
         val gi = ri.context.g
         val tbox = ri.context.tboxes(guuid)
 
         val referencableEntities
         : Map[tables.UUID, api.Entity]
         = gi.outerNodeTraverser(gi.get(tbox))
-          .foldLeft[Map[tables.UUID, api.Entity]](Map.empty)(_ ++ _.entities().map(e => e.uuid.toString -> e))
+          .foldLeft[Map[tables.UUID, api.Entity]](Map.empty)(_ ++ _.entities.flatMap(e => e.uuid(ex).map(id => id.toString -> e)))
 
         val referencableReifiedRelationships
         : Map[tables.UUID, api.ReifiedRelationship]
         = gi.outerNodeTraverser(gi.get(tbox))
-          .foldLeft[Map[tables.UUID, api.ReifiedRelationship]](Map.empty)(_ ++ _.reifiedRelationships().map(e => e.uuid.toString -> e))
+          .foldLeft[Map[tables.UUID, api.ReifiedRelationship]](Map.empty)(_ ++ _.reifiedRelationships.flatMap(e => e.uuid(ex).map(id => id.toString -> e)))
 
         val (available, remaining) = x.partition { ax =>
           referencableEntities.contains(ax.restrictedDomainUUID) &&
@@ -1503,21 +1517,21 @@ object OMLTablesResolver {
           case (acc, ax) =>
             val x =
             ri.factory.createEntityUniversalRestrictionAxiom(
-              tbox,
+              tbox.uuid(ex),
               referencableReifiedRelationships(ax.restrictedRelationUUID),
               referencableEntities(ax.restrictedDomainUUID),
               referencableEntities(ax.restrictedRangeUUID))
 
-            if (x.uuid.toString != ax.uuid)
+            if (!OMLOps.uuidEquivalent(x.uuid(ex), ax.uuid))
               throw new java.lang.IllegalArgumentException(s"OMLTablesResolver.EntityUniversalRestrictionAxiom UUID mismatch: read: $ax, created: $x")
             acc + x
         }
 
         TerminologyContext
-          .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
+          .replaceNode(ri, gi, tbox, tbox.withBoxStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
+              ri.copy(context = TerminologyContext(ex, gj)),
               mi + (guuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -1554,32 +1568,33 @@ object OMLTablesResolver {
   }
 
   final def resolveEntityScalarDataPropertyExistentialRestrictionAxioms
-  (resolver: OMLTablesResolver, queue: Map[UUID, Seq[tables.EntityScalarDataPropertyExistentialRestrictionAxiom]] )
+  (r: OMLTablesResolver, queue: Map[UUID, Seq[tables.EntityScalarDataPropertyExistentialRestrictionAxiom]] )
   : Try[(OMLTablesResolver, Seq[tables.EntityScalarDataPropertyExistentialRestrictionAxiom])]
   = {
     import OMLOps._
 
     queue.foldLeft[Try[(OMLTablesResolver, Map[UUID, Seq[tables.EntityScalarDataPropertyExistentialRestrictionAxiom]], Boolean)]](
-      Success(Tuple3(resolver, Map.empty, false))
+      Success(Tuple3(r, Map.empty, false))
     ) {
       case (Success(Tuple3(ri, mi, fi)), (guuid, x)) =>
+        implicit val ex: api.Extent = ri.context.extent
         val gi = ri.context.g
         val tbox = ri.context.tboxes(guuid)
 
         val referencableEntities
         : Map[tables.UUID, api.Entity]
         = gi.outerNodeTraverser(gi.get(tbox))
-          .foldLeft[Map[tables.UUID, api.Entity]](Map.empty)(_ ++ _.entities().map(e => e.uuid.toString -> e))
+          .foldLeft[Map[tables.UUID, api.Entity]](Map.empty)(_ ++ _.entities.flatMap(e => e.uuid(ex).map(id => id.toString -> e)))
 
         val referencableEntityScalarDataProperty
         : Map[tables.UUID, api.EntityScalarDataProperty]
         = gi.outerNodeTraverser(gi.get(tbox))
-          .foldLeft[Map[tables.UUID, api.EntityScalarDataProperty]](Map.empty)(_ ++ _.entityScalarDataProperties().map(dr => dr.uuid.toString -> dr))
+          .foldLeft[Map[tables.UUID, api.EntityScalarDataProperty]](Map.empty)(_ ++ _.entityScalarDataProperties.flatMap(dr => dr.uuid(ex).map(id => id.toString -> dr)))
 
         val referencableDataRanges
         : Map[tables.UUID, api.DataRange]
         = gi.outerNodeTraverser(gi.get(tbox))
-          .foldLeft[Map[tables.UUID, api.DataRange]](Map.empty)(_ ++ _.dataranges().map(dr => dr.uuid.toString -> dr))
+          .foldLeft[Map[tables.UUID, api.DataRange]](Map.empty)(_ ++ _.dataranges.flatMap(dr => dr.uuid(ex).map(id => id.toString -> dr)))
 
         val (available, remaining) = x.partition { ax =>
           referencableEntities.contains(ax.restrictedEntityUUID) &&
@@ -1594,21 +1609,21 @@ object OMLTablesResolver {
           case (acc, ax) =>
             val x =
               ri.factory.createEntityScalarDataPropertyExistentialRestrictionAxiom(
-                tbox,
+                tbox.uuid(ex),
                 referencableEntities(ax.restrictedEntityUUID),
                 referencableEntityScalarDataProperty(ax.scalarPropertyUUID),
                 referencableDataRanges(ax.scalarRestrictionUUID))
 
-            if (x.uuid.toString != ax.uuid)
+            if (!OMLOps.uuidEquivalent(x.uuid(ex), ax.uuid))
               throw new java.lang.IllegalArgumentException(s"OMLTablesResolver.EntityExistentialRestrictionAxiom UUID mismatch: read: $ax, created: $x")
             acc + x
         }
 
         TerminologyContext
-          .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
+          .replaceNode(ri, gi, tbox, tbox.withBoxStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
+              ri.copy(context = TerminologyContext(ex, gj)),
               mi + (guuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -1654,18 +1669,19 @@ object OMLTablesResolver {
       Success(Tuple3(resolver, Map.empty, false))
     ) {
       case (Success(Tuple3(ri, mi, fi)), (guuid, x)) =>
+        implicit val ex: api.Extent = ri.context.extent
         val gi = ri.context.g
         val tbox = ri.context.tboxes(guuid)
 
         val referencableEntities
         : Map[tables.UUID, api.Entity]
         = gi.outerNodeTraverser(gi.get(tbox))
-          .foldLeft[Map[tables.UUID, api.Entity]](Map.empty)(_ ++ _.entities().map(e => e.uuid.toString -> e))
+          .foldLeft[Map[tables.UUID, api.Entity]](Map.empty)(_ ++ _.entities.flatMap(e => e.uuid(ex).map(id => id.toString -> e)))
 
         val referencableEntityScalarDataProperty
         : Map[tables.UUID, api.EntityScalarDataProperty]
         = gi.outerNodeTraverser(gi.get(tbox))
-          .foldLeft[Map[tables.UUID, api.EntityScalarDataProperty]](Map.empty)(_ ++ _.entityScalarDataProperties().map(dr => dr.uuid.toString -> dr))
+          .foldLeft[Map[tables.UUID, api.EntityScalarDataProperty]](Map.empty)(_ ++ _.entityScalarDataProperties.flatMap(dr => dr.uuid(ex).map(id => id.toString -> dr)))
 
 
         val (available, remaining) = x.partition { ax =>
@@ -1680,21 +1696,21 @@ object OMLTablesResolver {
           case (acc, ax) =>
             val x =
             ri.factory.createEntityScalarDataPropertyParticularRestrictionAxiom(
-              tbox,
+              tbox.uuid(ex),
               referencableEntities(ax.restrictedEntityUUID),
               referencableEntityScalarDataProperty(ax.scalarPropertyUUID),
               ax.literalValue)
 
-            if (x.uuid.toString != ax.uuid)
+            if (!OMLOps.uuidEquivalent(x.uuid(ex), ax.uuid))
               throw new java.lang.IllegalArgumentException(s"OMLTablesResolver.EntityScalarDataPropertyParticularRestrictionAxiom UUID mismatch: read: $ax, created: $x")
             acc + x
         }
 
         TerminologyContext
-          .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
+          .replaceNode(ri, gi, tbox, tbox.withBoxStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
+              ri.copy(context = TerminologyContext(ex, gj)),
               mi + (guuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -1740,23 +1756,24 @@ object OMLTablesResolver {
       Success(Tuple3(resolver, Map.empty, false))
     ) {
       case (Success(Tuple3(ri, mi, fi)), (guuid, x)) =>
+        implicit val ex: api.Extent = ri.context.extent
         val gi = ri.context.g
         val tbox = ri.context.tboxes(guuid)
 
         val referencableEntities
         : Map[tables.UUID, api.Entity]
         = gi.outerNodeTraverser(gi.get(tbox))
-          .foldLeft[Map[tables.UUID, api.Entity]](Map.empty)(_ ++ _.entities().map(e => e.uuid.toString -> e))
+          .foldLeft[Map[tables.UUID, api.Entity]](Map.empty)(_ ++ _.entities.flatMap(e => e.uuid(ex).map(id => id.toString -> e)))
 
         val referencableEntityScalarDataProperty
         : Map[tables.UUID, api.EntityScalarDataProperty]
         = gi.outerNodeTraverser(gi.get(tbox))
-          .foldLeft[Map[tables.UUID, api.EntityScalarDataProperty]](Map.empty)(_ ++ _.entityScalarDataProperties().map(dr => dr.uuid.toString -> dr))
+          .foldLeft[Map[tables.UUID, api.EntityScalarDataProperty]](Map.empty)(_ ++ _.entityScalarDataProperties.flatMap(dr => dr.uuid(ex).map(id => id.toString -> dr)))
 
         val referencableDataRanges
         : Map[tables.UUID, api.DataRange]
         = gi.outerNodeTraverser(gi.get(tbox))
-          .foldLeft[Map[tables.UUID, api.DataRange]](Map.empty)(_ ++ _.dataranges().map(dr => dr.uuid.toString -> dr))
+          .foldLeft[Map[tables.UUID, api.DataRange]](Map.empty)(_ ++ _.dataranges.flatMap(dr => dr.uuid(ex).map(id => id.toString -> dr)))
 
         val (available, remaining) = x.partition { ax =>
           referencableEntities.contains(ax.restrictedEntityUUID) &&
@@ -1771,21 +1788,21 @@ object OMLTablesResolver {
           case (acc, ax) =>
             val x =
             ri.factory.createEntityScalarDataPropertyUniversalRestrictionAxiom(
-              tbox,
+              tbox.uuid(ex),
               referencableEntities(ax.restrictedEntityUUID),
               referencableEntityScalarDataProperty(ax.scalarPropertyUUID),
               referencableDataRanges(ax.scalarRestrictionUUID))
 
-            if (x.uuid.toString != ax.uuid)
+            if (!OMLOps.uuidEquivalent(x.uuid(ex), ax.uuid))
               throw new java.lang.IllegalArgumentException(s"OMLTablesResolver.EntityScalarDataPropertyUniversalRestrictionAxiom UUID mismatch: read: $ax, created: $x")
             acc + x
         }
 
         TerminologyContext
-          .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
+          .replaceNode(ri, gi, tbox, tbox.withBoxStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
+              ri.copy(context = TerminologyContext(ex, gj)),
               mi + (guuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -1831,18 +1848,19 @@ object OMLTablesResolver {
       Success(Tuple3(resolver, Map.empty, false))
     ) {
       case (Success(Tuple3(ri, mi, fi)), (guuid, x)) =>
+        implicit val ex: api.Extent = ri.context.extent
         val gi = ri.context.g
         val tbox = ri.context.tboxes(guuid)
 
         val referencableEntities
         : Map[tables.UUID, api.Entity]
         = gi.outerNodeTraverser(gi.get(tbox))
-          .foldLeft[Map[tables.UUID, api.Entity]](Map.empty)(_ ++ _.entities().map(e => e.uuid.toString -> e))
+          .foldLeft[Map[tables.UUID, api.Entity]](Map.empty)(_ ++ _.entities.flatMap(e => e.uuid(ex).map(id => id.toString -> e)))
 
         val referencableAspects
         : Map[tables.UUID, api.Aspect]
         = gi.outerNodeTraverser(gi.get(tbox))
-          .foldLeft[Map[tables.UUID, api.Aspect]](Map.empty)(_ ++ _.aspects().map(e => e.uuid.toString -> e))
+          .foldLeft[Map[tables.UUID, api.Aspect]](Map.empty)(_ ++ _.aspects.flatMap(e => e.uuid(ex).map(id => id.toString -> e)))
 
         val (available, remaining) = x.partition { ax =>
           referencableEntities.contains(ax.subEntityUUID) &&
@@ -1856,20 +1874,20 @@ object OMLTablesResolver {
           case (acc, ax) =>
             val x =
               ri.factory.createAspectSpecializationAxiom(
-                tbox,
+                tbox.uuid(ex),
                 referencableAspects(ax.superAspectUUID),
                 referencableEntities(ax.subEntityUUID))
 
-            if (x.uuid.toString != ax.uuid)
+            if (!OMLOps.uuidEquivalent(x.uuid(ex), ax.uuid))
               throw new java.lang.IllegalArgumentException(s"OMLTablesResolver.AspectSpecializationAxiom UUID mismatch: read: $ax, created: $x")
             acc + x
         }
 
         TerminologyContext
-          .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
+          .replaceNode(ri, gi, tbox, tbox.withBoxStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
+              ri.copy(context = TerminologyContext(ex, gj)),
               mi + (guuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -1915,13 +1933,14 @@ object OMLTablesResolver {
       Success(Tuple3(resolver, Map.empty, false))
     ) {
       case (Success(Tuple3(ri, mi, fi)), (guuid, x)) =>
+        implicit val ex: api.Extent = ri.context.extent
         val gi = ri.context.g
         val tbox = ri.context.tboxes(guuid)
 
         val referencableConcepts
         : Map[tables.UUID, api.Concept]
         = gi.outerNodeTraverser(gi.get(tbox))
-          .foldLeft[Map[tables.UUID, api.Concept]](Map.empty)(_ ++ _.concepts().map(e => e.uuid.toString -> e))
+          .foldLeft[Map[tables.UUID, api.Concept]](Map.empty)(_ ++ _.concepts.flatMap(e => e.uuid(ex).map(id => id.toString -> e)))
 
         val (available, remaining) = x.partition { ax =>
           referencableConcepts.contains(ax.subConceptUUID) &&
@@ -1935,20 +1954,20 @@ object OMLTablesResolver {
           case (acc, ax) =>
             val x =
               ri.factory.createConceptSpecializationAxiom(
-                tbox,
+                tbox.uuid(ex),
                 referencableConcepts(ax.superConceptUUID),
                 referencableConcepts(ax.subConceptUUID))
 
-            if (x.uuid.toString != ax.uuid)
+            if (!OMLOps.uuidEquivalent(x.uuid(ex), ax.uuid))
               throw new java.lang.IllegalArgumentException(s"OMLTablesResolver.ConceptSpecializationAxiom UUID mismatch: read: $ax, created: $x")
             acc + x
         }
 
         TerminologyContext
-          .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
+          .replaceNode(ri, gi, tbox, tbox.withBoxStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
+              ri.copy(context = TerminologyContext(ex, gj)),
               mi + (guuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -1994,13 +2013,14 @@ object OMLTablesResolver {
       Success(Tuple3(resolver, Map.empty, false))
     ) {
       case (Success(Tuple3(ri, mi, fi)), (guuid, x)) =>
+        implicit val ex: api.Extent = ri.context.extent
         val gi = ri.context.g
         val tbox = ri.context.tboxes(guuid)
 
         val referencableReifiedRelationships
         : Map[tables.UUID, api.ReifiedRelationship]
         = gi.outerNodeTraverser(gi.get(tbox))
-          .foldLeft[Map[tables.UUID, api.ReifiedRelationship]](Map.empty)(_ ++ _.reifiedRelationships().map(e => e.uuid.toString -> e))
+          .foldLeft[Map[tables.UUID, api.ReifiedRelationship]](Map.empty)(_ ++ _.reifiedRelationships.flatMap(e => e.uuid(ex).map(id => id.toString -> e)))
 
         val (available, remaining) = x.partition { ax =>
           referencableReifiedRelationships.contains(ax.subRelationshipUUID) &&
@@ -2014,20 +2034,20 @@ object OMLTablesResolver {
           case (acc, ax) =>
             val x =
               ri.factory.createReifiedRelationshipSpecializationAxiom(
-                tbox,
+                tbox.uuid(ex),
                 referencableReifiedRelationships(ax.superRelationshipUUID),
                 referencableReifiedRelationships(ax.subRelationshipUUID))
 
-            if (x.uuid.toString != ax.uuid)
+            if (!OMLOps.uuidEquivalent(x.uuid(ex), ax.uuid))
               throw new java.lang.IllegalArgumentException(s"OMLTablesResolver.ReifiedRelationshipSpecializationAxiom UUID mismatch: read: $ax, created: $x")
             acc + x
         }
 
         TerminologyContext
-          .replaceNode(ri.factory, gi, tbox, tbox.withBoxStatements(si))
+          .replaceNode(ri, gi, tbox, tbox.withBoxStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
+              ri.copy(context = TerminologyContext(ex, gj)),
               mi + (guuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -2073,13 +2093,14 @@ object OMLTablesResolver {
       Success(Tuple3(resolver, Map.empty, false))
     ) {
       case (Success(Tuple3(ri, mi, fi)), (buuid, x)) =>
+        implicit val ex: api.Extent = ri.context.extent
         val gi = ri.context.g
         val bundle = ri.context.bundles(buuid)
 
         val referencableConcepts
         : Map[tables.UUID, api.Concept]
         = gi.outerNodeTraverser(gi.get(bundle))
-          .foldLeft[Map[tables.UUID, api.Concept]](Map.empty)(_ ++ _.concepts().map(e => e.uuid.toString -> e))
+          .foldLeft[Map[tables.UUID, api.Concept]](Map.empty)(_ ++ _.concepts.flatMap(e => e.uuid(ex).map(id => id.toString -> e)))
 
         val (available, remaining) = x.partition { ax =>
           referencableConcepts.contains(ax.rootUUID)
@@ -2092,19 +2113,19 @@ object OMLTablesResolver {
           case (acc, ax) =>
             val x =
               ri.factory.createRootConceptTaxonomyAxiom(
-                bundle,
+                bundle.uuid(ex),
                 referencableConcepts(ax.rootUUID))
 
-            if (x.uuid.toString != ax.uuid)
+            if (!OMLOps.uuidEquivalent(x.uuid(ex), ax.uuid))
               throw new java.lang.IllegalArgumentException(s"OMLTablesResolver.RootConceptTaxonomyAxiom UUID mismatch: read: $ax, created: $x")
             acc + x
         }
 
         TerminologyContext
-          .replaceNode(ri.factory, gi, bundle, bundle.withBundleStatements(si))
+          .replaceNode(ri, gi, bundle, bundle.withBundleStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
+              ri.copy(context = TerminologyContext(ex, gj)),
               mi + (buuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -2149,6 +2170,7 @@ object OMLTablesResolver {
       Success(Tuple3(resolver, Map.empty, false))
     ) {
       case (Success(Tuple3(ri, mi, fi)), (buuid, x)) =>
+        implicit val ex: api.Extent = ri.context.extent
         val gi = ri.context.g
         val bundle = ri.context.bundles(buuid)
 
@@ -2163,7 +2185,7 @@ object OMLTablesResolver {
           _ ++
             _.bundleStatements.flatMap {
                 case csd: api.TerminologyBundleStatement with api.ConceptTreeDisjunction =>
-                  Some(csd.uuid.toString -> csd)
+                  csd.uuid(ex).map(id => id.toString -> csd)
                 case _ =>
                   None
               }
@@ -2180,19 +2202,19 @@ object OMLTablesResolver {
           case (acc, ax) =>
             val x =
             ri.factory.createAnonymousConceptTaxonomyAxiom(
-              bundle,
+              bundle.uuid(ex),
               referencableConceptTreeDisjunctions(ax.disjointTaxonomyParentUUID))
 
-            if (x.uuid.toString != ax.uuid)
+            if (!OMLOps.uuidEquivalent(x.uuid(ex), ax.uuid))
               throw new java.lang.IllegalArgumentException(s"OMLTablesResolver.AnonymousConceptTaxonomyAxiom UUID mismatch: read: $ax, created: $x")
             acc + x
           }
 
         TerminologyContext
-          .replaceNode(ri.factory, gi, bundle, bundle.withBundleStatements(si))
+          .replaceNode(ri, gi, bundle, bundle.withBundleStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
+              ri.copy(context = TerminologyContext(ex, gj)),
               mi + (buuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -2239,13 +2261,14 @@ object OMLTablesResolver {
       Success(Tuple3(resolver, Map.empty, false))
     ) {
       case (Success(Tuple3(ri, mi, fi)), (buuid, x)) =>
+        implicit val ex: api.Extent = ri.context.extent
         val gi = ri.context.g
         val bundle = ri.context.bundles(buuid)
 
         val referencableConcepts
         : Map[tables.UUID, api.Concept]
         = gi.outerNodeTraverser(gi.get(bundle))
-          .foldLeft[Map[tables.UUID, api.Concept]](Map.empty)(_ ++ _.concepts().map(e => e.uuid.toString -> e))
+          .foldLeft[Map[tables.UUID, api.Concept]](Map.empty)(_ ++ _.concepts.flatMap(e => e.uuid(ex).map(id => id.toString -> e)))
 
         val referencableConceptTreeDisjunctions
         : Map[tables.UUID, api.ConceptTreeDisjunction]
@@ -2258,7 +2281,7 @@ object OMLTablesResolver {
           _ ++
             _.bundleStatements.flatMap {
                 case csd: api.TerminologyBundleStatement with api.ConceptTreeDisjunction =>
-                  Some(csd.uuid.toString -> csd)
+                  csd.uuid(ex).map(id => id.toString -> csd)
                 case _ =>
                   None
               }
@@ -2276,20 +2299,20 @@ object OMLTablesResolver {
           case (acc, ax) =>
             val x =
               ri.factory.createSpecificDisjointConceptAxiom(
-                bundle,
+                bundle.uuid(ex),
                 referencableConceptTreeDisjunctions(ax.disjointTaxonomyParentUUID),
                 referencableConcepts(ax.disjointLeafUUID))
 
-            if (x.uuid.toString != ax.uuid)
+            if (!OMLOps.uuidEquivalent(x.uuid(ex), ax.uuid))
               throw new java.lang.IllegalArgumentException(s"OMLTablesResolver.TerminologyExtends UUID mismatch: read: $ax, created: $x")
             acc + x
         }
 
         TerminologyContext
-          .replaceNode(ri.factory, gi, bundle, bundle.withBundleStatements(si))
+          .replaceNode(ri, gi, bundle, bundle.withBundleStatements(si))
           .map { gj =>
             Tuple3(
-              ri.copy(context = TerminologyContext(ri.context.extent, gj)),
+              ri.copy(context = TerminologyContext(ex, gj)),
               mi + (buuid -> remaining),
               fi || si.nonEmpty)
           }
@@ -2349,6 +2372,7 @@ object OMLTablesResolver {
   def mergeMapOfMapOfSortedSet[K1, K2, V : Ordering]
   (mms1: Map[K1, Map[K2, SortedSet[V]]],
    mms2: Map[K1, Map[K2, SortedSet[V]]])
+  (implicit ex: api.Extent)
   : Map[K1, Map[K2, SortedSet[V]]]
   = (mms1.keySet ++ mms2.keySet)
     .map { k =>
@@ -2362,6 +2386,7 @@ object OMLTablesResolver {
   def annotationMapC
   (q_u1: (ResolvedAnnotationMap, AnnotationMapTables),
    q_u2: (ResolvedAnnotationMap, AnnotationMapTables))
+  (implicit ex: api.Extent)
   : (ResolvedAnnotationMap, AnnotationMapTables)
   = {
     val (q1, u1) = q_u1
@@ -2374,14 +2399,15 @@ object OMLTablesResolver {
   }
 
   def annotationMapS
-  (factory: api.OMLResolvedFactory,
+  (r: OMLTablesResolver,
    subjects_by_terminology: Map[tables.UUID, (api.TerminologyBox, Map[tables.UUID, api.Element])],
    aps: SortedSet[api.AnnotationProperty])
   (q_u: (ResolvedAnnotationMap, AnnotationMapTables),
    ap_as: (tables.AnnotationProperty, Seq[tables.AnnotationEntry]))
   : (ResolvedAnnotationMap, AnnotationMapTables)
   = {
-    val apByUUID: Map[tables.UUID, api.AnnotationProperty] = aps.map { ap => ap.uuid.toString -> ap }.toMap
+    implicit val ex: api.Extent = r.context.extent
+    val apByUUID: Map[tables.UUID, api.AnnotationProperty] = aps.map { ap => ap.uuid().toString -> ap }.toMap
     val (q1: ResolvedAnnotationMap, u1: AnnotationMapTables) = q_u
     val (ap: tables.AnnotationProperty, as: Seq[tables.AnnotationEntry]) = ap_as
 
@@ -2433,7 +2459,7 @@ object OMLTablesResolver {
             = annotations_by_prop.updated(
                 rap,
                 annotations_by_prop.getOrElse(rap, TreeSet.empty[api.AnnotationEntry]) +
-                  factory.createAnnotationEntry(tbox, subject, a.value))
+                  r.factory.createAnnotationEntry(tbox, subject, a.value))
             qi.updated(a.moduleUUID, with_a)
           }
         }
@@ -2449,20 +2475,21 @@ object OMLTablesResolver {
   }
 
   def mapAnnotationPairs
-  (resolver: OMLTablesResolver)
+  (r: OMLTablesResolver)
   : Try[OMLTablesResolver]
   = {
-    val ns = resolver.context.tboxes
+    implicit val ex: api.Extent = r.context.extent
+    val ns = r.context.tboxes
     val t2everything = ns.map { case (uuid, tbox) =>
-        uuid.toString -> (tbox -> tbox.everything().map { e => e.uuid.toString -> e }.toMap)
+        uuid.toString -> (tbox -> tbox.everything().flatMap { e => e.uuid(r.context.extent).map(id => id.toString -> e) }.toMap)
     }
 
     val (resolved, remaining)
-    = resolver
+    = r
       .queue
       .annotations.par
       .aggregate[(ResolvedAnnotationMap, AnnotationMapTables)](Map.empty, Map.empty)(
-      seqop = annotationMapS(resolver.factory, t2everything, resolver.context.extent.annotationProperties),
+      seqop = annotationMapS(r, t2everything, r.context.extent.annotationProperties),
       combop = annotationMapC)
 
     val unresolved
@@ -2471,7 +2498,7 @@ object OMLTablesResolver {
       case (acc, (_, annotations_by_property)) =>
         mergeMapOfSeq(acc, annotations_by_property)
     }
-    val r1 = resolver.copy(queue = resolver.queue.copy(annotations = unresolved))
+    val r1 = r.copy(queue = r.queue.copy(annotations = unresolved))
     val r2 = resolved.foldLeft[Try[OMLTablesResolver]](Success(r1)) { case (ri, (tUUID, annotations_by_property)) =>
       ri.flatMap { rj =>
         val tbox = rj.context.tboxes(UUID.fromString(tUUID))
@@ -2484,7 +2511,7 @@ object OMLTablesResolver {
         }
 
         val rk = TerminologyContext
-          .replaceNode(rj.factory, rj.context.g, tbox, tbox.withAnnotations(additions))
+          .replaceNode(rj, rj.context.g, tbox, tbox.withAnnotations(additions))
           .map { gi =>
             rj.copy(context = TerminologyContext(rj.context.extent, gi))
           }

@@ -30,11 +30,8 @@ trait UnreifiedRelationshipInstanceTuple
   extends TerminologyInstanceAssertion
 {
 
-  val descriptionBox: DescriptionBox
+  val descriptionBox: scala.Option[java.util.UUID] /* reference to a DescriptionBox */
   val unreifiedRelationship: UnreifiedRelationship
   val domain: ConceptualEntitySingletonInstance
   val range: ConceptualEntitySingletonInstance
-
-  override def calculateUUID
-  (): java.util.UUID
 }

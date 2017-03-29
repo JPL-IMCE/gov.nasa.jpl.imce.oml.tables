@@ -25,7 +25,7 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param uuid[1,1]
+  * @param uuid[0,1]
   * @param tboxUUID[1,1]
   * @param restrictedRangeUUID[1,1]
   * @param length[0,1]
@@ -35,7 +35,7 @@ import scala.Predef._
   */
 case class BinaryScalarRestriction
 (
-  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) uuid: scala.Option[UUID],
   @(JSExport @field) tboxUUID: UUID,
   @(JSExport @field) restrictedRangeUUID: UUID,
   @(JSExport @field) length: scala.Option[scala.Int],
@@ -45,12 +45,11 @@ case class BinaryScalarRestriction
 ) {
   @JSExport
   def this(
-    uuid: UUID,
     tboxUUID: UUID,
     restrictedRangeUUID: UUID,
     name: LocalName)
   = this(
-      uuid,
+      None /* uuid */,
       tboxUUID,
       restrictedRangeUUID,
       None /* length */,
@@ -58,6 +57,10 @@ case class BinaryScalarRestriction
       None /* maxLength */,
       name)
 
+  def withUuid(l: UUID)	 
+  : BinaryScalarRestriction
+  = copy(uuid=Some(l))
+  
   def withLength(l: scala.Int)	 
   : BinaryScalarRestriction
   = copy(length=Some(l))

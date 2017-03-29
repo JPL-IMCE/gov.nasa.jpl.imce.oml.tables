@@ -26,12 +26,7 @@ trait StructuredDataPropertyValue
   extends TerminologyInstanceAssertion
 {
 
-  val singletonInstance: SingletonInstance
+  val singletonInstance: scala.Option[java.util.UUID] /* reference to a SingletonInstance */
   val structuredDataProperty: DataRelationshipToStructure
   val structuredPropertyTuple: DataStructureTuple
-
-  override def calculateUUID
-  (): java.util.UUID
-  def descriptionBox
-  (): DescriptionBox
 }

@@ -25,21 +25,37 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param uuid[1,1]
+  * @param uuid[0,1]
   * @param descriptionBoxUUID[1,1]
   * @param reifiedRelationshipInstanceUUID[1,1]
   * @param domainUUID[1,1]
   * @param name[1,1]
   */
-@JSExport
 case class ReifiedRelationshipInstanceDomain
 (
-  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) uuid: scala.Option[UUID],
   @(JSExport @field) descriptionBoxUUID: UUID,
   @(JSExport @field) reifiedRelationshipInstanceUUID: UUID,
   @(JSExport @field) domainUUID: UUID,
   @(JSExport @field) name: LocalName
 ) {
+  @JSExport
+  def this(
+    descriptionBoxUUID: UUID,
+    reifiedRelationshipInstanceUUID: UUID,
+    domainUUID: UUID,
+    name: LocalName)
+  = this(
+      None /* uuid */,
+      descriptionBoxUUID,
+      reifiedRelationshipInstanceUUID,
+      domainUUID,
+      name)
+
+  def withUuid(l: UUID)	 
+  : ReifiedRelationshipInstanceDomain
+  = copy(uuid=Some(l))
+  
   override val hashCode
   : scala.Int 
   = (uuid, descriptionBoxUUID, reifiedRelationshipInstanceUUID, domainUUID, name).##

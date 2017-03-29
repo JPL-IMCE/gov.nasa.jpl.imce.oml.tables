@@ -26,10 +26,8 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait Element
 {
 
-  val uuid: java.util.UUID
-
-  def calculateUUID
-  (): java.util.UUID
+  def uuid
+  (extent: Extent): scala.Option[java.util.UUID]
 
 def canEqual(that: scala.Any): scala.Boolean
 }

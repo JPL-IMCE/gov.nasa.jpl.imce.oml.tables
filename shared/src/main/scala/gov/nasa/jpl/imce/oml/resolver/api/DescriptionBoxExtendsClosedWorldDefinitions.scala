@@ -28,13 +28,13 @@ trait DescriptionBoxExtendsClosedWorldDefinitions
   extends DescriptionBoxRelationship
 {
 
-  val descriptionBox: DescriptionBox
+  val descriptionBox: scala.Option[java.util.UUID] /* reference to a DescriptionBox */
   val closedWorldDefinitions: TerminologyBox
 
-  override def calculateUUID
-  (): java.util.UUID
+  override def uuid
+  (extent: Extent): scala.Option[java.util.UUID]
   def descriptionDomain
-  (): DescriptionBox
+  (extent: Extent): scala.Option[DescriptionBox]
   def targetModule
   (): Module
 }

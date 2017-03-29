@@ -25,6 +25,10 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait Extent
 {
 
+  val uuid: java.util.UUID
   val annotationProperties: scala.collection.immutable.SortedSet[AnnotationProperty]
-  val modules: scala.collection.immutable.SortedSet[Module]
+  val modules: scala.collection.immutable.Map[java.util.UUID, Module]
+
+  def lookupModule
+  (uuid: scala.Option[java.util.UUID]): scala.Option[Module]
 }

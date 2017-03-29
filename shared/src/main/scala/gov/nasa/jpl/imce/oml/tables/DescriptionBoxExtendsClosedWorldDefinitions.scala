@@ -25,17 +25,29 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param uuid[1,1]
+  * @param uuid[0,1]
   * @param descriptionBoxUUID[1,1]
   * @param closedWorldDefinitionsUUID[1,1]
   */
-@JSExport
 case class DescriptionBoxExtendsClosedWorldDefinitions
 (
-  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) uuid: scala.Option[UUID],
   @(JSExport @field) descriptionBoxUUID: UUID,
   @(JSExport @field) closedWorldDefinitionsUUID: UUID
 ) {
+  @JSExport
+  def this(
+    descriptionBoxUUID: UUID,
+    closedWorldDefinitionsUUID: UUID)
+  = this(
+      None /* uuid */,
+      descriptionBoxUUID,
+      closedWorldDefinitionsUUID)
+
+  def withUuid(l: UUID)	 
+  : DescriptionBoxExtendsClosedWorldDefinitions
+  = copy(uuid=Some(l))
+  
   override val hashCode
   : scala.Int 
   = (uuid, descriptionBoxUUID, closedWorldDefinitionsUUID).##

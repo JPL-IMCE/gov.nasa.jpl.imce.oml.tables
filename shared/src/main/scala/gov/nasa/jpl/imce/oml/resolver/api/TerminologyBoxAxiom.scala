@@ -26,5 +26,5 @@ trait TerminologyBoxAxiom
   extends TerminologyAxiom
 {
 
-  val tbox: TerminologyBox
+  val tbox: scala.Option[java.util.UUID] /* reference to a TerminologyBox */
 }

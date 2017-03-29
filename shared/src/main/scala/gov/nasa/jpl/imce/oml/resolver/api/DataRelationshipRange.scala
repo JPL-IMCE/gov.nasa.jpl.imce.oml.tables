@@ -25,6 +25,6 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait DataRelationshipRange
 {
 
-  def calculateUUID
-  (): java.util.UUID
+  def uuid
+  (extent: Extent): scala.Option[java.util.UUID]
 }

@@ -25,19 +25,33 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param uuid[1,1]
+  * @param uuid[0,1]
   * @param descriptionBoxUUID[1,1]
   * @param singletonConceptClassifierUUID[1,1]
   * @param name[1,1]
   */
-@JSExport
 case class ConceptInstance
 (
-  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) uuid: scala.Option[UUID],
   @(JSExport @field) descriptionBoxUUID: UUID,
   @(JSExport @field) singletonConceptClassifierUUID: UUID,
   @(JSExport @field) name: LocalName
 ) {
+  @JSExport
+  def this(
+    descriptionBoxUUID: UUID,
+    singletonConceptClassifierUUID: UUID,
+    name: LocalName)
+  = this(
+      None /* uuid */,
+      descriptionBoxUUID,
+      singletonConceptClassifierUUID,
+      name)
+
+  def withUuid(l: UUID)	 
+  : ConceptInstance
+  = copy(uuid=Some(l))
+  
   override val hashCode
   : scala.Int 
   = (uuid, descriptionBoxUUID, singletonConceptClassifierUUID, name).##

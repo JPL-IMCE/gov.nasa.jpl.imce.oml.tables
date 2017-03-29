@@ -25,19 +25,33 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param uuid[1,1]
+  * @param uuid[0,1]
   * @param descriptionBoxUUID[1,1]
   * @param singletonReifiedRelationshipClassifierUUID[1,1]
   * @param name[1,1]
   */
-@JSExport
 case class ReifiedRelationshipInstance
 (
-  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) uuid: scala.Option[UUID],
   @(JSExport @field) descriptionBoxUUID: UUID,
   @(JSExport @field) singletonReifiedRelationshipClassifierUUID: UUID,
   @(JSExport @field) name: LocalName
 ) {
+  @JSExport
+  def this(
+    descriptionBoxUUID: UUID,
+    singletonReifiedRelationshipClassifierUUID: UUID,
+    name: LocalName)
+  = this(
+      None /* uuid */,
+      descriptionBoxUUID,
+      singletonReifiedRelationshipClassifierUUID,
+      name)
+
+  def withUuid(l: UUID)	 
+  : ReifiedRelationshipInstance
+  = copy(uuid=Some(l))
+  
   override val hashCode
   : scala.Int 
   = (uuid, descriptionBoxUUID, singletonReifiedRelationshipClassifierUUID, name).##

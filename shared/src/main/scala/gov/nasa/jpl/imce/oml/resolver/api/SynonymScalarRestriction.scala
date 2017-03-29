@@ -25,6 +25,6 @@ trait SynonymScalarRestriction
   extends RestrictedDataRange
 {
 
-  override def calculateUUID
-  (): java.util.UUID
+  override def uuid
+  (extent: Extent): scala.Option[java.util.UUID]
 }

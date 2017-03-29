@@ -33,7 +33,8 @@ public class BinaryScalarRestrictionTest {
         String name = "abc";
         String restrictedRangeUUID = "1245-ABCD-2345-4567";
 
-        BinaryScalarRestriction w1 = new BinaryScalarRestriction(uuid, tboxUUID, restrictedRangeUUID, name)
+        BinaryScalarRestriction w1 = new BinaryScalarRestriction(tboxUUID, restrictedRangeUUID, name)
+                .withUuid(uuid)
                 .withLength(5)
                 .withMaxLength(50)
                 .withMinLength(1);
@@ -47,7 +48,7 @@ public class BinaryScalarRestrictionTest {
         String minL = "[" + w1.minLength().get() + "]";
 
         String t1 = String.format(
-                "{\"uuid\":\"%s\",\"tboxUUID\":\"%s\",\"restrictedRangeUUID\":\"%s\",\"length\":%s,\"minLength\":%s,\"maxLength\":%s,\"name\":\"%s\"}",
+                "{\"uuid\":[\"%s\"],\"tboxUUID\":\"%s\",\"restrictedRangeUUID\":\"%s\",\"length\":%s,\"minLength\":%s,\"maxLength\":%s,\"name\":\"%s\"}",
                 uuid, tboxUUID, restrictedRangeUUID, ls, minL, maxL, name);
         Assert.assertEquals(t1, s1);
 

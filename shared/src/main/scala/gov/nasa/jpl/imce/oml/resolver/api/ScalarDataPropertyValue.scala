@@ -26,12 +26,7 @@ trait ScalarDataPropertyValue
   extends TerminologyInstanceAssertion
 {
 
-  val singletonInstance: SingletonInstance
+  val singletonInstance: scala.Option[java.util.UUID] /* reference to a SingletonInstance */
   val scalarDataProperty: DataRelationshipToScalar
   val scalarPropertyValue: scala.Predef.String
-
-  override def calculateUUID
-  (): java.util.UUID
-  def descriptionBox
-  (): DescriptionBox
 }

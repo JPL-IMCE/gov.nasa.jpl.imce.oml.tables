@@ -25,17 +25,29 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param uuid[1,1]
+  * @param uuid[0,1]
   * @param tboxUUID[1,1]
   * @param name[1,1]
   */
-@JSExport
 case class Concept
 (
-  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) uuid: scala.Option[UUID],
   @(JSExport @field) tboxUUID: UUID,
   @(JSExport @field) name: LocalName
 ) {
+  @JSExport
+  def this(
+    tboxUUID: UUID,
+    name: LocalName)
+  = this(
+      None /* uuid */,
+      tboxUUID,
+      name)
+
+  def withUuid(l: UUID)	 
+  : Concept
+  = copy(uuid=Some(l))
+  
   override val hashCode
   : scala.Int 
   = (uuid, tboxUUID, name).##

@@ -25,21 +25,37 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param uuid[1,1]
+  * @param uuid[0,1]
   * @param tboxUUID[1,1]
   * @param restrictedRelationUUID[1,1]
   * @param restrictedDomainUUID[1,1]
   * @param restrictedRangeUUID[1,1]
   */
-@JSExport
 case class EntityUniversalRestrictionAxiom
 (
-  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) uuid: scala.Option[UUID],
   @(JSExport @field) tboxUUID: UUID,
   @(JSExport @field) restrictedRelationUUID: UUID,
   @(JSExport @field) restrictedDomainUUID: UUID,
   @(JSExport @field) restrictedRangeUUID: UUID
 ) {
+  @JSExport
+  def this(
+    tboxUUID: UUID,
+    restrictedRelationUUID: UUID,
+    restrictedDomainUUID: UUID,
+    restrictedRangeUUID: UUID)
+  = this(
+      None /* uuid */,
+      tboxUUID,
+      restrictedRelationUUID,
+      restrictedDomainUUID,
+      restrictedRangeUUID)
+
+  def withUuid(l: UUID)	 
+  : EntityUniversalRestrictionAxiom
+  = copy(uuid=Some(l))
+  
   override val hashCode
   : scala.Int 
   = (uuid, tboxUUID, restrictedRelationUUID, restrictedDomainUUID, restrictedRangeUUID).##

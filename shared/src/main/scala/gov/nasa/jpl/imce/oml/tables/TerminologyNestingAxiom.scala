@@ -25,19 +25,33 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param uuid[1,1]
+  * @param uuid[0,1]
   * @param tboxUUID[1,1]
   * @param nestingTerminologyUUID[1,1]
   * @param nestingContextUUID[1,1]
   */
-@JSExport
 case class TerminologyNestingAxiom
 (
-  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) uuid: scala.Option[UUID],
   @(JSExport @field) tboxUUID: UUID,
   @(JSExport @field) nestingTerminologyUUID: UUID,
   @(JSExport @field) nestingContextUUID: UUID
 ) {
+  @JSExport
+  def this(
+    tboxUUID: UUID,
+    nestingTerminologyUUID: UUID,
+    nestingContextUUID: UUID)
+  = this(
+      None /* uuid */,
+      tboxUUID,
+      nestingTerminologyUUID,
+      nestingContextUUID)
+
+  def withUuid(l: UUID)	 
+  : TerminologyNestingAxiom
+  = copy(uuid=Some(l))
+  
   override val hashCode
   : scala.Int 
   = (uuid, tboxUUID, nestingTerminologyUUID, nestingContextUUID).##

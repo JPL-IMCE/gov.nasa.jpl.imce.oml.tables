@@ -25,7 +25,7 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param uuid[1,1]
+  * @param uuid[0,1]
   * @param tboxUUID[1,1]
   * @param restrictedRangeUUID[1,1]
   * @param minExclusive[0,1]
@@ -36,7 +36,7 @@ import scala.Predef._
   */
 case class NumericScalarRestriction
 (
-  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) uuid: scala.Option[UUID],
   @(JSExport @field) tboxUUID: UUID,
   @(JSExport @field) restrictedRangeUUID: UUID,
   @(JSExport @field) minExclusive: scala.Option[LexicalNumber],
@@ -47,12 +47,11 @@ case class NumericScalarRestriction
 ) {
   @JSExport
   def this(
-    uuid: UUID,
     tboxUUID: UUID,
     restrictedRangeUUID: UUID,
     name: LocalName)
   = this(
-      uuid,
+      None /* uuid */,
       tboxUUID,
       restrictedRangeUUID,
       None /* minExclusive */,
@@ -61,6 +60,10 @@ case class NumericScalarRestriction
       None /* maxInclusive */,
       name)
 
+  def withUuid(l: UUID)	 
+  : NumericScalarRestriction
+  = copy(uuid=Some(l))
+  
   def withMinExclusive(l: LexicalNumber)	 
   : NumericScalarRestriction
   = copy(minExclusive=Some(l))

@@ -48,35 +48,38 @@ object TerminologyEdge {
   = new TerminologyEdge[resolver.api.TerminologyBox](NodeProduct(from, to), tAxiom)
 
   def replaceSource
-  (factory: resolver.api.OMLResolvedFactory,
+  (r: OMLTablesResolver,
+   factory: resolver.api.OMLResolvedFactory,
    e: TerminologyEdge[resolver.api.TerminologyBox],
    thatSource: resolver.api.TerminologyBox)
   : TerminologyEdge[resolver.api.TerminologyBox]
   = new TerminologyEdge[resolver.api.TerminologyBox](
     Tuple2(thatSource, e.target),
-    replaceAxiomSource(factory, e.tAxiom, thatSource))
+    replaceAxiomSource(r, factory, e.tAxiom, thatSource))
 
   def replaceTarget
-  (factory: resolver.api.OMLResolvedFactory,
+  (r: OMLTablesResolver,
+   factory: resolver.api.OMLResolvedFactory,
    e: TerminologyEdge[resolver.api.TerminologyBox],
    thatTarget: resolver.api.TerminologyBox)
   : TerminologyEdge[resolver.api.TerminologyBox]
   = new TerminologyEdge[resolver.api.TerminologyBox](
     Tuple2(e.source, thatTarget),
-    replaceAxiomTarget(factory, e.tAxiom, thatTarget))
+    replaceAxiomTarget(r, factory, e.tAxiom, thatTarget))
 
   def replaceAxiomSource
-  (factory: resolver.api.OMLResolvedFactory,
+  (r: OMLTablesResolver,
+   factory: resolver.api.OMLResolvedFactory,
    tAxiom: resolver.api.TerminologyAxiom,
    thatSource: resolver.api.TerminologyBox)
   : resolver.api.TerminologyAxiom
   = tAxiom match {
     case tx: resolver.api.TerminologyExtensionAxiom =>
-      factory.copyTerminologyExtensionAxiom_tbox(tx, thatSource)
+      factory.copyTerminologyExtensionAxiom_tbox(tx, thatSource.uuid(r.context.extent))
     case tx: resolver.api.ConceptDesignationTerminologyAxiom =>
       thatSource match {
         case thatGraph: resolver.api.TerminologyGraph =>
-          factory.copyConceptDesignationTerminologyAxiom_tbox(tx, thatGraph)
+          factory.copyConceptDesignationTerminologyAxiom_tbox(tx, thatGraph.uuid(r.context.extent))
         case _ =>
           throw new java.lang.IllegalArgumentException(
             "replaceAxiomSource for a ConceptualDesignationTerminologyAxiom must be a TerminologyGraph!")
@@ -84,7 +87,7 @@ object TerminologyEdge {
     case tx: resolver.api.TerminologyNestingAxiom =>
       thatSource match {
         case thatGraph: resolver.api.TerminologyGraph =>
-          factory.copyTerminologyNestingAxiom_tbox(tx, thatGraph)
+          factory.copyTerminologyNestingAxiom_tbox(tx, thatGraph.uuid(r.context.extent))
         case _ =>
           throw new java.lang.IllegalArgumentException(
             "replaceAxiomSource for a TerminologyNestingAxiom must be a TerminologyGraph!")
@@ -92,7 +95,7 @@ object TerminologyEdge {
     case tx: resolver.api.BundledTerminologyAxiom =>
       thatSource match {
         case thatBundle: resolver.api.Bundle =>
-          factory.copyBundledTerminologyAxiom_bundle(tx, thatBundle)
+          factory.copyBundledTerminologyAxiom_bundle(tx, thatBundle.uuid(r.context.extent))
         case _ =>
           throw new java.lang.IllegalArgumentException(
             "replaceAxiomSource for a BundledTerminologyAxiom must be a TerminologyGraph!")
@@ -100,7 +103,8 @@ object TerminologyEdge {
   }
 
   def replaceAxiomTarget
-  (factory: resolver.api.OMLResolvedFactory,
+  (r: OMLTablesResolver,
+   factory: resolver.api.OMLResolvedFactory,
    tAxiom: resolver.api.TerminologyAxiom,
    thatTarget: resolver.api.TerminologyBox)
   : resolver.api.TerminologyAxiom

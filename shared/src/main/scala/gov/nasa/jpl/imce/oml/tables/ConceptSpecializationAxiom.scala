@@ -25,19 +25,33 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param uuid[1,1]
+  * @param uuid[0,1]
   * @param tboxUUID[1,1]
   * @param superConceptUUID[1,1]
   * @param subConceptUUID[1,1]
   */
-@JSExport
 case class ConceptSpecializationAxiom
 (
-  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) uuid: scala.Option[UUID],
   @(JSExport @field) tboxUUID: UUID,
   @(JSExport @field) superConceptUUID: UUID,
   @(JSExport @field) subConceptUUID: UUID
 ) {
+  @JSExport
+  def this(
+    tboxUUID: UUID,
+    superConceptUUID: UUID,
+    subConceptUUID: UUID)
+  = this(
+      None /* uuid */,
+      tboxUUID,
+      superConceptUUID,
+      subConceptUUID)
+
+  def withUuid(l: UUID)	 
+  : ConceptSpecializationAxiom
+  = copy(uuid=Some(l))
+  
   override val hashCode
   : scala.Int 
   = (uuid, tboxUUID, superConceptUUID, subConceptUUID).##

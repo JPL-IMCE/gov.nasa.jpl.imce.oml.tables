@@ -19,7 +19,7 @@
 package gov.nasa.jpl.imce.oml.resolver.api
 
 /*
- * An OML TerminologyInstanceAssertion is a logical OML TerminologyThing defined in an OML TerminologyDescription.
+ * An OML TerminologyInstanceAssertion is a logical OML ModuleElement defined in an OML TerminologyDescription.
  */
 trait TerminologyInstanceAssertion
   extends ModuleElement
@@ -29,12 +29,14 @@ trait TerminologyInstanceAssertion
   override val name: gov.nasa.jpl.imce.oml.tables.LocalName
 
   def descriptionBox
-  (): DescriptionBox
+  (): scala.Option[java.util.UUID]
+  def descriptionBox
+  (extent: Extent): scala.Option[DescriptionBox]
   override def iri
-  (): gov.nasa.jpl.imce.oml.tables.IRI
+  (extent: Extent): scala.Option[gov.nasa.jpl.imce.oml.tables.IRI]
   /*
-   * The UUID of a Term is a Version5 namespace UUID based on the term's IRI.
+   * The UUID of a Term is a Version5 namespace UUID based on the terminology instance assertion's IRI.
    */
-  override def calculateUUID
-  (): java.util.UUID
+  override def uuid
+  (extent: Extent): scala.Option[java.util.UUID]
 }

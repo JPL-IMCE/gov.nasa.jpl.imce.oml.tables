@@ -31,6 +31,6 @@ trait ScalarOneOfLiteralAxiom
    */
   val value: gov.nasa.jpl.imce.oml.tables.LexicalValue
 
-  override def calculateUUID
-  (): java.util.UUID
+  override def uuid
+  (extent: Extent): scala.Option[java.util.UUID]
 }

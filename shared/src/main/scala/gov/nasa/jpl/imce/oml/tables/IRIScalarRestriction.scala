@@ -25,7 +25,7 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param uuid[1,1]
+  * @param uuid[0,1]
   * @param tboxUUID[1,1]
   * @param restrictedRangeUUID[1,1]
   * @param length[0,1]
@@ -36,7 +36,7 @@ import scala.Predef._
   */
 case class IRIScalarRestriction
 (
-  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) uuid: scala.Option[UUID],
   @(JSExport @field) tboxUUID: UUID,
   @(JSExport @field) restrictedRangeUUID: UUID,
   @(JSExport @field) length: scala.Option[scala.Int],
@@ -47,12 +47,11 @@ case class IRIScalarRestriction
 ) {
   @JSExport
   def this(
-    uuid: UUID,
     tboxUUID: UUID,
     restrictedRangeUUID: UUID,
     name: LocalName)
   = this(
-      uuid,
+      None /* uuid */,
       tboxUUID,
       restrictedRangeUUID,
       None /* length */,
@@ -61,6 +60,10 @@ case class IRIScalarRestriction
       name,
       None /* pattern */)
 
+  def withUuid(l: UUID)	 
+  : IRIScalarRestriction
+  = copy(uuid=Some(l))
+  
   def withLength(l: scala.Int)	 
   : IRIScalarRestriction
   = copy(length=Some(l))

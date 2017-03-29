@@ -25,7 +25,7 @@ import gov.nasa.jpl.imce.oml._
 import scala.collection.immutable.{Map, Set, TreeSet}
 import scala.util.control.Exception._
 import scala.util.{Failure, Success, Try}
-import scala.{Option,None,PartialFunction,Some,StringContext,Tuple2}
+import scala.{Option,None,PartialFunction,StringContext,Tuple2}
 import scala.Predef.{ArrowAssoc, require}
 
 import scalax.collection.GraphPredef._
@@ -54,14 +54,14 @@ case class TerminologyContext private[resolver]
 
   val nodes
   : Map[UUID, resolver.api.Module]
-  = g.nodes.toOuter.map(t => t.uuid -> t).toMap
+  = g.nodes.toOuter.flatMap(t => t.uuid(extent).map(id => id -> t)).toMap
 
   val tboxes
   : Map[UUID, resolver.api.TerminologyBox]
   = g.nodes.toOuter
     .flatMap {
       case t: resolver.api.TerminologyBox =>
-        Some(t.uuid -> t)
+        t.uuid(extent).map(id => id -> t)
       case _ =>
         None
     }
@@ -72,7 +72,7 @@ case class TerminologyContext private[resolver]
   = g.nodes.toOuter
     .flatMap {
       case t: resolver.api.TerminologyGraph =>
-        Some(t.uuid -> t)
+        t.uuid(extent).map(id => id -> t)
       case _ =>
         None
     }
@@ -83,7 +83,7 @@ case class TerminologyContext private[resolver]
   = g.nodes.toOuter
     .flatMap {
       case t: resolver.api.Bundle =>
-        Some(t.uuid -> t)
+        t.uuid(extent).map(id => id -> t)
       case _ =>
         None
     }
@@ -94,7 +94,7 @@ case class TerminologyContext private[resolver]
   = g.nodes.toOuter
     .flatMap {
       case t: resolver.api.DescriptionBox =>
-        Some(t.uuid -> t)
+        t.uuid(extent).map(id => id -> t)
       case _ =>
         None
     }
@@ -114,7 +114,7 @@ case class TerminologyContext private[resolver]
 object TerminologyContext {
 
   def replaceNode
-  (factory: resolver.api.OMLResolvedFactory,
+  (r: OMLTablesResolver,
    g: Graph[resolver.api.Module, TerminologyEdge],
    prev: resolver.api.Module,
    next: resolver.api.Module)
@@ -145,10 +145,12 @@ object TerminologyContext {
   }
 
   def initialize
-  (factory: resolver.api.OMLResolvedFactory)
+  (r: OMLTablesResolver,
+   extentUUID: java.util.UUID)
   : TerminologyContext
   = TerminologyContext(
-    factory.createExtent(
+    r.factory.createExtent(
+      uuid = extentUUID,
       annotationProperties = TreeSet.empty[resolver.api.AnnotationProperty],
-      modules = TreeSet.empty[resolver.api.Module]))
+      modules = Map.empty[java.util.UUID, resolver.api.Module]))
 }
