@@ -9,9 +9,9 @@ node_modules/
 target/
 gh-pages/
 local.*
-jpl-omf-schema-tables.js
-jpl-omf-schema-tables.js.map
-jpl-omf-schema-tables-test-opt.js
-jpl-omf-schema-tables-test-opt.js.map
+gov-nasa-jpl-imce-oml-tables.js
+gov-nasa-jpl-imce-oml-tables.js.map
+gov-nasa-jpl-imce-oml-tables-test-opt.js
+gov-nasa-jpl-imce-oml-tables-test-opt.js.map
 package.json
 project/project/

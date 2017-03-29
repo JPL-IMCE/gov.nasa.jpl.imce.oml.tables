@@ -42,7 +42,7 @@ import org.scalacheck.Properties
 
 import scala.{None, Option, Some, StringContext}
 
-object BinaryScalarRestrictionAxiomTest extends Properties("") {
+object BinaryScalarRestrictionAxiomTest extends Properties("BinaryScalarRestriction") {
 
   property("construction") = forAll(
     SchemaGenerators.uuid,
@@ -73,7 +73,7 @@ object BinaryScalarRestrictionAxiomTest extends Properties("") {
         case None => "[]"
         case Some(n) => s"[$n]"
       }
-      val t = s"""{"uuid":["${w.uuid}"],"tboxUUID":"${w.tboxUUID}","restrictedRangeUUID":"${w.restrictedRangeUUID}","length":$l,"minLength":$min,"maxLength":$max,"name":"${w.name}"}"""
+      val t = s"""{"uuid":["${w.uuid.getOrElse("")}"],"tboxUUID":"${w.tboxUUID}","restrictedRangeUUID":"${w.restrictedRangeUUID}","length":$l,"minLength":$min,"maxLength":$max,"name":"${w.name}"}"""
       val r = BinaryScalarRestrictionHelper.fromJSON(s)
       (s == t) && (w.tboxUUID == r.tboxUUID) && (w.uuid == r.uuid) && (w.length == r.length) && (w.maxLength == r.maxLength) && (w.minLength == r.minLength) && (w.restrictedRangeUUID == r.restrictedRangeUUID) && (w.name == r.name)
     })

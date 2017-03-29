@@ -35,7 +35,7 @@ object TerminologyGraphSpecification extends Properties("TerminologyGraph") {
      iri: String) => {
     val w = TerminologyGraph(Some(uuid.toString), kind, iri)
     val s = TerminologyGraphHelper.toJSON(w)
-    val t = s"""{"uuid":["${w.uuid}"],"kind":"${w.kind}","iri":"${w.iri}"}"""
+    val t = s"""{"uuid":["${w.uuid.getOrElse("")}"],"kind":"${w.kind}","iri":"${w.iri}"}"""
     val r = TerminologyGraphHelper.fromJSON(s)
     (s == t) &&
       (w.uuid == r.uuid) &&
