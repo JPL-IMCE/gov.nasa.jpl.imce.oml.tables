@@ -27,13 +27,12 @@ trait DescriptionBoxRefinement
   extends DescriptionBoxRelationship
 {
 
-  val refiningDescriptionBox: scala.Option[java.util.UUID] /* reference to a DescriptionBox */
   val refinedDescriptionBox: DescriptionBox
 
   override def uuid
-  (extent: Extent): scala.Option[java.util.UUID]
+  ()(implicit extent: Extent): scala.Option[java.util.UUID]
   def descriptionDomain
-  (extent: Extent): scala.Option[DescriptionBox]
+  ()(implicit extent: Extent): scala.Option[DescriptionBox]
   def targetModule
   (): Module
 }

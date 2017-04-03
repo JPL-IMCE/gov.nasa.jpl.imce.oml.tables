@@ -25,6 +25,4 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait TerminologyBundleStatement
   extends ModuleElement
 {
-
-  val bundle: scala.Option[java.util.UUID] /* reference to a Bundle */
 }

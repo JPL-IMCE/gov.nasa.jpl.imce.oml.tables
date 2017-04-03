@@ -24,13 +24,4 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait TerminologyGraph
   extends TerminologyBox
 {
-
-  override def withAnnotations
-  (a: scala.collection.immutable.SortedSet[AnnotationPropertyTable]): TerminologyGraph
-  override def annotationsByProperty
-  (): scala.collection.immutable.SortedSet[AnnotationPropertyTable]
-  override def withBoxAxioms
-  (s: scala.collection.immutable.SortedSet[TerminologyBoxAxiom]): TerminologyGraph
-  override def withBoxStatements
-  (s: scala.collection.immutable.SortedSet[TerminologyBoxStatement]): TerminologyGraph
 }

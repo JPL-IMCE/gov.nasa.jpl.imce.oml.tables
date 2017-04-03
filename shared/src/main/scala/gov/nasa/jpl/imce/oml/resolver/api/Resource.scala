@@ -30,7 +30,7 @@ trait Resource
 {
 
   def iri
-  (extent: Extent): scala.Option[gov.nasa.jpl.imce.oml.tables.IRI]
+  ()(implicit extent: Extent): scala.Option[gov.nasa.jpl.imce.oml.tables.IRI]
   def name
   (): gov.nasa.jpl.imce.oml.tables.LocalName
 }

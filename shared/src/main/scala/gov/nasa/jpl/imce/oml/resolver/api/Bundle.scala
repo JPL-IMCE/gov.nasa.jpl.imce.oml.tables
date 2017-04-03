@@ -27,25 +27,6 @@ trait Bundle
   extends TerminologyBox
 {
 
-  /*
-   * The TerminologyBundleStatements asserted in this Bundle
-   */
-  val bundleStatements: scala.collection.immutable.SortedSet[TerminologyBundleStatement]
-  /*
-   * The BundledTerminologyAxioms asserted in this Bundle
-   */
-  val bundleAxioms: scala.collection.immutable.SortedSet[TerminologyBundleAxiom]
-
-  override def withAnnotations
-  (a: scala.collection.immutable.SortedSet[AnnotationPropertyTable]): Bundle
-  override def annotationsByProperty
-  (): scala.collection.immutable.SortedSet[AnnotationPropertyTable]
-  def withBundleStatements
-  (s: scala.collection.immutable.SortedSet[TerminologyBundleStatement]): Bundle
-  override def withBoxAxioms
-  (s: scala.collection.immutable.SortedSet[TerminologyBoxAxiom]): Bundle
-  override def withBoxStatements
-  (s: scala.collection.immutable.SortedSet[TerminologyBoxStatement]): Bundle
   override def everything
-  (): scala.collection.immutable.SortedSet[Element]
+  (): scala.collection.immutable.Set[_ <: Element]
 }

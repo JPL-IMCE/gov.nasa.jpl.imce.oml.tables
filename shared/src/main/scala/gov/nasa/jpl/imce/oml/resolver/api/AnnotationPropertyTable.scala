@@ -27,5 +27,4 @@ trait AnnotationPropertyTable
 {
 
   val key: AnnotationProperty
-  val value: scala.collection.immutable.SortedSet[AnnotationEntry]
 }

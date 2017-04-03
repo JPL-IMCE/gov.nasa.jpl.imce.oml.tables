@@ -33,17 +33,17 @@ trait ConceptDesignationTerminologyAxiom
   val designatedConcept: Concept
 
   override def uuid
-  (extent: Extent): scala.Option[java.util.UUID]
+  ()(implicit extent: Extent): scala.Option[java.util.UUID]
   def designationTerminologyGraph
-  (extent: Extent): scala.Option[TerminologyGraph]
+  ()(implicit extent: Extent): scala.Option[TerminologyGraph]
   /*
    * The designationTerminologyGraph is the source
    */
   override def source
-  (extent: Extent): scala.Option[TerminologyBox]
+  ()(implicit extent: Extent): scala.Option[TerminologyBox]
   /*
    * The TerminologyBox that asserts the designatedConcept is the target
    */
   override def target
-  (extent: Extent): TerminologyBox
+  ()(implicit extent: Extent): TerminologyBox
 }

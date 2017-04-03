@@ -58,5 +58,5 @@ trait PlainLiteralScalarRestriction
   val langRange: scala.Option[gov.nasa.jpl.imce.oml.tables.LangRange]
 
   override def uuid
-  (extent: Extent): scala.Option[java.util.UUID]
+  ()(implicit extent: Extent): scala.Option[java.util.UUID]
 }

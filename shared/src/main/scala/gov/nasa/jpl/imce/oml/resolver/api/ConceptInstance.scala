@@ -25,7 +25,6 @@ trait ConceptInstance
   extends ConceptualEntitySingletonInstance
 {
 
-  val descriptionBox: scala.Option[java.util.UUID] /* reference to a DescriptionBox */
   val singletonConceptClassifier: Concept
 
   override def conceptualEntitySingletonClassifier

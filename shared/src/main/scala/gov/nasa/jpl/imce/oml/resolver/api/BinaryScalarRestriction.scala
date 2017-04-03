@@ -49,5 +49,5 @@ trait BinaryScalarRestriction
   val maxLength: scala.Option[scala.Int]
 
   override def uuid
-  (extent: Extent): scala.Option[java.util.UUID]
+  ()(implicit extent: Extent): scala.Option[java.util.UUID]
 }

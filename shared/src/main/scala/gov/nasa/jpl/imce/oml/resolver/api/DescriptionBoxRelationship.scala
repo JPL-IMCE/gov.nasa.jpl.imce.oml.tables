@@ -23,11 +23,11 @@ package gov.nasa.jpl.imce.oml.resolver.api
  * from an OML DescriptionBox source to an OML Module target.
  */
 trait DescriptionBoxRelationship
-  extends ModuleElement
+  extends ModuleEdge
 {
 
   def descriptionDomain
-  (extent: Extent): scala.Option[DescriptionBox]
-  def targetModule
+  ()(implicit extent: Extent): scala.Option[DescriptionBox]
+  def sourceModule
   (): Module
 }

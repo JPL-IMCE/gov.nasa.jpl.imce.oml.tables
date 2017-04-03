@@ -22,17 +22,21 @@ package gov.nasa.jpl.imce.oml.resolver.api
  * An OML TerminologyAxiom is asserted in an OML TerminologyBox of some kind.
  */
 trait TerminologyAxiom
-  extends ModuleElement
+  extends ModuleEdge
 {
 
   /*
    * The source TerminologyBox
    */
   def source
-  (extent: Extent): scala.Option[TerminologyBox]
+  ()(implicit extent: Extent): scala.Option[TerminologyBox]
+  def sourceModule
+  (): Module
   /*
    * The target TerminologyBox
    */
   def target
-  (extent: Extent): TerminologyBox
+  ()(implicit extent: Extent): TerminologyBox
+  def targetModule
+  (): Module
 }

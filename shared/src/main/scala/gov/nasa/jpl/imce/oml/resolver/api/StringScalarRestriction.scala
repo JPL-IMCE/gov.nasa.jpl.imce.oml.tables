@@ -59,5 +59,5 @@ trait StringScalarRestriction
   val pattern: scala.Option[gov.nasa.jpl.imce.oml.tables.Pattern]
 
   override def uuid
-  (extent: Extent): scala.Option[java.util.UUID]
+  ()(implicit extent: Extent): scala.Option[java.util.UUID]
 }

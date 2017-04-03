@@ -24,6 +24,4 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait TerminologyBundleAxiom
   extends TerminologyAxiom
 {
-
-  val bundle: scala.Option[java.util.UUID] /* reference to a Bundle */
 }

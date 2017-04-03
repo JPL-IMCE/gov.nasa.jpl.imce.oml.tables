@@ -70,7 +70,7 @@ case class OMLSpecificationTables
   specificDisjointConceptAxioms : Seq[SpecificDisjointConceptAxiom] = Seq.empty,
   conceptInstances : Seq[ConceptInstance] = Seq.empty,
   dataStructureTuples : Seq[DataStructureTuple] = Seq.empty,
-  descriptionBoxs : Seq[DescriptionBox] = Seq.empty,
+  descriptionBoxes : Seq[DescriptionBox] = Seq.empty,
   descriptionBoxExtendsClosedWorldDefinitionss : Seq[DescriptionBoxExtendsClosedWorldDefinitions] = Seq.empty,
   descriptionBoxRefinements : Seq[DescriptionBoxRefinement] = Seq.empty,
   reifiedRelationshipInstances : Seq[ReifiedRelationshipInstance] = Seq.empty,
@@ -198,9 +198,9 @@ case class OMLSpecificationTables
   def readDataStructureTuples(is: InputStream)
   : OMLSpecificationTables
   = copy(dataStructureTuples = readJSonTable(is, DataStructureTupleHelper.fromJSON))
-  def readDescriptionBoxs(is: InputStream)
+  def readDescriptionBoxes(is: InputStream)
   : OMLSpecificationTables
-  = copy(descriptionBoxs = readJSonTable(is, DescriptionBoxHelper.fromJSON))
+  = copy(descriptionBoxes = readJSonTable(is, DescriptionBoxHelper.fromJSON))
   def readDescriptionBoxExtendsClosedWorldDefinitionss(is: InputStream)
   : OMLSpecificationTables
   = copy(descriptionBoxExtendsClosedWorldDefinitionss = readJSonTable(is, DescriptionBoxExtendsClosedWorldDefinitionsHelper.fromJSON))
@@ -266,7 +266,7 @@ case class OMLSpecificationTables
     specificDisjointConceptAxioms.isEmpty &&
     conceptInstances.isEmpty &&
     dataStructureTuples.isEmpty &&
-    descriptionBoxs.isEmpty &&
+    descriptionBoxes.isEmpty &&
     descriptionBoxExtendsClosedWorldDefinitionss.isEmpty &&
     descriptionBoxRefinements.isEmpty &&
     reifiedRelationshipInstances.isEmpty &&
@@ -347,7 +347,7 @@ object OMLSpecificationTables {
       specificDisjointConceptAxioms = t1.specificDisjointConceptAxioms ++ t2.specificDisjointConceptAxioms,
       conceptInstances = t1.conceptInstances ++ t2.conceptInstances,
       dataStructureTuples = t1.dataStructureTuples ++ t2.dataStructureTuples,
-      descriptionBoxs = t1.descriptionBoxs ++ t2.descriptionBoxs,
+      descriptionBoxes = t1.descriptionBoxes ++ t2.descriptionBoxes,
       descriptionBoxExtendsClosedWorldDefinitionss = t1.descriptionBoxExtendsClosedWorldDefinitionss ++ t2.descriptionBoxExtendsClosedWorldDefinitionss,
       descriptionBoxRefinements = t1.descriptionBoxRefinements ++ t2.descriptionBoxRefinements,
       reifiedRelationshipInstances = t1.reifiedRelationshipInstances ++ t2.reifiedRelationshipInstances,
@@ -444,7 +444,7 @@ object OMLSpecificationTables {
   	  case DataStructureTupleHelper.TABLE_JSON_FILENAME =>
   	    tables.readDataStructureTuples(is)
   	  case DescriptionBoxHelper.TABLE_JSON_FILENAME =>
-  	    tables.readDescriptionBoxs(is)
+  	    tables.readDescriptionBoxes(is)
   	  case DescriptionBoxExtendsClosedWorldDefinitionsHelper.TABLE_JSON_FILENAME =>
   	    tables.readDescriptionBoxExtendsClosedWorldDefinitionss(is)
   	  case DescriptionBoxRefinementHelper.TABLE_JSON_FILENAME =>
@@ -726,7 +726,7 @@ object OMLSpecificationTables {
       }
       zos.closeEntry()
       zos.putNextEntry(new java.util.zip.ZipEntry(DescriptionBoxHelper.TABLE_JSON_FILENAME))
-      tables.descriptionBoxs.foreach { t =>
+      tables.descriptionBoxes.foreach { t =>
          val line = DescriptionBoxHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }

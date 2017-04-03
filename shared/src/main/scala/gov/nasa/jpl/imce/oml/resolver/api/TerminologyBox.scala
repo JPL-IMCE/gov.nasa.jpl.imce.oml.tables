@@ -32,19 +32,7 @@ trait TerminologyBox
 {
 
   val kind: gov.nasa.jpl.imce.oml.tables.TerminologyKind
-  /*
-   * The OML TerminologyBoxAxiom(s) asserted in this OML TerminologyBox
-   */
-  val boxAxioms: scala.collection.immutable.SortedSet[TerminologyBoxAxiom]
-  /*
-   * The OML TerminologyBoxStatement(s) asserted in this OML TerminologyBox
-   */
-  val boxStatements: scala.collection.immutable.SortedSet[TerminologyBoxStatement]
 
-  def withBoxAxioms
-  (s: scala.collection.immutable.SortedSet[TerminologyBoxAxiom]): TerminologyBox
-  def withBoxStatements
-  (s: scala.collection.immutable.SortedSet[TerminologyBoxStatement]): TerminologyBox
   override def everything
-  (): scala.collection.immutable.SortedSet[Element]
+  (): scala.collection.immutable.Set[_ <: Element]
 }

@@ -27,7 +27,6 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait Annotation
 {
 
-  val module: scala.Option[java.util.UUID] /* reference to a Module */
   val property: AnnotationProperty
   val subject: Element
   val value: scala.Predef.String

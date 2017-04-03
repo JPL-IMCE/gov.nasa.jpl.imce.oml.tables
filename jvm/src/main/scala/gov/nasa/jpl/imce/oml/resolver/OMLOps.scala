@@ -1,6 +1,6 @@
 package gov.nasa.jpl.imce.oml.resolver
 
-import scala.collection.immutable.SortedSet
+import scala.collection.immutable.Set
 import scala.{AnyVal, Boolean, Option, None, Some}
 
 object OMLOps {
@@ -20,7 +20,7 @@ object OMLOps {
 
     def entities
     (implicit ex: api.Extent)
-    : SortedSet[api.Entity]
+    : Set[api.Entity]
     = m
       .everything()
       .flatMap {
@@ -30,7 +30,7 @@ object OMLOps {
 
     def aspects
     (implicit ex: api.Extent)
-    : SortedSet[api.Aspect]
+    : Set[api.Aspect]
     = m
       .everything()
       .flatMap {
@@ -40,7 +40,7 @@ object OMLOps {
 
     def concepts
     (implicit ex: api.Extent)
-    : SortedSet[api.Concept]
+    : Set[api.Concept]
     = m
       .everything()
       .flatMap {
@@ -50,7 +50,7 @@ object OMLOps {
 
     def dataranges
     (implicit ex: api.Extent)
-    : SortedSet[api.DataRange]
+    : Set[api.DataRange]
     = m
       .everything()
       .flatMap {
@@ -60,7 +60,7 @@ object OMLOps {
 
     def reifiedRelationships
     (implicit ex: api.Extent)
-    : SortedSet[api.ReifiedRelationship]
+    : Set[api.ReifiedRelationship]
     = m
       .everything()
       .flatMap {
@@ -70,7 +70,7 @@ object OMLOps {
 
     def unreifiedRelationships
     (implicit ex: api.Extent)
-    : SortedSet[api.UnreifiedRelationship]
+    : Set[api.UnreifiedRelationship]
     = m
       .everything()
       .flatMap {
@@ -80,7 +80,7 @@ object OMLOps {
 
     def structures
     (implicit ex: api.Extent)
-    : SortedSet[api.Structure]
+    : Set[api.Structure]
     = m
       .everything()
       .flatMap {
@@ -90,7 +90,7 @@ object OMLOps {
 
     def entityScalarDataProperties
     (implicit ex: api.Extent)
-    : SortedSet[api.EntityScalarDataProperty]
+    : Set[api.EntityScalarDataProperty]
     = m
       .everything()
       .flatMap {

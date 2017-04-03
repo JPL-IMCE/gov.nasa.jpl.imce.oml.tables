@@ -25,7 +25,6 @@ trait ReifiedRelationshipInstance
   extends ConceptualEntitySingletonInstance
 {
 
-  val descriptionBox: scala.Option[java.util.UUID] /* reference to a DescriptionBox */
   val singletonReifiedRelationshipClassifier: ReifiedRelationship
 
   override def conceptualEntitySingletonClassifier

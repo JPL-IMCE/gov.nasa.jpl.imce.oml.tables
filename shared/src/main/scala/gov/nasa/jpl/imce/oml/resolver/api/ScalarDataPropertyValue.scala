@@ -26,7 +26,6 @@ trait ScalarDataPropertyValue
   extends TerminologyInstanceAssertion
 {
 
-  val singletonInstance: scala.Option[java.util.UUID] /* reference to a SingletonInstance */
   val scalarDataProperty: DataRelationshipToScalar
   val scalarPropertyValue: scala.Predef.String
 }

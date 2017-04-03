@@ -25,6 +25,4 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait TerminologyBoxAxiom
   extends TerminologyAxiom
 {
-
-  val tbox: scala.Option[java.util.UUID] /* reference to a TerminologyBox */
 }

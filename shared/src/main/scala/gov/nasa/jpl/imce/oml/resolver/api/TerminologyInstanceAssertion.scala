@@ -29,14 +29,12 @@ trait TerminologyInstanceAssertion
   override val name: gov.nasa.jpl.imce.oml.tables.LocalName
 
   def descriptionBox
-  (): scala.Option[java.util.UUID]
-  def descriptionBox
-  (extent: Extent): scala.Option[DescriptionBox]
+  ()(implicit extent: Extent): scala.Option[DescriptionBox]
   override def iri
-  (extent: Extent): scala.Option[gov.nasa.jpl.imce.oml.tables.IRI]
+  ()(implicit extent: Extent): scala.Option[gov.nasa.jpl.imce.oml.tables.IRI]
   /*
    * The UUID of a Term is a Version5 namespace UUID based on the terminology instance assertion's IRI.
    */
   override def uuid
-  (extent: Extent): scala.Option[java.util.UUID]
+  ()(implicit extent: Extent): scala.Option[java.util.UUID]
 }

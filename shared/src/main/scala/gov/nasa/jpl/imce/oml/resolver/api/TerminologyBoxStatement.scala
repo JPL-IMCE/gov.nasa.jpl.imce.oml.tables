@@ -25,6 +25,4 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait TerminologyBoxStatement
   extends ModuleElement
 {
-
-  val tbox: scala.Option[java.util.UUID] /* reference to a TerminologyBox */
 }

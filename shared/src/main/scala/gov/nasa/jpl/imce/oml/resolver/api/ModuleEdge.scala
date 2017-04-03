@@ -19,11 +19,14 @@
 package gov.nasa.jpl.imce.oml.resolver.api
 
 /*
- * An OML DataStructureTuple defines an structured tuple instance of an OML Structure.
+ * An OML ModuleEdge is a binary, directed relationship from one OML Module to another
  */
-trait DataStructureTuple
-  extends SingletonInstance
+trait ModuleEdge
+  extends Element
 {
 
-  val dataStructureType: Structure
+  def sourceModule
+  (): Module
+  def targetModule
+  (): Module
 }

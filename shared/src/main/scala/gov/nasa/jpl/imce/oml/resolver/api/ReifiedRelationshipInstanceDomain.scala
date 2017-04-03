@@ -29,7 +29,6 @@ trait ReifiedRelationshipInstanceDomain
   extends TerminologyInstanceAssertion
 {
 
-  val descriptionBox: scala.Option[java.util.UUID] /* reference to a DescriptionBox */
   val reifiedRelationshipInstance: ReifiedRelationshipInstance
   val domain: ConceptualEntitySingletonInstance
 }

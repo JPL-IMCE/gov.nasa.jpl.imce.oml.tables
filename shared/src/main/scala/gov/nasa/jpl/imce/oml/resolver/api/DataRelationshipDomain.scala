@@ -26,5 +26,5 @@ trait DataRelationshipDomain
 {
 
   def uuid
-  (extent: Extent): scala.Option[java.util.UUID]
+  ()(implicit extent: Extent): scala.Option[java.util.UUID]
 }

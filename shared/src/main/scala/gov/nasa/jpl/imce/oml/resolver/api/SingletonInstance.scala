@@ -24,7 +24,4 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait SingletonInstance
   extends TerminologyInstanceAssertion
 {
-
-  val scalarDataPropertyValues: scala.collection.immutable.SortedSet[ScalarDataPropertyValue]
-  val structuredDataPropertyValues: scala.collection.immutable.SortedSet[StructuredDataPropertyValue]
 }

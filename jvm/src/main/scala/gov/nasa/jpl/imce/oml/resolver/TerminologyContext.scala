@@ -22,7 +22,7 @@ import java.util.UUID
 
 import gov.nasa.jpl.imce.oml._
 
-import scala.collection.immutable.{Map, Set, TreeSet}
+import scala.collection.immutable.{Map, Set}
 import scala.util.control.Exception._
 import scala.util.{Failure, Success, Try}
 import scala.{Option,None,PartialFunction,StringContext,Tuple2}
@@ -33,7 +33,7 @@ import scalax.collection.immutable.Graph
 
 case class TerminologyContext private[resolver]
 (extent: resolver.api.Extent,
- g: Graph[resolver.api.Module, TerminologyEdge] = Graph[resolver.api.Module, TerminologyEdge]()) {
+ g: Graph[resolver.api.Module, ModuleGraphEdge] = Graph[resolver.api.Module, ModuleGraphEdge]()) {
 
   def topologicalOrder()
   : Try[g.TopologicalOrder[resolver.api.Module]]
@@ -54,14 +54,14 @@ case class TerminologyContext private[resolver]
 
   val nodes
   : Map[UUID, resolver.api.Module]
-  = g.nodes.toOuter.flatMap(t => t.uuid(extent).map(id => id -> t)).toMap
+  = g.nodes.toOuter.flatMap(t => t.uuid()(extent).map(id => id -> t)).toMap
 
   val tboxes
   : Map[UUID, resolver.api.TerminologyBox]
   = g.nodes.toOuter
     .flatMap {
       case t: resolver.api.TerminologyBox =>
-        t.uuid(extent).map(id => id -> t)
+        t.uuid()(extent).map(id => id -> t)
       case _ =>
         None
     }
@@ -72,7 +72,7 @@ case class TerminologyContext private[resolver]
   = g.nodes.toOuter
     .flatMap {
       case t: resolver.api.TerminologyGraph =>
-        t.uuid(extent).map(id => id -> t)
+        t.uuid()(extent).map(id => id -> t)
       case _ =>
         None
     }
@@ -83,7 +83,7 @@ case class TerminologyContext private[resolver]
   = g.nodes.toOuter
     .flatMap {
       case t: resolver.api.Bundle =>
-        t.uuid(extent).map(id => id -> t)
+        t.uuid()(extent).map(id => id -> t)
       case _ =>
         None
     }
@@ -94,7 +94,7 @@ case class TerminologyContext private[resolver]
   = g.nodes.toOuter
     .flatMap {
       case t: resolver.api.DescriptionBox =>
-        t.uuid(extent).map(id => id -> t)
+        t.uuid()(extent).map(id => id -> t)
       case _ =>
         None
     }
@@ -115,31 +115,31 @@ object TerminologyContext {
 
   def replaceNode
   (r: OMLTablesResolver,
-   g: Graph[resolver.api.Module, TerminologyEdge],
+   g: Graph[resolver.api.Module, ModuleGraphEdge],
    prev: resolver.api.Module,
    next: resolver.api.Module)
-  : Try[Graph[resolver.api.Module, TerminologyEdge]]
+  : Try[Graph[resolver.api.Module, ModuleGraphEdge]]
   = g
     .find(outerNode = prev)
-    .fold[Try[Graph[resolver.api.Module, TerminologyEdge]]](
+    .fold[Try[Graph[resolver.api.Module, ModuleGraphEdge]]](
     Failure(new java.lang.IllegalArgumentException(s"prev node is not in the graph:\nprev:\n$prev\ngraph:\n$g"))
   ) { prevT =>
-    nonFatalCatch[Try[Graph[resolver.api.Module, TerminologyEdge]]]
+    nonFatalCatch[Try[Graph[resolver.api.Module, ModuleGraphEdge]]]
       .withApply { (t: java.lang.Throwable) => Failure(t) }
       .apply {
-        val in: Set[TerminologyEdge[resolver.api.Module]] = prevT.incoming.map { eT =>
+        val in: Set[ModuleGraphEdge[resolver.api.Module]] = prevT.incoming.map { eT =>
           val e = eT.toOuter
           require(e.target == prev)
           e.copy[resolver.api.Module](Tuple2(e.source, next))
         }
-        val out: Set[TerminologyEdge[resolver.api.Module]] = prevT.outgoing.map { eT =>
+        val out: Set[ModuleGraphEdge[resolver.api.Module]] = prevT.outgoing.map { eT =>
           val e = eT.toOuter
           require(e.source == prev)
           e.copy[resolver.api.Module](Tuple2(next, e.target))
         }
 
-        val g1: Graph[resolver.api.Module, TerminologyEdge] = g - prev + next
-        val g2: Graph[resolver.api.Module, TerminologyEdge] = g1 ++ in ++ out
+        val g1: Graph[resolver.api.Module, ModuleGraphEdge] = g - prev + next
+        val g2: Graph[resolver.api.Module, ModuleGraphEdge] = g1 ++ in ++ out
         Success(g2)
       }
   }
@@ -148,9 +148,5 @@ object TerminologyContext {
   (r: OMLTablesResolver,
    extentUUID: java.util.UUID)
   : TerminologyContext
-  = TerminologyContext(
-    r.factory.createExtent(
-      uuid = extentUUID,
-      annotationProperties = TreeSet.empty[resolver.api.AnnotationProperty],
-      modules = Map.empty[java.util.UUID, resolver.api.Module]))
+  = TerminologyContext(r.factory.createExtent)
 }

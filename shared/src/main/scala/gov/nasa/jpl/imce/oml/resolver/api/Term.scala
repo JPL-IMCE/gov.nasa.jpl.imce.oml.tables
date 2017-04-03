@@ -29,10 +29,10 @@ trait Term
   override val name: gov.nasa.jpl.imce.oml.tables.LocalName
 
   override def iri
-  (extent: Extent): scala.Option[gov.nasa.jpl.imce.oml.tables.IRI]
+  ()(implicit extent: Extent): scala.Option[gov.nasa.jpl.imce.oml.tables.IRI]
   /*
    * The UUID of a Term is a Version5 namespace UUID based on the term's IRI.
    */
   override def uuid
-  (extent: Extent): scala.Option[java.util.UUID]
+  ()(implicit extent: Extent): scala.Option[java.util.UUID]
 }

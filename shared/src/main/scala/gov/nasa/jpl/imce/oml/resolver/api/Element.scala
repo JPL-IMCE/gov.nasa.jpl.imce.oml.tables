@@ -27,7 +27,7 @@ trait Element
 {
 
   def uuid
-  (extent: Extent): scala.Option[java.util.UUID]
+  ()(implicit extent: Extent): scala.Option[java.util.UUID]
 
 def canEqual(that: scala.Any): scala.Boolean
 }

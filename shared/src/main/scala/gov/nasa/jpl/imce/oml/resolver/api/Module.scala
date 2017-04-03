@@ -28,22 +28,16 @@ trait Module
   with Resource
 {
 
-  val extent: scala.Option[java.util.UUID] /* reference to a Extent */
   val iri: gov.nasa.jpl.imce.oml.tables.IRI
-  val annotations: scala.collection.immutable.SortedSet[Annotation]
 
   override def uuid
-  (extent: Extent): scala.Option[java.util.UUID]
+  ()(implicit extent: Extent): scala.Option[java.util.UUID]
   override def iri
-  (extent: Extent): scala.Option[gov.nasa.jpl.imce.oml.tables.IRI]
+  ()(implicit extent: Extent): scala.Option[gov.nasa.jpl.imce.oml.tables.IRI]
   def nsPrefix
   (): gov.nasa.jpl.imce.oml.tables.NamespacePrefix
   def name
   (): gov.nasa.jpl.imce.oml.tables.LocalName
-  def annotationsByProperty
-  (): scala.collection.immutable.SortedSet[AnnotationPropertyTable]
-  def withAnnotations
-  (a: scala.collection.immutable.SortedSet[AnnotationPropertyTable]): Module
   def everything
-  (): scala.collection.immutable.SortedSet[Element]
+  (): scala.collection.immutable.Set[_ <: Element]
 }
