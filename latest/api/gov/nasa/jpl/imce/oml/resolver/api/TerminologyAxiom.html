@@ -45,13 +45,13 @@
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <span class="name">TerminologyAxiom</span><span class="result"> extends <a href="ModuleElement.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.ModuleElement">ModuleElement</a></span>
+        <span class="name">TerminologyAxiom</span><span class="result"> extends <a href="ModuleEdge.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.ModuleEdge">ModuleEdge</a></span>
       </span>
       </h4>
       
           <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a href="ModuleElement.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.ModuleElement">ModuleElement</a>, <a href="Element.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Element">Element</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><a href="ModuleEdge.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.ModuleEdge">ModuleEdge</a>, <a href="Element.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Element">Element</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div><div class="toggleContainer block">
             <span class="toggle">Known Subclasses</span>
             <div class="subClasses hiddenContent"><a href="BundledTerminologyAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.BundledTerminologyAxiom">BundledTerminologyAxiom</a>, <a href="ConceptDesignationTerminologyAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.ConceptDesignationTerminologyAxiom">ConceptDesignationTerminologyAxiom</a>, <a href="TerminologyBoxAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyBoxAxiom">TerminologyBoxAxiom</a>, <a href="TerminologyBundleAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyBundleAxiom">TerminologyBundleAxiom</a>, <a href="TerminologyExtensionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyExtensionAxiom">TerminologyExtensionAxiom</a>, <a href="TerminologyNestingAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyNestingAxiom">TerminologyNestingAxiom</a></div>
@@ -72,7 +72,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyAxiom"><span>TerminologyAxiom</span></li><li class="in" name="gov.nasa.jpl.imce.oml.resolver.api.ModuleElement"><span>ModuleElement</span></li><li class="in" name="gov.nasa.jpl.imce.oml.resolver.api.Element"><span>Element</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyAxiom"><span>TerminologyAxiom</span></li><li class="in" name="gov.nasa.jpl.imce.oml.resolver.api.ModuleEdge"><span>ModuleEdge</span></li><li class="in" name="gov.nasa.jpl.imce.oml.resolver.api.Element"><span>Element</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -113,52 +113,86 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Element.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Element">Element</a></dd></dl></div>
     </li><li name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyAxiom#source" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="source(extent:gov.nasa.jpl.imce.oml.resolver.api.Extent):Option[gov.nasa.jpl.imce.oml.resolver.api.TerminologyBox]"></a>
-      <a id="source(Extent):Option[TerminologyBox]"></a>
+      <a id="source()(implicitextent:gov.nasa.jpl.imce.oml.resolver.api.Extent):Option[gov.nasa.jpl.imce.oml.resolver.api.TerminologyBox]"></a>
+      <a id="source()(Extent):Option[TerminologyBox]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">source</span><span class="params">(<span name="extent">extent: <a href="Extent.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Extent">Extent</a></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="TerminologyBox.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyBox">TerminologyBox</a>]</span>
+        <span class="name">source</span><span class="params">()</span><span class="params">(<span class="implicit">implicit </span><span name="extent">extent: <a href="Extent.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Extent">Extent</a></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="TerminologyBox.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyBox">TerminologyBox</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.oml.resolver.api.TerminologyAxiom@source(extent:gov.nasa.jpl.imce.oml.resolver.api.Extent):Option[gov.nasa.jpl.imce.oml.resolver.api.TerminologyBox]" title="Permalink" target="_top">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.oml.resolver.api.TerminologyAxiom@source()(implicitextent:gov.nasa.jpl.imce.oml.resolver.api.Extent):Option[gov.nasa.jpl.imce.oml.resolver.api.TerminologyBox]" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
+    </li><li name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyAxiom#sourceModule" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="sourceModule():gov.nasa.jpl.imce.oml.resolver.api.Module"></a>
+      <a id="sourceModule():Module"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">sourceModule</span><span class="params">()</span><span class="result">: <a href="Module.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Module">Module</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.oml.resolver.api.TerminologyAxiom@sourceModule():gov.nasa.jpl.imce.oml.resolver.api.Module" title="Permalink" target="_top">
+        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyAxiom">TerminologyAxiom</a> → <a href="ModuleEdge.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.ModuleEdge">ModuleEdge</a></dd></dl></div>
     </li><li name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyAxiom#target" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="target(extent:gov.nasa.jpl.imce.oml.resolver.api.Extent):gov.nasa.jpl.imce.oml.resolver.api.TerminologyBox"></a>
-      <a id="target(Extent):TerminologyBox"></a>
+      <a id="target()(implicitextent:gov.nasa.jpl.imce.oml.resolver.api.Extent):gov.nasa.jpl.imce.oml.resolver.api.TerminologyBox"></a>
+      <a id="target()(Extent):TerminologyBox"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">target</span><span class="params">(<span name="extent">extent: <a href="Extent.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Extent">Extent</a></span>)</span><span class="result">: <a href="TerminologyBox.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyBox">TerminologyBox</a></span>
+        <span class="name">target</span><span class="params">()</span><span class="params">(<span class="implicit">implicit </span><span name="extent">extent: <a href="Extent.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Extent">Extent</a></span>)</span><span class="result">: <a href="TerminologyBox.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyBox">TerminologyBox</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.oml.resolver.api.TerminologyAxiom@target(extent:gov.nasa.jpl.imce.oml.resolver.api.Extent):gov.nasa.jpl.imce.oml.resolver.api.TerminologyBox" title="Permalink" target="_top">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.oml.resolver.api.TerminologyAxiom@target()(implicitextent:gov.nasa.jpl.imce.oml.resolver.api.Extent):gov.nasa.jpl.imce.oml.resolver.api.TerminologyBox" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
-    </li><li name="gov.nasa.jpl.imce.oml.resolver.api.Element#uuid" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="uuid(extent:gov.nasa.jpl.imce.oml.resolver.api.Extent):Option[java.util.UUID]"></a>
-      <a id="uuid(Extent):Option[UUID]"></a>
+    </li><li name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyAxiom#targetModule" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="targetModule():gov.nasa.jpl.imce.oml.resolver.api.Module"></a>
+      <a id="targetModule():Module"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">uuid</span><span class="params">(<span name="extent">extent: <a href="Extent.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Extent">Extent</a></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.util.UUID">UUID</span>]</span>
+        <span class="name">targetModule</span><span class="params">()</span><span class="result">: <a href="Module.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Module">Module</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.oml.resolver.api.TerminologyAxiom@uuid(extent:gov.nasa.jpl.imce.oml.resolver.api.Extent):Option[java.util.UUID]" title="Permalink" target="_top">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.oml.resolver.api.TerminologyAxiom@targetModule():gov.nasa.jpl.imce.oml.resolver.api.Module" title="Permalink" target="_top">
+        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyAxiom">TerminologyAxiom</a> → <a href="ModuleEdge.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.ModuleEdge">ModuleEdge</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.oml.resolver.api.Element#uuid" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="uuid()(implicitextent:gov.nasa.jpl.imce.oml.resolver.api.Extent):Option[java.util.UUID]"></a>
+      <a id="uuid()(Extent):Option[UUID]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">uuid</span><span class="params">()</span><span class="params">(<span class="implicit">implicit </span><span name="extent">extent: <a href="Extent.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Extent">Extent</a></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.util.UUID">UUID</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.oml.resolver.api.TerminologyAxiom@uuid()(implicitextent:gov.nasa.jpl.imce.oml.resolver.api.Extent):Option[java.util.UUID]" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -530,8 +564,8 @@
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="gov.nasa.jpl.imce.oml.resolver.api.ModuleElement">
-              <h3>Inherited from <a href="ModuleElement.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.ModuleElement">ModuleElement</a></h3>
+        <div class="parent" name="gov.nasa.jpl.imce.oml.resolver.api.ModuleEdge">
+              <h3>Inherited from <a href="ModuleEdge.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.ModuleEdge">ModuleEdge</a></h3>
             </div><div class="parent" name="gov.nasa.jpl.imce.oml.resolver.api.Element">
               <h3>Inherited from <a href="Element.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Element">Element</a></h3>
             </div><div class="parent" name="scala.AnyRef">

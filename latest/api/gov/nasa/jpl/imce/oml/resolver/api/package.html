@@ -599,7 +599,7 @@
     </span>
       
     </li><li name="gov.nasa.jpl.imce.oml.resolver.api.DescriptionBoxRelationship" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="DescriptionBoxRelationshipextendsModuleElement"></a>
+      <a id="DescriptionBoxRelationshipextendsModuleEdge"></a>
       <a id="DescriptionBoxRelationship:DescriptionBoxRelationship"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -607,10 +607,10 @@
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a href="DescriptionBoxRelationship.html"><span class="name">DescriptionBoxRelationship</span></a><span class="result"> extends <a href="ModuleElement.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.ModuleElement">ModuleElement</a></span>
+        <a href="DescriptionBoxRelationship.html"><span class="name">DescriptionBoxRelationship</span></a><span class="result"> extends <a href="ModuleEdge.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.ModuleEdge">ModuleEdge</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.oml.resolver.api.package@DescriptionBoxRelationshipextendsModuleElement" title="Permalink" target="_top">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.oml.resolver.api.package@DescriptionBoxRelationshipextendsModuleEdge" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -853,19 +853,19 @@
       </a>
     </span>
       
-    </li><li name="gov.nasa.jpl.imce.oml.resolver.api.Extent" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="ExtentextendsAnyRef"></a>
+    </li><li name="gov.nasa.jpl.imce.oml.resolver.api.Extent" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ExtentextendsProductwithSerializable"></a>
       <a id="Extent:Extent"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">trait</span>
+        <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a href="Extent.html"><span class="name">Extent</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <a href="Extent.html"><span class="name">Extent</span></a><span class="params">(<span name="annotationProperties">annotationProperties: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<span class="extype" name="java.util.UUID">UUID</span>, <a href="AnnotationProperty.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.AnnotationProperty">AnnotationProperty</a>] = <span class="defval" name="HashMap.empty[java.util.UUID, AnnotationProperty]">...</span></span>, <span name="modules">modules: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<span class="extype" name="java.util.UUID">UUID</span>, <a href="Module.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Module">Module</a>] = <span class="defval" name="HashMap.empty[java.util.UUID, Module]">...</span></span>, <span name="annotations">annotations: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<a href="Module.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Module">Module</a>, <span class="extype" name="scala.collection.immutable.Set">Set</span>[<a href="Annotation.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Annotation">Annotation</a>]] = <span class="defval" name="HashMap.empty[Module, Set[Annotation]]">...</span></span>, <span name="boxAxioms">boxAxioms: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<a href="TerminologyBox.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyBox">TerminologyBox</a>, <span class="extype" name="scala.collection.immutable.Set">Set</span>[<a href="TerminologyBoxAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyBoxAxiom">TerminologyBoxAxiom</a>]] = <span class="defval" name="HashMap.empty[TerminologyBox, Set[TerminologyBoxAxiom]]">...</span></span>, <span name="boxStatements">boxStatements: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<a href="TerminologyBox.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyBox">TerminologyBox</a>, <span class="extype" name="scala.collection.immutable.Set">Set</span>[<a href="TerminologyBoxStatement.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyBoxStatement">TerminologyBoxStatement</a>]] = <span class="defval" name="HashMap.empty[TerminologyBox, Set[TerminologyBoxStatement]]">...</span></span>, <span name="bundleStatements">bundleStatements: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<a href="Bundle.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Bundle">Bundle</a>, <span class="extype" name="scala.collection.immutable.Set">Set</span>[<a href="TerminologyBundleStatement.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyBundleStatement">TerminologyBundleStatement</a>]] = <span class="defval" name="HashMap.empty[Bundle, Set[TerminologyBundleStatement]]">...</span></span>, <span name="bundleAxioms">bundleAxioms: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<a href="Bundle.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Bundle">Bundle</a>, <span class="extype" name="scala.collection.immutable.Set">Set</span>[<a href="TerminologyBundleAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyBundleAxiom">TerminologyBundleAxiom</a>]] = <span class="defval" name="HashMap.empty[Bundle, Set[TerminologyBundleAxiom]]">...</span></span>, <span name="closedWorldDefinitions">closedWorldDefinitions: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<a href="DescriptionBox.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.DescriptionBox">DescriptionBox</a>, <span class="extype" name="scala.collection.immutable.Set">Set</span>[<a href="DescriptionBoxExtendsClosedWorldDefinitions.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.DescriptionBoxExtendsClosedWorldDefinitions">DescriptionBoxExtendsClosedWorldDefinitions</a>]] = <span class="defval" name="HashMap.empty[DescriptionBox, Set[DescriptionBoxExtendsClosedWorldDefinitions]]">...</span></span>, <span name="descriptionBoxRefinements">descriptionBoxRefinements: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<a href="DescriptionBox.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.DescriptionBox">DescriptionBox</a>, <span class="extype" name="scala.collection.immutable.Set">Set</span>[<a href="DescriptionBoxRefinement.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.DescriptionBoxRefinement">DescriptionBoxRefinement</a>]] = <span class="defval" name="HashMap.empty[DescriptionBox, Set[DescriptionBoxRefinement]]">...</span></span>, <span name="conceptInstances">conceptInstances: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<a href="DescriptionBox.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.DescriptionBox">DescriptionBox</a>, <span class="extype" name="scala.collection.immutable.Set">Set</span>[<a href="ConceptInstance.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.ConceptInstance">ConceptInstance</a>]] = <span class="defval" name="HashMap.empty[DescriptionBox, Set[ConceptInstance]]">...</span></span>, <span name="reifiedRelationshipInstances">reifiedRelationshipInstances: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<a href="DescriptionBox.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.DescriptionBox">DescriptionBox</a>, <span class="extype" name="scala.collection.immutable.Set">Set</span>[<a href="ReifiedRelationshipInstance.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.ReifiedRelationshipInstance">ReifiedRelationshipInstance</a>]] = <span class="defval" name="HashMap.empty[DescriptionBox, Set[ReifiedRelationshipInstance]]">...</span></span>, <span name="reifiedRelationshipInstanceDomains">reifiedRelationshipInstanceDomains: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<a href="DescriptionBox.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.DescriptionBox">DescriptionBox</a>, <span class="extype" name="scala.collection.immutable.Set">Set</span>[<a href="ReifiedRelationshipInstanceDomain.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.ReifiedRelationshipInstanceDomain">ReifiedRelationshipInstanceDomain</a>]] = <span class="defval" name="HashMap.empty[DescriptionBox, Set[ReifiedRelationshipInstanceDomain]]">...</span></span>, <span name="reifiedRelationshipInstanceRanges">reifiedRelationshipInstanceRanges: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<a href="DescriptionBox.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.DescriptionBox">DescriptionBox</a>, <span class="extype" name="scala.collection.immutable.Set">Set</span>[<a href="ReifiedRelationshipInstanceRange.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.ReifiedRelationshipInstanceRange">ReifiedRelationshipInstanceRange</a>]] = <span class="defval" name="HashMap.empty[DescriptionBox, Set[ReifiedRelationshipInstanceRange]]">...</span></span>, <span name="unreifiedRelationshipInstanceTuples">unreifiedRelationshipInstanceTuples: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<a href="DescriptionBox.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.DescriptionBox">DescriptionBox</a>, <span class="extype" name="scala.collection.immutable.Set">Set</span>[<a href="UnreifiedRelationshipInstanceTuple.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.UnreifiedRelationshipInstanceTuple">UnreifiedRelationshipInstanceTuple</a>]] = <span class="defval" name="HashMap.empty[DescriptionBox, Set[UnreifiedRelationshipInstanceTuple]]">...</span></span>, <span name="scalarDataPropertyValues">scalarDataPropertyValues: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<a href="SingletonInstance.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.SingletonInstance">SingletonInstance</a>, <span class="extype" name="scala.collection.immutable.Set">Set</span>[<a href="ScalarDataPropertyValue.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.ScalarDataPropertyValue">ScalarDataPropertyValue</a>]] = <span class="defval" name="HashMap.empty[SingletonInstance, Set[ScalarDataPropertyValue]]">...</span></span>, <span name="structuredDataPropertyValues">structuredDataPropertyValues: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<a href="SingletonInstance.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.SingletonInstance">SingletonInstance</a>, <span class="extype" name="scala.collection.immutable.Set">Set</span>[<a href="StructuredDataPropertyValue.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.StructuredDataPropertyValue">StructuredDataPropertyValue</a>]] = <span class="defval" name="HashMap.empty[SingletonInstance, Set[StructuredDataPropertyValue]]">...</span></span>, <span name="structuredPropertyTuple">structuredPropertyTuple: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<a href="StructuredDataPropertyValue.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.StructuredDataPropertyValue">StructuredDataPropertyValue</a>, <span class="extype" name="scala.collection.immutable.Set">Set</span>[<a href="DataStructureTuple.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.DataStructureTuple">DataStructureTuple</a>]] = <span class="defval" name="HashMap.empty[StructuredDataPropertyValue, Set[DataStructureTuple]]">...</span></span>, <span name="terminologyBoxAxiomByUUID">terminologyBoxAxiomByUUID: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<span class="extype" name="java.util.UUID">UUID</span>, <a href="TerminologyBoxAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyBoxAxiom">TerminologyBoxAxiom</a>] = <span class="defval" name="HashMap.empty[java.util.UUID, TerminologyBoxAxiom]">...</span></span>, <span name="terminologyBoxStatementByUUID">terminologyBoxStatementByUUID: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<span class="extype" name="java.util.UUID">UUID</span>, <a href="TerminologyBoxStatement.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyBoxStatement">TerminologyBoxStatement</a>] = <span class="defval" name="HashMap.empty[java.util.UUID, TerminologyBoxStatement]">...</span></span>, <span name="terminologyBundleStatementByUUID">terminologyBundleStatementByUUID: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<span class="extype" name="java.util.UUID">UUID</span>, <a href="TerminologyBundleStatement.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyBundleStatement">TerminologyBundleStatement</a>] = <span class="defval" name="HashMap.empty[java.util.UUID, TerminologyBundleStatement]">...</span></span>, <span name="terminologyBundleAxiomByUUID">terminologyBundleAxiomByUUID: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<span class="extype" name="java.util.UUID">UUID</span>, <a href="TerminologyBundleAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyBundleAxiom">TerminologyBundleAxiom</a>] = <span class="defval" name="HashMap.empty[java.util.UUID, TerminologyBundleAxiom]">...</span></span>, <span name="descriptionBoxExtendsClosedWorldDefinitionsByUUID">descriptionBoxExtendsClosedWorldDefinitionsByUUID: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<span class="extype" name="java.util.UUID">UUID</span>, <a href="DescriptionBoxExtendsClosedWorldDefinitions.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.DescriptionBoxExtendsClosedWorldDefinitions">DescriptionBoxExtendsClosedWorldDefinitions</a>] = <span class="defval" name="HashMap.empty[java.util.UUID, DescriptionBoxExtendsClosedWorldDefinitions]">...</span></span>, <span name="descriptionBoxRefinementByUUID">descriptionBoxRefinementByUUID: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<span class="extype" name="java.util.UUID">UUID</span>, <a href="DescriptionBoxRefinement.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.DescriptionBoxRefinement">DescriptionBoxRefinement</a>] = <span class="defval" name="HashMap.empty[java.util.UUID, DescriptionBoxRefinement]">...</span></span>, <span name="conceptInstanceByUUID">conceptInstanceByUUID: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<span class="extype" name="java.util.UUID">UUID</span>, <a href="ConceptInstance.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.ConceptInstance">ConceptInstance</a>] = <span class="defval" name="HashMap.empty[java.util.UUID, ConceptInstance]">...</span></span>, <span name="reifiedRelationshipInstanceByUUID">reifiedRelationshipInstanceByUUID: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<span class="extype" name="java.util.UUID">UUID</span>, <a href="ReifiedRelationshipInstance.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.ReifiedRelationshipInstance">ReifiedRelationshipInstance</a>] = <span class="defval" name="HashMap.empty[java.util.UUID, ReifiedRelationshipInstance]">...</span></span>, <span name="reifiedRelationshipInstanceDomainByUUID">reifiedRelationshipInstanceDomainByUUID: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<span class="extype" name="java.util.UUID">UUID</span>, <a href="ReifiedRelationshipInstanceDomain.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.ReifiedRelationshipInstanceDomain">ReifiedRelationshipInstanceDomain</a>] = <span class="defval" name="HashMap.empty[java.util.UUID, ReifiedRelationshipInstanceDomain]">...</span></span>, <span name="reifiedRelationshipInstanceRangeByUUID">reifiedRelationshipInstanceRangeByUUID: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<span class="extype" name="java.util.UUID">UUID</span>, <a href="ReifiedRelationshipInstanceRange.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.ReifiedRelationshipInstanceRange">ReifiedRelationshipInstanceRange</a>] = <span class="defval" name="HashMap.empty[java.util.UUID, ReifiedRelationshipInstanceRange]">...</span></span>, <span name="unreifiedRelationshipInstanceTupleByUUID">unreifiedRelationshipInstanceTupleByUUID: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<span class="extype" name="java.util.UUID">UUID</span>, <a href="UnreifiedRelationshipInstanceTuple.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.UnreifiedRelationshipInstanceTuple">UnreifiedRelationshipInstanceTuple</a>] = <span class="defval" name="HashMap.empty[java.util.UUID, UnreifiedRelationshipInstanceTuple]">...</span></span>, <span name="scalarDataPropertyValueByUUID">scalarDataPropertyValueByUUID: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<span class="extype" name="java.util.UUID">UUID</span>, <a href="ScalarDataPropertyValue.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.ScalarDataPropertyValue">ScalarDataPropertyValue</a>] = <span class="defval" name="HashMap.empty[java.util.UUID, ScalarDataPropertyValue]">...</span></span>, <span name="structuredDataPropertyValueByUUID">structuredDataPropertyValueByUUID: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<span class="extype" name="java.util.UUID">UUID</span>, <a href="StructuredDataPropertyValue.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.StructuredDataPropertyValue">StructuredDataPropertyValue</a>] = <span class="defval" name="HashMap.empty[java.util.UUID, StructuredDataPropertyValue]">...</span></span>, <span name="dataStructureTupleByUUID">dataStructureTupleByUUID: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<span class="extype" name="java.util.UUID">UUID</span>, <a href="DataStructureTuple.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.DataStructureTuple">DataStructureTuple</a>] = <span class="defval" name="HashMap.empty[java.util.UUID, DataStructureTuple]">...</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.oml.resolver.api.package@ExtentextendsAnyRef" title="Permalink" target="_top">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.oml.resolver.api.package@ExtentextendsProductwithSerializable" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -900,6 +900,23 @@
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.imce.oml.resolver.api.package@ModuleextendsElementwithResource" title="Permalink" target="_top">
+        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.resolver.api.ModuleEdge" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ModuleEdgeextendsElement"></a>
+      <a id="ModuleEdge:ModuleEdge"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ModuleEdge.html"><span class="name">ModuleEdge</span></a><span class="result"> extends <a href="Element.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Element">Element</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.oml.resolver.api.package@ModuleEdgeextendsElement" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -1364,7 +1381,7 @@
     </span>
       
     </li><li name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyAxiom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="TerminologyAxiomextendsModuleElement"></a>
+      <a id="TerminologyAxiomextendsModuleEdge"></a>
       <a id="TerminologyAxiom:TerminologyAxiom"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -1372,10 +1389,10 @@
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a href="TerminologyAxiom.html"><span class="name">TerminologyAxiom</span></a><span class="result"> extends <a href="ModuleElement.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.ModuleElement">ModuleElement</a></span>
+        <a href="TerminologyAxiom.html"><span class="name">TerminologyAxiom</span></a><span class="result"> extends <a href="ModuleEdge.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.ModuleEdge">ModuleEdge</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.oml.resolver.api.package@TerminologyAxiomextendsModuleElement" title="Permalink" target="_top">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.oml.resolver.api.package@TerminologyAxiomextendsModuleEdge" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -1672,23 +1689,6 @@
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.imce.oml.resolver.api.package@annotationPropertyOrdering:Ordering[gov.nasa.jpl.imce.oml.resolver.api.AnnotationProperty]" title="Permalink" target="_top">
-        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="gov.nasa.jpl.imce.oml.resolver.api#annotationPropertyTableOrdering" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="annotationPropertyTableOrdering:Ordering[gov.nasa.jpl.imce.oml.resolver.api.AnnotationPropertyTable]"></a>
-      <a id="annotationPropertyTableOrdering:Ordering[AnnotationPropertyTable]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">implicit </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">annotationPropertyTableOrdering</span><span class="result">: <span class="extype" name="scala.Ordering">Ordering</span>[<a href="AnnotationPropertyTable.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.AnnotationPropertyTable">AnnotationPropertyTable</a>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.oml.resolver.api.package@annotationPropertyTableOrdering:Ordering[gov.nasa.jpl.imce.oml.resolver.api.AnnotationPropertyTable]" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -2254,70 +2254,19 @@
       </a>
     </span>
       
-    </li><li name="gov.nasa.jpl.imce.oml.resolver.api#lookupBundle" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="lookupBundle(extent:gov.nasa.jpl.imce.oml.resolver.api.Extent,uuid:Option[java.util.UUID]):Option[gov.nasa.jpl.imce.oml.resolver.api.Bundle]"></a>
-      <a id="lookupBundle(Extent,Option[UUID]):Option[Bundle]"></a>
+    </li><li name="gov.nasa.jpl.imce.oml.resolver.api#moduleEdgeOrdering" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="moduleEdgeOrdering(implicite:gov.nasa.jpl.imce.oml.resolver.api.Extent):Ordering[gov.nasa.jpl.imce.oml.resolver.api.ModuleEdge]"></a>
+      <a id="moduleEdgeOrdering(Extent):Ordering[ModuleEdge]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier"></span>
+        <span class="modifier">implicit </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">lookupBundle</span><span class="params">(<span name="extent">extent: <a href="Extent.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Extent">Extent</a></span>, <span name="uuid">uuid: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.util.UUID">UUID</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="Bundle.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Bundle">Bundle</a>]</span>
+        <span class="name">moduleEdgeOrdering</span><span class="params">(<span class="implicit">implicit </span><span name="e">e: <a href="Extent.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Extent">Extent</a></span>)</span><span class="result">: <span class="extype" name="scala.Ordering">Ordering</span>[<a href="ModuleEdge.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.ModuleEdge">ModuleEdge</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.oml.resolver.api.package@lookupBundle(extent:gov.nasa.jpl.imce.oml.resolver.api.Extent,uuid:Option[java.util.UUID]):Option[gov.nasa.jpl.imce.oml.resolver.api.Bundle]" title="Permalink" target="_top">
-        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="gov.nasa.jpl.imce.oml.resolver.api#lookupDescriptionBox" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="lookupDescriptionBox(extent:gov.nasa.jpl.imce.oml.resolver.api.Extent,uuid:Option[java.util.UUID]):Option[gov.nasa.jpl.imce.oml.resolver.api.DescriptionBox]"></a>
-      <a id="lookupDescriptionBox(Extent,Option[UUID]):Option[DescriptionBox]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">lookupDescriptionBox</span><span class="params">(<span name="extent">extent: <a href="Extent.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Extent">Extent</a></span>, <span name="uuid">uuid: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.util.UUID">UUID</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="DescriptionBox.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.DescriptionBox">DescriptionBox</a>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.oml.resolver.api.package@lookupDescriptionBox(extent:gov.nasa.jpl.imce.oml.resolver.api.Extent,uuid:Option[java.util.UUID]):Option[gov.nasa.jpl.imce.oml.resolver.api.DescriptionBox]" title="Permalink" target="_top">
-        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="gov.nasa.jpl.imce.oml.resolver.api#lookupTerminologyBox" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="lookupTerminologyBox(extent:gov.nasa.jpl.imce.oml.resolver.api.Extent,uuid:Option[java.util.UUID]):Option[gov.nasa.jpl.imce.oml.resolver.api.TerminologyBox]"></a>
-      <a id="lookupTerminologyBox(Extent,Option[UUID]):Option[TerminologyBox]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">lookupTerminologyBox</span><span class="params">(<span name="extent">extent: <a href="Extent.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Extent">Extent</a></span>, <span name="uuid">uuid: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.util.UUID">UUID</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="TerminologyBox.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyBox">TerminologyBox</a>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.oml.resolver.api.package@lookupTerminologyBox(extent:gov.nasa.jpl.imce.oml.resolver.api.Extent,uuid:Option[java.util.UUID]):Option[gov.nasa.jpl.imce.oml.resolver.api.TerminologyBox]" title="Permalink" target="_top">
-        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="gov.nasa.jpl.imce.oml.resolver.api#lookupTerminologyGraph" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="lookupTerminologyGraph(extent:gov.nasa.jpl.imce.oml.resolver.api.Extent,uuid:Option[java.util.UUID]):Option[gov.nasa.jpl.imce.oml.resolver.api.TerminologyGraph]"></a>
-      <a id="lookupTerminologyGraph(Extent,Option[UUID]):Option[TerminologyGraph]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">lookupTerminologyGraph</span><span class="params">(<span name="extent">extent: <a href="Extent.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Extent">Extent</a></span>, <span name="uuid">uuid: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.util.UUID">UUID</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="TerminologyGraph.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyGraph">TerminologyGraph</a>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.oml.resolver.api.package@lookupTerminologyGraph(extent:gov.nasa.jpl.imce.oml.resolver.api.Extent,uuid:Option[java.util.UUID]):Option[gov.nasa.jpl.imce.oml.resolver.api.TerminologyGraph]" title="Permalink" target="_top">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.oml.resolver.api.package@moduleEdgeOrdering(implicite:gov.nasa.jpl.imce.oml.resolver.api.Extent):Ordering[gov.nasa.jpl.imce.oml.resolver.api.ModuleEdge]" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
