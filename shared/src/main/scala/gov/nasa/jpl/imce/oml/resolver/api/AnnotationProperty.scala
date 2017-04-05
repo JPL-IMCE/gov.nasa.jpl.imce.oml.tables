@@ -26,9 +26,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait AnnotationProperty
 {
 
+  val uuid: java.util.UUID
   val iri: gov.nasa.jpl.imce.oml.tables.IRI
   val abbrevIRI: gov.nasa.jpl.imce.oml.tables.AbbrevIRI
-
-  def uuid
-  (): java.util.UUID
 }

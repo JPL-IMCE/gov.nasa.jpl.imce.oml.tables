@@ -25,33 +25,19 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param uuid[0,1]
+  * @param uuid[1,1]
   * @param bundleUUID[1,1]
   * @param disjointTaxonomyParentUUID[1,1]
   * @param disjointLeafUUID[1,1]
   */
+@JSExport
 case class SpecificDisjointConceptAxiom
 (
-  @(JSExport @field) uuid: scala.Option[UUID],
+  @(JSExport @field) uuid: UUID,
   @(JSExport @field) bundleUUID: UUID,
   @(JSExport @field) disjointTaxonomyParentUUID: UUID,
   @(JSExport @field) disjointLeafUUID: UUID
 ) {
-  @JSExport
-  def this(
-    bundleUUID: UUID,
-    disjointTaxonomyParentUUID: UUID,
-    disjointLeafUUID: UUID)
-  = this(
-      None /* uuid */,
-      bundleUUID,
-      disjointTaxonomyParentUUID,
-      disjointLeafUUID)
-
-  def withUuid(l: UUID)	 
-  : SpecificDisjointConceptAxiom
-  = copy(uuid=Some(l))
-  
   override val hashCode
   : scala.Int 
   = (uuid, bundleUUID, disjointTaxonomyParentUUID, disjointLeafUUID).##

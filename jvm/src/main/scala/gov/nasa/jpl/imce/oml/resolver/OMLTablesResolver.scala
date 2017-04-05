@@ -42,10 +42,10 @@ object OMLTablesResolver {
   : Try[OMLTablesResolver]
   = r.queue.annotationProperties.foldLeft[Try[OMLTablesResolver]](Success(r)) {
     case (Success(ri), tap) =>
-      val (ej, rap) = ri.factory.createAnnotationProperty(ri.context.extent, tap.iri, tap.abbrevIRI)
-      if (!ej.lookupAnnotationProperty(rap.uuid()).contains(rap))
+      val (ej, rap) = ri.factory.createAnnotationProperty(ri.context.extent, UUID.fromString(tap.uuid), tap.iri, tap.abbrevIRI)
+      if (!ej.lookupAnnotationProperty(rap.uuid).contains(rap))
         Failure(new IllegalArgumentException(s"AnnotationProperty not in extent: $rap"))
-      else if (rap.uuid().toString != tap.uuid)
+      else if (rap.uuid.toString != tap.uuid)
         Failure(new IllegalArgumentException(s"AnnotationProperty: $tap vs. $rap"))
       else
         Success(ri.copy(context = ri.context.copy(extent = ej)))
@@ -59,9 +59,9 @@ object OMLTablesResolver {
   = r.queue.terminologyGraphs.foldLeft[Try[OMLTablesResolver]](Success(r)) {
     case (Success(ri), tg) =>
       val (ej, rg) = ri.factory.createTerminologyGraph(ri.context.extent, tg.kind, tg.iri)
-      if (!ej.lookupTerminologyGraph(rg.uuid()(ej)).contains(rg))
+      if (!ej.lookupTerminologyGraph(rg.uuid).contains(rg))
         Failure(new IllegalArgumentException(s"TerminologyGraph not in extent: $rg"))
-      else if (!OMLOps.uuidEquivalent(rg.uuid()(ej), tg.uuid))
+      else if (!OMLOps.uuidEquivalent(rg.uuid, tg.uuid))
         Failure(new IllegalArgumentException(s"TerminologyGraph: $tg vs. $rg"))
       else
         Success(ri.copy(context = ri.context.copy(extent = ej)))
@@ -75,9 +75,9 @@ object OMLTablesResolver {
   = r.queue.bundles.foldLeft[Try[OMLTablesResolver]](Success(r)) {
     case (Success(ri), tb) =>
       val (ej, rb) = ri.factory.createBundle(ri.context.extent, tb.kind, tb.iri)
-      if (!ej.lookupBundle(rb.uuid()(ej)).contains(rb))
+      if (!ej.lookupBundle(rb.uuid).contains(rb))
         Failure(new IllegalArgumentException(s"Bundle not in extent: $rb"))
-      else if (!OMLOps.uuidEquivalent(rb.uuid()(ej), tb.uuid))
+      else if (!OMLOps.uuidEquivalent(rb.uuid, tb.uuid))
         Failure(new IllegalArgumentException(s"Bundle: $tb vs. $rb"))
       else
         Success(ri.copy(context = ri.context.copy(extent = ej)))
@@ -91,9 +91,9 @@ object OMLTablesResolver {
   = r.queue.descriptionBoxes.foldLeft[Try[OMLTablesResolver]](Success(r)) {
     case (Success(ri), tdb) =>
       val (ej, rdb) = ri.factory.createDescriptionBox(ri.context.extent, tdb.kind, tdb.iri)
-      if (!ej.lookupDescriptionBox(rdb.uuid()(ej)).contains(rdb))
+      if (!ej.lookupDescriptionBox(rdb.uuid).contains(rdb))
         Failure(new IllegalArgumentException(s"DescriptionBox not in extent: $rdb"))
-      else if (!OMLOps.uuidEquivalent(rdb.uuid()(ej), tdb.uuid))
+      else if (!OMLOps.uuidEquivalent(rdb.uuid, tdb.uuid))
         Failure(new IllegalArgumentException(s"DescriptionBox: $tdb vs. $rdb"))
       else
         Success(ri.copy(context = ri.context.copy(extent = ej)))
@@ -132,7 +132,7 @@ object OMLTablesResolver {
               val (ek, raspect) = rk.factory.createAspect(rk.context.extent, tboxM, taspect.name)
               if (!ek.lookupBoxStatements(tboxM).contains(raspect))
                 Failure(new IllegalArgumentException(s"Aspect not in extent: $raspect"))
-              else if (!OMLOps.uuidEquivalent(raspect.uuid()(ek), taspect.uuid))
+              else if (!OMLOps.uuidEquivalent(raspect.uuid, taspect.uuid))
                 Failure(new IllegalArgumentException(s"Aspect: $taspect vs. $raspect"))
               else
                 Success(rk.copy(context = rk.context.copy(extent = ek)))
@@ -177,7 +177,7 @@ object OMLTablesResolver {
               val (ek, rconcept) = rk.factory.createConcept(rk.context.extent, tboxM, tconcept.name)
               if (!ek.lookupBoxStatements(tboxM).contains(rconcept))
                 Failure(new IllegalArgumentException(s"Concept not in extent: $rconcept"))
-              else if (!OMLOps.uuidEquivalent(rconcept.uuid()(ek), tconcept.uuid))
+              else if (!OMLOps.uuidEquivalent(rconcept.uuid, tconcept.uuid))
                 Failure(new IllegalArgumentException(s"Concept: $tconcept vs. $rconcept"))
               else
                 Success(rk.copy(context = rk.context.copy(extent = ek)))
@@ -222,7 +222,7 @@ object OMLTablesResolver {
               val (ek, rscalar) = rk.factory.createScalar(rk.context.extent, tboxM, tscalar.name)
               if (!ek.lookupBoxStatements(tboxM).contains(rscalar))
                 Failure(new IllegalArgumentException(s"Scalar not in extent: $rscalar"))
-              else if (!OMLOps.uuidEquivalent(rscalar.uuid()(ek), tscalar.uuid))
+              else if (!OMLOps.uuidEquivalent(rscalar.uuid, tscalar.uuid))
                 Failure(new IllegalArgumentException(s"Scalar: $tscalar vs. $rscalar"))
               else
                 Success(rk.copy(context = rk.context.copy(extent = ek)))
@@ -267,7 +267,7 @@ object OMLTablesResolver {
               val (ek, rconcept) = rk.factory.createStructure(rk.context.extent, tboxM, tconcept.name)
               if (!ek.lookupBoxStatements(tboxM).contains(rconcept))
                 Failure(new IllegalArgumentException(s"Structure not in extent: $rconcept"))
-              else if (!OMLOps.uuidEquivalent(rconcept.uuid()(ek), tconcept.uuid))
+              else if (!OMLOps.uuidEquivalent(rconcept.uuid, tconcept.uuid))
                 Failure(new IllegalArgumentException(s"Structure: $tconcept vs. $rconcept"))
               else
                 Success(rk.copy(context = rk.context.copy(extent = ek)))
@@ -310,7 +310,7 @@ object OMLTablesResolver {
           val (ej, rextension) = ri.factory.createTerminologyExtensionAxiom(ri.context.extent, tboxMSource, tboxMTarget)
           if (!ej.lookupBoxAxioms(tboxMSource).contains(rextension))
             Failure(new IllegalArgumentException(s"TerminologyExtensionAxiom not in extent: $rextension"))
-          else if (!OMLOps.uuidEquivalent(rextension.uuid()(ej), textension.uuid))
+          else if (!OMLOps.uuidEquivalent(rextension.uuid, textension.uuid))
             Failure(new IllegalArgumentException(s"TerminologyExtensionAxiom: $textension vs. $rextension"))
           else
             Success(ri.copy(context = ri.context.copy(extent = ej)))
@@ -355,7 +355,7 @@ object OMLTablesResolver {
           val (ej, rnesting) = ri.factory.createTerminologyNestingAxiom(ri.context.extent, tboxMSource, tboxMTarget, tboxMConcept)
           if (!ej.lookupBoxAxioms(tboxMSource).contains(rnesting))
             Failure(new IllegalArgumentException(s"TerminologyNestingAxiom not in extent: $rnesting"))
-          else if (!OMLOps.uuidEquivalent(rnesting.uuid()(ej), tnesting.uuid))
+          else if (!OMLOps.uuidEquivalent(rnesting.uuid, tnesting.uuid))
             Failure(new IllegalArgumentException(s"TerminologyNestingAxiom: $tnesting vs. $rnesting"))
           else
             Success(ri.copy(context = ri.context.copy(extent = ej)))
@@ -402,7 +402,7 @@ object OMLTablesResolver {
             Failure(new IllegalArgumentException(s"ConceptDesignationTerminologyAxiom: axiom not in extent: $rConceptDesignation"))
           else if (!ej.lookupBoxStatements(tboxMTarget).contains(tboxMConcept))
             Failure(new IllegalArgumentException(s"ConceptDesignationTerminologyAxiom: designated concept not in designated graph: $rConceptDesignation"))
-          else if (!OMLOps.uuidEquivalent(rConceptDesignation.uuid()(ej), tConceptDesignation.uuid))
+          else if (!OMLOps.uuidEquivalent(rConceptDesignation.uuid, tConceptDesignation.uuid))
             Failure(new IllegalArgumentException(s"ConceptDesignationTerminologyAxiom: $tConceptDesignation vs. $rConceptDesignation"))
           else
             Success(ri.copy(context = ri.context.copy(extent = ej)))
@@ -441,7 +441,7 @@ object OMLTablesResolver {
           val (ej, rBundleAxiom) = ri.factory.createBundledTerminologyAxiom(ri.context.extent, tboxMTarget, bundleMSource)
           if (!ej.lookupBundleAxioms(bundleMSource).contains(rBundleAxiom))
             Failure(new IllegalArgumentException(s"BundledTerminologyAxiom not in extent: $rBundleAxiom"))
-          else if (!OMLOps.uuidEquivalent(rBundleAxiom.uuid()(ej), tBundleAxiom.uuid))
+          else if (!OMLOps.uuidEquivalent(rBundleAxiom.uuid, tBundleAxiom.uuid))
             Failure(new IllegalArgumentException(s"BundledTerminologyAxiom: $tBundleAxiom vs. $rBundleAxiom"))
           else
             Success(ri.copy(context = ri.context.copy(extent = ej)))
@@ -668,7 +668,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rrr))
             Failure(new IllegalArgumentException(s"ReifiedRelationship not in extent: $rrr"))
-          else if (!ej.lookupTerminologyBoxStatement(trr.uuid.map(UUID.fromString)).contains(rrr))
+          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(trr.uuid)).contains(rrr))
             Failure(new IllegalArgumentException(s"ReifiedRelationship: $trr vs. $rrr"))
           else
             Success(ri.copy(context = ri.context.copy(extent = ej)))
@@ -732,7 +732,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rur))
             Failure(new IllegalArgumentException(s"UnreifiedRelationship not in extent: $rur"))
-          else if (!ej.lookupTerminologyBoxStatement(tur.uuid.map(UUID.fromString)).contains(rur))
+          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(tur.uuid)).contains(rur))
             Failure(new IllegalArgumentException(s"UnreifiedRelationship: $tur vs. $rur"))
           else
             Success(ri.copy(context = ri.context.copy(extent = ej)))
@@ -788,7 +788,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rsdp))
             Failure(new IllegalArgumentException(s"EntityScalarDataProperty not in extent: $rsdp"))
-          else if (!ej.lookupTerminologyBoxStatement(tsdp.uuid.map(UUID.fromString)).contains(rsdp))
+          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(tsdp.uuid)).contains(rsdp))
             Failure(new IllegalArgumentException(s"EntityScalarDataProperty: $tsdp vs. $rsdp"))
           else
             Success(ri.copy(context = ri.context.copy(extent = ej)))
@@ -844,7 +844,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rsdp))
             Failure(new IllegalArgumentException(s"EntityStructuredDataProperty not in extent: $rsdp"))
-          else if (!ej.lookupTerminologyBoxStatement(tsdp.uuid.map(UUID.fromString)).contains(rsdp))
+          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(tsdp.uuid)).contains(rsdp))
             Failure(new IllegalArgumentException(s"EntityStructuredDataProperty: $tsdp vs. $rsdp"))
           else
             Success(ri.copy(context = ri.context.copy(extent = ej)))
@@ -899,7 +899,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rsdp))
             Failure(new IllegalArgumentException(s"ScalarDataProperty not in extent: $rsdp"))
-          else if (!ej.lookupTerminologyBoxStatement(tsdp.uuid.map(UUID.fromString)).contains(rsdp))
+          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(tsdp.uuid)).contains(rsdp))
             Failure(new IllegalArgumentException(s"ScalarDataProperty: $tsdp vs. $rsdp"))
           else
             Success(ri.copy(context = ri.context.copy(extent = ej)))
@@ -954,7 +954,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rsdp))
             Failure(new IllegalArgumentException(s"StructuredDataProperty not in extent: $rsdp"))
-          else if (!ej.lookupTerminologyBoxStatement(tsdp.uuid.map(UUID.fromString)).contains(rsdp))
+          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(tsdp.uuid)).contains(rsdp))
             Failure(new IllegalArgumentException(s"StructuredDataProperty: $tsdp vs. $rsdp"))
           else
             Success(ri.copy(context = ri.context.copy(extent = ej)))
@@ -1003,7 +1003,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rsool))
             Failure(new IllegalArgumentException(s"ScalarOneOfLiteralAxiom not in extent: $rsool"))
-          else if (!ej.lookupTerminologyBoxStatement(tsool.uuid.map(UUID.fromString)).contains(rsool))
+          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(tsool.uuid)).contains(rsool))
             Failure(new IllegalArgumentException(s"ScalarOneOfLiteralAxiom: $tsool vs. $rsool"))
           else
             Success(ri.copy(context = ri.context.copy(extent = ej)))
@@ -1063,7 +1063,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rra))
             Failure(new IllegalArgumentException(s"EntityExistentialRestrictionAxiom not in extent: $rra"))
-          else if (!ej.lookupTerminologyBoxStatement(tra.uuid.map(UUID.fromString)).contains(rra))
+          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(tra.uuid)).contains(rra))
             Failure(new IllegalArgumentException(s"EntityExistentialRestrictionAxiom: $tra vs. $rra"))
           else
             Success(ri.copy(context = ri.context.copy(extent = ej)))
@@ -1123,7 +1123,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rra))
             Failure(new IllegalArgumentException(s"EntityUniversalRestrictionAxiom not in extent: $rra"))
-          else if (!ej.lookupTerminologyBoxStatement(tra.uuid.map(UUID.fromString)).contains(rra))
+          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(tra.uuid)).contains(rra))
             Failure(new IllegalArgumentException(s"EntityUniversalRestrictionAxiom: $tra vs. $rra"))
           else
             Success(ri.copy(context = ri.context.copy(extent = ej)))
@@ -1183,7 +1183,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rra))
             Failure(new IllegalArgumentException(s"EntityScalarDataPropertyExistentialRestrictionAxiom not in extent: $rra"))
-          else if (!ej.lookupTerminologyBoxStatement(tra.uuid.map(UUID.fromString)).contains(rra))
+          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(tra.uuid)).contains(rra))
             Failure(new IllegalArgumentException(s"EntityScalarDataPropertyExistentialRestrictionAxiom: $tra vs. $rra"))
           else
             Success(ri.copy(context = ri.context.copy(extent = ej)))
@@ -1243,7 +1243,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rra))
             Failure(new IllegalArgumentException(s"EntityScalarDataPropertyUniversalRestrictionAxiom not in extent: $rra"))
-          else if (!ej.lookupTerminologyBoxStatement(tra.uuid.map(UUID.fromString)).contains(rra))
+          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(tra.uuid)).contains(rra))
             Failure(new IllegalArgumentException(s"EntityScalarDataPropertyUniversalRestrictionAxiom: $tra vs. $rra"))
           else
             Success(ri.copy(context = ri.context.copy(extent = ej)))
@@ -1298,7 +1298,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rra))
             Failure(new IllegalArgumentException(s"EntityScalarDataPropertyParticularRestrictionAxiom not in extent: $rra"))
-          else if (!ej.lookupTerminologyBoxStatement(tra.uuid.map(UUID.fromString)).contains(rra))
+          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(tra.uuid)).contains(rra))
             Failure(new IllegalArgumentException(s"EntityScalarDataPropertyParticularRestrictionAxiom: $tra vs. $rra"))
           else
             Success(ri.copy(context = ri.context.copy(extent = ej)))
@@ -1352,7 +1352,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rax))
             Failure(new IllegalArgumentException(s"AspectSpecializationAxiom not in extent: $rax"))
-          else if (!ej.lookupTerminologyBoxStatement(tax.uuid.map(UUID.fromString)).contains(rax))
+          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(tax.uuid)).contains(rax))
             Failure(new IllegalArgumentException(s"AspectSpecializationAxiom: $tax vs. $rax"))
           else
             Success(ri.copy(context = ri.context.copy(extent = ej)))
@@ -1406,7 +1406,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rax))
             Failure(new IllegalArgumentException(s"ConceptSpecializationAxiom not in extent: $rax"))
-          else if (!ej.lookupTerminologyBoxStatement(tax.uuid.map(UUID.fromString)).contains(rax))
+          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(tax.uuid)).contains(rax))
             Failure(new IllegalArgumentException(s"ConceptSpecializationAxiom: $tax vs. $rax"))
           else
             Success(ri.copy(context = ri.context.copy(extent = ej)))
@@ -1460,7 +1460,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rax))
             Failure(new IllegalArgumentException(s"ReifiedRelationshipSpecializationAxiom not in extent: $rax"))
-          else if (!ej.lookupTerminologyBoxStatement(tax.uuid.map(UUID.fromString)).contains(rax))
+          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(tax.uuid)).contains(rax))
             Failure(new IllegalArgumentException(s"ReifiedRelationshipSpecializationAxiom: $tax vs. $rax"))
           else
             Success(ri.copy(context = ri.context.copy(extent = ej)))
@@ -1508,7 +1508,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBundleStatements(bundleM).contains(rax))
             Failure(new IllegalArgumentException(s"RootConceptTaxonomyAxiom not in extent: $rax"))
-          else if (!ej.lookupTerminologyBundleStatement(tax.uuid.map(UUID.fromString)).contains(rax))
+          else if (!ej.lookupTerminologyBundleStatement(UUID.fromString(tax.uuid)).contains(rax))
             Failure(new IllegalArgumentException(s"RootConceptTaxonomyAxiom: $tax vs. $rax"))
           else
             Success(ri.copy(context = ri.context.copy(extent = ej)))
@@ -1556,7 +1556,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBundleStatements(bundleM).contains(rax))
             Failure(new IllegalArgumentException(s"AnonymousConceptTaxonomyAxiom not in extent: $rax"))
-          else if (!ej.lookupTerminologyBundleStatement(tax.uuid.map(UUID.fromString)).contains(rax))
+          else if (!ej.lookupTerminologyBundleStatement(UUID.fromString(tax.uuid)).contains(rax))
             Failure(new IllegalArgumentException(s"AnonymousConceptTaxonomyAxiom: $tax vs. $rax"))
           else
             Success(ri.copy(context = ri.context.copy(extent = ej)))
@@ -1610,7 +1610,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBundleStatements(bundleM).contains(rax))
             Failure(new IllegalArgumentException(s"SpecificDisjointConceptAxiom not in extent: $rax"))
-          else if (!ej.lookupTerminologyBundleStatement(tax.uuid.map(UUID.fromString)).contains(rax))
+          else if (!ej.lookupTerminologyBundleStatement(UUID.fromString(tax.uuid)).contains(rax))
             Failure(new IllegalArgumentException(s"SpecificDisjointConceptAxiom: $tax vs. $rax"))
           else
             Success(ri.copy(context = ri.context.copy(extent = ej)))

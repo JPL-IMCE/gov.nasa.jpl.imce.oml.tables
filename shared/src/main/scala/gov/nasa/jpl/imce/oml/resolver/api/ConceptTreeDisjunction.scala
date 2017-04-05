@@ -27,5 +27,5 @@ trait ConceptTreeDisjunction
 {
 
   def uuid
-  ()(implicit extent: Extent): scala.Option[java.util.UUID]
+  (): java.util.UUID
 }

@@ -1,20 +1,15 @@
 package gov.nasa.jpl.imce.oml.resolver
 
 import scala.collection.immutable.Set
-import scala.{AnyVal, Boolean, Option, None, Some}
+import scala.{AnyVal, Boolean, None, Some}
 
 object OMLOps {
 
   def uuidEquivalent
-  (juuid: Option[java.util.UUID],
-   tuuid: Option[gov.nasa.jpl.imce.oml.tables.UUID])
+  (juuid: java.util.UUID,
+   tuuid: gov.nasa.jpl.imce.oml.tables.UUID)
   : Boolean
-  = (juuid, tuuid) match {
-    case (None, None) => true
-    case (None, Some(_)) => false
-    case (Some(_), None) => false
-    case (Some(j), Some(t)) => j.toString == t
-  }
+  = juuid.toString == tuuid
 
   class ModuleOps(val m: api.Module) extends AnyVal {
 

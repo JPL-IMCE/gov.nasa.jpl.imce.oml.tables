@@ -26,6 +26,5 @@ trait AnonymousConceptTaxonomyAxiom
   with ConceptTreeDisjunction
 {
 
-  override def uuid
-  ()(implicit extent: Extent): scala.Option[java.util.UUID]
+  override val uuid: java.util.UUID
 }

@@ -32,8 +32,6 @@ trait TerminologyNestingAxiom
   val nestingTerminology: TerminologyBox
   val nestingContext: Concept
 
-  override def uuid
-  ()(implicit extent: Extent): scala.Option[java.util.UUID]
   def nestedTerminology
   ()(implicit extent: Extent): scala.Option[TerminologyGraph]
   /*

@@ -32,6 +32,5 @@ trait RootConceptTaxonomyAxiom
    */
   val root: Concept
 
-  override def uuid
-  ()(implicit extent: Extent): scala.Option[java.util.UUID]
+  override val uuid: java.util.UUID
 }

@@ -30,7 +30,4 @@ trait ScalarOneOfLiteralAxiom
    * The value of the literal from the restrictedScalar datatype
    */
   val value: gov.nasa.jpl.imce.oml.tables.LexicalValue
-
-  override def uuid
-  ()(implicit extent: Extent): scala.Option[java.util.UUID]
 }

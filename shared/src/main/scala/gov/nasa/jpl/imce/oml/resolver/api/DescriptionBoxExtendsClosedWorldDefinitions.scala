@@ -30,8 +30,6 @@ trait DescriptionBoxExtendsClosedWorldDefinitions
 
   val closedWorldDefinitions: TerminologyBox
 
-  override def uuid
-  ()(implicit extent: Extent): scala.Option[java.util.UUID]
   def descriptionDomain
   ()(implicit extent: Extent): scala.Option[DescriptionBox]
   def targetModule

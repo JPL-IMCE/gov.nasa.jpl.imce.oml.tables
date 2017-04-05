@@ -48,9 +48,9 @@ object ConceptSpecificationScala extends Properties("Concept") {
     SchemaGenerators.uuid,
     SchemaGenerators.uuid,
     SchemaGenerators.name)((tboxUUID: java.util.UUID, uuid: java.util.UUID, name: String) => {
-    val w = new Concept(tboxUUID.toString, name).withUuid(uuid.toString)
+    val w = new Concept(uuid.toString, tboxUUID.toString, name)
     val s = ConceptHelper.toJSON(w)
-    val t = s"""{"uuid":["${w.uuid.getOrElse("")}"],"tboxUUID":"${w.tboxUUID}","name":"${w.name}"}"""
+    val t = s"""{"uuid":"${w.uuid}","tboxUUID":"${w.tboxUUID}","name":"${w.name}"}"""
     val r = ConceptHelper.fromJSON(s)
     (s == t) &&
       (w.uuid == r.uuid) &&

@@ -33,8 +33,7 @@ public class StringScalarRestrictionTest {
         String name = "abc";
         String restrictedRangeUUID = "1245-ABCD-2345-4567";
 
-        StringScalarRestriction w1 = new StringScalarRestriction(tboxUUID, restrictedRangeUUID, name)
-                .withUuid(uuid)
+        StringScalarRestriction w1 = new StringScalarRestriction(uuid, tboxUUID, restrictedRangeUUID, name)
                 .withLength(9)
                 .withMaxLength(1000)
                 .withMinLength(9)
@@ -51,7 +50,7 @@ public class StringScalarRestrictionTest {
         String ps = "[\"" + w1.pattern().get() + "\"]";
 
         String t1 = String.format(
-                "{\"uuid\":[\"%s\"],\"tboxUUID\":\"%s\",\"restrictedRangeUUID\":\"%s\",\"length\":%s,\"minLength\":%s,\"maxLength\":%s,\"name\":\"%s\",\"pattern\":%s}",
+                "{\"uuid\":\"%s\",\"tboxUUID\":\"%s\",\"restrictedRangeUUID\":\"%s\",\"length\":%s,\"minLength\":%s,\"maxLength\":%s,\"name\":\"%s\",\"pattern\":%s}",
                 uuid, tboxUUID, restrictedRangeUUID, ls, minL, maxL, name, ps);
         Assert.assertEquals(t1, s1);
 

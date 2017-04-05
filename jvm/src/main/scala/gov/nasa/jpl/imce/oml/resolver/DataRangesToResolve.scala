@@ -62,7 +62,7 @@ object DataRangesToResolve {
     : Map[tables.UUID, api.DataRange]
     = r.context.g.outerNodeTraverser(r.context.g.get(tbox))
       .foldLeft[Map[tables.UUID, api.DataRange]](Map.empty)(
-      _ ++ _.dataranges.map(dr => dr.uuid().toString -> dr)
+      _ ++ _.dataranges.map(dr => dr.uuid.toString -> dr)
     )
 
     val (available, remaining) =
@@ -113,14 +113,16 @@ object DataRangesToResolve {
                 tuple <- acc
                 (rj, qj, fj) = tuple
                 pair = rj.factory.createBinaryScalarRestriction(
-                  rj.context.extent, tbox,
+                  rj.context.extent,
+                  UUID.fromString(dr.uuid), // @UUID
+                  tbox,
                   restrictableDataRanges(ruuid.toString),
                   dr.length,
                   dr.minLength,
                   dr.maxLength,
                   dr.name)
                 (ej, x) = pair
-                ek <- if (!uuidEquivalent(x.uuid()(ej), dr.uuid))
+                ek <- if (!uuidEquivalent(x.uuid, dr.uuid))
                   Failure(new java.lang.IllegalArgumentException(
                     s"DataRangteResolver.BinaryScalarRestriction UUID mismatch: read: $dr, created: $x"))
                 else
@@ -162,7 +164,9 @@ object DataRangesToResolve {
                 tuple <- acc
                 (rj, qj, fj) = tuple
                 pair = ri.factory.createIRIScalarRestriction(
-                  rj.context.extent, tbox,
+                  rj.context.extent,
+                  UUID.fromString(dr.uuid), // @UUID
+                  tbox,
                   restrictableDataRanges(ruuid.toString),
                   dr.length,
                   dr.minLength,
@@ -170,7 +174,7 @@ object DataRangesToResolve {
                   dr.name,
                   dr.pattern)
                 (ej, x) = pair
-                ek <- if (!uuidEquivalent(x.uuid()(ej), dr.uuid))
+                ek <- if (!uuidEquivalent(x.uuid, dr.uuid))
                   Failure(new java.lang.IllegalArgumentException(
                     s"DataRangteResolver.IRIScalarRestriction UUID mismatch: read: $dr, created: $x"))
                 else
@@ -212,7 +216,9 @@ object DataRangesToResolve {
                 tuple <- acc
                 (rj, qj, fj) = tuple
                 pair = ri.factory.createNumericScalarRestriction(
-                  rj.context.extent, tbox,
+                  rj.context.extent,
+                  UUID.fromString(dr.uuid), // @UUID
+                  tbox,
                   restrictableDataRanges(ruuid.toString),
                   dr.minExclusive,
                   dr.minInclusive,
@@ -220,7 +226,7 @@ object DataRangesToResolve {
                   dr.maxInclusive,
                   dr.name)
                 (ej, x) = pair
-                ek <- if (!uuidEquivalent(x.uuid()(ej), dr.uuid))
+                ek <- if (!uuidEquivalent(x.uuid, dr.uuid))
                   Failure(new java.lang.IllegalArgumentException(
                     s"DataRangteResolver.NumericScalarRestriction UUID mismatch: read: $dr, created: $x"))
                 else
@@ -262,7 +268,9 @@ object DataRangesToResolve {
                 tuple <- acc
                 (rj, qj, fj) = tuple
                 pair = ri.factory.createPlainLiteralScalarRestriction(
-                  rj.context.extent, tbox,
+                  rj.context.extent,
+                  UUID.fromString(dr.uuid), // @UUID
+                  tbox,
                   restrictableDataRanges(ruuid.toString),
                   dr.length,
                   dr.minLength,
@@ -271,7 +279,7 @@ object DataRangesToResolve {
                   dr.langRange,
                   dr.pattern)
                 (ej, x) = pair
-                ek <- if (!uuidEquivalent(x.uuid()(ej), dr.uuid))
+                ek <- if (!uuidEquivalent(x.uuid, dr.uuid))
                   Failure(new java.lang.IllegalArgumentException(
                     s"DataRangteResolver.PlainLiteralScalarRestriction UUID mismatch: read: $dr, created: $x"))
                 else
@@ -313,11 +321,13 @@ object DataRangesToResolve {
                 tuple <- acc
                 (rj, qj, fj) = tuple
                 pair = ri.factory.createScalarOneOfRestriction(
-                  rj.context.extent, tbox,
+                  rj.context.extent,
+                  UUID.fromString(dr.uuid), // @UUID
+                  tbox,
                   restrictableDataRanges(ruuid.toString),
                   dr.name)
                 (ej, x) = pair
-                ek <- if (!uuidEquivalent(x.uuid()(ej), dr.uuid))
+                ek <- if (!uuidEquivalent(x.uuid, dr.uuid))
                   Failure(new java.lang.IllegalArgumentException(
                     s"DataRangteResolver.ScalarOneOfRestriction UUID mismatch: read: $dr, created: $x"))
                 else
@@ -359,7 +369,9 @@ object DataRangesToResolve {
                 tuple <- acc
                 (rj, qj, fj) = tuple
                 pair = ri.factory.createStringScalarRestriction(
-                  rj.context.extent, tbox,
+                  rj.context.extent,
+                  UUID.fromString(dr.uuid), // @UUID
+                  tbox,
                   restrictableDataRanges(ruuid.toString),
                   dr.length,
                   dr.minLength,
@@ -367,7 +379,7 @@ object DataRangesToResolve {
                   dr.name,
                   dr.pattern)
                 (ej, x) = pair
-                ek <- if (!uuidEquivalent(x.uuid()(ej), dr.uuid))
+                ek <- if (!uuidEquivalent(x.uuid, dr.uuid))
                   Failure(new java.lang.IllegalArgumentException(
                     s"DataRangteResolver.StringScalarRestriction UUID mismatch: read: $dr, created: $x"))
                 else
@@ -409,7 +421,9 @@ object DataRangesToResolve {
                 tuple <- acc
                 (rj, qj, fj) = tuple
                 pair = ri.factory.createTimeScalarRestriction(
-                  rj.context.extent, tbox,
+                  rj.context.extent,
+                  UUID.fromString(dr.uuid), // @UUID
+                  tbox,
                   restrictableDataRanges(ruuid.toString),
                   dr.minExclusive,
                   dr.minInclusive,
@@ -417,7 +431,7 @@ object DataRangesToResolve {
                   dr.maxInclusive,
                   dr.name)
                 (ej, x) = pair
-                ek <- if (!uuidEquivalent(x.uuid()(ej), dr.uuid))
+                ek <- if (!uuidEquivalent(x.uuid, dr.uuid))
                   Failure(new java.lang.IllegalArgumentException(
                     s"DataRangteResolver.TimeScalarRestriction UUID mismatch: read: $dr, created: $x"))
                 else

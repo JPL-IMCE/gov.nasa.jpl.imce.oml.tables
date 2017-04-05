@@ -34,8 +34,7 @@ public class IRIScalarRestrictionTest {
         String restrictedRangeUUID = "4567-2345-ABCD-1245";
 
         IRIScalarRestriction w1 =
-                new IRIScalarRestriction(tboxUUID, restrictedRangeUUID, name)
-                        .withUuid(uuid)
+                new IRIScalarRestriction(uuid, tboxUUID, restrictedRangeUUID, name)
                         .withLength(5)
                         .withMaxLength(50)
                         .withMinLength(1)
@@ -52,7 +51,7 @@ public class IRIScalarRestrictionTest {
         String ps = "[\"" + w1.pattern().get() + "\"]";
 
         String t1 = String.format(
-                "{\"uuid\":[\"%s\"],\"tboxUUID\":\"%s\",\"restrictedRangeUUID\":\"%s\",\"length\":%s,\"minLength\":%s,\"maxLength\":%s,\"name\":\"%s\",\"pattern\":%s}",
+                "{\"uuid\":\"%s\",\"tboxUUID\":\"%s\",\"restrictedRangeUUID\":\"%s\",\"length\":%s,\"minLength\":%s,\"maxLength\":%s,\"name\":\"%s\",\"pattern\":%s}",
                 uuid, tboxUUID, restrictedRangeUUID, ls, minL, maxL, name, ps);
         Assert.assertEquals(t1, s1);
 

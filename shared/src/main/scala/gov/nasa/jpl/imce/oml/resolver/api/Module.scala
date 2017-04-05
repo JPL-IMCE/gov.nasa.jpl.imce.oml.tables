@@ -30,8 +30,6 @@ trait Module
 
   val iri: gov.nasa.jpl.imce.oml.tables.IRI
 
-  override def uuid
-  ()(implicit extent: Extent): scala.Option[java.util.UUID]
   override def iri
   ()(implicit extent: Extent): scala.Option[gov.nasa.jpl.imce.oml.tables.IRI]
   def nsPrefix

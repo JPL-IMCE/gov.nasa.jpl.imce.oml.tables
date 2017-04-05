@@ -32,11 +32,11 @@ public class ConceptSpecificationJava {
         String uuid = "12345-BCDEF-6789A-012345";
         String name="ElectricCar";
 
-        Concept w1 = new Concept(tboxUUID, name).withUuid(uuid);
+        Concept w1 = new Concept(uuid, tboxUUID, name);
         Assert.assertEquals(w1.name(), name);
         String s1 = ConceptHelper.toJSON(w1);
         String t1 = String.format(
-                "{\"uuid\":[\"%s\"],\"tboxUUID\":\"%s\",\"name\":\"%s\"}",
+                "{\"uuid\":\"%s\",\"tboxUUID\":\"%s\",\"name\":\"%s\"}",
                 uuid, tboxUUID, name);
         Assert.assertEquals(t1, s1);
 

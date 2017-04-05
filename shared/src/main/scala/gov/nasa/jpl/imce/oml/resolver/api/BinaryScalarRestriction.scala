@@ -47,7 +47,4 @@ trait BinaryScalarRestriction
    * The maximum length of the binary data
    */
   val maxLength: scala.Option[scala.Int]
-
-  override def uuid
-  ()(implicit extent: Extent): scala.Option[java.util.UUID]
 }

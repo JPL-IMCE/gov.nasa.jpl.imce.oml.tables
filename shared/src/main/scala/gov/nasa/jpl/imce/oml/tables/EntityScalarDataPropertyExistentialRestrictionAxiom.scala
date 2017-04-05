@@ -25,37 +25,21 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param uuid[0,1]
+  * @param uuid[1,1]
   * @param tboxUUID[1,1]
   * @param restrictedEntityUUID[1,1]
   * @param scalarPropertyUUID[1,1]
   * @param scalarRestrictionUUID[1,1]
   */
+@JSExport
 case class EntityScalarDataPropertyExistentialRestrictionAxiom
 (
-  @(JSExport @field) uuid: scala.Option[UUID],
+  @(JSExport @field) uuid: UUID,
   @(JSExport @field) tboxUUID: UUID,
   @(JSExport @field) restrictedEntityUUID: UUID,
   @(JSExport @field) scalarPropertyUUID: UUID,
   @(JSExport @field) scalarRestrictionUUID: UUID
 ) {
-  @JSExport
-  def this(
-    tboxUUID: UUID,
-    restrictedEntityUUID: UUID,
-    scalarPropertyUUID: UUID,
-    scalarRestrictionUUID: UUID)
-  = this(
-      None /* uuid */,
-      tboxUUID,
-      restrictedEntityUUID,
-      scalarPropertyUUID,
-      scalarRestrictionUUID)
-
-  def withUuid(l: UUID)	 
-  : EntityScalarDataPropertyExistentialRestrictionAxiom
-  = copy(uuid=Some(l))
-  
   override val hashCode
   : scala.Int 
   = (uuid, tboxUUID, restrictedEntityUUID, scalarPropertyUUID, scalarRestrictionUUID).##

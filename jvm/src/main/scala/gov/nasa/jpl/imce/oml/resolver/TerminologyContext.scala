@@ -25,7 +25,7 @@ import gov.nasa.jpl.imce.oml._
 import scala.collection.immutable.{Map, Set}
 import scala.util.control.Exception._
 import scala.util.{Failure, Success, Try}
-import scala.{Option,None,PartialFunction,StringContext,Tuple2}
+import scala.{Option,None,PartialFunction,Some,StringContext,Tuple2}
 import scala.Predef.{ArrowAssoc, require}
 
 import scalax.collection.GraphPredef._
@@ -54,14 +54,14 @@ case class TerminologyContext private[resolver]
 
   val nodes
   : Map[UUID, resolver.api.Module]
-  = g.nodes.toOuter.flatMap(t => t.uuid()(extent).map(id => id -> t)).toMap
+  = g.nodes.toOuter.map(t => t.uuid -> t).toMap
 
   val tboxes
   : Map[UUID, resolver.api.TerminologyBox]
   = g.nodes.toOuter
     .flatMap {
       case t: resolver.api.TerminologyBox =>
-        t.uuid()(extent).map(id => id -> t)
+        Some(t.uuid -> t)
       case _ =>
         None
     }
@@ -72,7 +72,7 @@ case class TerminologyContext private[resolver]
   = g.nodes.toOuter
     .flatMap {
       case t: resolver.api.TerminologyGraph =>
-        t.uuid()(extent).map(id => id -> t)
+        Some(t.uuid -> t)
       case _ =>
         None
     }
@@ -83,7 +83,7 @@ case class TerminologyContext private[resolver]
   = g.nodes.toOuter
     .flatMap {
       case t: resolver.api.Bundle =>
-        t.uuid()(extent).map(id => id -> t)
+        Some(t.uuid -> t)
       case _ =>
         None
     }
@@ -94,7 +94,7 @@ case class TerminologyContext private[resolver]
   = g.nodes.toOuter
     .flatMap {
       case t: resolver.api.DescriptionBox =>
-        t.uuid()(extent).map(id => id -> t)
+        Some(t.uuid -> t)
       case _ =>
         None
     }

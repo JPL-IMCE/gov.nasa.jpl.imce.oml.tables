@@ -25,33 +25,19 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param uuid[0,1]
+  * @param uuid[1,1]
   * @param tboxUUID[1,1]
   * @param axiomUUID[1,1]
   * @param value[1,1]
   */
+@JSExport
 case class ScalarOneOfLiteralAxiom
 (
-  @(JSExport @field) uuid: scala.Option[UUID],
+  @(JSExport @field) uuid: UUID,
   @(JSExport @field) tboxUUID: UUID,
   @(JSExport @field) axiomUUID: UUID,
   @(JSExport @field) value: LexicalValue
 ) {
-  @JSExport
-  def this(
-    tboxUUID: UUID,
-    axiomUUID: UUID,
-    value: LexicalValue)
-  = this(
-      None /* uuid */,
-      tboxUUID,
-      axiomUUID,
-      value)
-
-  def withUuid(l: UUID)	 
-  : ScalarOneOfLiteralAxiom
-  = copy(uuid=Some(l))
-  
   override val hashCode
   : scala.Int 
   = (uuid, tboxUUID, axiomUUID, value).##

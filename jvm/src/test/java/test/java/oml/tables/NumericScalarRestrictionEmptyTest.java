@@ -34,7 +34,7 @@ public class NumericScalarRestrictionEmptyTest {
         String name = "abc";
         String restrictedRangeUUID = "1245-ABCD-2345-4567";
 
-        NumericScalarRestriction w1 = new NumericScalarRestriction(tboxUUID, restrictedRangeUUID, name).withUuid(uuid);
+        NumericScalarRestriction w1 = new NumericScalarRestriction(uuid, tboxUUID, restrictedRangeUUID, name);
 
         String s1 = NumericScalarRestrictionHelper.toJSON(w1);
 
@@ -47,7 +47,7 @@ public class NumericScalarRestrictionEmptyTest {
         String minI_s = (w1.minInclusive().isEmpty()) ? "[]" : w1.minInclusive().toString();
 
         String t1 = String.format(
-                "{\"uuid\":[\"%s\"],\"tboxUUID\":\"%s\",\"restrictedRangeUUID\":\"%s\",\"minExclusive\":%s,\"minInclusive\":%s,\"maxExclusive\":%s,\"maxInclusive\":%s,\"name\":\"%s\"}",
+                "{\"uuid\":\"%s\",\"tboxUUID\":\"%s\",\"restrictedRangeUUID\":\"%s\",\"minExclusive\":%s,\"minInclusive\":%s,\"maxExclusive\":%s,\"maxInclusive\":%s,\"name\":\"%s\"}",
                 uuid, tboxUUID, restrictedRangeUUID, minE_s, minI_s, maxE_s, maxI_s, name);
         Assert.assertEquals(t1, s1);
 

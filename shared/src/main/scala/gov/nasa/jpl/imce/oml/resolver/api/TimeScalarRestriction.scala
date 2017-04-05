@@ -52,7 +52,4 @@ trait TimeScalarRestriction
    * The exclusive maximum value in the range
    */
   val maxExclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LexicalTime]
-
-  override def uuid
-  ()(implicit extent: Extent): scala.Option[java.util.UUID]
 }

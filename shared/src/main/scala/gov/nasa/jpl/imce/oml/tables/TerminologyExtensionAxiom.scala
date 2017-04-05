@@ -25,29 +25,17 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param uuid[0,1]
+  * @param uuid[1,1]
   * @param tboxUUID[1,1]
   * @param extendedTerminologyUUID[1,1]
   */
+@JSExport
 case class TerminologyExtensionAxiom
 (
-  @(JSExport @field) uuid: scala.Option[UUID],
+  @(JSExport @field) uuid: UUID,
   @(JSExport @field) tboxUUID: UUID,
   @(JSExport @field) extendedTerminologyUUID: UUID
 ) {
-  @JSExport
-  def this(
-    tboxUUID: UUID,
-    extendedTerminologyUUID: UUID)
-  = this(
-      None /* uuid */,
-      tboxUUID,
-      extendedTerminologyUUID)
-
-  def withUuid(l: UUID)	 
-  : TerminologyExtensionAxiom
-  = copy(uuid=Some(l))
-  
   override val hashCode
   : scala.Int 
   = (uuid, tboxUUID, extendedTerminologyUUID).##

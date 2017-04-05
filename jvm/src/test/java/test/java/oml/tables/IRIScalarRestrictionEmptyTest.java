@@ -33,7 +33,7 @@ public class IRIScalarRestrictionEmptyTest {
         String name = "abc";
         String restrictedRangeUUID = "4567-2345-ABCD-1245";
 
-        IRIScalarRestriction w1 = new IRIScalarRestriction(tboxUUID, restrictedRangeUUID, name).withUuid(uuid);
+        IRIScalarRestriction w1 = new IRIScalarRestriction(uuid, tboxUUID, restrictedRangeUUID, name);
 
         String s1 = IRIScalarRestrictionHelper.toJSON(w1);
 
@@ -46,7 +46,7 @@ public class IRIScalarRestrictionEmptyTest {
         String ps = (w1.pattern().isEmpty()) ? "[]" : w1.pattern().toString();
 
         String t1 = String.format(
-                "{\"uuid\":[\"%s\"],\"tboxUUID\":\"%s\",\"restrictedRangeUUID\":\"%s\",\"length\":%s,\"minLength\":%s,\"maxLength\":%s,\"name\":\"%s\",\"pattern\":%s}",
+                "{\"uuid\":\"%s\",\"tboxUUID\":\"%s\",\"restrictedRangeUUID\":\"%s\",\"length\":%s,\"minLength\":%s,\"maxLength\":%s,\"name\":\"%s\",\"pattern\":%s}",
                 uuid, tboxUUID, restrictedRangeUUID, ls, minL, maxL, name, ps);
         Assert.assertEquals(t1, s1);
 

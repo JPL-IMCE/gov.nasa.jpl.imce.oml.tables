@@ -25,7 +25,7 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param uuid[0,1]
+  * @param uuid[1,1]
   * @param tboxUUID[1,1]
   * @param sourceUUID[1,1]
   * @param targetUUID[1,1]
@@ -44,7 +44,7 @@ import scala.Predef._
   */
 case class ReifiedRelationship
 (
-  @(JSExport @field) uuid: scala.Option[UUID],
+  @(JSExport @field) uuid: UUID,
   @(JSExport @field) tboxUUID: UUID,
   @(JSExport @field) sourceUUID: UUID,
   @(JSExport @field) targetUUID: UUID,
@@ -63,6 +63,7 @@ case class ReifiedRelationship
 ) {
   @JSExport
   def this(
+    uuid: UUID,
     tboxUUID: UUID,
     sourceUUID: UUID,
     targetUUID: UUID,
@@ -78,7 +79,7 @@ case class ReifiedRelationship
     name: LocalName,
     unreifiedPropertyName: LocalName)
   = this(
-      None /* uuid */,
+      uuid,
       tboxUUID,
       sourceUUID,
       targetUUID,
@@ -95,10 +96,6 @@ case class ReifiedRelationship
       unreifiedPropertyName,
       None /* unreifiedInversePropertyName */)
 
-  def withUuid(l: UUID)	 
-  : ReifiedRelationship
-  = copy(uuid=Some(l))
-  
   def withUnreifiedInversePropertyName(l: LocalName)	 
   : ReifiedRelationship
   = copy(unreifiedInversePropertyName=Some(l))

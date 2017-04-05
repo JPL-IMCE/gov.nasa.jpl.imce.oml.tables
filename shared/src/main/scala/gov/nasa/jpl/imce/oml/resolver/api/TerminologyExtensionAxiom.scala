@@ -29,8 +29,6 @@ trait TerminologyExtensionAxiom
 
   val extendedTerminology: TerminologyBox
 
-  override def uuid
-  ()(implicit extent: Extent): scala.Option[java.util.UUID]
   def extendingTerminology
   ()(implicit extent: Extent): scala.Option[TerminologyBox]
   /*

@@ -30,8 +30,6 @@ trait BundledTerminologyAxiom
 
   val bundledTerminology: TerminologyBox
 
-  override def uuid
-  ()(implicit extent: Extent): scala.Option[java.util.UUID]
   /*
    * The bundle is the source
    */

@@ -59,7 +59,7 @@ object BinaryScalarRestrictionAxiomTest extends Properties("BinaryScalarRestrict
      minLength: Option[scala.Int],
      restrictedScalarUUID: java.util.UUID,
      scalarName: LocalName) => {
-      val w = new BinaryScalarRestriction(Some(uuid.toString), tboxUUID.toString, restrictedScalarUUID.toString, length, minLength, maxLength, scalarName)
+      val w = new BinaryScalarRestriction(uuid.toString, tboxUUID.toString, restrictedScalarUUID.toString, length, minLength, maxLength, scalarName)
       val s = BinaryScalarRestrictionHelper.toJSON(w)
       val l = w.length match {
         case None => "[]"
@@ -73,7 +73,7 @@ object BinaryScalarRestrictionAxiomTest extends Properties("BinaryScalarRestrict
         case None => "[]"
         case Some(n) => s"[$n]"
       }
-      val t = s"""{"uuid":["${w.uuid.getOrElse("")}"],"tboxUUID":"${w.tboxUUID}","restrictedRangeUUID":"${w.restrictedRangeUUID}","length":$l,"minLength":$min,"maxLength":$max,"name":"${w.name}"}"""
+      val t = s"""{"uuid":"${w.uuid}","tboxUUID":"${w.tboxUUID}","restrictedRangeUUID":"${w.restrictedRangeUUID}","length":$l,"minLength":$min,"maxLength":$max,"name":"${w.name}"}"""
       val r = BinaryScalarRestrictionHelper.fromJSON(s)
       (s == t) && (w.tboxUUID == r.tboxUUID) && (w.uuid == r.uuid) && (w.length == r.length) && (w.maxLength == r.maxLength) && (w.minLength == r.minLength) && (w.restrictedRangeUUID == r.restrictedRangeUUID) && (w.name == r.name)
     })

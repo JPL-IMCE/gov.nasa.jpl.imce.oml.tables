@@ -25,33 +25,19 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param uuid[0,1]
+  * @param uuid[1,1]
   * @param dataStructureTypeUUID[1,1]
   * @param structuredDataPropertyValueUUID[1,1]
   * @param name[1,1]
   */
+@JSExport
 case class DataStructureTuple
 (
-  @(JSExport @field) uuid: scala.Option[UUID],
+  @(JSExport @field) uuid: UUID,
   @(JSExport @field) dataStructureTypeUUID: UUID,
   @(JSExport @field) structuredDataPropertyValueUUID: UUID,
   @(JSExport @field) name: LocalName
 ) {
-  @JSExport
-  def this(
-    dataStructureTypeUUID: UUID,
-    structuredDataPropertyValueUUID: UUID,
-    name: LocalName)
-  = this(
-      None /* uuid */,
-      dataStructureTypeUUID,
-      structuredDataPropertyValueUUID,
-      name)
-
-  def withUuid(l: UUID)	 
-  : DataStructureTuple
-  = copy(uuid=Some(l))
-  
   override val hashCode
   : scala.Int 
   = (uuid, dataStructureTypeUUID, structuredDataPropertyValueUUID, name).##

@@ -25,7 +25,7 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param uuid[0,1]
+  * @param uuid[1,1]
   * @param tboxUUID[1,1]
   * @param sourceUUID[1,1]
   * @param targetUUID[1,1]
@@ -40,9 +40,10 @@ import scala.Predef._
   * @param isTransitive[1,1]
   * @param name[1,1]
   */
+@JSExport
 case class UnreifiedRelationship
 (
-  @(JSExport @field) uuid: scala.Option[UUID],
+  @(JSExport @field) uuid: UUID,
   @(JSExport @field) tboxUUID: UUID,
   @(JSExport @field) sourceUUID: UUID,
   @(JSExport @field) targetUUID: UUID,
@@ -57,41 +58,6 @@ case class UnreifiedRelationship
   @(JSExport @field) isTransitive: scala.Boolean,
   @(JSExport @field) name: LocalName
 ) {
-  @JSExport
-  def this(
-    tboxUUID: UUID,
-    sourceUUID: UUID,
-    targetUUID: UUID,
-    isAsymmetric: scala.Boolean,
-    isEssential: scala.Boolean,
-    isFunctional: scala.Boolean,
-    isInverseEssential: scala.Boolean,
-    isInverseFunctional: scala.Boolean,
-    isIrreflexive: scala.Boolean,
-    isReflexive: scala.Boolean,
-    isSymmetric: scala.Boolean,
-    isTransitive: scala.Boolean,
-    name: LocalName)
-  = this(
-      None /* uuid */,
-      tboxUUID,
-      sourceUUID,
-      targetUUID,
-      isAsymmetric,
-      isEssential,
-      isFunctional,
-      isInverseEssential,
-      isInverseFunctional,
-      isIrreflexive,
-      isReflexive,
-      isSymmetric,
-      isTransitive,
-      name)
-
-  def withUuid(l: UUID)	 
-  : UnreifiedRelationship
-  = copy(uuid=Some(l))
-  
   override val hashCode
   : scala.Int 
   = (uuid, tboxUUID, sourceUUID, targetUUID, isAsymmetric, isEssential, isFunctional, isInverseEssential, isInverseFunctional, isIrreflexive, isReflexive, isSymmetric, isTransitive, name).##

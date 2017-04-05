@@ -28,6 +28,7 @@ trait EntityStructuredDataProperty
   with DataRelationshipToStructure
 {
 
+  override val uuid: java.util.UUID
   override def source
   (): Term
   override def target

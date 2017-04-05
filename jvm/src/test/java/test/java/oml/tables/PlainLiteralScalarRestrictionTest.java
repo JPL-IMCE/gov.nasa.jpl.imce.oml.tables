@@ -33,8 +33,7 @@ public class PlainLiteralScalarRestrictionTest {
         String name = "abc";
         String restrictedRangeUUID = "1245-ABCD-2345-4567";
 
-        PlainLiteralScalarRestriction w1 = new PlainLiteralScalarRestriction(tboxUUID, restrictedRangeUUID, name)
-                .withUuid(uuid)
+        PlainLiteralScalarRestriction w1 = new PlainLiteralScalarRestriction(uuid, tboxUUID, restrictedRangeUUID, name)
                 .withLength(5)
                 .withMaxLength(50)
                 .withMinLength(1)
@@ -54,7 +53,7 @@ public class PlainLiteralScalarRestrictionTest {
         String ps = "[\"" + w1.pattern().get() + "\"]";
 
         String t1 = String.format(
-                "{\"uuid\":[\"%s\"],\"tboxUUID\":\"%s\",\"restrictedRangeUUID\":\"%s\",\"length\":%s,\"minLength\":%s,\"maxLength\":%s,\"name\":\"%s\",\"langRange\":%s,\"pattern\":%s}",
+                "{\"uuid\":\"%s\",\"tboxUUID\":\"%s\",\"restrictedRangeUUID\":\"%s\",\"length\":%s,\"minLength\":%s,\"maxLength\":%s,\"name\":\"%s\",\"langRange\":%s,\"pattern\":%s}",
                 uuid, tboxUUID, restrictedRangeUUID, ls, minL, maxL, name, lan_s, ps);
         Assert.assertEquals(t1, s1);
 

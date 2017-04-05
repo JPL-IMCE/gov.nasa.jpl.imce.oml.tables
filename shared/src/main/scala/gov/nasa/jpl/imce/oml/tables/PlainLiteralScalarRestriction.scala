@@ -25,7 +25,7 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param uuid[0,1]
+  * @param uuid[1,1]
   * @param tboxUUID[1,1]
   * @param restrictedRangeUUID[1,1]
   * @param length[0,1]
@@ -37,7 +37,7 @@ import scala.Predef._
   */
 case class PlainLiteralScalarRestriction
 (
-  @(JSExport @field) uuid: scala.Option[UUID],
+  @(JSExport @field) uuid: UUID,
   @(JSExport @field) tboxUUID: UUID,
   @(JSExport @field) restrictedRangeUUID: UUID,
   @(JSExport @field) length: scala.Option[scala.Int],
@@ -49,11 +49,12 @@ case class PlainLiteralScalarRestriction
 ) {
   @JSExport
   def this(
+    uuid: UUID,
     tboxUUID: UUID,
     restrictedRangeUUID: UUID,
     name: LocalName)
   = this(
-      None /* uuid */,
+      uuid,
       tboxUUID,
       restrictedRangeUUID,
       None /* length */,
@@ -63,10 +64,6 @@ case class PlainLiteralScalarRestriction
       None /* langRange */,
       None /* pattern */)
 
-  def withUuid(l: UUID)	 
-  : PlainLiteralScalarRestriction
-  = copy(uuid=Some(l))
-  
   def withLength(l: scala.Int)	 
   : PlainLiteralScalarRestriction
   = copy(length=Some(l))

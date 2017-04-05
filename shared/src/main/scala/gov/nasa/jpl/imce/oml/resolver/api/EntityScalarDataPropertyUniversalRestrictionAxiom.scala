@@ -27,7 +27,4 @@ trait EntityScalarDataPropertyUniversalRestrictionAxiom
 {
 
   val scalarRestriction: DataRange
-
-  override def uuid
-  ()(implicit extent: Extent): scala.Option[java.util.UUID]
 }

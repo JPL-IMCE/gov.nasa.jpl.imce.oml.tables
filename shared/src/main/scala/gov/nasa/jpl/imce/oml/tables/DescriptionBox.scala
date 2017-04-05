@@ -25,29 +25,17 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param uuid[0,1]
+  * @param uuid[1,1]
   * @param kind[1,1]
   * @param iri[1,1]
   */
+@JSExport
 case class DescriptionBox
 (
-  @(JSExport @field) uuid: scala.Option[UUID],
+  @(JSExport @field) uuid: UUID,
   @(JSExport @field) kind: DescriptionKind,
   @(JSExport @field) iri: IRI
 ) {
-  @JSExport
-  def this(
-    kind: DescriptionKind,
-    iri: IRI)
-  = this(
-      None /* uuid */,
-      kind,
-      iri)
-
-  def withUuid(l: UUID)	 
-  : DescriptionBox
-  = copy(uuid=Some(l))
-  
   override val hashCode
   : scala.Int 
   = (uuid, kind, iri).##

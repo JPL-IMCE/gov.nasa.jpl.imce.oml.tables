@@ -25,29 +25,17 @@ import scala._
 import scala.Predef._
 
 /**
-  * @param uuid[0,1]
+  * @param uuid[1,1]
   * @param refiningDescriptionBoxUUID[1,1]
   * @param refinedDescriptionBoxUUID[1,1]
   */
+@JSExport
 case class DescriptionBoxRefinement
 (
-  @(JSExport @field) uuid: scala.Option[UUID],
+  @(JSExport @field) uuid: UUID,
   @(JSExport @field) refiningDescriptionBoxUUID: UUID,
   @(JSExport @field) refinedDescriptionBoxUUID: UUID
 ) {
-  @JSExport
-  def this(
-    refiningDescriptionBoxUUID: UUID,
-    refinedDescriptionBoxUUID: UUID)
-  = this(
-      None /* uuid */,
-      refiningDescriptionBoxUUID,
-      refinedDescriptionBoxUUID)
-
-  def withUuid(l: UUID)	 
-  : DescriptionBoxRefinement
-  = copy(uuid=Some(l))
-  
   override val hashCode
   : scala.Int 
   = (uuid, refiningDescriptionBoxUUID, refinedDescriptionBoxUUID).##
