@@ -100,6 +100,41 @@ case class ReifiedRelationship
   : ReifiedRelationship
   = copy(unreifiedInversePropertyName=Some(l))
   
+  // Ctor(uuidWithGenerator)   
+  @JSExport
+  def this(
+    oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
+    tboxUUID: UUID,
+    sourceUUID: UUID,
+    targetUUID: UUID,
+    isAsymmetric: scala.Boolean,
+    isEssential: scala.Boolean,
+    isFunctional: scala.Boolean,
+    isInverseEssential: scala.Boolean,
+    isInverseFunctional: scala.Boolean,
+    isIrreflexive: scala.Boolean,
+    isReflexive: scala.Boolean,
+    isSymmetric: scala.Boolean,
+    isTransitive: scala.Boolean,
+    name: LocalName,
+    unreifiedPropertyName: LocalName)
+  = this(
+      oug.namespaceUUID(tboxUUID, "name" -> name).toString,
+      tboxUUID,
+      sourceUUID,
+      targetUUID,
+      isAsymmetric,
+      isEssential,
+      isFunctional,
+      isInverseEssential,
+      isInverseFunctional,
+      isIrreflexive,
+      isReflexive,
+      isSymmetric,
+      isTransitive,
+      name,
+      unreifiedPropertyName)
+
   override val hashCode
   : scala.Int 
   = (uuid, tboxUUID, sourceUUID, targetUUID, isAsymmetric, isEssential, isFunctional, isInverseEssential, isInverseFunctional, isIrreflexive, isReflexive, isSymmetric, isTransitive, name, unreifiedPropertyName, unreifiedInversePropertyName).##

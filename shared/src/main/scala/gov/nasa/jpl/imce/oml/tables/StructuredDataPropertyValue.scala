@@ -38,6 +38,19 @@ case class StructuredDataPropertyValue
   @(JSExport @field) structuredDataPropertyUUID: UUID,
   @(JSExport @field) name: LocalName
 ) {
+  // Ctor(uuidWithGenerator)   
+  @JSExport
+  def this(
+    oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
+    singletonInstanceUUID: UUID,
+    structuredDataPropertyUUID: UUID,
+    name: LocalName)
+  = this(
+      oug.namespaceUUID(singletonInstanceUUID, "name" -> name).toString,
+      singletonInstanceUUID,
+      structuredDataPropertyUUID,
+      name)
+
   override val hashCode
   : scala.Int 
   = (uuid, singletonInstanceUUID, structuredDataPropertyUUID, name).##

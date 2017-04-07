@@ -31,12 +31,12 @@ trait TerminologyAxiom
   def source
   ()(implicit extent: Extent): scala.Option[TerminologyBox]
   def sourceModule
-  (): Module
+  ()(implicit extent: Extent): scala.Option[Module]
   /*
    * The target TerminologyBox
    */
   def target
   ()(implicit extent: Extent): TerminologyBox
   def targetModule
-  (): Module
+  ()(implicit extent: Extent): Module
 }

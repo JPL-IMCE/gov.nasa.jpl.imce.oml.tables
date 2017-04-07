@@ -33,4 +33,7 @@ trait UnreifiedRelationshipInstanceTuple
   val unreifiedRelationship: UnreifiedRelationship
   val domain: ConceptualEntitySingletonInstance
   val range: ConceptualEntitySingletonInstance
+
+  def descriptionBox
+  ()(implicit extent: Extent): scala.Option[DescriptionBox]
 }

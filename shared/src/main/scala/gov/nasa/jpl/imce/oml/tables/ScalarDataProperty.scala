@@ -40,6 +40,21 @@ case class ScalarDataProperty
   @(JSExport @field) rangeUUID: UUID,
   @(JSExport @field) name: LocalName
 ) {
+  // Ctor(uuidWithGenerator)   
+  @JSExport
+  def this(
+    oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
+    tboxUUID: UUID,
+    domainUUID: UUID,
+    rangeUUID: UUID,
+    name: LocalName)
+  = this(
+      oug.namespaceUUID(tboxUUID, "name" -> name).toString,
+      tboxUUID,
+      domainUUID,
+      rangeUUID,
+      name)
+
   override val hashCode
   : scala.Int 
   = (uuid, tboxUUID, domainUUID, rangeUUID, name).##

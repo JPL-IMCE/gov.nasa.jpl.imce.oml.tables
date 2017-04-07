@@ -36,6 +36,17 @@ case class BundledTerminologyAxiom
   @(JSExport @field) bundledTerminologyUUID: UUID,
   @(JSExport @field) bundleUUID: UUID
 ) {
+  // Ctor(uuidWithContainer)   
+  @JSExport
+  def this(
+    oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
+    bundledTerminologyUUID: UUID,
+    bundleUUID: UUID)
+  = this(
+      oug.namespaceUUID("BundledTerminologyAxiom", "bundledTerminology" -> bundledTerminologyUUID, "bundle" -> bundleUUID).toString,
+      bundledTerminologyUUID,
+      bundleUUID)
+
   override val hashCode
   : scala.Int 
   = (uuid, bundledTerminologyUUID, bundleUUID).##

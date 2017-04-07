@@ -28,8 +28,8 @@ trait TerminologyInstanceAssertion
 
   override val name: gov.nasa.jpl.imce.oml.tables.LocalName
 
-  def descriptionBox
-  ()(implicit extent: Extent): scala.Option[DescriptionBox]
   override def iri
   ()(implicit extent: Extent): scala.Option[gov.nasa.jpl.imce.oml.tables.IRI]
+  def descriptionBox
+  ()(implicit extent: Extent): scala.Option[DescriptionBox]
 }

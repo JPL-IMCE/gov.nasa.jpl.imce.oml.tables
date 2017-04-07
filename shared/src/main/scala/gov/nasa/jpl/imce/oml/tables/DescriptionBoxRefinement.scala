@@ -36,6 +36,17 @@ case class DescriptionBoxRefinement
   @(JSExport @field) refiningDescriptionBoxUUID: UUID,
   @(JSExport @field) refinedDescriptionBoxUUID: UUID
 ) {
+  // Ctor(uuidWithContainer)   
+  @JSExport
+  def this(
+    oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
+    refiningDescriptionBoxUUID: UUID,
+    refinedDescriptionBoxUUID: UUID)
+  = this(
+      oug.namespaceUUID("DescriptionBoxRefinement", "refiningDescriptionBox" -> refiningDescriptionBoxUUID, "refinedDescriptionBox" -> refinedDescriptionBoxUUID).toString,
+      refiningDescriptionBoxUUID,
+      refinedDescriptionBoxUUID)
+
   override val hashCode
   : scala.Int 
   = (uuid, refiningDescriptionBoxUUID, refinedDescriptionBoxUUID).##

@@ -18,15 +18,12 @@
 
 package gov.nasa.jpl.imce.oml.resolver.api
 
+import gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator
+
 trait OMLResolvedFactory {
   
-  import scala.Predef.String
-  
-  def namespaceUUID(namespace: String, factors: scala.Tuple2[String,String]*)
-  : java.util.UUID
-  
-  def derivedUUID(topic: String, factors: scala.Tuple2[String,java.util.UUID]*)
-  : java.util.UUID
+  val oug: OMLUUIDGenerator
+  import oug._
   
   // Annotation
   def createAnnotation
@@ -277,8 +274,8 @@ trait OMLResolvedFactory {
   : (Extent, DataStructureTuple)
   = {
     import scala.Predef.ArrowAssoc
-    val implicitUUID: java.util.UUID = derivedUUID("DataStructureTuple",  "dataStructureType" -> dataStructureType.uuid,  "structuredDataPropertyValue" -> structuredDataPropertyValue.uuid)
-    createDataStructureTuple( extent, implicitUUID,  dataStructureType,  structuredDataPropertyValue,  name )
+    val uuid: java.util.UUID = namespaceUUID(structuredDataPropertyValue.toString,  "name" -> name)
+    createDataStructureTuple( extent, uuid,  dataStructureType,  structuredDataPropertyValue,  name )
   }
   
   def createDataStructureTuple
@@ -807,8 +804,8 @@ trait OMLResolvedFactory {
   : (Extent, ScalarDataPropertyValue)
   = {
     import scala.Predef.ArrowAssoc
-    val implicitUUID: java.util.UUID = derivedUUID("ScalarDataPropertyValue",  "singletonInstance" -> singletonInstance.uuid)
-    createScalarDataPropertyValue( extent, implicitUUID,  singletonInstance,  scalarDataProperty,  name,  scalarPropertyValue )
+    val uuid: java.util.UUID = namespaceUUID(singletonInstance.toString,  "name" -> name)
+    createScalarDataPropertyValue( extent, uuid,  singletonInstance,  scalarDataProperty,  name,  scalarPropertyValue )
   }
   
   def createScalarDataPropertyValue
@@ -963,8 +960,8 @@ trait OMLResolvedFactory {
   : (Extent, StructuredDataPropertyValue)
   = {
     import scala.Predef.ArrowAssoc
-    val implicitUUID: java.util.UUID = derivedUUID("StructuredDataPropertyValue",  "singletonInstance" -> singletonInstance.uuid)
-    createStructuredDataPropertyValue( extent, implicitUUID,  singletonInstance,  structuredDataProperty,  name )
+    val uuid: java.util.UUID = namespaceUUID(singletonInstance.toString,  "name" -> name)
+    createStructuredDataPropertyValue( extent, uuid,  singletonInstance,  structuredDataProperty,  name )
   }
   
   def createStructuredDataPropertyValue

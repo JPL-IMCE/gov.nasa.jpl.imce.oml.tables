@@ -38,6 +38,19 @@ case class ConceptDesignationTerminologyAxiom
   @(JSExport @field) designatedConceptUUID: UUID,
   @(JSExport @field) designatedTerminologyUUID: UUID
 ) {
+  // Ctor(uuidWithContainer)   
+  @JSExport
+  def this(
+    oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
+    tboxUUID: UUID,
+    designatedConceptUUID: UUID,
+    designatedTerminologyUUID: UUID)
+  = this(
+      oug.namespaceUUID("ConceptDesignationTerminologyAxiom", "tbox" -> tboxUUID, "designatedConcept" -> designatedConceptUUID, "designatedTerminology" -> designatedTerminologyUUID).toString,
+      tboxUUID,
+      designatedConceptUUID,
+      designatedTerminologyUUID)
+
   override val hashCode
   : scala.Int 
   = (uuid, tboxUUID, designatedConceptUUID, designatedTerminologyUUID).##

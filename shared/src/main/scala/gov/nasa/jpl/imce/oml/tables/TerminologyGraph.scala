@@ -36,6 +36,17 @@ case class TerminologyGraph
   @(JSExport @field) kind: TerminologyKind,
   @(JSExport @field) iri: IRI
 ) {
+  // Ctor(uuidWithoutContainer)
+  @JSExport
+  def this(
+    oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
+    kind: TerminologyKind,
+    iri: IRI)
+  = this(
+      oug.namespaceUUID(iri.toString).toString,
+      kind,
+      iri)
+
   override val hashCode
   : scala.Int 
   = (uuid, kind, iri).##

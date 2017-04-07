@@ -40,6 +40,21 @@ case class ReifiedRelationshipInstanceRange
   @(JSExport @field) rangeUUID: UUID,
   @(JSExport @field) name: LocalName
 ) {
+  // Ctor(uuidWithGenerator)   
+  @JSExport
+  def this(
+    oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
+    descriptionBoxUUID: UUID,
+    reifiedRelationshipInstanceUUID: UUID,
+    rangeUUID: UUID,
+    name: LocalName)
+  = this(
+      oug.namespaceUUID(descriptionBoxUUID, "name" -> name).toString,
+      descriptionBoxUUID,
+      reifiedRelationshipInstanceUUID,
+      rangeUUID,
+      name)
+
   override val hashCode
   : scala.Int 
   = (uuid, descriptionBoxUUID, reifiedRelationshipInstanceUUID, rangeUUID, name).##

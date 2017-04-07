@@ -37,7 +37,7 @@ trait ConceptualEntitySingletonInstance
   def conceptualEntitySingletonClassifier
   (): ConceptualEntity
   def identifyingScalarValues
-  (): scala.collection.immutable.Set[_ <: ScalarDataPropertyValue]
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: ScalarDataPropertyValue]
   def identifyingStructuredTuples
-  (): scala.collection.immutable.Set[_ <: StructuredDataPropertyValue]
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: StructuredDataPropertyValue]
 }

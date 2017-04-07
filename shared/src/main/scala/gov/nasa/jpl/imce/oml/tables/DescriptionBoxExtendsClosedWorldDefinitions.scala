@@ -36,6 +36,17 @@ case class DescriptionBoxExtendsClosedWorldDefinitions
   @(JSExport @field) descriptionBoxUUID: UUID,
   @(JSExport @field) closedWorldDefinitionsUUID: UUID
 ) {
+  // Ctor(uuidWithContainer)   
+  @JSExport
+  def this(
+    oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
+    descriptionBoxUUID: UUID,
+    closedWorldDefinitionsUUID: UUID)
+  = this(
+      oug.namespaceUUID("DescriptionBoxExtendsClosedWorldDefinitions", "descriptionBox" -> descriptionBoxUUID, "closedWorldDefinitions" -> closedWorldDefinitionsUUID).toString,
+      descriptionBoxUUID,
+      closedWorldDefinitionsUUID)
+
   override val hashCode
   : scala.Int 
   = (uuid, descriptionBoxUUID, closedWorldDefinitionsUUID).##

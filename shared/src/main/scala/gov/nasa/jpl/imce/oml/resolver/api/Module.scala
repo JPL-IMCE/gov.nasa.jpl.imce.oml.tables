@@ -36,6 +36,4 @@ trait Module
   (): gov.nasa.jpl.imce.oml.tables.NamespacePrefix
   def name
   (): gov.nasa.jpl.imce.oml.tables.LocalName
-  def everything
-  (): scala.collection.immutable.Set[_ <: Element]
 }

@@ -38,6 +38,19 @@ case class SynonymScalarRestriction
   @(JSExport @field) restrictedRangeUUID: UUID,
   @(JSExport @field) name: LocalName
 ) {
+  // Ctor(uuidWithGenerator)   
+  @JSExport
+  def this(
+    oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
+    tboxUUID: UUID,
+    restrictedRangeUUID: UUID,
+    name: LocalName)
+  = this(
+      oug.namespaceUUID(tboxUUID, "name" -> name).toString,
+      tboxUUID,
+      restrictedRangeUUID,
+      name)
+
   override val hashCode
   : scala.Int 
   = (uuid, tboxUUID, restrictedRangeUUID, name).##

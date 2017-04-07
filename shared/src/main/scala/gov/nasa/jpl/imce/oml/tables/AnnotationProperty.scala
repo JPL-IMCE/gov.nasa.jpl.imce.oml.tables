@@ -36,6 +36,17 @@ case class AnnotationProperty
   @(JSExport @field) iri: IRI,
   @(JSExport @field) abbrevIRI: AbbrevIRI
 ) {
+  // Ctor(uuidWithoutContainer)
+  @JSExport
+  def this(
+    oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
+    iri: IRI,
+    abbrevIRI: AbbrevIRI)
+  = this(
+      oug.namespaceUUID(iri.toString).toString,
+      iri,
+      abbrevIRI)
+
   override val hashCode
   : scala.Int 
   = (uuid, iri, abbrevIRI).##

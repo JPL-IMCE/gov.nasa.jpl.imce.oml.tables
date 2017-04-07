@@ -40,6 +40,21 @@ case class EntityScalarDataPropertyUniversalRestrictionAxiom
   @(JSExport @field) scalarPropertyUUID: UUID,
   @(JSExport @field) scalarRestrictionUUID: UUID
 ) {
+  // Ctor(uuidWithContainer)   
+  @JSExport
+  def this(
+    oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
+    tboxUUID: UUID,
+    restrictedEntityUUID: UUID,
+    scalarPropertyUUID: UUID,
+    scalarRestrictionUUID: UUID)
+  = this(
+      oug.namespaceUUID("EntityScalarDataPropertyUniversalRestrictionAxiom", "tbox" -> tboxUUID, "restrictedEntity" -> restrictedEntityUUID, "scalarProperty" -> scalarPropertyUUID, "scalarRestriction" -> scalarRestrictionUUID).toString,
+      tboxUUID,
+      restrictedEntityUUID,
+      scalarPropertyUUID,
+      scalarRestrictionUUID)
+
   override val hashCode
   : scala.Int 
   = (uuid, tboxUUID, restrictedEntityUUID, scalarPropertyUUID, scalarRestrictionUUID).##

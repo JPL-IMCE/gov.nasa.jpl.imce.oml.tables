@@ -38,6 +38,19 @@ case class ConceptInstance
   @(JSExport @field) singletonConceptClassifierUUID: UUID,
   @(JSExport @field) name: LocalName
 ) {
+  // Ctor(uuidWithGenerator)   
+  @JSExport
+  def this(
+    oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
+    descriptionBoxUUID: UUID,
+    singletonConceptClassifierUUID: UUID,
+    name: LocalName)
+  = this(
+      oug.namespaceUUID(descriptionBoxUUID, "name" -> name).toString,
+      descriptionBoxUUID,
+      singletonConceptClassifierUUID,
+      name)
+
   override val hashCode
   : scala.Int 
   = (uuid, descriptionBoxUUID, singletonConceptClassifierUUID, name).##

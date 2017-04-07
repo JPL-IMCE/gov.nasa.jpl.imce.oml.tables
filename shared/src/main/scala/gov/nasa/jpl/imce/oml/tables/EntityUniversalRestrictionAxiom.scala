@@ -40,6 +40,21 @@ case class EntityUniversalRestrictionAxiom
   @(JSExport @field) restrictedDomainUUID: UUID,
   @(JSExport @field) restrictedRangeUUID: UUID
 ) {
+  // Ctor(uuidWithContainer)   
+  @JSExport
+  def this(
+    oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
+    tboxUUID: UUID,
+    restrictedRelationUUID: UUID,
+    restrictedDomainUUID: UUID,
+    restrictedRangeUUID: UUID)
+  = this(
+      oug.namespaceUUID("EntityUniversalRestrictionAxiom", "tbox" -> tboxUUID, "restrictedRelation" -> restrictedRelationUUID, "restrictedDomain" -> restrictedDomainUUID, "restrictedRange" -> restrictedRangeUUID).toString,
+      tboxUUID,
+      restrictedRelationUUID,
+      restrictedDomainUUID,
+      restrictedRangeUUID)
+
   override val hashCode
   : scala.Int 
   = (uuid, tboxUUID, restrictedRelationUUID, restrictedDomainUUID, restrictedRangeUUID).##

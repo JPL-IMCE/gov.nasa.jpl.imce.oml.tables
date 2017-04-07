@@ -32,5 +32,5 @@ trait DescriptionBoxRefinement
   def descriptionDomain
   ()(implicit extent: Extent): scala.Option[DescriptionBox]
   def targetModule
-  (): Module
+  ()(implicit extent: Extent): Module
 }

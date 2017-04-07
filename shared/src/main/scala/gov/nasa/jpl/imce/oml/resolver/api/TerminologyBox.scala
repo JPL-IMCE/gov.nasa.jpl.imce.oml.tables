@@ -32,7 +32,4 @@ trait TerminologyBox
 {
 
   val kind: gov.nasa.jpl.imce.oml.tables.TerminologyKind
-
-  override def everything
-  (): scala.collection.immutable.Set[_ <: Element]
 }

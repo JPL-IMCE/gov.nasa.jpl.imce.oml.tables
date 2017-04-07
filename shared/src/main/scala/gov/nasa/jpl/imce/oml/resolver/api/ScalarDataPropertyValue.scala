@@ -28,4 +28,7 @@ trait ScalarDataPropertyValue
 
   val scalarDataProperty: DataRelationshipToScalar
   val scalarPropertyValue: scala.Predef.String
+
+  def descriptionBox
+  ()(implicit extent: Extent): scala.Option[DescriptionBox]
 }

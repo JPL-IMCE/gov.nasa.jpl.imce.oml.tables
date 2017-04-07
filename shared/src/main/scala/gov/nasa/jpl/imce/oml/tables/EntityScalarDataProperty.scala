@@ -42,6 +42,23 @@ case class EntityScalarDataProperty
   @(JSExport @field) isIdentityCriteria: scala.Boolean,
   @(JSExport @field) name: LocalName
 ) {
+  // Ctor(uuidWithGenerator)   
+  @JSExport
+  def this(
+    oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
+    tboxUUID: UUID,
+    domainUUID: UUID,
+    rangeUUID: UUID,
+    isIdentityCriteria: scala.Boolean,
+    name: LocalName)
+  = this(
+      oug.namespaceUUID(tboxUUID, "name" -> name).toString,
+      tboxUUID,
+      domainUUID,
+      rangeUUID,
+      isIdentityCriteria,
+      name)
+
   override val hashCode
   : scala.Int 
   = (uuid, tboxUUID, domainUUID, rangeUUID, isIdentityCriteria, name).##

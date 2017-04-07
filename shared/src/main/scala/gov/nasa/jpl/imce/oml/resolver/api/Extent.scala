@@ -19,7 +19,7 @@
 package gov.nasa.jpl.imce.oml.resolver.api
 
 import scala.collection.immutable.{Map, HashMap, Set}
-import scala.{Option,None,Some}
+import scala.{Option,None}
  
 // Container types:
 // - bundles.Bundle
@@ -50,7 +50,9 @@ import scala.{Option,None,Some}
  */
 case class Extent
 ( annotationProperties: Map[java.util.UUID, AnnotationProperty] = HashMap.empty[java.util.UUID, AnnotationProperty],
-  modules: Map[java.util.UUID, Module] = HashMap.empty[java.util.UUID, Module],
+  terminologyGraphs: Map[java.util.UUID, TerminologyGraph] = HashMap.empty[java.util.UUID, TerminologyGraph],
+  bundles: Map[java.util.UUID, Bundle] = HashMap.empty[java.util.UUID, Bundle],
+  descriptionBoxes: Map[java.util.UUID, DescriptionBox] = HashMap.empty[java.util.UUID, DescriptionBox],
 
   annotations: Map[Module, Set[Annotation]] = HashMap.empty[Module, Set[Annotation]],
   boxAxioms: Map[TerminologyBox, Set[TerminologyBoxAxiom]] = HashMap.empty[TerminologyBox, Set[TerminologyBoxAxiom]],
@@ -68,6 +70,22 @@ case class Extent
   structuredDataPropertyValues: Map[SingletonInstance, Set[StructuredDataPropertyValue]] = HashMap.empty[SingletonInstance, Set[StructuredDataPropertyValue]],
   structuredPropertyTuple: Map[StructuredDataPropertyValue, Set[DataStructureTuple]] = HashMap.empty[StructuredDataPropertyValue, Set[DataStructureTuple]],
 
+  moduleOfAnnotation: Map[Annotation, Module] = HashMap.empty[Annotation, Module],
+  terminologyBoxOfTerminologyBoxAxiom: Map[TerminologyBoxAxiom, TerminologyBox] = HashMap.empty[TerminologyBoxAxiom, TerminologyBox],
+  terminologyBoxOfTerminologyBoxStatement: Map[TerminologyBoxStatement, TerminologyBox] = HashMap.empty[TerminologyBoxStatement, TerminologyBox],
+  bundleOfTerminologyBundleStatement: Map[TerminologyBundleStatement, Bundle] = HashMap.empty[TerminologyBundleStatement, Bundle],
+  bundleOfTerminologyBundleAxiom: Map[TerminologyBundleAxiom, Bundle] = HashMap.empty[TerminologyBundleAxiom, Bundle],
+  descriptionBoxOfDescriptionBoxExtendsClosedWorldDefinitions: Map[DescriptionBoxExtendsClosedWorldDefinitions, DescriptionBox] = HashMap.empty[DescriptionBoxExtendsClosedWorldDefinitions, DescriptionBox],
+  descriptionBoxOfDescriptionBoxRefinement: Map[DescriptionBoxRefinement, DescriptionBox] = HashMap.empty[DescriptionBoxRefinement, DescriptionBox],
+  descriptionBoxOfConceptInstance: Map[ConceptInstance, DescriptionBox] = HashMap.empty[ConceptInstance, DescriptionBox],
+  descriptionBoxOfReifiedRelationshipInstance: Map[ReifiedRelationshipInstance, DescriptionBox] = HashMap.empty[ReifiedRelationshipInstance, DescriptionBox],
+  descriptionBoxOfReifiedRelationshipInstanceDomain: Map[ReifiedRelationshipInstanceDomain, DescriptionBox] = HashMap.empty[ReifiedRelationshipInstanceDomain, DescriptionBox],
+  descriptionBoxOfReifiedRelationshipInstanceRange: Map[ReifiedRelationshipInstanceRange, DescriptionBox] = HashMap.empty[ReifiedRelationshipInstanceRange, DescriptionBox],
+  descriptionBoxOfUnreifiedRelationshipInstanceTuple: Map[UnreifiedRelationshipInstanceTuple, DescriptionBox] = HashMap.empty[UnreifiedRelationshipInstanceTuple, DescriptionBox],
+  singletonInstanceOfScalarDataPropertyValue: Map[ScalarDataPropertyValue, SingletonInstance] = HashMap.empty[ScalarDataPropertyValue, SingletonInstance],
+  singletonInstanceOfStructuredDataPropertyValue: Map[StructuredDataPropertyValue, SingletonInstance] = HashMap.empty[StructuredDataPropertyValue, SingletonInstance],
+  structuredDataPropertyValueOfDataStructureTuple: Map[DataStructureTuple, StructuredDataPropertyValue] = HashMap.empty[DataStructureTuple, StructuredDataPropertyValue],
+
   terminologyBoxAxiomByUUID: Map[java.util.UUID, TerminologyBoxAxiom] = HashMap.empty[java.util.UUID, TerminologyBoxAxiom],
   terminologyBoxStatementByUUID: Map[java.util.UUID, TerminologyBoxStatement] = HashMap.empty[java.util.UUID, TerminologyBoxStatement],
   terminologyBundleStatementByUUID: Map[java.util.UUID, TerminologyBundleStatement] = HashMap.empty[java.util.UUID, TerminologyBundleStatement],
@@ -83,62 +101,82 @@ case class Extent
   structuredDataPropertyValueByUUID: Map[java.util.UUID, StructuredDataPropertyValue] = HashMap.empty[java.util.UUID, StructuredDataPropertyValue],
   dataStructureTupleByUUID: Map[java.util.UUID, DataStructureTuple] = HashMap.empty[java.util.UUID, DataStructureTuple]
 ) {
-	
+  def withAnnotation(module: Module, annotation: Annotation)
+  : Map[Module, Set[Annotation]] 
+  = annotations.updated(module, annotations.getOrElse(module, Set.empty[Annotation]) + annotation)
+  
+  def withTerminologyBoxAxiom(terminologyBox: TerminologyBox, terminologyBoxAxiom: TerminologyBoxAxiom)
+  : Map[TerminologyBox, Set[TerminologyBoxAxiom]] 
+  = boxAxioms.updated(terminologyBox, boxAxioms.getOrElse(terminologyBox, Set.empty[TerminologyBoxAxiom]) + terminologyBoxAxiom)
+  
+  def withTerminologyBoxStatement(terminologyBox: TerminologyBox, terminologyBoxStatement: TerminologyBoxStatement)
+  : Map[TerminologyBox, Set[TerminologyBoxStatement]] 
+  = boxStatements.updated(terminologyBox, boxStatements.getOrElse(terminologyBox, Set.empty[TerminologyBoxStatement]) + terminologyBoxStatement)
+  
+  def withTerminologyBundleStatement(bundle: Bundle, terminologyBundleStatement: TerminologyBundleStatement)
+  : Map[Bundle, Set[TerminologyBundleStatement]] 
+  = bundleStatements.updated(bundle, bundleStatements.getOrElse(bundle, Set.empty[TerminologyBundleStatement]) + terminologyBundleStatement)
+  
+  def withTerminologyBundleAxiom(bundle: Bundle, terminologyBundleAxiom: TerminologyBundleAxiom)
+  : Map[Bundle, Set[TerminologyBundleAxiom]] 
+  = bundleAxioms.updated(bundle, bundleAxioms.getOrElse(bundle, Set.empty[TerminologyBundleAxiom]) + terminologyBundleAxiom)
+  
+  def withDescriptionBoxExtendsClosedWorldDefinitions(descriptionBox: DescriptionBox, descriptionBoxExtendsClosedWorldDefinitions: DescriptionBoxExtendsClosedWorldDefinitions)
+  : Map[DescriptionBox, Set[DescriptionBoxExtendsClosedWorldDefinitions]] 
+  = closedWorldDefinitions.updated(descriptionBox, closedWorldDefinitions.getOrElse(descriptionBox, Set.empty[DescriptionBoxExtendsClosedWorldDefinitions]) + descriptionBoxExtendsClosedWorldDefinitions)
+  
+  def withDescriptionBoxRefinement(descriptionBox: DescriptionBox, descriptionBoxRefinement: DescriptionBoxRefinement)
+  : Map[DescriptionBox, Set[DescriptionBoxRefinement]] 
+  = descriptionBoxRefinements.updated(descriptionBox, descriptionBoxRefinements.getOrElse(descriptionBox, Set.empty[DescriptionBoxRefinement]) + descriptionBoxRefinement)
+  
+  def withConceptInstance(descriptionBox: DescriptionBox, conceptInstance: ConceptInstance)
+  : Map[DescriptionBox, Set[ConceptInstance]] 
+  = conceptInstances.updated(descriptionBox, conceptInstances.getOrElse(descriptionBox, Set.empty[ConceptInstance]) + conceptInstance)
+  
+  def withReifiedRelationshipInstance(descriptionBox: DescriptionBox, reifiedRelationshipInstance: ReifiedRelationshipInstance)
+  : Map[DescriptionBox, Set[ReifiedRelationshipInstance]] 
+  = reifiedRelationshipInstances.updated(descriptionBox, reifiedRelationshipInstances.getOrElse(descriptionBox, Set.empty[ReifiedRelationshipInstance]) + reifiedRelationshipInstance)
+  
+  def withReifiedRelationshipInstanceDomain(descriptionBox: DescriptionBox, reifiedRelationshipInstanceDomain: ReifiedRelationshipInstanceDomain)
+  : Map[DescriptionBox, Set[ReifiedRelationshipInstanceDomain]] 
+  = reifiedRelationshipInstanceDomains.updated(descriptionBox, reifiedRelationshipInstanceDomains.getOrElse(descriptionBox, Set.empty[ReifiedRelationshipInstanceDomain]) + reifiedRelationshipInstanceDomain)
+  
+  def withReifiedRelationshipInstanceRange(descriptionBox: DescriptionBox, reifiedRelationshipInstanceRange: ReifiedRelationshipInstanceRange)
+  : Map[DescriptionBox, Set[ReifiedRelationshipInstanceRange]] 
+  = reifiedRelationshipInstanceRanges.updated(descriptionBox, reifiedRelationshipInstanceRanges.getOrElse(descriptionBox, Set.empty[ReifiedRelationshipInstanceRange]) + reifiedRelationshipInstanceRange)
+  
+  def withUnreifiedRelationshipInstanceTuple(descriptionBox: DescriptionBox, unreifiedRelationshipInstanceTuple: UnreifiedRelationshipInstanceTuple)
+  : Map[DescriptionBox, Set[UnreifiedRelationshipInstanceTuple]] 
+  = unreifiedRelationshipInstanceTuples.updated(descriptionBox, unreifiedRelationshipInstanceTuples.getOrElse(descriptionBox, Set.empty[UnreifiedRelationshipInstanceTuple]) + unreifiedRelationshipInstanceTuple)
+  
+  def withScalarDataPropertyValue(singletonInstance: SingletonInstance, scalarDataPropertyValue: ScalarDataPropertyValue)
+  : Map[SingletonInstance, Set[ScalarDataPropertyValue]] 
+  = scalarDataPropertyValues.updated(singletonInstance, scalarDataPropertyValues.getOrElse(singletonInstance, Set.empty[ScalarDataPropertyValue]) + scalarDataPropertyValue)
+  
+  def withStructuredDataPropertyValue(singletonInstance: SingletonInstance, structuredDataPropertyValue: StructuredDataPropertyValue)
+  : Map[SingletonInstance, Set[StructuredDataPropertyValue]] 
+  = structuredDataPropertyValues.updated(singletonInstance, structuredDataPropertyValues.getOrElse(singletonInstance, Set.empty[StructuredDataPropertyValue]) + structuredDataPropertyValue)
+  
+  def withDataStructureTuple(structuredDataPropertyValue: StructuredDataPropertyValue, dataStructureTuple: DataStructureTuple)
+  : Map[StructuredDataPropertyValue, Set[DataStructureTuple]] 
+  = structuredPropertyTuple.updated(structuredDataPropertyValue, structuredPropertyTuple.getOrElse(structuredDataPropertyValue, Set.empty[DataStructureTuple]) + dataStructureTuple)
+  
+		
+  def lookupModule(uuid: Option[java.util.UUID])
+  : Option[Module]
+  = uuid.fold[Option[Module]](None) { lookupModule }
+  
+  def lookupModule(uuid: java.util.UUID)
+  : Option[Module]
+  = lookupTerminologyBox(uuid) orElse lookupDescriptionBox(uuid)
+  
   def lookupTerminologyBox(uuid: Option[java.util.UUID])
   : Option[TerminologyBox]
   = uuid.fold[Option[TerminologyBox]](None) { lookupTerminologyBox }
   
   def lookupTerminologyBox(uuid: java.util.UUID)
   : Option[TerminologyBox]
-  = for {
-  	m <- modules.get(uuid)
-  	result <- m match {
-      case tbox: TerminologyBox => Some(tbox)
-  	  case _ => None
-  	}
-  } yield result
-  
-  def lookupTerminologyGraph(uuid: Option[java.util.UUID])
-  : Option[TerminologyGraph]
-  = uuid.fold[Option[TerminologyGraph]](None) { lookupTerminologyGraph }
-
-  def lookupTerminologyGraph(uuid: java.util.UUID)
-  : Option[TerminologyGraph]
-  = for {
-    m <- modules.get(uuid)
-    result <- m match {
-      case tg: TerminologyGraph => Some(tg)
-      case _ => None
-    }
-  } yield result
-
-  def lookupBundle(uuid: Option[java.util.UUID])
-  : Option[Bundle]
-  = uuid.fold[Option[Bundle]](None) { lookupBundle }
-  
-  def lookupBundle(uuid: java.util.UUID)
-  : Option[Bundle]
-  = for {
-    m <- modules.get(uuid)
-    result <- m match {
-      case b: Bundle => Some(b)
-  	  case _ => None
-    }
-  } yield result
-
-  def lookupDescriptionBox(uuid: Option[java.util.UUID])
-  : Option[DescriptionBox]
-  = uuid.fold[Option[DescriptionBox]](None) { lookupDescriptionBox }
-
-  def lookupDescriptionBox(uuid: java.util.UUID)
-  : Option[DescriptionBox]
-  = for {
-    m <- modules.get(uuid)
-    result <- m match {
-      case dbox: DescriptionBox => Some(dbox)
-  	  case _ => None
-    }
-  } yield result
+  = lookupTerminologyGraph(uuid) orElse lookupBundle(uuid)
 
   def lookupAnnotationProperty(uuid: Option[java.util.UUID])
   : Option[AnnotationProperty]
@@ -148,13 +186,29 @@ case class Extent
   : Option[AnnotationProperty]
   = annotationProperties.get(uuid)
     
-  def lookupModule(uuid: Option[java.util.UUID])
-  : Option[Module]
-  = uuid.fold[Option[Module]](None) { lookupModule } 
+  def lookupTerminologyGraph(uuid: Option[java.util.UUID])
+  : Option[TerminologyGraph]
+  = uuid.fold[Option[TerminologyGraph]](None) { lookupTerminologyGraph } 
   
-  def lookupModule(uuid: java.util.UUID)
-  : Option[Module]
-  = modules.get(uuid)
+  def lookupTerminologyGraph(uuid: java.util.UUID)
+  : Option[TerminologyGraph]
+  = terminologyGraphs.get(uuid)
+    
+  def lookupBundle(uuid: Option[java.util.UUID])
+  : Option[Bundle]
+  = uuid.fold[Option[Bundle]](None) { lookupBundle } 
+  
+  def lookupBundle(uuid: java.util.UUID)
+  : Option[Bundle]
+  = bundles.get(uuid)
+    
+  def lookupDescriptionBox(uuid: Option[java.util.UUID])
+  : Option[DescriptionBox]
+  = uuid.fold[Option[DescriptionBox]](None) { lookupDescriptionBox } 
+  
+  def lookupDescriptionBox(uuid: java.util.UUID)
+  : Option[DescriptionBox]
+  = descriptionBoxes.get(uuid)
 
   
   def lookupAnnotations(key: Option[Module])

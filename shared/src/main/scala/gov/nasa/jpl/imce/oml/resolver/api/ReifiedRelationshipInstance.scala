@@ -29,4 +29,6 @@ trait ReifiedRelationshipInstance
 
   override def conceptualEntitySingletonClassifier
   (): ConceptualEntity
+  def descriptionBox
+  ()(implicit extent: Extent): scala.Option[DescriptionBox]
 }

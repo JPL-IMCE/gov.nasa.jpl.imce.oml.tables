@@ -38,6 +38,19 @@ case class ScalarOneOfLiteralAxiom
   @(JSExport @field) axiomUUID: UUID,
   @(JSExport @field) value: LexicalValue
 ) {
+  // Ctor(uuidWithContainer)   
+  @JSExport
+  def this(
+    oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
+    tboxUUID: UUID,
+    axiomUUID: UUID,
+    value: LexicalValue)
+  = this(
+      oug.namespaceUUID("ScalarOneOfLiteralAxiom", "tbox" -> tboxUUID, "axiom" -> axiomUUID).toString,
+      tboxUUID,
+      axiomUUID,
+      value)
+
   override val hashCode
   : scala.Int 
   = (uuid, tboxUUID, axiomUUID, value).##

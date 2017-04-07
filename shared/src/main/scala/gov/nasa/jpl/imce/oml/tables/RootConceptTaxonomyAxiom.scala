@@ -36,6 +36,17 @@ case class RootConceptTaxonomyAxiom
   @(JSExport @field) bundleUUID: UUID,
   @(JSExport @field) rootUUID: UUID
 ) {
+  // Ctor(uuidWithContainer)   
+  @JSExport
+  def this(
+    oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
+    bundleUUID: UUID,
+    rootUUID: UUID)
+  = this(
+      oug.namespaceUUID("RootConceptTaxonomyAxiom", "bundle" -> bundleUUID, "root" -> rootUUID).toString,
+      bundleUUID,
+      rootUUID)
+
   override val hashCode
   : scala.Int 
   = (uuid, bundleUUID, rootUUID).##

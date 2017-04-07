@@ -36,6 +36,17 @@ case class DescriptionBox
   @(JSExport @field) kind: DescriptionKind,
   @(JSExport @field) iri: IRI
 ) {
+  // Ctor(uuidWithoutContainer)
+  @JSExport
+  def this(
+    oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
+    kind: DescriptionKind,
+    iri: IRI)
+  = this(
+      oug.namespaceUUID(iri.toString).toString,
+      kind,
+      iri)
+
   override val hashCode
   : scala.Int 
   = (uuid, kind, iri).##

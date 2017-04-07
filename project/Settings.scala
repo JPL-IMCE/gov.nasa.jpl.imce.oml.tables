@@ -11,7 +11,7 @@ object Settings {
 
   val organizationName = "JPL-IMCE"
 
-  val version = "0.54.0"
+  val version = "0.55.0"
 
   val scalacOptions = Seq(
     "-deprecation",
@@ -55,7 +55,7 @@ object Settings {
     "org.scala-js" %% "scalajs-stubs" % scalaJSVersion % "provided",
     "com.novocode" % "junit-interface" % "0.11" % "test",
     "gov.nasa.jpl.imce" %% "imce.third_party.scala_graph_libraries"
-      % versions.scalaGraphLibraries artifacts
+      % versions.scalaGraphLibraries % "compile" artifacts
       Artifact("imce.third_party.scala_graph_libraries", "zip", "zip", "resource")
   ))
 

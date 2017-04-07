@@ -26,4 +26,7 @@ trait DataStructureTuple
 {
 
   val dataStructureType: Structure
+
+  def descriptionBox
+  ()(implicit extent: Extent): scala.Option[DescriptionBox]
 }

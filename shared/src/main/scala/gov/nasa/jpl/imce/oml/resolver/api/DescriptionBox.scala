@@ -27,7 +27,4 @@ trait DescriptionBox
 {
 
   val kind: gov.nasa.jpl.imce.oml.tables.DescriptionKind
-
-  override def everything
-  (): scala.collection.immutable.Set[_ <: Element]
 }

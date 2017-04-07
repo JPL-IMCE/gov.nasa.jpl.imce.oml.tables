@@ -36,6 +36,7 @@ case class AnnotationEntry
   @(JSExport @field) subjectUUID: UUID,
   @(JSExport @field) value: scala.Predef.String
 ) {
+
   override val hashCode
   : scala.Int 
   = (moduleUUID, subjectUUID, value).##

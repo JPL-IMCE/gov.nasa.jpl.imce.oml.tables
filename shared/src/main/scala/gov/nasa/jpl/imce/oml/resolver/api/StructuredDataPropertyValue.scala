@@ -27,4 +27,7 @@ trait StructuredDataPropertyValue
 {
 
   val structuredDataProperty: DataRelationshipToStructure
+
+  def descriptionBox
+  ()(implicit extent: Extent): scala.Option[DescriptionBox]
 }

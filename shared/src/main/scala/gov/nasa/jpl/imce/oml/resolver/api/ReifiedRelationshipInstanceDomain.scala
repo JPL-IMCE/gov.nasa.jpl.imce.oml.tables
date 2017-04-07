@@ -31,4 +31,7 @@ trait ReifiedRelationshipInstanceDomain
 
   val reifiedRelationshipInstance: ReifiedRelationshipInstance
   val domain: ConceptualEntitySingletonInstance
+
+  def descriptionBox
+  ()(implicit extent: Extent): scala.Option[DescriptionBox]
 }

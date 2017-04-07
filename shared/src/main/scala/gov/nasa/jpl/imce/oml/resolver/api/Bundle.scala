@@ -26,7 +26,4 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait Bundle
   extends TerminologyBox
 {
-
-  override def everything
-  (): scala.collection.immutable.Set[_ <: Element]
 }

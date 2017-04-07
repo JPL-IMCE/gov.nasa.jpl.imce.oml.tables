@@ -40,6 +40,21 @@ case class ScalarDataPropertyValue
   @(JSExport @field) name: LocalName,
   @(JSExport @field) scalarPropertyValue: scala.Predef.String
 ) {
+  // Ctor(uuidWithGenerator)   
+  @JSExport
+  def this(
+    oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
+    singletonInstanceUUID: UUID,
+    scalarDataPropertyUUID: UUID,
+    name: LocalName,
+    scalarPropertyValue: scala.Predef.String)
+  = this(
+      oug.namespaceUUID(singletonInstanceUUID, "name" -> name).toString,
+      singletonInstanceUUID,
+      scalarDataPropertyUUID,
+      name,
+      scalarPropertyValue)
+
   override val hashCode
   : scala.Int 
   = (uuid, singletonInstanceUUID, scalarDataPropertyUUID, name, scalarPropertyValue).##

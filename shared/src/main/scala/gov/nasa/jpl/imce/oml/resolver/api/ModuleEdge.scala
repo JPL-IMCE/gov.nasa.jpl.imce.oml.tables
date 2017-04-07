@@ -26,7 +26,7 @@ trait ModuleEdge
 {
 
   def sourceModule
-  (): Module
+  ()(implicit extent: Extent): scala.Option[Module]
   def targetModule
-  (): Module
+  ()(implicit extent: Extent): Module
 }

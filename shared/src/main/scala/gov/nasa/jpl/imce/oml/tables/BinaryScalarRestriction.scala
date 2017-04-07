@@ -70,6 +70,19 @@ case class BinaryScalarRestriction
   : BinaryScalarRestriction
   = copy(maxLength=Some(l))
   
+  // Ctor(uuidWithGenerator)   
+  @JSExport
+  def this(
+    oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
+    tboxUUID: UUID,
+    restrictedRangeUUID: UUID,
+    name: LocalName)
+  = this(
+      oug.namespaceUUID(tboxUUID, "name" -> name).toString,
+      tboxUUID,
+      restrictedRangeUUID,
+      name)
+
   override val hashCode
   : scala.Int 
   = (uuid, tboxUUID, restrictedRangeUUID, length, minLength, maxLength, name).##

@@ -42,6 +42,7 @@ object ModuleGraphEdge {
 
   def apply
   (moduleEdge: resolver.api.ModuleEdge)
+  (implicit ext: resolver.api.Extent)
   = new ModuleGraphEdge[resolver.api.TerminologyBox](
     NodeProduct(moduleEdge.sourceModule(), moduleEdge.targetModule()), moduleEdge)
 

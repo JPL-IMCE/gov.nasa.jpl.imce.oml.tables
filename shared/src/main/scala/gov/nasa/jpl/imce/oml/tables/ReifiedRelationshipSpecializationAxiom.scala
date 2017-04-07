@@ -38,6 +38,19 @@ case class ReifiedRelationshipSpecializationAxiom
   @(JSExport @field) superRelationshipUUID: UUID,
   @(JSExport @field) subRelationshipUUID: UUID
 ) {
+  // Ctor(uuidWithContainer)   
+  @JSExport
+  def this(
+    oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
+    tboxUUID: UUID,
+    superRelationshipUUID: UUID,
+    subRelationshipUUID: UUID)
+  = this(
+      oug.namespaceUUID("ReifiedRelationshipSpecializationAxiom", "tbox" -> tboxUUID, "superRelationship" -> superRelationshipUUID, "subRelationship" -> subRelationshipUUID).toString,
+      tboxUUID,
+      superRelationshipUUID,
+      subRelationshipUUID)
+
   override val hashCode
   : scala.Int 
   = (uuid, tboxUUID, superRelationshipUUID, subRelationshipUUID).##

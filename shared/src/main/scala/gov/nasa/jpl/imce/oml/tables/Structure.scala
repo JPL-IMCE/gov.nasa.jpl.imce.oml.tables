@@ -36,6 +36,17 @@ case class Structure
   @(JSExport @field) tboxUUID: UUID,
   @(JSExport @field) name: LocalName
 ) {
+  // Ctor(uuidWithGenerator)   
+  @JSExport
+  def this(
+    oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
+    tboxUUID: UUID,
+    name: LocalName)
+  = this(
+      oug.namespaceUUID(tboxUUID, "name" -> name).toString,
+      tboxUUID,
+      name)
+
   override val hashCode
   : scala.Int 
   = (uuid, tboxUUID, name).##
