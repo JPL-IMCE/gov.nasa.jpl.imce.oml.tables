@@ -20,7 +20,7 @@
 package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
-import scala.scalajs.js.annotation.JSExport
+import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
 import scala._
 import scala.Predef._
 
@@ -29,7 +29,7 @@ import scala.Predef._
   * @param kind[1,1]
   * @param iri[1,1]
   */
-@JSExport
+@JSExportTopLevel("DescriptionBox")
 case class DescriptionBox
 (
   @(JSExport @field) uuid: UUID,
@@ -37,7 +37,6 @@ case class DescriptionBox
   @(JSExport @field) iri: IRI
 ) {
   // Ctor(uuidWithoutContainer)
-  @JSExport
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     kind: DescriptionKind,
@@ -62,7 +61,7 @@ case class DescriptionBox
   
 }
 
-@JSExport
+@JSExportTopLevel("DescriptionBoxHelper")
 object DescriptionBoxHelper {
 
   val TABLE_JSON_FILENAME 

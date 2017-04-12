@@ -20,7 +20,7 @@
 package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
-import scala.scalajs.js.annotation.JSExport
+import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
 import scala._
 import scala.Predef._
 
@@ -30,7 +30,7 @@ import scala.Predef._
   * @param singletonReifiedRelationshipClassifierUUID[1,1]
   * @param name[1,1]
   */
-@JSExport
+@JSExportTopLevel("ReifiedRelationshipInstance")
 case class ReifiedRelationshipInstance
 (
   @(JSExport @field) uuid: UUID,
@@ -39,7 +39,6 @@ case class ReifiedRelationshipInstance
   @(JSExport @field) name: LocalName
 ) {
   // Ctor(uuidWithGenerator)   
-  @JSExport
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     descriptionBoxUUID: UUID,
@@ -67,7 +66,7 @@ case class ReifiedRelationshipInstance
   
 }
 
-@JSExport
+@JSExportTopLevel("ReifiedRelationshipInstanceHelper")
 object ReifiedRelationshipInstanceHelper {
 
   val TABLE_JSON_FILENAME 

@@ -20,7 +20,7 @@
 package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
-import scala.scalajs.js.annotation.JSExport
+import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
 import scala._
 import scala.Predef._
 
@@ -31,7 +31,7 @@ import scala.Predef._
   * @param scalarPropertyUUID[1,1]
   * @param scalarRestrictionUUID[1,1]
   */
-@JSExport
+@JSExportTopLevel("EntityScalarDataPropertyExistentialRestrictionAxiom")
 case class EntityScalarDataPropertyExistentialRestrictionAxiom
 (
   @(JSExport @field) uuid: UUID,
@@ -41,7 +41,6 @@ case class EntityScalarDataPropertyExistentialRestrictionAxiom
   @(JSExport @field) scalarRestrictionUUID: UUID
 ) {
   // Ctor(uuidWithContainer)   
-  @JSExport
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     tboxUUID: UUID,
@@ -72,7 +71,7 @@ case class EntityScalarDataPropertyExistentialRestrictionAxiom
   
 }
 
-@JSExport
+@JSExportTopLevel("EntityScalarDataPropertyExistentialRestrictionAxiomHelper")
 object EntityScalarDataPropertyExistentialRestrictionAxiomHelper {
 
   val TABLE_JSON_FILENAME 

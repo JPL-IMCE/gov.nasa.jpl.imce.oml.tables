@@ -20,7 +20,7 @@
 package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
-import scala.scalajs.js.annotation.JSExport
+import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
 import scala._
 import scala.Predef._
 
@@ -30,7 +30,7 @@ import scala.Predef._
   * @param superRelationshipUUID[1,1]
   * @param subRelationshipUUID[1,1]
   */
-@JSExport
+@JSExportTopLevel("ReifiedRelationshipSpecializationAxiom")
 case class ReifiedRelationshipSpecializationAxiom
 (
   @(JSExport @field) uuid: UUID,
@@ -39,7 +39,6 @@ case class ReifiedRelationshipSpecializationAxiom
   @(JSExport @field) subRelationshipUUID: UUID
 ) {
   // Ctor(uuidWithContainer)   
-  @JSExport
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     tboxUUID: UUID,
@@ -67,7 +66,7 @@ case class ReifiedRelationshipSpecializationAxiom
   
 }
 
-@JSExport
+@JSExportTopLevel("ReifiedRelationshipSpecializationAxiomHelper")
 object ReifiedRelationshipSpecializationAxiomHelper {
 
   val TABLE_JSON_FILENAME 

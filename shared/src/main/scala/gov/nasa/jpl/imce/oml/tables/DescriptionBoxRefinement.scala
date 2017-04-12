@@ -20,7 +20,7 @@
 package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
-import scala.scalajs.js.annotation.JSExport
+import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
 import scala._
 import scala.Predef._
 
@@ -29,7 +29,7 @@ import scala.Predef._
   * @param refiningDescriptionBoxUUID[1,1]
   * @param refinedDescriptionBoxUUID[1,1]
   */
-@JSExport
+@JSExportTopLevel("DescriptionBoxRefinement")
 case class DescriptionBoxRefinement
 (
   @(JSExport @field) uuid: UUID,
@@ -37,7 +37,6 @@ case class DescriptionBoxRefinement
   @(JSExport @field) refinedDescriptionBoxUUID: UUID
 ) {
   // Ctor(uuidWithContainer)   
-  @JSExport
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     refiningDescriptionBoxUUID: UUID,
@@ -62,7 +61,7 @@ case class DescriptionBoxRefinement
   
 }
 
-@JSExport
+@JSExportTopLevel("DescriptionBoxRefinementHelper")
 object DescriptionBoxRefinementHelper {
 
   val TABLE_JSON_FILENAME 

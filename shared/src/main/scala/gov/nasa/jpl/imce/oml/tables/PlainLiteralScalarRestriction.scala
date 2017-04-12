@@ -20,7 +20,7 @@
 package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
-import scala.scalajs.js.annotation.JSExport
+import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
 import scala._
 import scala.Predef._
 
@@ -47,7 +47,6 @@ case class PlainLiteralScalarRestriction
   @(JSExport @field) langRange: scala.Option[LangRange],
   @(JSExport @field) pattern: scala.Option[Pattern]
 ) {
-  @JSExport
   def this(
     uuid: UUID,
     tboxUUID: UUID,
@@ -85,7 +84,6 @@ case class PlainLiteralScalarRestriction
   = copy(pattern=Some(l))
   
   // Ctor(uuidWithGenerator)   
-  @JSExport
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     tboxUUID: UUID,
@@ -118,7 +116,7 @@ case class PlainLiteralScalarRestriction
   
 }
 
-@JSExport
+@JSExportTopLevel("PlainLiteralScalarRestrictionHelper")
 object PlainLiteralScalarRestrictionHelper {
 
   val TABLE_JSON_FILENAME 

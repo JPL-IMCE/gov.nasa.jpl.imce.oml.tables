@@ -20,7 +20,7 @@
 package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
-import scala.scalajs.js.annotation.JSExport
+import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
 import scala._
 import scala.Predef._
 
@@ -30,7 +30,7 @@ import scala.Predef._
   * @param nestingTerminologyUUID[1,1]
   * @param nestingContextUUID[1,1]
   */
-@JSExport
+@JSExportTopLevel("TerminologyNestingAxiom")
 case class TerminologyNestingAxiom
 (
   @(JSExport @field) uuid: UUID,
@@ -39,7 +39,6 @@ case class TerminologyNestingAxiom
   @(JSExport @field) nestingContextUUID: UUID
 ) {
   // Ctor(uuidWithContainer)   
-  @JSExport
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     tboxUUID: UUID,
@@ -67,7 +66,7 @@ case class TerminologyNestingAxiom
   
 }
 
-@JSExport
+@JSExportTopLevel("TerminologyNestingAxiomHelper")
 object TerminologyNestingAxiomHelper {
 
   val TABLE_JSON_FILENAME 

@@ -20,7 +20,7 @@
 package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
-import scala.scalajs.js.annotation.JSExport
+import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
 import scala._
 import scala.Predef._
 
@@ -32,7 +32,7 @@ import scala.Predef._
   * @param isIdentityCriteria[1,1]
   * @param name[1,1]
   */
-@JSExport
+@JSExportTopLevel("EntityStructuredDataProperty")
 case class EntityStructuredDataProperty
 (
   @(JSExport @field) uuid: UUID,
@@ -43,7 +43,6 @@ case class EntityStructuredDataProperty
   @(JSExport @field) name: LocalName
 ) {
   // Ctor(uuidWithGenerator)   
-  @JSExport
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     tboxUUID: UUID,
@@ -77,7 +76,7 @@ case class EntityStructuredDataProperty
   
 }
 
-@JSExport
+@JSExportTopLevel("EntityStructuredDataPropertyHelper")
 object EntityStructuredDataPropertyHelper {
 
   val TABLE_JSON_FILENAME 

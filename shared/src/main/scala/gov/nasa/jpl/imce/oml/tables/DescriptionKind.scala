@@ -18,20 +18,20 @@
 
 package gov.nasa.jpl.imce.oml.tables
 
-import scala.scalajs.js.annotation.{JSExport, JSExportDescendentObjects}
+import scala.scalajs.js.annotation.JSExportTopLevel
 import scala.Predef.String
 
-@JSExportDescendentObjects
 sealed trait DescriptionKind
 
+@JSExportTopLevel("Final")
 case object Final extends DescriptionKind
 
+@JSExportTopLevel("Partial")
 case object Partial extends DescriptionKind
 
-@JSExport
+@JSExportTopLevel("DescriptionKind")
 object DescriptionKind {
 
-  @JSExport
   def toString(k: DescriptionKind)
   : String
   = k match {
@@ -47,12 +47,10 @@ object DescriptionKind {
     upickle.Js.Str(toString(k))
   }
 
-  @JSExport
   def toJSON(k: DescriptionKind)
   : String
   = upickle.default.write(expr=k, indent=0)
 
-  @JSExport
   def fromString(k: String)
   : DescriptionKind
   = k match {
@@ -69,7 +67,6 @@ object DescriptionKind {
       fromString(k)
   }
 
-  @JSExport
   def fromJSON(k: String)
   : DescriptionKind
   = upickle.default.read[DescriptionKind](k)

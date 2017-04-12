@@ -20,7 +20,7 @@
 package gov.nasa.jpl.imce.oml.provenance.oti
 
 import scala.annotation.meta.field
-import scala.scalajs.js.annotation.JSExport
+import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
 import scala._
 import scala.Predef._
 
@@ -41,7 +41,6 @@ case class OML2OTIProvenance
   @(JSExport @field) otiURL: OTI_TOOL_SPECIFIC_URL,
   @(JSExport @field) otiUUID: scala.Option[OTI_TOOL_SPECIFIC_UUID]
 ) {
-  @JSExport
   def this(
     explanation: scala.Predef.String,
     omlUUID: UUID,
@@ -82,7 +81,7 @@ case class OML2OTIProvenance
   
 }
 
-@JSExport
+@JSExportTopLevel("OML2OTIProvenanceHelper")
 object OML2OTIProvenanceHelper {
 
   val TABLE_JSON_FILENAME 

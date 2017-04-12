@@ -20,7 +20,7 @@
 package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
-import scala.scalajs.js.annotation.JSExport
+import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
 import scala._
 import scala.Predef._
 
@@ -31,7 +31,7 @@ import scala.Predef._
   * @param name[1,1]
   * @param scalarPropertyValue[1,1]
   */
-@JSExport
+@JSExportTopLevel("ScalarDataPropertyValue")
 case class ScalarDataPropertyValue
 (
   @(JSExport @field) uuid: UUID,
@@ -41,7 +41,6 @@ case class ScalarDataPropertyValue
   @(JSExport @field) scalarPropertyValue: scala.Predef.String
 ) {
   // Ctor(uuidWithGenerator)   
-  @JSExport
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     singletonInstanceUUID: UUID,
@@ -72,7 +71,7 @@ case class ScalarDataPropertyValue
   
 }
 
-@JSExport
+@JSExportTopLevel("ScalarDataPropertyValueHelper")
 object ScalarDataPropertyValueHelper {
 
   val TABLE_JSON_FILENAME 

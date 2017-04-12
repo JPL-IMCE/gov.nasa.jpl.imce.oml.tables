@@ -20,7 +20,7 @@
 package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
-import scala.scalajs.js.annotation.JSExport
+import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
 import scala._
 import scala.Predef._
 
@@ -31,7 +31,7 @@ import scala.Predef._
   * @param rangeUUID[1,1]
   * @param name[1,1]
   */
-@JSExport
+@JSExportTopLevel("ReifiedRelationshipInstanceRange")
 case class ReifiedRelationshipInstanceRange
 (
   @(JSExport @field) uuid: UUID,
@@ -41,7 +41,6 @@ case class ReifiedRelationshipInstanceRange
   @(JSExport @field) name: LocalName
 ) {
   // Ctor(uuidWithGenerator)   
-  @JSExport
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     descriptionBoxUUID: UUID,
@@ -72,7 +71,7 @@ case class ReifiedRelationshipInstanceRange
   
 }
 
-@JSExport
+@JSExportTopLevel("ReifiedRelationshipInstanceRangeHelper")
 object ReifiedRelationshipInstanceRangeHelper {
 
   val TABLE_JSON_FILENAME 

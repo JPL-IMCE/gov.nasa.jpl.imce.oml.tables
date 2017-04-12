@@ -20,7 +20,7 @@
 package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
-import scala.scalajs.js.annotation.JSExport
+import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
 import scala._
 import scala.Predef._
 
@@ -43,7 +43,6 @@ case class BinaryScalarRestriction
   @(JSExport @field) maxLength: scala.Option[scala.Int],
   @(JSExport @field) name: LocalName
 ) {
-  @JSExport
   def this(
     uuid: UUID,
     tboxUUID: UUID,
@@ -71,7 +70,6 @@ case class BinaryScalarRestriction
   = copy(maxLength=Some(l))
   
   // Ctor(uuidWithGenerator)   
-  @JSExport
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     tboxUUID: UUID,
@@ -102,7 +100,7 @@ case class BinaryScalarRestriction
   
 }
 
-@JSExport
+@JSExportTopLevel("BinaryScalarRestrictionHelper")
 object BinaryScalarRestrictionHelper {
 
   val TABLE_JSON_FILENAME 

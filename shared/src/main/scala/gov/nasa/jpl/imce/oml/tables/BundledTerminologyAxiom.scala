@@ -20,7 +20,7 @@
 package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
-import scala.scalajs.js.annotation.JSExport
+import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
 import scala._
 import scala.Predef._
 
@@ -29,7 +29,7 @@ import scala.Predef._
   * @param bundledTerminologyUUID[1,1]
   * @param bundleUUID[1,1]
   */
-@JSExport
+@JSExportTopLevel("BundledTerminologyAxiom")
 case class BundledTerminologyAxiom
 (
   @(JSExport @field) uuid: UUID,
@@ -37,7 +37,6 @@ case class BundledTerminologyAxiom
   @(JSExport @field) bundleUUID: UUID
 ) {
   // Ctor(uuidWithContainer)   
-  @JSExport
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     bundledTerminologyUUID: UUID,
@@ -62,7 +61,7 @@ case class BundledTerminologyAxiom
   
 }
 
-@JSExport
+@JSExportTopLevel("BundledTerminologyAxiomHelper")
 object BundledTerminologyAxiomHelper {
 
   val TABLE_JSON_FILENAME 

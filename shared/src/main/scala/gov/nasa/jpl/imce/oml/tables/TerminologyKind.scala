@@ -18,20 +18,20 @@
 
 package gov.nasa.jpl.imce.oml.tables
 
-import scala.scalajs.js.annotation.{JSExport, JSExportDescendentObjects}
+import scala.scalajs.js.annotation.JSExportTopLevel
 import scala.Predef.String
 
-@JSExportDescendentObjects
 sealed trait TerminologyKind
 
+@JSExportTopLevel("OpenWorldDefinitions")
 case object OpenWorldDefinitions extends TerminologyKind
 
+@JSExportTopLevel("ClosedWorldDesignations")
 case object ClosedWorldDesignations extends TerminologyKind
 
-@JSExport
+@JSExportTopLevel("TerminologyKind")
 object TerminologyKind {
 
-  @JSExport
   def toString(k: TerminologyKind)
   : String
   = k match {
@@ -47,12 +47,10 @@ object TerminologyKind {
     upickle.Js.Str(toString(k))
   }
 
-  @JSExport
   def toJSON(k: TerminologyKind)
   : String
   = upickle.default.write(expr=k, indent=0)
 
-  @JSExport
   def fromString(k: String)
   : TerminologyKind
   = k match {
@@ -69,7 +67,6 @@ object TerminologyKind {
       fromString(k)
   }
 
-  @JSExport
   def fromJSON(k: String)
   : TerminologyKind
   = upickle.default.read[TerminologyKind](k)

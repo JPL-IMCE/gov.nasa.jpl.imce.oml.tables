@@ -20,7 +20,7 @@
 package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
-import scala.scalajs.js.annotation.JSExport
+import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
 import scala._
 import scala.Predef._
 
@@ -29,7 +29,7 @@ import scala.Predef._
   * @param descriptionBoxUUID[1,1]
   * @param closedWorldDefinitionsUUID[1,1]
   */
-@JSExport
+@JSExportTopLevel("DescriptionBoxExtendsClosedWorldDefinitions")
 case class DescriptionBoxExtendsClosedWorldDefinitions
 (
   @(JSExport @field) uuid: UUID,
@@ -37,7 +37,6 @@ case class DescriptionBoxExtendsClosedWorldDefinitions
   @(JSExport @field) closedWorldDefinitionsUUID: UUID
 ) {
   // Ctor(uuidWithContainer)   
-  @JSExport
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     descriptionBoxUUID: UUID,
@@ -62,7 +61,7 @@ case class DescriptionBoxExtendsClosedWorldDefinitions
   
 }
 
-@JSExport
+@JSExportTopLevel("DescriptionBoxExtendsClosedWorldDefinitionsHelper")
 object DescriptionBoxExtendsClosedWorldDefinitionsHelper {
 
   val TABLE_JSON_FILENAME 

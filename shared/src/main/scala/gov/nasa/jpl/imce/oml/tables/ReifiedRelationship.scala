@@ -20,7 +20,7 @@
 package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
-import scala.scalajs.js.annotation.JSExport
+import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
 import scala._
 import scala.Predef._
 
@@ -61,7 +61,6 @@ case class ReifiedRelationship
   @(JSExport @field) unreifiedPropertyName: LocalName,
   @(JSExport @field) unreifiedInversePropertyName: scala.Option[LocalName]
 ) {
-  @JSExport
   def this(
     uuid: UUID,
     tboxUUID: UUID,
@@ -101,7 +100,6 @@ case class ReifiedRelationship
   = copy(unreifiedInversePropertyName=Some(l))
   
   // Ctor(uuidWithGenerator)   
-  @JSExport
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     tboxUUID: UUID,
@@ -163,7 +161,7 @@ case class ReifiedRelationship
   
 }
 
-@JSExport
+@JSExportTopLevel("ReifiedRelationshipHelper")
 object ReifiedRelationshipHelper {
 
   val TABLE_JSON_FILENAME 

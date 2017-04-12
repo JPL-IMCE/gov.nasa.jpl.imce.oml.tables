@@ -20,7 +20,7 @@
 package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
-import scala.scalajs.js.annotation.JSExport
+import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
 import scala._
 import scala.Predef._
 
@@ -29,7 +29,7 @@ import scala.Predef._
   * @param bundleUUID[1,1]
   * @param rootUUID[1,1]
   */
-@JSExport
+@JSExportTopLevel("RootConceptTaxonomyAxiom")
 case class RootConceptTaxonomyAxiom
 (
   @(JSExport @field) uuid: UUID,
@@ -37,7 +37,6 @@ case class RootConceptTaxonomyAxiom
   @(JSExport @field) rootUUID: UUID
 ) {
   // Ctor(uuidWithContainer)   
-  @JSExport
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     bundleUUID: UUID,
@@ -62,7 +61,7 @@ case class RootConceptTaxonomyAxiom
   
 }
 
-@JSExport
+@JSExportTopLevel("RootConceptTaxonomyAxiomHelper")
 object RootConceptTaxonomyAxiomHelper {
 
   val TABLE_JSON_FILENAME 

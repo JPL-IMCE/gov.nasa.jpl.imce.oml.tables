@@ -20,7 +20,7 @@
 package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
-import scala.scalajs.js.annotation.JSExport
+import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
 import scala._
 import scala.Predef._
 
@@ -30,7 +30,7 @@ import scala.Predef._
   * @param axiomUUID[1,1]
   * @param value[1,1]
   */
-@JSExport
+@JSExportTopLevel("ScalarOneOfLiteralAxiom")
 case class ScalarOneOfLiteralAxiom
 (
   @(JSExport @field) uuid: UUID,
@@ -39,7 +39,6 @@ case class ScalarOneOfLiteralAxiom
   @(JSExport @field) value: LexicalValue
 ) {
   // Ctor(uuidWithContainer)   
-  @JSExport
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     tboxUUID: UUID,
@@ -67,7 +66,7 @@ case class ScalarOneOfLiteralAxiom
   
 }
 
-@JSExport
+@JSExportTopLevel("ScalarOneOfLiteralAxiomHelper")
 object ScalarOneOfLiteralAxiomHelper {
 
   val TABLE_JSON_FILENAME 

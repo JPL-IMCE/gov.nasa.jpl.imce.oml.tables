@@ -20,7 +20,7 @@
 package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
-import scala.scalajs.js.annotation.JSExport
+import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
 import scala._
 import scala.Predef._
 
@@ -29,7 +29,7 @@ import scala.Predef._
   * @param kind[1,1]
   * @param iri[1,1]
   */
-@JSExport
+@JSExportTopLevel("TerminologyGraph")
 case class TerminologyGraph
 (
   @(JSExport @field) uuid: UUID,
@@ -37,7 +37,6 @@ case class TerminologyGraph
   @(JSExport @field) iri: IRI
 ) {
   // Ctor(uuidWithoutContainer)
-  @JSExport
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     kind: TerminologyKind,
@@ -62,7 +61,7 @@ case class TerminologyGraph
   
 }
 
-@JSExport
+@JSExportTopLevel("TerminologyGraphHelper")
 object TerminologyGraphHelper {
 
   val TABLE_JSON_FILENAME 

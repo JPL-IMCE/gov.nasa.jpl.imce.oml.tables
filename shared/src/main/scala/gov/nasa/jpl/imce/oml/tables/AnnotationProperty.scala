@@ -20,7 +20,7 @@
 package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
-import scala.scalajs.js.annotation.JSExport
+import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
 import scala._
 import scala.Predef._
 
@@ -29,7 +29,7 @@ import scala.Predef._
   * @param iri[1,1]
   * @param abbrevIRI[1,1]
   */
-@JSExport
+@JSExportTopLevel("AnnotationProperty")
 case class AnnotationProperty
 (
   @(JSExport @field) uuid: UUID,
@@ -37,7 +37,6 @@ case class AnnotationProperty
   @(JSExport @field) abbrevIRI: AbbrevIRI
 ) {
   // Ctor(uuidWithoutContainer)
-  @JSExport
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     iri: IRI,
@@ -62,7 +61,7 @@ case class AnnotationProperty
   
 }
 
-@JSExport
+@JSExportTopLevel("AnnotationPropertyHelper")
 object AnnotationPropertyHelper {
 
   val TABLE_JSON_FILENAME 

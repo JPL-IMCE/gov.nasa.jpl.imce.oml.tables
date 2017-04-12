@@ -1,12 +1,11 @@
 import org.scalajs.core.tools.linker.backend.OutputMode._
 
 import com.typesafe.sbt.license.{LicenseInfo, DepModuleInfo}
+import com.typesafe.sbt.sbtghpages.GhpagesPlugin
 
 import de.heikoseeberger.sbtheader.HeaderPlugin
 import de.heikoseeberger.sbtheader.HeaderPattern
 import de.heikoseeberger.sbtheader.license.CommentBlock
-
-import com.typesafe.sbt.SbtGhPages._
 
 import gov.nasa.jpl.imce.sbt._
 
@@ -81,7 +80,7 @@ lazy val filter: ScopeFilter = ScopeFilter(inProjects(ThisProject), inConfigurat
 lazy val dependencySvgFile = settingKey[File]("Location of the dependency graph in SVG format")
 
 val tablesGhPagesSettings: Seq[Setting[_]] =
-  Seq(
+  Seq[Setting[_]](
     preprocessVars in Preprocess := Map(
       "CI" -> s"https://travis-ci.org/${Settings.organizationName.toLowerCase}/${Settings.name}",
       "GIT" -> "github.com",
@@ -117,7 +116,7 @@ val tablesGhPagesSettings: Seq[Setting[_]] =
         }
       }
     )
-  ) ++ ghpages.settings ++ Seq(
+  ) ++ Seq[Setting[_]](
     dependencyDotFile := baseDirectory.value / "target" / "dependencies.dot",
 
     dependencySvgFile := baseDirectory.value / "target" / "dependencies.svg",
@@ -146,10 +145,7 @@ val tablesGhPagesSettings: Seq[Setting[_]] =
 
     previewLaunchBrowser := false,
 
-    releasePublishArtifactsAction := {
-      val _ = GhPagesKeys.pushSite.value
-      releasePublishArtifactsAction.value
-    }
+    releasePublishArtifactsAction := releasePublishArtifactsAction.dependsOn(GhpagesPlugin.autoImport.ghpagesPushSite).value
   )
 
 val Npm = config("npm")
@@ -168,6 +164,7 @@ lazy val tablesRoot = project.in(file("."))
 lazy val tables = crossProject
   .in(file("."))
   .enablePlugins(IMCEGitPlugin)
+  .enablePlugins(GhpagesPlugin)
   .settings(
     IMCEKeys.licenseYearOrRange := "2016",
     IMCEKeys.organizationInfo :=

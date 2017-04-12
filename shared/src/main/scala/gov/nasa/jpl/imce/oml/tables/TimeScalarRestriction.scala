@@ -20,7 +20,7 @@
 package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
-import scala.scalajs.js.annotation.JSExport
+import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
 import scala._
 import scala.Predef._
 
@@ -45,7 +45,6 @@ case class TimeScalarRestriction
   @(JSExport @field) maxInclusive: scala.Option[LexicalTime],
   @(JSExport @field) name: LocalName
 ) {
-  @JSExport
   def this(
     uuid: UUID,
     tboxUUID: UUID,
@@ -78,7 +77,6 @@ case class TimeScalarRestriction
   = copy(maxInclusive=Some(l))
   
   // Ctor(uuidWithGenerator)   
-  @JSExport
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     tboxUUID: UUID,
@@ -110,7 +108,7 @@ case class TimeScalarRestriction
   
 }
 
-@JSExport
+@JSExportTopLevel("TimeScalarRestrictionHelper")
 object TimeScalarRestrictionHelper {
 
   val TABLE_JSON_FILENAME 

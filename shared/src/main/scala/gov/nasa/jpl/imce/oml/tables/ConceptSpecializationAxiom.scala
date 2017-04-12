@@ -20,7 +20,7 @@
 package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
-import scala.scalajs.js.annotation.JSExport
+import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
 import scala._
 import scala.Predef._
 
@@ -30,7 +30,7 @@ import scala.Predef._
   * @param superConceptUUID[1,1]
   * @param subConceptUUID[1,1]
   */
-@JSExport
+@JSExportTopLevel("ConceptSpecializationAxiom")
 case class ConceptSpecializationAxiom
 (
   @(JSExport @field) uuid: UUID,
@@ -39,7 +39,6 @@ case class ConceptSpecializationAxiom
   @(JSExport @field) subConceptUUID: UUID
 ) {
   // Ctor(uuidWithContainer)   
-  @JSExport
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     tboxUUID: UUID,
@@ -67,7 +66,7 @@ case class ConceptSpecializationAxiom
   
 }
 
-@JSExport
+@JSExportTopLevel("ConceptSpecializationAxiomHelper")
 object ConceptSpecializationAxiomHelper {
 
   val TABLE_JSON_FILENAME 

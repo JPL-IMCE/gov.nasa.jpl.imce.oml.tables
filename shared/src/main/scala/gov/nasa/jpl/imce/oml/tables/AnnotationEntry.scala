@@ -20,7 +20,7 @@
 package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
-import scala.scalajs.js.annotation.JSExport
+import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
 import scala._
 import scala.Predef._
 
@@ -29,7 +29,7 @@ import scala.Predef._
   * @param subjectUUID[1,1]
   * @param value[1,1]
   */
-@JSExport
+@JSExportTopLevel("AnnotationEntry")
 case class AnnotationEntry
 (
   @(JSExport @field) moduleUUID: UUID,
@@ -52,7 +52,7 @@ case class AnnotationEntry
   
 }
 
-@JSExport
+@JSExportTopLevel("AnnotationEntryHelper")
 object AnnotationEntryHelper {
 
   val TABLE_JSON_FILENAME 
