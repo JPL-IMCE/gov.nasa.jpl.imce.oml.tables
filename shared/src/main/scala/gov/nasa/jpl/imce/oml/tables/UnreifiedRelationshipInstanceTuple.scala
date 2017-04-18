@@ -30,7 +30,6 @@ import scala.Predef._
   * @param unreifiedRelationshipUUID[1,1]
   * @param domainUUID[1,1]
   * @param rangeUUID[1,1]
-  * @param name[1,1]
   */
 @JSExportTopLevel("UnreifiedRelationshipInstanceTuple")
 case class UnreifiedRelationshipInstanceTuple
@@ -39,28 +38,30 @@ case class UnreifiedRelationshipInstanceTuple
   @(JSExport @field) descriptionBoxUUID: UUID,
   @(JSExport @field) unreifiedRelationshipUUID: UUID,
   @(JSExport @field) domainUUID: UUID,
-  @(JSExport @field) rangeUUID: UUID,
-  @(JSExport @field) name: LocalName
+  @(JSExport @field) rangeUUID: UUID
 ) {
-  // Ctor(uuidWithGenerator)   
+  // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     descriptionBoxUUID: UUID,
     unreifiedRelationshipUUID: UUID,
     domainUUID: UUID,
-    rangeUUID: UUID,
-    name: LocalName)
+    rangeUUID: UUID)
   = this(
-      oug.namespaceUUID(descriptionBoxUUID, "name" -> name).toString,
+      oug.namespaceUUID(
+        "UnreifiedRelationshipInstanceTuple",
+        "descriptionBox" -> descriptionBoxUUID,
+        "unreifiedRelationship" -> unreifiedRelationshipUUID,
+        "domain" -> domainUUID,
+        "range" -> rangeUUID).toString,
       descriptionBoxUUID,
       unreifiedRelationshipUUID,
       domainUUID,
-      rangeUUID,
-      name)
+      rangeUUID)
 
   override val hashCode
   : scala.Int 
-  = (uuid, descriptionBoxUUID, unreifiedRelationshipUUID, domainUUID, rangeUUID, name).##
+  = (uuid, descriptionBoxUUID, unreifiedRelationshipUUID, domainUUID, rangeUUID).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: UnreifiedRelationshipInstanceTuple =>
@@ -68,8 +69,7 @@ case class UnreifiedRelationshipInstanceTuple
   	  (this.descriptionBoxUUID == that.descriptionBoxUUID) &&
   	  (this.unreifiedRelationshipUUID == that.unreifiedRelationshipUUID) &&
   	  (this.domainUUID == that.domainUUID) &&
-  	  (this.rangeUUID == that.rangeUUID) &&
-  	  (this.name == that.name)
+  	  (this.rangeUUID == that.rangeUUID)
     case _ =>
       false
   }

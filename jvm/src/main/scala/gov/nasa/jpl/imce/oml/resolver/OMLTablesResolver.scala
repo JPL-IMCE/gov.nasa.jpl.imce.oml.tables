@@ -586,11 +586,9 @@ object OMLTablesResolver {
     step9b <- mapConceptSpecializationAxioms(step9a)
     step9c <- mapReifiedRelationshipSpecializationAxioms(step9b)
     // TerminologyBundleStatements
-    step10a <- mapRootConceptTaxonomyAxioms(step9c)
-    step10b <- mapAnonymousConceptTaxonomyAxioms(step10a)
-    step10c <- mapSpecificDisjointConceptAxioms(step10b)
+    step10 <- mapRootConceptTaxonomyAxioms(step9c)
     // Annotations
-    step11 <- mapAnnotations(step10c)
+    step11 <- mapAnnotations(step10)
   } yield
     step11
 
@@ -1501,123 +1499,65 @@ object OMLTablesResolver {
     val s =
       resolvable.foldLeft[Try[OMLTablesResolver]](Success(r.copy(queue = r.queue.copy(rootConceptTaxonomyAxioms = unresolvable)))) {
         case (Success(ri), (bundleM, rootM, tax)) =>
-          val (ej, rax) = ri.factory.createRootConceptTaxonomyAxiom(
-            ri.context.extent,
-            bundleM,
-            rootM)
+          val (ej, rax) = ri.factory.createRootConceptTaxonomyAxiom(ri.context.extent, bundleM, rootM)
 
           if (!ej.lookupBundleStatements(bundleM).contains(rax))
             Failure(new IllegalArgumentException(s"RootConceptTaxonomyAxiom not in extent: $rax"))
           else if (!ej.lookupTerminologyBundleStatement(UUID.fromString(tax.uuid)).contains(rax))
             Failure(new IllegalArgumentException(s"RootConceptTaxonomyAxiom: $tax vs. $rax"))
           else
-            Success(ri.copy(context = ri.context.copy(extent = ej)))
+            mapDisjunctions(ri.copy(context = ri.context.copy(extent = ej)), rax, tax.uuid)
         case (Failure(f), _) =>
           Failure(f)
       }
     s
   }
 
-  def mapAnonymousConceptTaxonomyAxioms
-  (r: OMLTablesResolver)
+  def mapDisjunctions
+  (r: OMLTablesResolver, conceptTreeDisjunctParent: api.ConceptTreeDisjunction, conceptTreeDisjunctUUID: tables.UUID)
   : Try[OMLTablesResolver]
   = {
-    val byUUID =
-      r.queue.anonymousConceptTaxonomyAxioms
-        .map { tax =>
-          ( UUID.fromString(tax.bundleUUID),
-            UUID.fromString(tax.disjointTaxonomyParentUUID) ) -> tax
-        }
+    val as = r.queue.anonymousConceptTaxonomyAxioms.partition(_.disjointTaxonomyParentUUID == conceptTreeDisjunctUUID)
+    val ss = r.queue.specificDisjointConceptAxioms.partition(_.disjointTaxonomyParentUUID == conceptTreeDisjunctUUID)
 
-    val byTBox = for {
-      tuple <- byUUID
-      ((bundleUUID, parentUUID), tax) = tuple
-      bundleM = r.context.extent.lookupBundle(bundleUUID)
-      parentM = r.context.extent.lookupTerminologyBundleStatement(parentUUID) match {
-        case Some(e: api.ConceptTreeDisjunction) => Some(e)
-        case _ => None
-      }
-    } yield (bundleM, parentM, tax)
+    val r1 = Try(r.copy(queue = r.queue.copy(
+      anonymousConceptTaxonomyAxioms = as._2,
+      specificDisjointConceptAxioms = ss._2)))
 
+    val r2 = as._1.foldLeft[Try[OMLTablesResolver]](r1) {
+        case (Success(ri), tax) =>
+          val (ej, rax) = ri.factory.createAnonymousConceptTaxonomyAxiom(ri.context.extent, conceptTreeDisjunctParent, tax.name)
 
-    val unresolvable = byTBox.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty).map(_._3)
-    val resolvable = byTBox.flatMap {
-      case (Some(bundleM), Some(parentM), tax) => Some(Tuple3(bundleM, parentM, tax))
-      case _ => None
-    }
-
-    val s =
-      resolvable.foldLeft[Try[OMLTablesResolver]](Success(r.copy(queue = r.queue.copy(anonymousConceptTaxonomyAxioms = unresolvable)))) {
-        case (Success(ri), (bundleM, parentM, tax)) =>
-          val (ej, rax) = ri.factory.createAnonymousConceptTaxonomyAxiom(
-            ri.context.extent,
-            bundleM,
-            parentM)
-
-          if (!ej.lookupBundleStatements(bundleM).contains(rax))
-            Failure(new IllegalArgumentException(s"AnonymousConceptTaxonomyAxiom not in extent: $rax"))
-          else if (!ej.lookupTerminologyBundleStatement(UUID.fromString(tax.uuid)).contains(rax))
-            Failure(new IllegalArgumentException(s"AnonymousConceptTaxonomyAxiom: $tax vs. $rax"))
+          if (!ej.conceptTreeDisjunctionOfDisjointUnionOfConceptsAxiom.get(rax).contains(conceptTreeDisjunctParent))
+            Failure(new IllegalArgumentException(s"AnonymousConceptTaxonomyAxiom not in conceptTreeDisjunctionOfDisjointUnionOfConceptsAxiom: $rax"))
+          else if (!ej.lookupDisjunctions(conceptTreeDisjunctParent).contains(rax))
+            Failure(new IllegalArgumentException(s"AnonymousConceptTaxonomyAxiom: not in lookupDisjunctions: $tax vs. $rax"))
           else
             Success(ri.copy(context = ri.context.copy(extent = ej)))
         case (Failure(f), _) =>
           Failure(f)
       }
-    s
-  }
 
-  def mapSpecificDisjointConceptAxioms
-  (r: OMLTablesResolver)
-  : Try[OMLTablesResolver]
-  = {
-    val byUUID =
-      r.queue.specificDisjointConceptAxioms
-        .map { tax =>
-          ( UUID.fromString(tax.bundleUUID),
-            UUID.fromString(tax.disjointTaxonomyParentUUID),
-            UUID.fromString(tax.disjointLeafUUID) ) -> tax
+    val r3 = ss._1.foldLeft[Try[OMLTablesResolver]](r2) {
+      case (Success(ri), tax) =>
+        ri.context.extent.lookupTerminologyBoxStatement(UUID.fromString(tax.disjointLeafUUID)) match {
+          case Some(leaf: api.Concept) =>
+            val (ej, rax) = ri.factory.createSpecificDisjointConceptAxiom(ri.context.extent, conceptTreeDisjunctParent, leaf)
+
+            if (!ej.conceptTreeDisjunctionOfDisjointUnionOfConceptsAxiom.get(rax).contains(conceptTreeDisjunctParent))
+              Failure(new IllegalArgumentException(s"SpecificDisjointConceptAxiom not in conceptTreeDisjunctionOfDisjointUnionOfConceptsAxiom: $rax"))
+            else if (!ej.lookupDisjunctions(conceptTreeDisjunctParent).contains(rax))
+              Failure(new IllegalArgumentException(s"SpecificDisjointConceptAxiom: not in lookupDisjunctions: $tax vs. $rax"))
+            else
+              Success(ri.copy(context = ri.context.copy(extent = ej)))
+          case _ =>
+            Failure(new IllegalArgumentException(s"SpecificDisjointConceptAxiom: leaf concept not found: ${tax.disjointLeafUUID}"))
         }
-
-    val byTBox = for {
-      tuple <- byUUID
-      ((bundleUUID, parentUUID, leafUUID), tax) = tuple
-      bundleM = r.context.extent.lookupBundle(bundleUUID)
-      parentM = r.context.extent.lookupTerminologyBundleStatement(parentUUID) match {
-        case Some(e: api.ConceptTreeDisjunction) => Some(e)
-        case _ => None
-      }
-      leafM = r.context.extent.lookupTerminologyBoxStatement(leafUUID) match {
-        case Some(e: api.Concept) => Some(e)
-        case _ => None
-      }
-    } yield (bundleM, parentM, leafM, tax)
-
-
-    val unresolvable = byTBox.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty || tuple._3.isEmpty).map(_._4)
-    val resolvable = byTBox.flatMap {
-      case (Some(bundleM), Some(parentM), Some(leafM), tax) => Some(Tuple4(bundleM, parentM, leafM, tax))
-      case _ => None
+      case (Failure(f), _) =>
+        Failure(f)
     }
 
-    val s =
-      resolvable.foldLeft[Try[OMLTablesResolver]](Success(r.copy(queue = r.queue.copy(specificDisjointConceptAxioms = unresolvable)))) {
-        case (Success(ri), (bundleM, parentM, leafM, tax)) =>
-          val (ej, rax) = ri.factory.createSpecificDisjointConceptAxiom(
-            ri.context.extent,
-            bundleM,
-            parentM,
-            leafM)
-
-          if (!ej.lookupBundleStatements(bundleM).contains(rax))
-            Failure(new IllegalArgumentException(s"SpecificDisjointConceptAxiom not in extent: $rax"))
-          else if (!ej.lookupTerminologyBundleStatement(UUID.fromString(tax.uuid)).contains(rax))
-            Failure(new IllegalArgumentException(s"SpecificDisjointConceptAxiom: $tax vs. $rax"))
-          else
-            Success(ri.copy(context = ri.context.copy(extent = ej)))
-        case (Failure(f), _) =>
-          Failure(f)
-      }
-    s
+    r3
   }
 
   def mapAnnotations

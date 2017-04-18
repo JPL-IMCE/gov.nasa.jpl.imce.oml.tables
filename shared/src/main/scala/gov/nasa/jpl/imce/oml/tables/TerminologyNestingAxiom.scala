@@ -45,7 +45,11 @@ case class TerminologyNestingAxiom
     nestingTerminologyUUID: UUID,
     nestingContextUUID: UUID)
   = this(
-      oug.namespaceUUID("TerminologyNestingAxiom", "tbox" -> tboxUUID, "nestingTerminology" -> nestingTerminologyUUID, "nestingContext" -> nestingContextUUID).toString,
+      oug.namespaceUUID(
+        "TerminologyNestingAxiom",
+        "tbox" -> tboxUUID,
+        "nestingTerminology" -> nestingTerminologyUUID,
+        "nestingContext" -> nestingContextUUID).toString,
       tboxUUID,
       nestingTerminologyUUID,
       nestingContextUUID)

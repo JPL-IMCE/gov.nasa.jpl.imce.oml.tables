@@ -23,6 +23,7 @@ import scala.{Option,None}
  
 // Container types:
 // - bundles.Bundle
+// - bundles.ConceptTreeDisjunction
 // - descriptions.DescriptionBox
 // - common.Module
 // - descriptions.SingletonInstance
@@ -34,6 +35,7 @@ import scala.{Option,None}
 // - descriptions.DataStructureTuple
 // - descriptions.DescriptionBoxExtendsClosedWorldDefinitions
 // - descriptions.DescriptionBoxRefinement
+// - bundles.DisjointUnionOfConceptsAxiom
 // - descriptions.ReifiedRelationshipInstance
 // - descriptions.ReifiedRelationshipInstanceDomain
 // - descriptions.ReifiedRelationshipInstanceRange
@@ -59,6 +61,7 @@ case class Extent
   boxStatements: Map[TerminologyBox, Set[TerminologyBoxStatement]] = HashMap.empty[TerminologyBox, Set[TerminologyBoxStatement]],
   bundleStatements: Map[Bundle, Set[TerminologyBundleStatement]] = HashMap.empty[Bundle, Set[TerminologyBundleStatement]],
   bundleAxioms: Map[Bundle, Set[TerminologyBundleAxiom]] = HashMap.empty[Bundle, Set[TerminologyBundleAxiom]],
+  disjunctions: Map[ConceptTreeDisjunction, Set[DisjointUnionOfConceptsAxiom]] = HashMap.empty[ConceptTreeDisjunction, Set[DisjointUnionOfConceptsAxiom]],
   closedWorldDefinitions: Map[DescriptionBox, Set[DescriptionBoxExtendsClosedWorldDefinitions]] = HashMap.empty[DescriptionBox, Set[DescriptionBoxExtendsClosedWorldDefinitions]],
   descriptionBoxRefinements: Map[DescriptionBox, Set[DescriptionBoxRefinement]] = HashMap.empty[DescriptionBox, Set[DescriptionBoxRefinement]],
   conceptInstances: Map[DescriptionBox, Set[ConceptInstance]] = HashMap.empty[DescriptionBox, Set[ConceptInstance]],
@@ -75,6 +78,7 @@ case class Extent
   terminologyBoxOfTerminologyBoxStatement: Map[TerminologyBoxStatement, TerminologyBox] = HashMap.empty[TerminologyBoxStatement, TerminologyBox],
   bundleOfTerminologyBundleStatement: Map[TerminologyBundleStatement, Bundle] = HashMap.empty[TerminologyBundleStatement, Bundle],
   bundleOfTerminologyBundleAxiom: Map[TerminologyBundleAxiom, Bundle] = HashMap.empty[TerminologyBundleAxiom, Bundle],
+  conceptTreeDisjunctionOfDisjointUnionOfConceptsAxiom: Map[DisjointUnionOfConceptsAxiom, ConceptTreeDisjunction] = HashMap.empty[DisjointUnionOfConceptsAxiom, ConceptTreeDisjunction],
   descriptionBoxOfDescriptionBoxExtendsClosedWorldDefinitions: Map[DescriptionBoxExtendsClosedWorldDefinitions, DescriptionBox] = HashMap.empty[DescriptionBoxExtendsClosedWorldDefinitions, DescriptionBox],
   descriptionBoxOfDescriptionBoxRefinement: Map[DescriptionBoxRefinement, DescriptionBox] = HashMap.empty[DescriptionBoxRefinement, DescriptionBox],
   descriptionBoxOfConceptInstance: Map[ConceptInstance, DescriptionBox] = HashMap.empty[ConceptInstance, DescriptionBox],
@@ -90,6 +94,7 @@ case class Extent
   terminologyBoxStatementByUUID: Map[java.util.UUID, TerminologyBoxStatement] = HashMap.empty[java.util.UUID, TerminologyBoxStatement],
   terminologyBundleStatementByUUID: Map[java.util.UUID, TerminologyBundleStatement] = HashMap.empty[java.util.UUID, TerminologyBundleStatement],
   terminologyBundleAxiomByUUID: Map[java.util.UUID, TerminologyBundleAxiom] = HashMap.empty[java.util.UUID, TerminologyBundleAxiom],
+  disjointUnionOfConceptsAxiomByUUID: Map[java.util.UUID, DisjointUnionOfConceptsAxiom] = HashMap.empty[java.util.UUID, DisjointUnionOfConceptsAxiom],
   descriptionBoxExtendsClosedWorldDefinitionsByUUID: Map[java.util.UUID, DescriptionBoxExtendsClosedWorldDefinitions] = HashMap.empty[java.util.UUID, DescriptionBoxExtendsClosedWorldDefinitions],
   descriptionBoxRefinementByUUID: Map[java.util.UUID, DescriptionBoxRefinement] = HashMap.empty[java.util.UUID, DescriptionBoxRefinement],
   conceptInstanceByUUID: Map[java.util.UUID, ConceptInstance] = HashMap.empty[java.util.UUID, ConceptInstance],
@@ -120,6 +125,10 @@ case class Extent
   def withTerminologyBundleAxiom(bundle: Bundle, terminologyBundleAxiom: TerminologyBundleAxiom)
   : Map[Bundle, Set[TerminologyBundleAxiom]] 
   = bundleAxioms.updated(bundle, bundleAxioms.getOrElse(bundle, Set.empty[TerminologyBundleAxiom]) + terminologyBundleAxiom)
+  
+  def withDisjointUnionOfConceptsAxiom(conceptTreeDisjunction: ConceptTreeDisjunction, disjointUnionOfConceptsAxiom: DisjointUnionOfConceptsAxiom)
+  : Map[ConceptTreeDisjunction, Set[DisjointUnionOfConceptsAxiom]] 
+  = disjunctions.updated(conceptTreeDisjunction, disjunctions.getOrElse(conceptTreeDisjunction, Set.empty[DisjointUnionOfConceptsAxiom]) + disjointUnionOfConceptsAxiom)
   
   def withDescriptionBoxExtendsClosedWorldDefinitions(descriptionBox: DescriptionBox, descriptionBoxExtendsClosedWorldDefinitions: DescriptionBoxExtendsClosedWorldDefinitions)
   : Map[DescriptionBox, Set[DescriptionBoxExtendsClosedWorldDefinitions]] 
@@ -282,6 +291,22 @@ case class Extent
   def lookupTerminologyBundleAxiom(uuid: java.util.UUID)
   : Option[TerminologyBundleAxiom]
   = terminologyBundleAxiomByUUID.get(uuid)
+    
+  def lookupDisjunctions(key: Option[ConceptTreeDisjunction])
+  : Set[DisjointUnionOfConceptsAxiom]
+  = key.fold[Set[DisjointUnionOfConceptsAxiom]](Set.empty[DisjointUnionOfConceptsAxiom]) { lookupDisjunctions }
+  
+  def lookupDisjunctions(key: ConceptTreeDisjunction)
+  : Set[DisjointUnionOfConceptsAxiom]
+  = disjunctions.getOrElse(key, Set.empty[DisjointUnionOfConceptsAxiom])
+  
+  def lookupDisjointUnionOfConceptsAxiom(uuid: Option[java.util.UUID])
+  : Option[DisjointUnionOfConceptsAxiom]
+  = uuid.fold[Option[DisjointUnionOfConceptsAxiom]](None) { lookupDisjointUnionOfConceptsAxiom } 
+  
+  def lookupDisjointUnionOfConceptsAxiom(uuid: java.util.UUID)
+  : Option[DisjointUnionOfConceptsAxiom]
+  = disjointUnionOfConceptsAxiomByUUID.get(uuid)
     
   def lookupClosedWorldDefinitions(key: Option[DescriptionBox])
   : Set[DescriptionBoxExtendsClosedWorldDefinitions]
@@ -451,6 +476,7 @@ case class Extent
     lookupTerminologyBoxStatement(uuid) orElse
     lookupTerminologyBundleStatement(uuid) orElse
     lookupTerminologyBundleAxiom(uuid) orElse
+    lookupDisjointUnionOfConceptsAxiom(uuid) orElse
     lookupDescriptionBoxExtendsClosedWorldDefinitions(uuid) orElse
     lookupDescriptionBoxRefinement(uuid) orElse
     lookupConceptInstance(uuid) orElse

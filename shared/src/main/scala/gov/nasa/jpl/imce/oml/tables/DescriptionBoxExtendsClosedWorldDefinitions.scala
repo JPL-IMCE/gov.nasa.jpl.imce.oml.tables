@@ -42,7 +42,10 @@ case class DescriptionBoxExtendsClosedWorldDefinitions
     descriptionBoxUUID: UUID,
     closedWorldDefinitionsUUID: UUID)
   = this(
-      oug.namespaceUUID("DescriptionBoxExtendsClosedWorldDefinitions", "descriptionBox" -> descriptionBoxUUID, "closedWorldDefinitions" -> closedWorldDefinitionsUUID).toString,
+      oug.namespaceUUID(
+        "DescriptionBoxExtendsClosedWorldDefinitions",
+        "descriptionBox" -> descriptionBoxUUID,
+        "closedWorldDefinitions" -> closedWorldDefinitionsUUID).toString,
       descriptionBoxUUID,
       closedWorldDefinitionsUUID)
 

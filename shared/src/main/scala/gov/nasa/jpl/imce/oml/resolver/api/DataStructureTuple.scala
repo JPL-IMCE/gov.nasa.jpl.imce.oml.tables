@@ -23,6 +23,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
  */
 trait DataStructureTuple
   extends SingletonInstance
+  with Element
 {
 
   val dataStructureType: Structure

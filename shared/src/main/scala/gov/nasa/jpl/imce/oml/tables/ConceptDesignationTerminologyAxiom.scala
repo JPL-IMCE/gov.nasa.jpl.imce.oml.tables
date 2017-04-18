@@ -45,7 +45,11 @@ case class ConceptDesignationTerminologyAxiom
     designatedConceptUUID: UUID,
     designatedTerminologyUUID: UUID)
   = this(
-      oug.namespaceUUID("ConceptDesignationTerminologyAxiom", "tbox" -> tboxUUID, "designatedConcept" -> designatedConceptUUID, "designatedTerminology" -> designatedTerminologyUUID).toString,
+      oug.namespaceUUID(
+        "ConceptDesignationTerminologyAxiom",
+        "tbox" -> tboxUUID,
+        "designatedConcept" -> designatedConceptUUID,
+        "designatedTerminology" -> designatedTerminologyUUID).toString,
       tboxUUID,
       designatedConceptUUID,
       designatedTerminologyUUID)

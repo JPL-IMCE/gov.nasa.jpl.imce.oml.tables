@@ -28,38 +28,36 @@ import scala.Predef._
   * @param uuid[1,1]
   * @param dataStructureTypeUUID[1,1]
   * @param structuredDataPropertyValueUUID[1,1]
-  * @param name[1,1]
   */
 @JSExportTopLevel("DataStructureTuple")
 case class DataStructureTuple
 (
   @(JSExport @field) uuid: UUID,
   @(JSExport @field) dataStructureTypeUUID: UUID,
-  @(JSExport @field) structuredDataPropertyValueUUID: UUID,
-  @(JSExport @field) name: LocalName
+  @(JSExport @field) structuredDataPropertyValueUUID: UUID
 ) {
-  // Ctor(uuidWithGenerator)   
+  // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     dataStructureTypeUUID: UUID,
-    structuredDataPropertyValueUUID: UUID,
-    name: LocalName)
+    structuredDataPropertyValueUUID: UUID)
   = this(
-      oug.namespaceUUID(structuredDataPropertyValueUUID, "name" -> name).toString,
+      oug.namespaceUUID(
+        "DataStructureTuple",
+        "dataStructureType" -> dataStructureTypeUUID,
+        "structuredDataPropertyValue" -> structuredDataPropertyValueUUID).toString,
       dataStructureTypeUUID,
-      structuredDataPropertyValueUUID,
-      name)
+      structuredDataPropertyValueUUID)
 
   override val hashCode
   : scala.Int 
-  = (uuid, dataStructureTypeUUID, structuredDataPropertyValueUUID, name).##
+  = (uuid, dataStructureTypeUUID, structuredDataPropertyValueUUID).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: DataStructureTuple =>
   	  (this.uuid == that.uuid) &&
   	  (this.dataStructureTypeUUID == that.dataStructureTypeUUID) &&
-  	  (this.structuredDataPropertyValueUUID == that.structuredDataPropertyValueUUID) &&
-  	  (this.name == that.name)
+  	  (this.structuredDataPropertyValueUUID == that.structuredDataPropertyValueUUID)
     case _ =>
       false
   }

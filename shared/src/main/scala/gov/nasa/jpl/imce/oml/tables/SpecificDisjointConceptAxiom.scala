@@ -26,7 +26,6 @@ import scala.Predef._
 
 /**
   * @param uuid[1,1]
-  * @param bundleUUID[1,1]
   * @param disjointTaxonomyParentUUID[1,1]
   * @param disjointLeafUUID[1,1]
   */
@@ -34,30 +33,29 @@ import scala.Predef._
 case class SpecificDisjointConceptAxiom
 (
   @(JSExport @field) uuid: UUID,
-  @(JSExport @field) bundleUUID: UUID,
   @(JSExport @field) disjointTaxonomyParentUUID: UUID,
   @(JSExport @field) disjointLeafUUID: UUID
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    bundleUUID: UUID,
     disjointTaxonomyParentUUID: UUID,
     disjointLeafUUID: UUID)
   = this(
-      oug.namespaceUUID("SpecificDisjointConceptAxiom", "bundle" -> bundleUUID, "disjointLeaf" -> disjointLeafUUID).toString,
-      bundleUUID,
+      oug.namespaceUUID(
+        "SpecificDisjointConceptAxiom",
+        "disjointTaxonomyParent" -> disjointTaxonomyParentUUID,
+        "disjointLeaf" -> disjointLeafUUID).toString,
       disjointTaxonomyParentUUID,
       disjointLeafUUID)
 
   override val hashCode
   : scala.Int 
-  = (uuid, bundleUUID, disjointTaxonomyParentUUID, disjointLeafUUID).##
+  = (uuid, disjointTaxonomyParentUUID, disjointLeafUUID).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: SpecificDisjointConceptAxiom =>
   	  (this.uuid == that.uuid) &&
-  	  (this.bundleUUID == that.bundleUUID) &&
   	  (this.disjointTaxonomyParentUUID == that.disjointTaxonomyParentUUID) &&
   	  (this.disjointLeafUUID == that.disjointLeafUUID)
     case _ =>

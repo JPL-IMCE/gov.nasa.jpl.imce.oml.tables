@@ -24,7 +24,12 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait AnonymousConceptTaxonomyAxiom
   extends DisjointUnionOfConceptsAxiom
   with ConceptTreeDisjunction
+  with Element
 {
 
+  val name: gov.nasa.jpl.imce.oml.tables.LocalName
+
   override val uuid: java.util.UUID
+  override def bundleContainer
+  (): Bundle
 }

@@ -48,7 +48,12 @@ case class EntityScalarDataPropertyUniversalRestrictionAxiom
     scalarPropertyUUID: UUID,
     scalarRestrictionUUID: UUID)
   = this(
-      oug.namespaceUUID("EntityScalarDataPropertyUniversalRestrictionAxiom", "tbox" -> tboxUUID, "restrictedEntity" -> restrictedEntityUUID, "scalarProperty" -> scalarPropertyUUID, "scalarRestriction" -> scalarRestrictionUUID).toString,
+      oug.namespaceUUID(
+        "EntityScalarDataPropertyUniversalRestrictionAxiom",
+        "tbox" -> tboxUUID,
+        "restrictedEntity" -> restrictedEntityUUID,
+        "scalarProperty" -> scalarPropertyUUID,
+        "scalarRestriction" -> scalarRestrictionUUID).toString,
       tboxUUID,
       restrictedEntityUUID,
       scalarPropertyUUID,

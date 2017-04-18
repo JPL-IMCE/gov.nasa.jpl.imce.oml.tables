@@ -42,7 +42,10 @@ case class TerminologyExtensionAxiom
     tboxUUID: UUID,
     extendedTerminologyUUID: UUID)
   = this(
-      oug.namespaceUUID("TerminologyExtensionAxiom", "tbox" -> tboxUUID, "extendedTerminology" -> extendedTerminologyUUID).toString,
+      oug.namespaceUUID(
+        "TerminologyExtensionAxiom",
+        "tbox" -> tboxUUID,
+        "extendedTerminology" -> extendedTerminologyUUID).toString,
       tboxUUID,
       extendedTerminologyUUID)
 

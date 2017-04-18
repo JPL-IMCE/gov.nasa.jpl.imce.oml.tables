@@ -42,7 +42,9 @@ case class Concept
     tboxUUID: UUID,
     name: LocalName)
   = this(
-      oug.namespaceUUID(tboxUUID, "name" -> name).toString,
+      oug.namespaceUUID(
+        tboxUUID,
+        "name" -> name).toString,
       tboxUUID,
       name)
 

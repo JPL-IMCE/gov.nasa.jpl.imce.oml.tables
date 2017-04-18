@@ -23,8 +23,6 @@ package gov.nasa.jpl.imce.oml.resolver.api
  * for the domain of an OML DataRelationship
  */
 trait DataRelationshipDomain
+  extends Element
 {
-
-  def uuid
-  (): java.util.UUID
 }

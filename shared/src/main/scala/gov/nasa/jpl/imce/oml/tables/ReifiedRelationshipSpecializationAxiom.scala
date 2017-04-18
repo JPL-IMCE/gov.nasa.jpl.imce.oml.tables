@@ -45,7 +45,11 @@ case class ReifiedRelationshipSpecializationAxiom
     superRelationshipUUID: UUID,
     subRelationshipUUID: UUID)
   = this(
-      oug.namespaceUUID("ReifiedRelationshipSpecializationAxiom", "tbox" -> tboxUUID, "superRelationship" -> superRelationshipUUID, "subRelationship" -> subRelationshipUUID).toString,
+      oug.namespaceUUID(
+        "ReifiedRelationshipSpecializationAxiom",
+        "tbox" -> tboxUUID,
+        "superRelationship" -> superRelationshipUUID,
+        "subRelationship" -> subRelationshipUUID).toString,
       tboxUUID,
       superRelationshipUUID,
       subRelationshipUUID)

@@ -42,7 +42,8 @@ case class DescriptionBox
     kind: DescriptionKind,
     iri: IRI)
   = this(
-      oug.namespaceUUID(iri.toString).toString,
+      oug.namespaceUUID(
+        iri.toString).toString,
       kind,
       iri)
 

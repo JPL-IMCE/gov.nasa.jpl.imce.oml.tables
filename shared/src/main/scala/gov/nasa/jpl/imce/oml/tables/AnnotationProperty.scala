@@ -42,7 +42,8 @@ case class AnnotationProperty
     iri: IRI,
     abbrevIRI: AbbrevIRI)
   = this(
-      oug.namespaceUUID(iri.toString).toString,
+      oug.namespaceUUID(
+        iri.toString).toString,
       iri,
       abbrevIRI)
 

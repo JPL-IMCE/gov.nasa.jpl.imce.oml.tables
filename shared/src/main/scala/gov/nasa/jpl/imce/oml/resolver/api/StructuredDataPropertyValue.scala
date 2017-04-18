@@ -23,7 +23,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
  * of an OML DataRelationshipToStructure for a particular OML SingletonInstance.
  */
 trait StructuredDataPropertyValue
-  extends TerminologyInstanceAssertion
+  extends Element
 {
 
   val structuredDataProperty: DataRelationshipToStructure

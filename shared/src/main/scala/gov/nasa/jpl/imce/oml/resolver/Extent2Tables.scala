@@ -538,13 +538,16 @@ object Extent2Tables {
   def convertAnonymousConceptTaxonomyAxioms
   (acc: Seq[tables.AnonymousConceptTaxonomyAxiom],
    x: (api.TerminologyBox, Set[api.TerminologyBundleStatement]))
+  (implicit ext: api.Extent)
   : Seq[tables.AnonymousConceptTaxonomyAxiom]
   = acc ++ x._2.flatMap {
     case y: api.AnonymousConceptTaxonomyAxiom =>
-      Some(tables.AnonymousConceptTaxonomyAxiom(
-        y.uuid.toString,
-        x._1.uuid.toString,
-        y.disjointTaxonomyParent.uuid.toString))
+      y.conceptTreeDisjunctionParent().map { parent =>
+        tables.AnonymousConceptTaxonomyAxiom(
+          y.uuid.toString,
+          parent.uuid.toString,
+          y.name)
+      }
     case _ =>
       None
   }.to[Seq]
@@ -566,14 +569,16 @@ object Extent2Tables {
   def convertSpecificDisjointConceptAxioms
   (acc: Seq[tables.SpecificDisjointConceptAxiom],
    x: (api.TerminologyBox, Set[api.TerminologyBundleStatement]))
+  (implicit ext: api.Extent)
   : Seq[tables.SpecificDisjointConceptAxiom]
   = acc ++ x._2.flatMap {
     case y: api.SpecificDisjointConceptAxiom =>
-      Some(tables.SpecificDisjointConceptAxiom(
-        y.uuid.toString,
-        x._1.uuid.toString,
-        y.disjointTaxonomyParent.uuid.toString,
-        y.disjointLeaf.uuid.toString))
+      y.conceptTreeDisjunctionParent().map { parent =>
+        tables.SpecificDisjointConceptAxiom(
+          y.uuid.toString,
+          parent.uuid.toString,
+          y.disjointLeaf.uuid.toString)
+      }
     case _ =>
       None
   }.to[Seq]
@@ -595,8 +600,7 @@ object Extent2Tables {
   = acc :+ tables.DataStructureTuple(
     x._1.uuid.toString,
     x._1.dataStructureType.uuid.toString,
-    x._2.uuid.toString,
-    x._1.name)
+    x._2.uuid.toString)
 
   def convertDescriptionBoxExtendsClosedWorldDefinitions
   (acc: Seq[tables.DescriptionBoxExtendsClosedWorldDefinitions],
@@ -634,8 +638,7 @@ object Extent2Tables {
     x._1.uuid.toString,
     x._2.uuid.toString,
     x._1.reifiedRelationshipInstance.uuid.toString,
-    x._1.domain.uuid.toString,
-    x._1.name)
+    x._1.domain.uuid.toString)
 
   def convertReifiedRelationshipInstanceRanges
   (acc: Seq[tables.ReifiedRelationshipInstanceRange],
@@ -645,8 +648,7 @@ object Extent2Tables {
     x._1.uuid.toString,
     x._2.uuid.toString,
     x._1.reifiedRelationshipInstance.uuid.toString,
-    x._1.range.uuid.toString,
-    x._1.name)
+    x._1.range.uuid.toString)
 
   def convertScalarDataPropertyValues
   (acc: Seq[tables.ScalarDataPropertyValue],
@@ -656,7 +658,6 @@ object Extent2Tables {
     x._1.uuid.toString,
     x._2.uuid.toString,
     x._1.scalarDataProperty.uuid.toString,
-    x._1.name,
     x._1.scalarPropertyValue)
 
   def convertStructuredDataPropertyValues
@@ -666,8 +667,7 @@ object Extent2Tables {
   = acc :+ tables.StructuredDataPropertyValue(
     x._1.uuid.toString,
     x._2.uuid.toString,
-    x._1.structuredDataProperty.uuid.toString,
-    x._1.name)
+    x._1.structuredDataProperty.uuid.toString)
 
   def convertUnreifiedRelationshipInstanceTuples
   (acc: Seq[tables.UnreifiedRelationshipInstanceTuple],
@@ -678,8 +678,7 @@ object Extent2Tables {
     x._2.uuid.toString,
     x._1.unreifiedRelationship.uuid.toString,
     x._1.domain.uuid.toString,
-    x._1.range.uuid.toString,
-    x._1.name)
+    x._1.range.uuid.toString)
 
   def convertAnnotations
   (aps: Seq[tables.AnnotationProperty])
@@ -707,6 +706,7 @@ object Extent2Tables {
   (e: api.Extent)
   : tables.OMLSpecificationTables
   = {
+    implicit val ext: api.Extent = e
     val t =
       tables
         .OMLSpecificationTables.createEmptyOMLSpecificationTables()

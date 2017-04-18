@@ -45,7 +45,11 @@ case class ConceptSpecializationAxiom
     superConceptUUID: UUID,
     subConceptUUID: UUID)
   = this(
-      oug.namespaceUUID("ConceptSpecializationAxiom", "tbox" -> tboxUUID, "superConcept" -> superConceptUUID, "subConcept" -> subConceptUUID).toString,
+      oug.namespaceUUID(
+        "ConceptSpecializationAxiom",
+        "tbox" -> tboxUUID,
+        "superConcept" -> superConceptUUID,
+        "subConcept" -> subConceptUUID).toString,
       tboxUUID,
       superConceptUUID,
       subConceptUUID)

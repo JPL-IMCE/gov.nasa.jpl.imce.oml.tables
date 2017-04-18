@@ -48,7 +48,12 @@ case class EntityExistentialRestrictionAxiom
     restrictedDomainUUID: UUID,
     restrictedRangeUUID: UUID)
   = this(
-      oug.namespaceUUID("EntityExistentialRestrictionAxiom", "tbox" -> tboxUUID, "restrictedRelation" -> restrictedRelationUUID, "restrictedDomain" -> restrictedDomainUUID, "restrictedRange" -> restrictedRangeUUID).toString,
+      oug.namespaceUUID(
+        "EntityExistentialRestrictionAxiom",
+        "tbox" -> tboxUUID,
+        "restrictedRelation" -> restrictedRelationUUID,
+        "restrictedDomain" -> restrictedDomainUUID,
+        "restrictedRange" -> restrictedRangeUUID).toString,
       tboxUUID,
       restrictedRelationUUID,
       restrictedDomainUUID,

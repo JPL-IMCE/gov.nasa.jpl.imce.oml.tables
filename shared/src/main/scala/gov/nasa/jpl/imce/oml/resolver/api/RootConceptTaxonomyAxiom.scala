@@ -33,4 +33,6 @@ trait RootConceptTaxonomyAxiom
   val root: Concept
 
   override val uuid: java.util.UUID
+  override def bundleContainer
+  (): Bundle
 }

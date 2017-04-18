@@ -45,7 +45,10 @@ case class ScalarOneOfLiteralAxiom
     axiomUUID: UUID,
     value: LexicalValue)
   = this(
-      oug.namespaceUUID("ScalarOneOfLiteralAxiom", "tbox" -> tboxUUID, "axiom" -> axiomUUID).toString,
+      oug.namespaceUUID(
+        "ScalarOneOfLiteralAxiom",
+        "tbox" -> tboxUUID,
+        "axiom" -> axiomUUID).toString,
       tboxUUID,
       axiomUUID,
       value)

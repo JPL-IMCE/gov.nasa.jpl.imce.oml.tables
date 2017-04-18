@@ -45,7 +45,11 @@ case class AspectSpecializationAxiom
     superAspectUUID: UUID,
     subEntityUUID: UUID)
   = this(
-      oug.namespaceUUID("AspectSpecializationAxiom", "tbox" -> tboxUUID, "superAspect" -> superAspectUUID, "subEntity" -> subEntityUUID).toString,
+      oug.namespaceUUID(
+        "AspectSpecializationAxiom",
+        "tbox" -> tboxUUID,
+        "superAspect" -> superAspectUUID,
+        "subEntity" -> subEntityUUID).toString,
       tboxUUID,
       superAspectUUID,
       subEntityUUID)

@@ -42,7 +42,8 @@ case class Bundle
     kind: TerminologyKind,
     iri: IRI)
   = this(
-      oug.namespaceUUID(iri.toString).toString,
+      oug.namespaceUUID(
+        iri.toString).toString,
       kind,
       iri)
 

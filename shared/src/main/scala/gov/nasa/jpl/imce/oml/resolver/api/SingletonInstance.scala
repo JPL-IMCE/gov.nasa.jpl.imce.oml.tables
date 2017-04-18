@@ -22,6 +22,6 @@ package gov.nasa.jpl.imce.oml.resolver.api
  * An OML SingletonInstance defines an instance of either an OML ConceptualEntity or of an OML Structure.
  */
 trait SingletonInstance
-  extends TerminologyInstanceAssertion
+  extends Element
 {
 }

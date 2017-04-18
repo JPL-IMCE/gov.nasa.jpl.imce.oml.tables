@@ -42,7 +42,10 @@ case class BundledTerminologyAxiom
     bundledTerminologyUUID: UUID,
     bundleUUID: UUID)
   = this(
-      oug.namespaceUUID("BundledTerminologyAxiom", "bundledTerminology" -> bundledTerminologyUUID, "bundle" -> bundleUUID).toString,
+      oug.namespaceUUID(
+        "BundledTerminologyAxiom",
+        "bundledTerminology" -> bundledTerminologyUUID,
+        "bundle" -> bundleUUID).toString,
       bundledTerminologyUUID,
       bundleUUID)
 

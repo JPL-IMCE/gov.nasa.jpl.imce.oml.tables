@@ -28,38 +28,36 @@ import scala.Predef._
   * @param uuid[1,1]
   * @param singletonInstanceUUID[1,1]
   * @param structuredDataPropertyUUID[1,1]
-  * @param name[1,1]
   */
 @JSExportTopLevel("StructuredDataPropertyValue")
 case class StructuredDataPropertyValue
 (
   @(JSExport @field) uuid: UUID,
   @(JSExport @field) singletonInstanceUUID: UUID,
-  @(JSExport @field) structuredDataPropertyUUID: UUID,
-  @(JSExport @field) name: LocalName
+  @(JSExport @field) structuredDataPropertyUUID: UUID
 ) {
-  // Ctor(uuidWithGenerator)   
+  // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     singletonInstanceUUID: UUID,
-    structuredDataPropertyUUID: UUID,
-    name: LocalName)
+    structuredDataPropertyUUID: UUID)
   = this(
-      oug.namespaceUUID(singletonInstanceUUID, "name" -> name).toString,
+      oug.namespaceUUID(
+        "StructuredDataPropertyValue",
+        "singletonInstance" -> singletonInstanceUUID,
+        "structuredDataProperty" -> structuredDataPropertyUUID).toString,
       singletonInstanceUUID,
-      structuredDataPropertyUUID,
-      name)
+      structuredDataPropertyUUID)
 
   override val hashCode
   : scala.Int 
-  = (uuid, singletonInstanceUUID, structuredDataPropertyUUID, name).##
+  = (uuid, singletonInstanceUUID, structuredDataPropertyUUID).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: StructuredDataPropertyValue =>
   	  (this.uuid == that.uuid) &&
   	  (this.singletonInstanceUUID == that.singletonInstanceUUID) &&
-  	  (this.structuredDataPropertyUUID == that.structuredDataPropertyUUID) &&
-  	  (this.name == that.name)
+  	  (this.structuredDataPropertyUUID == that.structuredDataPropertyUUID)
     case _ =>
       false
   }

@@ -45,7 +45,9 @@ case class ReifiedRelationshipInstance
     singletonReifiedRelationshipClassifierUUID: UUID,
     name: LocalName)
   = this(
-      oug.namespaceUUID(descriptionBoxUUID, "name" -> name).toString,
+      oug.namespaceUUID(
+        descriptionBoxUUID,
+        "name" -> name).toString,
       descriptionBoxUUID,
       singletonReifiedRelationshipClassifierUUID,
       name)

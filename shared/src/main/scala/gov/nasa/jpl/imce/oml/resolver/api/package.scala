@@ -168,6 +168,16 @@ package object api {
   	 	case 0 => 0 }
   }
   
+  implicit def conceptTreeDisjunctionOrdering
+  : scala.Ordering[ConceptTreeDisjunction]
+  = new scala.Ordering[ConceptTreeDisjunction] {
+  	def compare(x: ConceptTreeDisjunction, y: ConceptTreeDisjunction)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
   implicit def conceptualEntitySingletonInstanceOrdering
   : scala.Ordering[ConceptualEntitySingletonInstance]
   = new scala.Ordering[ConceptualEntitySingletonInstance] {
@@ -192,6 +202,66 @@ package object api {
   : scala.Ordering[DataRelationship]
   = new scala.Ordering[DataRelationship] {
   	def compare(x: DataRelationship, y: DataRelationship)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def dataRelationshipDomainOrdering
+  : scala.Ordering[DataRelationshipDomain]
+  = new scala.Ordering[DataRelationshipDomain] {
+  	def compare(x: DataRelationshipDomain, y: DataRelationshipDomain)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def dataRelationshipFromEntityOrdering
+  : scala.Ordering[DataRelationshipFromEntity]
+  = new scala.Ordering[DataRelationshipFromEntity] {
+  	def compare(x: DataRelationshipFromEntity, y: DataRelationshipFromEntity)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def dataRelationshipFromStructureOrdering
+  : scala.Ordering[DataRelationshipFromStructure]
+  = new scala.Ordering[DataRelationshipFromStructure] {
+  	def compare(x: DataRelationshipFromStructure, y: DataRelationshipFromStructure)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def dataRelationshipRangeOrdering
+  : scala.Ordering[DataRelationshipRange]
+  = new scala.Ordering[DataRelationshipRange] {
+  	def compare(x: DataRelationshipRange, y: DataRelationshipRange)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def dataRelationshipToScalarOrdering
+  : scala.Ordering[DataRelationshipToScalar]
+  = new scala.Ordering[DataRelationshipToScalar] {
+  	def compare(x: DataRelationshipToScalar, y: DataRelationshipToScalar)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def dataRelationshipToStructureOrdering
+  : scala.Ordering[DataRelationshipToStructure]
+  = new scala.Ordering[DataRelationshipToStructure] {
+  	def compare(x: DataRelationshipToStructure, y: DataRelationshipToStructure)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid

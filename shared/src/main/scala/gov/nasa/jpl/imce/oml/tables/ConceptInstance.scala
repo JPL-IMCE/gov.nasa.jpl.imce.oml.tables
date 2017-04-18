@@ -45,7 +45,9 @@ case class ConceptInstance
     singletonConceptClassifierUUID: UUID,
     name: LocalName)
   = this(
-      oug.namespaceUUID(descriptionBoxUUID, "name" -> name).toString,
+      oug.namespaceUUID(
+        descriptionBoxUUID,
+        "name" -> name).toString,
       descriptionBoxUUID,
       singletonConceptClassifierUUID,
       name)

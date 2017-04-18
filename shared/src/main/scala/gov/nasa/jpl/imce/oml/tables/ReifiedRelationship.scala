@@ -117,7 +117,9 @@ case class ReifiedRelationship
     name: LocalName,
     unreifiedPropertyName: LocalName)
   = this(
-      oug.namespaceUUID(tboxUUID, "name" -> name).toString,
+      oug.namespaceUUID(
+        tboxUUID,
+        "name" -> name).toString,
       tboxUUID,
       sourceUUID,
       targetUUID,

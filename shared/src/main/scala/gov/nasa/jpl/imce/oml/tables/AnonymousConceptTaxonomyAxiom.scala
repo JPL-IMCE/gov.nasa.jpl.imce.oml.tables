@@ -26,35 +26,37 @@ import scala.Predef._
 
 /**
   * @param uuid[1,1]
-  * @param bundleUUID[1,1]
   * @param disjointTaxonomyParentUUID[1,1]
+  * @param name[1,1]
   */
 @JSExportTopLevel("AnonymousConceptTaxonomyAxiom")
 case class AnonymousConceptTaxonomyAxiom
 (
   @(JSExport @field) uuid: UUID,
-  @(JSExport @field) bundleUUID: UUID,
-  @(JSExport @field) disjointTaxonomyParentUUID: UUID
+  @(JSExport @field) disjointTaxonomyParentUUID: UUID,
+  @(JSExport @field) name: LocalName
 ) {
-  // Ctor(uuidWithContainer)   
+  // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    bundleUUID: UUID,
-    disjointTaxonomyParentUUID: UUID)
+    disjointTaxonomyParentUUID: UUID,
+    name: LocalName)
   = this(
-      oug.namespaceUUID("AnonymousConceptTaxonomyAxiom", "bundle" -> bundleUUID).toString,
-      bundleUUID,
-      disjointTaxonomyParentUUID)
+      oug.namespaceUUID(
+        disjointTaxonomyParentUUID,
+        "name" -> name).toString,
+      disjointTaxonomyParentUUID,
+      name)
 
   override val hashCode
   : scala.Int 
-  = (uuid, bundleUUID, disjointTaxonomyParentUUID).##
+  = (uuid, disjointTaxonomyParentUUID, name).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: AnonymousConceptTaxonomyAxiom =>
   	  (this.uuid == that.uuid) &&
-  	  (this.bundleUUID == that.bundleUUID) &&
-  	  (this.disjointTaxonomyParentUUID == that.disjointTaxonomyParentUUID)
+  	  (this.disjointTaxonomyParentUUID == that.disjointTaxonomyParentUUID) &&
+  	  (this.name == that.name)
     case _ =>
       false
   }

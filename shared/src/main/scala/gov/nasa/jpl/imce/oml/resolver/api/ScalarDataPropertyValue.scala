@@ -23,7 +23,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
  * of an OML DataRelationshipToScalar for a particular OML SingletonInstance.
  */
 trait ScalarDataPropertyValue
-  extends TerminologyInstanceAssertion
+  extends Element
 {
 
   val scalarDataProperty: DataRelationshipToScalar

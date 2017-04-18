@@ -28,7 +28,6 @@ import scala.Predef._
   * @param uuid[1,1]
   * @param singletonInstanceUUID[1,1]
   * @param scalarDataPropertyUUID[1,1]
-  * @param name[1,1]
   * @param scalarPropertyValue[1,1]
   */
 @JSExportTopLevel("ScalarDataPropertyValue")
@@ -37,33 +36,32 @@ case class ScalarDataPropertyValue
   @(JSExport @field) uuid: UUID,
   @(JSExport @field) singletonInstanceUUID: UUID,
   @(JSExport @field) scalarDataPropertyUUID: UUID,
-  @(JSExport @field) name: LocalName,
   @(JSExport @field) scalarPropertyValue: scala.Predef.String
 ) {
-  // Ctor(uuidWithGenerator)   
+  // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     singletonInstanceUUID: UUID,
     scalarDataPropertyUUID: UUID,
-    name: LocalName,
     scalarPropertyValue: scala.Predef.String)
   = this(
-      oug.namespaceUUID(singletonInstanceUUID, "name" -> name).toString,
+      oug.namespaceUUID(
+        "ScalarDataPropertyValue",
+        "singletonInstance" -> singletonInstanceUUID,
+        "scalarDataProperty" -> scalarDataPropertyUUID).toString,
       singletonInstanceUUID,
       scalarDataPropertyUUID,
-      name,
       scalarPropertyValue)
 
   override val hashCode
   : scala.Int 
-  = (uuid, singletonInstanceUUID, scalarDataPropertyUUID, name, scalarPropertyValue).##
+  = (uuid, singletonInstanceUUID, scalarDataPropertyUUID, scalarPropertyValue).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: ScalarDataPropertyValue =>
   	  (this.uuid == that.uuid) &&
   	  (this.singletonInstanceUUID == that.singletonInstanceUUID) &&
   	  (this.scalarDataPropertyUUID == that.scalarDataPropertyUUID) &&
-  	  (this.name == that.name) &&
   	  (this.scalarPropertyValue == that.scalarPropertyValue)
     case _ =>
       false

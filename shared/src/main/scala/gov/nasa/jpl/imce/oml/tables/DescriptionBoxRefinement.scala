@@ -42,7 +42,10 @@ case class DescriptionBoxRefinement
     refiningDescriptionBoxUUID: UUID,
     refinedDescriptionBoxUUID: UUID)
   = this(
-      oug.namespaceUUID("DescriptionBoxRefinement", "refiningDescriptionBox" -> refiningDescriptionBoxUUID, "refinedDescriptionBox" -> refinedDescriptionBoxUUID).toString,
+      oug.namespaceUUID(
+        "DescriptionBoxRefinement",
+        "refiningDescriptionBox" -> refiningDescriptionBoxUUID,
+        "refinedDescriptionBox" -> refinedDescriptionBoxUUID).toString,
       refiningDescriptionBoxUUID,
       refinedDescriptionBoxUUID)
 

@@ -23,13 +23,5 @@ package gov.nasa.jpl.imce.oml.resolver.api
  */
 trait TerminologyInstanceAssertion
   extends ModuleElement
-  with Resource
 {
-
-  override val name: gov.nasa.jpl.imce.oml.tables.LocalName
-
-  override def iri
-  ()(implicit extent: Extent): scala.Option[gov.nasa.jpl.imce.oml.tables.IRI]
-  def descriptionBox
-  ()(implicit extent: Extent): scala.Option[DescriptionBox]
 }

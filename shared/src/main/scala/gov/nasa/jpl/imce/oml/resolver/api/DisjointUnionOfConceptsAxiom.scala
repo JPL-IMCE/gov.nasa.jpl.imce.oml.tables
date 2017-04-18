@@ -24,11 +24,9 @@ package gov.nasa.jpl.imce.oml.resolver.api
  * - Each leaf nodes is an OML SpecificDisjointConceptAxiom.
  */
 trait DisjointUnionOfConceptsAxiom
-  extends TerminologyBundleStatement
+  extends Element
 {
 
-  /*
-   * The parent of this node in a disjoint concept taxonomy tree.
-   */
-  val disjointTaxonomyParent: ConceptTreeDisjunction
+  def conceptTreeDisjunctionParent
+  ()(implicit extent: Extent): scala.Option[ConceptTreeDisjunction]
 }

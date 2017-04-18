@@ -42,7 +42,10 @@ case class RootConceptTaxonomyAxiom
     bundleUUID: UUID,
     rootUUID: UUID)
   = this(
-      oug.namespaceUUID("RootConceptTaxonomyAxiom", "bundle" -> bundleUUID, "root" -> rootUUID).toString,
+      oug.namespaceUUID(
+        "RootConceptTaxonomyAxiom",
+        "bundle" -> bundleUUID,
+        "root" -> rootUUID).toString,
       bundleUUID,
       rootUUID)
 

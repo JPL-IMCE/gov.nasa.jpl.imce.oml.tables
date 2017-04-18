@@ -76,7 +76,9 @@ case class BinaryScalarRestriction
     restrictedRangeUUID: UUID,
     name: LocalName)
   = this(
-      oug.namespaceUUID(tboxUUID, "name" -> name).toString,
+      oug.namespaceUUID(
+        tboxUUID,
+        "name" -> name).toString,
       tboxUUID,
       restrictedRangeUUID,
       name)

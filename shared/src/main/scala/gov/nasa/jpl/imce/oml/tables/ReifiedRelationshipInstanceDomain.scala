@@ -29,7 +29,6 @@ import scala.Predef._
   * @param descriptionBoxUUID[1,1]
   * @param reifiedRelationshipInstanceUUID[1,1]
   * @param domainUUID[1,1]
-  * @param name[1,1]
   */
 @JSExportTopLevel("ReifiedRelationshipInstanceDomain")
 case class ReifiedRelationshipInstanceDomain
@@ -37,34 +36,34 @@ case class ReifiedRelationshipInstanceDomain
   @(JSExport @field) uuid: UUID,
   @(JSExport @field) descriptionBoxUUID: UUID,
   @(JSExport @field) reifiedRelationshipInstanceUUID: UUID,
-  @(JSExport @field) domainUUID: UUID,
-  @(JSExport @field) name: LocalName
+  @(JSExport @field) domainUUID: UUID
 ) {
-  // Ctor(uuidWithGenerator)   
+  // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     descriptionBoxUUID: UUID,
     reifiedRelationshipInstanceUUID: UUID,
-    domainUUID: UUID,
-    name: LocalName)
+    domainUUID: UUID)
   = this(
-      oug.namespaceUUID(descriptionBoxUUID, "name" -> name).toString,
+      oug.namespaceUUID(
+        "ReifiedRelationshipInstanceDomain",
+        "descriptionBox" -> descriptionBoxUUID,
+        "reifiedRelationshipInstance" -> reifiedRelationshipInstanceUUID,
+        "domain" -> domainUUID).toString,
       descriptionBoxUUID,
       reifiedRelationshipInstanceUUID,
-      domainUUID,
-      name)
+      domainUUID)
 
   override val hashCode
   : scala.Int 
-  = (uuid, descriptionBoxUUID, reifiedRelationshipInstanceUUID, domainUUID, name).##
+  = (uuid, descriptionBoxUUID, reifiedRelationshipInstanceUUID, domainUUID).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: ReifiedRelationshipInstanceDomain =>
   	  (this.uuid == that.uuid) &&
   	  (this.descriptionBoxUUID == that.descriptionBoxUUID) &&
   	  (this.reifiedRelationshipInstanceUUID == that.reifiedRelationshipInstanceUUID) &&
-  	  (this.domainUUID == that.domainUUID) &&
-  	  (this.name == that.name)
+  	  (this.domainUUID == that.domainUUID)
     case _ =>
       false
   }
