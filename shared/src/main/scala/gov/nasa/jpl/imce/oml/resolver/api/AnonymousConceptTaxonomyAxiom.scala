@@ -31,5 +31,5 @@ trait AnonymousConceptTaxonomyAxiom
 
   override val uuid: java.util.UUID
   override def bundleContainer
-  (): Bundle
+  ()(implicit extent: Extent): Bundle
 }

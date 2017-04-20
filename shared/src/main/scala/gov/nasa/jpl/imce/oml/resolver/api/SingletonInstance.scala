@@ -24,4 +24,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait SingletonInstance
   extends Element
 {
+
+  def descriptionBox
+  ()(implicit extent: Extent): scala.Option[DescriptionBox]
 }

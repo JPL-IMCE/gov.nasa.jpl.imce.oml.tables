@@ -40,8 +40,6 @@ trait ConceptualEntitySingletonInstance
 
   override def iri
   ()(implicit extent: Extent): scala.Option[gov.nasa.jpl.imce.oml.tables.IRI]
-  def descriptionBox
-  ()(implicit extent: Extent): scala.Option[DescriptionBox]
   def conceptualEntitySingletonClassifier
   (): ConceptualEntity
   def identifyingScalarValues

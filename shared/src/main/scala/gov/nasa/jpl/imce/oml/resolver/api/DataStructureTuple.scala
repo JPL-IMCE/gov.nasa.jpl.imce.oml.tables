@@ -28,6 +28,6 @@ trait DataStructureTuple
 
   val dataStructureType: Structure
 
-  def descriptionBox
+  override def descriptionBox
   ()(implicit extent: Extent): scala.Option[DescriptionBox]
 }
