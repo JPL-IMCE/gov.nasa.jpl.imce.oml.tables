@@ -9,12 +9,12 @@
 <g id="graph1" class="graph" transform="scale(1 1) rotate(0) translate(4 642)">
 <title>dependency&#45;graph</title>
 <polygon fill="white" stroke="white" points="-4,5 -4,-642 1927,-642 1927,5 -4,5"/>
-<!-- gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.56.1 -->
-<g id="node1" class="node"><title>gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.56.1</title>
+<!-- gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.57.0 -->
+<g id="node1" class="node"><title>gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.57.0</title>
 <ellipse fill="none" stroke="black" cx="212" cy="-348" rx="212.132" ry="41.7193"/>
 <text text-anchor="start" x="153" y="-363.233" font-family="Times Roman,serif" font-size="14.00">gov.nasa.jpl.imce</text>
 <text text-anchor="start" x="70.5" y="-346.433" font-family="Times Roman,serif" font-size="14.00">gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11</text>
-<text text-anchor="start" x="189" y="-329.633" font-family="Times Roman,serif" font-size="14.00">0.56.1</text>
+<text text-anchor="start" x="189" y="-329.633" font-family="Times Roman,serif" font-size="14.00">0.57.0</text>
 </g>
 <!-- com.lihaoyi:upickle_sjs0.6_2.11:0.4.3 -->
 <g id="node2" class="node"><title>com.lihaoyi:upickle_sjs0.6_2.11:0.4.3</title>
@@ -23,8 +23,8 @@
 <text text-anchor="start" x="549.5" y="-491.433" font-family="Times Roman,serif" font-size="14.00">upickle_sjs0.6_2.11</text>
 <text text-anchor="start" x="598.5" y="-474.633" font-family="Times Roman,serif" font-size="14.00">0.4.3</text>
 </g>
-<!-- gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.56.1&#45;&gt;com.lihaoyi:upickle_sjs0.6_2.11:0.4.3 -->
-<g id="edge2" class="edge"><title>gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.56.1&#45;&gt;com.lihaoyi:upickle_sjs0.6_2.11:0.4.3</title>
+<!-- gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.57.0&#45;&gt;com.lihaoyi:upickle_sjs0.6_2.11:0.4.3 -->
+<g id="edge2" class="edge"><title>gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.57.0&#45;&gt;com.lihaoyi:upickle_sjs0.6_2.11:0.4.3</title>
 <path fill="none" stroke="black" d="M312.893,-384.122C379.3,-407.898 465.384,-438.718 529.006,-461.496"/>
 <polygon fill="black" stroke="black" points="528.026,-464.863 538.62,-464.938 530.385,-458.272 528.026,-464.863"/>
 </g>
@@ -35,8 +35,8 @@
 <text text-anchor="start" x="550" y="-277.433" font-family="Times Roman,serif" font-size="14.00">commons&#45;compress</text>
 <text text-anchor="start" x="598.5" y="-260.633" font-family="Times Roman,serif" font-size="14.00">1.4.1</text>
 </g>
-<!-- gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.56.1&#45;&gt;org.apache.commons:commons&#45;compress:1.4.1 -->
-<g id="edge10" class="edge"><title>gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.56.1&#45;&gt;org.apache.commons:commons&#45;compress:1.4.1</title>
+<!-- gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.57.0&#45;&gt;org.apache.commons:commons&#45;compress:1.4.1 -->
+<g id="edge10" class="edge"><title>gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.57.0&#45;&gt;org.apache.commons:commons&#45;compress:1.4.1</title>
 <path fill="none" stroke="black" d="M371.195,-320.878C415.391,-313.348 462.474,-305.327 503.481,-298.34"/>
 <polygon fill="black" stroke="black" points="504.225,-301.764 513.495,-296.634 503.049,-294.863 504.225,-301.764"/>
 </g>
@@ -47,8 +47,8 @@
 <text text-anchor="start" x="1427.5" y="-422.433" font-family="Times Roman,serif" font-size="14.00">scalajs&#45;library_2.11</text>
 <text text-anchor="start" x="1475.5" y="-405.633" font-family="Times Roman,serif" font-size="14.00">0.6.6</text>
 </g>
-<!-- gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.56.1&#45;&gt;org.scala&#45;js:scalajs&#45;library_2.11:0.6.6 -->
-<g id="edge14" class="edge"><title>gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.56.1&#45;&gt;org.scala&#45;js:scalajs&#45;library_2.11:0.6.6</title>
+<!-- gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.57.0&#45;&gt;org.scala&#45;js:scalajs&#45;library_2.11:0.6.6 -->
+<g id="edge14" class="edge"><title>gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.57.0&#45;&gt;org.scala&#45;js:scalajs&#45;library_2.11:0.6.6</title>
 <path fill="none" stroke="black" d="M424.032,-348C486.214,-348 554.334,-348 617,-348 617,-348 617,-348 1222,-348 1288.61,-348 1361.11,-369.4 1414.5,-389.489"/>
 <polygon fill="black" stroke="black" points="1413.32,-392.782 1423.91,-393.088 1415.82,-386.245 1413.32,-392.782"/>
 </g>
@@ -59,8 +59,8 @@
 <text text-anchor="start" x="1427.5" y="-560.433" font-family="Times Roman,serif" font-size="14.00">scalajs&#45;library_2.11</text>
 <text text-anchor="start" x="1475.5" y="-543.633" font-family="Times Roman,serif" font-size="14.00">0.6.8</text>
 </g>
-<!-- gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.56.1&#45;&gt;org.scala&#45;js:scalajs&#45;library_2.11:0.6.8 -->
-<g id="edge22" class="edge"><title>gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.56.1&#45;&gt;org.scala&#45;js:scalajs&#45;library_2.11:0.6.8</title>
+<!-- gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.57.0&#45;&gt;org.scala&#45;js:scalajs&#45;library_2.11:0.6.8 -->
+<g id="edge22" class="edge"><title>gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.57.0&#45;&gt;org.scala&#45;js:scalajs&#45;library_2.11:0.6.8</title>
 <path fill="none" stroke="black" d="M240.61,-388.629C300.519,-468.441 447.717,-638 617,-638 617,-638 617,-638 1222,-638 1288.61,-638 1361.11,-616.6 1414.5,-596.511"/>
 <polygon fill="black" stroke="black" points="1415.82,-599.755 1423.91,-592.912 1413.32,-593.218 1415.82,-599.755"/>
 </g>
@@ -71,8 +71,8 @@
 <text text-anchor="start" x="516" y="-158.433" font-family="Times Roman,serif" font-size="14.00">scalac&#45;scapegoat&#45;plugin_2.11</text>
 <text text-anchor="start" x="598.5" y="-141.633" font-family="Times Roman,serif" font-size="14.00">1.0.0</text>
 </g>
-<!-- gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.56.1&#45;&gt;com.sksamuel.scapegoat:scalac&#45;scapegoat&#45;plugin_2.11:1.0.0 -->
-<g id="edge34" class="edge"><title>gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.56.1&#45;&gt;com.sksamuel.scapegoat:scalac&#45;scapegoat&#45;plugin_2.11:1.0.0</title>
+<!-- gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.57.0&#45;&gt;com.sksamuel.scapegoat:scalac&#45;scapegoat&#45;plugin_2.11:1.0.0 -->
+<g id="edge34" class="edge"><title>gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.57.0&#45;&gt;com.sksamuel.scapegoat:scalac&#45;scapegoat&#45;plugin_2.11:1.0.0</title>
 <path fill="none" stroke="black" d="M290.856,-309.834C339.945,-286.232 404.475,-255.49 462,-229 483.187,-219.244 506.097,-208.921 527.637,-199.316"/>
 <polygon fill="black" stroke="black" points="529.064,-202.512 536.776,-195.247 526.217,-196.117 529.064,-202.512"/>
 </g>
@@ -147,21 +147,21 @@
 <path fill="none" stroke="black" d="M731.53,-279C772.215,-279 817.071,-279 854.109,-279"/>
 <polygon fill="black" stroke="black" points="854.338,-282.5 864.338,-279 854.338,-275.5 854.338,-282.5"/>
 </g>
-<!-- org.scala&#45;js:scalajs&#45;library_2.11:0.6.13 -->
-<g id="node7" class="node"><title>org.scala&#45;js:scalajs&#45;library_2.11:0.6.13</title>
+<!-- org.scala&#45;js:scalajs&#45;library_2.11:0.6.15 -->
+<g id="node7" class="node"><title>org.scala&#45;js:scalajs&#45;library_2.11:0.6.15</title>
 <ellipse fill="none" stroke="black" cx="1816" cy="-504" rx="106.066" ry="41.7193"/>
 <text text-anchor="start" x="1777.5" y="-519.233" font-family="Times Roman,serif" font-size="14.00">org.scala&#45;js</text>
 <text text-anchor="start" x="1749.5" y="-502.433" font-family="Times Roman,serif" font-size="14.00">scalajs&#45;library_2.11</text>
-<text text-anchor="start" x="1793" y="-485.633" font-family="Times Roman,serif" font-size="14.00">0.6.13</text>
+<text text-anchor="start" x="1793" y="-485.633" font-family="Times Roman,serif" font-size="14.00">0.6.15</text>
 </g>
-<!-- org.scala&#45;js:scalajs&#45;library_2.11:0.6.6&#45;&gt;org.scala&#45;js:scalajs&#45;library_2.11:0.6.13 -->
-<g id="edge40" class="edge"><title>org.scala&#45;js:scalajs&#45;library_2.11:0.6.6&#45;&gt;org.scala&#45;js:scalajs&#45;library_2.11:0.6.13</title>
+<!-- org.scala&#45;js:scalajs&#45;library_2.11:0.6.6&#45;&gt;org.scala&#45;js:scalajs&#45;library_2.11:0.6.15 -->
+<g id="edge40" class="edge"><title>org.scala&#45;js:scalajs&#45;library_2.11:0.6.6&#45;&gt;org.scala&#45;js:scalajs&#45;library_2.11:0.6.15</title>
 <path fill="none" stroke="black" d="M1583.27,-446.178C1624.71,-456.474 1674.12,-468.75 1716.73,-479.337"/>
 <polygon fill="black" stroke="black" points="1716.01,-482.764 1726.56,-481.779 1717.7,-475.971 1716.01,-482.764"/>
 <text text-anchor="middle" x="1655" y="-476.4" font-family="Times Roman,serif" font-size="14.00">Evicted By</text>
 </g>
-<!-- org.scala&#45;js:scalajs&#45;library_2.11:0.6.8&#45;&gt;org.scala&#45;js:scalajs&#45;library_2.11:0.6.13 -->
-<g id="edge42" class="edge"><title>org.scala&#45;js:scalajs&#45;library_2.11:0.6.8&#45;&gt;org.scala&#45;js:scalajs&#45;library_2.11:0.6.13</title>
+<!-- org.scala&#45;js:scalajs&#45;library_2.11:0.6.8&#45;&gt;org.scala&#45;js:scalajs&#45;library_2.11:0.6.15 -->
+<g id="edge42" class="edge"><title>org.scala&#45;js:scalajs&#45;library_2.11:0.6.8&#45;&gt;org.scala&#45;js:scalajs&#45;library_2.11:0.6.15</title>
 <path fill="none" stroke="black" d="M1590.17,-544.677C1627.77,-537.905 1671.03,-530.113 1709.56,-523.173"/>
 <polygon fill="black" stroke="black" points="1710.54,-526.552 1719.77,-521.334 1709.3,-519.662 1710.54,-526.552"/>
 <text text-anchor="middle" x="1655" y="-543.4" font-family="Times Roman,serif" font-size="14.00">Evicted By</text>
