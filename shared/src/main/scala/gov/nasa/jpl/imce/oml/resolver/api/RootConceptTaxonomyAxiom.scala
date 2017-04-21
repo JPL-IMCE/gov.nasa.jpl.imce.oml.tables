@@ -34,5 +34,5 @@ trait RootConceptTaxonomyAxiom
 
   override val uuid: java.util.UUID
   override def bundleContainer
-  ()(implicit extent: Extent): Bundle
+  ()(implicit extent: Extent): scala.Option[Bundle]
 }

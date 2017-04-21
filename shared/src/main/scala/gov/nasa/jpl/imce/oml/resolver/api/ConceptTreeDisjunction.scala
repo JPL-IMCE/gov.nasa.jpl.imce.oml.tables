@@ -28,5 +28,5 @@ trait ConceptTreeDisjunction
 {
 
   def bundleContainer
-  ()(implicit extent: Extent): Bundle
+  ()(implicit extent: Extent): scala.Option[Bundle]
 }
