@@ -143,9 +143,7 @@ val tablesGhPagesSettings: Seq[Setting[_]] =
 
     previewFixedPort := Some(4004),
 
-    previewLaunchBrowser := false,
-
-    releasePublishArtifactsAction := releasePublishArtifactsAction.dependsOn(GhpagesPlugin.autoImport.ghpagesPushSite).value
+    previewLaunchBrowser := false
   )
 
 val Npm = config("npm")
