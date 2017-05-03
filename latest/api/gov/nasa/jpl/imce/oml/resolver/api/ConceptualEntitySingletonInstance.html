@@ -45,13 +45,13 @@
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <span class="name">ConceptualEntitySingletonInstance</span><span class="result"> extends <a href="SingletonInstance.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.SingletonInstance">SingletonInstance</a> with <a href="TerminologyInstanceAssertion.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyInstanceAssertion">TerminologyInstanceAssertion</a> with <a href="Resource.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Resource">Resource</a></span>
+        <span class="name">ConceptualEntitySingletonInstance</span><span class="result"> extends <a href="TerminologyInstanceAssertion.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyInstanceAssertion">TerminologyInstanceAssertion</a> with <a href="Resource.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Resource">Resource</a></span>
       </span>
       </h4>
       
           <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a href="Resource.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Resource">Resource</a>, <a href="TerminologyInstanceAssertion.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyInstanceAssertion">TerminologyInstanceAssertion</a>, <a href="ModuleElement.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.ModuleElement">ModuleElement</a>, <a href="SingletonInstance.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.SingletonInstance">SingletonInstance</a>, <a href="Element.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Element">Element</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><a href="Resource.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Resource">Resource</a>, <a href="TerminologyInstanceAssertion.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyInstanceAssertion">TerminologyInstanceAssertion</a>, <a href="ModuleElement.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.ModuleElement">ModuleElement</a>, <a href="Element.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Element">Element</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div><div class="toggleContainer block">
             <span class="toggle">Known Subclasses</span>
             <div class="subClasses hiddenContent"><a href="ConceptInstance.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.ConceptInstance">ConceptInstance</a>, <a href="ReifiedRelationshipInstance.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.ReifiedRelationshipInstance">ReifiedRelationshipInstance</a></div>
@@ -72,7 +72,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="gov.nasa.jpl.imce.oml.resolver.api.ConceptualEntitySingletonInstance"><span>ConceptualEntitySingletonInstance</span></li><li class="in" name="gov.nasa.jpl.imce.oml.resolver.api.Resource"><span>Resource</span></li><li class="in" name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyInstanceAssertion"><span>TerminologyInstanceAssertion</span></li><li class="in" name="gov.nasa.jpl.imce.oml.resolver.api.ModuleElement"><span>ModuleElement</span></li><li class="in" name="gov.nasa.jpl.imce.oml.resolver.api.SingletonInstance"><span>SingletonInstance</span></li><li class="in" name="gov.nasa.jpl.imce.oml.resolver.api.Element"><span>Element</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="gov.nasa.jpl.imce.oml.resolver.api.ConceptualEntitySingletonInstance"><span>ConceptualEntitySingletonInstance</span></li><li class="in" name="gov.nasa.jpl.imce.oml.resolver.api.Resource"><span>Resource</span></li><li class="in" name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyInstanceAssertion"><span>TerminologyInstanceAssertion</span></li><li class="in" name="gov.nasa.jpl.imce.oml.resolver.api.ModuleElement"><span>ModuleElement</span></li><li class="in" name="gov.nasa.jpl.imce.oml.resolver.api.Element"><span>Element</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -95,7 +95,24 @@
 
         <div id="values" class="values members">
               <h3>Abstract Value Members</h3>
-              <ol><li name="gov.nasa.jpl.imce.oml.resolver.api.Element#canEqual" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+              <ol><li name="gov.nasa.jpl.imce.oml.resolver.api.ConceptualEntitySingletonInstance#abbrevIRI" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="abbrevIRI()(implicitextent:gov.nasa.jpl.imce.oml.resolver.api.Extent):Option[String]"></a>
+      <a id="abbrevIRI()(Extent):Option[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">abbrevIRI</span><span class="params">()</span><span class="params">(<span class="implicit">implicit </span><span name="extent">extent: <a href="Extent.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Extent">Extent</a></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.oml.resolver.api.ConceptualEntitySingletonInstance@abbrevIRI()(implicitextent:gov.nasa.jpl.imce.oml.resolver.api.Extent):Option[String]" title="Permalink" target="_top">
+        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.ConceptualEntitySingletonInstance">ConceptualEntitySingletonInstance</a> → <a href="Resource.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Resource">Resource</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.oml.resolver.api.Element#canEqual" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="canEqual(that:Any):Boolean"></a>
       <a id="canEqual(Any):Boolean"></a>
       <h4 class="signature">
@@ -129,7 +146,7 @@
       </a>
     </span>
       
-    </li><li name="gov.nasa.jpl.imce.oml.resolver.api.SingletonInstance#descriptionBox" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+    </li><li name="gov.nasa.jpl.imce.oml.resolver.api.ConceptualEntitySingletonInstance#descriptionBox" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="descriptionBox()(implicitextent:gov.nasa.jpl.imce.oml.resolver.api.Extent):Option[gov.nasa.jpl.imce.oml.resolver.api.DescriptionBox]"></a>
       <a id="descriptionBox()(Extent):Option[DescriptionBox]"></a>
       <h4 class="signature">
@@ -142,40 +159,6 @@
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.imce.oml.resolver.api.ConceptualEntitySingletonInstance@descriptionBox()(implicitextent:gov.nasa.jpl.imce.oml.resolver.api.Extent):Option[gov.nasa.jpl.imce.oml.resolver.api.DescriptionBox]" title="Permalink" target="_top">
-        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SingletonInstance.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.SingletonInstance">SingletonInstance</a></dd></dl></div>
-    </li><li name="gov.nasa.jpl.imce.oml.resolver.api.ConceptualEntitySingletonInstance#identifyingScalarValues" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="identifyingScalarValues()(implicitextent:gov.nasa.jpl.imce.oml.resolver.api.Extent):scala.collection.immutable.Set[_&lt;:gov.nasa.jpl.imce.oml.resolver.api.ScalarDataPropertyValue]"></a>
-      <a id="identifyingScalarValues()(Extent):Set[_&lt;:ScalarDataPropertyValue]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">identifyingScalarValues</span><span class="params">()</span><span class="params">(<span class="implicit">implicit </span><span name="extent">extent: <a href="Extent.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Extent">Extent</a></span>)</span><span class="result">: <span class="extype" name="scala.collection.immutable.Set">Set</span>[_ &lt;: <a href="ScalarDataPropertyValue.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.ScalarDataPropertyValue">ScalarDataPropertyValue</a>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.oml.resolver.api.ConceptualEntitySingletonInstance@identifyingScalarValues()(implicitextent:gov.nasa.jpl.imce.oml.resolver.api.Extent):scala.collection.immutable.Set[_&lt;:gov.nasa.jpl.imce.oml.resolver.api.ScalarDataPropertyValue]" title="Permalink" target="_top">
-        <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="gov.nasa.jpl.imce.oml.resolver.api.ConceptualEntitySingletonInstance#identifyingStructuredTuples" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="identifyingStructuredTuples()(implicitextent:gov.nasa.jpl.imce.oml.resolver.api.Extent):scala.collection.immutable.Set[_&lt;:gov.nasa.jpl.imce.oml.resolver.api.StructuredDataPropertyValue]"></a>
-      <a id="identifyingStructuredTuples()(Extent):Set[_&lt;:StructuredDataPropertyValue]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">identifyingStructuredTuples</span><span class="params">()</span><span class="params">(<span class="implicit">implicit </span><span name="extent">extent: <a href="Extent.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Extent">Extent</a></span>)</span><span class="result">: <span class="extype" name="scala.collection.immutable.Set">Set</span>[_ &lt;: <a href="StructuredDataPropertyValue.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.StructuredDataPropertyValue">StructuredDataPropertyValue</a>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../../../../index.html#gov.nasa.jpl.imce.oml.resolver.api.ConceptualEntitySingletonInstance@identifyingStructuredTuples()(implicitextent:gov.nasa.jpl.imce.oml.resolver.api.Extent):scala.collection.immutable.Set[_&lt;:gov.nasa.jpl.imce.oml.resolver.api.StructuredDataPropertyValue]" title="Permalink" target="_top">
         <img src="../../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -604,8 +587,6 @@
               <h3>Inherited from <a href="TerminologyInstanceAssertion.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.TerminologyInstanceAssertion">TerminologyInstanceAssertion</a></h3>
             </div><div class="parent" name="gov.nasa.jpl.imce.oml.resolver.api.ModuleElement">
               <h3>Inherited from <a href="ModuleElement.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.ModuleElement">ModuleElement</a></h3>
-            </div><div class="parent" name="gov.nasa.jpl.imce.oml.resolver.api.SingletonInstance">
-              <h3>Inherited from <a href="SingletonInstance.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.SingletonInstance">SingletonInstance</a></h3>
             </div><div class="parent" name="gov.nasa.jpl.imce.oml.resolver.api.Element">
               <h3>Inherited from <a href="Element.html" class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.Element">Element</a></h3>
             </div><div class="parent" name="scala.AnyRef">
