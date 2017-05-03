@@ -21,7 +21,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 /*
  * An OML Element is a logical abstraction
  * for everything involved in OML that
- * is globally identified by a UUID.
+ * is globally identified by a version 5 namespace UUID.
  */
 trait Element
 {

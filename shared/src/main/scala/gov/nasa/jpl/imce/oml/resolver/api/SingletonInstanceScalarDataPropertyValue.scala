@@ -19,8 +19,8 @@
 package gov.nasa.jpl.imce.oml.resolver.api
 
 /*
- * An OML ScalarDataPropertyValue defines a tuple for representing the atomic String value
- * of an OML DataRelationshipToScalar for a particular OML SingletonInstance.
+ * An OML SingletonInstanceScalarDataPropertyValue defines a tuple for representing the atomic String value
+ * of an OML EntityScalarDataProperty for a particular OML ConceptualEntitySingletonInstance.
  */
 trait SingletonInstanceScalarDataPropertyValue
   extends ModuleElement

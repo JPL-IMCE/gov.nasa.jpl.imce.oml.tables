@@ -19,7 +19,8 @@
 package gov.nasa.jpl.imce.oml.resolver.api
 
 /*
- * An OML DataStructureTuple defines an structured tuple instance of an OML Structure.
+ * An OML StructuredDataPropertyTuple is an SingletonInstanceStructuredDataPropertyContext
+ * nested in a container OML SingletonInstanceStructuredDataPropertyContext.
  */
 trait StructuredDataPropertyTuple
   extends SingletonInstanceStructuredDataPropertyContext

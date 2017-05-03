@@ -20,7 +20,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 
 /*
  * An OML ScalarDataPropertyValue specifies a literal string as the value of
- * an OML ScalarDataProperty in the scope of an OML SingletonInstanceStructuredDataPropertyContext.
+ * an OML DataRelationshipToScalar in the scope of an OML SingletonInstanceStructuredDataPropertyContext.
  */
 trait ScalarDataPropertyValue
   extends Element

@@ -19,7 +19,9 @@
 package gov.nasa.jpl.imce.oml.resolver.api
 
 /*
- * An OML AnonymousConceptUnionAxiom is an anonymous union of DisjointUnionOfEntityAxioms.
+ * An OML AnonymousConceptUnionAxiom specifies an anonymous logical union of DisjointUnionOfEntityAxioms in a concept taxonomy tree.
+ * Although it is semantically anonymous, it is syntactically identified with name whose
+ * only purpose is for generating the axiom's namespace UUID.
  */
 trait AnonymousConceptUnionAxiom
   extends DisjointUnionOfConceptsAxiom

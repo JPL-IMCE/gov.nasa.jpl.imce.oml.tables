@@ -18,6 +18,12 @@
 
 package gov.nasa.jpl.imce.oml.resolver.api
 
+/*
+ * An OML SingletonInstanceStructuredDataPropertyContext defines the context of
+ * an OML DataRelationshipToStructure for an insance of either an OML Concept or OML Structure
+ * for specifying values of its data properties
+ * via nested OML StructuredDataPropertyTuple(s) and OML ScalarDataPropertyValue(s).
+ */
 trait SingletonInstanceStructuredDataPropertyContext
   extends Element
 {

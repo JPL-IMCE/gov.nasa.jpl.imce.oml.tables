@@ -19,8 +19,8 @@
 package gov.nasa.jpl.imce.oml.resolver.api
 
 /*
- * An OML StructuredDataPropertyValue defines a tuple for representing the structured tuple value
- * of an OML DataRelationshipToStructure for a particular OML SingletonInstance.
+ * An OML SingletonInstanceStructuredDataPropertyValue is an SingletonInstanceStructuredDataPropertyContext
+ * for an OML ConceptualEntitySingletonInstance.
  */
 trait SingletonInstanceStructuredDataPropertyValue
   extends SingletonInstanceStructuredDataPropertyContext

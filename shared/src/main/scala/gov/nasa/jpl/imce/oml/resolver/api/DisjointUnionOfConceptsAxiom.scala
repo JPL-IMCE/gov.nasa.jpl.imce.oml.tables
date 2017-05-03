@@ -19,8 +19,8 @@
 package gov.nasa.jpl.imce.oml.resolver.api
 
 /*
- * An OML DisjointUnionOfConceptsAxiom(s) represents non-leaf & leaf nodes of a concept taxonomy:
- * - Each non-leaf node is an OML AnonymousConceptTaxonomyAxiom.
+ * An OML DisjointUnionOfConceptsAxiom(s) specifies the logical union of non-leaf & leaf nodes in a concept taxonomy tree:
+ * - Each non-leaf node is an OML AnonymousConceptUnionAxiom.
  * - Each leaf nodes is an OML SpecificDisjointConceptAxiom.
  */
 trait DisjointUnionOfConceptsAxiom

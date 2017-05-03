@@ -19,8 +19,8 @@
 package gov.nasa.jpl.imce.oml.resolver.api
 
 /*
- * An OML RootConceptTaxonomyAxiom asserts that, in the scope of a Bundle, a particular Entity
- * is the root of a taxonomy of specializations of that Entity.
+ * An OML RootConceptTaxonomyAxiom asserts that, in the scope of a Bundle, a particular OML Concept
+ * is the root of a taxonomy of concept specializations.
  */
 trait RootConceptTaxonomyAxiom
   extends TerminologyBundleStatement

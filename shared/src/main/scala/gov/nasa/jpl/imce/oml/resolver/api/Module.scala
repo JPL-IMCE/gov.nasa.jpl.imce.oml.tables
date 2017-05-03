@@ -36,4 +36,6 @@ trait Module
   (): gov.nasa.jpl.imce.oml.tables.NamespacePrefix
   def name
   (): gov.nasa.jpl.imce.oml.tables.LocalName
+  def abbrevIRI
+  ()(implicit extent: Extent): scala.Option[scala.Predef.String]
 }
