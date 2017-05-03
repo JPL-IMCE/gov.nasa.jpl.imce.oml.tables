@@ -19,9 +19,9 @@
 package gov.nasa.jpl.imce.oml.resolver.api
 
 /*
- * An OML AnonymousConceptTaxonomyAxiom is an anonymous taxonomy tree of DisjointUnionOfEntityAxioms.
+ * An OML AnonymousConceptUnionAxiom is an anonymous union of DisjointUnionOfEntityAxioms.
  */
-trait AnonymousConceptTaxonomyAxiom
+trait AnonymousConceptUnionAxiom
   extends DisjointUnionOfConceptsAxiom
   with ConceptTreeDisjunction
   with Element

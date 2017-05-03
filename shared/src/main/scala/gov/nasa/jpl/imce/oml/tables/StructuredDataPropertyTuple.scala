@@ -26,67 +26,67 @@ import scala.Predef._
 
 /**
   * @param uuid[1,1]
-  * @param singletonInstanceUUID[1,1]
   * @param structuredDataPropertyUUID[1,1]
+  * @param structuredDataPropertyContextUUID[1,1]
   */
-@JSExportTopLevel("StructuredDataPropertyValue")
-case class StructuredDataPropertyValue
+@JSExportTopLevel("StructuredDataPropertyTuple")
+case class StructuredDataPropertyTuple
 (
   @(JSExport @field) uuid: UUID,
-  @(JSExport @field) singletonInstanceUUID: UUID,
-  @(JSExport @field) structuredDataPropertyUUID: UUID
+  @(JSExport @field) structuredDataPropertyUUID: UUID,
+  @(JSExport @field) structuredDataPropertyContextUUID: UUID
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    singletonInstanceUUID: UUID,
-    structuredDataPropertyUUID: UUID)
+    structuredDataPropertyUUID: UUID,
+    structuredDataPropertyContextUUID: UUID)
   = this(
       oug.namespaceUUID(
-        "StructuredDataPropertyValue",
-        "singletonInstance" -> singletonInstanceUUID,
-        "structuredDataProperty" -> structuredDataPropertyUUID).toString,
-      singletonInstanceUUID,
-      structuredDataPropertyUUID)
+        "StructuredDataPropertyTuple",
+        "structuredDataProperty" -> structuredDataPropertyUUID,
+        "structuredDataPropertyContext" -> structuredDataPropertyContextUUID).toString,
+      structuredDataPropertyUUID,
+      structuredDataPropertyContextUUID)
 
   override val hashCode
   : scala.Int 
-  = (uuid, singletonInstanceUUID, structuredDataPropertyUUID).##
+  = (uuid, structuredDataPropertyUUID, structuredDataPropertyContextUUID).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
-  	case that: StructuredDataPropertyValue =>
+  	case that: StructuredDataPropertyTuple =>
   	  (this.uuid == that.uuid) &&
-  	  (this.singletonInstanceUUID == that.singletonInstanceUUID) &&
-  	  (this.structuredDataPropertyUUID == that.structuredDataPropertyUUID)
+  	  (this.structuredDataPropertyUUID == that.structuredDataPropertyUUID) &&
+  	  (this.structuredDataPropertyContextUUID == that.structuredDataPropertyContextUUID)
     case _ =>
       false
   }
   
 }
 
-@JSExportTopLevel("StructuredDataPropertyValueHelper")
-object StructuredDataPropertyValueHelper {
+@JSExportTopLevel("StructuredDataPropertyTupleHelper")
+object StructuredDataPropertyTupleHelper {
 
   val TABLE_JSON_FILENAME 
   : scala.Predef.String 
-  = "StructuredDataPropertyValues.json"
+  = "StructuredDataPropertyTuples.json"
   
   implicit val w
-  : upickle.default.Writer[StructuredDataPropertyValue]
-  = upickle.default.macroW[StructuredDataPropertyValue]
+  : upickle.default.Writer[StructuredDataPropertyTuple]
+  = upickle.default.macroW[StructuredDataPropertyTuple]
 
   @JSExport
-  def toJSON(c: StructuredDataPropertyValue)
+  def toJSON(c: StructuredDataPropertyTuple)
   : String
   = upickle.default.write(expr=c, indent=0)
 
   implicit val r
-  : upickle.default.Reader[StructuredDataPropertyValue]
-  = upickle.default.macroR[StructuredDataPropertyValue]
+  : upickle.default.Reader[StructuredDataPropertyTuple]
+  = upickle.default.macroR[StructuredDataPropertyTuple]
 
   @JSExport
   def fromJSON(c: String)
-  : StructuredDataPropertyValue
-  = upickle.default.read[StructuredDataPropertyValue](c)
+  : StructuredDataPropertyTuple
+  = upickle.default.read[StructuredDataPropertyTuple](c)
 
 }	

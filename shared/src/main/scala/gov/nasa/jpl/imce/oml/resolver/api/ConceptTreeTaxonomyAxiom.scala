@@ -19,15 +19,17 @@
 package gov.nasa.jpl.imce.oml.resolver.api
 
 /*
- * An OML DataStructureTuple defines an structured tuple instance of an OML Structure.
+ * An OML ConceptTreeTaxonomyAxiom specifies that an OML Concept is a tree of DisjointUnionOfEntityAxioms.
  */
-trait DataStructureTuple
-  extends SingletonInstance
+trait ConceptTreeTaxonomyAxiom
+  extends DisjointUnionOfConceptsAxiom
+  with ConceptTreeDisjunction
   with Element
 {
 
-  val dataStructureType: Structure
+  val disjointTree: Concept
 
-  override def descriptionBox
-  ()(implicit extent: Extent): scala.Option[DescriptionBox]
+  override val uuid: java.util.UUID
+  override def bundleContainer
+  ()(implicit extent: Extent): scala.Option[Bundle]
 }

@@ -535,19 +535,17 @@ object Extent2Tables {
       None
   }.to[Seq]
 
-  def convertAnonymousConceptTaxonomyAxioms
-  (acc: Seq[tables.AnonymousConceptTaxonomyAxiom],
+  def convertAnonymousConceptUnionAxioms
+  (acc: Seq[tables.AnonymousConceptUnionAxiom],
    x: (api.TerminologyBox, Set[api.TerminologyBundleStatement]))
   (implicit ext: api.Extent)
-  : Seq[tables.AnonymousConceptTaxonomyAxiom]
+  : Seq[tables.AnonymousConceptUnionAxiom]
   = acc ++ x._2.flatMap {
-    case y: api.AnonymousConceptTaxonomyAxiom =>
-      y.conceptTreeDisjunctionParent().map { parent =>
-        tables.AnonymousConceptTaxonomyAxiom(
+    case y: api.AnonymousConceptUnionAxiom =>
+        Some(tables.AnonymousConceptUnionAxiom(
           y.uuid.toString,
-          parent.uuid.toString,
-          y.name)
-      }
+          y.conceptTreeDisjunctionParent().get.uuid.toString,
+          y.name))
     case _ =>
       None
   }.to[Seq]
@@ -573,12 +571,10 @@ object Extent2Tables {
   : Seq[tables.SpecificDisjointConceptAxiom]
   = acc ++ x._2.flatMap {
     case y: api.SpecificDisjointConceptAxiom =>
-      y.conceptTreeDisjunctionParent().map { parent =>
-        tables.SpecificDisjointConceptAxiom(
+      Some(tables.SpecificDisjointConceptAxiom(
           y.uuid.toString,
-          parent.uuid.toString,
-          y.disjointLeaf.uuid.toString)
-      }
+          y.conceptTreeDisjunctionParent().get.uuid.toString,
+          y.disjointLeaf.uuid.toString))
     case _ =>
       None
   }.to[Seq]
@@ -592,15 +588,6 @@ object Extent2Tables {
         x._2.uuid.toString,
         x._1.singletonConceptClassifier.uuid.toString,
         x._1.name)
-
-  def convertDataStructureTuples
-  (acc: Seq[tables.DataStructureTuple],
-   x: (api.DataStructureTuple, api.StructuredDataPropertyValue))
-  : Seq[tables.DataStructureTuple]
-  = acc :+ tables.DataStructureTuple(
-    x._1.uuid.toString,
-    x._1.dataStructureType.uuid.toString,
-    x._2.uuid.toString)
 
   def convertDescriptionBoxExtendsClosedWorldDefinitions
   (acc: Seq[tables.DescriptionBoxExtendsClosedWorldDefinitions],
@@ -650,25 +637,6 @@ object Extent2Tables {
     x._1.reifiedRelationshipInstance.uuid.toString,
     x._1.range.uuid.toString)
 
-  def convertScalarDataPropertyValues
-  (acc: Seq[tables.ScalarDataPropertyValue],
-   x: (api.ScalarDataPropertyValue, api.SingletonInstance))
-  : Seq[tables.ScalarDataPropertyValue]
-  = acc :+ tables.ScalarDataPropertyValue(
-    x._1.uuid.toString,
-    x._2.uuid.toString,
-    x._1.scalarDataProperty.uuid.toString,
-    x._1.scalarPropertyValue)
-
-  def convertStructuredDataPropertyValues
-  (acc: Seq[tables.StructuredDataPropertyValue],
-   x: (api.StructuredDataPropertyValue, api.SingletonInstance))
-  : Seq[tables.StructuredDataPropertyValue]
-  = acc :+ tables.StructuredDataPropertyValue(
-    x._1.uuid.toString,
-    x._2.uuid.toString,
-    x._1.structuredDataProperty.uuid.toString)
-
   def convertUnreifiedRelationshipInstanceTuples
   (acc: Seq[tables.UnreifiedRelationshipInstanceTuple],
    x: (api.UnreifiedRelationshipInstanceTuple, api.DescriptionBox))
@@ -679,6 +647,54 @@ object Extent2Tables {
     x._1.unreifiedRelationship.uuid.toString,
     x._1.domain.uuid.toString,
     x._1.range.uuid.toString)
+
+  def convertSingletonScalarDataPropertyValues
+  (acc: Seq[tables.SingletonInstanceScalarDataPropertyValue],
+   x: (api.DescriptionBox, Set[api.SingletonInstanceScalarDataPropertyValue]))
+  : Seq[tables.SingletonInstanceScalarDataPropertyValue]
+  = x._2.foldLeft[Seq[tables.SingletonInstanceScalarDataPropertyValue]](acc) { case (acc1, v) =>
+    acc1 :+ tables.SingletonInstanceScalarDataPropertyValue(
+      v.uuid.toString,
+      x._1.uuid.toString,
+      v.singletonInstance.uuid.toString,
+      v.scalarDataProperty.uuid.toString,
+      v.scalarPropertyValue)
+  }
+
+  def convertSingletonStructuredDataPropertyValues
+  (acc: Seq[tables.SingletonInstanceStructuredDataPropertyValue],
+   x: (api.DescriptionBox, Set[api.SingletonInstanceStructuredDataPropertyValue]))
+  : Seq[tables.SingletonInstanceStructuredDataPropertyValue]
+  = x._2.foldLeft[Seq[tables.SingletonInstanceStructuredDataPropertyValue]](acc) { case (acc1, v) =>
+    acc1 :+ tables.SingletonInstanceStructuredDataPropertyValue(
+      v.uuid.toString,
+      x._1.uuid.toString,
+      v.singletonInstance.uuid.toString,
+      v.structuredDataProperty.uuid.toString)
+  }
+
+  def convertScalarDataPropertyValues
+  (acc: Seq[tables.ScalarDataPropertyValue],
+   x: (api.SingletonInstanceStructuredDataPropertyContext, Set[api.ScalarDataPropertyValue]))
+  : Seq[tables.ScalarDataPropertyValue]
+  = x._2.foldLeft[Seq[tables.ScalarDataPropertyValue]](acc) { case (acc1, v) =>
+    acc1 :+ tables.ScalarDataPropertyValue(
+      v.uuid.toString,
+      v.scalarDataProperty.uuid.toString,
+      v.scalarPropertyValue,
+      x._1.uuid.toString)
+  }
+
+  def convertStructuredDataPropertyTuples
+  (acc: Seq[tables.StructuredDataPropertyTuple],
+   x: (api.SingletonInstanceStructuredDataPropertyContext, Set[api.StructuredDataPropertyTuple]))
+  : Seq[tables.StructuredDataPropertyTuple]
+  = x._2.foldLeft[Seq[tables.StructuredDataPropertyTuple]](acc) { case (acc1, v) =>
+    acc1 :+ tables.StructuredDataPropertyTuple(
+      v.uuid.toString,
+      v.structuredDataProperty.uuid.toString,
+      x._1.uuid.toString)
+  }
 
   def convertAnnotations
   (aps: Seq[tables.AnnotationProperty])
@@ -867,8 +883,8 @@ object Extent2Tables {
 
           // bundle statements
 
-          anonymousConceptTaxonomyAxioms = e.bundleStatements
-            .foldLeft[Seq[tables.AnonymousConceptTaxonomyAxiom]](Seq.empty)(convertAnonymousConceptTaxonomyAxioms)
+          anonymousConceptUnionAxioms = e.bundleStatements
+            .foldLeft[Seq[tables.AnonymousConceptUnionAxiom]](Seq.empty)(convertAnonymousConceptUnionAxioms)
             .sortBy(_.uuid),
 
           rootConceptTaxonomyAxioms = e.bundleStatements
@@ -883,10 +899,6 @@ object Extent2Tables {
 
           conceptInstances = e.descriptionBoxOfConceptInstance
             .foldLeft[Seq[tables.ConceptInstance]](Seq.empty)(convertConceptInstances)
-            .sortBy(_.uuid),
-
-          dataStructureTuples = e.structuredDataPropertyValueOfDataStructureTuple
-            .foldLeft[Seq[tables.DataStructureTuple]](Seq.empty)(convertDataStructureTuples)
             .sortBy(_.uuid),
 
           descriptionBoxExtendsClosedWorldDefinitions = e.descriptionBoxOfDescriptionBoxExtendsClosedWorldDefinitions
@@ -909,16 +921,24 @@ object Extent2Tables {
             .foldLeft[Seq[tables.ReifiedRelationshipInstanceRange]](Seq.empty)(convertReifiedRelationshipInstanceRanges)
             .sortBy(_.uuid),
 
-          scalarDataPropertyValues = e.singletonInstanceOfScalarDataPropertyValue
+          unreifiedRelationshipInstanceTuples = e.descriptionBoxOfUnreifiedRelationshipInstanceTuple
+            .foldLeft[Seq[tables.UnreifiedRelationshipInstanceTuple]](Seq.empty)(convertUnreifiedRelationshipInstanceTuples)
+            .sortBy(_.uuid),
+
+          singletonInstanceScalarDataPropertyValues = e.singletonScalarDataPropertyValues
+          .foldLeft[Seq[tables.SingletonInstanceScalarDataPropertyValue]](Seq.empty)(convertSingletonScalarDataPropertyValues)
+          .sortBy(_.uuid),
+
+          singletonInstanceStructuredDataPropertyValues = e.singletonStructuredDataPropertyValues
+            .foldLeft[Seq[tables.SingletonInstanceStructuredDataPropertyValue]](Seq.empty)(convertSingletonStructuredDataPropertyValues)
+            .sortBy(_.uuid),
+
+          scalarDataPropertyValues = e.scalarDataPropertyValues
             .foldLeft[Seq[tables.ScalarDataPropertyValue]](Seq.empty)(convertScalarDataPropertyValues)
             .sortBy(_.uuid),
 
-          structuredDataPropertyValues = e.singletonInstanceOfStructuredDataPropertyValue
-            .foldLeft[Seq[tables.StructuredDataPropertyValue]](Seq.empty)(convertStructuredDataPropertyValues)
-            .sortBy(_.uuid),
-
-          unreifiedRelationshipInstanceTuples = e.descriptionBoxOfUnreifiedRelationshipInstanceTuple
-            .foldLeft[Seq[tables.UnreifiedRelationshipInstanceTuple]](Seq.empty)(convertUnreifiedRelationshipInstanceTuples)
+          structuredDataPropertyTuples = e.structuredPropertyTuples
+            .foldLeft[Seq[tables.StructuredDataPropertyTuple]](Seq.empty)(convertStructuredDataPropertyTuples)
             .sortBy(_.uuid)
         )
 

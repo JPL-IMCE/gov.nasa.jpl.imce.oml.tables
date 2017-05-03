@@ -19,11 +19,16 @@
 package gov.nasa.jpl.imce.oml.resolver.api
 
 /*
- * An OML SingletonInstance defines an instance of either an OML ConceptualEntity or of an OML Structure.
+ * An OML ScalarDataPropertyValue defines a tuple for representing the atomic String value
+ * of an OML DataRelationshipToScalar for a particular OML SingletonInstance.
  */
-trait SingletonInstance
-  extends Element
+trait SingletonInstanceScalarDataPropertyValue
+  extends ModuleElement
 {
+
+  val singletonInstance: ConceptualEntitySingletonInstance
+  val scalarDataProperty: EntityScalarDataProperty
+  val scalarPropertyValue: scala.Predef.String
 
   def descriptionBox
   ()(implicit extent: Extent): scala.Option[DescriptionBox]

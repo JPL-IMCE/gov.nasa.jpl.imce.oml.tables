@@ -22,11 +22,12 @@ package gov.nasa.jpl.imce.oml.resolver.api
  * An OML StructuredDataPropertyValue defines a tuple for representing the structured tuple value
  * of an OML DataRelationshipToStructure for a particular OML SingletonInstance.
  */
-trait StructuredDataPropertyValue
-  extends Element
+trait SingletonInstanceStructuredDataPropertyValue
+  extends SingletonInstanceStructuredDataPropertyContext
+  with ModuleElement
 {
 
-  val structuredDataProperty: DataRelationshipToStructure
+  val singletonInstance: ConceptualEntitySingletonInstance
 
   def descriptionBox
   ()(implicit extent: Extent): scala.Option[DescriptionBox]

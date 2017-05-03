@@ -26,43 +26,43 @@ import scala.Predef._
 
 /**
   * @param uuid[1,1]
-  * @param singletonInstanceUUID[1,1]
   * @param scalarDataPropertyUUID[1,1]
   * @param scalarPropertyValue[1,1]
+  * @param structuredDataPropertyContextUUID[1,1]
   */
 @JSExportTopLevel("ScalarDataPropertyValue")
 case class ScalarDataPropertyValue
 (
   @(JSExport @field) uuid: UUID,
-  @(JSExport @field) singletonInstanceUUID: UUID,
   @(JSExport @field) scalarDataPropertyUUID: UUID,
-  @(JSExport @field) scalarPropertyValue: scala.Predef.String
+  @(JSExport @field) scalarPropertyValue: scala.Predef.String,
+  @(JSExport @field) structuredDataPropertyContextUUID: UUID
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    singletonInstanceUUID: UUID,
     scalarDataPropertyUUID: UUID,
-    scalarPropertyValue: scala.Predef.String)
+    scalarPropertyValue: scala.Predef.String,
+    structuredDataPropertyContextUUID: UUID)
   = this(
       oug.namespaceUUID(
         "ScalarDataPropertyValue",
-        "singletonInstance" -> singletonInstanceUUID,
-        "scalarDataProperty" -> scalarDataPropertyUUID).toString,
-      singletonInstanceUUID,
+        "scalarDataProperty" -> scalarDataPropertyUUID,
+        "structuredDataPropertyContext" -> structuredDataPropertyContextUUID).toString,
       scalarDataPropertyUUID,
-      scalarPropertyValue)
+      scalarPropertyValue,
+      structuredDataPropertyContextUUID)
 
   override val hashCode
   : scala.Int 
-  = (uuid, singletonInstanceUUID, scalarDataPropertyUUID, scalarPropertyValue).##
+  = (uuid, scalarDataPropertyUUID, scalarPropertyValue, structuredDataPropertyContextUUID).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: ScalarDataPropertyValue =>
   	  (this.uuid == that.uuid) &&
-  	  (this.singletonInstanceUUID == that.singletonInstanceUUID) &&
   	  (this.scalarDataPropertyUUID == that.scalarDataPropertyUUID) &&
-  	  (this.scalarPropertyValue == that.scalarPropertyValue)
+  	  (this.scalarPropertyValue == that.scalarPropertyValue) &&
+  	  (this.structuredDataPropertyContextUUID == that.structuredDataPropertyContextUUID)
     case _ =>
       false
   }

@@ -24,5 +24,6 @@ package gov.nasa.jpl.imce.oml.resolver.api
  */
 trait DataRelationshipDomain
   extends Element
+  with Resource
 {
 }

@@ -1517,21 +1517,21 @@ object OMLTablesResolver {
   (r: OMLTablesResolver, conceptTreeDisjunctParent: api.ConceptTreeDisjunction, conceptTreeDisjunctUUID: tables.UUID)
   : Try[OMLTablesResolver]
   = {
-    val as = r.queue.anonymousConceptTaxonomyAxioms.partition(_.disjointTaxonomyParentUUID == conceptTreeDisjunctUUID)
+    val as = r.queue.anonymousConceptUnionAxioms.partition(_.disjointTaxonomyParentUUID == conceptTreeDisjunctUUID)
     val ss = r.queue.specificDisjointConceptAxioms.partition(_.disjointTaxonomyParentUUID == conceptTreeDisjunctUUID)
 
     val r1 = Try(r.copy(queue = r.queue.copy(
-      anonymousConceptTaxonomyAxioms = as._2,
+      anonymousConceptUnionAxioms = as._2,
       specificDisjointConceptAxioms = ss._2)))
 
     val r2 = as._1.foldLeft[Try[OMLTablesResolver]](r1) {
         case (Success(ri), tax) =>
-          val (ej, rax) = ri.factory.createAnonymousConceptTaxonomyAxiom(ri.context.extent, conceptTreeDisjunctParent, tax.name)
+          val (ej, rax) = ri.factory.createAnonymousConceptUnionAxiom(ri.context.extent, conceptTreeDisjunctParent, tax.name)
 
           if (!ej.conceptTreeDisjunctionOfDisjointUnionOfConceptsAxiom.get(rax).contains(conceptTreeDisjunctParent))
-            Failure(new IllegalArgumentException(s"AnonymousConceptTaxonomyAxiom not in conceptTreeDisjunctionOfDisjointUnionOfConceptsAxiom: $rax"))
+            Failure(new IllegalArgumentException(s"AnonymousConceptUnionAxiom not in conceptTreeDisjunctionOfDisjointUnionOfConceptsAxiom: $rax"))
           else if (!ej.lookupDisjunctions(conceptTreeDisjunctParent).contains(rax))
-            Failure(new IllegalArgumentException(s"AnonymousConceptTaxonomyAxiom: not in lookupDisjunctions: $tax vs. $rax"))
+            Failure(new IllegalArgumentException(s"AnonymousConceptUnionAxiom: not in lookupDisjunctions: $tax vs. $rax"))
           else
             Success(ri.copy(context = ri.context.copy(extent = ej)))
         case (Failure(f), _) =>

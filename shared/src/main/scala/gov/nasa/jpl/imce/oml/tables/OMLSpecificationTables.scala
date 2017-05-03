@@ -65,11 +65,10 @@ case class OMLSpecificationTables
   entityScalarDataPropertyUniversalRestrictionAxioms : Seq[EntityScalarDataPropertyUniversalRestrictionAxiom] = Seq.empty,
   scalarOneOfLiteralAxioms : Seq[ScalarOneOfLiteralAxiom] = Seq.empty,
   bundledTerminologyAxioms : Seq[BundledTerminologyAxiom] = Seq.empty,
-  anonymousConceptTaxonomyAxioms : Seq[AnonymousConceptTaxonomyAxiom] = Seq.empty,
   rootConceptTaxonomyAxioms : Seq[RootConceptTaxonomyAxiom] = Seq.empty,
   specificDisjointConceptAxioms : Seq[SpecificDisjointConceptAxiom] = Seq.empty,
+  anonymousConceptUnionAxioms : Seq[AnonymousConceptUnionAxiom] = Seq.empty,
   conceptInstances : Seq[ConceptInstance] = Seq.empty,
-  dataStructureTuples : Seq[DataStructureTuple] = Seq.empty,
   descriptionBoxes : Seq[DescriptionBox] = Seq.empty,
   descriptionBoxExtendsClosedWorldDefinitions : Seq[DescriptionBoxExtendsClosedWorldDefinitions] = Seq.empty,
   descriptionBoxRefinements : Seq[DescriptionBoxRefinement] = Seq.empty,
@@ -77,7 +76,9 @@ case class OMLSpecificationTables
   reifiedRelationshipInstanceDomains : Seq[ReifiedRelationshipInstanceDomain] = Seq.empty,
   reifiedRelationshipInstanceRanges : Seq[ReifiedRelationshipInstanceRange] = Seq.empty,
   scalarDataPropertyValues : Seq[ScalarDataPropertyValue] = Seq.empty,
-  structuredDataPropertyValues : Seq[StructuredDataPropertyValue] = Seq.empty,
+  singletonInstanceScalarDataPropertyValues : Seq[SingletonInstanceScalarDataPropertyValue] = Seq.empty,
+  singletonInstanceStructuredDataPropertyValues : Seq[SingletonInstanceStructuredDataPropertyValue] = Seq.empty,
+  structuredDataPropertyTuples : Seq[StructuredDataPropertyTuple] = Seq.empty,
   unreifiedRelationshipInstanceTuples : Seq[UnreifiedRelationshipInstanceTuple] = Seq.empty,
   annotations: Map[AnnotationProperty, Seq[AnnotationEntry]] = Map.empty)
 {
@@ -183,21 +184,18 @@ case class OMLSpecificationTables
   def readBundledTerminologyAxioms(is: InputStream)
   : OMLSpecificationTables
   = copy(bundledTerminologyAxioms = readJSonTable(is, BundledTerminologyAxiomHelper.fromJSON))
-  def readAnonymousConceptTaxonomyAxioms(is: InputStream)
-  : OMLSpecificationTables
-  = copy(anonymousConceptTaxonomyAxioms = readJSonTable(is, AnonymousConceptTaxonomyAxiomHelper.fromJSON))
   def readRootConceptTaxonomyAxioms(is: InputStream)
   : OMLSpecificationTables
   = copy(rootConceptTaxonomyAxioms = readJSonTable(is, RootConceptTaxonomyAxiomHelper.fromJSON))
   def readSpecificDisjointConceptAxioms(is: InputStream)
   : OMLSpecificationTables
   = copy(specificDisjointConceptAxioms = readJSonTable(is, SpecificDisjointConceptAxiomHelper.fromJSON))
+  def readAnonymousConceptUnionAxioms(is: InputStream)
+  : OMLSpecificationTables
+  = copy(anonymousConceptUnionAxioms = readJSonTable(is, AnonymousConceptUnionAxiomHelper.fromJSON))
   def readConceptInstances(is: InputStream)
   : OMLSpecificationTables
   = copy(conceptInstances = readJSonTable(is, ConceptInstanceHelper.fromJSON))
-  def readDataStructureTuples(is: InputStream)
-  : OMLSpecificationTables
-  = copy(dataStructureTuples = readJSonTable(is, DataStructureTupleHelper.fromJSON))
   def readDescriptionBoxes(is: InputStream)
   : OMLSpecificationTables
   = copy(descriptionBoxes = readJSonTable(is, DescriptionBoxHelper.fromJSON))
@@ -219,9 +217,15 @@ case class OMLSpecificationTables
   def readScalarDataPropertyValues(is: InputStream)
   : OMLSpecificationTables
   = copy(scalarDataPropertyValues = readJSonTable(is, ScalarDataPropertyValueHelper.fromJSON))
-  def readStructuredDataPropertyValues(is: InputStream)
+  def readSingletonInstanceScalarDataPropertyValues(is: InputStream)
   : OMLSpecificationTables
-  = copy(structuredDataPropertyValues = readJSonTable(is, StructuredDataPropertyValueHelper.fromJSON))
+  = copy(singletonInstanceScalarDataPropertyValues = readJSonTable(is, SingletonInstanceScalarDataPropertyValueHelper.fromJSON))
+  def readSingletonInstanceStructuredDataPropertyValues(is: InputStream)
+  : OMLSpecificationTables
+  = copy(singletonInstanceStructuredDataPropertyValues = readJSonTable(is, SingletonInstanceStructuredDataPropertyValueHelper.fromJSON))
+  def readStructuredDataPropertyTuples(is: InputStream)
+  : OMLSpecificationTables
+  = copy(structuredDataPropertyTuples = readJSonTable(is, StructuredDataPropertyTupleHelper.fromJSON))
   def readUnreifiedRelationshipInstanceTuples(is: InputStream)
   : OMLSpecificationTables
   = copy(unreifiedRelationshipInstanceTuples = readJSonTable(is, UnreifiedRelationshipInstanceTupleHelper.fromJSON))
@@ -261,11 +265,10 @@ case class OMLSpecificationTables
     entityScalarDataPropertyUniversalRestrictionAxioms.isEmpty &&
     scalarOneOfLiteralAxioms.isEmpty &&
     bundledTerminologyAxioms.isEmpty &&
-    anonymousConceptTaxonomyAxioms.isEmpty &&
     rootConceptTaxonomyAxioms.isEmpty &&
     specificDisjointConceptAxioms.isEmpty &&
+    anonymousConceptUnionAxioms.isEmpty &&
     conceptInstances.isEmpty &&
-    dataStructureTuples.isEmpty &&
     descriptionBoxes.isEmpty &&
     descriptionBoxExtendsClosedWorldDefinitions.isEmpty &&
     descriptionBoxRefinements.isEmpty &&
@@ -273,7 +276,9 @@ case class OMLSpecificationTables
     reifiedRelationshipInstanceDomains.isEmpty &&
     reifiedRelationshipInstanceRanges.isEmpty &&
     scalarDataPropertyValues.isEmpty &&
-    structuredDataPropertyValues.isEmpty &&
+    singletonInstanceScalarDataPropertyValues.isEmpty &&
+    singletonInstanceStructuredDataPropertyValues.isEmpty &&
+    structuredDataPropertyTuples.isEmpty &&
     unreifiedRelationshipInstanceTuples.isEmpty &&
     annotations.isEmpty
 }
@@ -342,11 +347,10 @@ object OMLSpecificationTables {
       entityScalarDataPropertyUniversalRestrictionAxioms = t1.entityScalarDataPropertyUniversalRestrictionAxioms ++ t2.entityScalarDataPropertyUniversalRestrictionAxioms,
       scalarOneOfLiteralAxioms = t1.scalarOneOfLiteralAxioms ++ t2.scalarOneOfLiteralAxioms,
       bundledTerminologyAxioms = t1.bundledTerminologyAxioms ++ t2.bundledTerminologyAxioms,
-      anonymousConceptTaxonomyAxioms = t1.anonymousConceptTaxonomyAxioms ++ t2.anonymousConceptTaxonomyAxioms,
       rootConceptTaxonomyAxioms = t1.rootConceptTaxonomyAxioms ++ t2.rootConceptTaxonomyAxioms,
       specificDisjointConceptAxioms = t1.specificDisjointConceptAxioms ++ t2.specificDisjointConceptAxioms,
+      anonymousConceptUnionAxioms = t1.anonymousConceptUnionAxioms ++ t2.anonymousConceptUnionAxioms,
       conceptInstances = t1.conceptInstances ++ t2.conceptInstances,
-      dataStructureTuples = t1.dataStructureTuples ++ t2.dataStructureTuples,
       descriptionBoxes = t1.descriptionBoxes ++ t2.descriptionBoxes,
       descriptionBoxExtendsClosedWorldDefinitions = t1.descriptionBoxExtendsClosedWorldDefinitions ++ t2.descriptionBoxExtendsClosedWorldDefinitions,
       descriptionBoxRefinements = t1.descriptionBoxRefinements ++ t2.descriptionBoxRefinements,
@@ -354,7 +358,9 @@ object OMLSpecificationTables {
       reifiedRelationshipInstanceDomains = t1.reifiedRelationshipInstanceDomains ++ t2.reifiedRelationshipInstanceDomains,
       reifiedRelationshipInstanceRanges = t1.reifiedRelationshipInstanceRanges ++ t2.reifiedRelationshipInstanceRanges,
       scalarDataPropertyValues = t1.scalarDataPropertyValues ++ t2.scalarDataPropertyValues,
-      structuredDataPropertyValues = t1.structuredDataPropertyValues ++ t2.structuredDataPropertyValues,
+      singletonInstanceScalarDataPropertyValues = t1.singletonInstanceScalarDataPropertyValues ++ t2.singletonInstanceScalarDataPropertyValues,
+      singletonInstanceStructuredDataPropertyValues = t1.singletonInstanceStructuredDataPropertyValues ++ t2.singletonInstanceStructuredDataPropertyValues,
+      structuredDataPropertyTuples = t1.structuredDataPropertyTuples ++ t2.structuredDataPropertyTuples,
       unreifiedRelationshipInstanceTuples = t1.unreifiedRelationshipInstanceTuples ++ t2.unreifiedRelationshipInstanceTuples,
       annotations = t1.annotations ++ t2.annotations)
   
@@ -433,16 +439,14 @@ object OMLSpecificationTables {
   	    tables.readScalarOneOfLiteralAxioms(is)
   	  case BundledTerminologyAxiomHelper.TABLE_JSON_FILENAME =>
   	    tables.readBundledTerminologyAxioms(is)
-  	  case AnonymousConceptTaxonomyAxiomHelper.TABLE_JSON_FILENAME =>
-  	    tables.readAnonymousConceptTaxonomyAxioms(is)
   	  case RootConceptTaxonomyAxiomHelper.TABLE_JSON_FILENAME =>
   	    tables.readRootConceptTaxonomyAxioms(is)
   	  case SpecificDisjointConceptAxiomHelper.TABLE_JSON_FILENAME =>
   	    tables.readSpecificDisjointConceptAxioms(is)
+  	  case AnonymousConceptUnionAxiomHelper.TABLE_JSON_FILENAME =>
+  	    tables.readAnonymousConceptUnionAxioms(is)
   	  case ConceptInstanceHelper.TABLE_JSON_FILENAME =>
   	    tables.readConceptInstances(is)
-  	  case DataStructureTupleHelper.TABLE_JSON_FILENAME =>
-  	    tables.readDataStructureTuples(is)
   	  case DescriptionBoxHelper.TABLE_JSON_FILENAME =>
   	    tables.readDescriptionBoxes(is)
   	  case DescriptionBoxExtendsClosedWorldDefinitionsHelper.TABLE_JSON_FILENAME =>
@@ -457,8 +461,12 @@ object OMLSpecificationTables {
   	    tables.readReifiedRelationshipInstanceRanges(is)
   	  case ScalarDataPropertyValueHelper.TABLE_JSON_FILENAME =>
   	    tables.readScalarDataPropertyValues(is)
-  	  case StructuredDataPropertyValueHelper.TABLE_JSON_FILENAME =>
-  	    tables.readStructuredDataPropertyValues(is)
+  	  case SingletonInstanceScalarDataPropertyValueHelper.TABLE_JSON_FILENAME =>
+  	    tables.readSingletonInstanceScalarDataPropertyValues(is)
+  	  case SingletonInstanceStructuredDataPropertyValueHelper.TABLE_JSON_FILENAME =>
+  	    tables.readSingletonInstanceStructuredDataPropertyValues(is)
+  	  case StructuredDataPropertyTupleHelper.TABLE_JSON_FILENAME =>
+  	    tables.readStructuredDataPropertyTuples(is)
   	  case UnreifiedRelationshipInstanceTupleHelper.TABLE_JSON_FILENAME =>
   	    tables.readUnreifiedRelationshipInstanceTuples(is)
       case annotationPropertyIRI =>
@@ -695,12 +703,6 @@ object OMLSpecificationTables {
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry()
-      zos.putNextEntry(new java.util.zip.ZipEntry(AnonymousConceptTaxonomyAxiomHelper.TABLE_JSON_FILENAME))
-      tables.anonymousConceptTaxonomyAxioms.foreach { t =>
-         val line = AnonymousConceptTaxonomyAxiomHelper.toJSON(t)+"\n"
-         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
-      }
-      zos.closeEntry()
       zos.putNextEntry(new java.util.zip.ZipEntry(RootConceptTaxonomyAxiomHelper.TABLE_JSON_FILENAME))
       tables.rootConceptTaxonomyAxioms.foreach { t =>
          val line = RootConceptTaxonomyAxiomHelper.toJSON(t)+"\n"
@@ -713,15 +715,15 @@ object OMLSpecificationTables {
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry()
-      zos.putNextEntry(new java.util.zip.ZipEntry(ConceptInstanceHelper.TABLE_JSON_FILENAME))
-      tables.conceptInstances.foreach { t =>
-         val line = ConceptInstanceHelper.toJSON(t)+"\n"
+      zos.putNextEntry(new java.util.zip.ZipEntry(AnonymousConceptUnionAxiomHelper.TABLE_JSON_FILENAME))
+      tables.anonymousConceptUnionAxioms.foreach { t =>
+         val line = AnonymousConceptUnionAxiomHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry()
-      zos.putNextEntry(new java.util.zip.ZipEntry(DataStructureTupleHelper.TABLE_JSON_FILENAME))
-      tables.dataStructureTuples.foreach { t =>
-         val line = DataStructureTupleHelper.toJSON(t)+"\n"
+      zos.putNextEntry(new java.util.zip.ZipEntry(ConceptInstanceHelper.TABLE_JSON_FILENAME))
+      tables.conceptInstances.foreach { t =>
+         val line = ConceptInstanceHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry()
@@ -767,9 +769,21 @@ object OMLSpecificationTables {
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry()
-      zos.putNextEntry(new java.util.zip.ZipEntry(StructuredDataPropertyValueHelper.TABLE_JSON_FILENAME))
-      tables.structuredDataPropertyValues.foreach { t =>
-         val line = StructuredDataPropertyValueHelper.toJSON(t)+"\n"
+      zos.putNextEntry(new java.util.zip.ZipEntry(SingletonInstanceScalarDataPropertyValueHelper.TABLE_JSON_FILENAME))
+      tables.singletonInstanceScalarDataPropertyValues.foreach { t =>
+         val line = SingletonInstanceScalarDataPropertyValueHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(SingletonInstanceStructuredDataPropertyValueHelper.TABLE_JSON_FILENAME))
+      tables.singletonInstanceStructuredDataPropertyValues.foreach { t =>
+         val line = SingletonInstanceStructuredDataPropertyValueHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(StructuredDataPropertyTupleHelper.TABLE_JSON_FILENAME))
+      tables.structuredDataPropertyTuples.foreach { t =>
+         val line = StructuredDataPropertyTupleHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry()

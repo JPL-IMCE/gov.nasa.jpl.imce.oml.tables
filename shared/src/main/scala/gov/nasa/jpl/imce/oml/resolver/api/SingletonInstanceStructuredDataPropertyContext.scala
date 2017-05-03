@@ -18,16 +18,11 @@
 
 package gov.nasa.jpl.imce.oml.resolver.api
 
-/*
- * An OML ScalarDataPropertyValue specifies a literal string as the value of
- * an OML ScalarDataProperty in the scope of an OML SingletonInstanceStructuredDataPropertyContext.
- */
-trait ScalarDataPropertyValue
+trait SingletonInstanceStructuredDataPropertyContext
   extends Element
 {
 
-  val scalarDataProperty: DataRelationshipToScalar
-  val scalarPropertyValue: scala.Predef.String
+  val structuredDataProperty: DataRelationshipToStructure
 
   def descriptionBox
   ()(implicit extent: Extent): scala.Option[DescriptionBox]

@@ -60,25 +60,25 @@ trait OMLResolvedFactory {
     abbrevIRI: gov.nasa.jpl.imce.oml.tables.AbbrevIRI )
   : (Extent, AnnotationProperty)
   
-  // AnonymousConceptTaxonomyAxiom
-  def createAnonymousConceptTaxonomyAxiom
+  // AnonymousConceptUnionAxiom
+  def createAnonymousConceptUnionAxiom
   ( extent: Extent,
     disjointTaxonomyParent: ConceptTreeDisjunction,
     name: gov.nasa.jpl.imce.oml.tables.LocalName )
-  : (Extent, AnonymousConceptTaxonomyAxiom)
+  : (Extent, AnonymousConceptUnionAxiom)
   = {
   	// namespace uuid...
     import scala.Predef.ArrowAssoc
     val uuid: java.util.UUID = namespaceUUID(disjointTaxonomyParent.uuid.toString,  "name" -> name)
-    createAnonymousConceptTaxonomyAxiom( extent, uuid,  disjointTaxonomyParent,  name )
+    createAnonymousConceptUnionAxiom( extent, uuid,  disjointTaxonomyParent,  name )
   }
   
-  def createAnonymousConceptTaxonomyAxiom
+  def createAnonymousConceptUnionAxiom
   ( extent: Extent,
     uuid: java.util.UUID,
     disjointTaxonomyParent: ConceptTreeDisjunction,
     name: gov.nasa.jpl.imce.oml.tables.LocalName )
-  : (Extent, AnonymousConceptTaxonomyAxiom)
+  : (Extent, AnonymousConceptUnionAxiom)
   
   // Aspect
   def createAspect
@@ -273,26 +273,6 @@ trait OMLResolvedFactory {
     superConcept: Concept,
     subConcept: Concept )
   : (Extent, ConceptSpecializationAxiom)
-  
-  // DataStructureTuple
-  def createDataStructureTuple
-  ( extent: Extent,
-    dataStructureType: Structure,
-    structuredDataPropertyValue: StructuredDataPropertyValue )
-  : (Extent, DataStructureTuple)
-  = {
-  	// derived uuid...
-    import scala.Predef.ArrowAssoc
-    val uuid: java.util.UUID = derivedUUID("DataStructureTuple",  "dataStructureType" -> dataStructureType.uuid,  "structuredDataPropertyValue" -> structuredDataPropertyValue.uuid)
-    createDataStructureTuple( extent, uuid,  dataStructureType,  structuredDataPropertyValue )
-  }
-  
-  def createDataStructureTuple
-  ( extent: Extent,
-    uuid: java.util.UUID,
-    dataStructureType: Structure,
-    structuredDataPropertyValue: StructuredDataPropertyValue )
-  : (Extent, DataStructureTuple)
   
   // DescriptionBox
   def createDescriptionBox
@@ -821,23 +801,23 @@ trait OMLResolvedFactory {
   // ScalarDataPropertyValue
   def createScalarDataPropertyValue
   ( extent: Extent,
-    singletonInstance: SingletonInstance,
     scalarDataProperty: DataRelationshipToScalar,
-    scalarPropertyValue: scala.Predef.String )
+    scalarPropertyValue: scala.Predef.String,
+    structuredDataPropertyContext: SingletonInstanceStructuredDataPropertyContext )
   : (Extent, ScalarDataPropertyValue)
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid: java.util.UUID = derivedUUID("ScalarDataPropertyValue",  "singletonInstance" -> singletonInstance.uuid,  "scalarDataProperty" -> scalarDataProperty.uuid)
-    createScalarDataPropertyValue( extent, uuid,  singletonInstance,  scalarDataProperty,  scalarPropertyValue )
+    val uuid: java.util.UUID = derivedUUID("ScalarDataPropertyValue",  "scalarDataProperty" -> scalarDataProperty.uuid,  "structuredDataPropertyContext" -> structuredDataPropertyContext.uuid)
+    createScalarDataPropertyValue( extent, uuid,  scalarDataProperty,  scalarPropertyValue,  structuredDataPropertyContext )
   }
   
   def createScalarDataPropertyValue
   ( extent: Extent,
     uuid: java.util.UUID,
-    singletonInstance: SingletonInstance,
     scalarDataProperty: DataRelationshipToScalar,
-    scalarPropertyValue: scala.Predef.String )
+    scalarPropertyValue: scala.Predef.String,
+    structuredDataPropertyContext: SingletonInstanceStructuredDataPropertyContext )
   : (Extent, ScalarDataPropertyValue)
   
   // ScalarOneOfLiteralAxiom
@@ -883,6 +863,52 @@ trait OMLResolvedFactory {
     restrictedRange: DataRange,
     name: gov.nasa.jpl.imce.oml.tables.LocalName )
   : (Extent, ScalarOneOfRestriction)
+  
+  // SingletonInstanceScalarDataPropertyValue
+  def createSingletonInstanceScalarDataPropertyValue
+  ( extent: Extent,
+    descriptionBox: DescriptionBox,
+    singletonInstance: ConceptualEntitySingletonInstance,
+    scalarDataProperty: EntityScalarDataProperty,
+    scalarPropertyValue: scala.Predef.String )
+  : (Extent, SingletonInstanceScalarDataPropertyValue)
+  = {
+  	// derived uuid...
+    import scala.Predef.ArrowAssoc
+    val uuid: java.util.UUID = derivedUUID("SingletonInstanceScalarDataPropertyValue",  "descriptionBox" -> descriptionBox.uuid,  "singletonInstance" -> singletonInstance.uuid,  "scalarDataProperty" -> scalarDataProperty.uuid)
+    createSingletonInstanceScalarDataPropertyValue( extent, uuid,  descriptionBox,  singletonInstance,  scalarDataProperty,  scalarPropertyValue )
+  }
+  
+  def createSingletonInstanceScalarDataPropertyValue
+  ( extent: Extent,
+    uuid: java.util.UUID,
+    descriptionBox: DescriptionBox,
+    singletonInstance: ConceptualEntitySingletonInstance,
+    scalarDataProperty: EntityScalarDataProperty,
+    scalarPropertyValue: scala.Predef.String )
+  : (Extent, SingletonInstanceScalarDataPropertyValue)
+  
+  // SingletonInstanceStructuredDataPropertyValue
+  def createSingletonInstanceStructuredDataPropertyValue
+  ( extent: Extent,
+    descriptionBox: DescriptionBox,
+    singletonInstance: ConceptualEntitySingletonInstance,
+    structuredDataProperty: DataRelationshipToStructure )
+  : (Extent, SingletonInstanceStructuredDataPropertyValue)
+  = {
+  	// derived uuid...
+    import scala.Predef.ArrowAssoc
+    val uuid: java.util.UUID = derivedUUID("SingletonInstanceStructuredDataPropertyValue",  "descriptionBox" -> descriptionBox.uuid,  "singletonInstance" -> singletonInstance.uuid,  "structuredDataProperty" -> structuredDataProperty.uuid)
+    createSingletonInstanceStructuredDataPropertyValue( extent, uuid,  descriptionBox,  singletonInstance,  structuredDataProperty )
+  }
+  
+  def createSingletonInstanceStructuredDataPropertyValue
+  ( extent: Extent,
+    uuid: java.util.UUID,
+    descriptionBox: DescriptionBox,
+    singletonInstance: ConceptualEntitySingletonInstance,
+    structuredDataProperty: DataRelationshipToStructure )
+  : (Extent, SingletonInstanceStructuredDataPropertyValue)
   
   // SpecificDisjointConceptAxiom
   def createSpecificDisjointConceptAxiom
@@ -978,25 +1004,25 @@ trait OMLResolvedFactory {
     name: gov.nasa.jpl.imce.oml.tables.LocalName )
   : (Extent, StructuredDataProperty)
   
-  // StructuredDataPropertyValue
-  def createStructuredDataPropertyValue
+  // StructuredDataPropertyTuple
+  def createStructuredDataPropertyTuple
   ( extent: Extent,
-    singletonInstance: SingletonInstance,
-    structuredDataProperty: DataRelationshipToStructure )
-  : (Extent, StructuredDataPropertyValue)
+    structuredDataProperty: DataRelationshipToStructure,
+    structuredDataPropertyContext: SingletonInstanceStructuredDataPropertyContext )
+  : (Extent, StructuredDataPropertyTuple)
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid: java.util.UUID = derivedUUID("StructuredDataPropertyValue",  "singletonInstance" -> singletonInstance.uuid,  "structuredDataProperty" -> structuredDataProperty.uuid)
-    createStructuredDataPropertyValue( extent, uuid,  singletonInstance,  structuredDataProperty )
+    val uuid: java.util.UUID = derivedUUID("StructuredDataPropertyTuple",  "structuredDataProperty" -> structuredDataProperty.uuid,  "structuredDataPropertyContext" -> structuredDataPropertyContext.uuid)
+    createStructuredDataPropertyTuple( extent, uuid,  structuredDataProperty,  structuredDataPropertyContext )
   }
   
-  def createStructuredDataPropertyValue
+  def createStructuredDataPropertyTuple
   ( extent: Extent,
     uuid: java.util.UUID,
-    singletonInstance: SingletonInstance,
-    structuredDataProperty: DataRelationshipToStructure )
-  : (Extent, StructuredDataPropertyValue)
+    structuredDataProperty: DataRelationshipToStructure,
+    structuredDataPropertyContext: SingletonInstanceStructuredDataPropertyContext )
+  : (Extent, StructuredDataPropertyTuple)
   
   // SynonymScalarRestriction
   def createSynonymScalarRestriction

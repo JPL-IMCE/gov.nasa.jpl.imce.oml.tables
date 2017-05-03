@@ -68,10 +68,10 @@ package object api {
   	 	case 0 => 0 }
   }
   
-  implicit def anonymousConceptTaxonomyAxiomOrdering
-  : scala.Ordering[AnonymousConceptTaxonomyAxiom]
-  = new scala.Ordering[AnonymousConceptTaxonomyAxiom] {
-  	def compare(x: AnonymousConceptTaxonomyAxiom, y: AnonymousConceptTaxonomyAxiom)
+  implicit def anonymousConceptUnionAxiomOrdering
+  : scala.Ordering[AnonymousConceptUnionAxiom]
+  = new scala.Ordering[AnonymousConceptUnionAxiom] {
+  	def compare(x: AnonymousConceptUnionAxiom, y: AnonymousConceptUnionAxiom)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid
@@ -262,16 +262,6 @@ package object api {
   : scala.Ordering[DataRelationshipToStructure]
   = new scala.Ordering[DataRelationshipToStructure] {
   	def compare(x: DataRelationshipToStructure, y: DataRelationshipToStructure)
-  	: scala.Int
-  	= x.uuid.compareTo(y.uuid) match {
-  	 	case c_uuid if 0 != c_uuid => c_uuid
-  	 	case 0 => 0 }
-  }
-  
-  implicit def dataStructureTupleOrdering
-  : scala.Ordering[DataStructureTuple]
-  = new scala.Ordering[DataStructureTuple] {
-  	def compare(x: DataStructureTuple, y: DataStructureTuple)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid
@@ -638,10 +628,30 @@ package object api {
   	 	case 0 => 0 }
   }
   
-  implicit def singletonInstanceOrdering
-  : scala.Ordering[SingletonInstance]
-  = new scala.Ordering[SingletonInstance] {
-  	def compare(x: SingletonInstance, y: SingletonInstance)
+  implicit def singletonInstanceScalarDataPropertyValueOrdering
+  : scala.Ordering[SingletonInstanceScalarDataPropertyValue]
+  = new scala.Ordering[SingletonInstanceScalarDataPropertyValue] {
+  	def compare(x: SingletonInstanceScalarDataPropertyValue, y: SingletonInstanceScalarDataPropertyValue)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def singletonInstanceStructuredDataPropertyContextOrdering
+  : scala.Ordering[SingletonInstanceStructuredDataPropertyContext]
+  = new scala.Ordering[SingletonInstanceStructuredDataPropertyContext] {
+  	def compare(x: SingletonInstanceStructuredDataPropertyContext, y: SingletonInstanceStructuredDataPropertyContext)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def singletonInstanceStructuredDataPropertyValueOrdering
+  : scala.Ordering[SingletonInstanceStructuredDataPropertyValue]
+  = new scala.Ordering[SingletonInstanceStructuredDataPropertyValue] {
+  	def compare(x: SingletonInstanceStructuredDataPropertyValue, y: SingletonInstanceStructuredDataPropertyValue)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid
@@ -698,10 +708,10 @@ package object api {
   	 	case 0 => 0 }
   }
   
-  implicit def structuredDataPropertyValueOrdering
-  : scala.Ordering[StructuredDataPropertyValue]
-  = new scala.Ordering[StructuredDataPropertyValue] {
-  	def compare(x: StructuredDataPropertyValue, y: StructuredDataPropertyValue)
+  implicit def structuredDataPropertyTupleOrdering
+  : scala.Ordering[StructuredDataPropertyTuple]
+  = new scala.Ordering[StructuredDataPropertyTuple] {
+  	def compare(x: StructuredDataPropertyTuple, y: StructuredDataPropertyTuple)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid

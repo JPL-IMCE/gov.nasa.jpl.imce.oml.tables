@@ -27,65 +27,66 @@ import scala.Predef._
 /**
   * @param uuid[1,1]
   * @param disjointTaxonomyParentUUID[1,1]
-  * @param name[1,1]
+  * @param disjointTreeUUID[1,1]
   */
-@JSExportTopLevel("AnonymousConceptTaxonomyAxiom")
-case class AnonymousConceptTaxonomyAxiom
+@JSExportTopLevel("ConceptTreeTaxonomyAxiom")
+case class ConceptTreeTaxonomyAxiom
 (
   @(JSExport @field) uuid: UUID,
   @(JSExport @field) disjointTaxonomyParentUUID: UUID,
-  @(JSExport @field) name: LocalName
+  @(JSExport @field) disjointTreeUUID: UUID
 ) {
-  // Ctor(uuidWithGenerator)   
+  // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     disjointTaxonomyParentUUID: UUID,
-    name: LocalName)
+    disjointTreeUUID: UUID)
   = this(
       oug.namespaceUUID(
-        disjointTaxonomyParentUUID,
-        "name" -> name).toString,
+        "ConceptTreeTaxonomyAxiom",
+        "disjointTaxonomyParent" -> disjointTaxonomyParentUUID,
+        "disjointTree" -> disjointTreeUUID).toString,
       disjointTaxonomyParentUUID,
-      name)
+      disjointTreeUUID)
 
   override val hashCode
   : scala.Int 
-  = (uuid, disjointTaxonomyParentUUID, name).##
+  = (uuid, disjointTaxonomyParentUUID, disjointTreeUUID).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
-  	case that: AnonymousConceptTaxonomyAxiom =>
+  	case that: ConceptTreeTaxonomyAxiom =>
   	  (this.uuid == that.uuid) &&
   	  (this.disjointTaxonomyParentUUID == that.disjointTaxonomyParentUUID) &&
-  	  (this.name == that.name)
+  	  (this.disjointTreeUUID == that.disjointTreeUUID)
     case _ =>
       false
   }
   
 }
 
-@JSExportTopLevel("AnonymousConceptTaxonomyAxiomHelper")
-object AnonymousConceptTaxonomyAxiomHelper {
+@JSExportTopLevel("ConceptTreeTaxonomyAxiomHelper")
+object ConceptTreeTaxonomyAxiomHelper {
 
   val TABLE_JSON_FILENAME 
   : scala.Predef.String 
-  = "AnonymousConceptTaxonomyAxioms.json"
+  = "ConceptTreeTaxonomyAxioms.json"
   
   implicit val w
-  : upickle.default.Writer[AnonymousConceptTaxonomyAxiom]
-  = upickle.default.macroW[AnonymousConceptTaxonomyAxiom]
+  : upickle.default.Writer[ConceptTreeTaxonomyAxiom]
+  = upickle.default.macroW[ConceptTreeTaxonomyAxiom]
 
   @JSExport
-  def toJSON(c: AnonymousConceptTaxonomyAxiom)
+  def toJSON(c: ConceptTreeTaxonomyAxiom)
   : String
   = upickle.default.write(expr=c, indent=0)
 
   implicit val r
-  : upickle.default.Reader[AnonymousConceptTaxonomyAxiom]
-  = upickle.default.macroR[AnonymousConceptTaxonomyAxiom]
+  : upickle.default.Reader[ConceptTreeTaxonomyAxiom]
+  = upickle.default.macroR[ConceptTreeTaxonomyAxiom]
 
   @JSExport
   def fromJSON(c: String)
-  : AnonymousConceptTaxonomyAxiom
-  = upickle.default.read[AnonymousConceptTaxonomyAxiom](c)
+  : ConceptTreeTaxonomyAxiom
+  = upickle.default.read[ConceptTreeTaxonomyAxiom](c)
 
 }	

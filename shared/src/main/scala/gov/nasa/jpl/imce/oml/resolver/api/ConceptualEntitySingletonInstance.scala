@@ -31,19 +31,18 @@ package gov.nasa.jpl.imce.oml.resolver.api
  *   represent semantically different instances.
  */
 trait ConceptualEntitySingletonInstance
-  extends SingletonInstance
-  with TerminologyInstanceAssertion
+  extends TerminologyInstanceAssertion
   with Resource
 {
 
   override val name: gov.nasa.jpl.imce.oml.tables.LocalName
 
+  def descriptionBox
+  ()(implicit extent: Extent): scala.Option[DescriptionBox]
   override def iri
   ()(implicit extent: Extent): scala.Option[gov.nasa.jpl.imce.oml.tables.IRI]
+  override def abbrevIRI
+  ()(implicit extent: Extent): scala.Option[scala.Predef.String]
   def conceptualEntitySingletonClassifier
   (): ConceptualEntity
-  def identifyingScalarValues
-  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: ScalarDataPropertyValue]
-  def identifyingStructuredTuples
-  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: StructuredDataPropertyValue]
 }
