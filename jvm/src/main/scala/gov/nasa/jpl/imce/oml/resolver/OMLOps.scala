@@ -117,6 +117,17 @@ object OMLOps {
         Set.empty[api.EntityScalarDataProperty]
     }
 
+
+    def boxStatements
+    (implicit ex: api.Extent)
+    : Set[api.TerminologyBoxStatement]
+    = m match {
+      case g: api.TerminologyBox =>
+        ex.lookupBoxStatements(g)
+      case _ =>
+        Set.empty[api.TerminologyBoxStatement]
+    }
+
   }
 
   implicit def toModuleOps(m: api.Module): ModuleOps = new ModuleOps(m)
