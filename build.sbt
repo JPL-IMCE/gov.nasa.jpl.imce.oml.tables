@@ -148,11 +148,15 @@ val tablesGhPagesSettings: Seq[Setting[_]] =
 
 val Npm = config("npm")
 
-pomIncludeRepository := { _ => false }
+pomIncludeRepository in Global := { _ => false }
 
-publishTo := Some(
+publishTo in Global := Some(
   "JPL-IMCE" at
     s"https://api.bintray.com/content/jpl-imce/gov.nasa.jpl.imce/${Settings.dashName}/${version.value}")
+
+resolvers in Global += Resolver.bintrayRepo(Settings.organizationName.toLowerCase, Settings.organization)
+
+resolvers in Global += "Artima Maven Repository" at "http://repo.artima.com/releases"
 
 lazy val tablesRoot = project.in(file("."))
   .aggregate(tablesJS, tablesJVM)
@@ -205,19 +209,29 @@ lazy val tables = crossProject
 
     pomIncludeRepository := { _ => false },
 
-    resolvers += Resolver.bintrayRepo(Settings.organizationName.toLowerCase, Settings.organization),
 
     publishTo := Some(
       "JPL-IMCE" at
         s"https://api.bintray.com/content/jpl-imce/gov.nasa.jpl.imce/${Settings.dashName}/${version.value}"),
 
 
-    resolvers += "Artima Maven Repository" at "http://repo.artima.com/releases",
     scalacOptions in (Compile, compile) += s"-P:artima-supersafe:config-file:${baseDirectory.value}/project/supersafe.cfg",
     scalacOptions in (Test, compile) += s"-P:artima-supersafe:config-file:${baseDirectory.value}/project/supersafe.cfg",
     scalacOptions in (Compile, doc) += "-Xplugin-disable:artima-supersafe",
     scalacOptions in (Test, doc) += "-Xplugin-disable:artima-supersafe",
-    libraryDependencies ++= Settings.sharedDependencies.value
+    libraryDependencies ++= Settings.sharedDependencies.value,
+
+    // Avoid unresolvable dependencies from old versions of log4j
+    libraryDependencies ~= {
+      _ map {
+        case m if m.organization == "log4j" =>
+          m
+            .exclude("javax.jms", "jms")
+            .exclude("com.sun.jmx", "jmxri")
+            .exclude("com.sun.jdmk", "jmxtools")
+        case m => m
+      }
+    }
   )
   .jvmConfigure(_ enablePlugins HeaderPlugin)
   .jvmConfigure(_ enablePlugins PreprocessPlugin)
