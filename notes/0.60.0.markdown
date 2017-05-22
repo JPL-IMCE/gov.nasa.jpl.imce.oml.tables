@@ -1,0 +1,14 @@
+gov.nasa.jpl.imce.oml.tables 0.60.0 resolves minor bugs in the 0.59.0 release
+
+## Bug fixes
+
+- [#6 .classpath variants](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/6)
+
+    - Removed all development-related natures from the Eclipse `.project` file since this project
+      is intended to be configured using SBT and developed using IntelliJ IDEA.
+      However, it is necessary to import this project in Eclipse to run the OML development generators
+      in Eclipse that generate most of the Scala code for this project.
+      
+- [#7 Generate the Module.moduleEdges Scala resolver API](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/7)
+
+    - Ran from [oml.tycho #5602af4](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tycho/commit/5602af46174ec16c58c9c556bb518063bb4a2cc9)
