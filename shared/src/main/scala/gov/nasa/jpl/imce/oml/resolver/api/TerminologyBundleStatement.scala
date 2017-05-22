@@ -25,4 +25,6 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait TerminologyBundleStatement
   extends ModuleElement
 {
+
+  val bundle: Bundle
 }

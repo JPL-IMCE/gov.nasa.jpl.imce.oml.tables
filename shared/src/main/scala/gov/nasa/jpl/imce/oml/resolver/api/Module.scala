@@ -30,6 +30,8 @@ trait Module
 
   val iri: gov.nasa.jpl.imce.oml.tables.IRI
 
+  def moduleEdges
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: ModuleEdge]
   override def iri
   ()(implicit extent: Extent): scala.Option[gov.nasa.jpl.imce.oml.tables.IRI]
   def nsPrefix

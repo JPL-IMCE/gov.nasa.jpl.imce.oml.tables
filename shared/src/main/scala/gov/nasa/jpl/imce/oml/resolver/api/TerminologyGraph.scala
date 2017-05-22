@@ -24,4 +24,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait TerminologyGraph
   extends TerminologyBox
 {
+
+  override def moduleEdges
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: ModuleEdge]
 }

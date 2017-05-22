@@ -24,4 +24,6 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait TerminologyBundleAxiom
   extends TerminologyAxiom
 {
+
+  val bundle: Bundle
 }

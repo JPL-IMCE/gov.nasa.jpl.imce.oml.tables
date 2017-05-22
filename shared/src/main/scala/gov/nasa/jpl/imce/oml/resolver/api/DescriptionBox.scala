@@ -27,4 +27,7 @@ trait DescriptionBox
 {
 
   val kind: gov.nasa.jpl.imce.oml.tables.DescriptionKind
+
+  override def moduleEdges
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: ModuleEdge]
 }

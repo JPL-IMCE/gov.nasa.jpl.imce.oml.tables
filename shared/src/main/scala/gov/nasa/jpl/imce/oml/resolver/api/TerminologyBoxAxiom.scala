@@ -25,4 +25,6 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait TerminologyBoxAxiom
   extends TerminologyAxiom
 {
+
+  val tbox: TerminologyBox
 }
