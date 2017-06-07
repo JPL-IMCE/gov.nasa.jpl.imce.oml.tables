@@ -1,0 +1,13 @@
+gov.nasa.jpl.imce.oml.tables 0.60.2 resolves minor issues in the 0.60.1 release
+
+## Issues Resolved
+
+- [#8 Add a convenience show method to see incomplete resolution](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/8)
+
+    show methods reports empty/non-empty sections of the table.
+    
+- [#9 Create the output directory for the `*.oml.json.zip` file](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/9)
+
+    Done
+    
+- Added source headers
