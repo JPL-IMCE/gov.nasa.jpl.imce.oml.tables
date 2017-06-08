@@ -135,6 +135,44 @@ object OMLOps {
         Set.empty[api.EntityScalarDataProperty]
     }
 
+    def entityStructuredDataProperties
+    (implicit ex: api.Extent)
+    : Set[api.EntityStructuredDataProperty]
+    = m match {
+      case g: api.TerminologyBox =>
+        Set.empty[api.EntityStructuredDataProperty] ++ ex.lookupBoxStatements(g).flatMap {
+          case sdp: api.EntityStructuredDataProperty => Some(sdp)
+          case _ => None
+        }
+      case _: api.DescriptionBox =>
+        Set.empty[api.EntityStructuredDataProperty]
+    }
+
+    def scalarDataProperties
+    (implicit ex: api.Extent)
+    : Set[api.ScalarDataProperty]
+    = m match {
+      case g: api.TerminologyBox =>
+        Set.empty[api.ScalarDataProperty] ++ ex.lookupBoxStatements(g).flatMap {
+          case sdp: api.ScalarDataProperty => Some(sdp)
+          case _ => None
+        }
+      case _: api.DescriptionBox =>
+        Set.empty[api.ScalarDataProperty]
+    }
+
+    def structuredDataProperties
+    (implicit ex: api.Extent)
+    : Set[api.StructuredDataProperty]
+    = m match {
+      case g: api.TerminologyBox =>
+        Set.empty[api.StructuredDataProperty] ++ ex.lookupBoxStatements(g).flatMap {
+          case sdp: api.StructuredDataProperty => Some(sdp)
+          case _ => None
+        }
+      case _: api.DescriptionBox =>
+        Set.empty[api.StructuredDataProperty]
+    }
 
     def boxStatements
     (implicit ex: api.Extent)

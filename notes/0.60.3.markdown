@@ -1,0 +1,7 @@
+gov.nasa.jpl.imce.oml.tables 0.60.2 resolves minor issues in the 0.60.2 release
+
+## Issues Resolved
+
+- [#11 Add convenience accessors for data properties](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/11)
+
+    (Entity, Structure) x (Scala, Structure)
