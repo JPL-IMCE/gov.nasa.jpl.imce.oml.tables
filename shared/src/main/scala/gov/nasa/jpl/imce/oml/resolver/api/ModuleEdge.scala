@@ -28,5 +28,5 @@ trait ModuleEdge
   def sourceModule
   ()(implicit extent: Extent): scala.Option[Module]
   def targetModule
-  ()(implicit extent: Extent): Module
+  ()(implicit extent: Extent): gov.nasa.jpl.imce.oml.tables.IRI
 }

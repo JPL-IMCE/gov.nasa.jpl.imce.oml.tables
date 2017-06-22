@@ -28,7 +28,7 @@ trait BundledTerminologyAxiom
   extends TerminologyBundleAxiom
 {
 
-  val bundledTerminology: TerminologyBox
+  val bundledTerminology: gov.nasa.jpl.imce.oml.tables.IRI
 
   /*
    * The bundle is the source
@@ -39,5 +39,5 @@ trait BundledTerminologyAxiom
    * The bundledTerminology is the target
    */
   override def target
-  ()(implicit extent: Extent): TerminologyBox
+  ()(implicit extent: Extent): gov.nasa.jpl.imce.oml.tables.IRI
 }

@@ -27,37 +27,37 @@ import scala.Predef._
 /**
   * @param uuid[1,1]
   * @param descriptionBoxUUID[1,1]
-  * @param closedWorldDefinitionsUUID[1,1]
+  * @param closedWorldDefinitionsIRI[1,1]
   */
 @JSExportTopLevel("DescriptionBoxExtendsClosedWorldDefinitions")
 case class DescriptionBoxExtendsClosedWorldDefinitions
 (
   @(JSExport @field) uuid: UUID,
   @(JSExport @field) descriptionBoxUUID: UUID,
-  @(JSExport @field) closedWorldDefinitionsUUID: UUID
+  @(JSExport @field) closedWorldDefinitionsIRI: IRI
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     descriptionBoxUUID: UUID,
-    closedWorldDefinitionsUUID: UUID)
+    closedWorldDefinitionsIRI: IRI)
   = this(
       oug.namespaceUUID(
         "DescriptionBoxExtendsClosedWorldDefinitions",
         "descriptionBox" -> descriptionBoxUUID,
-        "closedWorldDefinitions" -> closedWorldDefinitionsUUID).toString,
+        "closedWorldDefinitions" -> oug.namespaceUUID(closedWorldDefinitionsIRI).toString).toString,
       descriptionBoxUUID,
-      closedWorldDefinitionsUUID)
+      closedWorldDefinitionsIRI)
 
   override val hashCode
   : scala.Int 
-  = (uuid, descriptionBoxUUID, closedWorldDefinitionsUUID).##
+  = (uuid, descriptionBoxUUID, closedWorldDefinitionsIRI).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: DescriptionBoxExtendsClosedWorldDefinitions =>
   	  (this.uuid == that.uuid) &&
   	  (this.descriptionBoxUUID == that.descriptionBoxUUID) &&
-  	  (this.closedWorldDefinitionsUUID == that.closedWorldDefinitionsUUID)
+  	  (this.closedWorldDefinitionsIRI == that.closedWorldDefinitionsIRI)
     case _ =>
       false
   }

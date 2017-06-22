@@ -29,7 +29,7 @@ trait ConceptDesignationTerminologyAxiom
   extends TerminologyBoxAxiom
 {
 
-  val designatedTerminology: TerminologyBox
+  val designatedTerminology: gov.nasa.jpl.imce.oml.tables.IRI
   val designatedConcept: Concept
 
   def designationTerminologyGraph
@@ -43,5 +43,5 @@ trait ConceptDesignationTerminologyAxiom
    * The TerminologyBox that asserts the designatedConcept is the target
    */
   override def target
-  ()(implicit extent: Extent): TerminologyBox
+  ()(implicit extent: Extent): gov.nasa.jpl.imce.oml.tables.IRI
 }

@@ -26,38 +26,38 @@ import scala.Predef._
 
 /**
   * @param uuid[1,1]
-  * @param bundledTerminologyUUID[1,1]
   * @param bundleUUID[1,1]
+  * @param bundledTerminologyIRI[1,1]
   */
 @JSExportTopLevel("BundledTerminologyAxiom")
 case class BundledTerminologyAxiom
 (
   @(JSExport @field) uuid: UUID,
-  @(JSExport @field) bundledTerminologyUUID: UUID,
-  @(JSExport @field) bundleUUID: UUID
+  @(JSExport @field) bundleUUID: UUID,
+  @(JSExport @field) bundledTerminologyIRI: IRI
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    bundledTerminologyUUID: UUID,
-    bundleUUID: UUID)
+    bundleUUID: UUID,
+    bundledTerminologyIRI: IRI)
   = this(
       oug.namespaceUUID(
         "BundledTerminologyAxiom",
-        "bundledTerminology" -> bundledTerminologyUUID,
-        "bundle" -> bundleUUID).toString,
-      bundledTerminologyUUID,
-      bundleUUID)
+        "bundle" -> bundleUUID,
+        "bundledTerminology" -> oug.namespaceUUID(bundledTerminologyIRI).toString).toString,
+      bundleUUID,
+      bundledTerminologyIRI)
 
   override val hashCode
   : scala.Int 
-  = (uuid, bundledTerminologyUUID, bundleUUID).##
+  = (uuid, bundleUUID, bundledTerminologyIRI).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: BundledTerminologyAxiom =>
   	  (this.uuid == that.uuid) &&
-  	  (this.bundledTerminologyUUID == that.bundledTerminologyUUID) &&
-  	  (this.bundleUUID == that.bundleUUID)
+  	  (this.bundleUUID == that.bundleUUID) &&
+  	  (this.bundledTerminologyIRI == that.bundledTerminologyIRI)
     case _ =>
       false
   }

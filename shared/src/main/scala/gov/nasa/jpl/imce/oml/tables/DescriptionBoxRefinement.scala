@@ -27,37 +27,37 @@ import scala.Predef._
 /**
   * @param uuid[1,1]
   * @param refiningDescriptionBoxUUID[1,1]
-  * @param refinedDescriptionBoxUUID[1,1]
+  * @param refinedDescriptionBoxIRI[1,1]
   */
 @JSExportTopLevel("DescriptionBoxRefinement")
 case class DescriptionBoxRefinement
 (
   @(JSExport @field) uuid: UUID,
   @(JSExport @field) refiningDescriptionBoxUUID: UUID,
-  @(JSExport @field) refinedDescriptionBoxUUID: UUID
+  @(JSExport @field) refinedDescriptionBoxIRI: IRI
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     refiningDescriptionBoxUUID: UUID,
-    refinedDescriptionBoxUUID: UUID)
+    refinedDescriptionBoxIRI: IRI)
   = this(
       oug.namespaceUUID(
         "DescriptionBoxRefinement",
         "refiningDescriptionBox" -> refiningDescriptionBoxUUID,
-        "refinedDescriptionBox" -> refinedDescriptionBoxUUID).toString,
+        "refinedDescriptionBox" -> oug.namespaceUUID(refinedDescriptionBoxIRI).toString).toString,
       refiningDescriptionBoxUUID,
-      refinedDescriptionBoxUUID)
+      refinedDescriptionBoxIRI)
 
   override val hashCode
   : scala.Int 
-  = (uuid, refiningDescriptionBoxUUID, refinedDescriptionBoxUUID).##
+  = (uuid, refiningDescriptionBoxUUID, refinedDescriptionBoxIRI).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: DescriptionBoxRefinement =>
   	  (this.uuid == that.uuid) &&
   	  (this.refiningDescriptionBoxUUID == that.refiningDescriptionBoxUUID) &&
-  	  (this.refinedDescriptionBoxUUID == that.refinedDescriptionBoxUUID)
+  	  (this.refinedDescriptionBoxIRI == that.refinedDescriptionBoxIRI)
     case _ =>
       false
   }

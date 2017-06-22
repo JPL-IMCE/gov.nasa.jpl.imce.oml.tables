@@ -28,7 +28,7 @@ import scala.Predef._
   * @param uuid[1,1]
   * @param tboxUUID[1,1]
   * @param designatedConceptUUID[1,1]
-  * @param designatedTerminologyUUID[1,1]
+  * @param designatedTerminologyIRI[1,1]
   */
 @JSExportTopLevel("ConceptDesignationTerminologyAxiom")
 case class ConceptDesignationTerminologyAxiom
@@ -36,34 +36,34 @@ case class ConceptDesignationTerminologyAxiom
   @(JSExport @field) uuid: UUID,
   @(JSExport @field) tboxUUID: UUID,
   @(JSExport @field) designatedConceptUUID: UUID,
-  @(JSExport @field) designatedTerminologyUUID: UUID
+  @(JSExport @field) designatedTerminologyIRI: IRI
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     tboxUUID: UUID,
     designatedConceptUUID: UUID,
-    designatedTerminologyUUID: UUID)
+    designatedTerminologyIRI: IRI)
   = this(
       oug.namespaceUUID(
         "ConceptDesignationTerminologyAxiom",
         "tbox" -> tboxUUID,
         "designatedConcept" -> designatedConceptUUID,
-        "designatedTerminology" -> designatedTerminologyUUID).toString,
+        "designatedTerminology" -> oug.namespaceUUID(designatedTerminologyIRI).toString).toString,
       tboxUUID,
       designatedConceptUUID,
-      designatedTerminologyUUID)
+      designatedTerminologyIRI)
 
   override val hashCode
   : scala.Int 
-  = (uuid, tboxUUID, designatedConceptUUID, designatedTerminologyUUID).##
+  = (uuid, tboxUUID, designatedConceptUUID, designatedTerminologyIRI).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: ConceptDesignationTerminologyAxiom =>
   	  (this.uuid == that.uuid) &&
   	  (this.tboxUUID == that.tboxUUID) &&
   	  (this.designatedConceptUUID == that.designatedConceptUUID) &&
-  	  (this.designatedTerminologyUUID == that.designatedTerminologyUUID)
+  	  (this.designatedTerminologyIRI == that.designatedTerminologyIRI)
     case _ =>
       false
   }

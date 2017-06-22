@@ -39,6 +39,8 @@ case class OML2OTIProvenanceTables
   
   def isEmpty: Boolean
   = oml2OTIProvenances.isEmpty
+  
+
 }
 
 object OML2OTIProvenanceTables {
@@ -96,6 +98,8 @@ object OML2OTIProvenanceTables {
         Failure(cause)
     }
     .apply {
+  	  omlSchemaJsonZipFile.getParentFile.mkdirs()
+  	  
   	  // @see http://www.oracle.com/technetwork/articles/java/compress-1565076.html
   	  val fos = new java.io.FileOutputStream(omlSchemaJsonZipFile)
   	  val bos = new java.io.BufferedOutputStream(fos, 100000)

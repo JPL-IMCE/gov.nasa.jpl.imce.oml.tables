@@ -27,7 +27,7 @@ trait TerminologyExtensionAxiom
   extends TerminologyBoxAxiom
 {
 
-  val extendedTerminology: TerminologyBox
+  val extendedTerminology: gov.nasa.jpl.imce.oml.tables.IRI
 
   def extendingTerminology
   ()(implicit extent: Extent): scala.Option[TerminologyBox]
@@ -40,5 +40,5 @@ trait TerminologyExtensionAxiom
    * The extendedTerminology is the target
    */
   override def target
-  ()(implicit extent: Extent): TerminologyBox
+  ()(implicit extent: Extent): gov.nasa.jpl.imce.oml.tables.IRI
 }

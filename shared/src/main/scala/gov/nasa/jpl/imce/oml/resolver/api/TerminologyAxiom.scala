@@ -36,7 +36,7 @@ trait TerminologyAxiom
    * The target TerminologyBox
    */
   def target
-  ()(implicit extent: Extent): TerminologyBox
+  ()(implicit extent: Extent): gov.nasa.jpl.imce.oml.tables.IRI
   def targetModule
-  ()(implicit extent: Extent): Module
+  ()(implicit extent: Extent): gov.nasa.jpl.imce.oml.tables.IRI
 }

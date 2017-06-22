@@ -27,43 +27,43 @@ import scala.Predef._
 /**
   * @param uuid[1,1]
   * @param tboxUUID[1,1]
-  * @param nestingTerminologyUUID[1,1]
   * @param nestingContextUUID[1,1]
+  * @param nestingTerminologyIRI[1,1]
   */
 @JSExportTopLevel("TerminologyNestingAxiom")
 case class TerminologyNestingAxiom
 (
   @(JSExport @field) uuid: UUID,
   @(JSExport @field) tboxUUID: UUID,
-  @(JSExport @field) nestingTerminologyUUID: UUID,
-  @(JSExport @field) nestingContextUUID: UUID
+  @(JSExport @field) nestingContextUUID: UUID,
+  @(JSExport @field) nestingTerminologyIRI: IRI
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     tboxUUID: UUID,
-    nestingTerminologyUUID: UUID,
-    nestingContextUUID: UUID)
+    nestingContextUUID: UUID,
+    nestingTerminologyIRI: IRI)
   = this(
       oug.namespaceUUID(
         "TerminologyNestingAxiom",
         "tbox" -> tboxUUID,
-        "nestingTerminology" -> nestingTerminologyUUID,
-        "nestingContext" -> nestingContextUUID).toString,
+        "nestingContext" -> nestingContextUUID,
+        "nestingTerminology" -> oug.namespaceUUID(nestingTerminologyIRI).toString).toString,
       tboxUUID,
-      nestingTerminologyUUID,
-      nestingContextUUID)
+      nestingContextUUID,
+      nestingTerminologyIRI)
 
   override val hashCode
   : scala.Int 
-  = (uuid, tboxUUID, nestingTerminologyUUID, nestingContextUUID).##
+  = (uuid, tboxUUID, nestingContextUUID, nestingTerminologyIRI).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: TerminologyNestingAxiom =>
   	  (this.uuid == that.uuid) &&
   	  (this.tboxUUID == that.tboxUUID) &&
-  	  (this.nestingTerminologyUUID == that.nestingTerminologyUUID) &&
-  	  (this.nestingContextUUID == that.nestingContextUUID)
+  	  (this.nestingContextUUID == that.nestingContextUUID) &&
+  	  (this.nestingTerminologyIRI == that.nestingTerminologyIRI)
     case _ =>
       false
   }

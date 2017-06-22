@@ -16,13 +16,13 @@
  * License Terms
  */
 
+
 package gov.nasa.jpl.imce.oml.tables
 
 import java.io.{File,InputStream}
 import org.apache.commons.compress.archivers.zip.{ZipArchiveEntry, ZipFile}
 
 import scala.collection.immutable.{Map,Seq}
-import scala.collection.mutable.StringBuilder
 import scala.collection.JavaConversions._
 import scala.util.control.Exception._
 import scala.util.{Failure,Success,Try}
@@ -281,80 +281,82 @@ case class OMLSpecificationTables
     structuredDataPropertyTuples.isEmpty &&
     unreifiedRelationshipInstanceTuples.isEmpty &&
     annotations.isEmpty
-
-  def show: String = {
-
-    def showSeq[T](title: String, s: Seq[T]): String = {
-      if (s.isEmpty)
-        "\n" + title + ": empty"
-      else
-        "\n" + title + s": ${s.size} entries" +
-        s.map(_.toString).mkString("\n ", "\n ", "\n")
-    }
-
-    val buff = new StringBuilder()
-    buff ++= showSeq("terminologyGraphs", terminologyGraphs)
-    buff ++= showSeq("bundles", bundles)
-    buff ++= showSeq("conceptDesignationTerminologyAxioms", conceptDesignationTerminologyAxioms)
-    buff ++= showSeq("terminologyExtensionAxioms", terminologyExtensionAxioms)
-    buff ++= showSeq("terminologyNestingAxioms", terminologyNestingAxioms)
-    buff ++= showSeq("aspects", aspects)
-    buff ++= showSeq("concepts", concepts)
-    buff ++= showSeq("reifiedRelationships", reifiedRelationships)
-    buff ++= showSeq("unreifiedRelationships", unreifiedRelationships)
-    buff ++= showSeq("scalars", scalars)
-    buff ++= showSeq("structures", structures)
-    buff ++= showSeq("binaryScalarRestrictions", binaryScalarRestrictions)
-    buff ++= showSeq("iriScalarRestrictions", iriScalarRestrictions)
-    buff ++= showSeq("numericScalarRestrictions", numericScalarRestrictions)
-    buff ++= showSeq("plainLiteralScalarRestrictions", plainLiteralScalarRestrictions)
-    buff ++= showSeq("scalarOneOfRestrictions", scalarOneOfRestrictions)
-    buff ++= showSeq("stringScalarRestrictions", stringScalarRestrictions)
-    buff ++= showSeq("synonymScalarRestrictions", synonymScalarRestrictions)
-    buff ++= showSeq("timeScalarRestrictions", timeScalarRestrictions)
-    buff ++= showSeq("entityScalarDataProperties", entityScalarDataProperties)
-    buff ++= showSeq("entityStructuredDataProperties", entityStructuredDataProperties)
-    buff ++= showSeq("scalarDataProperties", scalarDataProperties)
-    buff ++= showSeq("structuredDataProperties", structuredDataProperties)
-    buff ++= showSeq("aspectSpecializationAxioms", aspectSpecializationAxioms)
-    buff ++= showSeq("conceptSpecializationAxioms", conceptSpecializationAxioms)
-    buff ++= showSeq("reifiedRelationshipSpecializationAxioms", reifiedRelationshipSpecializationAxioms)
-    buff ++= showSeq("entityExistentialRestrictionAxioms", entityExistentialRestrictionAxioms)
-    buff ++= showSeq("entityUniversalRestrictionAxioms", entityUniversalRestrictionAxioms)
-    buff ++= showSeq("entityScalarDataPropertyExistentialRestrictionAxioms", entityScalarDataPropertyExistentialRestrictionAxioms)
-    buff ++= showSeq("entityScalarDataPropertyParticularRestrictionAxioms", entityScalarDataPropertyParticularRestrictionAxioms)
-    buff ++= showSeq("entityScalarDataPropertyUniversalRestrictionAxioms", entityScalarDataPropertyUniversalRestrictionAxioms)
-    buff ++= showSeq("scalarOneOfLiteralAxioms", scalarOneOfLiteralAxioms)
-    buff ++= showSeq("bundledTerminologyAxioms", bundledTerminologyAxioms)
-    buff ++= showSeq("rootConceptTaxonomyAxioms", rootConceptTaxonomyAxioms)
-    buff ++= showSeq("specificDisjointConceptAxioms", specificDisjointConceptAxioms)
-    buff ++= showSeq("anonymousConceptUnionAxioms", anonymousConceptUnionAxioms)
-    buff ++= showSeq("conceptInstances", conceptInstances)
-    buff ++= showSeq("descriptionBoxes", descriptionBoxes)
-    buff ++= showSeq("descriptionBoxExtendsClosedWorldDefinitions", descriptionBoxExtendsClosedWorldDefinitions)
-    buff ++= showSeq("descriptionBoxRefinements", descriptionBoxRefinements)
-    buff ++= showSeq("reifiedRelationshipInstances", reifiedRelationshipInstances)
-    buff ++= showSeq("reifiedRelationshipInstanceDomains", reifiedRelationshipInstanceDomains)
-    buff ++= showSeq("reifiedRelationshipInstanceRanges", reifiedRelationshipInstanceRanges)
-    buff ++= showSeq("scalarDataPropertyValues", scalarDataPropertyValues)
-    buff ++= showSeq("singletonInstanceScalarDataPropertyValues", singletonInstanceScalarDataPropertyValues)
-    buff ++= showSeq("singletonInstanceStructuredDataPropertyValues", singletonInstanceStructuredDataPropertyValues)
-    buff ++= showSeq("structuredDataPropertyTuples", structuredDataPropertyTuples)
-    buff ++= showSeq("unreifiedRelationshipInstanceTuples", unreifiedRelationshipInstanceTuples)
-    buff ++= showSeq("annotationProperties", annotationProperties)
-
-    if (annotations.isEmpty)
-      buff ++= "\nannotations: empty"
-    else {
-      buff ++= s"\nannotations: ${annotations.size} entries"
-      annotations.keys.toSeq.sorted.foreach { ap =>
-        val as = annotations.getOrElse(ap, Seq.empty)
-        buff ++= showSeq(s"annotations(${ap.abbrevIRI})", as)
-      }
-    }
-
-    buff.toString
+  
+def show: String = {
+  
+  def showSeq[T](title: String, s: Seq[T]): String = {
+    if (s.isEmpty)
+       "\n" + title + ": empty"
+    else
+       "\n" + title + s": ${s.size} entries" +
+       s.map(_.toString).mkString("\n ", "\n ", "\n")
   }
+  
+  val buff = new scala.collection.mutable.StringBuilder()
+  
+  buff ++= showSeq("annotationProperties", annotationProperties)
+  buff ++= showSeq("terminologyGraphs", terminologyGraphs)
+  buff ++= showSeq("bundles", bundles)
+  buff ++= showSeq("conceptDesignationTerminologyAxioms", conceptDesignationTerminologyAxioms)
+  buff ++= showSeq("terminologyExtensionAxioms", terminologyExtensionAxioms)
+  buff ++= showSeq("terminologyNestingAxioms", terminologyNestingAxioms)
+  buff ++= showSeq("aspects", aspects)
+  buff ++= showSeq("concepts", concepts)
+  buff ++= showSeq("reifiedRelationships", reifiedRelationships)
+  buff ++= showSeq("unreifiedRelationships", unreifiedRelationships)
+  buff ++= showSeq("scalars", scalars)
+  buff ++= showSeq("structures", structures)
+  buff ++= showSeq("binaryScalarRestrictions", binaryScalarRestrictions)
+  buff ++= showSeq("iriScalarRestrictions", iriScalarRestrictions)
+  buff ++= showSeq("numericScalarRestrictions", numericScalarRestrictions)
+  buff ++= showSeq("plainLiteralScalarRestrictions", plainLiteralScalarRestrictions)
+  buff ++= showSeq("scalarOneOfRestrictions", scalarOneOfRestrictions)
+  buff ++= showSeq("stringScalarRestrictions", stringScalarRestrictions)
+  buff ++= showSeq("synonymScalarRestrictions", synonymScalarRestrictions)
+  buff ++= showSeq("timeScalarRestrictions", timeScalarRestrictions)
+  buff ++= showSeq("entityScalarDataProperties", entityScalarDataProperties)
+  buff ++= showSeq("entityStructuredDataProperties", entityStructuredDataProperties)
+  buff ++= showSeq("scalarDataProperties", scalarDataProperties)
+  buff ++= showSeq("structuredDataProperties", structuredDataProperties)
+  buff ++= showSeq("aspectSpecializationAxioms", aspectSpecializationAxioms)
+  buff ++= showSeq("conceptSpecializationAxioms", conceptSpecializationAxioms)
+  buff ++= showSeq("reifiedRelationshipSpecializationAxioms", reifiedRelationshipSpecializationAxioms)
+  buff ++= showSeq("entityExistentialRestrictionAxioms", entityExistentialRestrictionAxioms)
+  buff ++= showSeq("entityUniversalRestrictionAxioms", entityUniversalRestrictionAxioms)
+  buff ++= showSeq("entityScalarDataPropertyExistentialRestrictionAxioms", entityScalarDataPropertyExistentialRestrictionAxioms)
+  buff ++= showSeq("entityScalarDataPropertyParticularRestrictionAxioms", entityScalarDataPropertyParticularRestrictionAxioms)
+  buff ++= showSeq("entityScalarDataPropertyUniversalRestrictionAxioms", entityScalarDataPropertyUniversalRestrictionAxioms)
+  buff ++= showSeq("scalarOneOfLiteralAxioms", scalarOneOfLiteralAxioms)
+  buff ++= showSeq("bundledTerminologyAxioms", bundledTerminologyAxioms)
+  buff ++= showSeq("rootConceptTaxonomyAxioms", rootConceptTaxonomyAxioms)
+  buff ++= showSeq("specificDisjointConceptAxioms", specificDisjointConceptAxioms)
+  buff ++= showSeq("anonymousConceptUnionAxioms", anonymousConceptUnionAxioms)
+  buff ++= showSeq("conceptInstances", conceptInstances)
+  buff ++= showSeq("descriptionBoxes", descriptionBoxes)
+  buff ++= showSeq("descriptionBoxExtendsClosedWorldDefinitions", descriptionBoxExtendsClosedWorldDefinitions)
+  buff ++= showSeq("descriptionBoxRefinements", descriptionBoxRefinements)
+  buff ++= showSeq("reifiedRelationshipInstances", reifiedRelationshipInstances)
+  buff ++= showSeq("reifiedRelationshipInstanceDomains", reifiedRelationshipInstanceDomains)
+  buff ++= showSeq("reifiedRelationshipInstanceRanges", reifiedRelationshipInstanceRanges)
+  buff ++= showSeq("scalarDataPropertyValues", scalarDataPropertyValues)
+  buff ++= showSeq("singletonInstanceScalarDataPropertyValues", singletonInstanceScalarDataPropertyValues)
+  buff ++= showSeq("singletonInstanceStructuredDataPropertyValues", singletonInstanceStructuredDataPropertyValues)
+  buff ++= showSeq("structuredDataPropertyTuples", structuredDataPropertyTuples)
+  buff ++= showSeq("unreifiedRelationshipInstanceTuples", unreifiedRelationshipInstanceTuples)
+  
+  if (annotations.isEmpty)
+    buff ++= "\nannotations: empty"
+  else {
+    buff ++= s"\nannotations: ${annotations.size} entries"
+    annotations.keys.toSeq.sorted.foreach { ap =>
+      val as = annotations.getOrElse(ap, Seq.empty)
+      buff ++= showSeq(s"annotations(${ap.abbrevIRI})", as)
+    }
+  }
+  
+  buff.toString
+}
+
 }
 
 object OMLSpecificationTables {
@@ -565,8 +567,8 @@ object OMLSpecificationTables {
         Failure(cause)
     }
     .apply {
-      omlSchemaJsonZipFile.getParentFile.mkdirs()
-
+  	  omlSchemaJsonZipFile.getParentFile.mkdirs()
+  	  
   	  // @see http://www.oracle.com/technetwork/articles/java/compress-1565076.html
   	  val fos = new java.io.FileOutputStream(omlSchemaJsonZipFile)
   	  val bos = new java.io.BufferedOutputStream(fos, 100000)

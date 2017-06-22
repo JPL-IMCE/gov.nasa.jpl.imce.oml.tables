@@ -27,37 +27,37 @@ import scala.Predef._
 /**
   * @param uuid[1,1]
   * @param tboxUUID[1,1]
-  * @param extendedTerminologyUUID[1,1]
+  * @param extendedTerminologyIRI[1,1]
   */
 @JSExportTopLevel("TerminologyExtensionAxiom")
 case class TerminologyExtensionAxiom
 (
   @(JSExport @field) uuid: UUID,
   @(JSExport @field) tboxUUID: UUID,
-  @(JSExport @field) extendedTerminologyUUID: UUID
+  @(JSExport @field) extendedTerminologyIRI: IRI
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     tboxUUID: UUID,
-    extendedTerminologyUUID: UUID)
+    extendedTerminologyIRI: IRI)
   = this(
       oug.namespaceUUID(
         "TerminologyExtensionAxiom",
         "tbox" -> tboxUUID,
-        "extendedTerminology" -> extendedTerminologyUUID).toString,
+        "extendedTerminology" -> oug.namespaceUUID(extendedTerminologyIRI).toString).toString,
       tboxUUID,
-      extendedTerminologyUUID)
+      extendedTerminologyIRI)
 
   override val hashCode
   : scala.Int 
-  = (uuid, tboxUUID, extendedTerminologyUUID).##
+  = (uuid, tboxUUID, extendedTerminologyIRI).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: TerminologyExtensionAxiom =>
   	  (this.uuid == that.uuid) &&
   	  (this.tboxUUID == that.tboxUUID) &&
-  	  (this.extendedTerminologyUUID == that.extendedTerminologyUUID)
+  	  (this.extendedTerminologyIRI == that.extendedTerminologyIRI)
     case _ =>
       false
   }
