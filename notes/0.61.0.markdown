@@ -1,0 +1,26 @@
+gov.nasa.jpl.imce.oml.tables 0.61.0 resolves significant issues in the 0.60.3 release
+
+## Issues Resolved
+
+- [#10 ModuleEdges should refer to the external Module by IRI, not UUID](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/10)
+
+    Significant API changes in both `gov.nasa.jpl.imce.oml.resolver.api` and `gov.nasa.jpl.imce.oml.tables` namespaces:
+    - `BundledTerminologyAxiom`
+    - `ConceptDesignationTerminologyAxiom`
+    - `DescriptionBoxExtendsClosedWorldDefinitions`
+    - `DescriptionBoxRefinement`
+    - `TerminologyExtensionAxiom`
+    - `TerminologyNestingAxiom`
+    
+    Significant API changes in `gov.nasa.jpl.imce.oml.resolver.api` only:
+    - `ModuleEdge`
+    - `TerminologyBox`
+    
+    The significant API changes are due to changing the reference of the target module from a UUID to an IRI.
+    
+- [#12 Improve the resolution of OML Tables](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/12)
+
+    - Deleted an obsolete internal API: `gov.nasa.jpl.imce.oml.resolver.TerminologyContext`
+    - Significant API change in `gov.nasa.jpl.imce.oml.resolver.OMLTablesResolver.resolve()`
+    
+    

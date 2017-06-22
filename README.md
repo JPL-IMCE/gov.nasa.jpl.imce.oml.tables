@@ -4,6 +4,17 @@
   NPM: [ ![Download](https://api.bintray.com/packages/jpl-imce/gov.nasa.jpl.imce.npm/imce%3Agov-nasa-jpl-imce-oml-tables/images/download.svg) ](https://bintray.com/jpl-imce/gov.nasa.jpl.imce.npm/imce%3Agov-nasa-jpl-imce-oml-tables/_latestVersion)
   Maven: [ ![Download](https://api.bintray.com/packages/jpl-imce/gov.nasa.jpl.imce/gov-nasa-jpl-imce-oml-tables/images/download.svg) ](https://bintray.com/jpl-imce/gov.nasa.jpl.imce/gov-nasa-jpl-imce-oml-tables/_latestVersion)
   
+  
+## Copyrights
+
+[Caltech](copyrights/Caltech.md)
+
+## License
+
+[Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0)
+
+## Description
+
 This project specifies a set of normalized schema tables for JPL's Ontological Modeling Language.
 By normalize schema tables, we mean precisely a [4th Normal Form database schema](http://www.bkent.net/Doc/simple5.htm#label4).
 
@@ -71,7 +82,7 @@ For JavaScript, the accessors use the ScalaJS field names as functions; e.g.:
 
 ## IDE Support
 
-### Intellij IDEA (2016.2.4)
+### Intellij IDEA (2016 & later)
 
 - Import the github project from existing sources as an SBT project.
 
@@ -81,9 +92,11 @@ it is unecessary to store this metadata in github.
 
 - It is possible to work using both Intellij IDEA and the SBT CLI in a terminal.
 
-### Eclipse Neon.1
+### Eclipse Neon.3 Installation
 
-### Eclipse Installation
+- Xtext 2.11
+
+- Xtend 2.11
 
 - Scala
 
