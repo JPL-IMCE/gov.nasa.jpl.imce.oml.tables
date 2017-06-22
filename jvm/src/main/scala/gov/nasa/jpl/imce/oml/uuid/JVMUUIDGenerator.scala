@@ -36,14 +36,4 @@ case class JVMUUIDGenerator() extends OMLUUIDGenerator {
       .generate(name)
   }
 
-  override def derivedUUID
-  (context: String, factors: (String,UUID)*)
-  : UUID
-  = {
-    val name = context + factors.map { case (k,v) => k+":"+v }.mkString(",")
-    Generators
-      .nameBasedGenerator(NameBasedGenerator.NAMESPACE_URL)
-      .generate(name)
-  }
-
 }

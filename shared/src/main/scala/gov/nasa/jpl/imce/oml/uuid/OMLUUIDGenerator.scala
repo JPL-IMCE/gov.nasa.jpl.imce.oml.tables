@@ -27,8 +27,4 @@ trait OMLUUIDGenerator {
   (namespace: String, factors: (String,String)*)
   : UUID
 
-  def derivedUUID
-  (context: String, factors: (String,UUID)*)
-  : UUID
-
 }

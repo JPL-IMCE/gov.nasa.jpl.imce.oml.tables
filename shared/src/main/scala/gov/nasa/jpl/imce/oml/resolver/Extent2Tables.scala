@@ -380,7 +380,7 @@ object Extent2Tables {
         y.uuid.toString,
         x._1.uuid.toString,
         y.designatedConcept.uuid.toString,
-        y.designatedTerminology.uuid.toString))
+        y.designatedTerminology))
     case _ =>
       None
   }.to[Seq]
@@ -394,7 +394,7 @@ object Extent2Tables {
       Some(tables.TerminologyExtensionAxiom(
         y.uuid.toString,
         x._1.uuid.toString,
-        y.extendedTerminology.uuid.toString))
+        y.extendedTerminology))
     case _ =>
       None
   }.to[Seq]
@@ -408,7 +408,7 @@ object Extent2Tables {
       Some(tables.TerminologyNestingAxiom(
         y.uuid.toString,
         x._1.uuid.toString,
-        y.nestingTerminology.uuid.toString,
+        y.nestingTerminology,
         y.nestingContext.uuid.toString))
     case _ =>
       None
@@ -547,7 +547,7 @@ object Extent2Tables {
     case y: api.BundledTerminologyAxiom =>
       Some(tables.BundledTerminologyAxiom(
         y.uuid.toString,
-        y.bundledTerminology.uuid.toString,
+        y.bundledTerminology,
         x._1.uuid.toString))
     case _ =>
       None
@@ -614,7 +614,7 @@ object Extent2Tables {
   = acc :+ tables.DescriptionBoxExtendsClosedWorldDefinitions(
     x._1.uuid.toString,
     x._2.uuid.toString,
-    x._1.closedWorldDefinitions.uuid.toString)
+    x._1.closedWorldDefinitions)
 
   def convertDescriptionBoxRefinements
   (acc: Seq[tables.DescriptionBoxRefinement],
@@ -623,7 +623,7 @@ object Extent2Tables {
   = acc :+ tables.DescriptionBoxRefinement(
     x._1.uuid.toString,
     x._2.uuid.toString,
-    x._1.refinedDescriptionBox.uuid.toString)
+    x._1.refinedDescriptionBox)
 
   def convertReifiedRelationshipInstances
   (acc: Seq[tables.ReifiedRelationshipInstance],
