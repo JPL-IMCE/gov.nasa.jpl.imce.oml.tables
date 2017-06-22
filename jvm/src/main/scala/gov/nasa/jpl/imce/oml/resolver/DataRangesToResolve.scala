@@ -22,8 +22,8 @@ import java.util.UUID
 
 import gov.nasa.jpl.imce.oml._
 
-import scala.{Boolean, StringContext, Tuple2, Tuple3}
-import scala.collection.immutable.{Map, Seq}
+import scala.{Boolean, None, Some, StringContext, Tuple2, Tuple3}
+import scala.collection.immutable.{Map, Seq, Set}
 import scala.util.{Failure, Success, Try}
 import scala.Predef.ArrowAssoc
 
@@ -44,6 +44,7 @@ case class DataRangesToResolve
   plainLiteralScalarRestrictions: Map[UUID, Seq[(UUID, tables.PlainLiteralScalarRestriction)]],
   scalarOneOfRestrictions: Map[UUID, Seq[(UUID, tables.ScalarOneOfRestriction)]],
   stringScalarRestrictions: Map[UUID, Seq[(UUID, tables.StringScalarRestriction)]],
+  synonymScalarRestrictions: Map[UUID, Seq[(UUID, tables.SynonymScalarRestriction)]],
   timeScalarRestrictions: Map[UUID, Seq[(UUID, tables.TimeScalarRestriction)]] )
 
 object DataRangesToResolve {
@@ -57,13 +58,23 @@ object DataRangesToResolve {
    dr2restrictedDataRange: T => tables.UUID)
   : (Map[tables.UUID, api.DataRange], Seq[(UUID, T)], Seq[(UUID, T)])
   = {
-    implicit val ex: api.Extent = r.context.extent
+    val allDataRanges
+    : Set[api.DataRange]
+    = r.allContexts.foldLeft(Set.empty[api.DataRange]) { case (acc, c) =>
+      c.boxStatements.values.foldLeft(acc) {
+        case (prev, s) =>
+          s.foldLeft(prev) {
+            case (next, dr: api.DataRange) =>
+              next + dr
+            case (next, _) =>
+              next
+          }
+      }
+    }
+
     val restrictableDataRanges
     : Map[tables.UUID, api.DataRange]
-    = r.context.g.outerNodeTraverser(r.context.g.get(tbox))
-      .foldLeft[Map[tables.UUID, api.DataRange]](Map.empty)(
-      _ ++ _.dataranges.map(dr => dr.uuid.toString -> dr)
-    )
+    = allDataRanges.map(dr => dr.uuid.toString -> dr).toMap
 
     val (available, remaining) =
       drs
@@ -78,6 +89,7 @@ object DataRangesToResolve {
     plainLiteralScalarRestrictions = Map.empty,
     scalarOneOfRestrictions = Map.empty,
     stringScalarRestrictions = Map.empty,
+    synonymScalarRestrictions = Map.empty,
     timeScalarRestrictions = Map.empty)
 
   final def resolve(resolver: OMLTablesResolver, queue: DataRangesToResolve)
@@ -91,50 +103,55 @@ object DataRangesToResolve {
       step1 <- queue.binaryScalarRestrictions
         .foldLeft[Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]](Success(Tuple3(r0, q0, f0))) {
         case (Success(Tuple3(ri, qi, fi)), (guuid, drs)) =>
-          val gi = ri.context.g
-          val tbox = ri.context.tboxes(guuid)
+          ri.lookupTerminologyBox(guuid) match {
+            case Some(tbox) =>
 
-          val (restrictableDataRanges, available, remaining) =
-            partitionRestrictableDataRanges[tables.BinaryScalarRestriction](ri, tbox, drs, _.restrictedRangeUUID)
+              val (restrictableDataRanges, available, remaining) =
+                partitionRestrictableDataRanges[tables.BinaryScalarRestriction](ri, tbox, drs, _.restrictedRangeUUID)
 
-          val si
-          : Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]
-          = available
-            .foldLeft[Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]] {
-            Success(Tuple3(
-              ri,
-              qi.copy(binaryScalarRestrictions = qi.binaryScalarRestrictions + (guuid -> remaining)),
-              fi))
-          } {
-            case (acc, (ruuid, dr)) =>
-              val next
+              val si
               : Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]
-              = for {
-                tuple <- acc
-                (rj, qj, fj) = tuple
-                pair = rj.factory.createBinaryScalarRestriction(
-                  rj.context.extent,
-                  UUID.fromString(dr.uuid), // @UUID
-                  tbox,
-                  restrictableDataRanges(ruuid.toString),
-                  dr.length,
-                  dr.minLength,
-                  dr.maxLength,
-                  dr.name)
-                (ej, x) = pair
-                ek <- if (!uuidEquivalent(x.uuid, dr.uuid))
-                  Failure(new java.lang.IllegalArgumentException(
-                    s"DataRangteResolver.BinaryScalarRestriction UUID mismatch: read: $dr, created: $x"))
-                else
-                  Success(Tuple3(
-                    rj.copy(context = rj.context.copy(extent = ej)),
-                    qi.copy(binaryScalarRestrictions = qi.binaryScalarRestrictions + (guuid -> remaining)),
-                    true))
-              } yield ek
-              next
-          }
+              = available
+                .foldLeft[Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]] {
+                Success(Tuple3(
+                  ri,
+                  qi.copy(binaryScalarRestrictions = qi.binaryScalarRestrictions + (guuid -> remaining)),
+                  fi))
+              } {
+                case (acc, (ruuid, dr)) =>
+                  val next
+                  : Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]
+                  = for {
+                    tuple <- acc
+                    (rj, qj, fj) = tuple
+                    pair = rj.factory.createBinaryScalarRestriction(
+                      rj.context,
+                      UUID.fromString(dr.uuid), // @UUID
+                      tbox,
+                      restrictableDataRanges(ruuid.toString),
+                      dr.length,
+                      dr.minLength,
+                      dr.maxLength,
+                      dr.name)
+                    (ej, x) = pair
+                    ek <- if (!uuidEquivalent(x.uuid, dr.uuid))
+                      Failure(new java.lang.IllegalArgumentException(
+                        s"DataRangteResolver.BinaryScalarRestriction UUID mismatch: read: $dr, created: $x"))
+                    else
+                      Success(Tuple3(
+                        rj.copy(context = ej),
+                        qi.copy(binaryScalarRestrictions = qi.binaryScalarRestrictions + (guuid -> remaining)),
+                        true))
+                  } yield ek
+                  next
+              }
 
-          si
+              si
+            case None =>
+              Failure(new java.lang.IllegalArgumentException(
+                s"resolve(binaryScalarRestrictions) -- unknown graph: $guuid"
+              ))
+          }
         case (Failure(t), _) =>
           Failure(t)
       }
@@ -142,51 +159,56 @@ object DataRangesToResolve {
       step2 <- queue.iriScalarRestrictions
         .foldLeft[Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]](Success(step1)) {
         case (Success(Tuple3(ri, qi, fi)), (guuid, drs)) =>
-          val gi = ri.context.g
-          val tbox = ri.context.tboxes(guuid)
+          ri.lookupTerminologyBox(guuid) match {
+            case Some(tbox) =>
 
-          val (restrictableDataRanges, available, remaining) =
-            partitionRestrictableDataRanges[tables.IRIScalarRestriction](ri, tbox, drs, _.restrictedRangeUUID)
+              val (restrictableDataRanges, available, remaining) =
+                partitionRestrictableDataRanges[tables.IRIScalarRestriction](ri, tbox, drs, _.restrictedRangeUUID)
 
-          val si
-          : Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]
-          = available
-            .foldLeft[Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]] {
-            Success(Tuple3(
-              ri,
-              qi.copy(iriScalarRestrictions = qi.iriScalarRestrictions + (guuid -> remaining)),
-              fi))
-          } {
-            case (acc, (ruuid, dr)) =>
-              val next
+              val si
               : Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]
-              = for {
-                tuple <- acc
-                (rj, qj, fj) = tuple
-                pair = ri.factory.createIRIScalarRestriction(
-                  rj.context.extent,
-                  UUID.fromString(dr.uuid), // @UUID
-                  tbox,
-                  restrictableDataRanges(ruuid.toString),
-                  dr.length,
-                  dr.minLength,
-                  dr.maxLength,
-                  dr.name,
-                  dr.pattern)
-                (ej, x) = pair
-                ek <- if (!uuidEquivalent(x.uuid, dr.uuid))
-                  Failure(new java.lang.IllegalArgumentException(
-                    s"DataRangteResolver.IRIScalarRestriction UUID mismatch: read: $dr, created: $x"))
-                else
-                  Success(Tuple3(
-                    rj.copy(context = rj.context.copy(extent = ej)),
-                    qi.copy(iriScalarRestrictions = qi.iriScalarRestrictions + (guuid -> remaining)),
-                    true))
-              } yield ek
-              next
-          }
+              = available
+                .foldLeft[Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]] {
+                Success(Tuple3(
+                  ri,
+                  qi.copy(iriScalarRestrictions = qi.iriScalarRestrictions + (guuid -> remaining)),
+                  fi))
+              } {
+                case (acc, (ruuid, dr)) =>
+                  val next
+                  : Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]
+                  = for {
+                    tuple <- acc
+                    (rj, qj, fj) = tuple
+                    pair = ri.factory.createIRIScalarRestriction(
+                      rj.context,
+                      UUID.fromString(dr.uuid), // @UUID
+                      tbox,
+                      restrictableDataRanges(ruuid.toString),
+                      dr.length,
+                      dr.minLength,
+                      dr.maxLength,
+                      dr.name,
+                      dr.pattern)
+                    (ej, x) = pair
+                    ek <- if (!uuidEquivalent(x.uuid, dr.uuid))
+                      Failure(new java.lang.IllegalArgumentException(
+                        s"DataRangteResolver.IRIScalarRestriction UUID mismatch: read: $dr, created: $x"))
+                    else
+                      Success(Tuple3(
+                        rj.copy(context = ej),
+                        qi.copy(iriScalarRestrictions = qi.iriScalarRestrictions + (guuid -> remaining)),
+                        true))
+                  } yield ek
+                  next
+              }
 
-          si
+              si
+            case None =>
+              Failure(new java.lang.IllegalArgumentException(
+                s"resolve(iriScalarRestrictions) -- unknown graph: $guuid"
+              ))
+          }
         case (Failure(t), _) =>
           Failure(t)
       }
@@ -194,51 +216,56 @@ object DataRangesToResolve {
       step3 <- queue.numericScalarRestrictions
         .foldLeft[Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]](Success(step2)) {
         case (Success(Tuple3(ri, qi, fi)), (guuid, drs)) =>
-          val gi = ri.context.g
-          val tbox = ri.context.tboxes(guuid)
+          ri.lookupTerminologyBox(guuid) match {
+            case Some(tbox) =>
 
-          val (restrictableDataRanges, available, remaining) =
-            partitionRestrictableDataRanges[tables.NumericScalarRestriction](ri, tbox, drs, _.restrictedRangeUUID)
+              val (restrictableDataRanges, available, remaining) =
+                partitionRestrictableDataRanges[tables.NumericScalarRestriction](ri, tbox, drs, _.restrictedRangeUUID)
 
-          val si
-          : Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]
-          = available
-            .foldLeft[Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]] {
-            Success(Tuple3(
-              ri,
-              qi.copy(numericScalarRestrictions = qi.numericScalarRestrictions + (guuid -> remaining)),
-              fi))
-          } {
-            case (acc, (ruuid, dr)) =>
-              val next
+              val si
               : Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]
-              = for {
-                tuple <- acc
-                (rj, qj, fj) = tuple
-                pair = ri.factory.createNumericScalarRestriction(
-                  rj.context.extent,
-                  UUID.fromString(dr.uuid), // @UUID
-                  tbox,
-                  restrictableDataRanges(ruuid.toString),
-                  dr.minExclusive,
-                  dr.minInclusive,
-                  dr.maxExclusive,
-                  dr.maxInclusive,
-                  dr.name)
-                (ej, x) = pair
-                ek <- if (!uuidEquivalent(x.uuid, dr.uuid))
-                  Failure(new java.lang.IllegalArgumentException(
-                    s"DataRangteResolver.NumericScalarRestriction UUID mismatch: read: $dr, created: $x"))
-                else
-                  Success(Tuple3(
-                    rj.copy(context = rj.context.copy(extent = ej)),
-                    qi.copy(numericScalarRestrictions = qi.numericScalarRestrictions + (guuid -> remaining)),
-                    true))
-              } yield ek
-              next
-          }
+              = available
+                .foldLeft[Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]] {
+                Success(Tuple3(
+                  ri,
+                  qi.copy(numericScalarRestrictions = qi.numericScalarRestrictions + (guuid -> remaining)),
+                  fi))
+              } {
+                case (acc, (ruuid, dr)) =>
+                  val next
+                  : Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]
+                  = for {
+                    tuple <- acc
+                    (rj, qj, fj) = tuple
+                    pair = ri.factory.createNumericScalarRestriction(
+                      rj.context,
+                      UUID.fromString(dr.uuid), // @UUID
+                      tbox,
+                      restrictableDataRanges(ruuid.toString),
+                      dr.minExclusive,
+                      dr.minInclusive,
+                      dr.maxExclusive,
+                      dr.maxInclusive,
+                      dr.name)
+                    (ej, x) = pair
+                    ek <- if (!uuidEquivalent(x.uuid, dr.uuid))
+                      Failure(new java.lang.IllegalArgumentException(
+                        s"DataRangteResolver.NumericScalarRestriction UUID mismatch: read: $dr, created: $x"))
+                    else
+                      Success(Tuple3(
+                        rj.copy(context = ej),
+                        qi.copy(numericScalarRestrictions = qi.numericScalarRestrictions + (guuid -> remaining)),
+                        true))
+                  } yield ek
+                  next
+              }
 
-          si
+              si
+            case None =>
+              Failure(new java.lang.IllegalArgumentException(
+                s"resolve(numericScalarRestrictions) -- unknown graph: $guuid"
+              ))
+          }
         case (Failure(t), _) =>
           Failure(t)
       }
@@ -246,52 +273,57 @@ object DataRangesToResolve {
       step4 <- queue.plainLiteralScalarRestrictions
         .foldLeft[Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]](Success(step3)) {
         case (Success(Tuple3(ri, qi, fi)), (guuid, drs)) =>
-          val gi = ri.context.g
-          val tbox = ri.context.tboxes(guuid)
+          ri.lookupTerminologyBox(guuid) match {
+            case Some(tbox) =>
 
-          val (restrictableDataRanges, available, remaining) =
-            partitionRestrictableDataRanges[tables.PlainLiteralScalarRestriction](ri, tbox, drs, _.restrictedRangeUUID)
+              val (restrictableDataRanges, available, remaining) =
+                partitionRestrictableDataRanges[tables.PlainLiteralScalarRestriction](ri, tbox, drs, _.restrictedRangeUUID)
 
-          val si
-          : Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]
-          = available
-            .foldLeft[Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]] {
-            Success(Tuple3(
-              ri,
-              qi.copy(plainLiteralScalarRestrictions = qi.plainLiteralScalarRestrictions + (guuid -> remaining)),
-              fi))
-          } {
-            case (acc, (ruuid, dr)) =>
-              val next
+              val si
               : Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]
-              = for {
-                tuple <- acc
-                (rj, qj, fj) = tuple
-                pair = ri.factory.createPlainLiteralScalarRestriction(
-                  rj.context.extent,
-                  UUID.fromString(dr.uuid), // @UUID
-                  tbox,
-                  restrictableDataRanges(ruuid.toString),
-                  dr.length,
-                  dr.minLength,
-                  dr.maxLength,
-                  dr.name,
-                  dr.langRange,
-                  dr.pattern)
-                (ej, x) = pair
-                ek <- if (!uuidEquivalent(x.uuid, dr.uuid))
-                  Failure(new java.lang.IllegalArgumentException(
-                    s"DataRangteResolver.PlainLiteralScalarRestriction UUID mismatch: read: $dr, created: $x"))
-                else
-                  Success(Tuple3(
-                    rj.copy(context = rj.context.copy(extent = ej)),
-                    qi.copy(plainLiteralScalarRestrictions = qi.plainLiteralScalarRestrictions + (guuid -> remaining)),
-                    true))
-              } yield ek
-              next
-          }
+              = available
+                .foldLeft[Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]] {
+                Success(Tuple3(
+                  ri,
+                  qi.copy(plainLiteralScalarRestrictions = qi.plainLiteralScalarRestrictions + (guuid -> remaining)),
+                  fi))
+              } {
+                case (acc, (ruuid, dr)) =>
+                  val next
+                  : Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]
+                  = for {
+                    tuple <- acc
+                    (rj, qj, fj) = tuple
+                    pair = ri.factory.createPlainLiteralScalarRestriction(
+                      rj.context,
+                      UUID.fromString(dr.uuid), // @UUID
+                      tbox,
+                      restrictableDataRanges(ruuid.toString),
+                      dr.length,
+                      dr.minLength,
+                      dr.maxLength,
+                      dr.name,
+                      dr.langRange,
+                      dr.pattern)
+                    (ej, x) = pair
+                    ek <- if (!uuidEquivalent(x.uuid, dr.uuid))
+                      Failure(new java.lang.IllegalArgumentException(
+                        s"DataRangteResolver.PlainLiteralScalarRestriction UUID mismatch: read: $dr, created: $x"))
+                    else
+                      Success(Tuple3(
+                        rj.copy(context = ej),
+                        qi.copy(plainLiteralScalarRestrictions = qi.plainLiteralScalarRestrictions + (guuid -> remaining)),
+                        true))
+                  } yield ek
+                  next
+              }
 
-          si
+              si
+            case None =>
+              Failure(new java.lang.IllegalArgumentException(
+                s"resolve(plainLiteralScalarRestrictions) -- unknown graph: $guuid"
+              ))
+          }
         case (Failure(t), _) =>
           Failure(t)
       }
@@ -299,47 +331,52 @@ object DataRangesToResolve {
       step5 <- queue.scalarOneOfRestrictions
         .foldLeft[Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]](Success(step4)) {
         case (Success(Tuple3(ri, qi, fi)), (guuid, drs)) =>
-          val gi = ri.context.g
-          val tbox = ri.context.tboxes(guuid)
+          ri.lookupTerminologyBox(guuid) match {
+            case Some(tbox) =>
 
-          val (restrictableDataRanges, available, remaining) =
-            partitionRestrictableDataRanges[tables.ScalarOneOfRestriction](ri, tbox, drs, _.restrictedRangeUUID)
+              val (restrictableDataRanges, available, remaining) =
+                partitionRestrictableDataRanges[tables.ScalarOneOfRestriction](ri, tbox, drs, _.restrictedRangeUUID)
 
-          val si
-          : Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]
-          = available
-            .foldLeft[Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]] {
-            Success(Tuple3(
-              ri,
-              qi.copy(scalarOneOfRestrictions = qi.scalarOneOfRestrictions + (guuid -> remaining)),
-              fi))
-          } {
-            case (acc, (ruuid, dr)) =>
-              val next
+              val si
               : Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]
-              = for {
-                tuple <- acc
-                (rj, qj, fj) = tuple
-                pair = ri.factory.createScalarOneOfRestriction(
-                  rj.context.extent,
-                  UUID.fromString(dr.uuid), // @UUID
-                  tbox,
-                  restrictableDataRanges(ruuid.toString),
-                  dr.name)
-                (ej, x) = pair
-                ek <- if (!uuidEquivalent(x.uuid, dr.uuid))
-                  Failure(new java.lang.IllegalArgumentException(
-                    s"DataRangteResolver.ScalarOneOfRestriction UUID mismatch: read: $dr, created: $x"))
-                else
-                  Success(Tuple3(
-                    rj.copy(context = rj.context.copy(extent = ej)),
-                    qi.copy(scalarOneOfRestrictions = qi.scalarOneOfRestrictions + (guuid -> remaining)),
-                    true))
-              } yield ek
-              next
-          }
+              = available
+                .foldLeft[Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]] {
+                Success(Tuple3(
+                  ri,
+                  qi.copy(scalarOneOfRestrictions = qi.scalarOneOfRestrictions + (guuid -> remaining)),
+                  fi))
+              } {
+                case (acc, (ruuid, dr)) =>
+                  val next
+                  : Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]
+                  = for {
+                    tuple <- acc
+                    (rj, qj, fj) = tuple
+                    pair = ri.factory.createScalarOneOfRestriction(
+                      rj.context,
+                      UUID.fromString(dr.uuid), // @UUID
+                      tbox,
+                      restrictableDataRanges(ruuid.toString),
+                      dr.name)
+                    (ej, x) = pair
+                    ek <- if (!uuidEquivalent(x.uuid, dr.uuid))
+                      Failure(new java.lang.IllegalArgumentException(
+                        s"DataRangteResolver.ScalarOneOfRestriction UUID mismatch: read: $dr, created: $x"))
+                    else
+                      Success(Tuple3(
+                        rj.copy(context = ej),
+                        qi.copy(scalarOneOfRestrictions = qi.scalarOneOfRestrictions + (guuid -> remaining)),
+                        true))
+                  } yield ek
+                  next
+              }
 
-          si
+              si
+            case None =>
+              Failure(new java.lang.IllegalArgumentException(
+                s"resolve(scalarOneOfRestrictions) -- unknown graph: $guuid"
+              ))
+          }
         case (Failure(t), _) =>
           Failure(t)
       }
@@ -347,107 +384,170 @@ object DataRangesToResolve {
       step6 <- queue.stringScalarRestrictions
         .foldLeft[Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]](Success(step5)) {
         case (Success(Tuple3(ri, qi, fi)), (guuid, drs)) =>
-          val gi = ri.context.g
-          val tbox = ri.context.tboxes(guuid)
+          ri.lookupTerminologyBox(guuid) match {
+            case Some(tbox) =>
 
-          val (restrictableDataRanges, available, remaining) =
-            partitionRestrictableDataRanges[tables.StringScalarRestriction](ri, tbox, drs, _.restrictedRangeUUID)
+              val (restrictableDataRanges, available, remaining) =
+                partitionRestrictableDataRanges[tables.StringScalarRestriction](ri, tbox, drs, _.restrictedRangeUUID)
 
-          val si
-          : Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]
-          = available
-            .foldLeft[Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]] {
-            Success(Tuple3(
-              ri,
-              qi.copy(stringScalarRestrictions = qi.stringScalarRestrictions + (guuid -> remaining)),
-              fi))
-          } {
-            case (acc, (ruuid, dr)) =>
-              val next
+              val si
               : Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]
-              = for {
-                tuple <- acc
-                (rj, qj, fj) = tuple
-                pair = ri.factory.createStringScalarRestriction(
-                  rj.context.extent,
-                  UUID.fromString(dr.uuid), // @UUID
-                  tbox,
-                  restrictableDataRanges(ruuid.toString),
-                  dr.length,
-                  dr.minLength,
-                  dr.maxLength,
-                  dr.name,
-                  dr.pattern)
-                (ej, x) = pair
-                ek <- if (!uuidEquivalent(x.uuid, dr.uuid))
-                  Failure(new java.lang.IllegalArgumentException(
-                    s"DataRangteResolver.StringScalarRestriction UUID mismatch: read: $dr, created: $x"))
-                else
-                  Success(Tuple3(
-                    rj.copy(context = rj.context.copy(extent = ej)),
-                    qi.copy(stringScalarRestrictions = qi.stringScalarRestrictions + (guuid -> remaining)),
-                    true))
-              } yield ek
-              next
-          }
+              = available
+                .foldLeft[Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]] {
+                Success(Tuple3(
+                  ri,
+                  qi.copy(stringScalarRestrictions = qi.stringScalarRestrictions + (guuid -> remaining)),
+                  fi))
+              } {
+                case (acc, (ruuid, dr)) =>
+                  val next
+                  : Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]
+                  = for {
+                    tuple <- acc
+                    (rj, qj, fj) = tuple
+                    pair = ri.factory.createStringScalarRestriction(
+                      rj.context,
+                      UUID.fromString(dr.uuid), // @UUID
+                      tbox,
+                      restrictableDataRanges(ruuid.toString),
+                      dr.length,
+                      dr.minLength,
+                      dr.maxLength,
+                      dr.name,
+                      dr.pattern)
+                    (ej, x) = pair
+                    ek <- if (!uuidEquivalent(x.uuid, dr.uuid))
+                      Failure(new java.lang.IllegalArgumentException(
+                        s"DataRangteResolver.StringScalarRestriction UUID mismatch: read: $dr, created: $x"))
+                    else
+                      Success(Tuple3(
+                        rj.copy(context = ej),
+                        qi.copy(stringScalarRestrictions = qi.stringScalarRestrictions + (guuid -> remaining)),
+                        true))
+                  } yield ek
+                  next
+              }
 
-          si
+              si
+            case None =>
+              Failure(new java.lang.IllegalArgumentException(
+                s"resolve(stringScalarRestrictions) -- unknown graph: $guuid"
+              ))
+          }
         case (Failure(t), _) =>
           Failure(t)
       }
 
-      step7 <- queue.timeScalarRestrictions
+      step7 <- queue.synonymScalarRestrictions
         .foldLeft[Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]](Success(step6)) {
         case (Success(Tuple3(ri, qi, fi)), (guuid, drs)) =>
-          val gi = ri.context.g
-          val tbox = ri.context.tboxes(guuid)
+          ri.lookupTerminologyBox(guuid) match {
+            case Some(tbox) =>
 
-          val (restrictableDataRanges, available, remaining) =
-            partitionRestrictableDataRanges[tables.TimeScalarRestriction](ri, tbox, drs, _.restrictedRangeUUID)
+              val (restrictableDataRanges, available, remaining) =
+                partitionRestrictableDataRanges[tables.SynonymScalarRestriction](ri, tbox, drs, _.restrictedRangeUUID)
 
-          val si
-          : Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]
-          = available
-            .foldLeft[Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]] {
-            Success(Tuple3(
-              ri,
-              qi.copy(timeScalarRestrictions = qi.timeScalarRestrictions + (guuid -> remaining)),
-              fi))
-          } {
-            case (acc, (ruuid, dr)) =>
-              val next
+              val si
               : Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]
-              = for {
-                tuple <- acc
-                (rj, qj, fj) = tuple
-                pair = ri.factory.createTimeScalarRestriction(
-                  rj.context.extent,
-                  UUID.fromString(dr.uuid), // @UUID
-                  tbox,
-                  restrictableDataRanges(ruuid.toString),
-                  dr.minExclusive,
-                  dr.minInclusive,
-                  dr.maxExclusive,
-                  dr.maxInclusive,
-                  dr.name)
-                (ej, x) = pair
-                ek <- if (!uuidEquivalent(x.uuid, dr.uuid))
-                  Failure(new java.lang.IllegalArgumentException(
-                    s"DataRangteResolver.TimeScalarRestriction UUID mismatch: read: $dr, created: $x"))
-                else
-                  Success(Tuple3(
-                    rj.copy(context = rj.context.copy(extent = ej)),
-                    qi.copy(timeScalarRestrictions = qi.timeScalarRestrictions + (guuid -> remaining)),
-                    true))
-              } yield ek
-              next
-          }
+              = available
+                .foldLeft[Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]] {
+                Success(Tuple3(
+                  ri,
+                  qi.copy(synonymScalarRestrictions = qi.synonymScalarRestrictions + (guuid -> remaining)),
+                  fi))
+              } {
+                case (acc, (ruuid, dr)) =>
+                  val next
+                  : Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]
+                  = for {
+                    tuple <- acc
+                    (rj, qj, fj) = tuple
+                    pair = ri.factory.createSynonymScalarRestriction(
+                      rj.context,
+                      UUID.fromString(dr.uuid), // @UUID
+                      tbox,
+                      restrictableDataRanges(ruuid.toString),
+                      dr.name)
+                    (ej, x) = pair
+                    ek <- if (!uuidEquivalent(x.uuid, dr.uuid))
+                      Failure(new java.lang.IllegalArgumentException(
+                        s"DataRangteResolver.SynonymScalarRestriction UUID mismatch: read: $dr, created: $x"))
+                    else
+                      Success(Tuple3(
+                        rj.copy(context = ej),
+                        qi.copy(synonymScalarRestrictions = qi.synonymScalarRestrictions + (guuid -> remaining)),
+                        true))
+                  } yield ek
+                  next
+              }
 
-          si
+              si
+            case None =>
+              Failure(new java.lang.IllegalArgumentException(
+                s"resolve(synonymScalarRestrictions) -- unknown graph: $guuid"
+              ))
+          }
         case (Failure(t), _) =>
           Failure(t)
       }
-    } yield step7
+
+      step8 <- queue.timeScalarRestrictions
+        .foldLeft[Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]](Success(step7)) {
+        case (Success(Tuple3(ri, qi, fi)), (guuid, drs)) =>
+          ri.lookupTerminologyBox(guuid) match {
+            case Some(tbox) =>
+
+              val (restrictableDataRanges, available, remaining) =
+                partitionRestrictableDataRanges[tables.TimeScalarRestriction](ri, tbox, drs, _.restrictedRangeUUID)
+
+              val si
+              : Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]
+              = available
+                .foldLeft[Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]] {
+                Success(Tuple3(
+                  ri,
+                  qi.copy(timeScalarRestrictions = qi.timeScalarRestrictions + (guuid -> remaining)),
+                  fi))
+              } {
+                case (acc, (ruuid, dr)) =>
+                  val next
+                  : Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]
+                  = for {
+                    tuple <- acc
+                    (rj, qj, fj) = tuple
+                    pair = ri.factory.createTimeScalarRestriction(
+                      rj.context,
+                      UUID.fromString(dr.uuid), // @UUID
+                      tbox,
+                      restrictableDataRanges(ruuid.toString),
+                      dr.minExclusive,
+                      dr.minInclusive,
+                      dr.maxExclusive,
+                      dr.maxInclusive,
+                      dr.name)
+                    (ej, x) = pair
+                    ek <- if (!uuidEquivalent(x.uuid, dr.uuid))
+                      Failure(new java.lang.IllegalArgumentException(
+                        s"DataRangteResolver.TimeScalarRestriction UUID mismatch: read: $dr, created: $x"))
+                    else
+                      Success(Tuple3(
+                        rj.copy(context = ej),
+                        qi.copy(timeScalarRestrictions = qi.timeScalarRestrictions + (guuid -> remaining)),
+                        true))
+                  } yield ek
+                  next
+              }
+
+              si
+            case None =>
+              Failure(new java.lang.IllegalArgumentException(
+                s"resolve(timeScalarRestrictions) -- unknown graph: $guuid"
+              ))
+          }
+        case (Failure(t), _) =>
+          Failure(t)
+      }
+    } yield step8
 
     resolved match {
       case Success(Tuple3(r7, q7, f7)) =>
