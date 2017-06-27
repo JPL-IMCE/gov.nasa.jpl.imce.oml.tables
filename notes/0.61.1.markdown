@@ -1,0 +1,5 @@
+gov.nasa.jpl.imce.oml.tables 0.61.1 resolves minor issues in the 0.61.0 release
+
+## Issues Resolved
+
+- [#13 OMLTablesResolver.mapReifiedRelationship typo](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/13)
