@@ -1031,7 +1031,7 @@ object OMLTablesResolver {
         case Some(e: api.Entity) => Some(e)
         case _ => None
       }
-      targetM = r.lookupTerminologyBoxStatement(sourceUUID) match {
+      targetM = r.lookupTerminologyBoxStatement(targetUUID) match {
         case Some(e: api.Entity) => Some(e)
         case _ => None
       }
