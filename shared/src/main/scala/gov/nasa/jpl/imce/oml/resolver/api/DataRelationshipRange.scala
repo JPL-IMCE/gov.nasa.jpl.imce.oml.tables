@@ -23,7 +23,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
  * for the range of an OML DataRelationship
  */
 trait DataRelationshipRange
-  extends Element
+  extends ModuleElement
   with Resource
 {
 }

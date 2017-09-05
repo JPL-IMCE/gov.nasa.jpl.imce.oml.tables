@@ -21,12 +21,19 @@ package gov.nasa.jpl.imce.oml.resolver.api
 /*
  * An OML Element is a logical abstraction
  * for everything involved in OML that
- * is globally identified by a version 5 namespace UUID.
+ * is globally identified by a version 5 namespace UUID deterministically
+ * derived from essential information about the OML Element.
+ * An OML Element can be the subject of multiple OML AnnotationPropertyValues;
+ * however, there can be at most one OML AnnotationPropertyValue for a given
+ * pair of OML Element and OML AnnotationProperty.
  */
 trait Element
 {
 
   val uuid: java.util.UUID
+
+  def moduleContext
+  ()(implicit extent: Extent): scala.Option[Module]
 
 def canEqual(that: scala.Any): scala.Boolean
 }

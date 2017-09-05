@@ -30,38 +30,20 @@ package object api {
     = x.compareTo(y)
   }
 
-  implicit def annotationOrdering(implicit e: Extent)
-  : scala.Ordering[Annotation]
-  = new scala.Ordering[Annotation] {
-  	def compare(x: Annotation, y: Annotation)
-  	: scala.Int
-  	= elementOrdering.compare(x.subject,y.subject) match {
-  	 	case c_subject if 0 != c_subject => c_subject
-  	 	case 0 => annotationPropertyOrdering.compare(x.property,y.property) match {
-  	 	case c_property if 0 != c_property => c_property
-  	 	case 0 => x.value.compareTo(y.value) match {
-  	 	case c_value if 0 != c_value => c_value
-  	 	case 0 => 0 } } }
-  }
-  
-  implicit def annotationEntryOrdering(implicit e: Extent)
-  : scala.Ordering[AnnotationEntry]
-  = new scala.Ordering[AnnotationEntry] {
-  	def compare(x: AnnotationEntry, y: AnnotationEntry)
-  	: scala.Int
-  	= moduleOrdering.compare(x.module,y.module) match {
-  	 	case c_module if 0 != c_module => c_module
-  	 	case 0 => elementOrdering.compare(x.subject,y.subject) match {
-  	 	case c_subject if 0 != c_subject => c_subject
-  	 	case 0 => x.value.compareTo(y.value) match {
-  	 	case c_value if 0 != c_value => c_value
-  	 	case 0 => 0 } } }
-  }
-  
   implicit def annotationPropertyOrdering
   : scala.Ordering[AnnotationProperty]
   = new scala.Ordering[AnnotationProperty] {
   	def compare(x: AnnotationProperty, y: AnnotationProperty)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def annotationPropertyValueOrdering
+  : scala.Ordering[AnnotationPropertyValue]
+  = new scala.Ordering[AnnotationPropertyValue] {
+  	def compare(x: AnnotationPropertyValue, y: AnnotationPropertyValue)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid
@@ -438,6 +420,26 @@ package object api {
   	 	case 0 => 0 }
   }
   
+  implicit def entityStructuredDataPropertyParticularRestrictionAxiomOrdering
+  : scala.Ordering[EntityStructuredDataPropertyParticularRestrictionAxiom]
+  = new scala.Ordering[EntityStructuredDataPropertyParticularRestrictionAxiom] {
+  	def compare(x: EntityStructuredDataPropertyParticularRestrictionAxiom, y: EntityStructuredDataPropertyParticularRestrictionAxiom)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def entityStructuredDataPropertyRestrictionAxiomOrdering
+  : scala.Ordering[EntityStructuredDataPropertyRestrictionAxiom]
+  = new scala.Ordering[EntityStructuredDataPropertyRestrictionAxiom] {
+  	def compare(x: EntityStructuredDataPropertyRestrictionAxiom, y: EntityStructuredDataPropertyRestrictionAxiom)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
   implicit def entityUniversalRestrictionAxiomOrdering
   : scala.Ordering[EntityUniversalRestrictionAxiom]
   = new scala.Ordering[EntityUniversalRestrictionAxiom] {
@@ -562,6 +564,36 @@ package object api {
   : scala.Ordering[RestrictedDataRange]
   = new scala.Ordering[RestrictedDataRange] {
   	def compare(x: RestrictedDataRange, y: RestrictedDataRange)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def restrictionScalarDataPropertyValueOrdering
+  : scala.Ordering[RestrictionScalarDataPropertyValue]
+  = new scala.Ordering[RestrictionScalarDataPropertyValue] {
+  	def compare(x: RestrictionScalarDataPropertyValue, y: RestrictionScalarDataPropertyValue)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def restrictionStructuredDataPropertyContextOrdering
+  : scala.Ordering[RestrictionStructuredDataPropertyContext]
+  = new scala.Ordering[RestrictionStructuredDataPropertyContext] {
+  	def compare(x: RestrictionStructuredDataPropertyContext, y: RestrictionStructuredDataPropertyContext)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def restrictionStructuredDataPropertyTupleOrdering
+  : scala.Ordering[RestrictionStructuredDataPropertyTuple]
+  = new scala.Ordering[RestrictionStructuredDataPropertyTuple] {
+  	def compare(x: RestrictionStructuredDataPropertyTuple, y: RestrictionStructuredDataPropertyTuple)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid

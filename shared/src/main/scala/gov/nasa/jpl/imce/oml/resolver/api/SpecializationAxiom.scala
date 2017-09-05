@@ -36,4 +36,6 @@ trait SpecializationAxiom
    */
   def parent
   (): Entity
+  def allNestedElements
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
 }

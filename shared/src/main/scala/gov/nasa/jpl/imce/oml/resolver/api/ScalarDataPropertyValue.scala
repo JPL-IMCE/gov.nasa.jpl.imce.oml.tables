@@ -27,8 +27,10 @@ trait ScalarDataPropertyValue
 {
 
   val scalarDataProperty: DataRelationshipToScalar
-  val scalarPropertyValue: scala.Predef.String
+  val scalarPropertyValue: gov.nasa.jpl.imce.oml.tables.LexicalValue
 
   def descriptionBox
   ()(implicit extent: Extent): scala.Option[DescriptionBox]
+  def moduleContext
+  ()(implicit extent: Extent): scala.Option[Module]
 }

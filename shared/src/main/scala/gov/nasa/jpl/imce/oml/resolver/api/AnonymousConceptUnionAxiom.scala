@@ -26,7 +26,6 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait AnonymousConceptUnionAxiom
   extends DisjointUnionOfConceptsAxiom
   with ConceptTreeDisjunction
-  with Element
 {
 
   val name: gov.nasa.jpl.imce.oml.tables.LocalName
@@ -34,4 +33,8 @@ trait AnonymousConceptUnionAxiom
   override val uuid: java.util.UUID
   override def bundleContainer
   ()(implicit extent: Extent): scala.Option[Bundle]
+  def allNestedDisjunctions
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
+  def allNestedUnions
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
 }

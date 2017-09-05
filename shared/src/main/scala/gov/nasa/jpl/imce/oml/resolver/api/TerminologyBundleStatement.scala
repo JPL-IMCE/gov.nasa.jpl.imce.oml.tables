@@ -27,4 +27,7 @@ trait TerminologyBundleStatement
 {
 
   val bundle: Bundle
+
+  def moduleContext
+  ()(implicit extent: Extent): scala.Option[Module]
 }

@@ -25,23 +25,6 @@ trait OMLResolvedFactory {
   val oug: OMLUUIDGenerator
   import oug._
   
-  // Annotation
-  def createAnnotation
-  ( extent: Extent,
-    module: Module,
-    subject: Element,
-    property: AnnotationProperty,
-    value: scala.Predef.String )
-  : (Extent, Annotation)
-  
-  // AnnotationEntry
-  def createAnnotationEntry
-  ( extent: Extent,
-    module: Module,
-    subject: Element,
-    value: scala.Predef.String )
-  : (Extent, AnnotationEntry)
-  
   // AnnotationProperty
   def createAnnotationProperty
   ( extent: Extent,
@@ -59,6 +42,28 @@ trait OMLResolvedFactory {
     iri: gov.nasa.jpl.imce.oml.tables.IRI,
     abbrevIRI: gov.nasa.jpl.imce.oml.tables.AbbrevIRI )
   : (Extent, AnnotationProperty)
+  
+  // AnnotationPropertyValue
+  def createAnnotationPropertyValue
+  ( extent: Extent,
+    subject: Element,
+    property: AnnotationProperty,
+    value: scala.Predef.String )
+  : (Extent, AnnotationPropertyValue)
+  = {
+  	// implicitly derived uuid...
+    import scala.Predef.ArrowAssoc
+    val implicitUUID: java.util.UUID = namespaceUUID("AnnotationPropertyValue",  "subject" -> subject.uuid.toString,  "property" -> property.uuid.toString)
+    createAnnotationPropertyValue( extent, implicitUUID,  subject,  property,  value )
+  }
+  
+  def createAnnotationPropertyValue
+  ( extent: Extent,
+    uuid: java.util.UUID,
+    subject: Element,
+    property: AnnotationProperty,
+    value: scala.Predef.String )
+  : (Extent, AnnotationPropertyValue)
   
   // AnonymousConceptUnionAxiom
   def createAnonymousConceptUnionAxiom
@@ -480,6 +485,28 @@ trait OMLResolvedFactory {
     name: gov.nasa.jpl.imce.oml.tables.LocalName )
   : (Extent, EntityStructuredDataProperty)
   
+  // EntityStructuredDataPropertyParticularRestrictionAxiom
+  def createEntityStructuredDataPropertyParticularRestrictionAxiom
+  ( extent: Extent,
+    tbox: TerminologyBox,
+    structuredDataProperty: DataRelationshipToStructure,
+    restrictedEntity: Entity )
+  : (Extent, EntityStructuredDataPropertyParticularRestrictionAxiom)
+  = {
+  	// derived uuid...
+    import scala.Predef.ArrowAssoc
+    val uuid: java.util.UUID = namespaceUUID("EntityStructuredDataPropertyParticularRestrictionAxiom",  "tbox" -> tbox.uuid.toString,  "structuredDataProperty" -> structuredDataProperty.uuid.toString,  "restrictedEntity" -> restrictedEntity.uuid.toString)
+    createEntityStructuredDataPropertyParticularRestrictionAxiom( extent, uuid,  tbox,  structuredDataProperty,  restrictedEntity )
+  }
+  
+  def createEntityStructuredDataPropertyParticularRestrictionAxiom
+  ( extent: Extent,
+    uuid: java.util.UUID,
+    tbox: TerminologyBox,
+    structuredDataProperty: DataRelationshipToStructure,
+    restrictedEntity: Entity )
+  : (Extent, EntityStructuredDataPropertyParticularRestrictionAxiom)
+  
   // EntityUniversalRestrictionAxiom
   def createEntityUniversalRestrictionAxiom
   ( extent: Extent,
@@ -734,6 +761,48 @@ trait OMLResolvedFactory {
     subRelationship: ReifiedRelationship )
   : (Extent, ReifiedRelationshipSpecializationAxiom)
   
+  // RestrictionScalarDataPropertyValue
+  def createRestrictionScalarDataPropertyValue
+  ( extent: Extent,
+    scalarDataProperty: DataRelationshipToScalar,
+    scalarPropertyValue: gov.nasa.jpl.imce.oml.tables.LexicalValue,
+    structuredDataPropertyContext: RestrictionStructuredDataPropertyContext )
+  : (Extent, RestrictionScalarDataPropertyValue)
+  = {
+  	// derived uuid...
+    import scala.Predef.ArrowAssoc
+    val uuid: java.util.UUID = namespaceUUID("RestrictionScalarDataPropertyValue",  "scalarDataProperty" -> scalarDataProperty.uuid.toString,  "structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString)
+    createRestrictionScalarDataPropertyValue( extent, uuid,  scalarDataProperty,  scalarPropertyValue,  structuredDataPropertyContext )
+  }
+  
+  def createRestrictionScalarDataPropertyValue
+  ( extent: Extent,
+    uuid: java.util.UUID,
+    scalarDataProperty: DataRelationshipToScalar,
+    scalarPropertyValue: gov.nasa.jpl.imce.oml.tables.LexicalValue,
+    structuredDataPropertyContext: RestrictionStructuredDataPropertyContext )
+  : (Extent, RestrictionScalarDataPropertyValue)
+  
+  // RestrictionStructuredDataPropertyTuple
+  def createRestrictionStructuredDataPropertyTuple
+  ( extent: Extent,
+    structuredDataProperty: DataRelationshipToStructure,
+    structuredDataPropertyContext: RestrictionStructuredDataPropertyContext )
+  : (Extent, RestrictionStructuredDataPropertyTuple)
+  = {
+  	// derived uuid...
+    import scala.Predef.ArrowAssoc
+    val uuid: java.util.UUID = namespaceUUID("RestrictionStructuredDataPropertyTuple",  "structuredDataProperty" -> structuredDataProperty.uuid.toString,  "structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString)
+    createRestrictionStructuredDataPropertyTuple( extent, uuid,  structuredDataProperty,  structuredDataPropertyContext )
+  }
+  
+  def createRestrictionStructuredDataPropertyTuple
+  ( extent: Extent,
+    uuid: java.util.UUID,
+    structuredDataProperty: DataRelationshipToStructure,
+    structuredDataPropertyContext: RestrictionStructuredDataPropertyContext )
+  : (Extent, RestrictionStructuredDataPropertyTuple)
+  
   // RootConceptTaxonomyAxiom
   def createRootConceptTaxonomyAxiom
   ( extent: Extent,
@@ -802,7 +871,7 @@ trait OMLResolvedFactory {
   def createScalarDataPropertyValue
   ( extent: Extent,
     scalarDataProperty: DataRelationshipToScalar,
-    scalarPropertyValue: scala.Predef.String,
+    scalarPropertyValue: gov.nasa.jpl.imce.oml.tables.LexicalValue,
     structuredDataPropertyContext: SingletonInstanceStructuredDataPropertyContext )
   : (Extent, ScalarDataPropertyValue)
   = {
@@ -816,7 +885,7 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     uuid: java.util.UUID,
     scalarDataProperty: DataRelationshipToScalar,
-    scalarPropertyValue: scala.Predef.String,
+    scalarPropertyValue: gov.nasa.jpl.imce.oml.tables.LexicalValue,
     structuredDataPropertyContext: SingletonInstanceStructuredDataPropertyContext )
   : (Extent, ScalarDataPropertyValue)
   

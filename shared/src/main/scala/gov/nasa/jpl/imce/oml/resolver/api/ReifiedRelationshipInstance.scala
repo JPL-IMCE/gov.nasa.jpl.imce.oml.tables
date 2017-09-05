@@ -31,4 +31,6 @@ trait ReifiedRelationshipInstance
   (): ConceptualEntity
   def descriptionBox
   ()(implicit extent: Extent): scala.Option[DescriptionBox]
+  def allNestedElements
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
 }

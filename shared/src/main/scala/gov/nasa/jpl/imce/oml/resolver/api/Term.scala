@@ -32,4 +32,6 @@ trait Term
   ()(implicit extent: Extent): scala.Option[gov.nasa.jpl.imce.oml.tables.IRI]
   override def abbrevIRI
   ()(implicit extent: Extent): scala.Option[scala.Predef.String]
+  def allNestedElements
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
 }

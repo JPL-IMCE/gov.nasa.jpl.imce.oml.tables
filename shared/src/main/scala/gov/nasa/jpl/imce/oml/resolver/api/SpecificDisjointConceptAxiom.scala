@@ -23,7 +23,6 @@ package gov.nasa.jpl.imce.oml.resolver.api
  */
 trait SpecificDisjointConceptAxiom
   extends DisjointUnionOfConceptsAxiom
-  with Element
 {
 
   /*
@@ -32,4 +31,6 @@ trait SpecificDisjointConceptAxiom
   val disjointLeaf: Concept
 
   override val uuid: java.util.UUID
+  def allNestedUnions
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
 }

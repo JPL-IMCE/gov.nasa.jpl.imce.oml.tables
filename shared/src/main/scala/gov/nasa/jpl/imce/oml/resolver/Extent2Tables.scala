@@ -715,25 +715,39 @@ object Extent2Tables {
   }
 
   def convertAnnotations
-  (aps: Seq[tables.AnnotationProperty])
-  (acc: Map[tables.AnnotationProperty, Seq[tables.AnnotationEntry]],
-   x: (api.Module, Set[api.Annotation]))
-  : Map[tables.AnnotationProperty, Seq[tables.AnnotationEntry]]
-  = x._2.foldLeft[Map[tables.AnnotationProperty, Seq[tables.AnnotationEntry]]](acc) { case (acc1, a) =>
-    aps
-      .find(_.uuid == a.property.uuid.toString)
-      .fold[Map[tables.AnnotationProperty, Seq[tables.AnnotationEntry]]] {
-      // This should never happen...
-      acc1
-    } { ap =>
-      acc1.updated(
-        ap,
-        acc1.getOrElse(ap, Seq.empty) :+ tables.AnnotationEntry(
-          x._1.uuid.toString,
-          a.subject.uuid.toString,
-          a.value)
-      )
-    }
+  (acc: Seq[tables.AnnotationPropertyValue],
+   x: api.Module)
+  (implicit ext: api.Extent)
+  : Seq[tables.AnnotationPropertyValue]
+  = x.moduleElements.foldLeft[Seq[tables.AnnotationPropertyValue]] {
+    convertAnnotationPropertyValues(acc, x.uuid.toString, ext.lookupAnnotations(x))
+  } { case (acc1, me) =>
+    convertAnnotations(acc1, me)
+  }
+
+  def convertAnnotations
+  (acc: Seq[tables.AnnotationPropertyValue],
+   me: api.ModuleElement)
+  (implicit ext: api.Extent)
+  : Seq[tables.AnnotationPropertyValue]
+  = me.allNestedElements().foldLeft[Seq[tables.AnnotationPropertyValue]] {
+    convertAnnotationPropertyValues(acc, me.uuid.toString, ext.lookupAnnotations(me))
+    } { case (acc1, ne: api.Element) =>
+    convertAnnotationPropertyValues(acc1, ne.uuid.toString, ext.lookupAnnotations(ne))
+  }
+
+  def convertAnnotationPropertyValues
+  (acc: Seq[tables.AnnotationPropertyValue],
+   subjectUUID: tables.UUID,
+   as: Set[api.AnnotationPropertyValue])
+  : Seq[tables.AnnotationPropertyValue]
+  = as.foldLeft(acc) { case (acc1, a) =>
+    acc1 :+ tables.AnnotationPropertyValue(
+      a.uuid.toString,
+      subjectUUID,
+      a.property.uuid.toString,
+      a.value
+    )
   }
 
   def convert
@@ -957,17 +971,14 @@ object Extent2Tables {
 
           structuredDataPropertyTuples = e.structuredPropertyTuples
             .foldLeft[Seq[tables.StructuredDataPropertyTuple]](Seq.empty)(convertStructuredDataPropertyTuples)
-            .sortBy(_.uuid)
+            .sortBy(_.uuid),
+
+          annotationPropertyValues = ( e.terminologyGraphs.values ++ e.bundles.values ++ e.descriptionBoxes.values )
+              .foldLeft[Seq[tables.AnnotationPropertyValue]](Seq.empty)(convertAnnotations)
+              .sortBy(_.uuid)
         )
 
-    t.copy(
-      annotations =
-        e
-          .annotations
-          .foldLeft[Map[tables.AnnotationProperty, Seq[tables.AnnotationEntry]]]
-          (Map.empty)
-          (convertAnnotations(t.annotationProperties))
-    )
+    t
   }
 
 }

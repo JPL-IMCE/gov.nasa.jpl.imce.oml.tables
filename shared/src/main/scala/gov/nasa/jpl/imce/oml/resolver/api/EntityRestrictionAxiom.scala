@@ -29,4 +29,7 @@ trait EntityRestrictionAxiom
   val restrictedRelation: EntityRelationship
   val restrictedRange: Entity
   val restrictedDomain: Entity
+
+  def allNestedElements
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
 }

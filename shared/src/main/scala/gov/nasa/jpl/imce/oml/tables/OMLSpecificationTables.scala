@@ -22,12 +22,12 @@ package gov.nasa.jpl.imce.oml.tables
 import java.io.{File,InputStream}
 import org.apache.commons.compress.archivers.zip.{ZipArchiveEntry, ZipFile}
 
-import scala.collection.immutable.{Map,Seq}
+import scala.collection.immutable.Seq
 import scala.collection.JavaConversions._
 import scala.util.control.Exception._
 import scala.util.{Failure,Success,Try}
 import scala.{Boolean,StringContext,Unit}
-import scala.Predef.{ArrowAssoc,String}
+import scala.Predef.String
 
 case class OMLSpecificationTables
 (
@@ -67,20 +67,24 @@ case class OMLSpecificationTables
   bundledTerminologyAxioms : Seq[BundledTerminologyAxiom] = Seq.empty,
   rootConceptTaxonomyAxioms : Seq[RootConceptTaxonomyAxiom] = Seq.empty,
   specificDisjointConceptAxioms : Seq[SpecificDisjointConceptAxiom] = Seq.empty,
+  annotationPropertyValues : Seq[AnnotationPropertyValue] = Seq.empty,
   anonymousConceptUnionAxioms : Seq[AnonymousConceptUnionAxiom] = Seq.empty,
   conceptInstances : Seq[ConceptInstance] = Seq.empty,
   descriptionBoxes : Seq[DescriptionBox] = Seq.empty,
   descriptionBoxExtendsClosedWorldDefinitions : Seq[DescriptionBoxExtendsClosedWorldDefinitions] = Seq.empty,
   descriptionBoxRefinements : Seq[DescriptionBoxRefinement] = Seq.empty,
+  entityStructuredDataPropertyParticularRestrictionAxioms : Seq[EntityStructuredDataPropertyParticularRestrictionAxiom] = Seq.empty,
   reifiedRelationshipInstances : Seq[ReifiedRelationshipInstance] = Seq.empty,
   reifiedRelationshipInstanceDomains : Seq[ReifiedRelationshipInstanceDomain] = Seq.empty,
   reifiedRelationshipInstanceRanges : Seq[ReifiedRelationshipInstanceRange] = Seq.empty,
+  restrictionScalarDataPropertyValues : Seq[RestrictionScalarDataPropertyValue] = Seq.empty,
+  restrictionStructuredDataPropertyTuples : Seq[RestrictionStructuredDataPropertyTuple] = Seq.empty,
   scalarDataPropertyValues : Seq[ScalarDataPropertyValue] = Seq.empty,
   singletonInstanceScalarDataPropertyValues : Seq[SingletonInstanceScalarDataPropertyValue] = Seq.empty,
   singletonInstanceStructuredDataPropertyValues : Seq[SingletonInstanceStructuredDataPropertyValue] = Seq.empty,
   structuredDataPropertyTuples : Seq[StructuredDataPropertyTuple] = Seq.empty,
   unreifiedRelationshipInstanceTuples : Seq[UnreifiedRelationshipInstanceTuple] = Seq.empty,
-  annotations: Map[AnnotationProperty, Seq[AnnotationEntry]] = Map.empty)
+  annotations: Seq[AnnotationPropertyValue] = Seq.empty)
 {
   def readAnnotationProperties(is: InputStream)
   : OMLSpecificationTables
@@ -190,6 +194,9 @@ case class OMLSpecificationTables
   def readSpecificDisjointConceptAxioms(is: InputStream)
   : OMLSpecificationTables
   = copy(specificDisjointConceptAxioms = readJSonTable(is, SpecificDisjointConceptAxiomHelper.fromJSON))
+  def readAnnotationPropertyValues(is: InputStream)
+  : OMLSpecificationTables
+  = copy(annotationPropertyValues = readJSonTable(is, AnnotationPropertyValueHelper.fromJSON))
   def readAnonymousConceptUnionAxioms(is: InputStream)
   : OMLSpecificationTables
   = copy(anonymousConceptUnionAxioms = readJSonTable(is, AnonymousConceptUnionAxiomHelper.fromJSON))
@@ -205,6 +212,9 @@ case class OMLSpecificationTables
   def readDescriptionBoxRefinements(is: InputStream)
   : OMLSpecificationTables
   = copy(descriptionBoxRefinements = readJSonTable(is, DescriptionBoxRefinementHelper.fromJSON))
+  def readEntityStructuredDataPropertyParticularRestrictionAxioms(is: InputStream)
+  : OMLSpecificationTables
+  = copy(entityStructuredDataPropertyParticularRestrictionAxioms = readJSonTable(is, EntityStructuredDataPropertyParticularRestrictionAxiomHelper.fromJSON))
   def readReifiedRelationshipInstances(is: InputStream)
   : OMLSpecificationTables
   = copy(reifiedRelationshipInstances = readJSonTable(is, ReifiedRelationshipInstanceHelper.fromJSON))
@@ -214,6 +224,12 @@ case class OMLSpecificationTables
   def readReifiedRelationshipInstanceRanges(is: InputStream)
   : OMLSpecificationTables
   = copy(reifiedRelationshipInstanceRanges = readJSonTable(is, ReifiedRelationshipInstanceRangeHelper.fromJSON))
+  def readRestrictionScalarDataPropertyValues(is: InputStream)
+  : OMLSpecificationTables
+  = copy(restrictionScalarDataPropertyValues = readJSonTable(is, RestrictionScalarDataPropertyValueHelper.fromJSON))
+  def readRestrictionStructuredDataPropertyTuples(is: InputStream)
+  : OMLSpecificationTables
+  = copy(restrictionStructuredDataPropertyTuples = readJSonTable(is, RestrictionStructuredDataPropertyTupleHelper.fromJSON))
   def readScalarDataPropertyValues(is: InputStream)
   : OMLSpecificationTables
   = copy(scalarDataPropertyValues = readJSonTable(is, ScalarDataPropertyValueHelper.fromJSON))
@@ -267,14 +283,18 @@ case class OMLSpecificationTables
     bundledTerminologyAxioms.isEmpty &&
     rootConceptTaxonomyAxioms.isEmpty &&
     specificDisjointConceptAxioms.isEmpty &&
+    annotationPropertyValues.isEmpty &&
     anonymousConceptUnionAxioms.isEmpty &&
     conceptInstances.isEmpty &&
     descriptionBoxes.isEmpty &&
     descriptionBoxExtendsClosedWorldDefinitions.isEmpty &&
     descriptionBoxRefinements.isEmpty &&
+    entityStructuredDataPropertyParticularRestrictionAxioms.isEmpty &&
     reifiedRelationshipInstances.isEmpty &&
     reifiedRelationshipInstanceDomains.isEmpty &&
     reifiedRelationshipInstanceRanges.isEmpty &&
+    restrictionScalarDataPropertyValues.isEmpty &&
+    restrictionStructuredDataPropertyTuples.isEmpty &&
     scalarDataPropertyValues.isEmpty &&
     singletonInstanceScalarDataPropertyValues.isEmpty &&
     singletonInstanceStructuredDataPropertyValues.isEmpty &&
@@ -282,80 +302,75 @@ case class OMLSpecificationTables
     unreifiedRelationshipInstanceTuples.isEmpty &&
     annotations.isEmpty
   
-def show: String = {
+  def show: String = {
   
-  def showSeq[T](title: String, s: Seq[T]): String = {
-    if (s.isEmpty)
-       "\n" + title + ": empty"
-    else
-       "\n" + title + s": ${s.size} entries" +
-       s.map(_.toString).mkString("\n ", "\n ", "\n")
-  }
-  
-  val buff = new scala.collection.mutable.StringBuilder()
-  
-  buff ++= showSeq("annotationProperties", annotationProperties)
-  buff ++= showSeq("terminologyGraphs", terminologyGraphs)
-  buff ++= showSeq("bundles", bundles)
-  buff ++= showSeq("conceptDesignationTerminologyAxioms", conceptDesignationTerminologyAxioms)
-  buff ++= showSeq("terminologyExtensionAxioms", terminologyExtensionAxioms)
-  buff ++= showSeq("terminologyNestingAxioms", terminologyNestingAxioms)
-  buff ++= showSeq("aspects", aspects)
-  buff ++= showSeq("concepts", concepts)
-  buff ++= showSeq("reifiedRelationships", reifiedRelationships)
-  buff ++= showSeq("unreifiedRelationships", unreifiedRelationships)
-  buff ++= showSeq("scalars", scalars)
-  buff ++= showSeq("structures", structures)
-  buff ++= showSeq("binaryScalarRestrictions", binaryScalarRestrictions)
-  buff ++= showSeq("iriScalarRestrictions", iriScalarRestrictions)
-  buff ++= showSeq("numericScalarRestrictions", numericScalarRestrictions)
-  buff ++= showSeq("plainLiteralScalarRestrictions", plainLiteralScalarRestrictions)
-  buff ++= showSeq("scalarOneOfRestrictions", scalarOneOfRestrictions)
-  buff ++= showSeq("stringScalarRestrictions", stringScalarRestrictions)
-  buff ++= showSeq("synonymScalarRestrictions", synonymScalarRestrictions)
-  buff ++= showSeq("timeScalarRestrictions", timeScalarRestrictions)
-  buff ++= showSeq("entityScalarDataProperties", entityScalarDataProperties)
-  buff ++= showSeq("entityStructuredDataProperties", entityStructuredDataProperties)
-  buff ++= showSeq("scalarDataProperties", scalarDataProperties)
-  buff ++= showSeq("structuredDataProperties", structuredDataProperties)
-  buff ++= showSeq("aspectSpecializationAxioms", aspectSpecializationAxioms)
-  buff ++= showSeq("conceptSpecializationAxioms", conceptSpecializationAxioms)
-  buff ++= showSeq("reifiedRelationshipSpecializationAxioms", reifiedRelationshipSpecializationAxioms)
-  buff ++= showSeq("entityExistentialRestrictionAxioms", entityExistentialRestrictionAxioms)
-  buff ++= showSeq("entityUniversalRestrictionAxioms", entityUniversalRestrictionAxioms)
-  buff ++= showSeq("entityScalarDataPropertyExistentialRestrictionAxioms", entityScalarDataPropertyExistentialRestrictionAxioms)
-  buff ++= showSeq("entityScalarDataPropertyParticularRestrictionAxioms", entityScalarDataPropertyParticularRestrictionAxioms)
-  buff ++= showSeq("entityScalarDataPropertyUniversalRestrictionAxioms", entityScalarDataPropertyUniversalRestrictionAxioms)
-  buff ++= showSeq("scalarOneOfLiteralAxioms", scalarOneOfLiteralAxioms)
-  buff ++= showSeq("bundledTerminologyAxioms", bundledTerminologyAxioms)
-  buff ++= showSeq("rootConceptTaxonomyAxioms", rootConceptTaxonomyAxioms)
-  buff ++= showSeq("specificDisjointConceptAxioms", specificDisjointConceptAxioms)
-  buff ++= showSeq("anonymousConceptUnionAxioms", anonymousConceptUnionAxioms)
-  buff ++= showSeq("conceptInstances", conceptInstances)
-  buff ++= showSeq("descriptionBoxes", descriptionBoxes)
-  buff ++= showSeq("descriptionBoxExtendsClosedWorldDefinitions", descriptionBoxExtendsClosedWorldDefinitions)
-  buff ++= showSeq("descriptionBoxRefinements", descriptionBoxRefinements)
-  buff ++= showSeq("reifiedRelationshipInstances", reifiedRelationshipInstances)
-  buff ++= showSeq("reifiedRelationshipInstanceDomains", reifiedRelationshipInstanceDomains)
-  buff ++= showSeq("reifiedRelationshipInstanceRanges", reifiedRelationshipInstanceRanges)
-  buff ++= showSeq("scalarDataPropertyValues", scalarDataPropertyValues)
-  buff ++= showSeq("singletonInstanceScalarDataPropertyValues", singletonInstanceScalarDataPropertyValues)
-  buff ++= showSeq("singletonInstanceStructuredDataPropertyValues", singletonInstanceStructuredDataPropertyValues)
-  buff ++= showSeq("structuredDataPropertyTuples", structuredDataPropertyTuples)
-  buff ++= showSeq("unreifiedRelationshipInstanceTuples", unreifiedRelationshipInstanceTuples)
-  
-  if (annotations.isEmpty)
-    buff ++= "\nannotations: empty"
-  else {
-    buff ++= s"\nannotations: ${annotations.size} entries"
-    annotations.keys.toSeq.sorted.foreach { ap =>
-      val as = annotations.getOrElse(ap, Seq.empty)
-      buff ++= showSeq(s"annotations(${ap.abbrevIRI})", as)
+    def showSeq[T](title: String, s: Seq[T]): String = {
+      if (s.isEmpty)
+         "\n" + title + ": empty"
+      else
+         "\n" + title + s": ${s.size} entries" +
+         s.map(_.toString).mkString("\n ", "\n ", "\n")
     }
-  }
   
-  buff.toString
-}
+    val buff = new scala.collection.mutable.StringBuilder()
+  
+    buff ++= showSeq("annotationProperties", annotationProperties)
+    buff ++= showSeq("terminologyGraphs", terminologyGraphs)
+    buff ++= showSeq("bundles", bundles)
+    buff ++= showSeq("conceptDesignationTerminologyAxioms", conceptDesignationTerminologyAxioms)
+    buff ++= showSeq("terminologyExtensionAxioms", terminologyExtensionAxioms)
+    buff ++= showSeq("terminologyNestingAxioms", terminologyNestingAxioms)
+    buff ++= showSeq("aspects", aspects)
+    buff ++= showSeq("concepts", concepts)
+    buff ++= showSeq("reifiedRelationships", reifiedRelationships)
+    buff ++= showSeq("unreifiedRelationships", unreifiedRelationships)
+    buff ++= showSeq("scalars", scalars)
+    buff ++= showSeq("structures", structures)
+    buff ++= showSeq("binaryScalarRestrictions", binaryScalarRestrictions)
+    buff ++= showSeq("iriScalarRestrictions", iriScalarRestrictions)
+    buff ++= showSeq("numericScalarRestrictions", numericScalarRestrictions)
+    buff ++= showSeq("plainLiteralScalarRestrictions", plainLiteralScalarRestrictions)
+    buff ++= showSeq("scalarOneOfRestrictions", scalarOneOfRestrictions)
+    buff ++= showSeq("stringScalarRestrictions", stringScalarRestrictions)
+    buff ++= showSeq("synonymScalarRestrictions", synonymScalarRestrictions)
+    buff ++= showSeq("timeScalarRestrictions", timeScalarRestrictions)
+    buff ++= showSeq("entityScalarDataProperties", entityScalarDataProperties)
+    buff ++= showSeq("entityStructuredDataProperties", entityStructuredDataProperties)
+    buff ++= showSeq("scalarDataProperties", scalarDataProperties)
+    buff ++= showSeq("structuredDataProperties", structuredDataProperties)
+    buff ++= showSeq("aspectSpecializationAxioms", aspectSpecializationAxioms)
+    buff ++= showSeq("conceptSpecializationAxioms", conceptSpecializationAxioms)
+    buff ++= showSeq("reifiedRelationshipSpecializationAxioms", reifiedRelationshipSpecializationAxioms)
+    buff ++= showSeq("entityExistentialRestrictionAxioms", entityExistentialRestrictionAxioms)
+    buff ++= showSeq("entityUniversalRestrictionAxioms", entityUniversalRestrictionAxioms)
+    buff ++= showSeq("entityScalarDataPropertyExistentialRestrictionAxioms", entityScalarDataPropertyExistentialRestrictionAxioms)
+    buff ++= showSeq("entityScalarDataPropertyParticularRestrictionAxioms", entityScalarDataPropertyParticularRestrictionAxioms)
+    buff ++= showSeq("entityScalarDataPropertyUniversalRestrictionAxioms", entityScalarDataPropertyUniversalRestrictionAxioms)
+    buff ++= showSeq("scalarOneOfLiteralAxioms", scalarOneOfLiteralAxioms)
+    buff ++= showSeq("bundledTerminologyAxioms", bundledTerminologyAxioms)
+    buff ++= showSeq("rootConceptTaxonomyAxioms", rootConceptTaxonomyAxioms)
+    buff ++= showSeq("specificDisjointConceptAxioms", specificDisjointConceptAxioms)
+    buff ++= showSeq("annotationPropertyValues", annotationPropertyValues)
+    buff ++= showSeq("anonymousConceptUnionAxioms", anonymousConceptUnionAxioms)
+    buff ++= showSeq("conceptInstances", conceptInstances)
+    buff ++= showSeq("descriptionBoxes", descriptionBoxes)
+    buff ++= showSeq("descriptionBoxExtendsClosedWorldDefinitions", descriptionBoxExtendsClosedWorldDefinitions)
+    buff ++= showSeq("descriptionBoxRefinements", descriptionBoxRefinements)
+    buff ++= showSeq("entityStructuredDataPropertyParticularRestrictionAxioms", entityStructuredDataPropertyParticularRestrictionAxioms)
+    buff ++= showSeq("reifiedRelationshipInstances", reifiedRelationshipInstances)
+    buff ++= showSeq("reifiedRelationshipInstanceDomains", reifiedRelationshipInstanceDomains)
+    buff ++= showSeq("reifiedRelationshipInstanceRanges", reifiedRelationshipInstanceRanges)
+    buff ++= showSeq("restrictionScalarDataPropertyValues", restrictionScalarDataPropertyValues)
+    buff ++= showSeq("restrictionStructuredDataPropertyTuples", restrictionStructuredDataPropertyTuples)
+    buff ++= showSeq("scalarDataPropertyValues", scalarDataPropertyValues)
+    buff ++= showSeq("singletonInstanceScalarDataPropertyValues", singletonInstanceScalarDataPropertyValues)
+    buff ++= showSeq("singletonInstanceStructuredDataPropertyValues", singletonInstanceStructuredDataPropertyValues)
+    buff ++= showSeq("structuredDataPropertyTuples", structuredDataPropertyTuples)
+    buff ++= showSeq("unreifiedRelationshipInstanceTuples", unreifiedRelationshipInstanceTuples)
+    buff ++= showSeq("annotations", annotations)
+  
+    buff.toString
+  }
 
 }
 
@@ -425,14 +440,18 @@ object OMLSpecificationTables {
       bundledTerminologyAxioms = t1.bundledTerminologyAxioms ++ t2.bundledTerminologyAxioms,
       rootConceptTaxonomyAxioms = t1.rootConceptTaxonomyAxioms ++ t2.rootConceptTaxonomyAxioms,
       specificDisjointConceptAxioms = t1.specificDisjointConceptAxioms ++ t2.specificDisjointConceptAxioms,
+      annotationPropertyValues = t1.annotationPropertyValues ++ t2.annotationPropertyValues,
       anonymousConceptUnionAxioms = t1.anonymousConceptUnionAxioms ++ t2.anonymousConceptUnionAxioms,
       conceptInstances = t1.conceptInstances ++ t2.conceptInstances,
       descriptionBoxes = t1.descriptionBoxes ++ t2.descriptionBoxes,
       descriptionBoxExtendsClosedWorldDefinitions = t1.descriptionBoxExtendsClosedWorldDefinitions ++ t2.descriptionBoxExtendsClosedWorldDefinitions,
       descriptionBoxRefinements = t1.descriptionBoxRefinements ++ t2.descriptionBoxRefinements,
+      entityStructuredDataPropertyParticularRestrictionAxioms = t1.entityStructuredDataPropertyParticularRestrictionAxioms ++ t2.entityStructuredDataPropertyParticularRestrictionAxioms,
       reifiedRelationshipInstances = t1.reifiedRelationshipInstances ++ t2.reifiedRelationshipInstances,
       reifiedRelationshipInstanceDomains = t1.reifiedRelationshipInstanceDomains ++ t2.reifiedRelationshipInstanceDomains,
       reifiedRelationshipInstanceRanges = t1.reifiedRelationshipInstanceRanges ++ t2.reifiedRelationshipInstanceRanges,
+      restrictionScalarDataPropertyValues = t1.restrictionScalarDataPropertyValues ++ t2.restrictionScalarDataPropertyValues,
+      restrictionStructuredDataPropertyTuples = t1.restrictionStructuredDataPropertyTuples ++ t2.restrictionStructuredDataPropertyTuples,
       scalarDataPropertyValues = t1.scalarDataPropertyValues ++ t2.scalarDataPropertyValues,
       singletonInstanceScalarDataPropertyValues = t1.singletonInstanceScalarDataPropertyValues ++ t2.singletonInstanceScalarDataPropertyValues,
       singletonInstanceStructuredDataPropertyValues = t1.singletonInstanceStructuredDataPropertyValues ++ t2.singletonInstanceStructuredDataPropertyValues,
@@ -519,6 +538,8 @@ object OMLSpecificationTables {
   	    tables.readRootConceptTaxonomyAxioms(is)
   	  case SpecificDisjointConceptAxiomHelper.TABLE_JSON_FILENAME =>
   	    tables.readSpecificDisjointConceptAxioms(is)
+  	  case AnnotationPropertyValueHelper.TABLE_JSON_FILENAME =>
+  	    tables.readAnnotationPropertyValues(is)
   	  case AnonymousConceptUnionAxiomHelper.TABLE_JSON_FILENAME =>
   	    tables.readAnonymousConceptUnionAxioms(is)
   	  case ConceptInstanceHelper.TABLE_JSON_FILENAME =>
@@ -529,12 +550,18 @@ object OMLSpecificationTables {
   	    tables.readDescriptionBoxExtendsClosedWorldDefinitions(is)
   	  case DescriptionBoxRefinementHelper.TABLE_JSON_FILENAME =>
   	    tables.readDescriptionBoxRefinements(is)
+  	  case EntityStructuredDataPropertyParticularRestrictionAxiomHelper.TABLE_JSON_FILENAME =>
+  	    tables.readEntityStructuredDataPropertyParticularRestrictionAxioms(is)
   	  case ReifiedRelationshipInstanceHelper.TABLE_JSON_FILENAME =>
   	    tables.readReifiedRelationshipInstances(is)
   	  case ReifiedRelationshipInstanceDomainHelper.TABLE_JSON_FILENAME =>
   	    tables.readReifiedRelationshipInstanceDomains(is)
   	  case ReifiedRelationshipInstanceRangeHelper.TABLE_JSON_FILENAME =>
   	    tables.readReifiedRelationshipInstanceRanges(is)
+  	  case RestrictionScalarDataPropertyValueHelper.TABLE_JSON_FILENAME =>
+  	    tables.readRestrictionScalarDataPropertyValues(is)
+  	  case RestrictionStructuredDataPropertyTupleHelper.TABLE_JSON_FILENAME =>
+  	    tables.readRestrictionStructuredDataPropertyTuples(is)
   	  case ScalarDataPropertyValueHelper.TABLE_JSON_FILENAME =>
   	    tables.readScalarDataPropertyValues(is)
   	  case SingletonInstanceScalarDataPropertyValueHelper.TABLE_JSON_FILENAME =>
@@ -545,14 +572,6 @@ object OMLSpecificationTables {
   	    tables.readStructuredDataPropertyTuples(is)
   	  case UnreifiedRelationshipInstanceTupleHelper.TABLE_JSON_FILENAME =>
   	    tables.readUnreifiedRelationshipInstanceTuples(is)
-      case annotationPropertyIRI =>
-        tables
-          .annotationProperties
-          .find(_.iri == annotationPropertyIRI)
-          .fold[OMLSpecificationTables](tables) { ap =>
-          val annotationPropertyTable = ap -> readJSonTable[AnnotationEntry](is, AnnotationEntryHelper.fromJSON)
-          tables.copy(annotations = tables.annotations + annotationPropertyTable)
-        }
     }
   }
   
@@ -793,6 +812,12 @@ object OMLSpecificationTables {
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(AnnotationPropertyValueHelper.TABLE_JSON_FILENAME))
+      tables.annotationPropertyValues.foreach { t =>
+         val line = AnnotationPropertyValueHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
       zos.putNextEntry(new java.util.zip.ZipEntry(AnonymousConceptUnionAxiomHelper.TABLE_JSON_FILENAME))
       tables.anonymousConceptUnionAxioms.foreach { t =>
          val line = AnonymousConceptUnionAxiomHelper.toJSON(t)+"\n"
@@ -823,6 +848,12 @@ object OMLSpecificationTables {
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(EntityStructuredDataPropertyParticularRestrictionAxiomHelper.TABLE_JSON_FILENAME))
+      tables.entityStructuredDataPropertyParticularRestrictionAxioms.foreach { t =>
+         val line = EntityStructuredDataPropertyParticularRestrictionAxiomHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
       zos.putNextEntry(new java.util.zip.ZipEntry(ReifiedRelationshipInstanceHelper.TABLE_JSON_FILENAME))
       tables.reifiedRelationshipInstances.foreach { t =>
          val line = ReifiedRelationshipInstanceHelper.toJSON(t)+"\n"
@@ -838,6 +869,18 @@ object OMLSpecificationTables {
       zos.putNextEntry(new java.util.zip.ZipEntry(ReifiedRelationshipInstanceRangeHelper.TABLE_JSON_FILENAME))
       tables.reifiedRelationshipInstanceRanges.foreach { t =>
          val line = ReifiedRelationshipInstanceRangeHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(RestrictionScalarDataPropertyValueHelper.TABLE_JSON_FILENAME))
+      tables.restrictionScalarDataPropertyValues.foreach { t =>
+         val line = RestrictionScalarDataPropertyValueHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(RestrictionStructuredDataPropertyTupleHelper.TABLE_JSON_FILENAME))
+      tables.restrictionStructuredDataPropertyTuples.foreach { t =>
+         val line = RestrictionStructuredDataPropertyTupleHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry()
@@ -872,22 +915,6 @@ object OMLSpecificationTables {
       }
       zos.closeEntry()
       
-      tables
-        .annotationProperties
-        .foreach { ap =>
-          tables
-            .annotations
-            .get(ap)
-            .foreach { as =>
-              zos.putNextEntry(new java.util.zip.ZipEntry(ap.iri))
-              as.foreach { a =>
-                val line = AnnotationEntryHelper.toJSON(a)+"\n"
-                zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
-              }
-              zos.closeEntry()
-            }
-        }
-  
       zos.close()
   	  Success(())
   	}

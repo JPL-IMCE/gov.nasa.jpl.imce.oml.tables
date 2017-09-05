@@ -45,4 +45,6 @@ trait ConceptualEntitySingletonInstance
   ()(implicit extent: Extent): scala.Option[scala.Predef.String]
   def conceptualEntitySingletonClassifier
   (): ConceptualEntity
+  def moduleContext
+  ()(implicit extent: Extent): scala.Option[Module]
 }

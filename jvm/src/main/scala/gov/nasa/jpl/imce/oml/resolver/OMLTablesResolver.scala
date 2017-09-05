@@ -87,13 +87,13 @@ case class OMLTablesResolver private[resolver]
   = OMLTablesResolver.collectFirstOption(allContexts)(_.descriptionBoxes.get(uuid))
 
   def lookupAnnotations(key: Option[resolver.api.Module])
-  : Set[resolver.api.Annotation]
-  = key.fold[Set[resolver.api.Annotation]](Set.empty[resolver.api.Annotation]) { lookupAnnotations }
+  : Set[resolver.api.AnnotationPropertyValue]
+  = key.fold[Set[resolver.api.AnnotationPropertyValue]](Set.empty[resolver.api.AnnotationPropertyValue]) { lookupAnnotations }
 
   def lookupAnnotations(key: resolver.api.Module)
-  : Set[resolver.api.Annotation]
+  : Set[resolver.api.AnnotationPropertyValue]
   = OMLTablesResolver.collectFirstOption(allContexts)(_.annotations.get(key))
-    .getOrElse(Set.empty[resolver.api.Annotation])
+    .getOrElse(Set.empty[resolver.api.AnnotationPropertyValue])
 
   def lookupBoxAxioms(key: Option[resolver.api.TerminologyBox])
   : Set[resolver.api.TerminologyBoxAxiom]
@@ -1978,65 +1978,46 @@ object OMLTablesResolver {
   : Try[OMLTablesResolver]
   = {
 
-    val byUUID =
-      r.queue.annotations
-        .map { case (tap, taes) =>
-          (r.lookupAnnotationProperty(UUID.fromString(tap.uuid)) -> tap) ->
-            taes.map { tae =>
-              (
-                r.lookupModule(UUID.fromString(tae.moduleUUID)),
-                r.lookupElement(UUID.fromString(tae.subjectUUID))
-              ) -> tae
-            }
+    val byUUID
+    : Seq[((Option[api.AnnotationProperty], Option[api.Element]), tables.AnnotationPropertyValue)]
+    = r.queue.annotations
+        .map { apv =>
+          ( r.lookupAnnotationProperty(UUID.fromString(apv.propertyUUID)),
+            r.lookupElement(UUID.fromString(apv.subjectUUID))
+          ) -> apv
         }
 
-    val unresolvable = byUUID.flatMap {
-      case ((None, tap), r2taes) =>
-        Some(tap -> r2taes.map(_._2))
-      case ((Some(rap), tap), r2taes) =>
-        val utaes = r2taes.filter(t => t._1._1.isEmpty || t._1._2.isEmpty).map(_._2)
-        if (utaes.nonEmpty)
-          Some(tap -> utaes)
-        else
-          None
+    val unresolvable
+    : Seq[tables.AnnotationPropertyValue]
+    = byUUID.flatMap {
+      case ((None, _), apv) =>
+        Some(apv)
+      case ((_, None), apv) =>
+        Some(apv)
+      case (_, _) =>
+        None
     }
 
-    val resolvable = byUUID.flatMap {
-      case ((None, tap), r2taes) =>
+    val resolvable
+    : Seq[(api.AnnotationProperty, api.Element, tables.AnnotationPropertyValue)]
+    = byUUID.flatMap {
+      case ((Some(rap), Some(re)), apv) =>
+        Some(Tuple3(rap, re, apv))
+      case _ =>
         None
-      case ((Some(rap), tap), r2taes) =>
-        val rtaes = r2taes.flatMap {
-          case ((Some(m), Some(s)), tae) =>
-            Some(Tuple3(m, s, tae))
-          case _ =>
-            None
-        }
-        if (rtaes.nonEmpty)
-          Some(Tuple3(rap, tap, rtaes))
-        else
-          None
     }
 
     val s =
       resolvable.foldLeft[Try[OMLTablesResolver]]{
         Success(r.copy(queue = r.queue.copy(annotations = unresolvable)))
       } {
-        case (Success(ri), (rap, _, rtaes)) =>
-          val next
-          : Try[OMLTablesResolver]
-          = rtaes.foldLeft[Try[OMLTablesResolver]](Success(ri)) {
-            case (Success(rj), (am, as, tae)) =>
-              val (ej, ra) = rj.factory.createAnnotation(
-                rj.context,
-                am, as, rap, tae.value)
-              if (!ej.lookupAnnotations(am).exists { a => a.property == rap && a.subject == as && a.value == tae.value })
-                Failure(new IllegalArgumentException(s"Annotation not in extent: $ra"))
-              else
-                Success(rj.copy(context = ej))
-            case (Failure(f), _) =>
-              Failure(f)
-          }
-          next
+        case (Success(ri), (rap, re, apv)) =>
+          val (ej, ra) = ri.factory.createAnnotationPropertyValue(ri.context, re, rap, apv.value)
+          if (!ej.lookupAnnotations(re).exists { a => a.property == rap && a.value == apv.value } ||
+              !ej.lookupAnnotations(re).contains(ra))
+            Failure(new IllegalArgumentException(s"Annotation not in extent: $ra"))
+          else
+            Success(ri.copy(context = ej))
         case (Failure(f), _) =>
           Failure(f)
       }

@@ -35,4 +35,8 @@ trait RootConceptTaxonomyAxiom
   override val uuid: java.util.UUID
   override def bundleContainer
   ()(implicit extent: Extent): scala.Option[Bundle]
+  def allNestedElements
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
+  def allNestedDisjunctions
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
 }

@@ -27,4 +27,6 @@ trait TerminologyGraph
 
   override def moduleEdges
   ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: ModuleEdge]
+  def moduleElements
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: ModuleElement]
 }

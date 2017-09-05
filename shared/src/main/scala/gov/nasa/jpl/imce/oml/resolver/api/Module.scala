@@ -40,4 +40,8 @@ trait Module
   (): gov.nasa.jpl.imce.oml.tables.LocalName
   def abbrevIRI
   ()(implicit extent: Extent): scala.Option[scala.Predef.String]
+  def moduleContext
+  ()(implicit extent: Extent): scala.Option[Module]
+  def moduleElements
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: ModuleElement]
 }

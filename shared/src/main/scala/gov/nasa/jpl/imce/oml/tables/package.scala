@@ -40,24 +40,20 @@ package object tables {
   : Seq[T]
   = io.Source.fromInputStream(is).getLines.map(fromJSon).to[Seq]
   
-  implicit def annotationEntryOrdering
-  : scala.Ordering[AnnotationEntry]
-  = new scala.Ordering[AnnotationEntry] {
-  	def compare(x: AnnotationEntry, y: AnnotationEntry)
-  	: scala.Int
-  	= x.moduleUUID.compareTo(y.moduleUUID) match {
-  	 	case c_moduleUUID if 0 != c_moduleUUID => c_moduleUUID
-  	 	case 0 => x.subjectUUID.compareTo(y.subjectUUID) match {
-  	 	case c_subjectUUID if 0 != c_subjectUUID => c_subjectUUID
-  	 	case 0 => x.value.compareTo(y.value) match {
-  	 	case c_value if 0 != c_value => c_value
-  	 	case 0 => 0 } } }
-  }
-  
   implicit def annotationPropertyOrdering
   : scala.Ordering[AnnotationProperty]
   = new scala.Ordering[AnnotationProperty] {
   	def compare(x: AnnotationProperty, y: AnnotationProperty)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def annotationPropertyValueOrdering
+  : scala.Ordering[AnnotationPropertyValue]
+  = new scala.Ordering[AnnotationPropertyValue] {
+  	def compare(x: AnnotationPropertyValue, y: AnnotationPropertyValue)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid
@@ -254,6 +250,16 @@ package object tables {
   	 	case 0 => 0 }
   }
   
+  implicit def entityStructuredDataPropertyParticularRestrictionAxiomOrdering
+  : scala.Ordering[EntityStructuredDataPropertyParticularRestrictionAxiom]
+  = new scala.Ordering[EntityStructuredDataPropertyParticularRestrictionAxiom] {
+  	def compare(x: EntityStructuredDataPropertyParticularRestrictionAxiom, y: EntityStructuredDataPropertyParticularRestrictionAxiom)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
   implicit def entityUniversalRestrictionAxiomOrdering
   : scala.Ordering[EntityUniversalRestrictionAxiom]
   = new scala.Ordering[EntityUniversalRestrictionAxiom] {
@@ -338,6 +344,26 @@ package object tables {
   : scala.Ordering[ReifiedRelationshipSpecializationAxiom]
   = new scala.Ordering[ReifiedRelationshipSpecializationAxiom] {
   	def compare(x: ReifiedRelationshipSpecializationAxiom, y: ReifiedRelationshipSpecializationAxiom)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def restrictionScalarDataPropertyValueOrdering
+  : scala.Ordering[RestrictionScalarDataPropertyValue]
+  = new scala.Ordering[RestrictionScalarDataPropertyValue] {
+  	def compare(x: RestrictionScalarDataPropertyValue, y: RestrictionScalarDataPropertyValue)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def restrictionStructuredDataPropertyTupleOrdering
+  : scala.Ordering[RestrictionStructuredDataPropertyTuple]
+  = new scala.Ordering[RestrictionStructuredDataPropertyTuple] {
+  	def compare(x: RestrictionStructuredDataPropertyTuple, y: RestrictionStructuredDataPropertyTuple)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid

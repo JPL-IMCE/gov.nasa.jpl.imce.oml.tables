@@ -25,11 +25,12 @@ import scala.{Option,None}
 // - bundles.Bundle
 // - bundles.ConceptTreeDisjunction
 // - descriptions.DescriptionBox
-// - common.Module
+// - common.Element
+// - terminologies.RestrictionStructuredDataPropertyContext
 // - descriptions.SingletonInstanceStructuredDataPropertyContext
 // - terminologies.TerminologyBox
 // Contained types:
-// - common.Annotation
+// - common.AnnotationPropertyValue
 // - descriptions.ConceptInstance
 // - descriptions.DescriptionBoxExtendsClosedWorldDefinitions
 // - descriptions.DescriptionBoxRefinement
@@ -37,6 +38,8 @@ import scala.{Option,None}
 // - descriptions.ReifiedRelationshipInstance
 // - descriptions.ReifiedRelationshipInstanceDomain
 // - descriptions.ReifiedRelationshipInstanceRange
+// - terminologies.RestrictionScalarDataPropertyValue
+// - terminologies.RestrictionStructuredDataPropertyTuple
 // - descriptions.ScalarDataPropertyValue
 // - descriptions.SingletonInstanceScalarDataPropertyValue
 // - descriptions.SingletonInstanceStructuredDataPropertyValue
@@ -56,9 +59,11 @@ case class Extent
   bundles: Map[java.util.UUID, Bundle] = HashMap.empty[java.util.UUID, Bundle],
   descriptionBoxes: Map[java.util.UUID, DescriptionBox] = HashMap.empty[java.util.UUID, DescriptionBox],
 
-  annotations: Map[Module, Set[Annotation]] = HashMap.empty[Module, Set[Annotation]],
+  annotations: Map[Element, Set[AnnotationPropertyValue]] = HashMap.empty[Element, Set[AnnotationPropertyValue]],
   boxAxioms: Map[TerminologyBox, Set[TerminologyBoxAxiom]] = HashMap.empty[TerminologyBox, Set[TerminologyBoxAxiom]],
   boxStatements: Map[TerminologyBox, Set[TerminologyBoxStatement]] = HashMap.empty[TerminologyBox, Set[TerminologyBoxStatement]],
+  structuredDataPropertyRestrictions: Map[RestrictionStructuredDataPropertyContext, Set[RestrictionStructuredDataPropertyTuple]] = HashMap.empty[RestrictionStructuredDataPropertyContext, Set[RestrictionStructuredDataPropertyTuple]],
+  scalarDataPropertyRestrictions: Map[RestrictionStructuredDataPropertyContext, Set[RestrictionScalarDataPropertyValue]] = HashMap.empty[RestrictionStructuredDataPropertyContext, Set[RestrictionScalarDataPropertyValue]],
   bundleAxioms: Map[Bundle, Set[TerminologyBundleAxiom]] = HashMap.empty[Bundle, Set[TerminologyBundleAxiom]],
   bundleStatements: Map[Bundle, Set[TerminologyBundleStatement]] = HashMap.empty[Bundle, Set[TerminologyBundleStatement]],
   disjunctions: Map[ConceptTreeDisjunction, Set[DisjointUnionOfConceptsAxiom]] = HashMap.empty[ConceptTreeDisjunction, Set[DisjointUnionOfConceptsAxiom]],
@@ -74,9 +79,11 @@ case class Extent
   structuredPropertyTuples: Map[SingletonInstanceStructuredDataPropertyContext, Set[StructuredDataPropertyTuple]] = HashMap.empty[SingletonInstanceStructuredDataPropertyContext, Set[StructuredDataPropertyTuple]],
   scalarDataPropertyValues: Map[SingletonInstanceStructuredDataPropertyContext, Set[ScalarDataPropertyValue]] = HashMap.empty[SingletonInstanceStructuredDataPropertyContext, Set[ScalarDataPropertyValue]],
 
-  moduleOfAnnotation: Map[Annotation, Module] = HashMap.empty[Annotation, Module],
+  elementOfAnnotationPropertyValue: Map[AnnotationPropertyValue, Element] = HashMap.empty[AnnotationPropertyValue, Element],
   terminologyBoxOfTerminologyBoxAxiom: Map[TerminologyBoxAxiom, TerminologyBox] = HashMap.empty[TerminologyBoxAxiom, TerminologyBox],
   terminologyBoxOfTerminologyBoxStatement: Map[TerminologyBoxStatement, TerminologyBox] = HashMap.empty[TerminologyBoxStatement, TerminologyBox],
+  restrictionStructuredDataPropertyContextOfRestrictionStructuredDataPropertyTuple: Map[RestrictionStructuredDataPropertyTuple, RestrictionStructuredDataPropertyContext] = HashMap.empty[RestrictionStructuredDataPropertyTuple, RestrictionStructuredDataPropertyContext],
+  restrictionStructuredDataPropertyContextOfRestrictionScalarDataPropertyValue: Map[RestrictionScalarDataPropertyValue, RestrictionStructuredDataPropertyContext] = HashMap.empty[RestrictionScalarDataPropertyValue, RestrictionStructuredDataPropertyContext],
   bundleOfTerminologyBundleAxiom: Map[TerminologyBundleAxiom, Bundle] = HashMap.empty[TerminologyBundleAxiom, Bundle],
   bundleOfTerminologyBundleStatement: Map[TerminologyBundleStatement, Bundle] = HashMap.empty[TerminologyBundleStatement, Bundle],
   conceptTreeDisjunctionOfDisjointUnionOfConceptsAxiom: Map[DisjointUnionOfConceptsAxiom, ConceptTreeDisjunction] = HashMap.empty[DisjointUnionOfConceptsAxiom, ConceptTreeDisjunction],
@@ -92,8 +99,11 @@ case class Extent
   singletonInstanceStructuredDataPropertyContextOfStructuredDataPropertyTuple: Map[StructuredDataPropertyTuple, SingletonInstanceStructuredDataPropertyContext] = HashMap.empty[StructuredDataPropertyTuple, SingletonInstanceStructuredDataPropertyContext],
   singletonInstanceStructuredDataPropertyContextOfScalarDataPropertyValue: Map[ScalarDataPropertyValue, SingletonInstanceStructuredDataPropertyContext] = HashMap.empty[ScalarDataPropertyValue, SingletonInstanceStructuredDataPropertyContext],
 
+  annotationPropertyValueByUUID: Map[java.util.UUID, AnnotationPropertyValue] = HashMap.empty[java.util.UUID, AnnotationPropertyValue],
   terminologyBoxAxiomByUUID: Map[java.util.UUID, TerminologyBoxAxiom] = HashMap.empty[java.util.UUID, TerminologyBoxAxiom],
   terminologyBoxStatementByUUID: Map[java.util.UUID, TerminologyBoxStatement] = HashMap.empty[java.util.UUID, TerminologyBoxStatement],
+  restrictionStructuredDataPropertyTupleByUUID: Map[java.util.UUID, RestrictionStructuredDataPropertyTuple] = HashMap.empty[java.util.UUID, RestrictionStructuredDataPropertyTuple],
+  restrictionScalarDataPropertyValueByUUID: Map[java.util.UUID, RestrictionScalarDataPropertyValue] = HashMap.empty[java.util.UUID, RestrictionScalarDataPropertyValue],
   terminologyBundleAxiomByUUID: Map[java.util.UUID, TerminologyBundleAxiom] = HashMap.empty[java.util.UUID, TerminologyBundleAxiom],
   terminologyBundleStatementByUUID: Map[java.util.UUID, TerminologyBundleStatement] = HashMap.empty[java.util.UUID, TerminologyBundleStatement],
   disjointUnionOfConceptsAxiomByUUID: Map[java.util.UUID, DisjointUnionOfConceptsAxiom] = HashMap.empty[java.util.UUID, DisjointUnionOfConceptsAxiom],
@@ -109,9 +119,9 @@ case class Extent
   structuredDataPropertyTupleByUUID: Map[java.util.UUID, StructuredDataPropertyTuple] = HashMap.empty[java.util.UUID, StructuredDataPropertyTuple],
   scalarDataPropertyValueByUUID: Map[java.util.UUID, ScalarDataPropertyValue] = HashMap.empty[java.util.UUID, ScalarDataPropertyValue]
 ) {
-  def withAnnotation(module: Module, annotation: Annotation)
-  : Map[Module, Set[Annotation]] 
-  = annotations.updated(module, annotations.getOrElse(module, Set.empty[Annotation]) + annotation)
+  def withAnnotationPropertyValue(element: Element, annotationPropertyValue: AnnotationPropertyValue)
+  : Map[Element, Set[AnnotationPropertyValue]] 
+  = annotations.updated(element, annotations.getOrElse(element, Set.empty[AnnotationPropertyValue]) + annotationPropertyValue)
   
   def withTerminologyBoxAxiom(terminologyBox: TerminologyBox, terminologyBoxAxiom: TerminologyBoxAxiom)
   : Map[TerminologyBox, Set[TerminologyBoxAxiom]] 
@@ -120,6 +130,14 @@ case class Extent
   def withTerminologyBoxStatement(terminologyBox: TerminologyBox, terminologyBoxStatement: TerminologyBoxStatement)
   : Map[TerminologyBox, Set[TerminologyBoxStatement]] 
   = boxStatements.updated(terminologyBox, boxStatements.getOrElse(terminologyBox, Set.empty[TerminologyBoxStatement]) + terminologyBoxStatement)
+  
+  def withRestrictionStructuredDataPropertyTuple(restrictionStructuredDataPropertyContext: RestrictionStructuredDataPropertyContext, restrictionStructuredDataPropertyTuple: RestrictionStructuredDataPropertyTuple)
+  : Map[RestrictionStructuredDataPropertyContext, Set[RestrictionStructuredDataPropertyTuple]] 
+  = structuredDataPropertyRestrictions.updated(restrictionStructuredDataPropertyContext, structuredDataPropertyRestrictions.getOrElse(restrictionStructuredDataPropertyContext, Set.empty[RestrictionStructuredDataPropertyTuple]) + restrictionStructuredDataPropertyTuple)
+  
+  def withRestrictionScalarDataPropertyValue(restrictionStructuredDataPropertyContext: RestrictionStructuredDataPropertyContext, restrictionScalarDataPropertyValue: RestrictionScalarDataPropertyValue)
+  : Map[RestrictionStructuredDataPropertyContext, Set[RestrictionScalarDataPropertyValue]] 
+  = scalarDataPropertyRestrictions.updated(restrictionStructuredDataPropertyContext, scalarDataPropertyRestrictions.getOrElse(restrictionStructuredDataPropertyContext, Set.empty[RestrictionScalarDataPropertyValue]) + restrictionScalarDataPropertyValue)
   
   def withTerminologyBundleAxiom(bundle: Bundle, terminologyBundleAxiom: TerminologyBundleAxiom)
   : Map[Bundle, Set[TerminologyBundleAxiom]] 
@@ -227,13 +245,21 @@ case class Extent
   = descriptionBoxes.get(uuid)
 
   
-  def lookupAnnotations(key: Option[Module])
-  : Set[Annotation]
-  = key.fold[Set[Annotation]](Set.empty[Annotation]) { lookupAnnotations }
+  def lookupAnnotations(key: Option[Element])
+  : Set[AnnotationPropertyValue]
+  = key.fold[Set[AnnotationPropertyValue]](Set.empty[AnnotationPropertyValue]) { lookupAnnotations }
   
-  def lookupAnnotations(key: Module)
-  : Set[Annotation]
-  = annotations.getOrElse(key, Set.empty[Annotation])
+  def lookupAnnotations(key: Element)
+  : Set[AnnotationPropertyValue]
+  = annotations.getOrElse(key, Set.empty[AnnotationPropertyValue])
+  
+  def lookupAnnotationPropertyValue(uuid: Option[java.util.UUID])
+  : Option[AnnotationPropertyValue]
+  = uuid.fold[Option[AnnotationPropertyValue]](None) { lookupAnnotationPropertyValue } 
+  
+  def lookupAnnotationPropertyValue(uuid: java.util.UUID)
+  : Option[AnnotationPropertyValue]
+  = annotationPropertyValueByUUID.get(uuid)
     
   def lookupBoxAxioms(key: Option[TerminologyBox])
   : Set[TerminologyBoxAxiom]
@@ -266,6 +292,38 @@ case class Extent
   def lookupTerminologyBoxStatement(uuid: java.util.UUID)
   : Option[TerminologyBoxStatement]
   = terminologyBoxStatementByUUID.get(uuid)
+    
+  def lookupStructuredDataPropertyRestrictions(key: Option[RestrictionStructuredDataPropertyContext])
+  : Set[RestrictionStructuredDataPropertyTuple]
+  = key.fold[Set[RestrictionStructuredDataPropertyTuple]](Set.empty[RestrictionStructuredDataPropertyTuple]) { lookupStructuredDataPropertyRestrictions }
+  
+  def lookupStructuredDataPropertyRestrictions(key: RestrictionStructuredDataPropertyContext)
+  : Set[RestrictionStructuredDataPropertyTuple]
+  = structuredDataPropertyRestrictions.getOrElse(key, Set.empty[RestrictionStructuredDataPropertyTuple])
+  
+  def lookupRestrictionStructuredDataPropertyTuple(uuid: Option[java.util.UUID])
+  : Option[RestrictionStructuredDataPropertyTuple]
+  = uuid.fold[Option[RestrictionStructuredDataPropertyTuple]](None) { lookupRestrictionStructuredDataPropertyTuple } 
+  
+  def lookupRestrictionStructuredDataPropertyTuple(uuid: java.util.UUID)
+  : Option[RestrictionStructuredDataPropertyTuple]
+  = restrictionStructuredDataPropertyTupleByUUID.get(uuid)
+    
+  def lookupScalarDataPropertyRestrictions(key: Option[RestrictionStructuredDataPropertyContext])
+  : Set[RestrictionScalarDataPropertyValue]
+  = key.fold[Set[RestrictionScalarDataPropertyValue]](Set.empty[RestrictionScalarDataPropertyValue]) { lookupScalarDataPropertyRestrictions }
+  
+  def lookupScalarDataPropertyRestrictions(key: RestrictionStructuredDataPropertyContext)
+  : Set[RestrictionScalarDataPropertyValue]
+  = scalarDataPropertyRestrictions.getOrElse(key, Set.empty[RestrictionScalarDataPropertyValue])
+  
+  def lookupRestrictionScalarDataPropertyValue(uuid: Option[java.util.UUID])
+  : Option[RestrictionScalarDataPropertyValue]
+  = uuid.fold[Option[RestrictionScalarDataPropertyValue]](None) { lookupRestrictionScalarDataPropertyValue } 
+  
+  def lookupRestrictionScalarDataPropertyValue(uuid: java.util.UUID)
+  : Option[RestrictionScalarDataPropertyValue]
+  = restrictionScalarDataPropertyValueByUUID.get(uuid)
     
   def lookupBundleAxioms(key: Option[Bundle])
   : Set[TerminologyBundleAxiom]
@@ -497,6 +555,8 @@ case class Extent
   = lookupModule(uuid) orElse
     lookupTerminologyBoxAxiom(uuid) orElse
     lookupTerminologyBoxStatement(uuid) orElse
+    lookupRestrictionStructuredDataPropertyTuple(uuid) orElse
+    lookupRestrictionScalarDataPropertyValue(uuid) orElse
     lookupTerminologyBundleAxiom(uuid) orElse
     lookupTerminologyBundleStatement(uuid) orElse
     lookupDisjointUnionOfConceptsAxiom(uuid) orElse

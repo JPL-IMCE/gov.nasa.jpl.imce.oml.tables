@@ -115,7 +115,6 @@ object OML2OTIProvenanceTables {
       }
       zos.closeEntry()
       
-  
       zos.close()
   	  Success(())
   	}

@@ -25,4 +25,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait TerminologyBoxStatement
   extends ModuleElement
 {
+
+  def moduleContext
+  ()(implicit extent: Extent): scala.Option[Module]
 }

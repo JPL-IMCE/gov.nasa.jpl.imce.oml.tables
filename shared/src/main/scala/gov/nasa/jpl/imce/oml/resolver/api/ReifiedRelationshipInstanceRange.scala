@@ -34,4 +34,8 @@ trait ReifiedRelationshipInstanceRange
 
   def descriptionBox
   ()(implicit extent: Extent): scala.Option[DescriptionBox]
+  def moduleContext
+  ()(implicit extent: Extent): scala.Option[Module]
+  def allNestedElements
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
 }

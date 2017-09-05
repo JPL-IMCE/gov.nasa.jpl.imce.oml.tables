@@ -29,4 +29,8 @@ trait DisjointUnionOfConceptsAxiom
 
   def conceptTreeDisjunctionParent
   ()(implicit extent: Extent): scala.Option[ConceptTreeDisjunction]
+  def moduleContext
+  ()(implicit extent: Extent): scala.Option[Module]
+  def allNestedUnions
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
 }

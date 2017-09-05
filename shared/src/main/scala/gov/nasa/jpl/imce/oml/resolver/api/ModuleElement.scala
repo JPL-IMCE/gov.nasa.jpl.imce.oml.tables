@@ -19,9 +19,12 @@
 package gov.nasa.jpl.imce.oml.resolver.api
 
 /*
- * An OML ModuleElement is an OML Element defined in an OML Module
+ * An OML ModuleElement is an OML Element defined in the scope of an OML Module
  */
 trait ModuleElement
   extends Element
 {
+
+  def allNestedElements
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
 }

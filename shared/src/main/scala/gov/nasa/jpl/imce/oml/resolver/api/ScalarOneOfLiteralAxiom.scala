@@ -30,4 +30,7 @@ trait ScalarOneOfLiteralAxiom
    * The value of the literal from the restrictedScalar datatype
    */
   val value: gov.nasa.jpl.imce.oml.tables.LexicalValue
+
+  def allNestedElements
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
 }

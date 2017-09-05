@@ -19,9 +19,10 @@
 package gov.nasa.jpl.imce.oml.resolver.api
 
 /*
- * An OML AnnotationProperty maps to an [OWL2 AnnotationProperty]
- * and is similarly a non-logical property for associating some information
- * to any OML TerminologyThing in an OML Module.
+ * An OML AnnotationProperty maps to a functional restriction of an [OWL2 AnnotationProperty].
+ * Like OWL2, an OML AnnotationProperty is a non-logical property for associating some information
+ * to an OML Element; unlike OWL2, an OML AnnotationProperty is functional in the sense
+ * that an OML Element can have at most one OML AnnotationPropertyValue for a given OML AnnotationProperty.
  */
 trait AnnotationProperty
 {
