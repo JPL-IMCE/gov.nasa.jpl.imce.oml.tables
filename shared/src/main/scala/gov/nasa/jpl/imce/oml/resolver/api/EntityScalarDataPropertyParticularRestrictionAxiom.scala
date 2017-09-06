@@ -26,5 +26,5 @@ trait EntityScalarDataPropertyParticularRestrictionAxiom
   extends EntityScalarDataPropertyRestrictionAxiom
 {
 
-  val literalValue: gov.nasa.jpl.imce.oml.tables.LexicalValue
+  val literalValue: gov.nasa.jpl.imce.oml.tables.LiteralValue
 }

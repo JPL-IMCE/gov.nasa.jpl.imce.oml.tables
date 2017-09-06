@@ -28,7 +28,7 @@ trait SingletonInstanceScalarDataPropertyValue
 
   val singletonInstance: ConceptualEntitySingletonInstance
   val scalarDataProperty: EntityScalarDataProperty
-  val scalarPropertyValue: scala.Predef.String
+  val scalarPropertyValue: gov.nasa.jpl.imce.oml.tables.LiteralValue
 
   def descriptionBox
   ()(implicit extent: Extent): scala.Option[DescriptionBox]

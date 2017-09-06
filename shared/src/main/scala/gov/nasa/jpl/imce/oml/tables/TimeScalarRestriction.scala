@@ -39,10 +39,10 @@ case class TimeScalarRestriction
   @(JSExport @field) uuid: UUID,
   @(JSExport @field) tboxUUID: UUID,
   @(JSExport @field) restrictedRangeUUID: UUID,
-  @(JSExport @field) minExclusive: scala.Option[LexicalTime],
-  @(JSExport @field) minInclusive: scala.Option[LexicalTime],
-  @(JSExport @field) maxExclusive: scala.Option[LexicalTime],
-  @(JSExport @field) maxInclusive: scala.Option[LexicalTime],
+  @(JSExport @field) minExclusive: scala.Option[LiteralDateTime],
+  @(JSExport @field) minInclusive: scala.Option[LiteralDateTime],
+  @(JSExport @field) maxExclusive: scala.Option[LiteralDateTime],
+  @(JSExport @field) maxInclusive: scala.Option[LiteralDateTime],
   @(JSExport @field) name: LocalName
 ) {
   def this(
@@ -60,19 +60,19 @@ case class TimeScalarRestriction
       None /* maxInclusive */,
       name)
 
-  def withMinExclusive(l: LexicalTime)	 
+  def withMinExclusive(l: LiteralDateTime)	 
   : TimeScalarRestriction
   = copy(minExclusive=Some(l))
   
-  def withMinInclusive(l: LexicalTime)	 
+  def withMinInclusive(l: LiteralDateTime)	 
   : TimeScalarRestriction
   = copy(minInclusive=Some(l))
   
-  def withMaxExclusive(l: LexicalTime)	 
+  def withMaxExclusive(l: LiteralDateTime)	 
   : TimeScalarRestriction
   = copy(maxExclusive=Some(l))
   
-  def withMaxInclusive(l: LexicalTime)	 
+  def withMaxInclusive(l: LiteralDateTime)	 
   : TimeScalarRestriction
   = copy(maxInclusive=Some(l))
   

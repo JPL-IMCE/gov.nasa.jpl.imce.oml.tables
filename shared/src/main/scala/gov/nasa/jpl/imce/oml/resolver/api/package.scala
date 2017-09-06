@@ -16,7 +16,6 @@
  * License Terms
  */
 
-
 package gov.nasa.jpl.imce.oml.resolver
 
 package object api {

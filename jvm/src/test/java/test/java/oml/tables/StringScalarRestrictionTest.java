@@ -34,9 +34,9 @@ public class StringScalarRestrictionTest {
         String restrictedRangeUUID = "1245-ABCD-2345-4567";
 
         StringScalarRestriction w1 = new StringScalarRestriction(uuid, tboxUUID, restrictedRangeUUID, name)
-                .withLength(9)
-                .withMaxLength(1000)
-                .withMinLength(9)
+                .withLength("9")
+                .withMaxLength("1000")
+                .withMinLength("9")
                 .withPattern("ABC");
 
         String s1 = StringScalarRestrictionHelper.toJSON(w1);

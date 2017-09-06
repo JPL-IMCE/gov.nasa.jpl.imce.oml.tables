@@ -35,14 +35,14 @@ case class ScalarDataPropertyValue
 (
   @(JSExport @field) uuid: UUID,
   @(JSExport @field) scalarDataPropertyUUID: UUID,
-  @(JSExport @field) scalarPropertyValue: LexicalValue,
+  @(JSExport @field) scalarPropertyValue: LiteralValue,
   @(JSExport @field) structuredDataPropertyContextUUID: UUID
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     scalarDataPropertyUUID: UUID,
-    scalarPropertyValue: LexicalValue,
+    scalarPropertyValue: LiteralValue,
     structuredDataPropertyContextUUID: UUID)
   = this(
       oug.namespaceUUID(

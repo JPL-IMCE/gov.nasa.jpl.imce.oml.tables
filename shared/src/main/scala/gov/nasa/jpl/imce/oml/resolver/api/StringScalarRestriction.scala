@@ -44,17 +44,17 @@ trait StringScalarRestriction
   /*
    * The length of the string
    */
-  val length: scala.Option[scala.Int]
+  val length: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral]
   /*
    * The minimum length of the string
    */
-  val minLength: scala.Option[scala.Int]
+  val minLength: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral]
   /*
    * The maximum length of the string
    */
-  val maxLength: scala.Option[scala.Int]
+  val maxLength: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral]
   /*
    * The pattern of the string (https://www.w3.org/TR/xmlschema-2/#regexs)
    */
-  val pattern: scala.Option[gov.nasa.jpl.imce.oml.tables.Pattern]
+  val pattern: scala.Option[gov.nasa.jpl.imce.oml.tables.LiteralPattern]
 }

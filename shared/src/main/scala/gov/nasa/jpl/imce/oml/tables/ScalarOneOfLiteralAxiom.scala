@@ -36,14 +36,14 @@ case class ScalarOneOfLiteralAxiom
   @(JSExport @field) uuid: UUID,
   @(JSExport @field) tboxUUID: UUID,
   @(JSExport @field) axiomUUID: UUID,
-  @(JSExport @field) value: LexicalValue
+  @(JSExport @field) value: LiteralValue
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     tboxUUID: UUID,
     axiomUUID: UUID,
-    value: LexicalValue)
+    value: LiteralValue)
   = this(
       oug.namespaceUUID(
         "ScalarOneOfLiteralAxiom",

@@ -38,9 +38,9 @@ case class BinaryScalarRestriction
   @(JSExport @field) uuid: UUID,
   @(JSExport @field) tboxUUID: UUID,
   @(JSExport @field) restrictedRangeUUID: UUID,
-  @(JSExport @field) length: scala.Option[scala.Int],
-  @(JSExport @field) minLength: scala.Option[scala.Int],
-  @(JSExport @field) maxLength: scala.Option[scala.Int],
+  @(JSExport @field) length: scala.Option[PositiveIntegerLiteral],
+  @(JSExport @field) minLength: scala.Option[PositiveIntegerLiteral],
+  @(JSExport @field) maxLength: scala.Option[PositiveIntegerLiteral],
   @(JSExport @field) name: LocalName
 ) {
   def this(
@@ -57,15 +57,15 @@ case class BinaryScalarRestriction
       None /* maxLength */,
       name)
 
-  def withLength(l: scala.Int)	 
+  def withLength(l: PositiveIntegerLiteral)	 
   : BinaryScalarRestriction
   = copy(length=Some(l))
   
-  def withMinLength(l: scala.Int)	 
+  def withMinLength(l: PositiveIntegerLiteral)	 
   : BinaryScalarRestriction
   = copy(minLength=Some(l))
   
-  def withMaxLength(l: scala.Int)	 
+  def withMaxLength(l: PositiveIntegerLiteral)	 
   : BinaryScalarRestriction
   = copy(maxLength=Some(l))
   

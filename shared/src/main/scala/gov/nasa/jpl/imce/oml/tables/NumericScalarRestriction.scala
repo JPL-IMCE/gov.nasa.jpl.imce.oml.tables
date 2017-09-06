@@ -39,10 +39,10 @@ case class NumericScalarRestriction
   @(JSExport @field) uuid: UUID,
   @(JSExport @field) tboxUUID: UUID,
   @(JSExport @field) restrictedRangeUUID: UUID,
-  @(JSExport @field) minExclusive: scala.Option[LexicalNumber],
-  @(JSExport @field) minInclusive: scala.Option[LexicalNumber],
-  @(JSExport @field) maxExclusive: scala.Option[LexicalNumber],
-  @(JSExport @field) maxInclusive: scala.Option[LexicalNumber],
+  @(JSExport @field) minExclusive: scala.Option[LiteralNumber],
+  @(JSExport @field) minInclusive: scala.Option[LiteralNumber],
+  @(JSExport @field) maxExclusive: scala.Option[LiteralNumber],
+  @(JSExport @field) maxInclusive: scala.Option[LiteralNumber],
   @(JSExport @field) name: LocalName
 ) {
   def this(
@@ -60,19 +60,19 @@ case class NumericScalarRestriction
       None /* maxInclusive */,
       name)
 
-  def withMinExclusive(l: LexicalNumber)	 
+  def withMinExclusive(l: LiteralNumber)	 
   : NumericScalarRestriction
   = copy(minExclusive=Some(l))
   
-  def withMinInclusive(l: LexicalNumber)	 
+  def withMinInclusive(l: LiteralNumber)	 
   : NumericScalarRestriction
   = copy(minInclusive=Some(l))
   
-  def withMaxExclusive(l: LexicalNumber)	 
+  def withMaxExclusive(l: LiteralNumber)	 
   : NumericScalarRestriction
   = copy(maxExclusive=Some(l))
   
-  def withMaxInclusive(l: LexicalNumber)	 
+  def withMaxInclusive(l: LiteralNumber)	 
   : NumericScalarRestriction
   = copy(maxInclusive=Some(l))
   

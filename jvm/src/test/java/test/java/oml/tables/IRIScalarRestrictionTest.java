@@ -35,9 +35,9 @@ public class IRIScalarRestrictionTest {
 
         IRIScalarRestriction w1 =
                 new IRIScalarRestriction(uuid, tboxUUID, restrictedRangeUUID, name)
-                        .withLength(5)
-                        .withMaxLength(50)
-                        .withMinLength(1)
+                        .withLength("5")
+                        .withMaxLength("50")
+                        .withMinLength("1")
                         .withPattern("yyy");
 
         String s1 = IRIScalarRestrictionHelper.toJSON(w1);

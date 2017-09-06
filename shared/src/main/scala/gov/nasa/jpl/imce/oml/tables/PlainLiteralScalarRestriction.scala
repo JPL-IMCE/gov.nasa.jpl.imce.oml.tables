@@ -40,12 +40,12 @@ case class PlainLiteralScalarRestriction
   @(JSExport @field) uuid: UUID,
   @(JSExport @field) tboxUUID: UUID,
   @(JSExport @field) restrictedRangeUUID: UUID,
-  @(JSExport @field) length: scala.Option[scala.Int],
-  @(JSExport @field) minLength: scala.Option[scala.Int],
-  @(JSExport @field) maxLength: scala.Option[scala.Int],
+  @(JSExport @field) length: scala.Option[PositiveIntegerLiteral],
+  @(JSExport @field) minLength: scala.Option[PositiveIntegerLiteral],
+  @(JSExport @field) maxLength: scala.Option[PositiveIntegerLiteral],
   @(JSExport @field) name: LocalName,
-  @(JSExport @field) langRange: scala.Option[LangRange],
-  @(JSExport @field) pattern: scala.Option[Pattern]
+  @(JSExport @field) langRange: scala.Option[LanguageTagDataType],
+  @(JSExport @field) pattern: scala.Option[LiteralPattern]
 ) {
   def this(
     uuid: UUID,
@@ -63,23 +63,23 @@ case class PlainLiteralScalarRestriction
       None /* langRange */,
       None /* pattern */)
 
-  def withLength(l: scala.Int)	 
+  def withLength(l: PositiveIntegerLiteral)	 
   : PlainLiteralScalarRestriction
   = copy(length=Some(l))
   
-  def withMinLength(l: scala.Int)	 
+  def withMinLength(l: PositiveIntegerLiteral)	 
   : PlainLiteralScalarRestriction
   = copy(minLength=Some(l))
   
-  def withMaxLength(l: scala.Int)	 
+  def withMaxLength(l: PositiveIntegerLiteral)	 
   : PlainLiteralScalarRestriction
   = copy(maxLength=Some(l))
   
-  def withLangRange(l: LangRange)	 
+  def withLangRange(l: LanguageTagDataType)	 
   : PlainLiteralScalarRestriction
   = copy(langRange=Some(l))
   
-  def withPattern(l: Pattern)	 
+  def withPattern(l: LiteralPattern)	 
   : PlainLiteralScalarRestriction
   = copy(pattern=Some(l))
   

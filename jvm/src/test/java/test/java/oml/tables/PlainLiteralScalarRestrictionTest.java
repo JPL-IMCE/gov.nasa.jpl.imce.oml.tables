@@ -34,9 +34,9 @@ public class PlainLiteralScalarRestrictionTest {
         String restrictedRangeUUID = "1245-ABCD-2345-4567";
 
         PlainLiteralScalarRestriction w1 = new PlainLiteralScalarRestriction(uuid, tboxUUID, restrictedRangeUUID, name)
-                .withLength(5)
-                .withMaxLength(50)
-                .withMinLength(1)
+                .withLength("5")
+                .withMaxLength("50")
+                .withMinLength("1")
                 .withPattern("yyy")
                 .withLangRange("en");
 

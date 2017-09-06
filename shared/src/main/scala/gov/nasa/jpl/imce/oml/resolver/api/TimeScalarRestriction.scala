@@ -39,17 +39,17 @@ trait TimeScalarRestriction
   /*
    * The inclusive minimum value in the range
    */
-  val minInclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LexicalTime]
+  val minInclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LiteralDateTime]
   /*
    * The inclusive maximum value in the range
    */
-  val maxInclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LexicalTime]
+  val maxInclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LiteralDateTime]
   /*
    * The exclusive minimum value in the range
    */
-  val minExclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LexicalTime]
+  val minExclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LiteralDateTime]
   /*
    * The exclusive maximum value in the range
    */
-  val maxExclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LexicalTime]
+  val maxExclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LiteralDateTime]
 }

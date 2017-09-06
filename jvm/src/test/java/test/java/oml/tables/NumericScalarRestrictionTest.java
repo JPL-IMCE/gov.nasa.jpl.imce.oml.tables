@@ -21,8 +21,10 @@ package test.java.oml.tables;
 import org.junit.Test;
 import org.junit.Assert;
 
+import gov.nasa.jpl.imce.oml.tables.LiteralNumber;
 import gov.nasa.jpl.imce.oml.tables.NumericScalarRestriction;
 import gov.nasa.jpl.imce.oml.tables.NumericScalarRestrictionHelper;
+import gov.nasa.jpl.imce.oml.tables.LiteralPositiveIntegerType$;
 
 public class NumericScalarRestrictionTest {
 
@@ -34,10 +36,10 @@ public class NumericScalarRestrictionTest {
         String restrictedRangeUUID = "1245-ABCD-2345-4567";
 
         NumericScalarRestriction w1 = new NumericScalarRestriction(uuid, tboxUUID, restrictedRangeUUID, name)
-                .withMaxExclusive("555")
-                .withMinExclusive("111")
-                .withMaxInclusive("222")
-                .withMinInclusive("333");
+                .withMaxExclusive(new LiteralNumber(LiteralPositiveIntegerType$.MODULE$, "555"))
+                .withMinExclusive(new LiteralNumber(LiteralPositiveIntegerType$.MODULE$, "111"))
+                .withMaxInclusive(new LiteralNumber(LiteralPositiveIntegerType$.MODULE$, "222"))
+                .withMinInclusive(new LiteralNumber(LiteralPositiveIntegerType$.MODULE$, "333"));
 
         String s1 = NumericScalarRestrictionHelper.toJSON(w1);
 

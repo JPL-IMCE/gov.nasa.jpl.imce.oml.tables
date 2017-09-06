@@ -38,5 +38,5 @@ object SchemaGenerators {
 
   val nsPrefix = Gen.identifier
 
-  val optInt_0_to_3 = Gen.option(Gen.chooseNum[Int](0, 3))
+  val optInt_0_to_3 = Gen.option(Gen.chooseNum[Int](0, 3).map(_.toString))
 }

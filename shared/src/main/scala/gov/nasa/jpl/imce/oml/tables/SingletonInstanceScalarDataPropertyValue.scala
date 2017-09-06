@@ -38,7 +38,7 @@ case class SingletonInstanceScalarDataPropertyValue
   @(JSExport @field) descriptionBoxUUID: UUID,
   @(JSExport @field) singletonInstanceUUID: UUID,
   @(JSExport @field) scalarDataPropertyUUID: UUID,
-  @(JSExport @field) scalarPropertyValue: scala.Predef.String
+  @(JSExport @field) scalarPropertyValue: LiteralValue
 ) {
   // Ctor(uuidWithContainer)   
   def this(
@@ -46,7 +46,7 @@ case class SingletonInstanceScalarDataPropertyValue
     descriptionBoxUUID: UUID,
     singletonInstanceUUID: UUID,
     scalarDataPropertyUUID: UUID,
-    scalarPropertyValue: scala.Predef.String)
+    scalarPropertyValue: LiteralValue)
   = this(
       oug.namespaceUUID(
         "SingletonInstanceScalarDataPropertyValue",

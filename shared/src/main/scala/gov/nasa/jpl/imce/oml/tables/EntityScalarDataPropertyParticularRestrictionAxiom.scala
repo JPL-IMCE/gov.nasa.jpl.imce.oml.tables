@@ -38,7 +38,7 @@ case class EntityScalarDataPropertyParticularRestrictionAxiom
   @(JSExport @field) tboxUUID: UUID,
   @(JSExport @field) restrictedEntityUUID: UUID,
   @(JSExport @field) scalarPropertyUUID: UUID,
-  @(JSExport @field) literalValue: LexicalValue
+  @(JSExport @field) literalValue: LiteralValue
 ) {
   // Ctor(uuidWithContainer)   
   def this(
@@ -46,7 +46,7 @@ case class EntityScalarDataPropertyParticularRestrictionAxiom
     tboxUUID: UUID,
     restrictedEntityUUID: UUID,
     scalarPropertyUUID: UUID,
-    literalValue: LexicalValue)
+    literalValue: LiteralValue)
   = this(
       oug.namespaceUUID(
         "EntityScalarDataPropertyParticularRestrictionAxiom",

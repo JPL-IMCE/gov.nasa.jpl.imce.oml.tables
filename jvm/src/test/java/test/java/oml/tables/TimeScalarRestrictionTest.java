@@ -21,6 +21,7 @@ package test.java.oml.tables;
 import org.junit.Test;
 import org.junit.Assert;
 
+import gov.nasa.jpl.imce.oml.tables.LiteralDateTime;
 import gov.nasa.jpl.imce.oml.tables.TimeScalarRestriction;
 import gov.nasa.jpl.imce.oml.tables.TimeScalarRestrictionHelper;
 
@@ -34,10 +35,10 @@ public class TimeScalarRestrictionTest {
         String restrictedRangeUUID = "1245-ABCD-2345-4567";
 
         TimeScalarRestriction w1 = new TimeScalarRestriction(uuid, tboxUUID, restrictedRangeUUID, name)
-                .withMaxExclusive("123")
-                .withMinExclusive("4567")
-                .withMaxInclusive("333")
-                .withMinInclusive("678");
+                .withMaxExclusive(new LiteralDateTime("123"))
+                .withMinExclusive(new LiteralDateTime("4567"))
+                .withMaxInclusive(new LiteralDateTime("333"))
+                .withMinInclusive(new LiteralDateTime("678"));
 
         String s1 = TimeScalarRestrictionHelper.toJSON(w1);
 

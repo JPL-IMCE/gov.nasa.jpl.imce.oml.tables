@@ -54,9 +54,9 @@ object BinaryScalarRestrictionAxiomTest extends Properties("BinaryScalarRestrict
     SchemaGenerators.name)(
     (tboxUUID: java.util.UUID,
      uuid: java.util.UUID,
-     length: Option[scala.Int],
-     maxLength: Option[scala.Int],
-     minLength: Option[scala.Int],
+     length: Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral],
+     maxLength: Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral],
+     minLength: Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral],
      restrictedScalarUUID: java.util.UUID,
      scalarName: LocalName) => {
       val w = new BinaryScalarRestriction(uuid.toString, tboxUUID.toString, restrictedScalarUUID.toString, length, minLength, maxLength, scalarName)

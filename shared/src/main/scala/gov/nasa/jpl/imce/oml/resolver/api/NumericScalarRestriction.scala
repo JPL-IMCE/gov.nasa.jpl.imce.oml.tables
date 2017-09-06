@@ -55,17 +55,17 @@ trait NumericScalarRestriction
   /*
    * The inclusive minimum value in the range
    */
-  val minInclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LexicalNumber]
+  val minInclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LiteralNumber]
   /*
    * The inclusive maximum value in the range
    */
-  val maxInclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LexicalNumber]
+  val maxInclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LiteralNumber]
   /*
    * The exclusive minimum value in the range
    */
-  val minExclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LexicalNumber]
+  val minExclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LiteralNumber]
   /*
    * The exclusive maximum value in the range
    */
-  val maxExclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LexicalNumber]
+  val maxExclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LiteralNumber]
 }

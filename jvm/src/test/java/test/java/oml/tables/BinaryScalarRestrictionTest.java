@@ -34,9 +34,9 @@ public class BinaryScalarRestrictionTest {
         String restrictedRangeUUID = "1245-ABCD-2345-4567";
 
         BinaryScalarRestriction w1 = new BinaryScalarRestriction(uuid, tboxUUID, restrictedRangeUUID, name)
-                .withLength(5)
-                .withMaxLength(50)
-                .withMinLength(1);
+                .withLength("5")
+                .withMaxLength("50")
+                .withMinLength("1");
 
         String s1 = BinaryScalarRestrictionHelper.toJSON(w1);
 
