@@ -51,7 +51,13 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Xtext grammar:
+LiteralNumber
+: LiteralReal
+| LiteralRational
+| LiteralFloat
+| LiteralDecimal;
+</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -147,6 +153,126 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.LiteralNumber#DEC" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="DEC:java.util.regex.Pattern"></a>
+      <a id="DEC:Pattern"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">DEC</span><span class="result">: <span class="extype" name="java.util.regex.Pattern">Pattern</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.LiteralNumber$@DEC:java.util.regex.Pattern" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Regex Pattern for DEC</p><div class="fullcomment"><div class="comment cmt"><p>Regex Pattern for DEC</p><p>terminal fragment DEC:                          '-'?
+                                                DIGIT+
+                                                (('e'|'E') ('+'|'-')? DIGIT+)?
+                                                (('b'|'B')('i'|'I'|'d'|'D') | ('l'|'L'|'d'|'D'|'f'|'F'))?;
+</p></div></div>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.LiteralNumber#DIGITS" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="DIGITS:java.util.regex.Pattern"></a>
+      <a id="DIGITS:Pattern"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">DIGITS</span><span class="result">: <span class="extype" name="java.util.regex.Pattern">Pattern</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.LiteralNumber$@DIGITS:java.util.regex.Pattern" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Regex Pattern for PositiveIntegerLiteral</p><div class="fullcomment"><div class="comment cmt"><p>Regex Pattern for PositiveIntegerLiteral</p><p>PositiveIntegerLiteral returns PositiveIntegerLiteral: 	DIGITS;
+</p></div></div>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.LiteralNumber#FLOAT" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="FLOAT:java.util.regex.Pattern"></a>
+      <a id="FLOAT:Pattern"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">FLOAT</span><span class="result">: <span class="extype" name="java.util.regex.Pattern">Pattern</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.LiteralNumber$@FLOAT:java.util.regex.Pattern" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Regex Pattern for FLOAT</p><div class="fullcomment"><div class="comment cmt"><p>Regex Pattern for FLOAT</p><p>LiteralFloat returns LiteralFloat:						{LiteralFloat} float=FLOAT;
+terminal FLOAT returns FloatDataType:         '-'?
+                                              (DIGIT+ '.' DIGIT+)
+                                              (('e' | 'E') ('+' | '-')? DIGIT+)?;
+</p></div></div>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.LiteralNumber#HEX" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="HEX:java.util.regex.Pattern"></a>
+      <a id="HEX:Pattern"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">HEX</span><span class="result">: <span class="extype" name="java.util.regex.Pattern">Pattern</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.LiteralNumber$@HEX:java.util.regex.Pattern" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Regex Pattern for HEX</p><div class="fullcomment"><div class="comment cmt"><p>Regex Pattern for HEX</p><p>terminal fragment HEX:									        ('0x'|'0X')
+                                                (HEX_DIGIT|'_')+
+                                                ('#' (('b'|'B')('i'|'I') | ('l'|'L')))?;
+</p></div></div>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.LiteralNumber#RATIONAL" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="RATIONAL:java.util.regex.Pattern"></a>
+      <a id="RATIONAL:Pattern"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">RATIONAL</span><span class="result">: <span class="extype" name="java.util.regex.Pattern">Pattern</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.LiteralNumber$@RATIONAL:java.util.regex.Pattern" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Regex Pattern for RATIONAL</p><div class="fullcomment"><div class="comment cmt"><p>Regex Pattern for RATIONAL</p><p>LiteralRational returns LiteralRational:				  {LiteralRational} rational=RationalDataType;
+RationalDataType returns RationalDataType:				RATIONAL;
+terminal RATIONAL returns RationalDataType:				'-'? DIGIT+ '/' DIGIT+;
+</p></div></div>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.LiteralNumber#REAL" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="REAL:java.util.regex.Pattern"></a>
+      <a id="REAL:Pattern"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">REAL</span><span class="result">: <span class="extype" name="java.util.regex.Pattern">Pattern</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.LiteralNumber$@REAL:java.util.regex.Pattern" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Regex Pattern for REAL</p><div class="fullcomment"><div class="comment cmt"><p>Regex Pattern for REAL</p><p>LiteralRational returns LiteralRational:				{LiteralRational} rational=RationalDataType;
+RationalDataType returns RationalDataType:			RATIONAL;
+terminal RATIONAL returns RationalDataType:			'-'? DIGIT+ '/' DIGIT+;
+</p></div></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -366,6 +492,143 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.LiteralNumber#parseDec" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="parseDec(v:String):Option[gov.nasa.jpl.imce.oml.tables.LiteralNumber]"></a>
+      <a id="parseDec(String):Option[LiteralNumber]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">parseDec</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="LiteralNumber.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.LiteralNumber">LiteralNumber</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.LiteralNumber$@parseDec(v:String):Option[gov.nasa.jpl.imce.oml.tables.LiteralNumber]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.LiteralNumber#parseHex" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="parseHex(v:String):Option[gov.nasa.jpl.imce.oml.tables.LiteralNumber]"></a>
+      <a id="parseHex(String):Option[LiteralNumber]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">parseHex</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="LiteralNumber.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.LiteralNumber">LiteralNumber</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.LiteralNumber$@parseHex(v:String):Option[gov.nasa.jpl.imce.oml.tables.LiteralNumber]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.LiteralNumber#parseLiteralDecimal" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="parseLiteralDecimal(v:String):Option[gov.nasa.jpl.imce.oml.tables.LiteralNumber]"></a>
+      <a id="parseLiteralDecimal(String):Option[LiteralNumber]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">parseLiteralDecimal</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="LiteralNumber.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.LiteralNumber">LiteralNumber</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.LiteralNumber$@parseLiteralDecimal(v:String):Option[gov.nasa.jpl.imce.oml.tables.LiteralNumber]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">v</dt><dd class="cmt"><p>A string representation of a literal value of some kind</p></dd><dt>returns</dt><dd class="cmt"><p>A non-empty LiteralValue if v matches the syntax of a LiteralDecimal
+LiteralDecimal returns LiteralDecimal:					{LiteralDecimal} decimal=DIGITS | decimal=DECIMAL;</p></dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.LiteralNumber#parseLiteralFloat" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="parseLiteralFloat(v:String):Option[gov.nasa.jpl.imce.oml.tables.LiteralNumber]"></a>
+      <a id="parseLiteralFloat(String):Option[LiteralNumber]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">parseLiteralFloat</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="LiteralNumber.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.LiteralNumber">LiteralNumber</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.LiteralNumber$@parseLiteralFloat(v:String):Option[gov.nasa.jpl.imce.oml.tables.LiteralNumber]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">v</dt><dd class="cmt"><p>A string representation of a literal value of some kind</p></dd><dt>returns</dt><dd class="cmt"><p>A non-empty LiteralValue if v matches the syntax of a LiteralFloat</p></dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.LiteralNumber#parseLiteralNumber" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="parseLiteralNumber(v:String):Option[gov.nasa.jpl.imce.oml.tables.LiteralNumber]"></a>
+      <a id="parseLiteralNumber(String):Option[LiteralNumber]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">parseLiteralNumber</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="LiteralNumber.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.LiteralNumber">LiteralNumber</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.LiteralNumber$@parseLiteralNumber(v:String):Option[gov.nasa.jpl.imce.oml.tables.LiteralNumber]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.LiteralNumber#parseLiteralRational" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="parseLiteralRational(v:String):Option[gov.nasa.jpl.imce.oml.tables.LiteralNumber]"></a>
+      <a id="parseLiteralRational(String):Option[LiteralNumber]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">parseLiteralRational</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="LiteralNumber.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.LiteralNumber">LiteralNumber</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.LiteralNumber$@parseLiteralRational(v:String):Option[gov.nasa.jpl.imce.oml.tables.LiteralNumber]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">v</dt><dd class="cmt"><p>A string representation of a literal value of some kind</p></dd><dt>returns</dt><dd class="cmt"><p>A non-empty LiteralValue if v matches the syntax of a LiteralRational</p></dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.LiteralNumber#parseLiteralReal" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="parseLiteralReal(v:String):Option[gov.nasa.jpl.imce.oml.tables.LiteralNumber]"></a>
+      <a id="parseLiteralReal(String):Option[LiteralNumber]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">parseLiteralReal</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="LiteralNumber.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.LiteralNumber">LiteralNumber</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.LiteralNumber$@parseLiteralReal(v:String):Option[gov.nasa.jpl.imce.oml.tables.LiteralNumber]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">v</dt><dd class="cmt"><p>A string representation of a literal value of some kind</p></dd><dt>returns</dt><dd class="cmt"><p>A non-empty LiteralValue if v matches the syntax of a LiteralReal</p></dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.LiteralNumber#parsePositiveIntegerLiteral" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="parsePositiveIntegerLiteral(v:String):Option[gov.nasa.jpl.imce.oml.tables.LiteralNumber]"></a>
+      <a id="parsePositiveIntegerLiteral(String):Option[LiteralNumber]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">parsePositiveIntegerLiteral</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="LiteralNumber.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.LiteralNumber">LiteralNumber</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.LiteralNumber$@parsePositiveIntegerLiteral(v:String):Option[gov.nasa.jpl.imce.oml.tables.LiteralNumber]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="gov.nasa.jpl.imce.oml.tables.LiteralNumber#r" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="r:upickle.default.Reader[gov.nasa.jpl.imce.oml.tables.LiteralNumber]"></a>
       <a id="r:upickle.default.Reader[LiteralNumber]"></a>

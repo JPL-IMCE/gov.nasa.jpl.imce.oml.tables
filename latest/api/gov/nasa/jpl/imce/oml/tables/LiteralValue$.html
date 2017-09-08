@@ -51,7 +51,15 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Xtext grammar:
+LiteralValue
+:	LiteralBoolean
+| LiteralDateTime
+| LiteralString
+| LiteralUUID
+| LiteralURI
+| LiteralNumber;
+</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -147,6 +155,65 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.LiteralValue#URI" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="URI:java.util.regex.Pattern"></a>
+      <a id="URI:Pattern"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">URI</span><span class="result">: <span class="extype" name="java.util.regex.Pattern">Pattern</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.LiteralValue$@URI:java.util.regex.Pattern" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Regex Pattern for URI</p><div class="fullcomment"><div class="comment cmt"><p>Regex Pattern for URI</p><p>terminal URI returns URIDataType:						SCHEME ':' IHIER_PART ( '#' IFRAGMENT )?;
+terminal fragment SCHEME:								    ALPHA ( ALPHA | DIGIT | '+' | '-' | '.' )*;
+terminal fragment IHIER_PART:							  '//' IAUTHORITY IPATH?;
+terminal fragment IFRAGMENT:							  ISEGMENT;
+terminal fragment IAUTHORITY:							  ( IUSER_INFO '@' )? IHOST ( ':' PORT )?;
+terminal fragment IPATH:								    ISEGMENT ('/' ISEGMENT)*;
+terminal fragment ISEGMENT:								  IPCHAR+;
+terminal fragment IUSER_INFO:							  IUSER_PART (':' IUSER_PART)*;
+terminal fragment IUSER_PART:							  ( UNRESERVED | PCT_ENCODED )+;
+terminal fragment IUNRESERVED:							ALPHA IUNRESERVED_PART? ( '.' IUNRESERVED_PART )*;
+terminal fragment IUNRESERVED_PART:					ALPHA | DIGIT | '-' | '_' | '~';
+terminal fragment IHOST:								    IPV4_ADDRESS | IUNRESERVED;
+terminal fragment IPV4_ADDRESS:							DEC_OCTET '.' DEC_OCTET '.' DEC_OCTET '.' DEC_OCTET;
+terminal fragment DEC_OCTET:							  ( DIGIT | '1' DIGIT | '2' DIGIT04 DIGIT | '25' DIGIT05);
+terminal fragment DIGIT04:								  '0'..'4';
+terminal fragment DIGIT05:								  '0'..'5';</p><p>TODO The pattern is incomplete...
+</p></div></div>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.LiteralValue#UUID" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="UUID:java.util.regex.Pattern"></a>
+      <a id="UUID:Pattern"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">UUID</span><span class="result">: <span class="extype" name="java.util.regex.Pattern">Pattern</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.LiteralValue$@UUID:java.util.regex.Pattern" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Regex pattern for UUID</p><div class="fullcomment"><div class="comment cmt"><p>Regex pattern for UUID</p><p>LiteralUUID returns LiteralUUID:						{LiteralUUID} uuid=UUIDDataType;
+UUIDDataType returns UUIDDataType:					UUID;
+terminal UUID returns UUIDDataType:					'uuid=' HEX_8DIGITS '-' HEX_4DIGITS '-'
+                                                    HEX_4DIGITS '-' HEX_4DIGITS '-' HEX_12DIGITS;
+terminal fragment HEX_12DIGITS:							HEX_8DIGITS HEX_4DIGITS;
+terminal fragment HEX_8DIGITS:							HEX_4DIGITS HEX_4DIGITS;
+terminal fragment HEX_4DIGITS:							HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT;
+terminal fragment HEX_LETTER:							  'a'..'f' | 'A'..'F';
+terminal fragment HEX_DIGIT:							  DIGIT | HEX_LETTER;
+</p></div></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -366,6 +433,93 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.LiteralValue#parseLiteralBoolean" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="parseLiteralBoolean(v:String):Option[gov.nasa.jpl.imce.oml.tables.LiteralValue]"></a>
+      <a id="parseLiteralBoolean(String):Option[LiteralValue]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">parseLiteralBoolean</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="LiteralValue.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.LiteralValue">LiteralValue</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.LiteralValue$@parseLiteralBoolean(v:String):Option[gov.nasa.jpl.imce.oml.tables.LiteralValue]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">v</dt><dd class="cmt"><p>A string representation of a literal value of some kind</p></dd><dt>returns</dt><dd class="cmt"><p>A non-empty LiteralValue if v matches the syntax of a LiteralBoolean</p></dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.LiteralValue#parseLiteralString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="parseLiteralString(v:String):Option[gov.nasa.jpl.imce.oml.tables.LiteralValue]"></a>
+      <a id="parseLiteralString(String):Option[LiteralValue]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">parseLiteralString</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="LiteralValue.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.LiteralValue">LiteralValue</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.LiteralValue$@parseLiteralString(v:String):Option[gov.nasa.jpl.imce.oml.tables.LiteralValue]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">v</dt><dd class="cmt"><p>A string representation of a literal value of some kind</p></dd><dt>returns</dt><dd class="cmt"><p>A non-empty LiteralValue if v matches the syntax of a LiteralString
+LiteralString returns LiteralString:					  {LiteralString} string=STRING_VALUE;
+terminal STRING_VALUE returns StringDataType: 	'&quot;' ( '\\' . ('b'|'t'|'n'|'f'|'r'|'&quot;'|&quot;'&quot;|'\\')| !('\\'|'&quot;') )* '&quot;';</p></dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.LiteralValue#parseLiteralURI" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="parseLiteralURI(v:String):Option[gov.nasa.jpl.imce.oml.tables.LiteralValue]"></a>
+      <a id="parseLiteralURI(String):Option[LiteralValue]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">parseLiteralURI</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="LiteralValue.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.LiteralValue">LiteralValue</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.LiteralValue$@parseLiteralURI(v:String):Option[gov.nasa.jpl.imce.oml.tables.LiteralValue]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">v</dt><dd class="cmt"><p>A string representation of a literal value of some kind</p></dd><dt>returns</dt><dd class="cmt"><p>A non-empty LiteralValue if v matches the syntax of a LiteralURI</p></dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.LiteralValue#parseLiteralUUID" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="parseLiteralUUID(v:String):Option[gov.nasa.jpl.imce.oml.tables.LiteralValue]"></a>
+      <a id="parseLiteralUUID(String):Option[LiteralValue]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">parseLiteralUUID</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="LiteralValue.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.LiteralValue">LiteralValue</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.LiteralValue$@parseLiteralUUID(v:String):Option[gov.nasa.jpl.imce.oml.tables.LiteralValue]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">v</dt><dd class="cmt"><p>A string representation of a literal value of some kind</p></dd><dt>returns</dt><dd class="cmt"><p>A non-empty LiteralValue if v matches the syntax of a LiteralUUID</p></dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.LiteralValue#parseLiteralValue" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="parseLiteralValue(v:String):Option[gov.nasa.jpl.imce.oml.tables.LiteralValue]"></a>
+      <a id="parseLiteralValue(String):Option[LiteralValue]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">parseLiteralValue</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="LiteralValue.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.LiteralValue">LiteralValue</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.LiteralValue$@parseLiteralValue(v:String):Option[gov.nasa.jpl.imce.oml.tables.LiteralValue]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="gov.nasa.jpl.imce.oml.tables.LiteralValue#r" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="r:upickle.default.Reader[gov.nasa.jpl.imce.oml.tables.LiteralValue]"></a>
       <a id="r:upickle.default.Reader[LiteralValue]"></a>
@@ -420,6 +574,23 @@
                 <span class="name">@JSExport</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.LiteralValue#toLiteralValue" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="toLiteralValue(v:Option[gov.nasa.jpl.imce.oml.tables.LiteralNumber]):Option[gov.nasa.jpl.imce.oml.tables.LiteralValue]"></a>
+      <a id="toLiteralValue(Option[LiteralNumber]):Option[LiteralValue]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toLiteralValue</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Option">Option</span>[<a href="LiteralNumber.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.LiteralNumber">LiteralNumber</a>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="LiteralValue.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.LiteralValue">LiteralValue</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.LiteralValue$@toLiteralValue(v:Option[gov.nasa.jpl.imce.oml.tables.LiteralNumber]):Option[gov.nasa.jpl.imce.oml.tables.LiteralValue]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <a id="toString():String"></a>

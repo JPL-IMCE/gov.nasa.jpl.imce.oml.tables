@@ -366,6 +366,53 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.LiteralDateTime#parseDateTime" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="parseDateTime(v:String):Option[gov.nasa.jpl.imce.oml.tables.LiteralDateTime]"></a>
+      <a id="parseDateTime(String):Option[LiteralDateTime]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">parseDateTime</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="LiteralDateTime.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.LiteralDateTime">LiteralDateTime</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.LiteralDateTime$@parseDateTime(v:String):Option[gov.nasa.jpl.imce.oml.tables.LiteralDateTime]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.LiteralDateTime#parseLiteralDateTime" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="parseLiteralDateTime(v:String):Option[gov.nasa.jpl.imce.oml.tables.LiteralValue]"></a>
+      <a id="parseLiteralDateTime(String):Option[LiteralValue]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">parseLiteralDateTime</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="LiteralValue.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.LiteralValue">LiteralValue</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.LiteralDateTime$@parseLiteralDateTime(v:String):Option[gov.nasa.jpl.imce.oml.tables.LiteralValue]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">v</dt><dd class="cmt"><p>A string representation of a literal value of some kind</p></dd><dt>returns</dt><dd class="cmt"><p>A non-empty LiteralValue if v matches the syntax of a LiteralDateTime
+LiteralDateTime returns LiteralDateTime: 				{LiteralDateTime} dateTime=DATE_TIME;
+terminal DATE_TIME returns DateTimeDataType: 		'dateTime=' YEAR_FRAG '-' MONTH_FRAG '-' DAY_FRAG 'T'
+                                                ( (HOUR_FRAG ':' MINUTE_FRAG ':' SECOND_FRAG) | END_OF_DAY_FRAG )
+                                                TIMEZONE_FRAG?;
+terminal fragment YEAR_FRAG:							      '-'? ( (DIGIT19 DIGIT DIGIT DIGIT+) | ('0' DIGIT DIGIT DIGIT) );
+terminal fragment MONTH_FRAG:							      ('0' DIGIT19) | ('1' DIGIT02);
+terminal fragment DAY_FRAG:								      ('0' DIGIT19) | (('1'|'2') DIGIT) | ('3' ('0'|'1'));
+terminal fragment HOUR_FRAG:							      (('0'|'1')DIGIT) | ('2'DIGIT03);
+terminal fragment MINUTE_FRAG:							    DIGIT05 DIGIT;
+terminal fragment SECOND_FRAG:							    DIGIT05 DIGIT ('.' DIGIT+)?;
+terminal fragment END_OF_DAY_FRAG:						  '24:00:00' ('.' DIGIT+)?;
+terminal fragment TIMEZONE_FRAG:						    'Z' |
+                                                ('+'|'-') (('0' DIGIT | '1' DIGIT03) ':' MINUTE_FRAG | '14:00');</p></dd></dl></div>
     </li><li name="gov.nasa.jpl.imce.oml.tables.LiteralDateTime#r" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="r:upickle.default.Reader[gov.nasa.jpl.imce.oml.tables.LiteralDateTime]"></a>
       <a id="r:upickle.default.Reader[LiteralDateTime]"></a>
