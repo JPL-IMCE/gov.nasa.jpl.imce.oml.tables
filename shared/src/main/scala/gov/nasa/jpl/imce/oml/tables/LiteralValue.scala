@@ -271,7 +271,7 @@ object LiteralValue {
     * terminal fragment DIGIT04:								  '0'..'4';
     * terminal fragment DIGIT05:								  '0'..'5';
     *
-    * @TODO The pattern is incomplete...
+    * TODO The pattern is incomplete...
     */
   val URI = """[a-zA-Z][\w+\-\.]*://.*""".r.pattern
   /**
@@ -509,14 +509,14 @@ object LiteralDateTime {
     */
   def parseLiteralDateTime(v: String)
   : Option[LiteralValue]
-  = if (v.startsWith("dateTime=")) // @TODO parse the value according the lexical rules for DateTime!
+  = if (v.startsWith("dateTime=")) // TODO parse the value according the lexical rules for DateTime!
     Option.apply(LiteralValue(LiteralDateTimeType, v))
   else
     Option.empty[LiteralValue]
 
   def parseDateTime(v: String)
   : Option[LiteralDateTime]
-  = if (v.startsWith("dateTime=")) // @TODO parse the value according the lexical rules for DateTime!
+  = if (v.startsWith("dateTime=")) // TODO parse the value according the lexical rules for DateTime!
     Option.apply(LiteralDateTime(v))
   else
     Option.empty[LiteralDateTime]
