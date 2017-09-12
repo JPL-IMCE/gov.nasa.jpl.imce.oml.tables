@@ -1980,7 +1980,7 @@ object OMLTablesResolver {
 
     val byUUID
     : Seq[((Option[api.AnnotationProperty], Option[api.Element]), tables.AnnotationPropertyValue)]
-    = r.queue.annotations
+    = r.queue.annotationPropertyValues
         .map { apv =>
           ( r.lookupAnnotationProperty(UUID.fromString(apv.propertyUUID)),
             r.lookupElement(UUID.fromString(apv.subjectUUID))
@@ -2009,12 +2009,11 @@ object OMLTablesResolver {
 
     val s =
       resolvable.foldLeft[Try[OMLTablesResolver]]{
-        Success(r.copy(queue = r.queue.copy(annotations = unresolvable)))
+        Success(r.copy(queue = r.queue.copy(annotationPropertyValues = unresolvable)))
       } {
         case (Success(ri), (rap, re, apv)) =>
           val (ej, ra) = ri.factory.createAnnotationPropertyValue(ri.context, re, rap, apv.value)
-          if (!ej.lookupAnnotations(re).exists { a => a.property == rap && a.value == apv.value } ||
-              !ej.lookupAnnotations(re).contains(ra))
+          if (!ej.lookupAnnotationPropertyValue(ra.uuid).exists { a => a.property == rap && a.value == apv.value })
             Failure(new IllegalArgumentException(s"Annotation not in extent: $ra"))
           else
             Success(ri.copy(context = ej))
