@@ -83,7 +83,7 @@ object EntityScalarDataPropertyHelper {
 
   val TABLE_JSON_FILENAME 
   : scala.Predef.String 
-  = "EntityScalarDataPropertys.json"
+  = "EntityScalarDataProperties.json"
   
   implicit val w
   : upickle.default.Writer[EntityScalarDataProperty]

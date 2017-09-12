@@ -78,7 +78,7 @@ object StructuredDataPropertyHelper {
 
   val TABLE_JSON_FILENAME 
   : scala.Predef.String 
-  = "StructuredDataPropertys.json"
+  = "StructuredDataProperties.json"
   
   implicit val w
   : upickle.default.Writer[StructuredDataProperty]

@@ -16,6 +16,7 @@
  * License Terms
  */
 
+
 package gov.nasa.jpl.imce.oml.tables
 
 import java.io.{File,InputStream}
@@ -82,8 +83,8 @@ case class OMLSpecificationTables
   singletonInstanceScalarDataPropertyValues : Seq[SingletonInstanceScalarDataPropertyValue] = Seq.empty,
   singletonInstanceStructuredDataPropertyValues : Seq[SingletonInstanceStructuredDataPropertyValue] = Seq.empty,
   structuredDataPropertyTuples : Seq[StructuredDataPropertyTuple] = Seq.empty,
-  unreifiedRelationshipInstanceTuples : Seq[UnreifiedRelationshipInstanceTuple] = Seq.empty,
-  annotations: Seq[AnnotationPropertyValue] = Seq.empty)
+  unreifiedRelationshipInstanceTuples : Seq[UnreifiedRelationshipInstanceTuple] = Seq.empty
+)
 {
   def readAnnotationProperties(is: InputStream)
   : OMLSpecificationTables
@@ -298,8 +299,7 @@ case class OMLSpecificationTables
     singletonInstanceScalarDataPropertyValues.isEmpty &&
     singletonInstanceStructuredDataPropertyValues.isEmpty &&
     structuredDataPropertyTuples.isEmpty &&
-    unreifiedRelationshipInstanceTuples.isEmpty &&
-    annotations.isEmpty
+    unreifiedRelationshipInstanceTuples.isEmpty
   
   def show: String = {
   
@@ -366,7 +366,6 @@ case class OMLSpecificationTables
     buff ++= showSeq("singletonInstanceStructuredDataPropertyValues", singletonInstanceStructuredDataPropertyValues)
     buff ++= showSeq("structuredDataPropertyTuples", structuredDataPropertyTuples)
     buff ++= showSeq("unreifiedRelationshipInstanceTuples", unreifiedRelationshipInstanceTuples)
-    buff ++= showSeq("annotations", annotations)
   
     buff.toString
   }
@@ -455,8 +454,7 @@ object OMLSpecificationTables {
       singletonInstanceScalarDataPropertyValues = t1.singletonInstanceScalarDataPropertyValues ++ t2.singletonInstanceScalarDataPropertyValues,
       singletonInstanceStructuredDataPropertyValues = t1.singletonInstanceStructuredDataPropertyValues ++ t2.singletonInstanceStructuredDataPropertyValues,
       structuredDataPropertyTuples = t1.structuredDataPropertyTuples ++ t2.structuredDataPropertyTuples,
-      unreifiedRelationshipInstanceTuples = t1.unreifiedRelationshipInstanceTuples ++ t2.unreifiedRelationshipInstanceTuples,
-      annotations = t1.annotations ++ t2.annotations)
+      unreifiedRelationshipInstanceTuples = t1.unreifiedRelationshipInstanceTuples ++ t2.unreifiedRelationshipInstanceTuples)
   
   def readZipArchive
   (zipFile: ZipFile)

@@ -78,7 +78,7 @@ object ScalarDataPropertyHelper {
 
   val TABLE_JSON_FILENAME 
   : scala.Predef.String 
-  = "ScalarDataPropertys.json"
+  = "ScalarDataProperties.json"
   
   implicit val w
   : upickle.default.Writer[ScalarDataProperty]

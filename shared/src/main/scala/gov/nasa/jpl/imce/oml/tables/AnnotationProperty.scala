@@ -67,7 +67,7 @@ object AnnotationPropertyHelper {
 
   val TABLE_JSON_FILENAME 
   : scala.Predef.String 
-  = "AnnotationPropertys.json"
+  = "AnnotationProperties.json"
   
   implicit val w
   : upickle.default.Writer[AnnotationProperty]

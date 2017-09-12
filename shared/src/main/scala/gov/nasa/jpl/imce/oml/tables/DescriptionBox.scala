@@ -67,7 +67,7 @@ object DescriptionBoxHelper {
 
   val TABLE_JSON_FILENAME 
   : scala.Predef.String 
-  = "DescriptionBoxs.json"
+  = "DescriptionBoxes.json"
   
   implicit val w
   : upickle.default.Writer[DescriptionBox]

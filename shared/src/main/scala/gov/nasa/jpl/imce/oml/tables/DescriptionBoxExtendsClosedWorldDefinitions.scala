@@ -69,7 +69,7 @@ object DescriptionBoxExtendsClosedWorldDefinitionsHelper {
 
   val TABLE_JSON_FILENAME 
   : scala.Predef.String 
-  = "DescriptionBoxExtendsClosedWorldDefinitionss.json"
+  = "DescriptionBoxExtendsClosedWorldDefinitions.json"
   
   implicit val w
   : upickle.default.Writer[DescriptionBoxExtendsClosedWorldDefinitions]

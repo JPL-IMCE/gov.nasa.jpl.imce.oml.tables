@@ -16,6 +16,7 @@
  * License Terms
  */
 
+
 package gov.nasa.jpl.imce.oml.provenance.oti
 
 import java.io.{File,InputStream}
@@ -30,7 +31,7 @@ import scala.{Boolean,Unit}
 case class OML2OTIProvenanceTables
 (
   oml2OTIProvenances : Seq[OML2OTIProvenance] = Seq.empty
-) 
+)
 {
   def readOML2OTIProvenances(is: InputStream)
   : OML2OTIProvenanceTables
@@ -72,7 +73,7 @@ object OML2OTIProvenanceTables {
   (t1: OML2OTIProvenanceTables, t2: OML2OTIProvenanceTables)
   : OML2OTIProvenanceTables
   = OML2OTIProvenanceTables(
-      oml2OTIProvenances = t1.oml2OTIProvenances ++ t2.oml2OTIProvenances) 
+      oml2OTIProvenances = t1.oml2OTIProvenances ++ t2.oml2OTIProvenances)
   
   def readZipArchive
   (zipFile: ZipFile)
