@@ -207,8 +207,17 @@ lazy val tables = crossProject
     logLevel in update := Level.Warn,
     logLevel in aether.AetherKeys.aetherDeploy := Level.Warn,
 
+    // do not include all repositories in the POM
+    // (this is important for staging since artifacts published to a staging repository
+    //  can be promoted (i.e. published) to another repository)
+    pomAllRepositories := false,
+
+    // make sure no repositories show up in the POM file
     pomIncludeRepository := { _ => false },
 
+    // include *.zip artifacts in the POM dependency section
+    makePomConfiguration :=
+      makePomConfiguration.value.copy(includeTypes = Set(Artifact.DefaultType, Artifact.PomType, "zip")),
 
     publishTo := Some(
       "JPL-IMCE" at
@@ -242,6 +251,7 @@ lazy val tables = crossProject
     ) : _*
   )
   .jvmSettings(
+    resolvers += Resolver.bintrayRepo("jpl-imce", "gov.nasa.jpl.imce"),
     libraryDependencies ++= Settings.jvmDependencies.value,
     dynamicScriptsResourceSettings(Settings.dashName)
   )
