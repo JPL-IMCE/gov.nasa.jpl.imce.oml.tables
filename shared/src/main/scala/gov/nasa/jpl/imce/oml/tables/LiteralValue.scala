@@ -439,7 +439,7 @@ object LiteralNumber {
   def parseDec(v: String)
   : Option[LiteralNumber]
   = if (DEC.matcher(v).matches())
-    Option.apply(LiteralNumber(LiteralPositiveIntegerType, v))
+    Option.apply(LiteralNumber(LiteralDecimalType, v))
   else
     Option.empty[LiteralNumber]
 
