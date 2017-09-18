@@ -49,6 +49,41 @@ This format is deliberately chosen to facilitate processing OMF data according
 to the [Reactive Manifesto](http://www.reactivemanifesto.org); 
 for example, using [Apache Spark](http://spark.apache.org).
 
+## GIT and *.oml.zip archives
+
+In a GIT project:
+ 
+1) Add the following to `.git/config`:
+
+    ```
+    [diff "zip"]
+        textconv = unzip -c -q
+    ```
+
+2) Add the folowing to `.gitattributes`:
+
+    ```
+    *.oml.json.zip diff=zip
+
+    ```
+    
+Two different `*.oml.zip` archives may have the same contents 
+(as seen by `unzip -c -q`) but the timestamps in the ZIP archive may differ.
+
+For example, suppose a GIT repository has a file: `example.oml.json.zip`.
+If nothing has changed in the OML contents and a new archive overwrites the existing one,
+then GIT may see a modification (due to the difference in timestamps in the ZIP metadata)
+but diffing the contents should confirm there is no significant change.
+
+```
+$ git status
+
+    modified: *.oml.json.zip
+
+$ git diff
+$ 
+```
+
 ## Scala as a single-source of truth
 
 The OML normalized schema tables are specified in the Scala programming language:
