@@ -7,3 +7,5 @@ gov.nasa.jpl.imce.oml.tables 0.80.0 resolves major issues in the 0.61.0 release
 - [#15 Provide API for LiteralValue parsing in sync with the Xtext grammar](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/15)
 
 - [#16 Updates for Generator fixes](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/16)
+
+- [#18 Fix unit tests due to OML datatypes/literals](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/18)

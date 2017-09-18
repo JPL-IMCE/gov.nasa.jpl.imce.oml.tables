@@ -44,11 +44,11 @@ public class PlainLiteralScalarRestrictionTest {
 
         String lan_s = "[\"" + w1.langRange().get() + "\"]";
 
-        String ls = "[" + w1.length().get() + "]";
+        String ls = "[\"" + w1.length().get() + "\"]";
 
-        String maxL = "[" + w1.maxLength().get() + "]";
+        String maxL = "[\"" + w1.maxLength().get() + "\"]";
 
-        String minL = "[" + w1.minLength().get() + "]";
+        String minL = "[\"" + w1.minLength().get() + "\"]";
 
         String ps = "[\"" + w1.pattern().get() + "\"]";
 

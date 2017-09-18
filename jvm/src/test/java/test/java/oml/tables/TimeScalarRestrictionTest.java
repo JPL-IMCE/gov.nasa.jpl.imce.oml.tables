@@ -42,13 +42,13 @@ public class TimeScalarRestrictionTest {
 
         String s1 = TimeScalarRestrictionHelper.toJSON(w1);
 
-        String maxE_s = "[\"" + w1.maxExclusive().get() + "\"]";
+        String maxE_s = "[\"" + w1.maxExclusive().get().value() + "\"]";
 
-        String maxI_s = "[\"" + w1.maxInclusive().get() + "\"]";
+        String maxI_s = "[\"" + w1.maxInclusive().get().value() + "\"]";
 
-        String minE_s = "[\"" + w1.minExclusive().get() + "\"]";
+        String minE_s = "[\"" + w1.minExclusive().get().value() + "\"]";
 
-        String minI_s = "[\"" + w1.minInclusive().get() + "\"]";
+        String minI_s = "[\"" + w1.minInclusive().get().value() + "\"]";
 
         String t1 = String.format(
                 "{\"uuid\":\"%s\",\"tboxUUID\":\"%s\",\"restrictedRangeUUID\":\"%s\",\"minExclusive\":%s,\"minInclusive\":%s,\"maxExclusive\":%s,\"maxInclusive\":%s,\"name\":\"%s\"}",

@@ -63,15 +63,15 @@ object BinaryScalarRestrictionAxiomTest extends Properties("BinaryScalarRestrict
       val s = BinaryScalarRestrictionHelper.toJSON(w)
       val l = w.length match {
         case None => "[]"
-        case Some(n) => s"[$n]"
+        case Some(n) => s"""["$n"]"""
       }
       val min = w.minLength match {
         case None => "[]"
-        case Some(n) => s"[$n]"
+        case Some(n) => s"""["$n"]"""
       }
       val max = w.maxLength match {
         case None => "[]"
-        case Some(n) => s"[$n]"
+        case Some(n) => s"""["$n"]"""
       }
       val t = s"""{"uuid":"${w.uuid}","tboxUUID":"${w.tboxUUID}","restrictedRangeUUID":"${w.restrictedRangeUUID}","length":$l,"minLength":$min,"maxLength":$max,"name":"${w.name}"}"""
       val r = BinaryScalarRestrictionHelper.fromJSON(s)

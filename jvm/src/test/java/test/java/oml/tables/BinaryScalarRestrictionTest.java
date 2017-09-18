@@ -40,11 +40,11 @@ public class BinaryScalarRestrictionTest {
 
         String s1 = BinaryScalarRestrictionHelper.toJSON(w1);
 
-        String ls = "[" + w1.length().get() + "]";
+        String ls = "[\"" + w1.length().get() + "\"]";
 
-        String maxL = "[" + w1.maxLength().get() + "]";
+        String maxL = "[\"" + w1.maxLength().get() + "\"]";
 
-        String minL = "[" + w1.minLength().get() + "]";
+        String minL = "[\"" + w1.minLength().get() + "\"]";
 
         String t1 = String.format(
                 "{\"uuid\":\"%s\",\"tboxUUID\":\"%s\",\"restrictedRangeUUID\":\"%s\",\"length\":%s,\"minLength\":%s,\"maxLength\":%s,\"name\":\"%s\"}",

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 
-const OMF = require('../../../jpl-omf-schema-tables').__ScalaJSExportsNamespace;
+const OMF = require('../../../gov-nasa-jpl-imce-oml-tables').__ScalaJSExportsNamespace;
 
 console.log("OMF Schema Tables...");
 
