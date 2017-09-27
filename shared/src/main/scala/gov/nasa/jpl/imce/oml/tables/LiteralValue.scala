@@ -238,7 +238,7 @@ object LiteralValue {
     * terminal fragment HEX_LETTER:							  'a'..'f' | 'A'..'F';
     * terminal fragment HEX_DIGIT:							  DIGIT | HEX_LETTER;
     */
-  val UUID = """uuid=[\da-zA-Z]{8}\-[\da-zA-Z]{4}\-[\da-zA-Z]{}\-[\da-zA-Z]{4}\-[\da-zA-Z]{12}""".r.pattern
+  val UUID = """uuid=[\da-zA-Z]{8}\-[\da-zA-Z]{4}\-[\da-zA-Z]{4}\-[\da-zA-Z]{4}\-[\da-zA-Z]{12}""".r.pattern
 
   /**
     * @param v A string representation of a literal value of some kind

@@ -87,6 +87,16 @@ package object tables {
   	 	case 0 => 0 }
   }
   
+  implicit def aspectPredicateOrdering
+  : scala.Ordering[AspectPredicate]
+  = new scala.Ordering[AspectPredicate] {
+  	def compare(x: AspectPredicate, y: AspectPredicate)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
   implicit def aspectSpecializationAxiomOrdering
   : scala.Ordering[AspectSpecializationAxiom]
   = new scala.Ordering[AspectSpecializationAxiom] {
@@ -127,6 +137,16 @@ package object tables {
   	 	case 0 => 0 }
   }
   
+  implicit def chainRuleOrdering
+  : scala.Ordering[ChainRule]
+  = new scala.Ordering[ChainRule] {
+  	def compare(x: ChainRule, y: ChainRule)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
   implicit def conceptOrdering
   : scala.Ordering[Concept]
   = new scala.Ordering[Concept] {
@@ -151,6 +171,16 @@ package object tables {
   : scala.Ordering[ConceptInstance]
   = new scala.Ordering[ConceptInstance] {
   	def compare(x: ConceptInstance, y: ConceptInstance)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def conceptPredicateOrdering
+  : scala.Ordering[ConceptPredicate]
+  = new scala.Ordering[ConceptPredicate] {
+  	def compare(x: ConceptPredicate, y: ConceptPredicate)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid
@@ -347,10 +377,80 @@ package object tables {
   	 	case 0 => 0 }
   }
   
+  implicit def reifiedRelationshipInversePropertyPredicateOrdering
+  : scala.Ordering[ReifiedRelationshipInversePropertyPredicate]
+  = new scala.Ordering[ReifiedRelationshipInversePropertyPredicate] {
+  	def compare(x: ReifiedRelationshipInversePropertyPredicate, y: ReifiedRelationshipInversePropertyPredicate)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def reifiedRelationshipPredicateOrdering
+  : scala.Ordering[ReifiedRelationshipPredicate]
+  = new scala.Ordering[ReifiedRelationshipPredicate] {
+  	def compare(x: ReifiedRelationshipPredicate, y: ReifiedRelationshipPredicate)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def reifiedRelationshipPropertyPredicateOrdering
+  : scala.Ordering[ReifiedRelationshipPropertyPredicate]
+  = new scala.Ordering[ReifiedRelationshipPropertyPredicate] {
+  	def compare(x: ReifiedRelationshipPropertyPredicate, y: ReifiedRelationshipPropertyPredicate)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def reifiedRelationshipSourceInversePropertyPredicateOrdering
+  : scala.Ordering[ReifiedRelationshipSourceInversePropertyPredicate]
+  = new scala.Ordering[ReifiedRelationshipSourceInversePropertyPredicate] {
+  	def compare(x: ReifiedRelationshipSourceInversePropertyPredicate, y: ReifiedRelationshipSourceInversePropertyPredicate)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def reifiedRelationshipSourcePropertyPredicateOrdering
+  : scala.Ordering[ReifiedRelationshipSourcePropertyPredicate]
+  = new scala.Ordering[ReifiedRelationshipSourcePropertyPredicate] {
+  	def compare(x: ReifiedRelationshipSourcePropertyPredicate, y: ReifiedRelationshipSourcePropertyPredicate)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
   implicit def reifiedRelationshipSpecializationAxiomOrdering
   : scala.Ordering[ReifiedRelationshipSpecializationAxiom]
   = new scala.Ordering[ReifiedRelationshipSpecializationAxiom] {
   	def compare(x: ReifiedRelationshipSpecializationAxiom, y: ReifiedRelationshipSpecializationAxiom)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def reifiedRelationshipTargetInversePropertyPredicateOrdering
+  : scala.Ordering[ReifiedRelationshipTargetInversePropertyPredicate]
+  = new scala.Ordering[ReifiedRelationshipTargetInversePropertyPredicate] {
+  	def compare(x: ReifiedRelationshipTargetInversePropertyPredicate, y: ReifiedRelationshipTargetInversePropertyPredicate)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def reifiedRelationshipTargetPropertyPredicateOrdering
+  : scala.Ordering[ReifiedRelationshipTargetPropertyPredicate]
+  = new scala.Ordering[ReifiedRelationshipTargetPropertyPredicate] {
+  	def compare(x: ReifiedRelationshipTargetPropertyPredicate, y: ReifiedRelationshipTargetPropertyPredicate)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid
@@ -381,6 +481,16 @@ package object tables {
   : scala.Ordering[RootConceptTaxonomyAxiom]
   = new scala.Ordering[RootConceptTaxonomyAxiom] {
   	def compare(x: RootConceptTaxonomyAxiom, y: RootConceptTaxonomyAxiom)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def ruleBodySegmentOrdering
+  : scala.Ordering[RuleBodySegment]
+  = new scala.Ordering[RuleBodySegment] {
+  	def compare(x: RuleBodySegment, y: RuleBodySegment)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid
@@ -571,6 +681,26 @@ package object tables {
   : scala.Ordering[UnreifiedRelationshipInstanceTuple]
   = new scala.Ordering[UnreifiedRelationshipInstanceTuple] {
   	def compare(x: UnreifiedRelationshipInstanceTuple, y: UnreifiedRelationshipInstanceTuple)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def unreifiedRelationshipInversePropertyPredicateOrdering
+  : scala.Ordering[UnreifiedRelationshipInversePropertyPredicate]
+  = new scala.Ordering[UnreifiedRelationshipInversePropertyPredicate] {
+  	def compare(x: UnreifiedRelationshipInversePropertyPredicate, y: UnreifiedRelationshipInversePropertyPredicate)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def unreifiedRelationshipPropertyPredicateOrdering
+  : scala.Ordering[UnreifiedRelationshipPropertyPredicate]
+  = new scala.Ordering[UnreifiedRelationshipPropertyPredicate] {
+  	def compare(x: UnreifiedRelationshipPropertyPredicate, y: UnreifiedRelationshipPropertyPredicate)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid

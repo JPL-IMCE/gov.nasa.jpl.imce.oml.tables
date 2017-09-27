@@ -965,12 +965,12 @@ object Extent2Tables {
             .foldLeft[Seq[tables.SingletonInstanceStructuredDataPropertyValue]](Seq.empty)(convertSingletonStructuredDataPropertyValues)
             .sortBy(_.uuid),
 
-          scalarDataPropertyValues = e.scalarDataPropertyValues
-            .foldLeft[Seq[tables.ScalarDataPropertyValue]](Seq.empty)(convertScalarDataPropertyValues)
-            .sortBy(_.uuid),
-
           structuredDataPropertyTuples = e.structuredPropertyTuples
             .foldLeft[Seq[tables.StructuredDataPropertyTuple]](Seq.empty)(convertStructuredDataPropertyTuples)
+            .sortBy(_.uuid),
+
+          scalarDataPropertyValues = e.scalarDataPropertyValues
+            .foldLeft[Seq[tables.ScalarDataPropertyValue]](Seq.empty)(convertScalarDataPropertyValues)
             .sortBy(_.uuid),
 
           annotationPropertyValues = ( e.terminologyGraphs.values ++ e.bundles.values ++ e.descriptionBoxes.values )
