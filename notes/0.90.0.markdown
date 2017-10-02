@@ -5,3 +5,5 @@ gov.nasa.jpl.imce.oml.tables 0.90.0 resolves major issues in 0.80.0
 - [#19 Add support for OML rules](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/19)
 
 - [#20 Add support for typed OML LiteralValues](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/20)
+
+- [#21 Update OMLTablesResolver & Extent2Tables for OML Chains & Typed LiteralValues](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/21)
