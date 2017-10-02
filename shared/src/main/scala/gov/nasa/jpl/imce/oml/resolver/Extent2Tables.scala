@@ -21,7 +21,8 @@ package gov.nasa.jpl.imce.oml.resolver
 import gov.nasa.jpl.imce.oml._
 
 import scala.collection.immutable._
-import scala.{None,Some}
+import scala.{Option,None,Some}
+import scala.Predef.ArrowAssoc
 
 object Extent2Tables {
 
@@ -144,6 +145,419 @@ object Extent2Tables {
     case _ =>
       None
   }.to[Seq]
+
+  def convertChainRules
+  (acc: Seq[tables.ChainRule],
+   x: (api.TerminologyBox, Set[api.TerminologyBoxStatement]))
+  : Seq[tables.ChainRule]
+  = acc ++ x._2.flatMap {
+    case y: api.ChainRule =>
+      Some(tables.ChainRule(y.uuid.toString, x._1.uuid.toString, y.name, y.head.uuid.toString))
+    case _ =>
+      None
+  }.to[Seq]
+
+  def convertRuleBodySegments
+  (e: api.Extent)
+  (acc: Seq[tables.RuleBodySegment],
+   x: (api.TerminologyBox, Set[api.TerminologyBoxStatement]))
+  : Seq[tables.RuleBodySegment]
+  = {
+
+    def convertRuleBodySegments
+    (seg: api.RuleBodySegment,
+     rule: Option[api.ChainRule],
+     prev: Option[api.RuleBodySegment],
+     acc: Seq[tables.RuleBodySegment])
+    : Seq[tables.RuleBodySegment]
+    = rule match {
+      case Some(r) =>
+        val acc1 = acc :+ tables.RuleBodySegment(seg.uuid.toString, None, Some(r.uuid.toString))
+        e.nextSegment.get(seg) match {
+          case Some(next) =>
+            convertRuleBodySegments(next, None, Some(seg), acc1)
+          case None =>
+            acc1
+        }
+      case None =>
+        prev match {
+          case Some(p) =>
+            val acc1 = acc :+ tables.RuleBodySegment(seg.uuid.toString, Some(p.uuid.toString), None)
+            e.nextSegment.get(seg) match {
+              case Some(next) =>
+                convertRuleBodySegments(next, None, Some(seg), acc1)
+              case None =>
+                acc1
+            }
+          case None =>
+            acc
+        }
+    }
+
+    acc ++ x._2.flatMap {
+      case y: api.ChainRule =>
+        e.firstSegment.get(y) match {
+          case Some(seg) =>
+            convertRuleBodySegments(seg, Some(y), None, Seq.empty[tables.RuleBodySegment])
+          case None =>
+            None
+        }
+      case _ =>
+        None
+    }.to[Seq]
+  }
+
+  def convertAspectPredicates
+  (e: api.Extent)
+  (acc: Seq[tables.AspectPredicate],
+   x: (api.TerminologyBox, Set[api.TerminologyBoxStatement]))
+  : Seq[tables.AspectPredicate]
+  = {
+
+    def convertAspectPredicates
+    (seg: Option[api.RuleBodySegment],
+     acc: Seq[tables.AspectPredicate])
+    : Seq[tables.AspectPredicate]
+    = seg match {
+      case Some(s) =>
+        e.predicate.get(s) match {
+          case p: api.AspectPredicate =>
+            convertAspectPredicates(e.nextSegment.get(s),
+              acc :+ tables.AspectPredicate(p.uuid.toString, p.aspect.uuid.toString, s.uuid.toString))
+          case _ =>
+            convertAspectPredicates(e.nextSegment.get(s), acc)
+        }
+      case None =>
+        acc
+    }
+
+    acc ++ x._2.flatMap {
+      case y: api.ChainRule =>
+        convertAspectPredicates(e.firstSegment.get(y), Seq.empty[tables.AspectPredicate])
+      case _ =>
+        None
+    }.to[Seq]
+  }
+  
+  def convertConceptPredicates
+  (e: api.Extent)
+  (acc: Seq[tables.ConceptPredicate],
+   x: (api.TerminologyBox, Set[api.TerminologyBoxStatement]))
+  : Seq[tables.ConceptPredicate]
+  = {
+
+    def convertConceptPredicates
+    (seg: Option[api.RuleBodySegment],
+     acc: Seq[tables.ConceptPredicate])
+    : Seq[tables.ConceptPredicate]
+    = seg match {
+      case Some(s) =>
+        e.predicate.get(s) match {
+          case p: api.ConceptPredicate =>
+            convertConceptPredicates(e.nextSegment.get(s),
+              acc :+ tables.ConceptPredicate(p.uuid.toString, p.concept.uuid.toString, s.uuid.toString))
+          case _ =>
+            convertConceptPredicates(e.nextSegment.get(s), acc)
+        }
+      case None =>
+        acc
+    }
+
+    acc ++ x._2.flatMap {
+      case y: api.ChainRule =>
+        convertConceptPredicates(e.firstSegment.get(y), Seq.empty[tables.ConceptPredicate])
+      case _ =>
+        None
+    }.to[Seq]
+  }
+
+  def convertReifiedRelationshipPredicates
+  (e: api.Extent)
+  (acc: Seq[tables.ReifiedRelationshipPredicate],
+   x: (api.TerminologyBox, Set[api.TerminologyBoxStatement]))
+  : Seq[tables.ReifiedRelationshipPredicate]
+  = {
+
+    def convertReifiedRelationshipPredicates
+    (seg: Option[api.RuleBodySegment],
+     acc: Seq[tables.ReifiedRelationshipPredicate])
+    : Seq[tables.ReifiedRelationshipPredicate]
+    = seg match {
+      case Some(s) =>
+        e.predicate.get(s) match {
+          case p: api.ReifiedRelationshipPredicate =>
+            convertReifiedRelationshipPredicates(e.nextSegment.get(s),
+              acc :+ tables.ReifiedRelationshipPredicate(p.uuid.toString, p.reifiedRelationship.uuid.toString, s.uuid.toString))
+          case _ =>
+            convertReifiedRelationshipPredicates(e.nextSegment.get(s), acc)
+        }
+      case None =>
+        acc
+    }
+
+    acc ++ x._2.flatMap {
+      case y: api.ChainRule =>
+        convertReifiedRelationshipPredicates(e.firstSegment.get(y), Seq.empty[tables.ReifiedRelationshipPredicate])
+      case _ =>
+        None
+    }.to[Seq]
+  }
+
+  def convertReifiedRelationshipPropertyPredicates
+  (e: api.Extent)
+  (acc: Seq[tables.ReifiedRelationshipPropertyPredicate],
+   x: (api.TerminologyBox, Set[api.TerminologyBoxStatement]))
+  : Seq[tables.ReifiedRelationshipPropertyPredicate]
+  = {
+
+    def convertReifiedRelationshipPropertyPredicates
+    (seg: Option[api.RuleBodySegment],
+     acc: Seq[tables.ReifiedRelationshipPropertyPredicate])
+    : Seq[tables.ReifiedRelationshipPropertyPredicate]
+    = seg match {
+      case Some(s) =>
+        e.predicate.get(s) match {
+          case p: api.ReifiedRelationshipPropertyPredicate =>
+            convertReifiedRelationshipPropertyPredicates(e.nextSegment.get(s),
+              acc :+ tables.ReifiedRelationshipPropertyPredicate(p.uuid.toString, p.reifiedRelationship.uuid.toString, s.uuid.toString))
+          case _ =>
+            convertReifiedRelationshipPropertyPredicates(e.nextSegment.get(s), acc)
+        }
+      case None =>
+        acc
+    }
+
+    acc ++ x._2.flatMap {
+      case y: api.ChainRule =>
+        convertReifiedRelationshipPropertyPredicates(e.firstSegment.get(y), Seq.empty[tables.ReifiedRelationshipPropertyPredicate])
+      case _ =>
+        None
+    }.to[Seq]
+  }
+
+  def convertReifiedRelationshipSourcePropertyPredicates
+  (e: api.Extent)
+  (acc: Seq[tables.ReifiedRelationshipSourcePropertyPredicate],
+   x: (api.TerminologyBox, Set[api.TerminologyBoxStatement]))
+  : Seq[tables.ReifiedRelationshipSourcePropertyPredicate]
+  = {
+
+    def convertReifiedRelationshipSourcePropertyPredicates
+    (seg: Option[api.RuleBodySegment],
+     acc: Seq[tables.ReifiedRelationshipSourcePropertyPredicate])
+    : Seq[tables.ReifiedRelationshipSourcePropertyPredicate]
+    = seg match {
+      case Some(s) =>
+        e.predicate.get(s) match {
+          case p: api.ReifiedRelationshipSourcePropertyPredicate =>
+            convertReifiedRelationshipSourcePropertyPredicates(e.nextSegment.get(s),
+              acc :+ tables.ReifiedRelationshipSourcePropertyPredicate(p.uuid.toString, p.reifiedRelationship.uuid.toString, s.uuid.toString))
+          case _ =>
+            convertReifiedRelationshipSourcePropertyPredicates(e.nextSegment.get(s), acc)
+        }
+      case None =>
+        acc
+    }
+
+    acc ++ x._2.flatMap {
+      case y: api.ChainRule =>
+        convertReifiedRelationshipSourcePropertyPredicates(e.firstSegment.get(y), Seq.empty[tables.ReifiedRelationshipSourcePropertyPredicate])
+      case _ =>
+        None
+    }.to[Seq]
+  }
+
+  def convertReifiedRelationshipTargetPropertyPredicates
+  (e: api.Extent)
+  (acc: Seq[tables.ReifiedRelationshipTargetPropertyPredicate],
+   x: (api.TerminologyBox, Set[api.TerminologyBoxStatement]))
+  : Seq[tables.ReifiedRelationshipTargetPropertyPredicate]
+  = {
+
+    def convertReifiedRelationshipTargetPropertyPredicates
+    (seg: Option[api.RuleBodySegment],
+     acc: Seq[tables.ReifiedRelationshipTargetPropertyPredicate])
+    : Seq[tables.ReifiedRelationshipTargetPropertyPredicate]
+    = seg match {
+      case Some(s) =>
+        e.predicate.get(s) match {
+          case p: api.ReifiedRelationshipTargetPropertyPredicate =>
+            convertReifiedRelationshipTargetPropertyPredicates(e.nextSegment.get(s),
+              acc :+ tables.ReifiedRelationshipTargetPropertyPredicate(p.uuid.toString, p.reifiedRelationship.uuid.toString, s.uuid.toString))
+          case _ =>
+            convertReifiedRelationshipTargetPropertyPredicates(e.nextSegment.get(s), acc)
+        }
+      case None =>
+        acc
+    }
+
+    acc ++ x._2.flatMap {
+      case y: api.ChainRule =>
+        convertReifiedRelationshipTargetPropertyPredicates(e.firstSegment.get(y), Seq.empty[tables.ReifiedRelationshipTargetPropertyPredicate])
+      case _ =>
+        None
+    }.to[Seq]
+  }
+
+  def convertUnreifiedRelationshipPropertyPredicates
+  (e: api.Extent)
+  (acc: Seq[tables.UnreifiedRelationshipPropertyPredicate],
+   x: (api.TerminologyBox, Set[api.TerminologyBoxStatement]))
+  : Seq[tables.UnreifiedRelationshipPropertyPredicate]
+  = {
+
+    def convertUnreifiedRelationshipPropertyPredicates
+    (seg: Option[api.RuleBodySegment],
+     acc: Seq[tables.UnreifiedRelationshipPropertyPredicate])
+    : Seq[tables.UnreifiedRelationshipPropertyPredicate]
+    = seg match {
+      case Some(s) =>
+        e.predicate.get(s) match {
+          case p: api.UnreifiedRelationshipPropertyPredicate =>
+            convertUnreifiedRelationshipPropertyPredicates(e.nextSegment.get(s),
+              acc :+ tables.UnreifiedRelationshipPropertyPredicate(p.uuid.toString, p.unreifiedRelationship.uuid.toString, s.uuid.toString))
+          case _ =>
+            convertUnreifiedRelationshipPropertyPredicates(e.nextSegment.get(s), acc)
+        }
+      case None =>
+        acc
+    }
+
+    acc ++ x._2.flatMap {
+      case y: api.ChainRule =>
+        convertUnreifiedRelationshipPropertyPredicates(e.firstSegment.get(y), Seq.empty[tables.UnreifiedRelationshipPropertyPredicate])
+      case _ =>
+        None
+    }.to[Seq]
+  }
+
+  def convertReifiedRelationshipInversePropertyPredicates
+  (e: api.Extent)
+  (acc: Seq[tables.ReifiedRelationshipInversePropertyPredicate],
+   x: (api.TerminologyBox, Set[api.TerminologyBoxStatement]))
+  : Seq[tables.ReifiedRelationshipInversePropertyPredicate]
+  = {
+
+    def convertReifiedRelationshipInversePropertyPredicates
+    (seg: Option[api.RuleBodySegment],
+     acc: Seq[tables.ReifiedRelationshipInversePropertyPredicate])
+    : Seq[tables.ReifiedRelationshipInversePropertyPredicate]
+    = seg match {
+      case Some(s) =>
+        e.predicate.get(s) match {
+          case p: api.ReifiedRelationshipInversePropertyPredicate =>
+            convertReifiedRelationshipInversePropertyPredicates(e.nextSegment.get(s),
+              acc :+ tables.ReifiedRelationshipInversePropertyPredicate(p.uuid.toString, p.reifiedRelationship.uuid.toString, s.uuid.toString))
+          case _ =>
+            convertReifiedRelationshipInversePropertyPredicates(e.nextSegment.get(s), acc)
+        }
+      case None =>
+        acc
+    }
+
+    acc ++ x._2.flatMap {
+      case y: api.ChainRule =>
+        convertReifiedRelationshipInversePropertyPredicates(e.firstSegment.get(y), Seq.empty[tables.ReifiedRelationshipInversePropertyPredicate])
+      case _ =>
+        None
+    }.to[Seq]
+  }
+
+  def convertReifiedRelationshipSourceInversePropertyPredicates
+  (e: api.Extent)
+  (acc: Seq[tables.ReifiedRelationshipSourceInversePropertyPredicate],
+   x: (api.TerminologyBox, Set[api.TerminologyBoxStatement]))
+  : Seq[tables.ReifiedRelationshipSourceInversePropertyPredicate]
+  = {
+
+    def convertReifiedRelationshipSourceInversePropertyPredicates
+    (seg: Option[api.RuleBodySegment],
+     acc: Seq[tables.ReifiedRelationshipSourceInversePropertyPredicate])
+    : Seq[tables.ReifiedRelationshipSourceInversePropertyPredicate]
+    = seg match {
+      case Some(s) =>
+        e.predicate.get(s) match {
+          case p: api.ReifiedRelationshipSourceInversePropertyPredicate =>
+            convertReifiedRelationshipSourceInversePropertyPredicates(e.nextSegment.get(s),
+              acc :+ tables.ReifiedRelationshipSourceInversePropertyPredicate(p.uuid.toString, p.reifiedRelationship.uuid.toString, s.uuid.toString))
+          case _ =>
+            convertReifiedRelationshipSourceInversePropertyPredicates(e.nextSegment.get(s), acc)
+        }
+      case None =>
+        acc
+    }
+
+    acc ++ x._2.flatMap {
+      case y: api.ChainRule =>
+        convertReifiedRelationshipSourceInversePropertyPredicates(e.firstSegment.get(y), Seq.empty[tables.ReifiedRelationshipSourceInversePropertyPredicate])
+      case _ =>
+        None
+    }.to[Seq]
+  }
+
+  def convertReifiedRelationshipTargetInversePropertyPredicates
+  (e: api.Extent)
+  (acc: Seq[tables.ReifiedRelationshipTargetInversePropertyPredicate],
+   x: (api.TerminologyBox, Set[api.TerminologyBoxStatement]))
+  : Seq[tables.ReifiedRelationshipTargetInversePropertyPredicate]
+  = {
+
+    def convertReifiedRelationshipTargetInversePropertyPredicates
+    (seg: Option[api.RuleBodySegment],
+     acc: Seq[tables.ReifiedRelationshipTargetInversePropertyPredicate])
+    : Seq[tables.ReifiedRelationshipTargetInversePropertyPredicate]
+    = seg match {
+      case Some(s) =>
+        e.predicate.get(s) match {
+          case p: api.ReifiedRelationshipTargetInversePropertyPredicate =>
+            convertReifiedRelationshipTargetInversePropertyPredicates(e.nextSegment.get(s),
+              acc :+ tables.ReifiedRelationshipTargetInversePropertyPredicate(p.uuid.toString, p.reifiedRelationship.uuid.toString, s.uuid.toString))
+          case _ =>
+            convertReifiedRelationshipTargetInversePropertyPredicates(e.nextSegment.get(s), acc)
+        }
+      case None =>
+        acc
+    }
+
+    acc ++ x._2.flatMap {
+      case y: api.ChainRule =>
+        convertReifiedRelationshipTargetInversePropertyPredicates(e.firstSegment.get(y), Seq.empty[tables.ReifiedRelationshipTargetInversePropertyPredicate])
+      case _ =>
+        None
+    }.to[Seq]
+  }
+
+  def convertUnreifiedRelationshipInversePropertyPredicates
+  (e: api.Extent)
+  (acc: Seq[tables.UnreifiedRelationshipInversePropertyPredicate],
+   x: (api.TerminologyBox, Set[api.TerminologyBoxStatement]))
+  : Seq[tables.UnreifiedRelationshipInversePropertyPredicate]
+  = {
+
+    def convertUnreifiedRelationshipInversePropertyPredicates
+    (seg: Option[api.RuleBodySegment],
+     acc: Seq[tables.UnreifiedRelationshipInversePropertyPredicate])
+    : Seq[tables.UnreifiedRelationshipInversePropertyPredicate]
+    = seg match {
+      case Some(s) =>
+        e.predicate.get(s) match {
+          case p: api.UnreifiedRelationshipInversePropertyPredicate =>
+            convertUnreifiedRelationshipInversePropertyPredicates(e.nextSegment.get(s),
+              acc :+ tables.UnreifiedRelationshipInversePropertyPredicate(p.uuid.toString, p.unreifiedRelationship.uuid.toString, s.uuid.toString))
+          case _ =>
+            convertUnreifiedRelationshipInversePropertyPredicates(e.nextSegment.get(s), acc)
+        }
+      case None =>
+        acc
+    }
+
+    acc ++ x._2.flatMap {
+      case y: api.ChainRule =>
+        convertUnreifiedRelationshipInversePropertyPredicates(e.firstSegment.get(y), Seq.empty[tables.UnreifiedRelationshipInversePropertyPredicate])
+      case _ =>
+        None
+    }.to[Seq]
+  }
 
   def convertBinaryScalarRestrictions
   (acc: Seq[tables.BinaryScalarRestriction],
@@ -299,7 +713,8 @@ object Extent2Tables {
         y.uuid.toString,
         x._1.uuid.toString,
         y.axiom.uuid.toString,
-        y.value))
+        y.value,
+        y.valueType.map(_.uuid.toString)))
     case _ =>
       None
   }.to[Seq]
@@ -518,7 +933,8 @@ object Extent2Tables {
         x._1.uuid.toString,
         y.restrictedEntity.uuid.toString,
         y.scalarProperty.uuid.toString,
-        y.literalValue))
+        y.literalValue,
+        y.valueType.map(_.uuid.toString)))
     case _ =>
       None
   }.to[Seq]
@@ -538,6 +954,103 @@ object Extent2Tables {
     case _ =>
       None
   }.to[Seq]
+
+  def convertEntityStructuredDataPropertyParticularRestrictionAxioms
+  (acc: Seq[tables.EntityStructuredDataPropertyParticularRestrictionAxiom],
+   x: (api.TerminologyBox, Set[api.TerminologyBoxStatement]))
+  : Seq[tables.EntityStructuredDataPropertyParticularRestrictionAxiom]
+  = acc ++ x._2.flatMap {
+    case y: api.EntityStructuredDataPropertyParticularRestrictionAxiom =>
+      Some(tables.EntityStructuredDataPropertyParticularRestrictionAxiom(
+        y.uuid.toString,
+        x._1.uuid.toString,
+        y.structuredDataProperty.uuid.toString,
+        y.restrictedEntity.uuid.toString))
+    case _ =>
+      None
+  }.to[Seq]
+
+  def convertRestrictionStructuredDataPropertyTuples
+  (e: api.Extent)
+  (acc: Seq[tables.RestrictionStructuredDataPropertyTuple],
+   x: (api.TerminologyBox, Set[api.TerminologyBoxStatement]))
+  : Seq[tables.RestrictionStructuredDataPropertyTuple]
+  = {
+
+    def convertRestrictionStructuredDataPropertyTuples
+    (queue: Set[(api.RestrictionStructuredDataPropertyContext, api.RestrictionStructuredDataPropertyTuple)],
+     acc: Seq[tables.RestrictionStructuredDataPropertyTuple])
+    : Seq[tables.RestrictionStructuredDataPropertyTuple]
+    = if (queue.nonEmpty) {
+      val (c, r) = queue.head
+      val more = e
+        .structuredDataPropertyRestrictions
+        .getOrElse(r, Set.empty[api.RestrictionStructuredDataPropertyTuple])
+        .map(t => c -> t)
+      val tuple = tables.RestrictionStructuredDataPropertyTuple(
+        r.uuid.toString,
+        r.structuredDataProperty.uuid.toString,
+        c.uuid.toString)
+      convertRestrictionStructuredDataPropertyTuples(more ++ queue.tail, acc :+ tuple)
+    } else acc
+
+    acc ++ x._2.flatMap {
+      case y: api.EntityStructuredDataPropertyParticularRestrictionAxiom =>
+        convertRestrictionStructuredDataPropertyTuples(
+          e
+          .structuredDataPropertyRestrictions
+          .getOrElse(y, Set.empty[api.RestrictionStructuredDataPropertyTuple])
+          .map(t => y -> t),
+          Seq.empty[tables.RestrictionStructuredDataPropertyTuple])
+      case _ =>
+        None
+    }
+  }
+
+  def convertRestrictionScalarDataPropertyValues
+  (e: api.Extent)
+  (acc: Seq[tables.RestrictionScalarDataPropertyValue],
+   x: (api.TerminologyBox, Set[api.TerminologyBoxStatement]))
+  : Seq[tables.RestrictionScalarDataPropertyValue]
+  = {
+
+    def convertRestrictionScalarDataPropertyValues
+    (queue: Set[(api.RestrictionStructuredDataPropertyContext, api.RestrictionStructuredDataPropertyTuple)],
+     acc: Seq[tables.RestrictionScalarDataPropertyValue])
+    : Seq[tables.RestrictionScalarDataPropertyValue]
+    = if (queue.nonEmpty) {
+      val (c, r) = queue.head
+      val more = e
+        .structuredDataPropertyRestrictions
+        .getOrElse(r, Set.empty[api.RestrictionStructuredDataPropertyTuple])
+        .map(t => c -> t)
+      val tuples = e
+        .scalarDataPropertyRestrictions
+        .getOrElse(r, Set.empty[api.RestrictionScalarDataPropertyValue])
+        .toSeq
+        .map { v =>
+          tables.RestrictionScalarDataPropertyValue(
+            v.uuid.toString,
+            v.scalarDataProperty.uuid.toString,
+            v.scalarPropertyValue,
+            c.uuid.toString,
+            v.valueType.map(_.uuid.toString))
+        }
+      convertRestrictionScalarDataPropertyValues(more ++ queue.tail, acc ++ tuples)
+    } else acc
+
+    acc ++ x._2.flatMap {
+      case y: api.EntityStructuredDataPropertyParticularRestrictionAxiom =>
+        convertRestrictionScalarDataPropertyValues(
+          e
+            .structuredDataPropertyRestrictions
+            .getOrElse(y, Set.empty[api.RestrictionStructuredDataPropertyTuple])
+            .map(t => y -> t),
+          Seq.empty[tables.RestrictionScalarDataPropertyValue])
+      case _ =>
+        None
+    }
+  }
 
   def convertBundledTerminologyAxioms
   (acc: Seq[tables.BundledTerminologyAxiom],
@@ -676,7 +1189,8 @@ object Extent2Tables {
       x._1.uuid.toString,
       v.singletonInstance.uuid.toString,
       v.scalarDataProperty.uuid.toString,
-      v.scalarPropertyValue)
+      v.scalarPropertyValue,
+      v.valueType.map(_.uuid.toString))
   }
 
   def convertSingletonStructuredDataPropertyValues
@@ -700,7 +1214,8 @@ object Extent2Tables {
       v.uuid.toString,
       v.scalarDataProperty.uuid.toString,
       v.scalarPropertyValue,
-      x._1.uuid.toString)
+      x._1.uuid.toString,
+      v.valueType.map(_.uuid.toString))
   }
 
   def convertStructuredDataPropertyTuples
@@ -714,41 +1229,14 @@ object Extent2Tables {
       x._1.uuid.toString)
   }
 
-  def convertAnnotations
-  (acc: Seq[tables.AnnotationPropertyValue],
-   x: api.Module)
-  (implicit ext: api.Extent)
-  : Seq[tables.AnnotationPropertyValue]
-  = x.moduleElements.foldLeft[Seq[tables.AnnotationPropertyValue]] {
-    convertAnnotationPropertyValues(acc, x.uuid.toString, ext.lookupAnnotations(x))
-  } { case (acc1, me) =>
-    convertAnnotations(acc1, me)
-  }
-
-  def convertAnnotations
-  (acc: Seq[tables.AnnotationPropertyValue],
-   me: api.ModuleElement)
-  (implicit ext: api.Extent)
-  : Seq[tables.AnnotationPropertyValue]
-  = me.allNestedElements().foldLeft[Seq[tables.AnnotationPropertyValue]] {
-    convertAnnotationPropertyValues(acc, me.uuid.toString, ext.lookupAnnotations(me))
-    } { case (acc1, ne: api.Element) =>
-    convertAnnotationPropertyValues(acc1, ne.uuid.toString, ext.lookupAnnotations(ne))
-  }
-
-  def convertAnnotationPropertyValues
-  (acc: Seq[tables.AnnotationPropertyValue],
-   subjectUUID: tables.UUID,
-   as: Set[api.AnnotationPropertyValue])
-  : Seq[tables.AnnotationPropertyValue]
-  = as.foldLeft(acc) { case (acc1, a) =>
-    acc1 :+ tables.AnnotationPropertyValue(
-      a.uuid.toString,
-      subjectUUID,
-      a.property.uuid.toString,
-      a.value
-    )
-  }
+  def convertAnnotationPropertyValue
+  (apv: api.AnnotationPropertyValue)
+  : tables.AnnotationPropertyValue
+  = tables.AnnotationPropertyValue(
+      apv.uuid.toString,
+      apv.subject.uuid.toString,
+      apv.property.uuid.toString,
+      apv.value)
 
   def convert
   (e: api.Extent)
@@ -801,6 +1289,58 @@ object Extent2Tables {
 
           structures = e.boxStatements
             .foldLeft[Seq[tables.Structure]](Seq.empty)(convertStructures)
+            .sortBy(_.uuid),
+
+          chainRules = e.boxStatements
+            .foldLeft[Seq[tables.ChainRule]](Seq.empty)(convertChainRules)
+            .sortBy(_.uuid),
+
+          ruleBodySegments = e.boxStatements
+            .foldLeft[Seq[tables.RuleBodySegment]](Seq.empty)(convertRuleBodySegments(e))
+            .sortBy(_.uuid),
+
+          aspectPredicates = e.boxStatements
+            .foldLeft[Seq[tables.AspectPredicate]](Seq.empty)(convertAspectPredicates(e))
+            .sortBy(_.uuid),
+
+          conceptPredicates = e.boxStatements
+            .foldLeft[Seq[tables.ConceptPredicate]](Seq.empty)(convertConceptPredicates(e))
+            .sortBy(_.uuid),
+
+          reifiedRelationshipPredicates = e.boxStatements
+            .foldLeft[Seq[tables.ReifiedRelationshipPredicate]](Seq.empty)(convertReifiedRelationshipPredicates(e))
+            .sortBy(_.uuid),
+
+          reifiedRelationshipPropertyPredicates = e.boxStatements
+            .foldLeft[Seq[tables.ReifiedRelationshipPropertyPredicate]](Seq.empty)(convertReifiedRelationshipPropertyPredicates(e))
+            .sortBy(_.uuid),
+
+          reifiedRelationshipSourcePropertyPredicates = e.boxStatements
+            .foldLeft[Seq[tables.ReifiedRelationshipSourcePropertyPredicate]](Seq.empty)(convertReifiedRelationshipSourcePropertyPredicates(e))
+            .sortBy(_.uuid),
+
+          reifiedRelationshipTargetPropertyPredicates = e.boxStatements
+            .foldLeft[Seq[tables.ReifiedRelationshipTargetPropertyPredicate]](Seq.empty)(convertReifiedRelationshipTargetPropertyPredicates(e))
+            .sortBy(_.uuid),
+
+          unreifiedRelationshipPropertyPredicates = e.boxStatements
+            .foldLeft[Seq[tables.UnreifiedRelationshipPropertyPredicate]](Seq.empty)(convertUnreifiedRelationshipPropertyPredicates(e))
+            .sortBy(_.uuid),
+
+          reifiedRelationshipInversePropertyPredicates = e.boxStatements
+            .foldLeft[Seq[tables.ReifiedRelationshipInversePropertyPredicate]](Seq.empty)(convertReifiedRelationshipInversePropertyPredicates(e))
+            .sortBy(_.uuid),
+
+          reifiedRelationshipSourceInversePropertyPredicates = e.boxStatements
+            .foldLeft[Seq[tables.ReifiedRelationshipSourceInversePropertyPredicate]](Seq.empty)(convertReifiedRelationshipSourceInversePropertyPredicates(e))
+            .sortBy(_.uuid),
+
+          reifiedRelationshipTargetInversePropertyPredicates = e.boxStatements
+            .foldLeft[Seq[tables.ReifiedRelationshipTargetInversePropertyPredicate]](Seq.empty)(convertReifiedRelationshipTargetInversePropertyPredicates(e))
+            .sortBy(_.uuid),
+
+          unreifiedRelationshipInversePropertyPredicates = e.boxStatements
+            .foldLeft[Seq[tables.UnreifiedRelationshipInversePropertyPredicate]](Seq.empty)(convertUnreifiedRelationshipInversePropertyPredicates(e))
             .sortBy(_.uuid),
 
           // data ranges
@@ -907,6 +1447,18 @@ object Extent2Tables {
             .foldLeft[Seq[tables.EntityScalarDataPropertyUniversalRestrictionAxiom]](Seq.empty)(convertEntityScalarDataPropertyUniversalRestrictionAxioms)
             .sortBy(_.uuid),
 
+          entityStructuredDataPropertyParticularRestrictionAxioms = e.boxStatements
+            .foldLeft[Seq[tables.EntityStructuredDataPropertyParticularRestrictionAxiom]](Seq.empty)(convertEntityStructuredDataPropertyParticularRestrictionAxioms)
+            .sortBy(_.uuid),
+
+          restrictionStructuredDataPropertyTuples = e.boxStatements
+            .foldLeft[Seq[tables.RestrictionStructuredDataPropertyTuple]](Seq.empty)(convertRestrictionStructuredDataPropertyTuples(e))
+            .sortBy(_.uuid),
+
+          restrictionScalarDataPropertyValues = e.boxStatements
+              .foldLeft[Seq[tables.RestrictionScalarDataPropertyValue]](Seq.empty)(convertRestrictionScalarDataPropertyValues(e))
+              .sortBy(_.uuid),
+
           // bundle axioms
 
           bundledTerminologyAxioms = e.bundleAxioms
@@ -973,9 +1525,10 @@ object Extent2Tables {
             .foldLeft[Seq[tables.ScalarDataPropertyValue]](Seq.empty)(convertScalarDataPropertyValues)
             .sortBy(_.uuid),
 
-          annotationPropertyValues = ( e.terminologyGraphs.values ++ e.bundles.values ++ e.descriptionBoxes.values )
-              .foldLeft[Seq[tables.AnnotationPropertyValue]](Seq.empty)(convertAnnotations)
-              .sortBy(_.uuid)
+          annotationPropertyValues = e.annotationPropertyValueByUUID.values
+            .map(convertAnnotationPropertyValue)
+            .to[Seq]
+            .sortBy(_.uuid)
         )
 
     t

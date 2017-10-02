@@ -19,6 +19,8 @@
 package gov.nasa.jpl.imce.oml.resolver.api
 
 import gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator
+import scala.collection.immutable.Seq
+import scala.Predef.String
 
 trait OMLResolvedFactory {
   
@@ -33,7 +35,7 @@ trait OMLResolvedFactory {
   : (Extent, AnnotationProperty)
   = {
     val uuid: java.util.UUID = namespaceUUID(iri.toString)
-    createAnnotationProperty( extent, uuid,  iri,  abbrevIRI )
+    createAnnotationProperty( extent, uuid, iri, abbrevIRI )
   }
   
   def createAnnotationProperty
@@ -53,8 +55,12 @@ trait OMLResolvedFactory {
   = {
   	// implicitly derived uuid...
     import scala.Predef.ArrowAssoc
-    val implicitUUID: java.util.UUID = namespaceUUID("AnnotationPropertyValue",  "subject" -> subject.uuid.toString,  "property" -> property.uuid.toString)
-    createAnnotationPropertyValue( extent, implicitUUID,  subject,  property,  value )
+    val implicitUUID: java.util.UUID = namespaceUUID(
+      "AnnotationPropertyValue",
+      Seq.empty[(String, String)] ++
+        Seq("subject" -> subject.uuid.toString) ++
+        Seq("property" -> property.uuid.toString) : _*)
+    createAnnotationPropertyValue( extent, implicitUUID, subject, property, value )
   }
   
   def createAnnotationPropertyValue
@@ -75,7 +81,7 @@ trait OMLResolvedFactory {
     // namespace uuid...
     import scala.Predef.ArrowAssoc
     val uuid: java.util.UUID = namespaceUUID(disjointTaxonomyParent.uuid.toString,  "name" -> name)
-    createAnonymousConceptUnionAxiom( extent, uuid,  disjointTaxonomyParent,  name )
+    createAnonymousConceptUnionAxiom( extent, uuid, disjointTaxonomyParent, name )
   }
   
   def createAnonymousConceptUnionAxiom
@@ -95,7 +101,7 @@ trait OMLResolvedFactory {
     // namespace uuid...
     import scala.Predef.ArrowAssoc
     val uuid: java.util.UUID = namespaceUUID(tbox.uuid.toString,  "name" -> name)
-    createAspect( extent, uuid,  tbox,  name )
+    createAspect( extent, uuid, tbox, name )
   }
   
   def createAspect
@@ -114,8 +120,12 @@ trait OMLResolvedFactory {
   = {
   	// implicitly derived uuid...
     import scala.Predef.ArrowAssoc
-    val implicitUUID: java.util.UUID = namespaceUUID("AspectPredicate",  "aspect" -> aspect.uuid.toString,  "bodySegment" -> bodySegment.uuid.toString)
-    createAspectPredicate( extent, implicitUUID,  aspect,  bodySegment )
+    val implicitUUID: java.util.UUID = namespaceUUID(
+      "AspectPredicate",
+      Seq.empty[(String, String)] ++
+        Seq("aspect" -> aspect.uuid.toString) ++
+        Seq("bodySegment" -> bodySegment.uuid.toString) : _*)
+    createAspectPredicate( extent, implicitUUID, aspect, bodySegment )
   }
   
   def createAspectPredicate
@@ -135,8 +145,13 @@ trait OMLResolvedFactory {
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid: java.util.UUID = namespaceUUID("AspectSpecializationAxiom",  "tbox" -> tbox.uuid.toString,  "superAspect" -> superAspect.uuid.toString,  "subEntity" -> subEntity.uuid.toString)
-    createAspectSpecializationAxiom( extent, uuid,  tbox,  superAspect,  subEntity )
+    val uuid: java.util.UUID = namespaceUUID(
+      "AspectSpecializationAxiom",
+      Seq.empty[(String, String)] ++
+        Seq("tbox" -> tbox.uuid.toString) ++
+        Seq("superAspect" -> superAspect.uuid.toString) ++
+        Seq("subEntity" -> subEntity.uuid.toString) : _*)
+    createAspectSpecializationAxiom( extent, uuid, tbox, superAspect, subEntity )
   }
   
   def createAspectSpecializationAxiom
@@ -161,7 +176,7 @@ trait OMLResolvedFactory {
     // namespace uuid...
     import scala.Predef.ArrowAssoc
     val uuid: java.util.UUID = namespaceUUID(tbox.uuid.toString,  "name" -> name)
-    createBinaryScalarRestriction( extent, uuid,  tbox,  restrictedRange,  length,  minLength,  maxLength,  name )
+    createBinaryScalarRestriction( extent, uuid, tbox, restrictedRange, length, minLength, maxLength, name )
   }
   
   def createBinaryScalarRestriction
@@ -183,7 +198,7 @@ trait OMLResolvedFactory {
   : (Extent, Bundle)
   = {
     val uuid: java.util.UUID = namespaceUUID(iri.toString)
-    createBundle( extent, uuid,  kind,  iri )
+    createBundle( extent, uuid, kind, iri )
   }
   
   def createBundle
@@ -202,8 +217,12 @@ trait OMLResolvedFactory {
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid: java.util.UUID = namespaceUUID("BundledTerminologyAxiom",  "bundle" -> bundle.uuid.toString,  "bundledTerminology" -> namespaceUUID(bundledTerminology).toString)
-    createBundledTerminologyAxiom( extent, uuid,  bundle,  bundledTerminology )
+    val uuid: java.util.UUID = namespaceUUID(
+      "BundledTerminologyAxiom",
+      Seq.empty[(String, String)] ++
+        Seq("bundle" -> bundle.uuid.toString) ++
+        Seq("bundledTerminology" -> namespaceUUID(bundledTerminology).toString) : _*)
+    createBundledTerminologyAxiom( extent, uuid, bundle, bundledTerminology )
   }
   
   def createBundledTerminologyAxiom
@@ -224,7 +243,7 @@ trait OMLResolvedFactory {
     // namespace uuid...
     import scala.Predef.ArrowAssoc
     val uuid: java.util.UUID = namespaceUUID(tbox.uuid.toString,  "name" -> name)
-    createChainRule( extent, uuid,  tbox,  name,  head )
+    createChainRule( extent, uuid, tbox, name, head )
   }
   
   def createChainRule
@@ -245,7 +264,7 @@ trait OMLResolvedFactory {
     // namespace uuid...
     import scala.Predef.ArrowAssoc
     val uuid: java.util.UUID = namespaceUUID(tbox.uuid.toString,  "name" -> name)
-    createConcept( extent, uuid,  tbox,  name )
+    createConcept( extent, uuid, tbox, name )
   }
   
   def createConcept
@@ -265,8 +284,13 @@ trait OMLResolvedFactory {
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid: java.util.UUID = namespaceUUID("ConceptDesignationTerminologyAxiom",  "tbox" -> tbox.uuid.toString,  "designatedConcept" -> designatedConcept.uuid.toString,  "designatedTerminology" -> namespaceUUID(designatedTerminology).toString)
-    createConceptDesignationTerminologyAxiom( extent, uuid,  tbox,  designatedConcept,  designatedTerminology )
+    val uuid: java.util.UUID = namespaceUUID(
+      "ConceptDesignationTerminologyAxiom",
+      Seq.empty[(String, String)] ++
+        Seq("tbox" -> tbox.uuid.toString) ++
+        Seq("designatedConcept" -> designatedConcept.uuid.toString) ++
+        Seq("designatedTerminology" -> namespaceUUID(designatedTerminology).toString) : _*)
+    createConceptDesignationTerminologyAxiom( extent, uuid, tbox, designatedConcept, designatedTerminology )
   }
   
   def createConceptDesignationTerminologyAxiom
@@ -288,7 +312,7 @@ trait OMLResolvedFactory {
     // namespace uuid...
     import scala.Predef.ArrowAssoc
     val uuid: java.util.UUID = namespaceUUID(descriptionBox.uuid.toString,  "name" -> name)
-    createConceptInstance( extent, uuid,  descriptionBox,  singletonConceptClassifier,  name )
+    createConceptInstance( extent, uuid, descriptionBox, singletonConceptClassifier, name )
   }
   
   def createConceptInstance
@@ -308,8 +332,12 @@ trait OMLResolvedFactory {
   = {
   	// implicitly derived uuid...
     import scala.Predef.ArrowAssoc
-    val implicitUUID: java.util.UUID = namespaceUUID("ConceptPredicate",  "bodySegment" -> bodySegment.uuid.toString,  "concept" -> concept.uuid.toString)
-    createConceptPredicate( extent, implicitUUID,  bodySegment,  concept )
+    val implicitUUID: java.util.UUID = namespaceUUID(
+      "ConceptPredicate",
+      Seq.empty[(String, String)] ++
+        Seq("bodySegment" -> bodySegment.uuid.toString) ++
+        Seq("concept" -> concept.uuid.toString) : _*)
+    createConceptPredicate( extent, implicitUUID, bodySegment, concept )
   }
   
   def createConceptPredicate
@@ -329,8 +357,13 @@ trait OMLResolvedFactory {
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid: java.util.UUID = namespaceUUID("ConceptSpecializationAxiom",  "tbox" -> tbox.uuid.toString,  "superConcept" -> superConcept.uuid.toString,  "subConcept" -> subConcept.uuid.toString)
-    createConceptSpecializationAxiom( extent, uuid,  tbox,  superConcept,  subConcept )
+    val uuid: java.util.UUID = namespaceUUID(
+      "ConceptSpecializationAxiom",
+      Seq.empty[(String, String)] ++
+        Seq("tbox" -> tbox.uuid.toString) ++
+        Seq("superConcept" -> superConcept.uuid.toString) ++
+        Seq("subConcept" -> subConcept.uuid.toString) : _*)
+    createConceptSpecializationAxiom( extent, uuid, tbox, superConcept, subConcept )
   }
   
   def createConceptSpecializationAxiom
@@ -349,7 +382,7 @@ trait OMLResolvedFactory {
   : (Extent, DescriptionBox)
   = {
     val uuid: java.util.UUID = namespaceUUID(iri.toString)
-    createDescriptionBox( extent, uuid,  kind,  iri )
+    createDescriptionBox( extent, uuid, kind, iri )
   }
   
   def createDescriptionBox
@@ -368,8 +401,12 @@ trait OMLResolvedFactory {
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid: java.util.UUID = namespaceUUID("DescriptionBoxExtendsClosedWorldDefinitions",  "descriptionBox" -> descriptionBox.uuid.toString,  "closedWorldDefinitions" -> namespaceUUID(closedWorldDefinitions).toString)
-    createDescriptionBoxExtendsClosedWorldDefinitions( extent, uuid,  descriptionBox,  closedWorldDefinitions )
+    val uuid: java.util.UUID = namespaceUUID(
+      "DescriptionBoxExtendsClosedWorldDefinitions",
+      Seq.empty[(String, String)] ++
+        Seq("descriptionBox" -> descriptionBox.uuid.toString) ++
+        Seq("closedWorldDefinitions" -> namespaceUUID(closedWorldDefinitions).toString) : _*)
+    createDescriptionBoxExtendsClosedWorldDefinitions( extent, uuid, descriptionBox, closedWorldDefinitions )
   }
   
   def createDescriptionBoxExtendsClosedWorldDefinitions
@@ -388,8 +425,12 @@ trait OMLResolvedFactory {
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid: java.util.UUID = namespaceUUID("DescriptionBoxRefinement",  "refiningDescriptionBox" -> refiningDescriptionBox.uuid.toString,  "refinedDescriptionBox" -> namespaceUUID(refinedDescriptionBox).toString)
-    createDescriptionBoxRefinement( extent, uuid,  refiningDescriptionBox,  refinedDescriptionBox )
+    val uuid: java.util.UUID = namespaceUUID(
+      "DescriptionBoxRefinement",
+      Seq.empty[(String, String)] ++
+        Seq("refiningDescriptionBox" -> refiningDescriptionBox.uuid.toString) ++
+        Seq("refinedDescriptionBox" -> namespaceUUID(refinedDescriptionBox).toString) : _*)
+    createDescriptionBoxRefinement( extent, uuid, refiningDescriptionBox, refinedDescriptionBox )
   }
   
   def createDescriptionBoxRefinement
@@ -410,8 +451,14 @@ trait OMLResolvedFactory {
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid: java.util.UUID = namespaceUUID("EntityExistentialRestrictionAxiom",  "tbox" -> tbox.uuid.toString,  "restrictedRelation" -> restrictedRelation.uuid.toString,  "restrictedDomain" -> restrictedDomain.uuid.toString,  "restrictedRange" -> restrictedRange.uuid.toString)
-    createEntityExistentialRestrictionAxiom( extent, uuid,  tbox,  restrictedRelation,  restrictedDomain,  restrictedRange )
+    val uuid: java.util.UUID = namespaceUUID(
+      "EntityExistentialRestrictionAxiom",
+      Seq.empty[(String, String)] ++
+        Seq("tbox" -> tbox.uuid.toString) ++
+        Seq("restrictedRelation" -> restrictedRelation.uuid.toString) ++
+        Seq("restrictedDomain" -> restrictedDomain.uuid.toString) ++
+        Seq("restrictedRange" -> restrictedRange.uuid.toString) : _*)
+    createEntityExistentialRestrictionAxiom( extent, uuid, tbox, restrictedRelation, restrictedDomain, restrictedRange )
   }
   
   def createEntityExistentialRestrictionAxiom
@@ -436,7 +483,7 @@ trait OMLResolvedFactory {
     // namespace uuid...
     import scala.Predef.ArrowAssoc
     val uuid: java.util.UUID = namespaceUUID(tbox.uuid.toString,  "name" -> name)
-    createEntityScalarDataProperty( extent, uuid,  tbox,  domain,  range,  isIdentityCriteria,  name )
+    createEntityScalarDataProperty( extent, uuid, tbox, domain, range, isIdentityCriteria, name )
   }
   
   def createEntityScalarDataProperty
@@ -460,8 +507,14 @@ trait OMLResolvedFactory {
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid: java.util.UUID = namespaceUUID("EntityScalarDataPropertyExistentialRestrictionAxiom",  "tbox" -> tbox.uuid.toString,  "restrictedEntity" -> restrictedEntity.uuid.toString,  "scalarProperty" -> scalarProperty.uuid.toString,  "scalarRestriction" -> scalarRestriction.uuid.toString)
-    createEntityScalarDataPropertyExistentialRestrictionAxiom( extent, uuid,  tbox,  restrictedEntity,  scalarProperty,  scalarRestriction )
+    val uuid: java.util.UUID = namespaceUUID(
+      "EntityScalarDataPropertyExistentialRestrictionAxiom",
+      Seq.empty[(String, String)] ++
+        Seq("tbox" -> tbox.uuid.toString) ++
+        Seq("restrictedEntity" -> restrictedEntity.uuid.toString) ++
+        Seq("scalarProperty" -> scalarProperty.uuid.toString) ++
+        Seq("scalarRestriction" -> scalarRestriction.uuid.toString) : _*)
+    createEntityScalarDataPropertyExistentialRestrictionAxiom( extent, uuid, tbox, restrictedEntity, scalarProperty, scalarRestriction )
   }
   
   def createEntityScalarDataPropertyExistentialRestrictionAxiom
@@ -485,8 +538,14 @@ trait OMLResolvedFactory {
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid: java.util.UUID = namespaceUUID("EntityScalarDataPropertyParticularRestrictionAxiom",  "tbox" -> tbox.uuid.toString,  "restrictedEntity" -> restrictedEntity.uuid.toString,  "scalarProperty" -> scalarProperty.uuid.toString,  "valueType" -> valueType.uuid.toString)
-    createEntityScalarDataPropertyParticularRestrictionAxiom( extent, uuid,  tbox,  restrictedEntity,  scalarProperty,  literalValue,  valueType )
+    val uuid: java.util.UUID = namespaceUUID(
+      "EntityScalarDataPropertyParticularRestrictionAxiom",
+      Seq.empty[(String, String)] ++
+        Seq("tbox" -> tbox.uuid.toString) ++
+        Seq("restrictedEntity" -> restrictedEntity.uuid.toString) ++
+        Seq("scalarProperty" -> scalarProperty.uuid.toString) ++
+        valueType.map { vt => "valueType" -> vt.uuid.toString } : _*)
+    createEntityScalarDataPropertyParticularRestrictionAxiom( extent, uuid, tbox, restrictedEntity, scalarProperty, literalValue, valueType )
   }
   
   def createEntityScalarDataPropertyParticularRestrictionAxiom
@@ -510,8 +569,14 @@ trait OMLResolvedFactory {
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid: java.util.UUID = namespaceUUID("EntityScalarDataPropertyUniversalRestrictionAxiom",  "tbox" -> tbox.uuid.toString,  "restrictedEntity" -> restrictedEntity.uuid.toString,  "scalarProperty" -> scalarProperty.uuid.toString,  "scalarRestriction" -> scalarRestriction.uuid.toString)
-    createEntityScalarDataPropertyUniversalRestrictionAxiom( extent, uuid,  tbox,  restrictedEntity,  scalarProperty,  scalarRestriction )
+    val uuid: java.util.UUID = namespaceUUID(
+      "EntityScalarDataPropertyUniversalRestrictionAxiom",
+      Seq.empty[(String, String)] ++
+        Seq("tbox" -> tbox.uuid.toString) ++
+        Seq("restrictedEntity" -> restrictedEntity.uuid.toString) ++
+        Seq("scalarProperty" -> scalarProperty.uuid.toString) ++
+        Seq("scalarRestriction" -> scalarRestriction.uuid.toString) : _*)
+    createEntityScalarDataPropertyUniversalRestrictionAxiom( extent, uuid, tbox, restrictedEntity, scalarProperty, scalarRestriction )
   }
   
   def createEntityScalarDataPropertyUniversalRestrictionAxiom
@@ -536,7 +601,7 @@ trait OMLResolvedFactory {
     // namespace uuid...
     import scala.Predef.ArrowAssoc
     val uuid: java.util.UUID = namespaceUUID(tbox.uuid.toString,  "name" -> name)
-    createEntityStructuredDataProperty( extent, uuid,  tbox,  domain,  range,  isIdentityCriteria,  name )
+    createEntityStructuredDataProperty( extent, uuid, tbox, domain, range, isIdentityCriteria, name )
   }
   
   def createEntityStructuredDataProperty
@@ -559,8 +624,13 @@ trait OMLResolvedFactory {
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid: java.util.UUID = namespaceUUID("EntityStructuredDataPropertyParticularRestrictionAxiom",  "tbox" -> tbox.uuid.toString,  "structuredDataProperty" -> structuredDataProperty.uuid.toString,  "restrictedEntity" -> restrictedEntity.uuid.toString)
-    createEntityStructuredDataPropertyParticularRestrictionAxiom( extent, uuid,  tbox,  structuredDataProperty,  restrictedEntity )
+    val uuid: java.util.UUID = namespaceUUID(
+      "EntityStructuredDataPropertyParticularRestrictionAxiom",
+      Seq.empty[(String, String)] ++
+        Seq("tbox" -> tbox.uuid.toString) ++
+        Seq("structuredDataProperty" -> structuredDataProperty.uuid.toString) ++
+        Seq("restrictedEntity" -> restrictedEntity.uuid.toString) : _*)
+    createEntityStructuredDataPropertyParticularRestrictionAxiom( extent, uuid, tbox, structuredDataProperty, restrictedEntity )
   }
   
   def createEntityStructuredDataPropertyParticularRestrictionAxiom
@@ -582,8 +652,14 @@ trait OMLResolvedFactory {
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid: java.util.UUID = namespaceUUID("EntityUniversalRestrictionAxiom",  "tbox" -> tbox.uuid.toString,  "restrictedRelation" -> restrictedRelation.uuid.toString,  "restrictedDomain" -> restrictedDomain.uuid.toString,  "restrictedRange" -> restrictedRange.uuid.toString)
-    createEntityUniversalRestrictionAxiom( extent, uuid,  tbox,  restrictedRelation,  restrictedDomain,  restrictedRange )
+    val uuid: java.util.UUID = namespaceUUID(
+      "EntityUniversalRestrictionAxiom",
+      Seq.empty[(String, String)] ++
+        Seq("tbox" -> tbox.uuid.toString) ++
+        Seq("restrictedRelation" -> restrictedRelation.uuid.toString) ++
+        Seq("restrictedDomain" -> restrictedDomain.uuid.toString) ++
+        Seq("restrictedRange" -> restrictedRange.uuid.toString) : _*)
+    createEntityUniversalRestrictionAxiom( extent, uuid, tbox, restrictedRelation, restrictedDomain, restrictedRange )
   }
   
   def createEntityUniversalRestrictionAxiom
@@ -614,7 +690,7 @@ trait OMLResolvedFactory {
     // namespace uuid...
     import scala.Predef.ArrowAssoc
     val uuid: java.util.UUID = namespaceUUID(tbox.uuid.toString,  "name" -> name)
-    createIRIScalarRestriction( extent, uuid,  tbox,  restrictedRange,  length,  minLength,  maxLength,  name,  pattern )
+    createIRIScalarRestriction( extent, uuid, tbox, restrictedRange, length, minLength, maxLength, name, pattern )
   }
   
   def createIRIScalarRestriction
@@ -644,7 +720,7 @@ trait OMLResolvedFactory {
     // namespace uuid...
     import scala.Predef.ArrowAssoc
     val uuid: java.util.UUID = namespaceUUID(tbox.uuid.toString,  "name" -> name)
-    createNumericScalarRestriction( extent, uuid,  tbox,  restrictedRange,  minExclusive,  minInclusive,  maxExclusive,  maxInclusive,  name )
+    createNumericScalarRestriction( extent, uuid, tbox, restrictedRange, minExclusive, minInclusive, maxExclusive, maxInclusive, name )
   }
   
   def createNumericScalarRestriction
@@ -675,7 +751,7 @@ trait OMLResolvedFactory {
     // namespace uuid...
     import scala.Predef.ArrowAssoc
     val uuid: java.util.UUID = namespaceUUID(tbox.uuid.toString,  "name" -> name)
-    createPlainLiteralScalarRestriction( extent, uuid,  tbox,  restrictedRange,  length,  minLength,  maxLength,  name,  langRange,  pattern )
+    createPlainLiteralScalarRestriction( extent, uuid, tbox, restrictedRange, length, minLength, maxLength, name, langRange, pattern )
   }
   
   def createPlainLiteralScalarRestriction
@@ -714,7 +790,7 @@ trait OMLResolvedFactory {
     // namespace uuid...
     import scala.Predef.ArrowAssoc
     val uuid: java.util.UUID = namespaceUUID(tbox.uuid.toString,  "name" -> name)
-    createReifiedRelationship( extent, uuid,  tbox,  source,  target,  isAsymmetric,  isEssential,  isFunctional,  isInverseEssential,  isInverseFunctional,  isIrreflexive,  isReflexive,  isSymmetric,  isTransitive,  name,  unreifiedPropertyName,  unreifiedInversePropertyName )
+    createReifiedRelationship( extent, uuid, tbox, source, target, isAsymmetric, isEssential, isFunctional, isInverseEssential, isInverseFunctional, isIrreflexive, isReflexive, isSymmetric, isTransitive, name, unreifiedPropertyName, unreifiedInversePropertyName )
   }
   
   def createReifiedRelationship
@@ -748,7 +824,7 @@ trait OMLResolvedFactory {
     // namespace uuid...
     import scala.Predef.ArrowAssoc
     val uuid: java.util.UUID = namespaceUUID(descriptionBox.uuid.toString,  "name" -> name)
-    createReifiedRelationshipInstance( extent, uuid,  descriptionBox,  singletonReifiedRelationshipClassifier,  name )
+    createReifiedRelationshipInstance( extent, uuid, descriptionBox, singletonReifiedRelationshipClassifier, name )
   }
   
   def createReifiedRelationshipInstance
@@ -769,8 +845,13 @@ trait OMLResolvedFactory {
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid: java.util.UUID = namespaceUUID("ReifiedRelationshipInstanceDomain",  "descriptionBox" -> descriptionBox.uuid.toString,  "reifiedRelationshipInstance" -> reifiedRelationshipInstance.uuid.toString,  "domain" -> domain.uuid.toString)
-    createReifiedRelationshipInstanceDomain( extent, uuid,  descriptionBox,  reifiedRelationshipInstance,  domain )
+    val uuid: java.util.UUID = namespaceUUID(
+      "ReifiedRelationshipInstanceDomain",
+      Seq.empty[(String, String)] ++
+        Seq("descriptionBox" -> descriptionBox.uuid.toString) ++
+        Seq("reifiedRelationshipInstance" -> reifiedRelationshipInstance.uuid.toString) ++
+        Seq("domain" -> domain.uuid.toString) : _*)
+    createReifiedRelationshipInstanceDomain( extent, uuid, descriptionBox, reifiedRelationshipInstance, domain )
   }
   
   def createReifiedRelationshipInstanceDomain
@@ -791,8 +872,13 @@ trait OMLResolvedFactory {
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid: java.util.UUID = namespaceUUID("ReifiedRelationshipInstanceRange",  "descriptionBox" -> descriptionBox.uuid.toString,  "reifiedRelationshipInstance" -> reifiedRelationshipInstance.uuid.toString,  "range" -> range.uuid.toString)
-    createReifiedRelationshipInstanceRange( extent, uuid,  descriptionBox,  reifiedRelationshipInstance,  range )
+    val uuid: java.util.UUID = namespaceUUID(
+      "ReifiedRelationshipInstanceRange",
+      Seq.empty[(String, String)] ++
+        Seq("descriptionBox" -> descriptionBox.uuid.toString) ++
+        Seq("reifiedRelationshipInstance" -> reifiedRelationshipInstance.uuid.toString) ++
+        Seq("range" -> range.uuid.toString) : _*)
+    createReifiedRelationshipInstanceRange( extent, uuid, descriptionBox, reifiedRelationshipInstance, range )
   }
   
   def createReifiedRelationshipInstanceRange
@@ -812,8 +898,12 @@ trait OMLResolvedFactory {
   = {
   	// implicitly derived uuid...
     import scala.Predef.ArrowAssoc
-    val implicitUUID: java.util.UUID = namespaceUUID("ReifiedRelationshipInversePropertyPredicate",  "bodySegment" -> bodySegment.uuid.toString,  "reifiedRelationship" -> reifiedRelationship.uuid.toString)
-    createReifiedRelationshipInversePropertyPredicate( extent, implicitUUID,  bodySegment,  reifiedRelationship )
+    val implicitUUID: java.util.UUID = namespaceUUID(
+      "ReifiedRelationshipInversePropertyPredicate",
+      Seq.empty[(String, String)] ++
+        Seq("bodySegment" -> bodySegment.uuid.toString) ++
+        Seq("reifiedRelationship" -> reifiedRelationship.uuid.toString) : _*)
+    createReifiedRelationshipInversePropertyPredicate( extent, implicitUUID, bodySegment, reifiedRelationship )
   }
   
   def createReifiedRelationshipInversePropertyPredicate
@@ -832,8 +922,12 @@ trait OMLResolvedFactory {
   = {
   	// implicitly derived uuid...
     import scala.Predef.ArrowAssoc
-    val implicitUUID: java.util.UUID = namespaceUUID("ReifiedRelationshipPredicate",  "bodySegment" -> bodySegment.uuid.toString,  "reifiedRelationship" -> reifiedRelationship.uuid.toString)
-    createReifiedRelationshipPredicate( extent, implicitUUID,  bodySegment,  reifiedRelationship )
+    val implicitUUID: java.util.UUID = namespaceUUID(
+      "ReifiedRelationshipPredicate",
+      Seq.empty[(String, String)] ++
+        Seq("bodySegment" -> bodySegment.uuid.toString) ++
+        Seq("reifiedRelationship" -> reifiedRelationship.uuid.toString) : _*)
+    createReifiedRelationshipPredicate( extent, implicitUUID, bodySegment, reifiedRelationship )
   }
   
   def createReifiedRelationshipPredicate
@@ -852,8 +946,12 @@ trait OMLResolvedFactory {
   = {
   	// implicitly derived uuid...
     import scala.Predef.ArrowAssoc
-    val implicitUUID: java.util.UUID = namespaceUUID("ReifiedRelationshipPropertyPredicate",  "bodySegment" -> bodySegment.uuid.toString,  "reifiedRelationship" -> reifiedRelationship.uuid.toString)
-    createReifiedRelationshipPropertyPredicate( extent, implicitUUID,  bodySegment,  reifiedRelationship )
+    val implicitUUID: java.util.UUID = namespaceUUID(
+      "ReifiedRelationshipPropertyPredicate",
+      Seq.empty[(String, String)] ++
+        Seq("bodySegment" -> bodySegment.uuid.toString) ++
+        Seq("reifiedRelationship" -> reifiedRelationship.uuid.toString) : _*)
+    createReifiedRelationshipPropertyPredicate( extent, implicitUUID, bodySegment, reifiedRelationship )
   }
   
   def createReifiedRelationshipPropertyPredicate
@@ -872,8 +970,12 @@ trait OMLResolvedFactory {
   = {
   	// implicitly derived uuid...
     import scala.Predef.ArrowAssoc
-    val implicitUUID: java.util.UUID = namespaceUUID("ReifiedRelationshipSourceInversePropertyPredicate",  "bodySegment" -> bodySegment.uuid.toString,  "reifiedRelationship" -> reifiedRelationship.uuid.toString)
-    createReifiedRelationshipSourceInversePropertyPredicate( extent, implicitUUID,  bodySegment,  reifiedRelationship )
+    val implicitUUID: java.util.UUID = namespaceUUID(
+      "ReifiedRelationshipSourceInversePropertyPredicate",
+      Seq.empty[(String, String)] ++
+        Seq("bodySegment" -> bodySegment.uuid.toString) ++
+        Seq("reifiedRelationship" -> reifiedRelationship.uuid.toString) : _*)
+    createReifiedRelationshipSourceInversePropertyPredicate( extent, implicitUUID, bodySegment, reifiedRelationship )
   }
   
   def createReifiedRelationshipSourceInversePropertyPredicate
@@ -892,8 +994,12 @@ trait OMLResolvedFactory {
   = {
   	// implicitly derived uuid...
     import scala.Predef.ArrowAssoc
-    val implicitUUID: java.util.UUID = namespaceUUID("ReifiedRelationshipSourcePropertyPredicate",  "bodySegment" -> bodySegment.uuid.toString,  "reifiedRelationship" -> reifiedRelationship.uuid.toString)
-    createReifiedRelationshipSourcePropertyPredicate( extent, implicitUUID,  bodySegment,  reifiedRelationship )
+    val implicitUUID: java.util.UUID = namespaceUUID(
+      "ReifiedRelationshipSourcePropertyPredicate",
+      Seq.empty[(String, String)] ++
+        Seq("bodySegment" -> bodySegment.uuid.toString) ++
+        Seq("reifiedRelationship" -> reifiedRelationship.uuid.toString) : _*)
+    createReifiedRelationshipSourcePropertyPredicate( extent, implicitUUID, bodySegment, reifiedRelationship )
   }
   
   def createReifiedRelationshipSourcePropertyPredicate
@@ -913,8 +1019,13 @@ trait OMLResolvedFactory {
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid: java.util.UUID = namespaceUUID("ReifiedRelationshipSpecializationAxiom",  "tbox" -> tbox.uuid.toString,  "superRelationship" -> superRelationship.uuid.toString,  "subRelationship" -> subRelationship.uuid.toString)
-    createReifiedRelationshipSpecializationAxiom( extent, uuid,  tbox,  superRelationship,  subRelationship )
+    val uuid: java.util.UUID = namespaceUUID(
+      "ReifiedRelationshipSpecializationAxiom",
+      Seq.empty[(String, String)] ++
+        Seq("tbox" -> tbox.uuid.toString) ++
+        Seq("superRelationship" -> superRelationship.uuid.toString) ++
+        Seq("subRelationship" -> subRelationship.uuid.toString) : _*)
+    createReifiedRelationshipSpecializationAxiom( extent, uuid, tbox, superRelationship, subRelationship )
   }
   
   def createReifiedRelationshipSpecializationAxiom
@@ -934,8 +1045,12 @@ trait OMLResolvedFactory {
   = {
   	// implicitly derived uuid...
     import scala.Predef.ArrowAssoc
-    val implicitUUID: java.util.UUID = namespaceUUID("ReifiedRelationshipTargetInversePropertyPredicate",  "bodySegment" -> bodySegment.uuid.toString,  "reifiedRelationship" -> reifiedRelationship.uuid.toString)
-    createReifiedRelationshipTargetInversePropertyPredicate( extent, implicitUUID,  bodySegment,  reifiedRelationship )
+    val implicitUUID: java.util.UUID = namespaceUUID(
+      "ReifiedRelationshipTargetInversePropertyPredicate",
+      Seq.empty[(String, String)] ++
+        Seq("bodySegment" -> bodySegment.uuid.toString) ++
+        Seq("reifiedRelationship" -> reifiedRelationship.uuid.toString) : _*)
+    createReifiedRelationshipTargetInversePropertyPredicate( extent, implicitUUID, bodySegment, reifiedRelationship )
   }
   
   def createReifiedRelationshipTargetInversePropertyPredicate
@@ -954,8 +1069,12 @@ trait OMLResolvedFactory {
   = {
   	// implicitly derived uuid...
     import scala.Predef.ArrowAssoc
-    val implicitUUID: java.util.UUID = namespaceUUID("ReifiedRelationshipTargetPropertyPredicate",  "bodySegment" -> bodySegment.uuid.toString,  "reifiedRelationship" -> reifiedRelationship.uuid.toString)
-    createReifiedRelationshipTargetPropertyPredicate( extent, implicitUUID,  bodySegment,  reifiedRelationship )
+    val implicitUUID: java.util.UUID = namespaceUUID(
+      "ReifiedRelationshipTargetPropertyPredicate",
+      Seq.empty[(String, String)] ++
+        Seq("bodySegment" -> bodySegment.uuid.toString) ++
+        Seq("reifiedRelationship" -> reifiedRelationship.uuid.toString) : _*)
+    createReifiedRelationshipTargetPropertyPredicate( extent, implicitUUID, bodySegment, reifiedRelationship )
   }
   
   def createReifiedRelationshipTargetPropertyPredicate
@@ -976,8 +1095,13 @@ trait OMLResolvedFactory {
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid: java.util.UUID = namespaceUUID("RestrictionScalarDataPropertyValue",  "scalarDataProperty" -> scalarDataProperty.uuid.toString,  "structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString,  "valueType" -> valueType.uuid.toString)
-    createRestrictionScalarDataPropertyValue( extent, uuid,  scalarDataProperty,  scalarPropertyValue,  structuredDataPropertyContext,  valueType )
+    val uuid: java.util.UUID = namespaceUUID(
+      "RestrictionScalarDataPropertyValue",
+      Seq.empty[(String, String)] ++
+        Seq("scalarDataProperty" -> scalarDataProperty.uuid.toString) ++
+        Seq("structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString) ++
+        valueType.map { vt => "valueType" -> vt.uuid.toString } : _*)
+    createRestrictionScalarDataPropertyValue( extent, uuid, scalarDataProperty, scalarPropertyValue, structuredDataPropertyContext, valueType )
   }
   
   def createRestrictionScalarDataPropertyValue
@@ -998,8 +1122,12 @@ trait OMLResolvedFactory {
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid: java.util.UUID = namespaceUUID("RestrictionStructuredDataPropertyTuple",  "structuredDataProperty" -> structuredDataProperty.uuid.toString,  "structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString)
-    createRestrictionStructuredDataPropertyTuple( extent, uuid,  structuredDataProperty,  structuredDataPropertyContext )
+    val uuid: java.util.UUID = namespaceUUID(
+      "RestrictionStructuredDataPropertyTuple",
+      Seq.empty[(String, String)] ++
+        Seq("structuredDataProperty" -> structuredDataProperty.uuid.toString) ++
+        Seq("structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString) : _*)
+    createRestrictionStructuredDataPropertyTuple( extent, uuid, structuredDataProperty, structuredDataPropertyContext )
   }
   
   def createRestrictionStructuredDataPropertyTuple
@@ -1018,8 +1146,12 @@ trait OMLResolvedFactory {
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid: java.util.UUID = namespaceUUID("RootConceptTaxonomyAxiom",  "bundle" -> bundle.uuid.toString,  "root" -> root.uuid.toString)
-    createRootConceptTaxonomyAxiom( extent, uuid,  bundle,  root )
+    val uuid: java.util.UUID = namespaceUUID(
+      "RootConceptTaxonomyAxiom",
+      Seq.empty[(String, String)] ++
+        Seq("bundle" -> bundle.uuid.toString) ++
+        Seq("root" -> root.uuid.toString) : _*)
+    createRootConceptTaxonomyAxiom( extent, uuid, bundle, root )
   }
   
   def createRootConceptTaxonomyAxiom
@@ -1052,7 +1184,7 @@ trait OMLResolvedFactory {
     			}{ prev => 
     			  prev.position().toString 
     			})
-    createRuleBodySegment( extent, uuid,  previousSegment,  rule )
+    createRuleBodySegment( extent, uuid, previousSegment, rule )
   }
   
   def createRuleBodySegment
@@ -1072,7 +1204,7 @@ trait OMLResolvedFactory {
     // namespace uuid...
     import scala.Predef.ArrowAssoc
     val uuid: java.util.UUID = namespaceUUID(tbox.uuid.toString,  "name" -> name)
-    createScalar( extent, uuid,  tbox,  name )
+    createScalar( extent, uuid, tbox, name )
   }
   
   def createScalar
@@ -1094,7 +1226,7 @@ trait OMLResolvedFactory {
     // namespace uuid...
     import scala.Predef.ArrowAssoc
     val uuid: java.util.UUID = namespaceUUID(tbox.uuid.toString,  "name" -> name)
-    createScalarDataProperty( extent, uuid,  tbox,  domain,  range,  name )
+    createScalarDataProperty( extent, uuid, tbox, domain, range, name )
   }
   
   def createScalarDataProperty
@@ -1117,8 +1249,13 @@ trait OMLResolvedFactory {
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid: java.util.UUID = namespaceUUID("ScalarDataPropertyValue",  "scalarDataProperty" -> scalarDataProperty.uuid.toString,  "structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString,  "valueType" -> valueType.uuid.toString)
-    createScalarDataPropertyValue( extent, uuid,  scalarDataProperty,  scalarPropertyValue,  structuredDataPropertyContext,  valueType )
+    val uuid: java.util.UUID = namespaceUUID(
+      "ScalarDataPropertyValue",
+      Seq.empty[(String, String)] ++
+        Seq("scalarDataProperty" -> scalarDataProperty.uuid.toString) ++
+        Seq("structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString) ++
+        valueType.map { vt => "valueType" -> vt.uuid.toString } : _*)
+    createScalarDataPropertyValue( extent, uuid, scalarDataProperty, scalarPropertyValue, structuredDataPropertyContext, valueType )
   }
   
   def createScalarDataPropertyValue
@@ -1141,8 +1278,13 @@ trait OMLResolvedFactory {
   = {
   	// implicitly derived uuid...
     import scala.Predef.ArrowAssoc
-    val implicitUUID: java.util.UUID = namespaceUUID("ScalarOneOfLiteralAxiom",  "tbox" -> tbox.uuid.toString,  "axiom" -> axiom.uuid.toString,  "valueType" -> valueType.uuid.toString)
-    createScalarOneOfLiteralAxiom( extent, implicitUUID,  tbox,  axiom,  value,  valueType )
+    val implicitUUID: java.util.UUID = namespaceUUID(
+      "ScalarOneOfLiteralAxiom",
+      Seq.empty[(String, String)] ++
+        Seq("tbox" -> tbox.uuid.toString) ++
+        Seq("axiom" -> axiom.uuid.toString) ++
+        valueType.map { vt => "valueType" -> vt.uuid.toString } : _*)
+    createScalarOneOfLiteralAxiom( extent, implicitUUID, tbox, axiom, value, valueType )
   }
   
   def createScalarOneOfLiteralAxiom
@@ -1165,7 +1307,7 @@ trait OMLResolvedFactory {
     // namespace uuid...
     import scala.Predef.ArrowAssoc
     val uuid: java.util.UUID = namespaceUUID(tbox.uuid.toString,  "name" -> name)
-    createScalarOneOfRestriction( extent, uuid,  tbox,  restrictedRange,  name )
+    createScalarOneOfRestriction( extent, uuid, tbox, restrictedRange, name )
   }
   
   def createScalarOneOfRestriction
@@ -1188,8 +1330,14 @@ trait OMLResolvedFactory {
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid: java.util.UUID = namespaceUUID("SingletonInstanceScalarDataPropertyValue",  "descriptionBox" -> descriptionBox.uuid.toString,  "singletonInstance" -> singletonInstance.uuid.toString,  "scalarDataProperty" -> scalarDataProperty.uuid.toString,  "valueType" -> valueType.uuid.toString)
-    createSingletonInstanceScalarDataPropertyValue( extent, uuid,  descriptionBox,  singletonInstance,  scalarDataProperty,  scalarPropertyValue,  valueType )
+    val uuid: java.util.UUID = namespaceUUID(
+      "SingletonInstanceScalarDataPropertyValue",
+      Seq.empty[(String, String)] ++
+        Seq("descriptionBox" -> descriptionBox.uuid.toString) ++
+        Seq("singletonInstance" -> singletonInstance.uuid.toString) ++
+        Seq("scalarDataProperty" -> scalarDataProperty.uuid.toString) ++
+        valueType.map { vt => "valueType" -> vt.uuid.toString } : _*)
+    createSingletonInstanceScalarDataPropertyValue( extent, uuid, descriptionBox, singletonInstance, scalarDataProperty, scalarPropertyValue, valueType )
   }
   
   def createSingletonInstanceScalarDataPropertyValue
@@ -1212,8 +1360,13 @@ trait OMLResolvedFactory {
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid: java.util.UUID = namespaceUUID("SingletonInstanceStructuredDataPropertyValue",  "descriptionBox" -> descriptionBox.uuid.toString,  "singletonInstance" -> singletonInstance.uuid.toString,  "structuredDataProperty" -> structuredDataProperty.uuid.toString)
-    createSingletonInstanceStructuredDataPropertyValue( extent, uuid,  descriptionBox,  singletonInstance,  structuredDataProperty )
+    val uuid: java.util.UUID = namespaceUUID(
+      "SingletonInstanceStructuredDataPropertyValue",
+      Seq.empty[(String, String)] ++
+        Seq("descriptionBox" -> descriptionBox.uuid.toString) ++
+        Seq("singletonInstance" -> singletonInstance.uuid.toString) ++
+        Seq("structuredDataProperty" -> structuredDataProperty.uuid.toString) : _*)
+    createSingletonInstanceStructuredDataPropertyValue( extent, uuid, descriptionBox, singletonInstance, structuredDataProperty )
   }
   
   def createSingletonInstanceStructuredDataPropertyValue
@@ -1233,8 +1386,12 @@ trait OMLResolvedFactory {
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid: java.util.UUID = namespaceUUID("SpecificDisjointConceptAxiom",  "disjointTaxonomyParent" -> disjointTaxonomyParent.uuid.toString,  "disjointLeaf" -> disjointLeaf.uuid.toString)
-    createSpecificDisjointConceptAxiom( extent, uuid,  disjointTaxonomyParent,  disjointLeaf )
+    val uuid: java.util.UUID = namespaceUUID(
+      "SpecificDisjointConceptAxiom",
+      Seq.empty[(String, String)] ++
+        Seq("disjointTaxonomyParent" -> disjointTaxonomyParent.uuid.toString) ++
+        Seq("disjointLeaf" -> disjointLeaf.uuid.toString) : _*)
+    createSpecificDisjointConceptAxiom( extent, uuid, disjointTaxonomyParent, disjointLeaf )
   }
   
   def createSpecificDisjointConceptAxiom
@@ -1259,7 +1416,7 @@ trait OMLResolvedFactory {
     // namespace uuid...
     import scala.Predef.ArrowAssoc
     val uuid: java.util.UUID = namespaceUUID(tbox.uuid.toString,  "name" -> name)
-    createStringScalarRestriction( extent, uuid,  tbox,  restrictedRange,  length,  minLength,  maxLength,  name,  pattern )
+    createStringScalarRestriction( extent, uuid, tbox, restrictedRange, length, minLength, maxLength, name, pattern )
   }
   
   def createStringScalarRestriction
@@ -1284,7 +1441,7 @@ trait OMLResolvedFactory {
     // namespace uuid...
     import scala.Predef.ArrowAssoc
     val uuid: java.util.UUID = namespaceUUID(tbox.uuid.toString,  "name" -> name)
-    createStructure( extent, uuid,  tbox,  name )
+    createStructure( extent, uuid, tbox, name )
   }
   
   def createStructure
@@ -1306,7 +1463,7 @@ trait OMLResolvedFactory {
     // namespace uuid...
     import scala.Predef.ArrowAssoc
     val uuid: java.util.UUID = namespaceUUID(tbox.uuid.toString,  "name" -> name)
-    createStructuredDataProperty( extent, uuid,  tbox,  domain,  range,  name )
+    createStructuredDataProperty( extent, uuid, tbox, domain, range, name )
   }
   
   def createStructuredDataProperty
@@ -1327,8 +1484,12 @@ trait OMLResolvedFactory {
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid: java.util.UUID = namespaceUUID("StructuredDataPropertyTuple",  "structuredDataProperty" -> structuredDataProperty.uuid.toString,  "structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString)
-    createStructuredDataPropertyTuple( extent, uuid,  structuredDataProperty,  structuredDataPropertyContext )
+    val uuid: java.util.UUID = namespaceUUID(
+      "StructuredDataPropertyTuple",
+      Seq.empty[(String, String)] ++
+        Seq("structuredDataProperty" -> structuredDataProperty.uuid.toString) ++
+        Seq("structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString) : _*)
+    createStructuredDataPropertyTuple( extent, uuid, structuredDataProperty, structuredDataPropertyContext )
   }
   
   def createStructuredDataPropertyTuple
@@ -1349,7 +1510,7 @@ trait OMLResolvedFactory {
     // namespace uuid...
     import scala.Predef.ArrowAssoc
     val uuid: java.util.UUID = namespaceUUID(tbox.uuid.toString,  "name" -> name)
-    createSynonymScalarRestriction( extent, uuid,  tbox,  restrictedRange,  name )
+    createSynonymScalarRestriction( extent, uuid, tbox, restrictedRange, name )
   }
   
   def createSynonymScalarRestriction
@@ -1369,8 +1530,12 @@ trait OMLResolvedFactory {
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid: java.util.UUID = namespaceUUID("TerminologyExtensionAxiom",  "tbox" -> tbox.uuid.toString,  "extendedTerminology" -> namespaceUUID(extendedTerminology).toString)
-    createTerminologyExtensionAxiom( extent, uuid,  tbox,  extendedTerminology )
+    val uuid: java.util.UUID = namespaceUUID(
+      "TerminologyExtensionAxiom",
+      Seq.empty[(String, String)] ++
+        Seq("tbox" -> tbox.uuid.toString) ++
+        Seq("extendedTerminology" -> namespaceUUID(extendedTerminology).toString) : _*)
+    createTerminologyExtensionAxiom( extent, uuid, tbox, extendedTerminology )
   }
   
   def createTerminologyExtensionAxiom
@@ -1388,7 +1553,7 @@ trait OMLResolvedFactory {
   : (Extent, TerminologyGraph)
   = {
     val uuid: java.util.UUID = namespaceUUID(iri.toString)
-    createTerminologyGraph( extent, uuid,  kind,  iri )
+    createTerminologyGraph( extent, uuid, kind, iri )
   }
   
   def createTerminologyGraph
@@ -1408,8 +1573,13 @@ trait OMLResolvedFactory {
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid: java.util.UUID = namespaceUUID("TerminologyNestingAxiom",  "tbox" -> tbox.uuid.toString,  "nestingContext" -> nestingContext.uuid.toString,  "nestingTerminology" -> namespaceUUID(nestingTerminology).toString)
-    createTerminologyNestingAxiom( extent, uuid,  tbox,  nestingContext,  nestingTerminology )
+    val uuid: java.util.UUID = namespaceUUID(
+      "TerminologyNestingAxiom",
+      Seq.empty[(String, String)] ++
+        Seq("tbox" -> tbox.uuid.toString) ++
+        Seq("nestingContext" -> nestingContext.uuid.toString) ++
+        Seq("nestingTerminology" -> namespaceUUID(nestingTerminology).toString) : _*)
+    createTerminologyNestingAxiom( extent, uuid, tbox, nestingContext, nestingTerminology )
   }
   
   def createTerminologyNestingAxiom
@@ -1435,7 +1605,7 @@ trait OMLResolvedFactory {
     // namespace uuid...
     import scala.Predef.ArrowAssoc
     val uuid: java.util.UUID = namespaceUUID(tbox.uuid.toString,  "name" -> name)
-    createTimeScalarRestriction( extent, uuid,  tbox,  restrictedRange,  minExclusive,  minInclusive,  maxExclusive,  maxInclusive,  name )
+    createTimeScalarRestriction( extent, uuid, tbox, restrictedRange, minExclusive, minInclusive, maxExclusive, maxInclusive, name )
   }
   
   def createTimeScalarRestriction
@@ -1471,7 +1641,7 @@ trait OMLResolvedFactory {
     // namespace uuid...
     import scala.Predef.ArrowAssoc
     val uuid: java.util.UUID = namespaceUUID(tbox.uuid.toString,  "name" -> name)
-    createUnreifiedRelationship( extent, uuid,  tbox,  source,  target,  isAsymmetric,  isEssential,  isFunctional,  isInverseEssential,  isInverseFunctional,  isIrreflexive,  isReflexive,  isSymmetric,  isTransitive,  name )
+    createUnreifiedRelationship( extent, uuid, tbox, source, target, isAsymmetric, isEssential, isFunctional, isInverseEssential, isInverseFunctional, isIrreflexive, isReflexive, isSymmetric, isTransitive, name )
   }
   
   def createUnreifiedRelationship
@@ -1503,8 +1673,14 @@ trait OMLResolvedFactory {
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid: java.util.UUID = namespaceUUID("UnreifiedRelationshipInstanceTuple",  "descriptionBox" -> descriptionBox.uuid.toString,  "unreifiedRelationship" -> unreifiedRelationship.uuid.toString,  "domain" -> domain.uuid.toString,  "range" -> range.uuid.toString)
-    createUnreifiedRelationshipInstanceTuple( extent, uuid,  descriptionBox,  unreifiedRelationship,  domain,  range )
+    val uuid: java.util.UUID = namespaceUUID(
+      "UnreifiedRelationshipInstanceTuple",
+      Seq.empty[(String, String)] ++
+        Seq("descriptionBox" -> descriptionBox.uuid.toString) ++
+        Seq("unreifiedRelationship" -> unreifiedRelationship.uuid.toString) ++
+        Seq("domain" -> domain.uuid.toString) ++
+        Seq("range" -> range.uuid.toString) : _*)
+    createUnreifiedRelationshipInstanceTuple( extent, uuid, descriptionBox, unreifiedRelationship, domain, range )
   }
   
   def createUnreifiedRelationshipInstanceTuple
@@ -1525,8 +1701,12 @@ trait OMLResolvedFactory {
   = {
   	// implicitly derived uuid...
     import scala.Predef.ArrowAssoc
-    val implicitUUID: java.util.UUID = namespaceUUID("UnreifiedRelationshipInversePropertyPredicate",  "unreifiedRelationship" -> unreifiedRelationship.uuid.toString,  "bodySegment" -> bodySegment.uuid.toString)
-    createUnreifiedRelationshipInversePropertyPredicate( extent, implicitUUID,  unreifiedRelationship,  bodySegment )
+    val implicitUUID: java.util.UUID = namespaceUUID(
+      "UnreifiedRelationshipInversePropertyPredicate",
+      Seq.empty[(String, String)] ++
+        Seq("unreifiedRelationship" -> unreifiedRelationship.uuid.toString) ++
+        Seq("bodySegment" -> bodySegment.uuid.toString) : _*)
+    createUnreifiedRelationshipInversePropertyPredicate( extent, implicitUUID, unreifiedRelationship, bodySegment )
   }
   
   def createUnreifiedRelationshipInversePropertyPredicate
@@ -1545,8 +1725,12 @@ trait OMLResolvedFactory {
   = {
   	// implicitly derived uuid...
     import scala.Predef.ArrowAssoc
-    val implicitUUID: java.util.UUID = namespaceUUID("UnreifiedRelationshipPropertyPredicate",  "unreifiedRelationship" -> unreifiedRelationship.uuid.toString,  "bodySegment" -> bodySegment.uuid.toString)
-    createUnreifiedRelationshipPropertyPredicate( extent, implicitUUID,  unreifiedRelationship,  bodySegment )
+    val implicitUUID: java.util.UUID = namespaceUUID(
+      "UnreifiedRelationshipPropertyPredicate",
+      Seq.empty[(String, String)] ++
+        Seq("unreifiedRelationship" -> unreifiedRelationship.uuid.toString) ++
+        Seq("bodySegment" -> bodySegment.uuid.toString) : _*)
+    createUnreifiedRelationshipPropertyPredicate( extent, implicitUUID, unreifiedRelationship, bodySegment )
   }
   
   def createUnreifiedRelationshipPropertyPredicate

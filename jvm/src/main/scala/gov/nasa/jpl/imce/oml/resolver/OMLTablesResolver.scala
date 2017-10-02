@@ -967,8 +967,10 @@ object OMLTablesResolver {
     step4a <- mapRestrictedDataRanges(step3a)
     step4b <- mapReifiedRelationships(step4a)
     step4c <- mapUnreifiedRelationships(step4b)
+    step4d <- mapChainRules(step4c)
+
     // DataRelationships
-    step5a <- mapEntityScalarDataProperties(step4c)
+    step5a <- mapEntityScalarDataProperties(step4d)
     step5b <- mapEntityStructuredDataProperties(step5a)
     step5c <- mapScalarDataProperties(step5b)
     step5d <- mapStructuredDataProperties(step5c)
@@ -1142,6 +1144,267 @@ object OMLTablesResolver {
           Failure(f)
       }
     s
+  }
+
+  def mapChainRules
+  (r: OMLTablesResolver)
+  : Try[OMLTablesResolver]
+  = {
+    val byUUID =
+      r.queue.chainRules.map { rule =>
+        ( UUID.fromString(rule.tboxUUID),
+          UUID.fromString(rule.headUUID) ) -> rule
+      }
+
+    val info = for {
+      tuple <- byUUID
+      ((tboxUUID, headUUID), rule) = tuple
+      tboxM = r.lookupTerminologyBox(tboxUUID)
+      headM = r.lookupTerminologyBoxStatement(headUUID) match {
+        case Some(ur: api.UnreifiedRelationship) => Some(ur)
+        case _ => None
+      }
+    } yield (tboxM, headM, rule)
+
+    val unresolvable = info.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty).map(_._3)
+    if (unresolvable.nonEmpty) {
+      java.lang.System.out.println(s"${unresolvable.size} chain rules")
+    }
+
+    val resolvable = info.flatMap {
+      case (Some(tboxM), Some(headM), rule) => Some(Tuple3(tboxM, headM, rule))
+      case _ => None
+    }
+
+    val s =
+      resolvable.foldLeft[Try[OMLTablesResolver]](Success(r.copy(queue = r.queue.copy(chainRules = unresolvable)))) {
+        case (Success(ri), (tboxM, headM, trule)) =>
+          val (ej, rrule) = ri.factory.createChainRule(
+            ri.context,
+            tboxM,
+            trule.name,
+            headM)
+
+          if (!ej.lookupBoxStatements(tboxM).contains(rrule))
+            Failure(new IllegalArgumentException(s"ChainRule not in extent: $rrule"))
+          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(trule.uuid)).contains(rrule))
+            Failure(new IllegalArgumentException(s"ChainRule: $trule vs. $rrule"))
+          else
+            ri.queue.ruleBodySegments
+              .find { seg =>
+                seg.ruleUUID.contains(trule.uuid)
+              } match {
+              case Some(tseg) =>
+                mapRuleSegments(ri.copy(context = ej), trule, tseg, None, rrule)
+              case None =>
+                Failure(new IllegalArgumentException(s"ChainRule: $trule lacks a first segment!"))
+            }
+
+        case (Failure(t), _) =>
+          Failure(t)
+      }
+    s
+  }
+
+  def mapRuleSegments
+  (ri: OMLTablesResolver, trule: tables.ChainRule,
+   tseg: tables.RuleBodySegment,
+   prev: Option[api.RuleBodySegment],
+   rrule: api.ChainRule)
+  : Try[OMLTablesResolver]
+  = {
+    val puuid = tseg.uuid
+    val tnext = ri.queue.ruleBodySegments.find(_.previousSegmentUUID.contains(puuid))
+    val (ej, rseg) = ri.factory.createRuleBodySegment(ri.context, prev, if (prev.isEmpty) Some(rrule) else None)
+    val rj = ri.copy(context = ej)
+    ri.queue.aspectPredicates.find(_.bodySegmentUUID == puuid) match {
+      case Some(tap: tables.AspectPredicate) =>
+        ej.lookupTerminologyBoxStatement(UUID.fromString(tap.aspectUUID)) match {
+          case Some(ra: api.Aspect) =>
+            val (ek, _) = rj.factory.createAspectPredicate(rj.context, ra, rseg)
+            val rk = rj.copy(context = ek)
+            tnext match {
+              case Some(tn) =>
+                mapRuleSegments(rk, trule, tn, Some(rseg), rrule)
+              case None =>
+                Success(rk)
+            }
+          case _ =>
+            Failure(new IllegalArgumentException(s"AspectPredicate: $tap failed to resolve aspect: ${tap.aspectUUID}"))
+        }
+      case None =>
+        ri.queue.conceptPredicates.find(_.bodySegmentUUID == puuid) match {
+          case Some(tcp: tables.ConceptPredicate) =>
+            ej.lookupTerminologyBoxStatement(UUID.fromString(tcp.conceptUUID)) match {
+              case Some(rc: api.Concept) =>
+                val (ek, _) = rj.factory.createConceptPredicate(rj.context, rseg, rc)
+                val rk = rj.copy(context = ek)
+                tnext match {
+                  case Some(tn) =>
+                    mapRuleSegments(rk, trule, tn, Some(rseg), rrule)
+                  case None =>
+                    Success(rk)
+                }
+              case _ =>
+                Failure(new IllegalArgumentException(s"ConceptPredicate: $tcp failed to resolve concept: ${tcp.conceptUUID}"))
+            }
+          case None =>
+            ri.queue.reifiedRelationshipPredicates.find(_.bodySegmentUUID == puuid) match {
+              case Some(trrp: tables.ReifiedRelationshipPredicate) =>
+                ej.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
+                  case Some(rrr: api.ReifiedRelationship) =>
+                    val (ek, _) = rj.factory.createReifiedRelationshipPredicate(rj.context, rseg, rrr)
+                    val rk = rj.copy(context = ek)
+                    tnext match {
+                      case Some(tn) =>
+                        mapRuleSegments(rk, trule, tn, Some(rseg), rrule)
+                      case None =>
+                        Success(rk)
+                    }
+                  case _ =>
+                    Failure(new IllegalArgumentException(s"ReifiedRelationshipPredicate: $trrp failed to resolve reified relationship: ${trrp.reifiedRelationshipUUID}"))
+                }
+              case None =>
+                ri.queue.reifiedRelationshipPropertyPredicates.find(_.bodySegmentUUID == puuid) match {
+                  case Some(trrp: tables.ReifiedRelationshipPropertyPredicate) =>
+                    ej.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
+                      case Some(rrr: api.ReifiedRelationship) =>
+                        val (ek, _) = rj.factory.createReifiedRelationshipPropertyPredicate(rj.context, rseg, rrr)
+                        val rk = rj.copy(context = ek)
+                        tnext match {
+                          case Some(tn) =>
+                            mapRuleSegments(rk, trule, tn, Some(rseg), rrule)
+                          case None =>
+                            Success(rk)
+                        }
+                      case _ =>
+                        Failure(new IllegalArgumentException(s"ReifiedRelationshipPropertyPredicate: $trrp failed to resolve reified relationship: ${trrp.reifiedRelationshipUUID}"))
+                    }
+                  case None =>
+                    ri.queue.reifiedRelationshipSourcePropertyPredicates.find(_.bodySegmentUUID == puuid) match {
+                      case Some(trrp: tables.ReifiedRelationshipSourcePropertyPredicate) =>
+                        ej.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
+                          case Some(rrr: api.ReifiedRelationship) =>
+                            val (ek, _) = rj.factory.createReifiedRelationshipSourcePropertyPredicate(rj.context, rseg, rrr)
+                            val rk = rj.copy(context = ek)
+                            tnext match {
+                              case Some(tn) =>
+                                mapRuleSegments(rk, trule, tn, Some(rseg), rrule)
+                              case None =>
+                                Success(rk)
+                            }
+                          case _ =>
+                            Failure(new IllegalArgumentException(s"ReifiedRelationshipSourcePropertyPredicate: $trrp failed to resolve reified relationship: ${trrp.reifiedRelationshipUUID}"))
+                        }
+                      case None =>
+                        ri.queue.reifiedRelationshipTargetPropertyPredicates.find(_.bodySegmentUUID == puuid) match {
+                          case Some(trrp: tables.ReifiedRelationshipTargetPropertyPredicate) =>
+                            ej.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
+                              case Some(rrr: api.ReifiedRelationship) =>
+                                val (ek, _) = rj.factory.createReifiedRelationshipTargetPropertyPredicate(rj.context, rseg, rrr)
+                                val rk = rj.copy(context = ek)
+                                tnext match {
+                                  case Some(tn) =>
+                                    mapRuleSegments(rk, trule, tn, Some(rseg), rrule)
+                                  case None =>
+                                    Success(rk)
+                                }
+                              case _ =>
+                                Failure(new IllegalArgumentException(s"ReifiedRelationshipTargetPropertyPredicate: $trrp failed to resolve reified relationship: ${trrp.reifiedRelationshipUUID}"))
+                            }
+                          case None =>
+                            ri.queue.unreifiedRelationshipPropertyPredicates.find(_.bodySegmentUUID == puuid) match {
+                              case Some(turp: tables.UnreifiedRelationshipPropertyPredicate) =>
+                                ej.lookupTerminologyBoxStatement(UUID.fromString(turp.unreifiedRelationshipUUID)) match {
+                                  case Some(rur: api.UnreifiedRelationship) =>
+                                    val (ek, _) = rj.factory.createUnreifiedRelationshipPropertyPredicate(rj.context, rur, rseg)
+                                    val rk = rj.copy(context = ek)
+                                    tnext match {
+                                      case Some(tn) =>
+                                        mapRuleSegments(rk, trule, tn, Some(rseg), rrule)
+                                      case None =>
+                                        Success(rk)
+                                    }
+                                  case _ =>
+                                    Failure(new IllegalArgumentException(s"UnreifiedRelationshipPropertyPredicate: $turp failed to resolve unreified relationship: ${turp.unreifiedRelationshipUUID}"))
+                                }
+                              case None =>
+                                ri.queue.reifiedRelationshipInversePropertyPredicates.find(_.bodySegmentUUID == puuid) match {
+                                  case Some(trrp: tables.ReifiedRelationshipInversePropertyPredicate) =>
+                                    ej.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
+                                      case Some(rrr: api.ReifiedRelationship) =>
+                                        val (ek, _) = rj.factory.createReifiedRelationshipInversePropertyPredicate(rj.context, rseg, rrr)
+                                        val rk = rj.copy(context = ek)
+                                        tnext match {
+                                          case Some(tn) =>
+                                            mapRuleSegments(rk, trule, tn, Some(rseg), rrule)
+                                          case None =>
+                                            Success(rk)
+                                        }
+                                      case _ =>
+                                        Failure(new IllegalArgumentException(s"ReifiedRelationshipInversePropertyPredicate: $trrp failed to resolve reified relationship: ${trrp.reifiedRelationshipUUID}"))
+                                    }
+                                  case None =>
+                                    ri.queue.reifiedRelationshipSourceInversePropertyPredicates.find(_.bodySegmentUUID == puuid) match {
+                                      case Some(trrp: tables.ReifiedRelationshipSourceInversePropertyPredicate) =>
+                                        ej.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
+                                          case Some(rrr: api.ReifiedRelationship) =>
+                                            val (ek, _) = rj.factory.createReifiedRelationshipSourceInversePropertyPredicate(rj.context, rseg, rrr)
+                                            val rk = rj.copy(context = ek)
+                                            tnext match {
+                                              case Some(tn) =>
+                                                mapRuleSegments(rk, trule, tn, Some(rseg), rrule)
+                                              case None =>
+                                                Success(rk)
+                                            }
+                                          case _ =>
+                                            Failure(new IllegalArgumentException(s"ReifiedRelationshipSourceInversePropertyPredicate: $trrp failed to resolve reified relationship: ${trrp.reifiedRelationshipUUID}"))
+                                        }
+                                      case None =>
+                                        ri.queue.reifiedRelationshipTargetInversePropertyPredicates.find(_.bodySegmentUUID == puuid) match {
+                                          case Some(trrp: tables.ReifiedRelationshipTargetInversePropertyPredicate) =>
+                                            ej.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
+                                              case Some(rrr: api.ReifiedRelationship) =>
+                                                val (ek, _) = rj.factory.createReifiedRelationshipTargetInversePropertyPredicate(rj.context, rseg, rrr)
+                                                val rk = rj.copy(context = ek)
+                                                tnext match {
+                                                  case Some(tn) =>
+                                                    mapRuleSegments(rk, trule, tn, Some(rseg), rrule)
+                                                  case None =>
+                                                    Success(rk)
+                                                }
+                                              case _ =>
+                                                Failure(new IllegalArgumentException(s"ReifiedRelationshipTargetInversePropertyPredicate: $trrp failed to resolve reified relationship: ${trrp.reifiedRelationshipUUID}"))
+                                            }
+                                          case None =>
+                                            ri.queue.unreifiedRelationshipInversePropertyPredicates.find(_.bodySegmentUUID == puuid) match {
+                                              case Some(turp: tables.UnreifiedRelationshipInversePropertyPredicate) =>
+                                                ej.lookupTerminologyBoxStatement(UUID.fromString(turp.unreifiedRelationshipUUID)) match {
+                                                  case Some(rur: api.UnreifiedRelationship) =>
+                                                    val (ek, _) = rj.factory.createUnreifiedRelationshipInversePropertyPredicate(rj.context, rur, rseg)
+                                                    val rk = rj.copy(context = ek)
+                                                    tnext match {
+                                                      case Some(tn) =>
+                                                        mapRuleSegments(rk, trule, tn, Some(rseg), rrule)
+                                                      case None =>
+                                                        Success(rk)
+                                                    }
+                                                  case _ =>
+                                                    Failure(new IllegalArgumentException(s"UnreifiedRelationshipInversePropertyPredicate: $turp failed to resolve unreified relationship: ${turp.unreifiedRelationshipUUID}"))
+                                                }
+                                              case None =>
+                                                Success(rj)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
   }
 
   def mapEntityScalarDataProperties
@@ -1374,34 +1637,38 @@ object OMLTablesResolver {
       r.queue.scalarOneOfLiteralAxioms
         .map { tsool =>
           ( UUID.fromString(tsool.tboxUUID),
-            UUID.fromString(tsool.axiomUUID) ) -> tsool
+            UUID.fromString(tsool.axiomUUID),
+            tsool.valueTypeUUID.map(UUID.fromString) ) -> tsool
         }
 
     val byTBox = for {
       tuple <- byUUID
-      ((tboxUUID, axiomUUID), tsool) = tuple
+      ((tboxUUID, axiomUUID, valueTypeOUUID), tsool) = tuple
       tboxM = r.lookupTerminologyBox(tboxUUID)
       axiomM = r.lookupTerminologyBoxStatement(axiomUUID) match {
         case Some(e: api.ScalarOneOfRestriction) => Some(e)
         case _ => None
       }
-    } yield (tboxM, axiomM, tsool)
+      valueTypeM = valueTypeOUUID.flatMap(r.lookupDataRange)
+    } yield (tboxM, axiomM, valueTypeOUUID, valueTypeM, tsool)
 
 
-    val unresolvable = byTBox.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty).map(_._3)
+    val unresolvable = byTBox.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty || (tuple._3.nonEmpty && tuple._4.isEmpty)).map(_._5)
     val resolvable = byTBox.flatMap {
-      case (Some(tboxM), Some(axiomM), tsool) => Some(Tuple3(tboxM, axiomM, tsool))
+      case (Some(tboxM), Some(axiomM), Some(_), Some(valueTypeM), tsool) => Some(Tuple4(tboxM, axiomM, Some(valueTypeM), tsool))
+      case (Some(tboxM), Some(axiomM), None, None, tsool) => Some(Tuple4(tboxM, axiomM, None, tsool))
       case _ => None
     }
 
     val s =
       resolvable.foldLeft[Try[OMLTablesResolver]](Success(r.copy(queue = r.queue.copy(scalarOneOfLiteralAxioms = unresolvable)))) {
-        case (Success(ri), (tboxM, axiomM, tsool)) =>
+        case (Success(ri), (tboxM, axiomM, valueTypeM, tsool)) =>
           val (ej, rsool) = ri.factory.createScalarOneOfLiteralAxiom(
             ri.context,
             tboxM,
             axiomM,
-            tsool.value)
+            tsool.value,
+            valueTypeM)
 
           if (!ej.lookupBoxStatements(tboxM).contains(rsool))
             Failure(new IllegalArgumentException(s"ScalarOneOfLiteralAxiom not in extent: $rsool"))
@@ -1670,12 +1937,13 @@ object OMLTablesResolver {
         .map { tra =>
           ( UUID.fromString(tra.tboxUUID),
             UUID.fromString(tra.restrictedEntityUUID),
-            UUID.fromString(tra.scalarPropertyUUID) ) -> tra
+            UUID.fromString(tra.scalarPropertyUUID),
+            tra.valueTypeUUID.map(UUID.fromString)) -> tra
         }
 
     val byTBox = for {
       tuple <- byUUID
-      ((tboxUUID, domainUUID, relationUUID), tra) = tuple
+      ((tboxUUID, domainUUID, relationUUID, valueTypeOUUID), tra) = tuple
       tboxM = r.lookupTerminologyBox(tboxUUID)
       domainM = r.lookupTerminologyBoxStatement(domainUUID) match {
         case Some(e: api.Entity) => Some(e)
@@ -1685,24 +1953,27 @@ object OMLTablesResolver {
         case Some(e: api.EntityScalarDataProperty) => Some(e)
         case _ => None
       }
-    } yield (tboxM, domainM, relM, tra)
+      valueTypeM = valueTypeOUUID.flatMap(r.lookupDataRange)
+    } yield (tboxM, domainM, relM, valueTypeOUUID, valueTypeM, tra)
 
 
-    val unresolvable = byTBox.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty || tuple._3.isEmpty).map(_._4)
+    val unresolvable = byTBox.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty || tuple._3.isEmpty || (tuple._4.nonEmpty && tuple._5.isEmpty)).map(_._6)
     val resolvable = byTBox.flatMap {
-      case (Some(tboxM), Some(domainM), Some(relM), tra) => Some(Tuple4(tboxM, domainM, relM, tra))
+      case (Some(tboxM), Some(domainM), Some(relM), Some(_), Some(valueTypeM), tra) => Some(Tuple5(tboxM, domainM, relM, Some(valueTypeM), tra))
+      case (Some(tboxM), Some(domainM), Some(relM), None, None, tra) => Some(Tuple5(tboxM, domainM, relM, None, tra))
       case _ => None
     }
 
     val s =
       resolvable.foldLeft[Try[OMLTablesResolver]](Success(r.copy(queue = r.queue.copy(entityScalarDataPropertyParticularRestrictionAxioms = unresolvable)))) {
-        case (Success(ri), (tboxM, domainM, relM, tra)) =>
+        case (Success(ri), (tboxM, domainM, relM, valueTypeM, tra)) =>
           val (ej, rra) = ri.factory.createEntityScalarDataPropertyParticularRestrictionAxiom(
             ri.context,
             tboxM,
             domainM,
             relM,
-            tra.literalValue)
+            tra.literalValue,
+            valueTypeM)
 
           if (!ej.lookupBoxStatements(tboxM).contains(rra))
             Failure(new IllegalArgumentException(s"EntityScalarDataPropertyParticularRestrictionAxiom not in extent: $rra"))
