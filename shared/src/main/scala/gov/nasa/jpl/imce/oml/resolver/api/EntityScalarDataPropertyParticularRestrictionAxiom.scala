@@ -27,4 +27,5 @@ trait EntityScalarDataPropertyParticularRestrictionAxiom
 {
 
   val literalValue: gov.nasa.jpl.imce.oml.tables.LiteralValue
+  val valueType: scala.Option[DataRange]
 }

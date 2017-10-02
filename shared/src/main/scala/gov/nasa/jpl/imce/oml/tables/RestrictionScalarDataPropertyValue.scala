@@ -29,15 +29,32 @@ import scala.Predef._
   * @param scalarDataPropertyUUID[1,1]
   * @param scalarPropertyValue[1,1]
   * @param structuredDataPropertyContextUUID[1,1]
+  * @param valueTypeUUID[0,1]
   */
-@JSExportTopLevel("RestrictionScalarDataPropertyValue")
 case class RestrictionScalarDataPropertyValue
 (
   @(JSExport @field) uuid: UUID,
   @(JSExport @field) scalarDataPropertyUUID: UUID,
   @(JSExport @field) scalarPropertyValue: LiteralValue,
-  @(JSExport @field) structuredDataPropertyContextUUID: UUID
+  @(JSExport @field) structuredDataPropertyContextUUID: UUID,
+  @(JSExport @field) valueTypeUUID: scala.Option[UUID]
 ) {
+  def this(
+    uuid: UUID,
+    scalarDataPropertyUUID: UUID,
+    scalarPropertyValue: LiteralValue,
+    structuredDataPropertyContextUUID: UUID)
+  = this(
+      uuid,
+      scalarDataPropertyUUID,
+      scalarPropertyValue,
+      structuredDataPropertyContextUUID,
+      None /* valueTypeUUID */)
+
+  def withValueTypeUUID(l: UUID)	 
+  : RestrictionScalarDataPropertyValue
+  = copy(valueTypeUUID=Some(l))
+  
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
@@ -55,14 +72,15 @@ case class RestrictionScalarDataPropertyValue
 
   override val hashCode
   : scala.Int 
-  = (uuid, scalarDataPropertyUUID, scalarPropertyValue, structuredDataPropertyContextUUID).##
+  = (uuid, scalarDataPropertyUUID, scalarPropertyValue, structuredDataPropertyContextUUID, valueTypeUUID).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: RestrictionScalarDataPropertyValue =>
   	  (this.uuid == that.uuid) &&
   	  (this.scalarDataPropertyUUID == that.scalarDataPropertyUUID) &&
   	  (this.scalarPropertyValue == that.scalarPropertyValue) &&
-  	  (this.structuredDataPropertyContextUUID == that.structuredDataPropertyContextUUID)
+  	  (this.structuredDataPropertyContextUUID == that.structuredDataPropertyContextUUID) &&
+  	  (this.valueTypeUUID == that.valueTypeUUID)
     case _ =>
       false
   }

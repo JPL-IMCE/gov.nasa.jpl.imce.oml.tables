@@ -30,16 +30,35 @@ import scala.Predef._
   * @param restrictedEntityUUID[1,1]
   * @param scalarPropertyUUID[1,1]
   * @param literalValue[1,1]
+  * @param valueTypeUUID[0,1]
   */
-@JSExportTopLevel("EntityScalarDataPropertyParticularRestrictionAxiom")
 case class EntityScalarDataPropertyParticularRestrictionAxiom
 (
   @(JSExport @field) uuid: UUID,
   @(JSExport @field) tboxUUID: UUID,
   @(JSExport @field) restrictedEntityUUID: UUID,
   @(JSExport @field) scalarPropertyUUID: UUID,
-  @(JSExport @field) literalValue: LiteralValue
+  @(JSExport @field) literalValue: LiteralValue,
+  @(JSExport @field) valueTypeUUID: scala.Option[UUID]
 ) {
+  def this(
+    uuid: UUID,
+    tboxUUID: UUID,
+    restrictedEntityUUID: UUID,
+    scalarPropertyUUID: UUID,
+    literalValue: LiteralValue)
+  = this(
+      uuid,
+      tboxUUID,
+      restrictedEntityUUID,
+      scalarPropertyUUID,
+      literalValue,
+      None /* valueTypeUUID */)
+
+  def withValueTypeUUID(l: UUID)	 
+  : EntityScalarDataPropertyParticularRestrictionAxiom
+  = copy(valueTypeUUID=Some(l))
+  
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
@@ -60,7 +79,7 @@ case class EntityScalarDataPropertyParticularRestrictionAxiom
 
   override val hashCode
   : scala.Int 
-  = (uuid, tboxUUID, restrictedEntityUUID, scalarPropertyUUID, literalValue).##
+  = (uuid, tboxUUID, restrictedEntityUUID, scalarPropertyUUID, literalValue, valueTypeUUID).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: EntityScalarDataPropertyParticularRestrictionAxiom =>
@@ -68,7 +87,8 @@ case class EntityScalarDataPropertyParticularRestrictionAxiom
   	  (this.tboxUUID == that.tboxUUID) &&
   	  (this.restrictedEntityUUID == that.restrictedEntityUUID) &&
   	  (this.scalarPropertyUUID == that.scalarPropertyUUID) &&
-  	  (this.literalValue == that.literalValue)
+  	  (this.literalValue == that.literalValue) &&
+  	  (this.valueTypeUUID == that.valueTypeUUID)
     case _ =>
       false
   }

@@ -479,13 +479,14 @@ trait OMLResolvedFactory {
     tbox: TerminologyBox,
     restrictedEntity: Entity,
     scalarProperty: EntityScalarDataProperty,
-    literalValue: gov.nasa.jpl.imce.oml.tables.LiteralValue )
+    literalValue: gov.nasa.jpl.imce.oml.tables.LiteralValue,
+    valueType: scala.Option[DataRange] )
   : (Extent, EntityScalarDataPropertyParticularRestrictionAxiom)
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid: java.util.UUID = namespaceUUID("EntityScalarDataPropertyParticularRestrictionAxiom",  "tbox" -> tbox.uuid.toString,  "restrictedEntity" -> restrictedEntity.uuid.toString,  "scalarProperty" -> scalarProperty.uuid.toString)
-    createEntityScalarDataPropertyParticularRestrictionAxiom( extent, uuid,  tbox,  restrictedEntity,  scalarProperty,  literalValue )
+    val uuid: java.util.UUID = namespaceUUID("EntityScalarDataPropertyParticularRestrictionAxiom",  "tbox" -> tbox.uuid.toString,  "restrictedEntity" -> restrictedEntity.uuid.toString,  "scalarProperty" -> scalarProperty.uuid.toString,  "valueType" -> valueType.uuid.toString)
+    createEntityScalarDataPropertyParticularRestrictionAxiom( extent, uuid,  tbox,  restrictedEntity,  scalarProperty,  literalValue,  valueType )
   }
   
   def createEntityScalarDataPropertyParticularRestrictionAxiom
@@ -494,7 +495,8 @@ trait OMLResolvedFactory {
     tbox: TerminologyBox,
     restrictedEntity: Entity,
     scalarProperty: EntityScalarDataProperty,
-    literalValue: gov.nasa.jpl.imce.oml.tables.LiteralValue )
+    literalValue: gov.nasa.jpl.imce.oml.tables.LiteralValue,
+    valueType: scala.Option[DataRange] )
   : (Extent, EntityScalarDataPropertyParticularRestrictionAxiom)
   
   // EntityScalarDataPropertyUniversalRestrictionAxiom
@@ -968,13 +970,14 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     scalarDataProperty: DataRelationshipToScalar,
     scalarPropertyValue: gov.nasa.jpl.imce.oml.tables.LiteralValue,
-    structuredDataPropertyContext: RestrictionStructuredDataPropertyContext )
+    structuredDataPropertyContext: RestrictionStructuredDataPropertyContext,
+    valueType: scala.Option[DataRange] )
   : (Extent, RestrictionScalarDataPropertyValue)
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid: java.util.UUID = namespaceUUID("RestrictionScalarDataPropertyValue",  "scalarDataProperty" -> scalarDataProperty.uuid.toString,  "structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString)
-    createRestrictionScalarDataPropertyValue( extent, uuid,  scalarDataProperty,  scalarPropertyValue,  structuredDataPropertyContext )
+    val uuid: java.util.UUID = namespaceUUID("RestrictionScalarDataPropertyValue",  "scalarDataProperty" -> scalarDataProperty.uuid.toString,  "structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString,  "valueType" -> valueType.uuid.toString)
+    createRestrictionScalarDataPropertyValue( extent, uuid,  scalarDataProperty,  scalarPropertyValue,  structuredDataPropertyContext,  valueType )
   }
   
   def createRestrictionScalarDataPropertyValue
@@ -982,7 +985,8 @@ trait OMLResolvedFactory {
     uuid: java.util.UUID,
     scalarDataProperty: DataRelationshipToScalar,
     scalarPropertyValue: gov.nasa.jpl.imce.oml.tables.LiteralValue,
-    structuredDataPropertyContext: RestrictionStructuredDataPropertyContext )
+    structuredDataPropertyContext: RestrictionStructuredDataPropertyContext,
+    valueType: scala.Option[DataRange] )
   : (Extent, RestrictionScalarDataPropertyValue)
   
   // RestrictionStructuredDataPropertyTuple
@@ -1107,13 +1111,14 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     scalarDataProperty: DataRelationshipToScalar,
     scalarPropertyValue: gov.nasa.jpl.imce.oml.tables.LiteralValue,
-    structuredDataPropertyContext: SingletonInstanceStructuredDataPropertyContext )
+    structuredDataPropertyContext: SingletonInstanceStructuredDataPropertyContext,
+    valueType: scala.Option[DataRange] )
   : (Extent, ScalarDataPropertyValue)
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid: java.util.UUID = namespaceUUID("ScalarDataPropertyValue",  "scalarDataProperty" -> scalarDataProperty.uuid.toString,  "structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString)
-    createScalarDataPropertyValue( extent, uuid,  scalarDataProperty,  scalarPropertyValue,  structuredDataPropertyContext )
+    val uuid: java.util.UUID = namespaceUUID("ScalarDataPropertyValue",  "scalarDataProperty" -> scalarDataProperty.uuid.toString,  "structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString,  "valueType" -> valueType.uuid.toString)
+    createScalarDataPropertyValue( extent, uuid,  scalarDataProperty,  scalarPropertyValue,  structuredDataPropertyContext,  valueType )
   }
   
   def createScalarDataPropertyValue
@@ -1121,7 +1126,8 @@ trait OMLResolvedFactory {
     uuid: java.util.UUID,
     scalarDataProperty: DataRelationshipToScalar,
     scalarPropertyValue: gov.nasa.jpl.imce.oml.tables.LiteralValue,
-    structuredDataPropertyContext: SingletonInstanceStructuredDataPropertyContext )
+    structuredDataPropertyContext: SingletonInstanceStructuredDataPropertyContext,
+    valueType: scala.Option[DataRange] )
   : (Extent, ScalarDataPropertyValue)
   
   // ScalarOneOfLiteralAxiom
@@ -1129,13 +1135,14 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     tbox: TerminologyBox,
     axiom: ScalarOneOfRestriction,
-    value: gov.nasa.jpl.imce.oml.tables.LiteralValue )
+    value: gov.nasa.jpl.imce.oml.tables.LiteralValue,
+    valueType: scala.Option[DataRange] )
   : (Extent, ScalarOneOfLiteralAxiom)
   = {
   	// implicitly derived uuid...
     import scala.Predef.ArrowAssoc
-    val implicitUUID: java.util.UUID = namespaceUUID("ScalarOneOfLiteralAxiom",  "tbox" -> tbox.uuid.toString,  "axiom" -> axiom.uuid.toString)
-    createScalarOneOfLiteralAxiom( extent, implicitUUID,  tbox,  axiom,  value )
+    val implicitUUID: java.util.UUID = namespaceUUID("ScalarOneOfLiteralAxiom",  "tbox" -> tbox.uuid.toString,  "axiom" -> axiom.uuid.toString,  "valueType" -> valueType.uuid.toString)
+    createScalarOneOfLiteralAxiom( extent, implicitUUID,  tbox,  axiom,  value,  valueType )
   }
   
   def createScalarOneOfLiteralAxiom
@@ -1143,7 +1150,8 @@ trait OMLResolvedFactory {
     uuid: java.util.UUID,
     tbox: TerminologyBox,
     axiom: ScalarOneOfRestriction,
-    value: gov.nasa.jpl.imce.oml.tables.LiteralValue )
+    value: gov.nasa.jpl.imce.oml.tables.LiteralValue,
+    valueType: scala.Option[DataRange] )
   : (Extent, ScalarOneOfLiteralAxiom)
   
   // ScalarOneOfRestriction
@@ -1174,13 +1182,14 @@ trait OMLResolvedFactory {
     descriptionBox: DescriptionBox,
     singletonInstance: ConceptualEntitySingletonInstance,
     scalarDataProperty: EntityScalarDataProperty,
-    scalarPropertyValue: gov.nasa.jpl.imce.oml.tables.LiteralValue )
+    scalarPropertyValue: gov.nasa.jpl.imce.oml.tables.LiteralValue,
+    valueType: scala.Option[DataRange] )
   : (Extent, SingletonInstanceScalarDataPropertyValue)
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid: java.util.UUID = namespaceUUID("SingletonInstanceScalarDataPropertyValue",  "descriptionBox" -> descriptionBox.uuid.toString,  "singletonInstance" -> singletonInstance.uuid.toString,  "scalarDataProperty" -> scalarDataProperty.uuid.toString)
-    createSingletonInstanceScalarDataPropertyValue( extent, uuid,  descriptionBox,  singletonInstance,  scalarDataProperty,  scalarPropertyValue )
+    val uuid: java.util.UUID = namespaceUUID("SingletonInstanceScalarDataPropertyValue",  "descriptionBox" -> descriptionBox.uuid.toString,  "singletonInstance" -> singletonInstance.uuid.toString,  "scalarDataProperty" -> scalarDataProperty.uuid.toString,  "valueType" -> valueType.uuid.toString)
+    createSingletonInstanceScalarDataPropertyValue( extent, uuid,  descriptionBox,  singletonInstance,  scalarDataProperty,  scalarPropertyValue,  valueType )
   }
   
   def createSingletonInstanceScalarDataPropertyValue
@@ -1189,7 +1198,8 @@ trait OMLResolvedFactory {
     descriptionBox: DescriptionBox,
     singletonInstance: ConceptualEntitySingletonInstance,
     scalarDataProperty: EntityScalarDataProperty,
-    scalarPropertyValue: gov.nasa.jpl.imce.oml.tables.LiteralValue )
+    scalarPropertyValue: gov.nasa.jpl.imce.oml.tables.LiteralValue,
+    valueType: scala.Option[DataRange] )
   : (Extent, SingletonInstanceScalarDataPropertyValue)
   
   // SingletonInstanceStructuredDataPropertyValue

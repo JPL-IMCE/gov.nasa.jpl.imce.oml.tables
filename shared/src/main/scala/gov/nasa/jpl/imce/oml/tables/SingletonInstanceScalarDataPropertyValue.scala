@@ -30,16 +30,35 @@ import scala.Predef._
   * @param singletonInstanceUUID[1,1]
   * @param scalarDataPropertyUUID[1,1]
   * @param scalarPropertyValue[1,1]
+  * @param valueTypeUUID[0,1]
   */
-@JSExportTopLevel("SingletonInstanceScalarDataPropertyValue")
 case class SingletonInstanceScalarDataPropertyValue
 (
   @(JSExport @field) uuid: UUID,
   @(JSExport @field) descriptionBoxUUID: UUID,
   @(JSExport @field) singletonInstanceUUID: UUID,
   @(JSExport @field) scalarDataPropertyUUID: UUID,
-  @(JSExport @field) scalarPropertyValue: LiteralValue
+  @(JSExport @field) scalarPropertyValue: LiteralValue,
+  @(JSExport @field) valueTypeUUID: scala.Option[UUID]
 ) {
+  def this(
+    uuid: UUID,
+    descriptionBoxUUID: UUID,
+    singletonInstanceUUID: UUID,
+    scalarDataPropertyUUID: UUID,
+    scalarPropertyValue: LiteralValue)
+  = this(
+      uuid,
+      descriptionBoxUUID,
+      singletonInstanceUUID,
+      scalarDataPropertyUUID,
+      scalarPropertyValue,
+      None /* valueTypeUUID */)
+
+  def withValueTypeUUID(l: UUID)	 
+  : SingletonInstanceScalarDataPropertyValue
+  = copy(valueTypeUUID=Some(l))
+  
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
@@ -60,7 +79,7 @@ case class SingletonInstanceScalarDataPropertyValue
 
   override val hashCode
   : scala.Int 
-  = (uuid, descriptionBoxUUID, singletonInstanceUUID, scalarDataPropertyUUID, scalarPropertyValue).##
+  = (uuid, descriptionBoxUUID, singletonInstanceUUID, scalarDataPropertyUUID, scalarPropertyValue, valueTypeUUID).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: SingletonInstanceScalarDataPropertyValue =>
@@ -68,7 +87,8 @@ case class SingletonInstanceScalarDataPropertyValue
   	  (this.descriptionBoxUUID == that.descriptionBoxUUID) &&
   	  (this.singletonInstanceUUID == that.singletonInstanceUUID) &&
   	  (this.scalarDataPropertyUUID == that.scalarDataPropertyUUID) &&
-  	  (this.scalarPropertyValue == that.scalarPropertyValue)
+  	  (this.scalarPropertyValue == that.scalarPropertyValue) &&
+  	  (this.valueTypeUUID == that.valueTypeUUID)
     case _ =>
       false
   }

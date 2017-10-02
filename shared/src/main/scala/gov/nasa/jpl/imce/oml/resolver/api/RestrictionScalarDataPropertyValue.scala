@@ -28,6 +28,7 @@ trait RestrictionScalarDataPropertyValue
 
   val scalarDataProperty: DataRelationshipToScalar
   val scalarPropertyValue: gov.nasa.jpl.imce.oml.tables.LiteralValue
+  val valueType: scala.Option[DataRange]
 
   def terminologyBox
   ()(implicit extent: Extent): scala.Option[TerminologyBox]

@@ -29,15 +29,32 @@ import scala.Predef._
   * @param tboxUUID[1,1]
   * @param axiomUUID[1,1]
   * @param value[1,1]
+  * @param valueTypeUUID[0,1]
   */
-@JSExportTopLevel("ScalarOneOfLiteralAxiom")
 case class ScalarOneOfLiteralAxiom
 (
   @(JSExport @field) uuid: UUID,
   @(JSExport @field) tboxUUID: UUID,
   @(JSExport @field) axiomUUID: UUID,
-  @(JSExport @field) value: LiteralValue
+  @(JSExport @field) value: LiteralValue,
+  @(JSExport @field) valueTypeUUID: scala.Option[UUID]
 ) {
+  def this(
+    uuid: UUID,
+    tboxUUID: UUID,
+    axiomUUID: UUID,
+    value: LiteralValue)
+  = this(
+      uuid,
+      tboxUUID,
+      axiomUUID,
+      value,
+      None /* valueTypeUUID */)
+
+  def withValueTypeUUID(l: UUID)	 
+  : ScalarOneOfLiteralAxiom
+  = copy(valueTypeUUID=Some(l))
+  
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
@@ -55,14 +72,15 @@ case class ScalarOneOfLiteralAxiom
 
   override val hashCode
   : scala.Int 
-  = (uuid, tboxUUID, axiomUUID, value).##
+  = (uuid, tboxUUID, axiomUUID, value, valueTypeUUID).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: ScalarOneOfLiteralAxiom =>
   	  (this.uuid == that.uuid) &&
   	  (this.tboxUUID == that.tboxUUID) &&
   	  (this.axiomUUID == that.axiomUUID) &&
-  	  (this.value == that.value)
+  	  (this.value == that.value) &&
+  	  (this.valueTypeUUID == that.valueTypeUUID)
     case _ =>
       false
   }
