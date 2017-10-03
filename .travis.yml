@@ -24,6 +24,7 @@ jdk:
 - oraclejdk8
 
 env:
+- CI=true
 - TRAVIS_NODE_VERSION="5.10"
 
 language: scala
