@@ -24,6 +24,7 @@ import java.util.UUID
 import gov.nasa.jpl.imce.oml.{resolver, _}
 
 import scalax.collection.immutable.Graph
+import scala.annotation.tailrec
 import scala.collection.immutable.{Iterable,Seq,Set}
 import scala.collection.parallel.immutable.ParSeq
 import scala.{Option, None, Some, StringContext, Tuple2, Tuple3, Tuple4, Tuple5}
@@ -248,6 +249,10 @@ case class OMLTablesResolver private[resolver]
   : Option[resolver.api.ReifiedRelationshipInstance]
   = OMLTablesResolver.collectFirstOption(allContexts)(_.reifiedRelationshipInstanceByUUID.get(uuid))
 
+  def lookupConceptualEntitySingletonInstance(uuid: java.util.UUID)
+  : Option[resolver.api.ConceptualEntitySingletonInstance]
+  = lookupConceptInstance(uuid) orElse lookupReifiedRelationshipInstance(uuid)
+  
   def lookupReifiedRelationshipInstanceDomains(key: Option[resolver.api.DescriptionBox])
   : Set[resolver.api.ReifiedRelationshipInstanceDomain]
   = key.fold[Set[resolver.api.ReifiedRelationshipInstanceDomain]](Set.empty[resolver.api.ReifiedRelationshipInstanceDomain]) { lookupReifiedRelationshipInstanceDomains }
@@ -349,6 +354,10 @@ case class OMLTablesResolver private[resolver]
   def lookupStructuredDataPropertyTuple(uuid: java.util.UUID)
   : Option[resolver.api.StructuredDataPropertyTuple]
   = OMLTablesResolver.collectFirstOption(allContexts)(_.structuredDataPropertyTupleByUUID.get(uuid))
+
+  def lookupSingletonInstanceStructuredDataPropertyContext(uuid: java.util.UUID)
+  : Option[resolver.api.SingletonInstanceStructuredDataPropertyContext]
+  = lookupSingletonInstanceStructuredDataPropertyValue(uuid) orElse lookupStructuredDataPropertyTuple(uuid)
 
   def lookupScalarDataPropertyValues(key: Option[resolver.api.SingletonInstanceStructuredDataPropertyContext])
   : Set[resolver.api.ScalarDataPropertyValue]
@@ -833,6 +842,76 @@ object OMLTablesResolver {
     s
   }
 
+  def mapDescriptionBoxExtendsClosedWorldDefinitions
+  (r: OMLTablesResolver)
+  : Try[OMLTablesResolver]
+  = {
+    val info =
+      r.queue.descriptionBoxExtendsClosedWorldDefinitions.map { tAxiom =>
+        val dboxUUID = UUID.fromString(tAxiom.descriptionBoxUUID)
+        val dboxM = r.lookupDescriptionBox(dboxUUID)
+        dboxM -> tAxiom
+      }
+
+    val unresolvable = info.filter(tuple => tuple._1.isEmpty).map(_._2)
+    val resolvable = info.flatMap {
+      case (Some(dboxM), tAxiom) => Some((dboxM, tAxiom))
+      case _ => None
+    }
+
+    val r1 = r.copy(queue = r.queue.copy(descriptionBoxExtendsClosedWorldDefinitions = unresolvable))
+
+    val s =
+      resolvable.foldLeft[Try[OMLTablesResolver]](Success(r1)) {
+        case (Success(ri), (dboxM, tAxiom)) =>
+          val (ej, rAxiom) = ri.factory.createDescriptionBoxExtendsClosedWorldDefinitions(ri.context, dboxM, tAxiom.closedWorldDefinitionsIRI)
+          if (!ej.lookupClosedWorldDefinitions(dboxM).contains(rAxiom))
+            Failure(new IllegalArgumentException(s"DescriptionBoxExtendsClosedWorldDefinition not in extent: $rAxiom"))
+          else if (!OMLOps.uuidEquivalent(rAxiom.uuid, tAxiom.uuid))
+            Failure(new IllegalArgumentException(s"DescriptionBoxExtendsClosedWorldDefinition: $tAxiom vs. $rAxiom"))
+          else
+            Success(ri.copy(context = ej))
+        case (Failure(f), _) =>
+          Failure(f)
+      }
+    s
+  }
+
+  def mapDescriptionBoxRefinements
+  (r: OMLTablesResolver)
+  : Try[OMLTablesResolver]
+  = {
+    val info =
+      r.queue.descriptionBoxRefinements.map { tAxiom =>
+        val dboxUUID = UUID.fromString(tAxiom.refiningDescriptionBoxUUID)
+        val dboxM = r.lookupDescriptionBox(dboxUUID)
+        dboxM -> tAxiom
+      }
+
+    val unresolvable = info.filter(tuple => tuple._1.isEmpty).map(_._2)
+    val resolvable = info.flatMap {
+      case (Some(dboxM), tAxiom) => Some((dboxM, tAxiom))
+      case _ => None
+    }
+
+    val r1 = r.copy(queue = r.queue.copy(descriptionBoxRefinements = unresolvable))
+
+    val s =
+      resolvable.foldLeft[Try[OMLTablesResolver]](Success(r1)) {
+        case (Success(ri), (dboxM, tAxiom)) =>
+          val (ej, rAxiom) = ri.factory.createDescriptionBoxRefinement(ri.context, dboxM, tAxiom.refinedDescriptionBoxIRI)
+          if (!ej.lookupDescriptionBoxRefinements(dboxM).contains(rAxiom))
+            Failure(new IllegalArgumentException(s"DescriptionBoxRefinement not in extent: $rAxiom"))
+          else if (!OMLOps.uuidEquivalent(rAxiom.uuid, tAxiom.uuid))
+            Failure(new IllegalArgumentException(s"DescriptionBoxRefinement: $tAxiom vs. $rAxiom"))
+          else
+            Success(ri.copy(context = ej))
+        case (Failure(f), _) =>
+          Failure(f)
+      }
+    s
+  }
+
   def mapRestrictedDataRanges
   (r: OMLTablesResolver)
   : Try[OMLTablesResolver]
@@ -961,10 +1040,12 @@ object OMLTablesResolver {
     step2a <- mapTerminologyExtends(step1d)
     step2b <- mapTerminologyNestings(step2a)
     step2c <- mapConceptDesignationTerminologyAxioms(step2b)
-    // TerminologyBundleAxiom relationships
+    // TerminologyBundleAxiom && DescriptionBox relationships
     step3a <- mapBundledTerminologyAxioms(step2c)
+    step3b <- mapDescriptionBoxExtendsClosedWorldDefinitions(step3a)
+    step3c <- mapDescriptionBoxRefinements(step3b)
     // Relational terms
-    step4a <- mapRestrictedDataRanges(step3a)
+    step4a <- mapRestrictedDataRanges(step3c)
     step4b <- mapReifiedRelationships(step4a)
     step4c <- mapUnreifiedRelationships(step4b)
     step4d <- mapChainRules(step4c)
@@ -984,16 +1065,25 @@ object OMLTablesResolver {
     step8a <- mapEntityScalarDataPropertyExistentialRestrictionAxioms(step7b)
     step8b <- mapEntityScalarDataPropertyParticularRestrictionAxioms(step8a)
     step8c <- mapEntityScalarDataPropertyUniversalRestrictionAxioms(step8b)
+    step8d <- mapEntityStructuredDataPropertyParticularRestrictionAxioms(step8c)
     // -- SpecializationAxiom
-    step9a <- mapAspectSpecializationAxioms(step8c)
+    step9a <- mapAspectSpecializationAxioms(step8d)
     step9b <- mapConceptSpecializationAxioms(step9a)
     step9c <- mapReifiedRelationshipSpecializationAxioms(step9b)
     // TerminologyBundleStatements
     step10 <- mapRootConceptTaxonomyAxioms(step9c)
+    // DescriptionBoxStatements
+    step11a <- mapConceptInstances(step10)
+    step11b <- mapReifiedRelationshipInstances(step11a)
+    step11c <- mapReifiedRelationshipInstanceDomains(step11b)
+    step11d <- mapReifiedRelationshipInstanceRanges(step11c)
+    step11e <- mapUnreifiedRelationshipInstanceTuples(step11d)
+    step11f <- mapSingletonInstanceScalarDataPropertyValues(step11e)
+    step11g <- mapSingletonInstanceStructuredDataPropertyValues(step11f)
     // Annotations
-    step11 <- mapAnnotations(step10)
+    step12 <- mapAnnotations(step11g)
   } yield
-    step11
+    step12
 
   def seqopAppend[T]
   (s: Seq[T], entry: (UUID, ParSeq[T]))
@@ -1206,6 +1296,7 @@ object OMLTablesResolver {
     s
   }
 
+  @tailrec
   def mapRuleSegments
   (ri: OMLTablesResolver, trule: tables.ChainRule,
    tseg: tables.RuleBodySegment,
@@ -1483,7 +1574,7 @@ object OMLTablesResolver {
         case Some(e: api.Entity) => Some(e)
         case _ => None
       }
-      rangeM = r.lookupTerminologyBoxStatement(domainUUID) match {
+      rangeM = r.lookupTerminologyBoxStatement(rangeUUID) match {
         case Some(dr: api.Structure) => Some(dr)
         case _ => None
       }
@@ -1539,7 +1630,7 @@ object OMLTablesResolver {
         case Some(e: api.Structure) => Some(e)
         case _ => None
       }
-      rangeM = r.lookupTerminologyBoxStatement(domainUUID) match {
+      rangeM = r.lookupTerminologyBoxStatement(rangeUUID) match {
         case Some(dr: api.DataRange) => Some(dr)
         case _ => None
       }
@@ -1594,7 +1685,7 @@ object OMLTablesResolver {
         case Some(e: api.Structure) => Some(e)
         case _ => None
       }
-      rangeM = r.lookupTerminologyBoxStatement(domainUUID) match {
+      rangeM = r.lookupTerminologyBoxStatement(rangeUUID) match {
         case Some(dr: api.Structure) => Some(dr)
         case _ => None
       }
@@ -1829,7 +1920,7 @@ object OMLTablesResolver {
         case Some(e: api.Entity) => Some(e)
         case _ => None
       }
-      rangeM = r.lookupTerminologyBoxStatement(domainUUID) match {
+      rangeM = r.lookupTerminologyBoxStatement(rangeUUID) match {
         case Some(e: api.DataRange) => Some(e)
         case _ => None
       }
@@ -1889,7 +1980,7 @@ object OMLTablesResolver {
         case Some(e: api.Entity) => Some(e)
         case _ => None
       }
-      rangeM = r.lookupTerminologyBoxStatement(domainUUID) match {
+      rangeM = r.lookupTerminologyBoxStatement(rangeUUID) match {
         case Some(e: api.DataRange) => Some(e)
         case _ => None
       }
@@ -1985,6 +2076,166 @@ object OMLTablesResolver {
           Failure(f)
       }
     s
+  }
+
+  def mapEntityStructuredDataPropertyParticularRestrictionAxioms
+  (r: OMLTablesResolver)
+  : Try[OMLTablesResolver]
+  = {
+    val byUUID =
+      r.queue.entityStructuredDataPropertyParticularRestrictionAxioms
+      .map { tra =>
+        ( UUID.fromString(tra.tboxUUID),
+          UUID.fromString(tra.restrictedEntityUUID),
+          UUID.fromString(tra.structuredDataPropertyUUID)) -> tra
+      }
+
+    val info = for {
+      tuple <- byUUID
+      ((tboxUUID, restrictedEntityUUID, structuredDataPropertyUUID), tra) = tuple
+      tboxM = r.lookupTerminologyBox(tboxUUID)
+      entityM = r.lookupTerminologyBoxStatement(restrictedEntityUUID) match {
+        case Some(e: api.Entity) => Some(e)
+        case _ => None
+      }
+      sdpM = r.lookupTerminologyBoxStatement(structuredDataPropertyUUID) match {
+        case Some(sdp: api.StructuredDataProperty) => Some(sdp)
+        case _ => None
+      }
+    } yield (tboxM, entityM, sdpM, tra)
+
+    val unresolvable = info.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty || tuple._3.isEmpty).map(_._4)
+    val resolvable = info.flatMap {
+      case (Some(tboxM), Some(entityM), Some(sdpM), tra) => Some(Tuple4(tboxM, entityM, sdpM, tra))
+      case _ => None
+    }
+
+    val s =
+      resolvable.foldLeft[Try[OMLTablesResolver]](Success(r.copy(queue = r.queue.copy(entityStructuredDataPropertyParticularRestrictionAxioms = unresolvable)))) {
+        case (Success(ri), (tboxM, entityM, sdpM, tra)) =>
+          val (ej, rra) = ri.factory.createEntityStructuredDataPropertyParticularRestrictionAxiom(
+            ri.context,
+            tboxM,
+            sdpM,
+            entityM)
+          if (!ej.lookupBoxStatements(tboxM).contains(rra))
+            Failure(new IllegalArgumentException(s"EntityStructuredDataPropertyParticularRestrictionAxiom not in extent: $rra"))
+          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(tra.uuid)).contains(rra))
+            Failure(new IllegalArgumentException(s"EntityStructuredDataPropertyParticularRestrictionAxiom: $tra vs. $rra"))
+          else
+            mapRestrictionStructuredDataPropertyContext(ri.copy(context = ej), Seq(tra.uuid -> rra))
+        case (Failure(t), _) =>
+          Failure(t)
+      }
+    s
+  }
+
+  @tailrec
+  def mapRestrictionStructuredDataPropertyContext
+  (r: OMLTablesResolver, queue: Seq[(tables.UUID, api.RestrictionStructuredDataPropertyContext)])
+  : Try[OMLTablesResolver]
+  = if (queue.isEmpty)
+    Success(r)
+  else {
+    val (contextUUID, rcontext) = queue.head
+
+    val scr = r
+      .queue
+      .restrictionScalarDataPropertyValues
+      .partition(_.structuredDataPropertyContextUUID == contextUUID)
+
+    val ssr = r
+      .queue
+      .restrictionStructuredDataPropertyTuples
+      .partition(_.structuredDataPropertyContextUUID == contextUUID)
+
+    val r0 = r.copy(queue = r.queue.copy(
+      restrictionScalarDataPropertyValues = scr._2,
+      restrictionStructuredDataPropertyTuples = ssr._2))
+
+    val values =
+      scr._1.map { v =>
+        val sdpUUID = UUID.fromString(v.scalarDataPropertyUUID)
+        val rsdp = r0.lookupTerminologyBoxStatement(sdpUUID) match {
+          case Some(sdp: api.ScalarDataProperty) => Some(sdp)
+          case _ => None
+        }
+        val vtUUID = v.valueTypeUUID.map(UUID.fromString)
+        val rvt = vtUUID.flatMap { id =>
+          r0.lookupTerminologyBoxStatement(id) match {
+            case Some(vt: api.DataRange) => Some(vt)
+            case _ => None
+          }
+        }
+        (rsdp, vtUUID, rvt) -> v
+      }
+
+    val vUnresolvable = values.flatMap {
+      case ((None, _, _), v) => Some(v)
+      case ((_, Some(_), None), v) => Some(v)
+      case _ => None
+    }
+
+    val vResolvable = values.flatMap {
+      case ((Some(rsdp), _, rvt), v) => Some((rsdp, rvt, v))
+      case _ => None
+    }
+
+    val r1 =
+      r0.copy(queue = r0.queue.copy(restrictionScalarDataPropertyValues =
+        r0.queue.restrictionScalarDataPropertyValues ++ vUnresolvable))
+
+    val r2 =
+      vResolvable.foldLeft[OMLTablesResolver](r1) {
+        case (ri, (rsdp, rvt, tv)) =>
+          val (ej, _) = ri.factory.createRestrictionScalarDataPropertyValue(
+            ri.context,
+            rsdp,
+            tv.scalarPropertyValue,
+            rcontext,
+            rvt)
+          ri.copy(context = ej)
+      }
+
+    val tuples =
+      ssr._1.map { t =>
+        val sdpUUID = UUID.fromString(t.structuredDataPropertyUUID)
+        val rsdp = r2.lookupTerminologyBoxStatement(sdpUUID) match {
+          case Some(sdp: api.StructuredDataProperty) => Some(sdp)
+          case _ => None
+        }
+        rsdp -> t
+      }
+
+    val tUnresolvable = tuples.flatMap {
+      case (None, t) => Some(t)
+      case _ => None
+    }
+
+    val tResolvable = tuples.flatMap {
+      case (Some(rsdp), t) => Some((rsdp, t))
+      case _ => None
+    }
+
+    val r3 =
+      r2.copy(queue =
+        r2.queue.copy(restrictionStructuredDataPropertyTuples =
+          r2.queue.restrictionStructuredDataPropertyTuples ++ tUnresolvable))
+
+    val (r4, more) =
+      tResolvable
+        .foldLeft[(OMLTablesResolver, Seq[(tables.UUID, api.RestrictionStructuredDataPropertyContext)])]{
+        (r3, Seq.empty[(tables.UUID, api.RestrictionStructuredDataPropertyContext)])
+      } {
+        case ((ri, acc), (rsdp, tv)) =>
+          val (ej, rv) = ri.factory.createRestrictionStructuredDataPropertyTuple(
+            ri.context,
+            rsdp,
+            rcontext)
+          (ri.copy(context = ej), acc :+ (tv.uuid -> rv))
+      }
+
+    mapRestrictionStructuredDataPropertyContext(r4, more ++ queue.tail)
   }
 
   def mapAspectSpecializationAxioms
@@ -2156,32 +2407,29 @@ object OMLTablesResolver {
   (r: OMLTablesResolver)
   : Try[OMLTablesResolver]
   = {
-    val byUUID =
+    val info =
       r.queue.rootConceptTaxonomyAxioms
         .map { tax =>
-          ( UUID.fromString(tax.bundleUUID),
-            UUID.fromString(tax.rootUUID) ) -> tax
+          val bundleUUID = UUID.fromString(tax.bundleUUID)
+          val rootUUID = UUID.fromString(tax.rootUUID)
+
+          val bundleM = r.lookupBundle(bundleUUID)
+          val rootM = r.lookupTerminologyBoxStatement(rootUUID) match {
+            case Some(e: api.Concept) => Some(e)
+            case _ => None
+          }
+          (bundleM, rootM, tax)
         }
 
-    val byTBox = for {
-      tuple <- byUUID
-      ((bundleUUID, rootUUID), tax) = tuple
-      bundleM = r.lookupBundle(bundleUUID)
-      rootM = r.lookupTerminologyBoxStatement(rootUUID) match {
-        case Some(e: api.Concept) => Some(e)
-        case _ => None
-      }
-    } yield (bundleM, rootM, tax)
-
-
-    val unresolvable = byTBox.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty).map(_._3)
-    val resolvable = byTBox.flatMap {
+    val unresolvable = info.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty).map(_._3)
+    val resolvable = info.flatMap {
       case (Some(bundleM), Some(rootM), tax) => Some(Tuple3(bundleM, rootM, tax))
       case _ => None
     }
 
+    val r0 = r.copy(queue = r.queue.copy(rootConceptTaxonomyAxioms = unresolvable))
     val s =
-      resolvable.foldLeft[Try[OMLTablesResolver]](Success(r.copy(queue = r.queue.copy(rootConceptTaxonomyAxioms = unresolvable)))) {
+      resolvable.foldLeft[Try[OMLTablesResolver]](Success(r0)) {
         case (Success(ri), (bundleM, rootM, tax)) =>
           val (ej, rax) = ri.factory.createRootConceptTaxonomyAxiom(ri.context, bundleM, rootM)
 
@@ -2190,26 +2438,32 @@ object OMLTablesResolver {
           else if (!ej.lookupTerminologyBundleStatement(UUID.fromString(tax.uuid)).contains(rax))
             Failure(new IllegalArgumentException(s"RootConceptTaxonomyAxiom: $tax vs. $rax"))
           else
-            mapDisjunctions(ri.copy(context = ej), rax, tax.uuid)
+            mapDisjunctions(ri.copy(context = ej), Seq(rax -> tax.uuid))
         case (Failure(f), _) =>
           Failure(f)
       }
     s
   }
 
+  @tailrec
   def mapDisjunctions
-  (r: OMLTablesResolver, conceptTreeDisjunctParent: api.ConceptTreeDisjunction, conceptTreeDisjunctUUID: tables.UUID)
+  (r: OMLTablesResolver, queue: Seq[(api.ConceptTreeDisjunction, tables.UUID)])
   : Try[OMLTablesResolver]
-  = {
+  = if (queue.isEmpty)
+    Success(r)
+  else {
+    val (conceptTreeDisjunctParent, conceptTreeDisjunctUUID) = queue.head
     val as = r.queue.anonymousConceptUnionAxioms.partition(_.disjointTaxonomyParentUUID == conceptTreeDisjunctUUID)
     val ss = r.queue.specificDisjointConceptAxioms.partition(_.disjointTaxonomyParentUUID == conceptTreeDisjunctUUID)
 
-    val r1 = Try(r.copy(queue = r.queue.copy(
+    val r1 = r.copy(queue = r.queue.copy(
       anonymousConceptUnionAxioms = as._2,
-      specificDisjointConceptAxioms = ss._2)))
+      specificDisjointConceptAxioms = ss._2))
 
-    val r2 = as._1.foldLeft[Try[OMLTablesResolver]](r1) {
-        case (Success(ri), tax) =>
+    val r2 = as._1.foldLeft[Try[(OMLTablesResolver, Seq[(api.ConceptTreeDisjunction, tables.UUID)])]]{
+      Success(r1 -> Seq.empty[(api.ConceptTreeDisjunction, tables.UUID)])
+    } {
+        case (Success((ri, acc)), tax) =>
           val (ej, rax) = ri.factory.createAnonymousConceptUnionAxiom(ri.context, conceptTreeDisjunctParent, tax.name)
 
           if (!ej.conceptTreeDisjunctionOfDisjointUnionOfConceptsAxiom.get(rax).contains(conceptTreeDisjunctParent))
@@ -2217,13 +2471,13 @@ object OMLTablesResolver {
           else if (!ej.lookupDisjunctions(conceptTreeDisjunctParent).contains(rax))
             Failure(new IllegalArgumentException(s"AnonymousConceptUnionAxiom: not in lookupDisjunctions: $tax vs. $rax"))
           else
-            Success(ri.copy(context = ej))
+            Success(ri.copy(context = ej) -> (acc :+ (rax -> tax.uuid)))
         case (Failure(f), _) =>
           Failure(f)
       }
 
-    val r3 = ss._1.foldLeft[Try[OMLTablesResolver]](r2) {
-      case (Success(ri), tax) =>
+    val r3 = ss._1.foldLeft[Try[(OMLTablesResolver, Seq[(api.ConceptTreeDisjunction, tables.UUID)])]](r2) {
+      case (Success((ri, acc)), tax) =>
         ri.lookupTerminologyBoxStatement(UUID.fromString(tax.disjointLeafUUID)) match {
           case Some(leaf: api.Concept) =>
             val (ej, rax) = ri.factory.createSpecificDisjointConceptAxiom(ri.context, conceptTreeDisjunctParent, leaf)
@@ -2233,7 +2487,7 @@ object OMLTablesResolver {
             else if (!ej.lookupDisjunctions(conceptTreeDisjunctParent).contains(rax))
               Failure(new IllegalArgumentException(s"SpecificDisjointConceptAxiom: not in lookupDisjunctions: $tax vs. $rax"))
             else
-              Success(ri.copy(context = ej))
+              Success(ri.copy(context = ej) -> acc)
           case _ =>
             Failure(new IllegalArgumentException(s"SpecificDisjointConceptAxiom: leaf concept not found: ${tax.disjointLeafUUID}"))
         }
@@ -2241,7 +2495,454 @@ object OMLTablesResolver {
         Failure(f)
     }
 
-    r3
+    r3 match {
+      case Success((r4, acc)) =>
+        mapDisjunctions(r4, acc ++ queue.tail)
+      case Failure(f) =>
+        Failure(f)
+    }
+  }
+
+  def mapConceptInstances
+  (r: OMLTablesResolver)
+  : Try[OMLTablesResolver]
+  = {
+    val info = r.queue.conceptInstances.map { tci =>
+      val dboxUUID = UUID.fromString(tci.descriptionBoxUUID)
+      val cUUID = UUID.fromString(tci.singletonConceptClassifierUUID)
+      val dboxM = r.lookupDescriptionBox(dboxUUID)
+      val cM = r.lookupTerminologyBoxStatement(cUUID) match {
+        case Some(c: api.Concept) => Some(c)
+        case _ => None
+      }
+      (dboxM, cM, tci)
+    }
+
+    val unresolvable = info.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty).map(_._3)
+    val resolvable = info.flatMap {
+      case (Some(dboxM), Some(cM), tci) => Some((dboxM, cM, tci))
+      case _ => None
+    }
+
+    val r1 = r.copy(queue = r.queue.copy(conceptInstances = unresolvable))
+
+    val s = resolvable.foldLeft[Try[OMLTablesResolver]](Success(r1)) {
+      case (Success(ri), (dboxM, cM, tci)) =>
+        val (ej, rci) = ri.factory.createConceptInstance(
+          ri.context,
+          dboxM,
+          cM,
+          tci.name)
+
+        if (!ej.lookupConceptInstances(dboxM).contains(rci))
+          Failure(new IllegalArgumentException(s"ConceptInstance not in extent: $rci"))
+        else if (!ej.lookupConceptInstance(UUID.fromString(tci.uuid)).contains(rci))
+          Failure(new IllegalArgumentException(s"ConceptInstance: $rci vs. $tci"))
+        else
+          Success(ri.copy(context = ej))
+      case (Failure(t), _) =>
+        Failure(t)
+    }
+
+    s
+  }
+
+  def mapReifiedRelationshipInstances
+  (r: OMLTablesResolver)
+  : Try[OMLTablesResolver]
+  = {
+    val info = r.queue.reifiedRelationshipInstances.map { trri =>
+      val dboxUUID = UUID.fromString(trri.descriptionBoxUUID)
+      val rrUUID = UUID.fromString(trri.singletonReifiedRelationshipClassifierUUID)
+      val dboxM = r.lookupDescriptionBox(dboxUUID)
+      val rrM = r.lookupTerminologyBoxStatement(rrUUID) match {
+        case Some(rr: api.ReifiedRelationship) => Some(rr)
+        case _ => None
+      }
+      (dboxM, rrM, trri)
+    }
+
+    val unresolvable = info.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty).map(_._3)
+    val resolvable = info.flatMap {
+      case (Some(dboxM), Some(rrM), trri) => Some((dboxM, rrM, trri))
+      case _ => None
+    }
+
+    val r1 = r.copy(queue = r.queue.copy(reifiedRelationshipInstances = unresolvable))
+
+    val s = resolvable.foldLeft[Try[OMLTablesResolver]](Success(r1)) {
+      case (Success(ri), (dboxM, rrM, trri)) =>
+        val (ej, rrri) = ri.factory.createReifiedRelationshipInstance(
+          ri.context,
+          dboxM,
+          rrM,
+          trri.name)
+
+        if (!ej.lookupReifiedRelationshipInstances(dboxM).contains(rrri))
+          Failure(new IllegalArgumentException(s"ReifiedRelationshipInstance not in extent: $rrri"))
+        else if (!ej.lookupReifiedRelationshipInstance(UUID.fromString(trri.uuid)).contains(rrri))
+          Failure(new IllegalArgumentException(s"ReifiedRelationshipInstance: $rrri vs. $trri"))
+        else
+          Success(ri.copy(context = ej))
+      case (Failure(t), _) =>
+        Failure(t)
+    }
+
+    s
+  }
+
+  def mapReifiedRelationshipInstanceDomains
+  (r: OMLTablesResolver)
+  : Try[OMLTablesResolver]
+  = {
+    val info = r.queue.reifiedRelationshipInstanceDomains.map { trrid =>
+      val dboxUUID = UUID.fromString(trrid.descriptionBoxUUID)
+      val rriUUID = UUID.fromString(trrid.reifiedRelationshipInstanceUUID)
+      val dUUID = UUID.fromString(trrid.domainUUID)
+      val dboxM = r.lookupDescriptionBox(dboxUUID)
+      val rriM = r.lookupReifiedRelationshipInstance(rriUUID)
+      val dM = r.lookupConceptualEntitySingletonInstance(dUUID)
+      (dboxM, rriM, dM, trrid)
+    }
+
+    val unresolvable = info.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty || tuple._3.isEmpty).map(_._4)
+    val resolvable = info.flatMap {
+      case (Some(dboxM), Some(rriM), Some(dM), trrid) => Some((dboxM, rriM, dM, trrid))
+      case _ => None
+    }
+
+    val r1 = r.copy(queue = r.queue.copy(reifiedRelationshipInstanceDomains = unresolvable))
+
+    val s = resolvable.foldLeft[Try[OMLTablesResolver]](Success(r1)) {
+      case (Success(ri), (dboxM, rriM, dM, trrid)) =>
+        val (ej, rrrid) = ri.factory.createReifiedRelationshipInstanceDomain(
+          ri.context,
+          dboxM,
+          rriM,
+          dM)
+
+        if (!ej.lookupReifiedRelationshipInstanceDomains(dboxM).contains(rrrid))
+          Failure(new IllegalArgumentException(s"ReifiedRelationshipInstanceDomain not in extent: $rrrid"))
+        else if (!ej.lookupReifiedRelationshipInstanceDomain(UUID.fromString(trrid.uuid)).contains(rrrid))
+          Failure(new IllegalArgumentException(s"ReifiedRelationshipInstanceDomain: $rrrid vs. $trrid"))
+        else
+          Success(ri.copy(context = ej))
+      case (Failure(t), _) =>
+        Failure(t)
+    }
+
+    s
+  }
+
+  def mapReifiedRelationshipInstanceRanges
+  (r: OMLTablesResolver)
+  : Try[OMLTablesResolver]
+  = {
+    val info = r.queue.reifiedRelationshipInstanceRanges.map { trrir =>
+      val dboxUUID = UUID.fromString(trrir.descriptionBoxUUID)
+      val rriUUID = UUID.fromString(trrir.reifiedRelationshipInstanceUUID)
+      val rUUID = UUID.fromString(trrir.rangeUUID)
+      val dboxM = r.lookupDescriptionBox(dboxUUID)
+      val rriM = r.lookupReifiedRelationshipInstance(rriUUID)
+      val rM = r.lookupConceptualEntitySingletonInstance(rUUID)
+      (dboxM, rriM, rM, trrir)
+    }
+
+    val unresolvable = info.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty || tuple._3.isEmpty).map(_._4)
+    val resolvable = info.flatMap {
+      case (Some(dboxM), Some(rriM), Some(rM), trrir) => Some((dboxM, rriM, rM, trrir))
+      case _ => None
+    }
+
+    val r1 = r.copy(queue = r.queue.copy(reifiedRelationshipInstanceRanges = unresolvable))
+
+    val s = resolvable.foldLeft[Try[OMLTablesResolver]](Success(r1)) {
+      case (Success(ri), (dboxM, rriM, rM, trrir)) =>
+        val (ej, rrrir) = ri.factory.createReifiedRelationshipInstanceRange(
+          ri.context,
+          dboxM,
+          rriM,
+          rM)
+
+        if (!ej.lookupReifiedRelationshipInstanceRanges(dboxM).contains(rrrir))
+          Failure(new IllegalArgumentException(s"ReifiedRelationshipInstanceRange not in extent: $rrrir"))
+        else if (!ej.lookupReifiedRelationshipInstanceRange(UUID.fromString(trrir.uuid)).contains(rrrir))
+          Failure(new IllegalArgumentException(s"ReifiedRelationshipInstanceRange: $rrrir vs. $trrir"))
+        else
+          Success(ri.copy(context = ej))
+      case (Failure(t), _) =>
+        Failure(t)
+    }
+
+    s
+  }
+
+  def mapUnreifiedRelationshipInstanceTuples
+  (r: OMLTablesResolver)
+  : Try[OMLTablesResolver]
+  = {
+    val info = r.queue.unreifiedRelationshipInstanceTuples.map { turi =>
+      val dboxUUID = UUID.fromString(turi.descriptionBoxUUID)
+      val urUUID = UUID.fromString(turi.unreifiedRelationshipUUID)
+      val dUUID = UUID.fromString(turi.domainUUID)
+      val rUUID = UUID.fromString(turi.rangeUUID)
+      val dboxM = r.lookupDescriptionBox(dboxUUID)
+      val urM = r.lookupTerminologyBoxStatement(urUUID) match {
+        case Some(ur: api.UnreifiedRelationship) => Some(ur)
+        case _ => None
+      }
+      val dM = r.lookupConceptualEntitySingletonInstance(dUUID)
+      val rM = r.lookupConceptualEntitySingletonInstance(rUUID)
+      (dboxM, urM, dM, rM, turi)
+    }
+
+    val unresolvable = info.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty || tuple._3.isEmpty || tuple._4.isEmpty).map(_._5)
+    val resolvable = info.flatMap {
+      case (Some(dboxM), Some(urM), Some(dM), Some(rM), turi) => Some((dboxM, urM, dM, rM, turi))
+      case _ => None
+    }
+
+    val r1 = r.copy(queue = r.queue.copy(unreifiedRelationshipInstanceTuples = unresolvable))
+
+    val s = resolvable.foldLeft[Try[OMLTablesResolver]](Success(r1)) {
+      case (Success(ri), (dboxM, urM, dM, rM, turi)) =>
+        val (ej, ruri) = ri.factory.createUnreifiedRelationshipInstanceTuple(
+          ri.context,
+          dboxM,
+          urM,
+          dM,
+          rM)
+
+        if (!ej.lookupUnreifiedRelationshipInstanceTuples(dboxM).contains(ruri))
+          Failure(new IllegalArgumentException(s"UnreifiedRelationshipInstanceTuple not in extent: $ruri"))
+        else if (!ej.lookupUnreifiedRelationshipInstanceTuple(UUID.fromString(turi.uuid)).contains(ruri))
+          Failure(new IllegalArgumentException(s"UnreifiedRelationshipInstanceTuple: $ruri vs. $turi"))
+        else
+          Success(ri.copy(context = ej))
+      case (Failure(t), _) =>
+        Failure(t)
+    }
+
+    s
+  }
+
+  def mapSingletonInstanceScalarDataPropertyValues
+  (r: OMLTablesResolver)
+  : Try[OMLTablesResolver]
+  = {
+    val info = r.queue.singletonInstanceScalarDataPropertyValues.map { tvi =>
+      val dboxUUID = UUID.fromString(tvi.descriptionBoxUUID)
+      val ciUUID = UUID.fromString(tvi.singletonInstanceUUID)
+      val dpUUID = UUID.fromString(tvi.scalarDataPropertyUUID)
+      val vtUUID = tvi.valueTypeUUID.map(UUID.fromString)
+      val dboxM = r.lookupDescriptionBox(dboxUUID)
+      val ciM = r.lookupConceptualEntitySingletonInstance(ciUUID)
+      val dpM = r.lookupTerminologyBoxStatement(dpUUID) match {
+        case Some(dp: api.EntityScalarDataProperty) => Some(dp)
+        case _ => None
+      }
+      val vtM = vtUUID.flatMap { id => r.lookupTerminologyBoxStatement(id) match {
+        case Some(vt: api.DataRange) => Some(vt)
+        case _ => None
+      }}
+      (dboxM, ciM, dpM, vtUUID, vtM, tvi)
+    }
+
+    val unresolvable = info.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty || tuple._3.isEmpty || (tuple._4.nonEmpty && tuple._5.isEmpty)).map(_._6)
+    val resolvable = info.flatMap {
+      case (Some(dboxM), Some(ciM), Some(dpM), _, vtM, tvi) => Some((dboxM, ciM, dpM, vtM, tvi))
+      case _ => None
+    }
+
+    val r1 = r.copy(queue = r.queue.copy(singletonInstanceScalarDataPropertyValues = unresolvable))
+
+    val s = resolvable.foldLeft[Try[OMLTablesResolver]](Success(r1)) {
+      case (Success(ri), (dboxM, ciM, dpM, vtM, tvi)) =>
+        val (ej, rvi) = ri.factory.createSingletonInstanceScalarDataPropertyValue(
+          ri.context,
+          dboxM,
+          ciM,
+          dpM,
+          tvi.scalarPropertyValue,
+          vtM)
+
+        if (!ej.lookupSingletonScalarDataPropertyValues(dboxM).contains(rvi))
+          Failure(new IllegalArgumentException(s"SingletonInstanceScalarDataPropertyValue not in extent: $rvi"))
+        else if (!ej.lookupSingletonInstanceScalarDataPropertyValue(UUID.fromString(tvi.uuid)).contains(rvi))
+          Failure(new IllegalArgumentException(s"SingletonInstanceScalarDataPropertyValue: $rvi vs. $tvi"))
+        else
+          Success(ri.copy(context = ej))
+      case (Failure(t), _) =>
+        Failure(t)
+    }
+
+    s
+  }
+
+  def mapSingletonInstanceStructuredDataPropertyValues
+  (r: OMLTablesResolver)
+  : Try[OMLTablesResolver]
+  = {
+    val info = r.queue.singletonInstanceStructuredDataPropertyValues.map { tvi =>
+      val dboxUUID = UUID.fromString(tvi.descriptionBoxUUID)
+      val ciUUID = UUID.fromString(tvi.singletonInstanceUUID)
+      val dpUUID = UUID.fromString(tvi.structuredDataPropertyUUID)
+      val dboxM = r.lookupDescriptionBox(dboxUUID)
+      val ciM = r.lookupConceptualEntitySingletonInstance(ciUUID)
+      val dpM = r.lookupTerminologyBoxStatement(dpUUID) match {
+        case Some(dp: api.EntityStructuredDataProperty) => Some(dp)
+        case _ => None
+      }
+      (dboxM, ciM, dpM, tvi)
+    }
+
+    val unresolvable = info.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty || tuple._3.isEmpty).map(_._4)
+    val resolvable = info.flatMap {
+      case (Some(dboxM), Some(ciM), Some(dpM), tvi) => Some((dboxM, ciM, dpM, tvi))
+      case _ => None
+    }
+
+    val r1 = r.copy(queue = r.queue.copy(singletonInstanceStructuredDataPropertyValues = unresolvable))
+
+    val s = resolvable.foldLeft[Try[OMLTablesResolver]](Success(r1)) {
+      case (Success(ri), (dboxM, ciM, dpM, tvi)) =>
+        val (ej, rvi) = ri.factory.createSingletonInstanceStructuredDataPropertyValue(
+          ri.context,
+          dboxM,
+          ciM,
+          dpM)
+
+        if (!ej.lookupSingletonStructuredDataPropertyValues(dboxM).contains(rvi))
+          Failure(new IllegalArgumentException(s"SingletonInstanceStructuredDataPropertyValue not in extent: $rvi"))
+        else if (!ej.lookupSingletonInstanceStructuredDataPropertyValue(UUID.fromString(tvi.uuid)).contains(rvi))
+          Failure(new IllegalArgumentException(s"SingletonInstanceStructuredDataPropertyValue: $rvi vs. $tvi"))
+        else
+          mapSingletonInstanceStructuredDataPropertyContext(ri.copy(context = ej), Seq(tvi.uuid -> rvi))
+      case (Failure(t), _) =>
+        Failure(t)
+    }
+
+    s
+  }
+
+  @tailrec
+  def mapSingletonInstanceStructuredDataPropertyContext
+  (r: OMLTablesResolver, queue: Seq[(tables.UUID, api.SingletonInstanceStructuredDataPropertyContext)])
+  : Try[OMLTablesResolver]
+  = if (queue.isEmpty)
+    Success(r)
+  else {
+    val (contextUUID, rcontext) = queue.head
+
+    val scr = r
+      .queue
+      .scalarDataPropertyValues
+      .partition(_.structuredDataPropertyContextUUID == contextUUID)
+
+    val str = r
+      .queue
+      .structuredDataPropertyTuples
+      .partition(_.structuredDataPropertyContextUUID == contextUUID)
+
+    val r0 = r.copy(queue = r.queue.copy(
+      scalarDataPropertyValues = scr._2,
+      structuredDataPropertyTuples = str._2))
+
+    val values =
+      scr._1.map { tvi =>
+      val dpUUID = UUID.fromString(tvi.scalarDataPropertyUUID)
+      val vtUUID = tvi.valueTypeUUID.map(UUID.fromString)
+      val dpM = r.lookupTerminologyBoxStatement(dpUUID) match {
+        case Some(dp: api.DataRelationshipToScalar) => Some(dp)
+        case _ => None
+      }
+      val vtM = vtUUID.flatMap { id => r.lookupTerminologyBoxStatement(id) match {
+        case Some(vt: api.DataRange) => Some(vt)
+        case _ => None
+      }}
+      (dpM, vtUUID, vtM, tvi)
+    }
+
+    val vUnresolvable = values.filter(tuple => tuple._1.isEmpty || (tuple._2.nonEmpty && tuple._3.isEmpty)).map(_._4)
+    val vResolvable = values.flatMap {
+      case (Some(dpM), _, vtM, tvi) => Some((dpM, vtM, tvi))
+      case _ => None
+    }
+
+    val r1 = r0.copy(queue = r0.queue.copy(scalarDataPropertyValues =
+      r0.queue.scalarDataPropertyValues ++ vUnresolvable))
+
+    val tr2 = vResolvable.foldLeft[Try[OMLTablesResolver]](Success(r1)) {
+      case (Success(ri), (dpM, vtM, tvi)) =>
+        val (ej, rvi) = ri.factory.createScalarDataPropertyValue(
+          ri.context,
+          dpM,
+          tvi.scalarPropertyValue,
+          rcontext,
+          vtM)
+
+        if (!ej.lookupScalarDataPropertyValues(rcontext).contains(rvi))
+          Failure(new IllegalArgumentException(s"ScalarDataPropertyValue not in extent: $rvi"))
+        else if (!ej.lookupScalarDataPropertyValue(UUID.fromString(tvi.uuid)).contains(rvi))
+          Failure(new IllegalArgumentException(s"ScalarDataPropertyValue: $rvi vs. $tvi"))
+        else
+          Success(ri.copy(context = ej))
+      case (Failure(t), _) =>
+        Failure(t)
+    }
+
+    tr2 match {
+      case Success(r2) =>
+
+        val tuples =
+          str._1.map { tvi =>
+            val dpUUID = UUID.fromString(tvi.structuredDataPropertyUUID)
+            val dpM = r.lookupTerminologyBoxStatement(dpUUID) match {
+              case Some(dp: api.DataRelationshipToStructure) => Some(dp)
+              case _ => None
+            }
+            (dpM, tvi)
+          }
+
+        val tUnresolvable = tuples.filter(tuple => tuple._1.isEmpty).map(_._2)
+        val tResolvable = tuples.flatMap {
+          case (Some(dpM), tvi) => Some((dpM, tvi))
+          case _ => None
+        }
+
+        val r3 = r2.copy(queue = r2.queue.copy(structuredDataPropertyTuples =
+          r2.queue.structuredDataPropertyTuples ++ tUnresolvable))
+
+        val tr4 = tResolvable
+          .foldLeft[Try[(OMLTablesResolver, Seq[(tables.UUID, api.SingletonInstanceStructuredDataPropertyContext)])]] {
+          Success(r3 -> Seq.empty[(tables.UUID, api.SingletonInstanceStructuredDataPropertyContext)])
+        } {
+          case (Success((ri, acc)), (dpM, tvi)) =>
+            val (ej, rvi) = ri.factory.createStructuredDataPropertyTuple(
+              ri.context,
+              dpM,
+              rcontext)
+
+            if (!ej.lookupStructuredPropertyTuples(rcontext).contains(rvi))
+              Failure(new IllegalArgumentException(s"StructuredDataPropertyTuple not in extent: $rvi"))
+            else if (!ej.lookupStructuredDataPropertyTuple(UUID.fromString(tvi.uuid)).contains(rvi))
+              Failure(new IllegalArgumentException(s"StructuredDataPropertyTuple: $rvi vs. $tvi"))
+            else
+              Success(ri.copy(context = ej) -> (acc :+ (tvi.uuid -> rvi)))
+          case (Failure(t), _) =>
+            Failure(t)
+        }
+
+        tr4 match {
+          case Success((r4, more)) =>
+            mapSingletonInstanceStructuredDataPropertyContext(r4, more ++ queue.tail)
+          case Failure(t) =>
+            Failure(t)
+        }
+
+      case Failure(t) =>
+        Failure(t)
+    }
   }
 
   def mapAnnotations
