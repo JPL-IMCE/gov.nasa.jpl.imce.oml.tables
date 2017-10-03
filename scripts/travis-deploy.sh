@@ -23,7 +23,7 @@ git config --global user.name "Travis CI"
 
 export CI=true
 
-sbt -batch -jvm-opts travis/jvmopts.compile -Dproject.version=$TRAVIS_TAG compile test publishSigned fullOptJS tablesJS/ghpagesPushSite
+sbt -jvm-opts travis/jvmopts.compile -Dproject.version=$TRAVIS_TAG compile test publishSigned fullOptJS tablesJS/ghpagesPushSite < /dev/null
 npm publish
 
 

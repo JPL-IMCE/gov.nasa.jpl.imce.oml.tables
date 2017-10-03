@@ -13,4 +13,4 @@ t=$(git name-rev --tags --name-only $(git rev-parse HEAD))
 
 export CI=true
 
-sbt -batch -jvm-opts travis/jvmopts.compile compile test
+sbt -jvm-opts travis/jvmopts.compile compile test < /dev/null
