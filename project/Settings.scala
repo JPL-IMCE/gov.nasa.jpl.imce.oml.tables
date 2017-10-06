@@ -33,9 +33,9 @@ object Settings {
   )
 
   object versions {
-    val scala = "2.11.8"
-    val scalaJ8CompatVersion = "0.8.0-RC8"
-    val scalaGraphLibraries = "3.5.2"
+    val scala = "2.11.11"
+    val scalaJ8CompatVersion = "0.8.0"
+    val scalaGraphLibraries = "3.6.0"
   }
 
   /**
@@ -44,7 +44,7 @@ object Settings {
     */
   val sharedDependencies = Def.setting(Seq(
     "org.apache.commons" % "commons-compress" % "1.4.1",
-    "org.scalacheck" %%% "scalacheck" % "1.13.2" % "test",
+    "org.scalacheck" %%% "scalacheck" % "1.13.5" % "test",
     "com.lihaoyi" %%% "upickle" % "0.4.3"
   ))
 
