@@ -59,6 +59,8 @@ case class EntityUniversalRestrictionAxiom
       restrictedDomainUUID,
       restrictedRangeUUID)
 
+val vertexId: scala.Long = uuid.hashCode.toLong
+
   override val hashCode
   : scala.Int 
   = (uuid, tboxUUID, restrictedRelationUUID, restrictedDomainUUID, restrictedRangeUUID).##

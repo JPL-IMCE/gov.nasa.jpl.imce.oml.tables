@@ -54,6 +54,8 @@ case class SingletonInstanceStructuredDataPropertyValue
       singletonInstanceUUID,
       structuredDataPropertyUUID)
 
+val vertexId: scala.Long = uuid.hashCode.toLong
+
   override val hashCode
   : scala.Int 
   = (uuid, descriptionBoxUUID, singletonInstanceUUID, structuredDataPropertyUUID).##

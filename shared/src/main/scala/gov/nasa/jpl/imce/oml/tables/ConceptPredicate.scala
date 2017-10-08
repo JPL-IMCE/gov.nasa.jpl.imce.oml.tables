@@ -49,6 +49,8 @@ case class ConceptPredicate
       bodySegmentUUID,
       conceptUUID)
 
+val vertexId: scala.Long = uuid.hashCode.toLong
+
   override val hashCode
   : scala.Int 
   = (uuid, bodySegmentUUID, conceptUUID).##

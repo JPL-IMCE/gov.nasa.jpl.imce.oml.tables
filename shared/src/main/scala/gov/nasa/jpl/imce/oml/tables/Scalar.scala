@@ -48,6 +48,8 @@ case class Scalar
       tboxUUID,
       name)
 
+val vertexId: scala.Long = uuid.hashCode.toLong
+
   override val hashCode
   : scala.Int 
   = (uuid, tboxUUID, name).##

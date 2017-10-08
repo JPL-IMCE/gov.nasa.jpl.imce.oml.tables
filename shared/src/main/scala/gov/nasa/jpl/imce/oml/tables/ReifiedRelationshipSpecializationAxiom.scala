@@ -54,6 +54,8 @@ case class ReifiedRelationshipSpecializationAxiom
       superRelationshipUUID,
       subRelationshipUUID)
 
+val vertexId: scala.Long = uuid.hashCode.toLong
+
   override val hashCode
   : scala.Int 
   = (uuid, tboxUUID, superRelationshipUUID, subRelationshipUUID).##

@@ -48,6 +48,8 @@ case class AnonymousConceptUnionAxiom
       disjointTaxonomyParentUUID,
       name)
 
+val vertexId: scala.Long = uuid.hashCode.toLong
+
   override val hashCode
   : scala.Int 
   = (uuid, disjointTaxonomyParentUUID, name).##

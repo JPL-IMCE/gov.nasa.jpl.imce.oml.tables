@@ -54,6 +54,8 @@ case class ConceptDesignationTerminologyAxiom
       designatedConceptUUID,
       designatedTerminologyIRI)
 
+val vertexId: scala.Long = uuid.hashCode.toLong
+
   override val hashCode
   : scala.Int 
   = (uuid, tboxUUID, designatedConceptUUID, designatedTerminologyIRI).##

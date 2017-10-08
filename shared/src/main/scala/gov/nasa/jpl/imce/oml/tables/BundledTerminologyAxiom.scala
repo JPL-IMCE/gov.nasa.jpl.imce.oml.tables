@@ -49,6 +49,8 @@ case class BundledTerminologyAxiom
       bundleUUID,
       bundledTerminologyIRI)
 
+val vertexId: scala.Long = uuid.hashCode.toLong
+
   override val hashCode
   : scala.Int 
   = (uuid, bundleUUID, bundledTerminologyIRI).##

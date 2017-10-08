@@ -53,6 +53,8 @@ case class AnnotationPropertyValue
       propertyUUID,
       value)
 
+val vertexId: scala.Long = uuid.hashCode.toLong
+
   override val hashCode
   : scala.Int 
   = (uuid, subjectUUID, propertyUUID, value).##

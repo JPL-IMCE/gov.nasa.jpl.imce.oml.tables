@@ -54,6 +54,8 @@ case class ReifiedRelationshipInstanceDomain
       reifiedRelationshipInstanceUUID,
       domainUUID)
 
+val vertexId: scala.Long = uuid.hashCode.toLong
+
   override val hashCode
   : scala.Int 
   = (uuid, descriptionBoxUUID, reifiedRelationshipInstanceUUID, domainUUID).##

@@ -90,6 +90,8 @@ case class NumericScalarRestriction
       restrictedRangeUUID,
       name)
 
+val vertexId: scala.Long = uuid.hashCode.toLong
+
   override val hashCode
   : scala.Int 
   = (uuid, tboxUUID, restrictedRangeUUID, minExclusive, minInclusive, maxExclusive, maxInclusive, name).##

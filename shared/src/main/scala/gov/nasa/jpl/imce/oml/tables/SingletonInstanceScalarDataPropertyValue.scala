@@ -77,6 +77,8 @@ case class SingletonInstanceScalarDataPropertyValue
       scalarDataPropertyUUID,
       scalarPropertyValue)
 
+val vertexId: scala.Long = uuid.hashCode.toLong
+
   override val hashCode
   : scala.Int 
   = (uuid, descriptionBoxUUID, singletonInstanceUUID, scalarDataPropertyUUID, scalarPropertyValue, valueTypeUUID).##

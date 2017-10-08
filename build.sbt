@@ -27,7 +27,7 @@ val oti_mof_schema_license =
       |License Terms
       |""".stripMargin
 
-scalaVersion in ThisBuild := "2.11.8"
+scalaVersion in ThisBuild := "2.11.11"
 
 shellPrompt in ThisBuild := { state => Project.extract(state).currentRef.project + "> " }
 

@@ -54,6 +54,8 @@ case class TerminologyNestingAxiom
       nestingContextUUID,
       nestingTerminologyIRI)
 
+val vertexId: scala.Long = uuid.hashCode.toLong
+
   override val hashCode
   : scala.Int 
   = (uuid, tboxUUID, nestingContextUUID, nestingTerminologyIRI).##

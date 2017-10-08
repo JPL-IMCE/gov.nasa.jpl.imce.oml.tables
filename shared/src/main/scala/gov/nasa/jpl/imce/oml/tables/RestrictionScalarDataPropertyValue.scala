@@ -70,6 +70,8 @@ case class RestrictionScalarDataPropertyValue
       scalarPropertyValue,
       structuredDataPropertyContextUUID)
 
+val vertexId: scala.Long = uuid.hashCode.toLong
+
   override val hashCode
   : scala.Int 
   = (uuid, scalarDataPropertyUUID, scalarPropertyValue, structuredDataPropertyContextUUID, valueTypeUUID).##

@@ -59,6 +59,8 @@ case class UnreifiedRelationshipInstanceTuple
       domainUUID,
       rangeUUID)
 
+val vertexId: scala.Long = uuid.hashCode.toLong
+
   override val hashCode
   : scala.Int 
   = (uuid, descriptionBoxUUID, unreifiedRelationshipUUID, domainUUID, rangeUUID).##

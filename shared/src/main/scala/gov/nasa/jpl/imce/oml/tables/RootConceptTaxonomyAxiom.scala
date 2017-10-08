@@ -49,6 +49,8 @@ case class RootConceptTaxonomyAxiom
       bundleUUID,
       rootUUID)
 
+val vertexId: scala.Long = uuid.hashCode.toLong
+
   override val hashCode
   : scala.Int 
   = (uuid, bundleUUID, rootUUID).##

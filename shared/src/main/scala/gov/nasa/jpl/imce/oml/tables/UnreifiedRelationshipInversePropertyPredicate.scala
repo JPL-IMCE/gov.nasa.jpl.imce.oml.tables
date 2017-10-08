@@ -49,6 +49,8 @@ case class UnreifiedRelationshipInversePropertyPredicate
       unreifiedRelationshipUUID,
       bodySegmentUUID)
 
+val vertexId: scala.Long = uuid.hashCode.toLong
+
   override val hashCode
   : scala.Int 
   = (uuid, unreifiedRelationshipUUID, bodySegmentUUID).##

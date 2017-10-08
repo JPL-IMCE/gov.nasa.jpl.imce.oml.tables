@@ -51,6 +51,8 @@ case class RuleBodySegment
   = copy(ruleUUID=Some(l))
   
 
+val vertexId: scala.Long = uuid.hashCode.toLong
+
   override val hashCode
   : scala.Int 
   = (uuid, previousSegmentUUID, ruleUUID).##

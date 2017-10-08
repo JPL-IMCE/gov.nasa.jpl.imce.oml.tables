@@ -49,6 +49,8 @@ case class TerminologyExtensionAxiom
       tboxUUID,
       extendedTerminologyIRI)
 
+val vertexId: scala.Long = uuid.hashCode.toLong
+
   override val hashCode
   : scala.Int 
   = (uuid, tboxUUID, extendedTerminologyIRI).##

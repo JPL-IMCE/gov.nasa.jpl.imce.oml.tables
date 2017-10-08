@@ -47,6 +47,8 @@ case class AnnotationProperty
       iri,
       abbrevIRI)
 
+val vertexId: scala.Long = uuid.hashCode.toLong
+
   override val hashCode
   : scala.Int 
   = (uuid, iri, abbrevIRI).##

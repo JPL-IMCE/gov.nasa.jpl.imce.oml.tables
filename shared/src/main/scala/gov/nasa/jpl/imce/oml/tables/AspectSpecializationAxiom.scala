@@ -54,6 +54,8 @@ case class AspectSpecializationAxiom
       superAspectUUID,
       subEntityUUID)
 
+val vertexId: scala.Long = uuid.hashCode.toLong
+
   override val hashCode
   : scala.Int 
   = (uuid, tboxUUID, superAspectUUID, subEntityUUID).##

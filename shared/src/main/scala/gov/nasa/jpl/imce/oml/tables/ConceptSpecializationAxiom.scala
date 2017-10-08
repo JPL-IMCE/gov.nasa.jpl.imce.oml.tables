@@ -54,6 +54,8 @@ case class ConceptSpecializationAxiom
       superConceptUUID,
       subConceptUUID)
 
+val vertexId: scala.Long = uuid.hashCode.toLong
+
   override val hashCode
   : scala.Int 
   = (uuid, tboxUUID, superConceptUUID, subConceptUUID).##

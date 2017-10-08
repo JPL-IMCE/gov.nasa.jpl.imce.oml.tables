@@ -52,6 +52,8 @@ case class ConceptInstance
       singletonConceptClassifierUUID,
       name)
 
+val vertexId: scala.Long = uuid.hashCode.toLong
+
   override val hashCode
   : scala.Int 
   = (uuid, descriptionBoxUUID, singletonConceptClassifierUUID, name).##

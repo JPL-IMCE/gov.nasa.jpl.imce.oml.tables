@@ -54,6 +54,8 @@ case class EntityStructuredDataPropertyParticularRestrictionAxiom
       structuredDataPropertyUUID,
       restrictedEntityUUID)
 
+val vertexId: scala.Long = uuid.hashCode.toLong
+
   override val hashCode
   : scala.Int 
   = (uuid, tboxUUID, structuredDataPropertyUUID, restrictedEntityUUID).##

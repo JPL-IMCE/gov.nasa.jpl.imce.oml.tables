@@ -49,6 +49,8 @@ case class DescriptionBoxExtendsClosedWorldDefinitions
       descriptionBoxUUID,
       closedWorldDefinitionsIRI)
 
+val vertexId: scala.Long = uuid.hashCode.toLong
+
   override val hashCode
   : scala.Int 
   = (uuid, descriptionBoxUUID, closedWorldDefinitionsIRI).##

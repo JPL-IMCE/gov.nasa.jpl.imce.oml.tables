@@ -34,6 +34,8 @@ trait Element
 
   def moduleContext
   ()(implicit extent: Extent): scala.Option[Module]
-
-def canEqual(that: scala.Any): scala.Boolean
+  
+  val vertexId: scala.Long = uuid.toString.hashCode.toLong
+  
+  def canEqual(that: scala.Any): scala.Boolean
 }

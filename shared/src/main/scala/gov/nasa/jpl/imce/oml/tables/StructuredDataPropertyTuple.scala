@@ -49,6 +49,8 @@ case class StructuredDataPropertyTuple
       structuredDataPropertyUUID,
       structuredDataPropertyContextUUID)
 
+val vertexId: scala.Long = uuid.hashCode.toLong
+
   override val hashCode
   : scala.Int 
   = (uuid, structuredDataPropertyUUID, structuredDataPropertyContextUUID).##

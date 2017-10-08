@@ -77,6 +77,8 @@ case class EntityScalarDataPropertyParticularRestrictionAxiom
       scalarPropertyUUID,
       literalValue)
 
+val vertexId: scala.Long = uuid.hashCode.toLong
+
   override val hashCode
   : scala.Int 
   = (uuid, tboxUUID, restrictedEntityUUID, scalarPropertyUUID, literalValue, valueTypeUUID).##
