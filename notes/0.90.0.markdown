@@ -9,3 +9,5 @@ gov.nasa.jpl.imce.oml.tables 0.90.0 resolves major issues in 0.80.0
 - [#21 Update OMLTablesResolver & Extent2Tables for OML Chains & Typed LiteralValues](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/21)
 
 - [#22 Spark/GraphX vertexId](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/22)
+
+- [#23 ChainRule conversion to Resolver API fails to clean up the queue.](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/23)

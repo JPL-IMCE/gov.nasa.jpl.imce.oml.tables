@@ -1298,7 +1298,8 @@ object OMLTablesResolver {
 
   @tailrec
   def mapRuleSegments
-  (ri: OMLTablesResolver, trule: tables.ChainRule,
+  (ri: OMLTablesResolver,
+   trule: tables.ChainRule,
    tseg: tables.RuleBodySegment,
    prev: Option[api.RuleBodySegment],
    rrule: api.ChainRule)
@@ -1307,13 +1308,19 @@ object OMLTablesResolver {
     val puuid = tseg.uuid
     val tnext = ri.queue.ruleBodySegments.find(_.previousSegmentUUID.contains(puuid))
     val (ej, rseg) = ri.factory.createRuleBodySegment(ri.context, prev, if (prev.isEmpty) Some(rrule) else None)
-    val rj = ri.copy(context = ej)
+    val rj = ri.copy(
+      context = ej,
+      queue = ri.queue.copy(ruleBodySegments =
+        ri.queue.ruleBodySegments.filter(_ != tseg)))
     ri.queue.aspectPredicates.find(_.bodySegmentUUID == puuid) match {
       case Some(tap: tables.AspectPredicate) =>
         ej.lookupTerminologyBoxStatement(UUID.fromString(tap.aspectUUID)) match {
           case Some(ra: api.Aspect) =>
             val (ek, _) = rj.factory.createAspectPredicate(rj.context, ra, rseg)
-            val rk = rj.copy(context = ek)
+            val rk = rj.copy(
+              context = ek,
+              queue = rj.queue.copy(aspectPredicates =
+                rj.queue.aspectPredicates.filter(_ != tap)))
             tnext match {
               case Some(tn) =>
                 mapRuleSegments(rk, trule, tn, Some(rseg), rrule)
@@ -1329,7 +1336,10 @@ object OMLTablesResolver {
             ej.lookupTerminologyBoxStatement(UUID.fromString(tcp.conceptUUID)) match {
               case Some(rc: api.Concept) =>
                 val (ek, _) = rj.factory.createConceptPredicate(rj.context, rseg, rc)
-                val rk = rj.copy(context = ek)
+                val rk = rj.copy(
+                  context = ek,
+                  queue = rj.queue.copy(conceptPredicates =
+                    rj.queue.conceptPredicates.filter(_ != tcp)))
                 tnext match {
                   case Some(tn) =>
                     mapRuleSegments(rk, trule, tn, Some(rseg), rrule)
@@ -1345,7 +1355,10 @@ object OMLTablesResolver {
                 ej.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
                   case Some(rrr: api.ReifiedRelationship) =>
                     val (ek, _) = rj.factory.createReifiedRelationshipPredicate(rj.context, rseg, rrr)
-                    val rk = rj.copy(context = ek)
+                    val rk = rj.copy(
+                      context = ek,
+                      queue = rj.queue.copy(reifiedRelationshipPredicates =
+                        rj.queue.reifiedRelationshipPredicates.filter(_ != trrp)))
                     tnext match {
                       case Some(tn) =>
                         mapRuleSegments(rk, trule, tn, Some(rseg), rrule)
@@ -1361,7 +1374,10 @@ object OMLTablesResolver {
                     ej.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
                       case Some(rrr: api.ReifiedRelationship) =>
                         val (ek, _) = rj.factory.createReifiedRelationshipPropertyPredicate(rj.context, rseg, rrr)
-                        val rk = rj.copy(context = ek)
+                        val rk = rj.copy(
+                          context = ek,
+                          queue = rj.queue.copy(reifiedRelationshipPropertyPredicates =
+                            rj.queue.reifiedRelationshipPropertyPredicates.filter(_ != trrp)))
                         tnext match {
                           case Some(tn) =>
                             mapRuleSegments(rk, trule, tn, Some(rseg), rrule)
@@ -1377,7 +1393,10 @@ object OMLTablesResolver {
                         ej.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
                           case Some(rrr: api.ReifiedRelationship) =>
                             val (ek, _) = rj.factory.createReifiedRelationshipSourcePropertyPredicate(rj.context, rseg, rrr)
-                            val rk = rj.copy(context = ek)
+                            val rk = rj.copy(
+                              context = ek,
+                              queue = rj.queue.copy(reifiedRelationshipSourcePropertyPredicates =
+                                rj.queue.reifiedRelationshipSourcePropertyPredicates.filter(_ != trrp)))
                             tnext match {
                               case Some(tn) =>
                                 mapRuleSegments(rk, trule, tn, Some(rseg), rrule)
@@ -1393,7 +1412,10 @@ object OMLTablesResolver {
                             ej.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
                               case Some(rrr: api.ReifiedRelationship) =>
                                 val (ek, _) = rj.factory.createReifiedRelationshipTargetPropertyPredicate(rj.context, rseg, rrr)
-                                val rk = rj.copy(context = ek)
+                                val rk = rj.copy(
+                                  context = ek,
+                                  queue = rj.queue.copy(reifiedRelationshipTargetPropertyPredicates =
+                                    rj.queue.reifiedRelationshipTargetPropertyPredicates.filter(_ != trrp)))
                                 tnext match {
                                   case Some(tn) =>
                                     mapRuleSegments(rk, trule, tn, Some(rseg), rrule)
@@ -1409,7 +1431,10 @@ object OMLTablesResolver {
                                 ej.lookupTerminologyBoxStatement(UUID.fromString(turp.unreifiedRelationshipUUID)) match {
                                   case Some(rur: api.UnreifiedRelationship) =>
                                     val (ek, _) = rj.factory.createUnreifiedRelationshipPropertyPredicate(rj.context, rur, rseg)
-                                    val rk = rj.copy(context = ek)
+                                    val rk = rj.copy(
+                                      context = ek,
+                                      queue = rj.queue.copy(unreifiedRelationshipPropertyPredicates =
+                                        rj.queue.unreifiedRelationshipPropertyPredicates.filter(_ != turp)))
                                     tnext match {
                                       case Some(tn) =>
                                         mapRuleSegments(rk, trule, tn, Some(rseg), rrule)
@@ -1425,7 +1450,10 @@ object OMLTablesResolver {
                                     ej.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
                                       case Some(rrr: api.ReifiedRelationship) =>
                                         val (ek, _) = rj.factory.createReifiedRelationshipInversePropertyPredicate(rj.context, rseg, rrr)
-                                        val rk = rj.copy(context = ek)
+                                        val rk = rj.copy(
+                                          context = ek,
+                                          queue = rj.queue.copy(reifiedRelationshipInversePropertyPredicates =
+                                            rj.queue.reifiedRelationshipInversePropertyPredicates.filter(_ != trrp)))
                                         tnext match {
                                           case Some(tn) =>
                                             mapRuleSegments(rk, trule, tn, Some(rseg), rrule)
@@ -1441,7 +1469,10 @@ object OMLTablesResolver {
                                         ej.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
                                           case Some(rrr: api.ReifiedRelationship) =>
                                             val (ek, _) = rj.factory.createReifiedRelationshipSourceInversePropertyPredicate(rj.context, rseg, rrr)
-                                            val rk = rj.copy(context = ek)
+                                            val rk = rj.copy(
+                                              context = ek,
+                                              queue = rj.queue.copy(reifiedRelationshipSourceInversePropertyPredicates =
+                                                rj.queue.reifiedRelationshipSourceInversePropertyPredicates.filter(_ != trrp)))
                                             tnext match {
                                               case Some(tn) =>
                                                 mapRuleSegments(rk, trule, tn, Some(rseg), rrule)
@@ -1457,7 +1488,10 @@ object OMLTablesResolver {
                                             ej.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
                                               case Some(rrr: api.ReifiedRelationship) =>
                                                 val (ek, _) = rj.factory.createReifiedRelationshipTargetInversePropertyPredicate(rj.context, rseg, rrr)
-                                                val rk = rj.copy(context = ek)
+                                                val rk = rj.copy(
+                                                  context = ek,
+                                                  queue = rj.queue.copy(reifiedRelationshipTargetInversePropertyPredicates =
+                                                    rj.queue.reifiedRelationshipTargetInversePropertyPredicates.filter(_ != trrp)))
                                                 tnext match {
                                                   case Some(tn) =>
                                                     mapRuleSegments(rk, trule, tn, Some(rseg), rrule)
@@ -1473,7 +1507,10 @@ object OMLTablesResolver {
                                                 ej.lookupTerminologyBoxStatement(UUID.fromString(turp.unreifiedRelationshipUUID)) match {
                                                   case Some(rur: api.UnreifiedRelationship) =>
                                                     val (ek, _) = rj.factory.createUnreifiedRelationshipInversePropertyPredicate(rj.context, rur, rseg)
-                                                    val rk = rj.copy(context = ek)
+                                                    val rk = rj.copy(
+                                                      context = ek,
+                                                      queue = rj.queue.copy(unreifiedRelationshipInversePropertyPredicates =
+                                                        rj.queue.unreifiedRelationshipInversePropertyPredicates.filter(_ != turp)))
                                                     tnext match {
                                                       case Some(tn) =>
                                                         mapRuleSegments(rk, trule, tn, Some(rseg), rrule)
