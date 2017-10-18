@@ -1307,7 +1307,12 @@ object OMLTablesResolver {
   = {
     val puuid = tseg.uuid
     val tnext = ri.queue.ruleBodySegments.find(_.previousSegmentUUID.contains(puuid))
-    val (ej, rseg) = ri.factory.createRuleBodySegment(ri.context, prev, if (prev.isEmpty) Some(rrule) else None)
+    val (eij, rseg) = ri.factory.createRuleBodySegment(ri.context, prev, if (prev.isEmpty) Some(rrule) else None)
+    val ej = prev.fold {
+      eij.copy(firstSegment = eij.withRuleBodySegment(rrule, rseg))
+    } { prevSegment =>
+      eij.copy(nextSegment = eij.withRuleBodySegment(prevSegment, rseg))
+    }
     val rj = ri.copy(
       context = ej,
       queue = ri.queue.copy(ruleBodySegments =
