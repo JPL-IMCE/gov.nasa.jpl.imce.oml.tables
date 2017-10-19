@@ -1179,8 +1179,11 @@ trait OMLResolvedFactory {
     			}{ r => 
     			  r.uuid.toString },
     		"position" -> 
-    			position().toString 
-    	`   )
+    			previousSegment.fold[scala.Predef.String] { 
+    			  "1" 
+    			}{ prev => 
+    			  (1 + prev.position()).toString 
+    			})
     createRuleBodySegment( extent, uuid, previousSegment, rule )
   }
   
