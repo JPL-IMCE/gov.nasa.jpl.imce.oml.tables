@@ -13,3 +13,5 @@ gov.nasa.jpl.imce.oml.tables 0.90.0 resolves major issues in 0.80.0
 - [#23 ChainRule conversion to Resolver API fails to clean up the queue.](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/23)
 
 - [#24 Only the first segment of a chain rule is resolved](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/24)
+
+- [#25 Extent2Tables drops the conversion of the RuleBodySegment predicates](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/25)
