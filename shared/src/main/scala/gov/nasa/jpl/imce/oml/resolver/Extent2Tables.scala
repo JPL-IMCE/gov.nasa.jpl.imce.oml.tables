@@ -223,7 +223,10 @@ object Extent2Tables {
         e.predicate.get(s) match {
           case Some(p: api.AspectPredicate) =>
             convertAspectPredicates(e.nextSegment.get(s),
-              acc :+ tables.AspectPredicate(p.uuid.toString, p.aspect.uuid.toString, s.uuid.toString))
+              acc :+ tables.AspectPredicate(
+                uuid=p.uuid.toString,
+                aspectUUID=p.aspect.uuid.toString,
+                bodySegmentUUID=s.uuid.toString))
           case _ =>
             convertAspectPredicates(e.nextSegment.get(s), acc)
         }
@@ -255,7 +258,10 @@ object Extent2Tables {
         e.predicate.get(s) match {
           case Some(p: api.ConceptPredicate) =>
             convertConceptPredicates(e.nextSegment.get(s),
-              acc :+ tables.ConceptPredicate(p.uuid.toString, p.concept.uuid.toString, s.uuid.toString))
+              acc :+ tables.ConceptPredicate(
+                uuid=p.uuid.toString,
+                bodySegmentUUID=s.uuid.toString,
+                conceptUUID=p.concept.uuid.toString))
           case _ =>
             convertConceptPredicates(e.nextSegment.get(s), acc)
         }
@@ -287,7 +293,10 @@ object Extent2Tables {
         e.predicate.get(s) match {
           case Some(p: api.ReifiedRelationshipPredicate) =>
             convertReifiedRelationshipPredicates(e.nextSegment.get(s),
-              acc :+ tables.ReifiedRelationshipPredicate(p.uuid.toString, p.reifiedRelationship.uuid.toString, s.uuid.toString))
+              acc :+ tables.ReifiedRelationshipPredicate(
+                uuid=p.uuid.toString,
+                bodySegmentUUID=s.uuid.toString,
+                reifiedRelationshipUUID=p.reifiedRelationship.uuid.toString))
           case _ =>
             convertReifiedRelationshipPredicates(e.nextSegment.get(s), acc)
         }
@@ -319,7 +328,10 @@ object Extent2Tables {
         e.predicate.get(s) match {
           case Some(p: api.ReifiedRelationshipPropertyPredicate) =>
             convertReifiedRelationshipPropertyPredicates(e.nextSegment.get(s),
-              acc :+ tables.ReifiedRelationshipPropertyPredicate(p.uuid.toString, p.reifiedRelationship.uuid.toString, s.uuid.toString))
+              acc :+ tables.ReifiedRelationshipPropertyPredicate(
+                uuid=p.uuid.toString,
+                bodySegmentUUID=s.uuid.toString,
+                reifiedRelationshipUUID=p.reifiedRelationship.uuid.toString))
           case _ =>
             convertReifiedRelationshipPropertyPredicates(e.nextSegment.get(s), acc)
         }
@@ -351,7 +363,10 @@ object Extent2Tables {
         e.predicate.get(s) match {
           case Some(p: api.ReifiedRelationshipSourcePropertyPredicate) =>
             convertReifiedRelationshipSourcePropertyPredicates(e.nextSegment.get(s),
-              acc :+ tables.ReifiedRelationshipSourcePropertyPredicate(p.uuid.toString, p.reifiedRelationship.uuid.toString, s.uuid.toString))
+              acc :+ tables.ReifiedRelationshipSourcePropertyPredicate(
+                uuid=p.uuid.toString,
+                bodySegmentUUID=s.uuid.toString,
+                reifiedRelationshipUUID=p.reifiedRelationship.uuid.toString))
           case _ =>
             convertReifiedRelationshipSourcePropertyPredicates(e.nextSegment.get(s), acc)
         }
@@ -383,7 +398,10 @@ object Extent2Tables {
         e.predicate.get(s) match {
           case Some(p: api.ReifiedRelationshipTargetPropertyPredicate) =>
             convertReifiedRelationshipTargetPropertyPredicates(e.nextSegment.get(s),
-              acc :+ tables.ReifiedRelationshipTargetPropertyPredicate(p.uuid.toString, p.reifiedRelationship.uuid.toString, s.uuid.toString))
+              acc :+ tables.ReifiedRelationshipTargetPropertyPredicate(
+                uuid=p.uuid.toString,
+                bodySegmentUUID=s.uuid.toString,
+                reifiedRelationshipUUID=p.reifiedRelationship.uuid.toString))
           case _ =>
             convertReifiedRelationshipTargetPropertyPredicates(e.nextSegment.get(s), acc)
         }
@@ -415,7 +433,10 @@ object Extent2Tables {
         e.predicate.get(s) match {
           case Some(p: api.UnreifiedRelationshipPropertyPredicate) =>
             convertUnreifiedRelationshipPropertyPredicates(e.nextSegment.get(s),
-              acc :+ tables.UnreifiedRelationshipPropertyPredicate(p.uuid.toString, p.unreifiedRelationship.uuid.toString, s.uuid.toString))
+              acc :+ tables.UnreifiedRelationshipPropertyPredicate(
+                uuid=p.uuid.toString,
+                unreifiedRelationshipUUID=p.unreifiedRelationship.uuid.toString,
+                bodySegmentUUID=s.uuid.toString))
           case _ =>
             convertUnreifiedRelationshipPropertyPredicates(e.nextSegment.get(s), acc)
         }
@@ -447,7 +468,10 @@ object Extent2Tables {
         e.predicate.get(s) match {
           case Some(p: api.ReifiedRelationshipInversePropertyPredicate) =>
             convertReifiedRelationshipInversePropertyPredicates(e.nextSegment.get(s),
-              acc :+ tables.ReifiedRelationshipInversePropertyPredicate(p.uuid.toString, p.reifiedRelationship.uuid.toString, s.uuid.toString))
+              acc :+ tables.ReifiedRelationshipInversePropertyPredicate(
+                uuid=p.uuid.toString,
+                bodySegmentUUID=s.uuid.toString,
+                reifiedRelationshipUUID=p.reifiedRelationship.uuid.toString))
           case _ =>
             convertReifiedRelationshipInversePropertyPredicates(e.nextSegment.get(s), acc)
         }
@@ -479,7 +503,10 @@ object Extent2Tables {
         e.predicate.get(s) match {
           case Some(p: api.ReifiedRelationshipSourceInversePropertyPredicate) =>
             convertReifiedRelationshipSourceInversePropertyPredicates(e.nextSegment.get(s),
-              acc :+ tables.ReifiedRelationshipSourceInversePropertyPredicate(p.uuid.toString, p.reifiedRelationship.uuid.toString, s.uuid.toString))
+              acc :+ tables.ReifiedRelationshipSourceInversePropertyPredicate(
+                uuid=p.uuid.toString,
+                bodySegmentUUID=s.uuid.toString,
+                reifiedRelationshipUUID=p.reifiedRelationship.uuid.toString))
           case _ =>
             convertReifiedRelationshipSourceInversePropertyPredicates(e.nextSegment.get(s), acc)
         }
@@ -511,7 +538,10 @@ object Extent2Tables {
         e.predicate.get(s) match {
           case Some(p: api.ReifiedRelationshipTargetInversePropertyPredicate) =>
             convertReifiedRelationshipTargetInversePropertyPredicates(e.nextSegment.get(s),
-              acc :+ tables.ReifiedRelationshipTargetInversePropertyPredicate(p.uuid.toString, p.reifiedRelationship.uuid.toString, s.uuid.toString))
+              acc :+ tables.ReifiedRelationshipTargetInversePropertyPredicate(
+                uuid=p.uuid.toString,
+                bodySegmentUUID=s.uuid.toString,
+                reifiedRelationshipUUID=p.reifiedRelationship.uuid.toString))
           case _ =>
             convertReifiedRelationshipTargetInversePropertyPredicates(e.nextSegment.get(s), acc)
         }
@@ -543,7 +573,10 @@ object Extent2Tables {
         e.predicate.get(s) match {
           case Some(p: api.UnreifiedRelationshipInversePropertyPredicate) =>
             convertUnreifiedRelationshipInversePropertyPredicates(e.nextSegment.get(s),
-              acc :+ tables.UnreifiedRelationshipInversePropertyPredicate(p.uuid.toString, p.unreifiedRelationship.uuid.toString, s.uuid.toString))
+              acc :+ tables.UnreifiedRelationshipInversePropertyPredicate(
+                uuid=p.uuid.toString,
+                unreifiedRelationshipUUID=p.unreifiedRelationship.uuid.toString,
+                bodySegmentUUID=s.uuid.toString))
           case _ =>
             convertUnreifiedRelationshipInversePropertyPredicates(e.nextSegment.get(s), acc)
         }
