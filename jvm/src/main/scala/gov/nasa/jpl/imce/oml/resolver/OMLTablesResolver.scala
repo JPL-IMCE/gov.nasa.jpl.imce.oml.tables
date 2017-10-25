@@ -2141,7 +2141,7 @@ object OMLTablesResolver {
         case _ => None
       }
       sdpM = r.lookupTerminologyBoxStatement(structuredDataPropertyUUID) match {
-        case Some(sdp: api.StructuredDataProperty) => Some(sdp)
+        case Some(sdp: api.EntityStructuredDataProperty) => Some(sdp)
         case _ => None
       }
     } yield (tboxM, entityM, sdpM, tra)
