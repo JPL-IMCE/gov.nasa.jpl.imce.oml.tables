@@ -35,3 +35,17 @@ trait ScalarDataPropertyValue
   def moduleContext
   ()(implicit extent: Extent): scala.Option[Module]
 }
+
+object ScalarDataPropertyValue {
+
+  def descriptionBox
+  (s: ScalarDataPropertyValue, ext: Extent)
+  : scala.Option[DescriptionBox]
+  = s.descriptionBox()(ext)
+
+  def moduleContext
+  (s: ScalarDataPropertyValue, ext: Extent)
+  : scala.Option[Module]
+  = s.moduleContext()(ext)
+
+}

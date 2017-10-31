@@ -34,3 +34,17 @@ trait ReifiedRelationshipInstance
   def allNestedElements
   ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
 }
+
+object ReifiedRelationshipInstance {
+
+  def descriptionBox
+  (r: ReifiedRelationshipInstance, ext: Extent)
+  : scala.Option[DescriptionBox]
+  = r.descriptionBox()(ext)
+
+  def allNestedElements
+  (r: ReifiedRelationshipInstance, ext: Extent)
+  : scala.collection.immutable.Set[_ <: Element]
+  = r.allNestedElements()(ext)
+
+}

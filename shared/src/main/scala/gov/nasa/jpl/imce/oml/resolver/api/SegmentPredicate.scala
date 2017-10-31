@@ -32,3 +32,12 @@ trait SegmentPredicate
   def moduleContext
   ()(implicit extent: Extent): scala.Option[Module]
 }
+
+object SegmentPredicate {
+
+  def moduleContext
+  (s: SegmentPredicate, ext: Extent)
+  : scala.Option[Module]
+  = s.moduleContext()(ext)
+
+}

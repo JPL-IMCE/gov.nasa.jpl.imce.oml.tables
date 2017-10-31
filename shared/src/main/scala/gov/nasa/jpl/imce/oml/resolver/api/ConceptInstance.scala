@@ -34,3 +34,17 @@ trait ConceptInstance
   def allNestedElements
   ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
 }
+
+object ConceptInstance {
+
+  def descriptionBox
+  (c: ConceptInstance, ext: Extent)
+  : scala.Option[DescriptionBox]
+  = c.descriptionBox()(ext)
+
+  def allNestedElements
+  (c: ConceptInstance, ext: Extent)
+  : scala.collection.immutable.Set[_ <: Element]
+  = c.allNestedElements()(ext)
+
+}

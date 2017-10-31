@@ -39,3 +39,22 @@ trait ReifiedRelationshipInstanceRange
   def allNestedElements
   ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
 }
+
+object ReifiedRelationshipInstanceRange {
+
+  def descriptionBox
+  (r: ReifiedRelationshipInstanceRange, ext: Extent)
+  : scala.Option[DescriptionBox]
+  = r.descriptionBox()(ext)
+
+  def moduleContext
+  (r: ReifiedRelationshipInstanceRange, ext: Extent)
+  : scala.Option[Module]
+  = r.moduleContext()(ext)
+
+  def allNestedElements
+  (r: ReifiedRelationshipInstanceRange, ext: Extent)
+  : scala.collection.immutable.Set[_ <: Element]
+  = r.allNestedElements()(ext)
+
+}

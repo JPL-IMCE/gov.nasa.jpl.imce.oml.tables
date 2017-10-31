@@ -36,7 +36,9 @@ package object tables {
 	type LocalName = String
 	type NamespacePrefix = String
 	type PositiveIntegerLiteral = String
+	type QuotedStringDataType = String
 	type RationalDataType = String
+	type RawStringDataType = String
 	type RealDataType = String
 	type StringDataType = String
 	type URIDataType = String

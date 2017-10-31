@@ -40,3 +40,27 @@ trait TerminologyAxiom
   def targetModule
   ()(implicit extent: Extent): gov.nasa.jpl.imce.oml.tables.IRI
 }
+
+object TerminologyAxiom {
+
+  def source
+  (t: TerminologyAxiom, ext: Extent)
+  : scala.Option[TerminologyBox]
+  = t.source()(ext)
+
+  def sourceModule
+  (t: TerminologyAxiom, ext: Extent)
+  : scala.Option[Module]
+  = t.sourceModule()(ext)
+
+  def target
+  (t: TerminologyAxiom, ext: Extent)
+  : gov.nasa.jpl.imce.oml.tables.IRI
+  = t.target()(ext)
+
+  def targetModule
+  (t: TerminologyAxiom, ext: Extent)
+  : gov.nasa.jpl.imce.oml.tables.IRI
+  = t.targetModule()(ext)
+
+}

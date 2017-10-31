@@ -35,3 +35,12 @@ trait ScalarOneOfLiteralAxiom
   def allNestedElements
   ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
 }
+
+object ScalarOneOfLiteralAxiom {
+
+  def allNestedElements
+  (s: ScalarOneOfLiteralAxiom, ext: Extent)
+  : scala.collection.immutable.Set[_ <: Element]
+  = s.allNestedElements()(ext)
+
+}

@@ -45,3 +45,22 @@ trait ConceptDesignationTerminologyAxiom
   override def target
   ()(implicit extent: Extent): gov.nasa.jpl.imce.oml.tables.IRI
 }
+
+object ConceptDesignationTerminologyAxiom {
+
+  def designationTerminologyGraph
+  (c: ConceptDesignationTerminologyAxiom, ext: Extent)
+  : scala.Option[TerminologyGraph]
+  = c.designationTerminologyGraph()(ext)
+
+  def source
+  (c: ConceptDesignationTerminologyAxiom, ext: Extent)
+  : scala.Option[TerminologyBox]
+  = c.source()(ext)
+
+  def target
+  (c: ConceptDesignationTerminologyAxiom, ext: Extent)
+  : gov.nasa.jpl.imce.oml.tables.IRI
+  = c.target()(ext)
+
+}

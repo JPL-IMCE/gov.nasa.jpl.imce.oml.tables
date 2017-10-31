@@ -28,3 +28,12 @@ trait ModuleElement
   def allNestedElements
   ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
 }
+
+object ModuleElement {
+
+  def allNestedElements
+  (m: ModuleElement, ext: Extent)
+  : scala.collection.immutable.Set[_ <: Element]
+  = m.allNestedElements()(ext)
+
+}

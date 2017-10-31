@@ -29,3 +29,12 @@ trait TerminologyBoxStatement
   def moduleContext
   ()(implicit extent: Extent): scala.Option[Module]
 }
+
+object TerminologyBoxStatement {
+
+  def moduleContext
+  (t: TerminologyBoxStatement, ext: Extent)
+  : scala.Option[Module]
+  = t.moduleContext()(ext)
+
+}

@@ -34,3 +34,17 @@ trait DescriptionBoxRefinement
   def targetModule
   ()(implicit extent: Extent): gov.nasa.jpl.imce.oml.tables.IRI
 }
+
+object DescriptionBoxRefinement {
+
+  def descriptionDomain
+  (d: DescriptionBoxRefinement, ext: Extent)
+  : scala.Option[DescriptionBox]
+  = d.descriptionDomain()(ext)
+
+  def targetModule
+  (d: DescriptionBoxRefinement, ext: Extent)
+  : gov.nasa.jpl.imce.oml.tables.IRI
+  = d.targetModule()(ext)
+
+}

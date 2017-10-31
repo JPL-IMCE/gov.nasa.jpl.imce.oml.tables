@@ -36,3 +36,17 @@ trait Resource
   def abbrevIRI
   ()(implicit extent: Extent): scala.Option[scala.Predef.String]
 }
+
+object Resource {
+
+  def iri
+  (r: Resource, ext: Extent)
+  : scala.Option[gov.nasa.jpl.imce.oml.tables.IRI]
+  = r.iri()(ext)
+
+  def abbrevIRI
+  (r: Resource, ext: Extent)
+  : scala.Option[scala.Predef.String]
+  = r.abbrevIRI()(ext)
+
+}

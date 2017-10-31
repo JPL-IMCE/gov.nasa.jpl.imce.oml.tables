@@ -32,3 +32,17 @@ trait EntityStructuredDataPropertyParticularRestrictionAxiom
   def allNestedElements
   ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
 }
+
+object EntityStructuredDataPropertyParticularRestrictionAxiom {
+
+  def terminologyBox
+  (e: EntityStructuredDataPropertyParticularRestrictionAxiom, ext: Extent)
+  : scala.Option[TerminologyBox]
+  = e.terminologyBox()(ext)
+
+  def allNestedElements
+  (e: EntityStructuredDataPropertyParticularRestrictionAxiom, ext: Extent)
+  : scala.collection.immutable.Set[_ <: Element]
+  = e.allNestedElements()(ext)
+
+}

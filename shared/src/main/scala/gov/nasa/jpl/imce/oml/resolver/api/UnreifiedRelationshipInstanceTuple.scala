@@ -41,3 +41,22 @@ trait UnreifiedRelationshipInstanceTuple
   def allNestedElements
   ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
 }
+
+object UnreifiedRelationshipInstanceTuple {
+
+  def descriptionBox
+  (u: UnreifiedRelationshipInstanceTuple, ext: Extent)
+  : scala.Option[DescriptionBox]
+  = u.descriptionBox()(ext)
+
+  def moduleContext
+  (u: UnreifiedRelationshipInstanceTuple, ext: Extent)
+  : scala.Option[Module]
+  = u.moduleContext()(ext)
+
+  def allNestedElements
+  (u: UnreifiedRelationshipInstanceTuple, ext: Extent)
+  : scala.collection.immutable.Set[_ <: Element]
+  = u.allNestedElements()(ext)
+
+}

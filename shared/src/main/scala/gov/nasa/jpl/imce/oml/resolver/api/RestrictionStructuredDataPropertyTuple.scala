@@ -33,3 +33,22 @@ trait RestrictionStructuredDataPropertyTuple
   def allNestedElements
   ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
 }
+
+object RestrictionStructuredDataPropertyTuple {
+
+  def terminologyBox
+  (r: RestrictionStructuredDataPropertyTuple, ext: Extent)
+  : scala.Option[TerminologyBox]
+  = r.terminologyBox()(ext)
+
+  def moduleContext
+  (r: RestrictionStructuredDataPropertyTuple, ext: Extent)
+  : scala.Option[Module]
+  = r.moduleContext()(ext)
+
+  def allNestedElements
+  (r: RestrictionStructuredDataPropertyTuple, ext: Extent)
+  : scala.collection.immutable.Set[_ <: Element]
+  = r.allNestedElements()(ext)
+
+}

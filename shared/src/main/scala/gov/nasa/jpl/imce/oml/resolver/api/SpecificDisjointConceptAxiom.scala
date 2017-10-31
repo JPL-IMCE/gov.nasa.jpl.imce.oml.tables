@@ -34,3 +34,12 @@ trait SpecificDisjointConceptAxiom
   def allNestedUnions
   ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
 }
+
+object SpecificDisjointConceptAxiom {
+
+  def allNestedUnions
+  (s: SpecificDisjointConceptAxiom, ext: Extent)
+  : scala.collection.immutable.Set[_ <: Element]
+  = s.allNestedUnions()(ext)
+
+}

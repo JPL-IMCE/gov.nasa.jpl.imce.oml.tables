@@ -35,3 +35,22 @@ trait Term
   def allNestedElements
   ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
 }
+
+object Term {
+
+  def iri
+  (t: Term, ext: Extent)
+  : scala.Option[gov.nasa.jpl.imce.oml.tables.IRI]
+  = t.iri()(ext)
+
+  def abbrevIRI
+  (t: Term, ext: Extent)
+  : scala.Option[scala.Predef.String]
+  = t.abbrevIRI()(ext)
+
+  def allNestedElements
+  (t: Term, ext: Extent)
+  : scala.collection.immutable.Set[_ <: Element]
+  = t.allNestedElements()(ext)
+
+}

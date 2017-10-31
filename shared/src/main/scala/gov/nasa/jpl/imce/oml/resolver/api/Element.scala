@@ -39,3 +39,12 @@ trait Element
   
   def canEqual(that: scala.Any): scala.Boolean
 }
+
+object Element {
+
+  def moduleContext
+  (e: Element, ext: Extent)
+  : scala.Option[Module]
+  = e.moduleContext()(ext)
+
+}

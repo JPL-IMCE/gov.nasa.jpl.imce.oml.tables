@@ -38,3 +38,22 @@ trait SingletonInstanceScalarDataPropertyValue
   def allNestedElements
   ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
 }
+
+object SingletonInstanceScalarDataPropertyValue {
+
+  def descriptionBox
+  (s: SingletonInstanceScalarDataPropertyValue, ext: Extent)
+  : scala.Option[DescriptionBox]
+  = s.descriptionBox()(ext)
+
+  def moduleContext
+  (s: SingletonInstanceScalarDataPropertyValue, ext: Extent)
+  : scala.Option[Module]
+  = s.moduleContext()(ext)
+
+  def allNestedElements
+  (s: SingletonInstanceScalarDataPropertyValue, ext: Extent)
+  : scala.collection.immutable.Set[_ <: Element]
+  = s.allNestedElements()(ext)
+
+}

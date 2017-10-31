@@ -45,3 +45,32 @@ trait Module
   def moduleElements
   ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: ModuleElement]
 }
+
+object Module {
+
+  def moduleEdges
+  (m: Module, ext: Extent)
+  : scala.collection.immutable.Set[_ <: ModuleEdge]
+  = m.moduleEdges()(ext)
+
+  def iri
+  (m: Module, ext: Extent)
+  : scala.Option[gov.nasa.jpl.imce.oml.tables.IRI]
+  = m.iri()(ext)
+
+  def abbrevIRI
+  (m: Module, ext: Extent)
+  : scala.Option[scala.Predef.String]
+  = m.abbrevIRI()(ext)
+
+  def moduleContext
+  (m: Module, ext: Extent)
+  : scala.Option[Module]
+  = m.moduleContext()(ext)
+
+  def moduleElements
+  (m: Module, ext: Extent)
+  : scala.collection.immutable.Set[_ <: ModuleElement]
+  = m.moduleElements()(ext)
+
+}

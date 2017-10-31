@@ -48,3 +48,27 @@ trait ConceptualEntitySingletonInstance
   def moduleContext
   ()(implicit extent: Extent): scala.Option[Module]
 }
+
+object ConceptualEntitySingletonInstance {
+
+  def descriptionBox
+  (c: ConceptualEntitySingletonInstance, ext: Extent)
+  : scala.Option[DescriptionBox]
+  = c.descriptionBox()(ext)
+
+  def iri
+  (c: ConceptualEntitySingletonInstance, ext: Extent)
+  : scala.Option[gov.nasa.jpl.imce.oml.tables.IRI]
+  = c.iri()(ext)
+
+  def abbrevIRI
+  (c: ConceptualEntitySingletonInstance, ext: Extent)
+  : scala.Option[scala.Predef.String]
+  = c.abbrevIRI()(ext)
+
+  def moduleContext
+  (c: ConceptualEntitySingletonInstance, ext: Extent)
+  : scala.Option[Module]
+  = c.moduleContext()(ext)
+
+}

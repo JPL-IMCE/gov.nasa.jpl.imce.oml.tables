@@ -38,3 +38,22 @@ trait AnonymousConceptUnionAxiom
   def allNestedUnions
   ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
 }
+
+object AnonymousConceptUnionAxiom {
+
+  def bundleContainer
+  (a: AnonymousConceptUnionAxiom, ext: Extent)
+  : scala.Option[Bundle]
+  = a.bundleContainer()(ext)
+
+  def allNestedDisjunctions
+  (a: AnonymousConceptUnionAxiom, ext: Extent)
+  : scala.collection.immutable.Set[_ <: Element]
+  = a.allNestedDisjunctions()(ext)
+
+  def allNestedUnions
+  (a: AnonymousConceptUnionAxiom, ext: Extent)
+  : scala.collection.immutable.Set[_ <: Element]
+  = a.allNestedUnions()(ext)
+
+}

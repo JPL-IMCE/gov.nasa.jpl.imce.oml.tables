@@ -29,3 +29,12 @@ trait StructuredDataPropertyTuple
   override def descriptionBox
   ()(implicit extent: Extent): scala.Option[DescriptionBox]
 }
+
+object StructuredDataPropertyTuple {
+
+  def descriptionBox
+  (s: StructuredDataPropertyTuple, ext: Extent)
+  : scala.Option[DescriptionBox]
+  = s.descriptionBox()(ext)
+
+}

@@ -41,3 +41,17 @@ trait BundledTerminologyAxiom
   override def target
   ()(implicit extent: Extent): gov.nasa.jpl.imce.oml.tables.IRI
 }
+
+object BundledTerminologyAxiom {
+
+  def source
+  (b: BundledTerminologyAxiom, ext: Extent)
+  : scala.Option[TerminologyBox]
+  = b.source()(ext)
+
+  def target
+  (b: BundledTerminologyAxiom, ext: Extent)
+  : gov.nasa.jpl.imce.oml.tables.IRI
+  = b.target()(ext)
+
+}

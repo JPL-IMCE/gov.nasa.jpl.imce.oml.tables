@@ -32,3 +32,22 @@ trait ModuleEdge
   def moduleContext
   ()(implicit extent: Extent): scala.Option[Module]
 }
+
+object ModuleEdge {
+
+  def sourceModule
+  (m: ModuleEdge, ext: Extent)
+  : scala.Option[Module]
+  = m.sourceModule()(ext)
+
+  def targetModule
+  (m: ModuleEdge, ext: Extent)
+  : gov.nasa.jpl.imce.oml.tables.IRI
+  = m.targetModule()(ext)
+
+  def moduleContext
+  (m: ModuleEdge, ext: Extent)
+  : scala.Option[Module]
+  = m.moduleContext()(ext)
+
+}

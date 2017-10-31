@@ -42,3 +42,22 @@ trait TerminologyExtensionAxiom
   override def target
   ()(implicit extent: Extent): gov.nasa.jpl.imce.oml.tables.IRI
 }
+
+object TerminologyExtensionAxiom {
+
+  def extendingTerminology
+  (t: TerminologyExtensionAxiom, ext: Extent)
+  : scala.Option[TerminologyBox]
+  = t.extendingTerminology()(ext)
+
+  def source
+  (t: TerminologyExtensionAxiom, ext: Extent)
+  : scala.Option[TerminologyBox]
+  = t.source()(ext)
+
+  def target
+  (t: TerminologyExtensionAxiom, ext: Extent)
+  : gov.nasa.jpl.imce.oml.tables.IRI
+  = t.target()(ext)
+
+}

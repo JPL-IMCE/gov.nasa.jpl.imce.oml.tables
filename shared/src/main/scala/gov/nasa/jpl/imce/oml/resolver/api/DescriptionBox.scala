@@ -33,3 +33,17 @@ trait DescriptionBox
   def moduleElements
   ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: ModuleElement]
 }
+
+object DescriptionBox {
+
+  def moduleEdges
+  (d: DescriptionBox, ext: Extent)
+  : scala.collection.immutable.Set[_ <: ModuleEdge]
+  = d.moduleEdges()(ext)
+
+  def moduleElements
+  (d: DescriptionBox, ext: Extent)
+  : scala.collection.immutable.Set[_ <: ModuleElement]
+  = d.moduleElements()(ext)
+
+}

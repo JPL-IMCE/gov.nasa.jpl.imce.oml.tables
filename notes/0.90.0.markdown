@@ -21,3 +21,5 @@ gov.nasa.jpl.imce.oml.tables 0.90.0 resolves major issues in 0.80.0
 - [#27 Fix resolution rules for EntityStructuredDataPropertyParticularRestrictionAxioms](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/27)
 
 - [#28 Delete obsolete class: ConceptTreeTaxonomyAxiom](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/28)
+
+- [#29 Add companion object query functions for Extent-based queries methods](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/29)

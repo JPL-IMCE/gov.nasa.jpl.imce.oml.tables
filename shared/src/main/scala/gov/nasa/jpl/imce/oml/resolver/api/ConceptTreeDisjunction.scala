@@ -32,3 +32,17 @@ trait ConceptTreeDisjunction
   def allNestedDisjunctions
   ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
 }
+
+object ConceptTreeDisjunction {
+
+  def bundleContainer
+  (c: ConceptTreeDisjunction, ext: Extent)
+  : scala.Option[Bundle]
+  = c.bundleContainer()(ext)
+
+  def allNestedDisjunctions
+  (c: ConceptTreeDisjunction, ext: Extent)
+  : scala.collection.immutable.Set[_ <: Element]
+  = c.allNestedDisjunctions()(ext)
+
+}

@@ -35,3 +35,17 @@ trait RestrictionScalarDataPropertyValue
   def moduleContext
   ()(implicit extent: Extent): scala.Option[Module]
 }
+
+object RestrictionScalarDataPropertyValue {
+
+  def terminologyBox
+  (r: RestrictionScalarDataPropertyValue, ext: Extent)
+  : scala.Option[TerminologyBox]
+  = r.terminologyBox()(ext)
+
+  def moduleContext
+  (r: RestrictionScalarDataPropertyValue, ext: Extent)
+  : scala.Option[Module]
+  = r.moduleContext()(ext)
+
+}

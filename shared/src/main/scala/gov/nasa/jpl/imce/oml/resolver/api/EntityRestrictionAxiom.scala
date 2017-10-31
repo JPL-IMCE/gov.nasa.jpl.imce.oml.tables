@@ -33,3 +33,12 @@ trait EntityRestrictionAxiom
   def allNestedElements
   ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
 }
+
+object EntityRestrictionAxiom {
+
+  def allNestedElements
+  (e: EntityRestrictionAxiom, ext: Extent)
+  : scala.collection.immutable.Set[_ <: Element]
+  = e.allNestedElements()(ext)
+
+}

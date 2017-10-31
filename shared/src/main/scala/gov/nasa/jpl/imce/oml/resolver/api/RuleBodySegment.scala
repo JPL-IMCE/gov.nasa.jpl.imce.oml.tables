@@ -39,3 +39,12 @@ trait RuleBodySegment
   def moduleContext
   ()(implicit extent: Extent): scala.Option[Module]
 }
+
+object RuleBodySegment {
+
+  def moduleContext
+  (r: RuleBodySegment, ext: Extent)
+  : scala.Option[Module]
+  = r.moduleContext()(ext)
+
+}

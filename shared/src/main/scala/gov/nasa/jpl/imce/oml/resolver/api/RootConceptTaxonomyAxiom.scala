@@ -40,3 +40,22 @@ trait RootConceptTaxonomyAxiom
   def allNestedDisjunctions
   ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
 }
+
+object RootConceptTaxonomyAxiom {
+
+  def bundleContainer
+  (r: RootConceptTaxonomyAxiom, ext: Extent)
+  : scala.Option[Bundle]
+  = r.bundleContainer()(ext)
+
+  def allNestedElements
+  (r: RootConceptTaxonomyAxiom, ext: Extent)
+  : scala.collection.immutable.Set[_ <: Element]
+  = r.allNestedElements()(ext)
+
+  def allNestedDisjunctions
+  (r: RootConceptTaxonomyAxiom, ext: Extent)
+  : scala.collection.immutable.Set[_ <: Element]
+  = r.allNestedDisjunctions()(ext)
+
+}

@@ -30,3 +30,17 @@ trait TerminologyGraph
   def moduleElements
   ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: ModuleElement]
 }
+
+object TerminologyGraph {
+
+  def moduleEdges
+  (t: TerminologyGraph, ext: Extent)
+  : scala.collection.immutable.Set[_ <: ModuleEdge]
+  = t.moduleEdges()(ext)
+
+  def moduleElements
+  (t: TerminologyGraph, ext: Extent)
+  : scala.collection.immutable.Set[_ <: ModuleElement]
+  = t.moduleElements()(ext)
+
+}

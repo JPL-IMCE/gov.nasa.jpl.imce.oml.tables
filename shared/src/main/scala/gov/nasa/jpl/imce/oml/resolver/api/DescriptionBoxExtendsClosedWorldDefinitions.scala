@@ -35,3 +35,17 @@ trait DescriptionBoxExtendsClosedWorldDefinitions
   def targetModule
   ()(implicit extent: Extent): gov.nasa.jpl.imce.oml.tables.IRI
 }
+
+object DescriptionBoxExtendsClosedWorldDefinitions {
+
+  def descriptionDomain
+  (d: DescriptionBoxExtendsClosedWorldDefinitions, ext: Extent)
+  : scala.Option[DescriptionBox]
+  = d.descriptionDomain()(ext)
+
+  def targetModule
+  (d: DescriptionBoxExtendsClosedWorldDefinitions, ext: Extent)
+  : gov.nasa.jpl.imce.oml.tables.IRI
+  = d.targetModule()(ext)
+
+}

@@ -45,3 +45,22 @@ trait TerminologyNestingAxiom
   override def target
   ()(implicit extent: Extent): gov.nasa.jpl.imce.oml.tables.IRI
 }
+
+object TerminologyNestingAxiom {
+
+  def nestedTerminology
+  (t: TerminologyNestingAxiom, ext: Extent)
+  : scala.Option[TerminologyGraph]
+  = t.nestedTerminology()(ext)
+
+  def source
+  (t: TerminologyNestingAxiom, ext: Extent)
+  : scala.Option[TerminologyBox]
+  = t.source()(ext)
+
+  def target
+  (t: TerminologyNestingAxiom, ext: Extent)
+  : gov.nasa.jpl.imce.oml.tables.IRI
+  = t.target()(ext)
+
+}

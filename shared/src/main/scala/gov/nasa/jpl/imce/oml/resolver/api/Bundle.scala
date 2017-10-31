@@ -32,3 +32,17 @@ trait Bundle
   def moduleElements
   ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: ModuleElement]
 }
+
+object Bundle {
+
+  def moduleEdges
+  (b: Bundle, ext: Extent)
+  : scala.collection.immutable.Set[_ <: ModuleEdge]
+  = b.moduleEdges()(ext)
+
+  def moduleElements
+  (b: Bundle, ext: Extent)
+  : scala.collection.immutable.Set[_ <: ModuleElement]
+  = b.moduleElements()(ext)
+
+}

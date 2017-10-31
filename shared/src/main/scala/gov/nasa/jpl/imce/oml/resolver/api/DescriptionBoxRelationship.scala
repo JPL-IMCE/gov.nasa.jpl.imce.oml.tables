@@ -31,3 +31,17 @@ trait DescriptionBoxRelationship
   def sourceModule
   ()(implicit extent: Extent): scala.Option[Module]
 }
+
+object DescriptionBoxRelationship {
+
+  def descriptionDomain
+  (d: DescriptionBoxRelationship, ext: Extent)
+  : scala.Option[DescriptionBox]
+  = d.descriptionDomain()(ext)
+
+  def sourceModule
+  (d: DescriptionBoxRelationship, ext: Extent)
+  : scala.Option[Module]
+  = d.sourceModule()(ext)
+
+}
