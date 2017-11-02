@@ -1317,9 +1317,9 @@ object OMLTablesResolver {
       context = ej,
       queue = ri.queue.copy(ruleBodySegments =
         ri.queue.ruleBodySegments.filter(_ != tseg)))
-    ri.queue.aspectPredicates.find(_.bodySegmentUUID == puuid) match {
+    rj.queue.aspectPredicates.find(_.bodySegmentUUID == puuid) match {
       case Some(tap: tables.AspectPredicate) =>
-        ej.lookupTerminologyBoxStatement(UUID.fromString(tap.aspectUUID)) match {
+        rj.lookupTerminologyBoxStatement(UUID.fromString(tap.aspectUUID)) match {
           case Some(ra: api.Aspect) =>
             val (ek, _) = rj.factory.createAspectPredicate(rj.context, ra, rseg)
             val rk = rj.copy(
@@ -1336,9 +1336,9 @@ object OMLTablesResolver {
             Failure(new IllegalArgumentException(s"AspectPredicate: $tap failed to resolve aspect: ${tap.aspectUUID}"))
         }
       case None =>
-        ri.queue.conceptPredicates.find(_.bodySegmentUUID == puuid) match {
+        rj.queue.conceptPredicates.find(_.bodySegmentUUID == puuid) match {
           case Some(tcp: tables.ConceptPredicate) =>
-            ej.lookupTerminologyBoxStatement(UUID.fromString(tcp.conceptUUID)) match {
+            rj.lookupTerminologyBoxStatement(UUID.fromString(tcp.conceptUUID)) match {
               case Some(rc: api.Concept) =>
                 val (ek, _) = rj.factory.createConceptPredicate(rj.context, rseg, rc)
                 val rk = rj.copy(
@@ -1355,9 +1355,9 @@ object OMLTablesResolver {
                 Failure(new IllegalArgumentException(s"ConceptPredicate: $tcp failed to resolve concept: ${tcp.conceptUUID}"))
             }
           case None =>
-            ri.queue.reifiedRelationshipPredicates.find(_.bodySegmentUUID == puuid) match {
+            rj.queue.reifiedRelationshipPredicates.find(_.bodySegmentUUID == puuid) match {
               case Some(trrp: tables.ReifiedRelationshipPredicate) =>
-                ej.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
+                rj.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
                   case Some(rrr: api.ReifiedRelationship) =>
                     val (ek, _) = rj.factory.createReifiedRelationshipPredicate(rj.context, rseg, rrr)
                     val rk = rj.copy(
@@ -1374,9 +1374,9 @@ object OMLTablesResolver {
                     Failure(new IllegalArgumentException(s"ReifiedRelationshipPredicate: $trrp failed to resolve reified relationship: ${trrp.reifiedRelationshipUUID}"))
                 }
               case None =>
-                ri.queue.reifiedRelationshipPropertyPredicates.find(_.bodySegmentUUID == puuid) match {
+                rj.queue.reifiedRelationshipPropertyPredicates.find(_.bodySegmentUUID == puuid) match {
                   case Some(trrp: tables.ReifiedRelationshipPropertyPredicate) =>
-                    ej.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
+                    rj.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
                       case Some(rrr: api.ReifiedRelationship) =>
                         val (ek, _) = rj.factory.createReifiedRelationshipPropertyPredicate(rj.context, rseg, rrr)
                         val rk = rj.copy(
@@ -1393,9 +1393,9 @@ object OMLTablesResolver {
                         Failure(new IllegalArgumentException(s"ReifiedRelationshipPropertyPredicate: $trrp failed to resolve reified relationship: ${trrp.reifiedRelationshipUUID}"))
                     }
                   case None =>
-                    ri.queue.reifiedRelationshipSourcePropertyPredicates.find(_.bodySegmentUUID == puuid) match {
+                    rj.queue.reifiedRelationshipSourcePropertyPredicates.find(_.bodySegmentUUID == puuid) match {
                       case Some(trrp: tables.ReifiedRelationshipSourcePropertyPredicate) =>
-                        ej.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
+                        rj.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
                           case Some(rrr: api.ReifiedRelationship) =>
                             val (ek, _) = rj.factory.createReifiedRelationshipSourcePropertyPredicate(rj.context, rseg, rrr)
                             val rk = rj.copy(
@@ -1412,9 +1412,9 @@ object OMLTablesResolver {
                             Failure(new IllegalArgumentException(s"ReifiedRelationshipSourcePropertyPredicate: $trrp failed to resolve reified relationship: ${trrp.reifiedRelationshipUUID}"))
                         }
                       case None =>
-                        ri.queue.reifiedRelationshipTargetPropertyPredicates.find(_.bodySegmentUUID == puuid) match {
+                        rj.queue.reifiedRelationshipTargetPropertyPredicates.find(_.bodySegmentUUID == puuid) match {
                           case Some(trrp: tables.ReifiedRelationshipTargetPropertyPredicate) =>
-                            ej.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
+                            rj.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
                               case Some(rrr: api.ReifiedRelationship) =>
                                 val (ek, _) = rj.factory.createReifiedRelationshipTargetPropertyPredicate(rj.context, rseg, rrr)
                                 val rk = rj.copy(
@@ -1431,9 +1431,9 @@ object OMLTablesResolver {
                                 Failure(new IllegalArgumentException(s"ReifiedRelationshipTargetPropertyPredicate: $trrp failed to resolve reified relationship: ${trrp.reifiedRelationshipUUID}"))
                             }
                           case None =>
-                            ri.queue.unreifiedRelationshipPropertyPredicates.find(_.bodySegmentUUID == puuid) match {
+                            rj.queue.unreifiedRelationshipPropertyPredicates.find(_.bodySegmentUUID == puuid) match {
                               case Some(turp: tables.UnreifiedRelationshipPropertyPredicate) =>
-                                ej.lookupTerminologyBoxStatement(UUID.fromString(turp.unreifiedRelationshipUUID)) match {
+                                rj.lookupTerminologyBoxStatement(UUID.fromString(turp.unreifiedRelationshipUUID)) match {
                                   case Some(rur: api.UnreifiedRelationship) =>
                                     val (ek, _) = rj.factory.createUnreifiedRelationshipPropertyPredicate(rj.context, rur, rseg)
                                     val rk = rj.copy(
@@ -1450,9 +1450,9 @@ object OMLTablesResolver {
                                     Failure(new IllegalArgumentException(s"UnreifiedRelationshipPropertyPredicate: $turp failed to resolve unreified relationship: ${turp.unreifiedRelationshipUUID}"))
                                 }
                               case None =>
-                                ri.queue.reifiedRelationshipInversePropertyPredicates.find(_.bodySegmentUUID == puuid) match {
+                                rj.queue.reifiedRelationshipInversePropertyPredicates.find(_.bodySegmentUUID == puuid) match {
                                   case Some(trrp: tables.ReifiedRelationshipInversePropertyPredicate) =>
-                                    ej.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
+                                    rj.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
                                       case Some(rrr: api.ReifiedRelationship) =>
                                         val (ek, _) = rj.factory.createReifiedRelationshipInversePropertyPredicate(rj.context, rseg, rrr)
                                         val rk = rj.copy(
@@ -1469,9 +1469,9 @@ object OMLTablesResolver {
                                         Failure(new IllegalArgumentException(s"ReifiedRelationshipInversePropertyPredicate: $trrp failed to resolve reified relationship: ${trrp.reifiedRelationshipUUID}"))
                                     }
                                   case None =>
-                                    ri.queue.reifiedRelationshipSourceInversePropertyPredicates.find(_.bodySegmentUUID == puuid) match {
+                                    rj.queue.reifiedRelationshipSourceInversePropertyPredicates.find(_.bodySegmentUUID == puuid) match {
                                       case Some(trrp: tables.ReifiedRelationshipSourceInversePropertyPredicate) =>
-                                        ej.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
+                                        rj.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
                                           case Some(rrr: api.ReifiedRelationship) =>
                                             val (ek, _) = rj.factory.createReifiedRelationshipSourceInversePropertyPredicate(rj.context, rseg, rrr)
                                             val rk = rj.copy(
@@ -1488,9 +1488,9 @@ object OMLTablesResolver {
                                             Failure(new IllegalArgumentException(s"ReifiedRelationshipSourceInversePropertyPredicate: $trrp failed to resolve reified relationship: ${trrp.reifiedRelationshipUUID}"))
                                         }
                                       case None =>
-                                        ri.queue.reifiedRelationshipTargetInversePropertyPredicates.find(_.bodySegmentUUID == puuid) match {
+                                        rj.queue.reifiedRelationshipTargetInversePropertyPredicates.find(_.bodySegmentUUID == puuid) match {
                                           case Some(trrp: tables.ReifiedRelationshipTargetInversePropertyPredicate) =>
-                                            ej.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
+                                            rj.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
                                               case Some(rrr: api.ReifiedRelationship) =>
                                                 val (ek, _) = rj.factory.createReifiedRelationshipTargetInversePropertyPredicate(rj.context, rseg, rrr)
                                                 val rk = rj.copy(
@@ -1507,9 +1507,9 @@ object OMLTablesResolver {
                                                 Failure(new IllegalArgumentException(s"ReifiedRelationshipTargetInversePropertyPredicate: $trrp failed to resolve reified relationship: ${trrp.reifiedRelationshipUUID}"))
                                             }
                                           case None =>
-                                            ri.queue.unreifiedRelationshipInversePropertyPredicates.find(_.bodySegmentUUID == puuid) match {
+                                            rj.queue.unreifiedRelationshipInversePropertyPredicates.find(_.bodySegmentUUID == puuid) match {
                                               case Some(turp: tables.UnreifiedRelationshipInversePropertyPredicate) =>
-                                                ej.lookupTerminologyBoxStatement(UUID.fromString(turp.unreifiedRelationshipUUID)) match {
+                                                rj.lookupTerminologyBoxStatement(UUID.fromString(turp.unreifiedRelationshipUUID)) match {
                                                   case Some(rur: api.UnreifiedRelationship) =>
                                                     val (ek, _) = rj.factory.createUnreifiedRelationshipInversePropertyPredicate(rj.context, rur, rseg)
                                                     val rk = rj.copy(
