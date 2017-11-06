@@ -25,3 +25,5 @@ gov.nasa.jpl.imce.oml.tables 0.90.0 resolves major issues in 0.80.0
 - [#29 Add companion object query functions for Extent-based queries methods](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/29)
 
 - [#30 BUG: OMLTablesResolver.mapRuleSegments should use global lookup instead of local lookup](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/30)
+
+- [#31 OMLResolverFactory @DerivedUUID without optional attributes](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/31)

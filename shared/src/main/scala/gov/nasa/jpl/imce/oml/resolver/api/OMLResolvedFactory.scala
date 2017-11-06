@@ -543,8 +543,7 @@ trait OMLResolvedFactory {
       Seq.empty[(String, String)] ++
         Seq("tbox" -> tbox.uuid.toString) ++
         Seq("restrictedEntity" -> restrictedEntity.uuid.toString) ++
-        Seq("scalarProperty" -> scalarProperty.uuid.toString) ++
-        valueType.map { vt => "valueType" -> vt.uuid.toString } : _*)
+        Seq("scalarProperty" -> scalarProperty.uuid.toString) : _*)
     createEntityScalarDataPropertyParticularRestrictionAxiom( extent, uuid, tbox, restrictedEntity, scalarProperty, literalValue, valueType )
   }
   
@@ -1099,8 +1098,7 @@ trait OMLResolvedFactory {
       "RestrictionScalarDataPropertyValue",
       Seq.empty[(String, String)] ++
         Seq("scalarDataProperty" -> scalarDataProperty.uuid.toString) ++
-        Seq("structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString) ++
-        valueType.map { vt => "valueType" -> vt.uuid.toString } : _*)
+        Seq("structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString) : _*)
     createRestrictionScalarDataPropertyValue( extent, uuid, scalarDataProperty, scalarPropertyValue, structuredDataPropertyContext, valueType )
   }
   
@@ -1253,8 +1251,7 @@ trait OMLResolvedFactory {
       "ScalarDataPropertyValue",
       Seq.empty[(String, String)] ++
         Seq("scalarDataProperty" -> scalarDataProperty.uuid.toString) ++
-        Seq("structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString) ++
-        valueType.map { vt => "valueType" -> vt.uuid.toString } : _*)
+        Seq("structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString) : _*)
     createScalarDataPropertyValue( extent, uuid, scalarDataProperty, scalarPropertyValue, structuredDataPropertyContext, valueType )
   }
   
@@ -1276,15 +1273,14 @@ trait OMLResolvedFactory {
     valueType: scala.Option[DataRange] )
   : (Extent, ScalarOneOfLiteralAxiom)
   = {
-  	// implicitly derived uuid...
+  	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val implicitUUID: java.util.UUID = namespaceUUID(
+    val uuid: java.util.UUID = namespaceUUID(
       "ScalarOneOfLiteralAxiom",
       Seq.empty[(String, String)] ++
         Seq("tbox" -> tbox.uuid.toString) ++
-        Seq("axiom" -> axiom.uuid.toString) ++
-        valueType.map { vt => "valueType" -> vt.uuid.toString } : _*)
-    createScalarOneOfLiteralAxiom( extent, implicitUUID, tbox, axiom, value, valueType )
+        Seq("axiom" -> axiom.uuid.toString) : _*)
+    createScalarOneOfLiteralAxiom( extent, uuid, tbox, axiom, value, valueType )
   }
   
   def createScalarOneOfLiteralAxiom
@@ -1335,8 +1331,7 @@ trait OMLResolvedFactory {
       Seq.empty[(String, String)] ++
         Seq("descriptionBox" -> descriptionBox.uuid.toString) ++
         Seq("singletonInstance" -> singletonInstance.uuid.toString) ++
-        Seq("scalarDataProperty" -> scalarDataProperty.uuid.toString) ++
-        valueType.map { vt => "valueType" -> vt.uuid.toString } : _*)
+        Seq("scalarDataProperty" -> scalarDataProperty.uuid.toString) : _*)
     createSingletonInstanceScalarDataPropertyValue( extent, uuid, descriptionBox, singletonInstance, scalarDataProperty, scalarPropertyValue, valueType )
   }
   
