@@ -18,6 +18,8 @@
 
 package gov.nasa.jpl.imce.oml.tables
 
+import io.circe._
+
 import scala.Option
 import scala.Predef.{ArrowAssoc, String, augmentString}
 import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel}
@@ -50,91 +52,77 @@ case object LiteralDecimalType extends AbstractLiteralDecimalType
 
 object LiteralType {
 
-  val literalPositiveIntegerType = LiteralPositiveIntegerType
-
-  implicit val w
-  : upickle.default.Writer[LiteralType]
-  = upickle.default.Writer[LiteralType] {
+  def toString(lt: LiteralType)
+  : String
+  = lt match {
     case LiteralBooleanType =>
-      upickle.Js.Str("LiteralBooleanType")
+      "LiteralBooleanType"
     case LiteralDateTimeType =>
-      upickle.Js.Str("LiteralDateTimeType")
+      "LiteralDateTimeType"
     case LiteralStringType =>
-      upickle.Js.Str("LiteralStringType")
+      "LiteralStringType"
     case LiteralUUIDType =>
-      upickle.Js.Str("LiteralUUIDType")
+      "LiteralUUIDType"
     case LiteralURIType =>
-      upickle.Js.Str("LiteralURIType")
+      "LiteralURIType"
     case LiteralRealType =>
-      upickle.Js.Str("LiteralRealType")
+      "LiteralRealType"
     case LiteralRationalType =>
-      upickle.Js.Str("LiteralRationalType")
+      "LiteralRationalType"
     case LiteralFloatType =>
-      upickle.Js.Str("LiteralFloatType")
+      "LiteralFloatType"
     case LiteralPositiveIntegerType =>
-      upickle.Js.Str("LiteralPositiveIntegerType")
+      "LiteralPositiveIntegerType"
     case LiteralDecimalType =>
-      upickle.Js.Str("LiteralDecimalType")
+      "LiteralDecimalType"
   }
+
+  def fromString(s: String)
+  : LiteralType
+  = s match {
+    case "LiteralBooleanType" =>
+      LiteralBooleanType
+    case "LiteralDateTimeType" =>
+      LiteralDateTimeType
+    case "LiteralStringType" =>
+      LiteralStringType
+    case "LiteralUUIDType" =>
+      LiteralUUIDType
+    case "LiteralURIType" =>
+      LiteralURIType
+    case "LiteralRealType" =>
+      LiteralRealType
+    case "LiteralRationalType" =>
+      LiteralRationalType
+    case "LiteralFloatType" =>
+      LiteralFloatType
+    case "LiteralPositiveIntegerType" =>
+      LiteralPositiveIntegerType
+    case "LiteralDecimalType" =>
+      LiteralDecimalType
+  }
+
+  implicit val decodeLiteralType: Decoder[LiteralType] = Decoder.decodeString.map(fromString)
+  implicit val encodeLiteralType: Encoder[LiteralType] = Encoder.encodeString.contramap[LiteralType](toString)
 
   @JSExport
   def toJSON(c: LiteralType)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[LiteralType]
-  = upickle.default.Reader[LiteralType] {
-    case upickle.Js.Str(str) =>
-      str match {
-        case "LiteralBooleanType" =>
-          LiteralBooleanType
-        case "LiteralDateTimeType" =>
-          LiteralDateTimeType
-        case "LiteralStringType" =>
-          LiteralStringType
-        case "LiteralUUIDType" =>
-          LiteralUUIDType
-        case "LiteralURIType" =>
-          LiteralURIType
-        case "LiteralRealType" =>
-          LiteralRealType
-        case "LiteralRationalType" =>
-          LiteralRationalType
-        case "LiteralFloatType" =>
-          LiteralFloatType
-        case "LiteralPositiveIntegerType" =>
-          LiteralPositiveIntegerType
-        case "LiteralDecimalType" =>
-          LiteralDecimalType
-      }
-  }
+  = encodeLiteralType(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : LiteralType
-  = upickle.default.read[LiteralType](c)
-
-}
-
-object LiteralNumberType {
-
-  implicit val r
-  : upickle.default.Reader[LiteralNumberType]
-  = upickle.default.Reader[LiteralNumberType] {
-    case upickle.Js.Str(str) =>
-      str match {
-        case "LiteralRealType" =>
-          LiteralRealType
-        case "LiteralRationalType" =>
-          LiteralRationalType
-        case "LiteralFloatType" =>
-          LiteralFloatType
-        case "LiteralPositiveIntegerType" =>
-          LiteralPositiveIntegerType
-        case "LiteralDecimalType" =>
-          LiteralDecimalType
+  =  parser.parse(c) match {
+    case scala.Right(json) =>
+      decodeLiteralType(json.hcursor) match {
+        case scala.Right(result) =>
+          result
+        case scala.Left(failure) =>
+          throw failure
       }
+    case scala.Left(failure) =>
+      throw failure
   }
 
 }
@@ -157,33 +145,46 @@ case class LiteralValue
   */
 object LiteralValue {
 
-  implicit val w
-  : upickle.default.Writer[LiteralValue]
-  = upickle.default.Writer[LiteralValue] {
-    case LiteralValue(t,v) =>
-    upickle.Js.Obj(
-      "literalType" -> upickle.Js.Str(t.toString),
-      "value" -> upickle.Js.Str(v))
+  implicit val encodeLiteralValue: Encoder[LiteralValue] = new Encoder[LiteralValue] {
+    override final def apply(x: LiteralValue): Json
+    = Json.obj(
+      "literalType" -> LiteralType.encodeLiteralType(x.literalType),
+      "value" -> Encoder.encodeString(x.value)
+    )
   }
 
   @JSExport
   def toJSON(c: LiteralValue)
   : String
-  = upickle.default.write(expr=c, indent=0)
+  = encodeLiteralValue(c).noSpaces
 
-  implicit val r
-  : upickle.default.Reader[LiteralValue]
-  = upickle.default.Reader[LiteralValue] {
-    case upickle.Js.Obj(typePair, valuePair) =>
-      LiteralValue(
-        LiteralType.r.read(typePair._2),
-        valuePair._2.str)
+  implicit val decodeLiteralValue: Decoder[LiteralValue]
+  = Decoder.instance[LiteralValue] { c: HCursor =>
+
+    import cats.syntax.either._
+
+    for {
+      literalType <- c.downField("literalType").as[LiteralType]
+      value <- c.downField("value").as[String]
+    } yield LiteralValue(literalType, value)
+
   }
+
 
   @JSExport
   def fromJSON(c: String)
   : LiteralValue
-  = upickle.default.read[LiteralValue](c)
+  = parser.parse(c) match {
+    case scala.Right(json) =>
+      decodeLiteralValue(json.hcursor) match {
+        case scala.Right(result) =>
+          result
+        case scala.Left(failure) =>
+          throw failure
+      }
+    case scala.Left(failure) =>
+      throw failure
+  }
 
   implicit def toLiteralValue(v: Option[LiteralNumber])
   : Option[LiteralValue]
@@ -287,6 +288,43 @@ object LiteralValue {
 
 }
 
+object LiteralNumberType {
+
+  def fromString(s: String)
+  : LiteralNumberType
+  = s match {
+    case "LiteralRealType" =>
+      LiteralRealType
+    case "LiteralRationalType" =>
+      LiteralRationalType
+    case "LiteralFloatType" =>
+      LiteralFloatType
+    case "LiteralPositiveIntegerType" =>
+      LiteralPositiveIntegerType
+    case "LiteralDecimalType" =>
+      LiteralDecimalType
+  }
+
+  def toString(t: LiteralNumberType)
+  : String
+  = t match {
+    case LiteralRealType =>
+      "LiteralRealType"
+    case LiteralRationalType =>
+      "LiteralRationalType"
+    case LiteralFloatType =>
+      "LiteralFloatType"
+    case LiteralPositiveIntegerType =>
+      "LiteralPositiveIntegerType"
+    case LiteralDecimalType =>
+      "LiteralDecimalType"
+  }
+
+  implicit val decodeLiteralNumberType: Decoder[LiteralNumberType] = Decoder.decodeString.map(fromString)
+  implicit val encodeLiteralNumberType: Encoder[LiteralNumberType] = Encoder.encodeString.contramap[LiteralNumberType](toString)
+
+}
+
 @JSExportTopLevel("LiteralNumber")
 case class LiteralNumber
 ( literalType: LiteralNumberType,
@@ -302,33 +340,44 @@ case class LiteralNumber
   */
 object LiteralNumber {
 
-  implicit val w
-  : upickle.default.Writer[LiteralNumber]
-  = upickle.default.Writer[LiteralNumber] {
-    case LiteralNumber(t,v) =>
-      upickle.Js.Obj(
-        "literalType" -> upickle.Js.Str(t.toString),
-        "value" -> upickle.Js.Str(v))
+  implicit val encodeLiteralNumber: Encoder[LiteralNumber] = new Encoder[LiteralNumber] {
+    override final def apply(x: LiteralNumber): Json
+    = Json.obj(
+        "literalType" -> LiteralNumberType.encodeLiteralNumberType(x.literalType),
+        "value" -> Encoder.encodeString(x.value)
+    )
   }
 
   @JSExport
   def toJSON(c: LiteralNumber)
   : String
-  = upickle.default.write(expr=c, indent=0)
+  = encodeLiteralNumber(c).noSpaces
 
-  implicit val r
-  : upickle.default.Reader[LiteralNumber]
-  = upickle.default.Reader[LiteralNumber] {
-    case upickle.Js.Obj(typePair, valuePair) =>
-      LiteralNumber(
-        LiteralNumberType.r.read(typePair._2),
-        valuePair._2.str)
+  implicit val decodeLiteralNumber: Decoder[LiteralNumber]
+  = Decoder.instance[LiteralNumber] { c: HCursor =>
+
+    import cats.syntax.either._
+
+    for {
+      literalType <- c.downField("literalType").as[LiteralNumberType]
+      value <- c.downField("value").as[String]
+    } yield LiteralNumber(literalType, value)
   }
 
   @JSExport
   def fromJSON(c: String)
   : LiteralNumber
-  = upickle.default.read[LiteralNumber](c)
+  = parser.parse(c) match {
+    case scala.Right(json) =>
+      decodeLiteralNumber(json.hcursor) match {
+        case scala.Right(result) =>
+          result
+        case scala.Left(failure) =>
+          throw failure
+      }
+    case scala.Left(failure) =>
+      throw failure
+  }
 
   def parseLiteralNumber(v: String)
   : Option[LiteralNumber]
@@ -461,33 +510,42 @@ object LiteralNumber {
 
 @JSExportTopLevel("LiteralDateTime")
 case class LiteralDateTime
-( value: String )
+( value: String ) {
+
+  override def toString: String
+  = value
+}
 
 object LiteralDateTime {
 
-  implicit val w
-  : upickle.default.Writer[LiteralDateTime]
-  = upickle.default.Writer[LiteralDateTime] {
-    case LiteralDateTime(v) =>
-      upickle.Js.Str(v)
+  implicit val encodeLiteralDateTime: Encoder[LiteralDateTime] = Encoder.encodeString.contramap[LiteralDateTime] {
+    x: LiteralDateTime =>
+      x.value
+  }
+  implicit val decodeLiteralDateTime: Decoder[LiteralDateTime] = Decoder.decodeString.map[LiteralDateTime] {
+    v: String =>
+      LiteralDateTime(v)
   }
 
   @JSExport
   def toJSON(c: LiteralDateTime)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[LiteralDateTime]
-  = upickle.default.Reader[LiteralDateTime] {
-    case upickle.Js.Str(v) =>
-      LiteralDateTime(v)
-  }
+  = encodeLiteralDateTime(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : LiteralDateTime
-  = upickle.default.read[LiteralDateTime](c)
+  = parser.parse(c) match {
+    case scala.Right(json) =>
+      decodeLiteralDateTime(json.hcursor) match {
+        case scala.Right(result) =>
+          result
+        case scala.Left(failure) =>
+          throw failure
+      }
+    case scala.Left(failure) =>
+      throw failure
+  }
 
   /**
     * @param v A string representation of a literal value of some kind

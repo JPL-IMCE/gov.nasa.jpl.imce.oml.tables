@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -32,20 +31,20 @@ import scala.Predef._
 @JSExportTopLevel("DescriptionBoxRefinement")
 case class DescriptionBoxRefinement
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) refiningDescriptionBoxUUID: UUID,
-  @(JSExport @field) refinedDescriptionBoxIRI: IRI
+  @(JSExport @field) uuid: taggedTypes.DescriptionBoxRefinementUUID,
+  @(JSExport @field) refiningDescriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
+  @(JSExport @field) refinedDescriptionBoxIRI: taggedTypes.IRI
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    refiningDescriptionBoxUUID: UUID,
-    refinedDescriptionBoxIRI: IRI)
+    refiningDescriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
+    refinedDescriptionBoxIRI: taggedTypes.IRI)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.descriptionBoxRefinementUUID(oug.namespaceUUID(
         "DescriptionBoxRefinement",
         "refiningDescriptionBox" -> refiningDescriptionBoxUUID,
-        "refinedDescriptionBox" -> oug.namespaceUUID(refinedDescriptionBoxIRI).toString).toString,
+        "refinedDescriptionBox" -> oug.namespaceUUID(refinedDescriptionBoxIRI).toString).toString),
       refiningDescriptionBoxUUID,
       refinedDescriptionBoxIRI)
 
@@ -58,7 +57,7 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: DescriptionBoxRefinement =>
   	  (this.uuid == that.uuid) &&
-  	  (this.refiningDescriptionBoxUUID == that.refiningDescriptionBoxUUID) &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.refiningDescriptionBoxUUID, that.refiningDescriptionBoxUUID)  &&
   	  (this.refinedDescriptionBoxIRI == that.refinedDescriptionBoxIRI)
     case _ =>
       false
@@ -69,26 +68,58 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("DescriptionBoxRefinementHelper")
 object DescriptionBoxRefinementHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "DescriptionBoxRefinements.json"
+
+  implicit val decodeDescriptionBoxRefinement: Decoder[DescriptionBoxRefinement]
+  = Decoder.instance[DescriptionBoxRefinement] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[DescriptionBoxRefinement]
-  = upickle.default.macroW[DescriptionBoxRefinement]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.DescriptionBoxRefinementUUID]
+    	  refiningDescriptionBoxUUID <- c.downField("refiningDescriptionBoxUUID").as[taggedTypes.DescriptionBoxUUID]
+    	  refinedDescriptionBoxIRI <- c.downField("refinedDescriptionBoxIRI").as[taggedTypes.IRI]
+    	} yield DescriptionBoxRefinement(
+    	  uuid,
+    	  refiningDescriptionBoxUUID,
+    	  refinedDescriptionBoxIRI
+    	)
+  }
+  
+  implicit val encodeDescriptionBoxRefinement: Encoder[DescriptionBoxRefinement]
+  = new Encoder[DescriptionBoxRefinement] {
+    override final def apply(x: DescriptionBoxRefinement): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeDescriptionBoxRefinementUUID(x.uuid)),
+    	  ("refiningDescriptionBoxUUID", taggedTypes.encodeDescriptionBoxUUID(x.refiningDescriptionBoxUUID)),
+    	  ("refinedDescriptionBoxIRI", taggedTypes.encodeIRI(x.refinedDescriptionBoxIRI))
+    )
+  }
 
   @JSExport
   def toJSON(c: DescriptionBoxRefinement)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[DescriptionBoxRefinement]
-  = upickle.default.macroR[DescriptionBoxRefinement]
+  = encodeDescriptionBoxRefinement(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : DescriptionBoxRefinement
-  = upickle.default.read[DescriptionBoxRefinement](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeDescriptionBoxRefinement(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

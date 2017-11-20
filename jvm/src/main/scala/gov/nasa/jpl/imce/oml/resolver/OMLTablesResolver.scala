@@ -442,7 +442,7 @@ object OMLTablesResolver {
       val (ej, rap) = ri.factory.createAnnotationProperty(ri.context, UUID.fromString(tap.uuid), tap.iri, tap.abbrevIRI)
       if (!ej.lookupAnnotationProperty(rap.uuid).contains(rap))
         Failure(new IllegalArgumentException(s"AnnotationProperty not in extent: $rap"))
-      else if (rap.uuid.toString != tap.uuid)
+      else if (rap.uuid.toString != tap.uuid.toString)
         Failure(new IllegalArgumentException(s"AnnotationProperty: $tap vs. $rap"))
       else
         Success(ri.copy(context = ej))
@@ -1317,7 +1317,7 @@ object OMLTablesResolver {
       context = ej,
       queue = ri.queue.copy(ruleBodySegments =
         ri.queue.ruleBodySegments.filter(_ != tseg)))
-    rj.queue.aspectPredicates.find(_.bodySegmentUUID == puuid) match {
+    rj.queue.aspectPredicates.find(x => covariantTag.compareTaggedValues(x.bodySegmentUUID,puuid)) match {
       case Some(tap: tables.AspectPredicate) =>
         rj.lookupTerminologyBoxStatement(UUID.fromString(tap.aspectUUID)) match {
           case Some(ra: api.Aspect) =>
@@ -1336,7 +1336,7 @@ object OMLTablesResolver {
             Failure(new IllegalArgumentException(s"AspectPredicate: $tap failed to resolve aspect: ${tap.aspectUUID}"))
         }
       case None =>
-        rj.queue.conceptPredicates.find(_.bodySegmentUUID == puuid) match {
+        rj.queue.conceptPredicates.find(x => covariantTag.compareTaggedValues(x.bodySegmentUUID, puuid)) match {
           case Some(tcp: tables.ConceptPredicate) =>
             rj.lookupTerminologyBoxStatement(UUID.fromString(tcp.conceptUUID)) match {
               case Some(rc: api.Concept) =>
@@ -1355,7 +1355,7 @@ object OMLTablesResolver {
                 Failure(new IllegalArgumentException(s"ConceptPredicate: $tcp failed to resolve concept: ${tcp.conceptUUID}"))
             }
           case None =>
-            rj.queue.reifiedRelationshipPredicates.find(_.bodySegmentUUID == puuid) match {
+            rj.queue.reifiedRelationshipPredicates.find(x => covariantTag.compareTaggedValues(x.bodySegmentUUID, puuid)) match {
               case Some(trrp: tables.ReifiedRelationshipPredicate) =>
                 rj.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
                   case Some(rrr: api.ReifiedRelationship) =>
@@ -1374,7 +1374,7 @@ object OMLTablesResolver {
                     Failure(new IllegalArgumentException(s"ReifiedRelationshipPredicate: $trrp failed to resolve reified relationship: ${trrp.reifiedRelationshipUUID}"))
                 }
               case None =>
-                rj.queue.reifiedRelationshipPropertyPredicates.find(_.bodySegmentUUID == puuid) match {
+                rj.queue.reifiedRelationshipPropertyPredicates.find(x => covariantTag.compareTaggedValues(x.bodySegmentUUID, puuid)) match {
                   case Some(trrp: tables.ReifiedRelationshipPropertyPredicate) =>
                     rj.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
                       case Some(rrr: api.ReifiedRelationship) =>
@@ -1393,7 +1393,7 @@ object OMLTablesResolver {
                         Failure(new IllegalArgumentException(s"ReifiedRelationshipPropertyPredicate: $trrp failed to resolve reified relationship: ${trrp.reifiedRelationshipUUID}"))
                     }
                   case None =>
-                    rj.queue.reifiedRelationshipSourcePropertyPredicates.find(_.bodySegmentUUID == puuid) match {
+                    rj.queue.reifiedRelationshipSourcePropertyPredicates.find(x => covariantTag.compareTaggedValues(x.bodySegmentUUID, puuid)) match {
                       case Some(trrp: tables.ReifiedRelationshipSourcePropertyPredicate) =>
                         rj.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
                           case Some(rrr: api.ReifiedRelationship) =>
@@ -1412,7 +1412,7 @@ object OMLTablesResolver {
                             Failure(new IllegalArgumentException(s"ReifiedRelationshipSourcePropertyPredicate: $trrp failed to resolve reified relationship: ${trrp.reifiedRelationshipUUID}"))
                         }
                       case None =>
-                        rj.queue.reifiedRelationshipTargetPropertyPredicates.find(_.bodySegmentUUID == puuid) match {
+                        rj.queue.reifiedRelationshipTargetPropertyPredicates.find(x => covariantTag.compareTaggedValues(x.bodySegmentUUID, puuid)) match {
                           case Some(trrp: tables.ReifiedRelationshipTargetPropertyPredicate) =>
                             rj.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
                               case Some(rrr: api.ReifiedRelationship) =>
@@ -1431,7 +1431,7 @@ object OMLTablesResolver {
                                 Failure(new IllegalArgumentException(s"ReifiedRelationshipTargetPropertyPredicate: $trrp failed to resolve reified relationship: ${trrp.reifiedRelationshipUUID}"))
                             }
                           case None =>
-                            rj.queue.unreifiedRelationshipPropertyPredicates.find(_.bodySegmentUUID == puuid) match {
+                            rj.queue.unreifiedRelationshipPropertyPredicates.find(x => covariantTag.compareTaggedValues(x.bodySegmentUUID, puuid)) match {
                               case Some(turp: tables.UnreifiedRelationshipPropertyPredicate) =>
                                 rj.lookupTerminologyBoxStatement(UUID.fromString(turp.unreifiedRelationshipUUID)) match {
                                   case Some(rur: api.UnreifiedRelationship) =>
@@ -1450,7 +1450,7 @@ object OMLTablesResolver {
                                     Failure(new IllegalArgumentException(s"UnreifiedRelationshipPropertyPredicate: $turp failed to resolve unreified relationship: ${turp.unreifiedRelationshipUUID}"))
                                 }
                               case None =>
-                                rj.queue.reifiedRelationshipInversePropertyPredicates.find(_.bodySegmentUUID == puuid) match {
+                                rj.queue.reifiedRelationshipInversePropertyPredicates.find(x => covariantTag.compareTaggedValues(x.bodySegmentUUID, puuid)) match {
                                   case Some(trrp: tables.ReifiedRelationshipInversePropertyPredicate) =>
                                     rj.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
                                       case Some(rrr: api.ReifiedRelationship) =>
@@ -1469,7 +1469,7 @@ object OMLTablesResolver {
                                         Failure(new IllegalArgumentException(s"ReifiedRelationshipInversePropertyPredicate: $trrp failed to resolve reified relationship: ${trrp.reifiedRelationshipUUID}"))
                                     }
                                   case None =>
-                                    rj.queue.reifiedRelationshipSourceInversePropertyPredicates.find(_.bodySegmentUUID == puuid) match {
+                                    rj.queue.reifiedRelationshipSourceInversePropertyPredicates.find(x => covariantTag.compareTaggedValues(x.bodySegmentUUID, puuid)) match {
                                       case Some(trrp: tables.ReifiedRelationshipSourceInversePropertyPredicate) =>
                                         rj.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
                                           case Some(rrr: api.ReifiedRelationship) =>
@@ -1488,7 +1488,7 @@ object OMLTablesResolver {
                                             Failure(new IllegalArgumentException(s"ReifiedRelationshipSourceInversePropertyPredicate: $trrp failed to resolve reified relationship: ${trrp.reifiedRelationshipUUID}"))
                                         }
                                       case None =>
-                                        rj.queue.reifiedRelationshipTargetInversePropertyPredicates.find(_.bodySegmentUUID == puuid) match {
+                                        rj.queue.reifiedRelationshipTargetInversePropertyPredicates.find(x => covariantTag.compareTaggedValues(x.bodySegmentUUID, puuid)) match {
                                           case Some(trrp: tables.ReifiedRelationshipTargetInversePropertyPredicate) =>
                                             rj.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
                                               case Some(rrr: api.ReifiedRelationship) =>
@@ -1507,7 +1507,7 @@ object OMLTablesResolver {
                                                 Failure(new IllegalArgumentException(s"ReifiedRelationshipTargetInversePropertyPredicate: $trrp failed to resolve reified relationship: ${trrp.reifiedRelationshipUUID}"))
                                             }
                                           case None =>
-                                            rj.queue.unreifiedRelationshipInversePropertyPredicates.find(_.bodySegmentUUID == puuid) match {
+                                            rj.queue.unreifiedRelationshipInversePropertyPredicates.find(x => covariantTag.compareTaggedValues(x.bodySegmentUUID, puuid)) match {
                                               case Some(turp: tables.UnreifiedRelationshipInversePropertyPredicate) =>
                                                 rj.lookupTerminologyBoxStatement(UUID.fromString(turp.unreifiedRelationshipUUID)) match {
                                                   case Some(rur: api.UnreifiedRelationship) =>
@@ -2174,7 +2174,8 @@ object OMLTablesResolver {
 
   @tailrec
   def mapRestrictionStructuredDataPropertyContext
-  (r: OMLTablesResolver, queue: Seq[(tables.UUID, api.RestrictionStructuredDataPropertyContext)])
+  (r: OMLTablesResolver,
+   queue: Seq[(tables.taggedTypes.RestrictionStructuredDataPropertyContextXRef, api.RestrictionStructuredDataPropertyContext)])
   : Try[OMLTablesResolver]
   = if (queue.isEmpty)
     Success(r)
@@ -2184,12 +2185,12 @@ object OMLTablesResolver {
     val scr = r
       .queue
       .restrictionScalarDataPropertyValues
-      .partition(_.structuredDataPropertyContextUUID == contextUUID)
+      .partition(x => covariantTag.compareTaggedValues(x.structuredDataPropertyContextUUID, contextUUID))
 
     val ssr = r
       .queue
       .restrictionStructuredDataPropertyTuples
-      .partition(_.structuredDataPropertyContextUUID == contextUUID)
+      .partition(x => covariantTag.compareTaggedValues(x.structuredDataPropertyContextUUID, contextUUID))
 
     val r0 = r.copy(queue = r.queue.copy(
       restrictionScalarDataPropertyValues = scr._2,
@@ -2266,8 +2267,8 @@ object OMLTablesResolver {
 
     val (r4, more) =
       tResolvable
-        .foldLeft[(OMLTablesResolver, Seq[(tables.UUID, api.RestrictionStructuredDataPropertyContext)])]{
-        (r3, Seq.empty[(tables.UUID, api.RestrictionStructuredDataPropertyContext)])
+        .foldLeft[(OMLTablesResolver, Seq[(tables.taggedTypes.RestrictionStructuredDataPropertyContextXRef, api.RestrictionStructuredDataPropertyContext)])]{
+        (r3, Seq.empty[(tables.taggedTypes.RestrictionStructuredDataPropertyContextXRef, api.RestrictionStructuredDataPropertyContext)])
       } {
         case ((ri, acc), (rsdp, tv)) =>
           val (ej, rv) = ri.factory.createRestrictionStructuredDataPropertyTuple(
@@ -2489,21 +2490,21 @@ object OMLTablesResolver {
 
   @tailrec
   def mapDisjunctions
-  (r: OMLTablesResolver, queue: Seq[(api.ConceptTreeDisjunction, tables.UUID)])
+  (r: OMLTablesResolver, queue: Seq[(api.ConceptTreeDisjunction, tables.taggedTypes.ConceptTreeDisjunctionXRef)])
   : Try[OMLTablesResolver]
   = if (queue.isEmpty)
     Success(r)
   else {
     val (conceptTreeDisjunctParent, conceptTreeDisjunctUUID) = queue.head
-    val as = r.queue.anonymousConceptUnionAxioms.partition(_.disjointTaxonomyParentUUID == conceptTreeDisjunctUUID)
-    val ss = r.queue.specificDisjointConceptAxioms.partition(_.disjointTaxonomyParentUUID == conceptTreeDisjunctUUID)
+    val as = r.queue.anonymousConceptUnionAxioms.partition(x => covariantTag.compareTaggedValues(x.disjointTaxonomyParentUUID, conceptTreeDisjunctUUID))
+    val ss = r.queue.specificDisjointConceptAxioms.partition(x => covariantTag.compareTaggedValues(x.disjointTaxonomyParentUUID, conceptTreeDisjunctUUID))
 
     val r1 = r.copy(queue = r.queue.copy(
       anonymousConceptUnionAxioms = as._2,
       specificDisjointConceptAxioms = ss._2))
 
-    val r2 = as._1.foldLeft[Try[(OMLTablesResolver, Seq[(api.ConceptTreeDisjunction, tables.UUID)])]]{
-      Success(r1 -> Seq.empty[(api.ConceptTreeDisjunction, tables.UUID)])
+    val r2 = as._1.foldLeft[Try[(OMLTablesResolver, Seq[(api.ConceptTreeDisjunction, tables.taggedTypes.ConceptTreeDisjunctionXRef)])]]{
+      Success(r1 -> Seq.empty[(api.ConceptTreeDisjunction, tables.taggedTypes.ConceptTreeDisjunctionXRef)])
     } {
         case (Success((ri, acc)), tax) =>
           val (ej, rax) = ri.factory.createAnonymousConceptUnionAxiom(ri.context, conceptTreeDisjunctParent, tax.name)
@@ -2518,7 +2519,7 @@ object OMLTablesResolver {
           Failure(f)
       }
 
-    val r3 = ss._1.foldLeft[Try[(OMLTablesResolver, Seq[(api.ConceptTreeDisjunction, tables.UUID)])]](r2) {
+    val r3 = ss._1.foldLeft[Try[(OMLTablesResolver, Seq[(api.ConceptTreeDisjunction, tables.taggedTypes.ConceptTreeDisjunctionXRef)])]](r2) {
       case (Success((ri, acc)), tax) =>
         ri.lookupTerminologyBoxStatement(UUID.fromString(tax.disjointLeafUUID)) match {
           case Some(leaf: api.Concept) =>
@@ -2869,7 +2870,7 @@ object OMLTablesResolver {
 
   @tailrec
   def mapSingletonInstanceStructuredDataPropertyContext
-  (r: OMLTablesResolver, queue: Seq[(tables.UUID, api.SingletonInstanceStructuredDataPropertyContext)])
+  (r: OMLTablesResolver, queue: Seq[(tables.taggedTypes.SingletonInstanceStructuredDataPropertyContextXRef, api.SingletonInstanceStructuredDataPropertyContext)])
   : Try[OMLTablesResolver]
   = if (queue.isEmpty)
     Success(r)
@@ -2879,12 +2880,12 @@ object OMLTablesResolver {
     val scr = r
       .queue
       .scalarDataPropertyValues
-      .partition(_.structuredDataPropertyContextUUID == contextUUID)
+      .partition(x => covariantTag.compareTaggedValues(x.structuredDataPropertyContextUUID, contextUUID))
 
     val str = r
       .queue
       .structuredDataPropertyTuples
-      .partition(_.structuredDataPropertyContextUUID == contextUUID)
+      .partition(x => covariantTag.compareTaggedValues(x.structuredDataPropertyContextUUID, contextUUID))
 
     val r0 = r.copy(queue = r.queue.copy(
       scalarDataPropertyValues = scr._2,
@@ -2956,8 +2957,8 @@ object OMLTablesResolver {
           r2.queue.structuredDataPropertyTuples ++ tUnresolvable))
 
         val tr4 = tResolvable
-          .foldLeft[Try[(OMLTablesResolver, Seq[(tables.UUID, api.SingletonInstanceStructuredDataPropertyContext)])]] {
-          Success(r3 -> Seq.empty[(tables.UUID, api.SingletonInstanceStructuredDataPropertyContext)])
+          .foldLeft[Try[(OMLTablesResolver, Seq[(tables.taggedTypes.SingletonInstanceStructuredDataPropertyContextXRef, api.SingletonInstanceStructuredDataPropertyContext)])]] {
+          Success(r3 -> Seq.empty[(tables.taggedTypes.SingletonInstanceStructuredDataPropertyContextXRef, api.SingletonInstanceStructuredDataPropertyContext)])
         } {
           case (Success((ri, acc)), (dpM, tvi)) =>
             val (ej, rvi) = ri.factory.createStructuredDataPropertyTuple(

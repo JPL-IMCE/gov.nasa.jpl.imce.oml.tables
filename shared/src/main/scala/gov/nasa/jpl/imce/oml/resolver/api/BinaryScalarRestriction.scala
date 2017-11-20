@@ -38,13 +38,13 @@ trait BinaryScalarRestriction
   /*
    * The length of the binary data
    */
-  val length: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral]
+  val length: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral]
   /*
    * The minimum length of the binary data
    */
-  val minLength: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral]
+  val minLength: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral]
   /*
    * The maximum length of the binary data
    */
-  val maxLength: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral]
+  val maxLength: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral]
 }

@@ -29,7 +29,7 @@ trait TerminologyNestingAxiom
   extends TerminologyBoxAxiom
 {
 
-  val nestingTerminology: gov.nasa.jpl.imce.oml.tables.IRI
+  val nestingTerminology: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI
   val nestingContext: Concept
 
   def nestedTerminology
@@ -43,7 +43,7 @@ trait TerminologyNestingAxiom
    * The nestingTerminology is the target
    */
   override def target
-  ()(implicit extent: Extent): gov.nasa.jpl.imce.oml.tables.IRI
+  ()(implicit extent: Extent): gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI
 }
 
 object TerminologyNestingAxiom {
@@ -60,7 +60,7 @@ object TerminologyNestingAxiom {
 
   def target
   (t: TerminologyNestingAxiom, ext: Extent)
-  : gov.nasa.jpl.imce.oml.tables.IRI
+  : gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI
   = t.target()(ext)
 
 }

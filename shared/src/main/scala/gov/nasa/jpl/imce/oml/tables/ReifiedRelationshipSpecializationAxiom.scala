@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -33,23 +32,23 @@ import scala.Predef._
 @JSExportTopLevel("ReifiedRelationshipSpecializationAxiom")
 case class ReifiedRelationshipSpecializationAxiom
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) tboxUUID: UUID,
-  @(JSExport @field) superRelationshipUUID: UUID,
-  @(JSExport @field) subRelationshipUUID: UUID
+  @(JSExport @field) uuid: taggedTypes.ReifiedRelationshipSpecializationAxiomUUID,
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
+  @(JSExport @field) superRelationshipUUID: taggedTypes.ReifiedRelationshipXRef,
+  @(JSExport @field) subRelationshipUUID: taggedTypes.ReifiedRelationshipXRef
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: UUID,
-    superRelationshipUUID: UUID,
-    subRelationshipUUID: UUID)
+    tboxUUID: taggedTypes.TerminologyBoxXRef,
+    superRelationshipUUID: taggedTypes.ReifiedRelationshipXRef,
+    subRelationshipUUID: taggedTypes.ReifiedRelationshipXRef)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.reifiedRelationshipSpecializationAxiomUUID(oug.namespaceUUID(
         "ReifiedRelationshipSpecializationAxiom",
         "tbox" -> tboxUUID,
         "superRelationship" -> superRelationshipUUID,
-        "subRelationship" -> subRelationshipUUID).toString,
+        "subRelationship" -> subRelationshipUUID).toString),
       tboxUUID,
       superRelationshipUUID,
       subRelationshipUUID)
@@ -63,9 +62,9 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: ReifiedRelationshipSpecializationAxiom =>
   	  (this.uuid == that.uuid) &&
-  	  (this.tboxUUID == that.tboxUUID) &&
-  	  (this.superRelationshipUUID == that.superRelationshipUUID) &&
-  	  (this.subRelationshipUUID == that.subRelationshipUUID)
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.superRelationshipUUID, that.superRelationshipUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.subRelationshipUUID, that.subRelationshipUUID) 
     case _ =>
       false
   }
@@ -75,26 +74,61 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("ReifiedRelationshipSpecializationAxiomHelper")
 object ReifiedRelationshipSpecializationAxiomHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "ReifiedRelationshipSpecializationAxioms.json"
+
+  implicit val decodeReifiedRelationshipSpecializationAxiom: Decoder[ReifiedRelationshipSpecializationAxiom]
+  = Decoder.instance[ReifiedRelationshipSpecializationAxiom] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[ReifiedRelationshipSpecializationAxiom]
-  = upickle.default.macroW[ReifiedRelationshipSpecializationAxiom]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.ReifiedRelationshipSpecializationAxiomUUID]
+    	  tboxUUID <- c.downField("tboxUUID").as[taggedTypes.TerminologyBoxUUID]
+    	  superRelationshipUUID <- c.downField("superRelationshipUUID").as[taggedTypes.ReifiedRelationshipUUID]
+    	  subRelationshipUUID <- c.downField("subRelationshipUUID").as[taggedTypes.ReifiedRelationshipUUID]
+    	} yield ReifiedRelationshipSpecializationAxiom(
+    	  uuid,
+    	  tboxUUID,
+    	  superRelationshipUUID,
+    	  subRelationshipUUID
+    	)
+  }
+  
+  implicit val encodeReifiedRelationshipSpecializationAxiom: Encoder[ReifiedRelationshipSpecializationAxiom]
+  = new Encoder[ReifiedRelationshipSpecializationAxiom] {
+    override final def apply(x: ReifiedRelationshipSpecializationAxiom): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeReifiedRelationshipSpecializationAxiomUUID(x.uuid)),
+    	  ("tboxUUID", taggedTypes.encodeTerminologyBoxUUID(x.tboxUUID)),
+    	  ("superRelationshipUUID", taggedTypes.encodeReifiedRelationshipUUID(x.superRelationshipUUID)),
+    	  ("subRelationshipUUID", taggedTypes.encodeReifiedRelationshipUUID(x.subRelationshipUUID))
+    )
+  }
 
   @JSExport
   def toJSON(c: ReifiedRelationshipSpecializationAxiom)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[ReifiedRelationshipSpecializationAxiom]
-  = upickle.default.macroR[ReifiedRelationshipSpecializationAxiom]
+  = encodeReifiedRelationshipSpecializationAxiom(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : ReifiedRelationshipSpecializationAxiom
-  = upickle.default.read[ReifiedRelationshipSpecializationAxiom](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeReifiedRelationshipSpecializationAxiom(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

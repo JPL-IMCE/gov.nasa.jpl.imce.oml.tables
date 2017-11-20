@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -37,62 +36,62 @@ import scala.Predef._
   */
 case class PlainLiteralScalarRestriction
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) tboxUUID: UUID,
-  @(JSExport @field) restrictedRangeUUID: UUID,
-  @(JSExport @field) length: scala.Option[PositiveIntegerLiteral],
-  @(JSExport @field) minLength: scala.Option[PositiveIntegerLiteral],
-  @(JSExport @field) maxLength: scala.Option[PositiveIntegerLiteral],
-  @(JSExport @field) name: LocalName,
-  @(JSExport @field) langRange: scala.Option[LanguageTagDataType],
-  @(JSExport @field) pattern: scala.Option[LiteralPattern]
+  @(JSExport @field) uuid: taggedTypes.PlainLiteralScalarRestrictionUUID,
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
+  @(JSExport @field) restrictedRangeUUID: taggedTypes.DataRangeXRef,
+  @(JSExport @field) length: scala.Option[taggedTypes.PositiveIntegerLiteral],
+  @(JSExport @field) minLength: scala.Option[taggedTypes.PositiveIntegerLiteral],
+  @(JSExport @field) maxLength: scala.Option[taggedTypes.PositiveIntegerLiteral],
+  @(JSExport @field) name: taggedTypes.LocalName,
+  @(JSExport @field) langRange: scala.Option[taggedTypes.LanguageTagDataType],
+  @(JSExport @field) pattern: scala.Option[taggedTypes.LiteralPattern]
 ) {
   def this(
-    uuid: UUID,
-    tboxUUID: UUID,
-    restrictedRangeUUID: UUID,
-    name: LocalName)
+    uuid: taggedTypes.PlainLiteralScalarRestrictionUUID,
+    tboxUUID: taggedTypes.TerminologyBoxXRef,
+    restrictedRangeUUID: taggedTypes.DataRangeXRef,
+    name: taggedTypes.LocalName)
   = this(
       uuid,
       tboxUUID,
       restrictedRangeUUID,
-      None /* length */,
-      None /* minLength */,
-      None /* maxLength */,
+      scala.None /* length */,
+      scala.None /* minLength */,
+      scala.None /* maxLength */,
       name,
-      None /* langRange */,
-      None /* pattern */)
+      scala.None /* langRange */,
+      scala.None /* pattern */)
 
-  def withLength(l: PositiveIntegerLiteral)	 
+  def withLength(l: taggedTypes.PositiveIntegerLiteral)	 
   : PlainLiteralScalarRestriction
-  = copy(length=Some(l))
+  = copy(length=scala.Some(l))
   
-  def withMinLength(l: PositiveIntegerLiteral)	 
+  def withMinLength(l: taggedTypes.PositiveIntegerLiteral)	 
   : PlainLiteralScalarRestriction
-  = copy(minLength=Some(l))
+  = copy(minLength=scala.Some(l))
   
-  def withMaxLength(l: PositiveIntegerLiteral)	 
+  def withMaxLength(l: taggedTypes.PositiveIntegerLiteral)	 
   : PlainLiteralScalarRestriction
-  = copy(maxLength=Some(l))
+  = copy(maxLength=scala.Some(l))
   
-  def withLangRange(l: LanguageTagDataType)	 
+  def withLangRange(l: taggedTypes.LanguageTagDataType)	 
   : PlainLiteralScalarRestriction
-  = copy(langRange=Some(l))
+  = copy(langRange=scala.Some(l))
   
-  def withPattern(l: LiteralPattern)	 
+  def withPattern(l: taggedTypes.LiteralPattern)	 
   : PlainLiteralScalarRestriction
-  = copy(pattern=Some(l))
+  = copy(pattern=scala.Some(l))
   
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: UUID,
-    restrictedRangeUUID: UUID,
-    name: LocalName)
+    tboxUUID: taggedTypes.TerminologyBoxXRef,
+    restrictedRangeUUID: taggedTypes.DataRangeXRef,
+    name: taggedTypes.LocalName)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.plainLiteralScalarRestrictionUUID(oug.namespaceUUID(
         tboxUUID,
-        "name" -> name).toString,
+        "name" -> name).toString),
       tboxUUID,
       restrictedRangeUUID,
       name)
@@ -106,8 +105,8 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: PlainLiteralScalarRestriction =>
   	  (this.uuid == that.uuid) &&
-  	  (this.tboxUUID == that.tboxUUID) &&
-  	  (this.restrictedRangeUUID == that.restrictedRangeUUID) &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.restrictedRangeUUID, that.restrictedRangeUUID)  &&
   	  (this.length == that.length) &&
   	  (this.minLength == that.minLength) &&
   	  (this.maxLength == that.maxLength) &&
@@ -123,26 +122,76 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("PlainLiteralScalarRestrictionHelper")
 object PlainLiteralScalarRestrictionHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "PlainLiteralScalarRestrictions.json"
+
+  implicit val decodePlainLiteralScalarRestriction: Decoder[PlainLiteralScalarRestriction]
+  = Decoder.instance[PlainLiteralScalarRestriction] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[PlainLiteralScalarRestriction]
-  = upickle.default.macroW[PlainLiteralScalarRestriction]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.PlainLiteralScalarRestrictionUUID]
+    	  tboxUUID <- c.downField("tboxUUID").as[taggedTypes.TerminologyBoxUUID]
+    	  restrictedRangeUUID <- c.downField("restrictedRangeUUID").as[taggedTypes.DataRangeUUID]
+    	  length <- Decoder.decodeOption(taggedTypes.decodePositiveIntegerLiteral)(c.downField("length").success.get)
+    	  minLength <- Decoder.decodeOption(taggedTypes.decodePositiveIntegerLiteral)(c.downField("minLength").success.get)
+    	  maxLength <- Decoder.decodeOption(taggedTypes.decodePositiveIntegerLiteral)(c.downField("maxLength").success.get)
+    	  name <- c.downField("name").as[taggedTypes.LocalName]
+    	  langRange <- Decoder.decodeOption(taggedTypes.decodeLanguageTagDataType)(c.downField("langRange").success.get)
+    	  pattern <- Decoder.decodeOption(taggedTypes.decodeLiteralPattern)(c.downField("pattern").success.get)
+    	} yield PlainLiteralScalarRestriction(
+    	  uuid,
+    	  tboxUUID,
+    	  restrictedRangeUUID,
+    	  length,
+    	  minLength,
+    	  maxLength,
+    	  name,
+    	  langRange,
+    	  pattern
+    	)
+  }
+  
+  implicit val encodePlainLiteralScalarRestriction: Encoder[PlainLiteralScalarRestriction]
+  = new Encoder[PlainLiteralScalarRestriction] {
+    override final def apply(x: PlainLiteralScalarRestriction): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodePlainLiteralScalarRestrictionUUID(x.uuid)),
+    	  ("tboxUUID", taggedTypes.encodeTerminologyBoxUUID(x.tboxUUID)),
+    	  ("restrictedRangeUUID", taggedTypes.encodeDataRangeUUID(x.restrictedRangeUUID)),
+    	  ("length", Encoder.encodeOption(taggedTypes.encodePositiveIntegerLiteral).apply(x.length)),
+    	  ("minLength", Encoder.encodeOption(taggedTypes.encodePositiveIntegerLiteral).apply(x.minLength)),
+    	  ("maxLength", Encoder.encodeOption(taggedTypes.encodePositiveIntegerLiteral).apply(x.maxLength)),
+    	  ("name", taggedTypes.encodeLocalName(x.name)),
+    	  ("langRange", Encoder.encodeOption(taggedTypes.encodeLanguageTagDataType).apply(x.langRange)),
+    	  ("pattern", Encoder.encodeOption(taggedTypes.encodeLiteralPattern).apply(x.pattern))
+    )
+  }
 
   @JSExport
   def toJSON(c: PlainLiteralScalarRestriction)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[PlainLiteralScalarRestriction]
-  = upickle.default.macroR[PlainLiteralScalarRestriction]
+  = encodePlainLiteralScalarRestriction(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : PlainLiteralScalarRestriction
-  = upickle.default.read[PlainLiteralScalarRestriction](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodePlainLiteralScalarRestriction(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

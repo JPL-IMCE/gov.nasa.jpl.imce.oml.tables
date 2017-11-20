@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -33,23 +32,23 @@ import scala.Predef._
 @JSExportTopLevel("AspectSpecializationAxiom")
 case class AspectSpecializationAxiom
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) tboxUUID: UUID,
-  @(JSExport @field) superAspectUUID: UUID,
-  @(JSExport @field) subEntityUUID: UUID
+  @(JSExport @field) uuid: taggedTypes.AspectSpecializationAxiomUUID,
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
+  @(JSExport @field) superAspectUUID: taggedTypes.AspectXRef,
+  @(JSExport @field) subEntityUUID: taggedTypes.EntityXRef
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: UUID,
-    superAspectUUID: UUID,
-    subEntityUUID: UUID)
+    tboxUUID: taggedTypes.TerminologyBoxXRef,
+    superAspectUUID: taggedTypes.AspectXRef,
+    subEntityUUID: taggedTypes.EntityXRef)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.aspectSpecializationAxiomUUID(oug.namespaceUUID(
         "AspectSpecializationAxiom",
         "tbox" -> tboxUUID,
         "superAspect" -> superAspectUUID,
-        "subEntity" -> subEntityUUID).toString,
+        "subEntity" -> subEntityUUID).toString),
       tboxUUID,
       superAspectUUID,
       subEntityUUID)
@@ -63,9 +62,9 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: AspectSpecializationAxiom =>
   	  (this.uuid == that.uuid) &&
-  	  (this.tboxUUID == that.tboxUUID) &&
-  	  (this.superAspectUUID == that.superAspectUUID) &&
-  	  (this.subEntityUUID == that.subEntityUUID)
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.superAspectUUID, that.superAspectUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.subEntityUUID, that.subEntityUUID) 
     case _ =>
       false
   }
@@ -75,26 +74,61 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("AspectSpecializationAxiomHelper")
 object AspectSpecializationAxiomHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "AspectSpecializationAxioms.json"
+
+  implicit val decodeAspectSpecializationAxiom: Decoder[AspectSpecializationAxiom]
+  = Decoder.instance[AspectSpecializationAxiom] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[AspectSpecializationAxiom]
-  = upickle.default.macroW[AspectSpecializationAxiom]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.AspectSpecializationAxiomUUID]
+    	  tboxUUID <- c.downField("tboxUUID").as[taggedTypes.TerminologyBoxUUID]
+    	  superAspectUUID <- c.downField("superAspectUUID").as[taggedTypes.AspectUUID]
+    	  subEntityUUID <- c.downField("subEntityUUID").as[taggedTypes.EntityUUID]
+    	} yield AspectSpecializationAxiom(
+    	  uuid,
+    	  tboxUUID,
+    	  superAspectUUID,
+    	  subEntityUUID
+    	)
+  }
+  
+  implicit val encodeAspectSpecializationAxiom: Encoder[AspectSpecializationAxiom]
+  = new Encoder[AspectSpecializationAxiom] {
+    override final def apply(x: AspectSpecializationAxiom): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeAspectSpecializationAxiomUUID(x.uuid)),
+    	  ("tboxUUID", taggedTypes.encodeTerminologyBoxUUID(x.tboxUUID)),
+    	  ("superAspectUUID", taggedTypes.encodeAspectUUID(x.superAspectUUID)),
+    	  ("subEntityUUID", taggedTypes.encodeEntityUUID(x.subEntityUUID))
+    )
+  }
 
   @JSExport
   def toJSON(c: AspectSpecializationAxiom)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[AspectSpecializationAxiom]
-  = upickle.default.macroR[AspectSpecializationAxiom]
+  = encodeAspectSpecializationAxiom(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : AspectSpecializationAxiom
-  = upickle.default.read[AspectSpecializationAxiom](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeAspectSpecializationAxiom(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

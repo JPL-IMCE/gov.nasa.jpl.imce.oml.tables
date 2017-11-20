@@ -23,10 +23,11 @@ before_cache:
 jdk:
 - oraclejdk8
 
+# For TRAVIS_NODE_VERSION, look for the LTS version of node here: https://nodejs.org/en/download/
 env:
   global:
     - CI=true
-    - TRAVIS_NODE_VERSION="5.10"
+    - TRAVIS_NODE_VERSION="8.9.1"
 
 language: scala
 

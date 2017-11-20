@@ -38,13 +38,13 @@ public class NumericScalarRestrictionEmptyTest {
 
         String s1 = NumericScalarRestrictionHelper.toJSON(w1);
 
-        String maxE_s = (w1.maxExclusive().isEmpty()) ? "[]" : w1.maxExclusive().toString();
+        String maxE_s = (w1.maxExclusive().isEmpty()) ? "null" : "\"" + w1.maxExclusive().toString() + "\"";
 
-        String maxI_s = (w1.maxInclusive().isEmpty()) ? "[]" : w1.maxInclusive().toString();
+        String maxI_s = (w1.maxInclusive().isEmpty()) ? "null" : "\"" + w1.maxInclusive().toString() + "\"";
 
-        String minE_s = (w1.minExclusive().isEmpty()) ? "[]" : w1.minExclusive().toString();
+        String minE_s = (w1.minExclusive().isEmpty()) ? "null" : "\"" + w1.minExclusive().toString() + "\"";
 
-        String minI_s = (w1.minInclusive().isEmpty()) ? "[]" : w1.minInclusive().toString();
+        String minI_s = (w1.minInclusive().isEmpty()) ? "null" : "\"" + w1.minInclusive().toString() + "\"";
 
         String t1 = String.format(
                 "{\"uuid\":\"%s\",\"tboxUUID\":\"%s\",\"restrictedRangeUUID\":\"%s\",\"minExclusive\":%s,\"minInclusive\":%s,\"maxExclusive\":%s,\"maxInclusive\":%s,\"name\":\"%s\"}",

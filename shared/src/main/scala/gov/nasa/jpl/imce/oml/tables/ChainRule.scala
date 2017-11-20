@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -33,21 +32,21 @@ import scala.Predef._
 @JSExportTopLevel("ChainRule")
 case class ChainRule
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) tboxUUID: UUID,
-  @(JSExport @field) name: LocalName,
-  @(JSExport @field) headUUID: UUID
+  @(JSExport @field) uuid: taggedTypes.ChainRuleUUID,
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
+  @(JSExport @field) name: taggedTypes.LocalName,
+  @(JSExport @field) headUUID: taggedTypes.UnreifiedRelationshipXRef
 ) {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: UUID,
-    name: LocalName,
-    headUUID: UUID)
+    tboxUUID: taggedTypes.TerminologyBoxXRef,
+    name: taggedTypes.LocalName,
+    headUUID: taggedTypes.UnreifiedRelationshipXRef)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.chainRuleUUID(oug.namespaceUUID(
         tboxUUID,
-        "name" -> name).toString,
+        "name" -> name).toString),
       tboxUUID,
       name,
       headUUID)
@@ -61,9 +60,9 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: ChainRule =>
   	  (this.uuid == that.uuid) &&
-  	  (this.tboxUUID == that.tboxUUID) &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
   	  (this.name == that.name) &&
-  	  (this.headUUID == that.headUUID)
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.headUUID, that.headUUID) 
     case _ =>
       false
   }
@@ -73,26 +72,61 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("ChainRuleHelper")
 object ChainRuleHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "ChainRules.json"
+
+  implicit val decodeChainRule: Decoder[ChainRule]
+  = Decoder.instance[ChainRule] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[ChainRule]
-  = upickle.default.macroW[ChainRule]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.ChainRuleUUID]
+    	  tboxUUID <- c.downField("tboxUUID").as[taggedTypes.TerminologyBoxUUID]
+    	  name <- c.downField("name").as[taggedTypes.LocalName]
+    	  headUUID <- c.downField("headUUID").as[taggedTypes.UnreifiedRelationshipUUID]
+    	} yield ChainRule(
+    	  uuid,
+    	  tboxUUID,
+    	  name,
+    	  headUUID
+    	)
+  }
+  
+  implicit val encodeChainRule: Encoder[ChainRule]
+  = new Encoder[ChainRule] {
+    override final def apply(x: ChainRule): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeChainRuleUUID(x.uuid)),
+    	  ("tboxUUID", taggedTypes.encodeTerminologyBoxUUID(x.tboxUUID)),
+    	  ("name", taggedTypes.encodeLocalName(x.name)),
+    	  ("headUUID", taggedTypes.encodeUnreifiedRelationshipUUID(x.headUUID))
+    )
+  }
 
   @JSExport
   def toJSON(c: ChainRule)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[ChainRule]
-  = upickle.default.macroR[ChainRule]
+  = encodeChainRule(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : ChainRule
-  = upickle.default.read[ChainRule](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeChainRule(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

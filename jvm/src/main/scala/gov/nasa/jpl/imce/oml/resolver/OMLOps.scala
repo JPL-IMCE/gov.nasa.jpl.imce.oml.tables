@@ -18,14 +18,17 @@
 
 package gov.nasa.jpl.imce.oml.resolver
 
+import gov.nasa.jpl.imce.oml.covariantTag.@@
+
 import scala.collection.immutable.Set
 import scala.{AnyVal, Boolean, None, Some}
+import scala.Predef.String
 
 object OMLOps {
 
-  def uuidEquivalent
+  def uuidEquivalent[T]
   (juuid: java.util.UUID,
-   tuuid: gov.nasa.jpl.imce.oml.tables.UUID)
+   tuuid: String @@ T)
   : Boolean
   = juuid.toString == tuuid
 

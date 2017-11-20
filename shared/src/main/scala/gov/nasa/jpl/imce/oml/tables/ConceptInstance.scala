@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -33,21 +32,21 @@ import scala.Predef._
 @JSExportTopLevel("ConceptInstance")
 case class ConceptInstance
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) descriptionBoxUUID: UUID,
-  @(JSExport @field) singletonConceptClassifierUUID: UUID,
-  @(JSExport @field) name: LocalName
+  @(JSExport @field) uuid: taggedTypes.ConceptInstanceUUID,
+  @(JSExport @field) descriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
+  @(JSExport @field) singletonConceptClassifierUUID: taggedTypes.ConceptXRef,
+  @(JSExport @field) name: taggedTypes.LocalName
 ) {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    descriptionBoxUUID: UUID,
-    singletonConceptClassifierUUID: UUID,
-    name: LocalName)
+    descriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
+    singletonConceptClassifierUUID: taggedTypes.ConceptXRef,
+    name: taggedTypes.LocalName)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.conceptInstanceUUID(oug.namespaceUUID(
         descriptionBoxUUID,
-        "name" -> name).toString,
+        "name" -> name).toString),
       descriptionBoxUUID,
       singletonConceptClassifierUUID,
       name)
@@ -61,8 +60,8 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: ConceptInstance =>
   	  (this.uuid == that.uuid) &&
-  	  (this.descriptionBoxUUID == that.descriptionBoxUUID) &&
-  	  (this.singletonConceptClassifierUUID == that.singletonConceptClassifierUUID) &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.descriptionBoxUUID, that.descriptionBoxUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.singletonConceptClassifierUUID, that.singletonConceptClassifierUUID)  &&
   	  (this.name == that.name)
     case _ =>
       false
@@ -73,26 +72,61 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("ConceptInstanceHelper")
 object ConceptInstanceHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "ConceptInstances.json"
+
+  implicit val decodeConceptInstance: Decoder[ConceptInstance]
+  = Decoder.instance[ConceptInstance] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[ConceptInstance]
-  = upickle.default.macroW[ConceptInstance]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.ConceptInstanceUUID]
+    	  descriptionBoxUUID <- c.downField("descriptionBoxUUID").as[taggedTypes.DescriptionBoxUUID]
+    	  singletonConceptClassifierUUID <- c.downField("singletonConceptClassifierUUID").as[taggedTypes.ConceptUUID]
+    	  name <- c.downField("name").as[taggedTypes.LocalName]
+    	} yield ConceptInstance(
+    	  uuid,
+    	  descriptionBoxUUID,
+    	  singletonConceptClassifierUUID,
+    	  name
+    	)
+  }
+  
+  implicit val encodeConceptInstance: Encoder[ConceptInstance]
+  = new Encoder[ConceptInstance] {
+    override final def apply(x: ConceptInstance): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeConceptInstanceUUID(x.uuid)),
+    	  ("descriptionBoxUUID", taggedTypes.encodeDescriptionBoxUUID(x.descriptionBoxUUID)),
+    	  ("singletonConceptClassifierUUID", taggedTypes.encodeConceptUUID(x.singletonConceptClassifierUUID)),
+    	  ("name", taggedTypes.encodeLocalName(x.name))
+    )
+  }
 
   @JSExport
   def toJSON(c: ConceptInstance)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[ConceptInstance]
-  = upickle.default.macroR[ConceptInstance]
+  = encodeConceptInstance(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : ConceptInstance
-  = upickle.default.read[ConceptInstance](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeConceptInstance(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

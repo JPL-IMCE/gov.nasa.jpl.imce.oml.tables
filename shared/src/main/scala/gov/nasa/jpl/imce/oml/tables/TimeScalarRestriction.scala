@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -36,56 +35,56 @@ import scala.Predef._
   */
 case class TimeScalarRestriction
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) tboxUUID: UUID,
-  @(JSExport @field) restrictedRangeUUID: UUID,
+  @(JSExport @field) uuid: taggedTypes.TimeScalarRestrictionUUID,
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
+  @(JSExport @field) restrictedRangeUUID: taggedTypes.DataRangeXRef,
   @(JSExport @field) minExclusive: scala.Option[LiteralDateTime],
   @(JSExport @field) minInclusive: scala.Option[LiteralDateTime],
   @(JSExport @field) maxExclusive: scala.Option[LiteralDateTime],
   @(JSExport @field) maxInclusive: scala.Option[LiteralDateTime],
-  @(JSExport @field) name: LocalName
+  @(JSExport @field) name: taggedTypes.LocalName
 ) {
   def this(
-    uuid: UUID,
-    tboxUUID: UUID,
-    restrictedRangeUUID: UUID,
-    name: LocalName)
+    uuid: taggedTypes.TimeScalarRestrictionUUID,
+    tboxUUID: taggedTypes.TerminologyBoxXRef,
+    restrictedRangeUUID: taggedTypes.DataRangeXRef,
+    name: taggedTypes.LocalName)
   = this(
       uuid,
       tboxUUID,
       restrictedRangeUUID,
-      None /* minExclusive */,
-      None /* minInclusive */,
-      None /* maxExclusive */,
-      None /* maxInclusive */,
+      scala.None /* minExclusive */,
+      scala.None /* minInclusive */,
+      scala.None /* maxExclusive */,
+      scala.None /* maxInclusive */,
       name)
 
   def withMinExclusive(l: LiteralDateTime)	 
   : TimeScalarRestriction
-  = copy(minExclusive=Some(l))
+  = copy(minExclusive=scala.Some(l))
   
   def withMinInclusive(l: LiteralDateTime)	 
   : TimeScalarRestriction
-  = copy(minInclusive=Some(l))
+  = copy(minInclusive=scala.Some(l))
   
   def withMaxExclusive(l: LiteralDateTime)	 
   : TimeScalarRestriction
-  = copy(maxExclusive=Some(l))
+  = copy(maxExclusive=scala.Some(l))
   
   def withMaxInclusive(l: LiteralDateTime)	 
   : TimeScalarRestriction
-  = copy(maxInclusive=Some(l))
+  = copy(maxInclusive=scala.Some(l))
   
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: UUID,
-    restrictedRangeUUID: UUID,
-    name: LocalName)
+    tboxUUID: taggedTypes.TerminologyBoxXRef,
+    restrictedRangeUUID: taggedTypes.DataRangeXRef,
+    name: taggedTypes.LocalName)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.timeScalarRestrictionUUID(oug.namespaceUUID(
         tboxUUID,
-        "name" -> name).toString,
+        "name" -> name).toString),
       tboxUUID,
       restrictedRangeUUID,
       name)
@@ -99,8 +98,8 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: TimeScalarRestriction =>
   	  (this.uuid == that.uuid) &&
-  	  (this.tboxUUID == that.tboxUUID) &&
-  	  (this.restrictedRangeUUID == that.restrictedRangeUUID) &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.restrictedRangeUUID, that.restrictedRangeUUID)  &&
   	  (this.minExclusive == that.minExclusive) &&
   	  (this.minInclusive == that.minInclusive) &&
   	  (this.maxExclusive == that.maxExclusive) &&
@@ -115,26 +114,73 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("TimeScalarRestrictionHelper")
 object TimeScalarRestrictionHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "TimeScalarRestrictions.json"
+
+  implicit val decodeTimeScalarRestriction: Decoder[TimeScalarRestriction]
+  = Decoder.instance[TimeScalarRestriction] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[TimeScalarRestriction]
-  = upickle.default.macroW[TimeScalarRestriction]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.TimeScalarRestrictionUUID]
+    	  tboxUUID <- c.downField("tboxUUID").as[taggedTypes.TerminologyBoxUUID]
+    	  restrictedRangeUUID <- c.downField("restrictedRangeUUID").as[taggedTypes.DataRangeUUID]
+    	  minExclusive <- Decoder.decodeOption(LiteralDateTime.decodeLiteralDateTime)(c.downField("minExclusive").success.get)
+    	  minInclusive <- Decoder.decodeOption(LiteralDateTime.decodeLiteralDateTime)(c.downField("minInclusive").success.get)
+    	  maxExclusive <- Decoder.decodeOption(LiteralDateTime.decodeLiteralDateTime)(c.downField("maxExclusive").success.get)
+    	  maxInclusive <- Decoder.decodeOption(LiteralDateTime.decodeLiteralDateTime)(c.downField("maxInclusive").success.get)
+    	  name <- c.downField("name").as[taggedTypes.LocalName]
+    	} yield TimeScalarRestriction(
+    	  uuid,
+    	  tboxUUID,
+    	  restrictedRangeUUID,
+    	  minExclusive,
+    	  minInclusive,
+    	  maxExclusive,
+    	  maxInclusive,
+    	  name
+    	)
+  }
+  
+  implicit val encodeTimeScalarRestriction: Encoder[TimeScalarRestriction]
+  = new Encoder[TimeScalarRestriction] {
+    override final def apply(x: TimeScalarRestriction): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeTimeScalarRestrictionUUID(x.uuid)),
+    	  ("tboxUUID", taggedTypes.encodeTerminologyBoxUUID(x.tboxUUID)),
+    	  ("restrictedRangeUUID", taggedTypes.encodeDataRangeUUID(x.restrictedRangeUUID)),
+    	  ("minExclusive", Encoder.encodeOption(LiteralDateTime.encodeLiteralDateTime).apply(x.minExclusive)),
+    	  ("minInclusive", Encoder.encodeOption(LiteralDateTime.encodeLiteralDateTime).apply(x.minInclusive)),
+    	  ("maxExclusive", Encoder.encodeOption(LiteralDateTime.encodeLiteralDateTime).apply(x.maxExclusive)),
+    	  ("maxInclusive", Encoder.encodeOption(LiteralDateTime.encodeLiteralDateTime).apply(x.maxInclusive)),
+    	  ("name", taggedTypes.encodeLocalName(x.name))
+    )
+  }
 
   @JSExport
   def toJSON(c: TimeScalarRestriction)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[TimeScalarRestriction]
-  = upickle.default.macroR[TimeScalarRestriction]
+  = encodeTimeScalarRestriction(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : TimeScalarRestriction
-  = upickle.default.read[TimeScalarRestriction](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeTimeScalarRestriction(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

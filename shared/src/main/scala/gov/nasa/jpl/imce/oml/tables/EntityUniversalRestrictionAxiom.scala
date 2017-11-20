@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -34,26 +33,26 @@ import scala.Predef._
 @JSExportTopLevel("EntityUniversalRestrictionAxiom")
 case class EntityUniversalRestrictionAxiom
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) tboxUUID: UUID,
-  @(JSExport @field) restrictedRelationUUID: UUID,
-  @(JSExport @field) restrictedDomainUUID: UUID,
-  @(JSExport @field) restrictedRangeUUID: UUID
+  @(JSExport @field) uuid: taggedTypes.EntityUniversalRestrictionAxiomUUID,
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
+  @(JSExport @field) restrictedRelationUUID: taggedTypes.EntityRelationshipXRef,
+  @(JSExport @field) restrictedDomainUUID: taggedTypes.EntityXRef,
+  @(JSExport @field) restrictedRangeUUID: taggedTypes.EntityXRef
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: UUID,
-    restrictedRelationUUID: UUID,
-    restrictedDomainUUID: UUID,
-    restrictedRangeUUID: UUID)
+    tboxUUID: taggedTypes.TerminologyBoxXRef,
+    restrictedRelationUUID: taggedTypes.EntityRelationshipXRef,
+    restrictedDomainUUID: taggedTypes.EntityXRef,
+    restrictedRangeUUID: taggedTypes.EntityXRef)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.entityUniversalRestrictionAxiomUUID(oug.namespaceUUID(
         "EntityUniversalRestrictionAxiom",
         "tbox" -> tboxUUID,
         "restrictedRelation" -> restrictedRelationUUID,
         "restrictedDomain" -> restrictedDomainUUID,
-        "restrictedRange" -> restrictedRangeUUID).toString,
+        "restrictedRange" -> restrictedRangeUUID).toString),
       tboxUUID,
       restrictedRelationUUID,
       restrictedDomainUUID,
@@ -68,10 +67,10 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: EntityUniversalRestrictionAxiom =>
   	  (this.uuid == that.uuid) &&
-  	  (this.tboxUUID == that.tboxUUID) &&
-  	  (this.restrictedRelationUUID == that.restrictedRelationUUID) &&
-  	  (this.restrictedDomainUUID == that.restrictedDomainUUID) &&
-  	  (this.restrictedRangeUUID == that.restrictedRangeUUID)
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.restrictedRelationUUID, that.restrictedRelationUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.restrictedDomainUUID, that.restrictedDomainUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.restrictedRangeUUID, that.restrictedRangeUUID) 
     case _ =>
       false
   }
@@ -81,26 +80,64 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("EntityUniversalRestrictionAxiomHelper")
 object EntityUniversalRestrictionAxiomHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "EntityUniversalRestrictionAxioms.json"
+
+  implicit val decodeEntityUniversalRestrictionAxiom: Decoder[EntityUniversalRestrictionAxiom]
+  = Decoder.instance[EntityUniversalRestrictionAxiom] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[EntityUniversalRestrictionAxiom]
-  = upickle.default.macroW[EntityUniversalRestrictionAxiom]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.EntityUniversalRestrictionAxiomUUID]
+    	  tboxUUID <- c.downField("tboxUUID").as[taggedTypes.TerminologyBoxUUID]
+    	  restrictedRelationUUID <- c.downField("restrictedRelationUUID").as[taggedTypes.EntityRelationshipUUID]
+    	  restrictedDomainUUID <- c.downField("restrictedDomainUUID").as[taggedTypes.EntityUUID]
+    	  restrictedRangeUUID <- c.downField("restrictedRangeUUID").as[taggedTypes.EntityUUID]
+    	} yield EntityUniversalRestrictionAxiom(
+    	  uuid,
+    	  tboxUUID,
+    	  restrictedRelationUUID,
+    	  restrictedDomainUUID,
+    	  restrictedRangeUUID
+    	)
+  }
+  
+  implicit val encodeEntityUniversalRestrictionAxiom: Encoder[EntityUniversalRestrictionAxiom]
+  = new Encoder[EntityUniversalRestrictionAxiom] {
+    override final def apply(x: EntityUniversalRestrictionAxiom): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeEntityUniversalRestrictionAxiomUUID(x.uuid)),
+    	  ("tboxUUID", taggedTypes.encodeTerminologyBoxUUID(x.tboxUUID)),
+    	  ("restrictedRelationUUID", taggedTypes.encodeEntityRelationshipUUID(x.restrictedRelationUUID)),
+    	  ("restrictedDomainUUID", taggedTypes.encodeEntityUUID(x.restrictedDomainUUID)),
+    	  ("restrictedRangeUUID", taggedTypes.encodeEntityUUID(x.restrictedRangeUUID))
+    )
+  }
 
   @JSExport
   def toJSON(c: EntityUniversalRestrictionAxiom)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[EntityUniversalRestrictionAxiom]
-  = upickle.default.macroR[EntityUniversalRestrictionAxiom]
+  = encodeEntityUniversalRestrictionAxiom(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : EntityUniversalRestrictionAxiom
-  = upickle.default.read[EntityUniversalRestrictionAxiom](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeEntityUniversalRestrictionAxiom(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

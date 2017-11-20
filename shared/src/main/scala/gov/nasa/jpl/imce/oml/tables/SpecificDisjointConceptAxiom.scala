@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -32,20 +31,20 @@ import scala.Predef._
 @JSExportTopLevel("SpecificDisjointConceptAxiom")
 case class SpecificDisjointConceptAxiom
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) disjointTaxonomyParentUUID: UUID,
-  @(JSExport @field) disjointLeafUUID: UUID
+  @(JSExport @field) uuid: taggedTypes.SpecificDisjointConceptAxiomUUID,
+  @(JSExport @field) disjointTaxonomyParentUUID: taggedTypes.ConceptTreeDisjunctionXRef,
+  @(JSExport @field) disjointLeafUUID: taggedTypes.ConceptXRef
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    disjointTaxonomyParentUUID: UUID,
-    disjointLeafUUID: UUID)
+    disjointTaxonomyParentUUID: taggedTypes.ConceptTreeDisjunctionXRef,
+    disjointLeafUUID: taggedTypes.ConceptXRef)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.specificDisjointConceptAxiomUUID(oug.namespaceUUID(
         "SpecificDisjointConceptAxiom",
         "disjointTaxonomyParent" -> disjointTaxonomyParentUUID,
-        "disjointLeaf" -> disjointLeafUUID).toString,
+        "disjointLeaf" -> disjointLeafUUID).toString),
       disjointTaxonomyParentUUID,
       disjointLeafUUID)
 
@@ -58,8 +57,8 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: SpecificDisjointConceptAxiom =>
   	  (this.uuid == that.uuid) &&
-  	  (this.disjointTaxonomyParentUUID == that.disjointTaxonomyParentUUID) &&
-  	  (this.disjointLeafUUID == that.disjointLeafUUID)
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.disjointTaxonomyParentUUID, that.disjointTaxonomyParentUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.disjointLeafUUID, that.disjointLeafUUID) 
     case _ =>
       false
   }
@@ -69,26 +68,58 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("SpecificDisjointConceptAxiomHelper")
 object SpecificDisjointConceptAxiomHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "SpecificDisjointConceptAxioms.json"
+
+  implicit val decodeSpecificDisjointConceptAxiom: Decoder[SpecificDisjointConceptAxiom]
+  = Decoder.instance[SpecificDisjointConceptAxiom] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[SpecificDisjointConceptAxiom]
-  = upickle.default.macroW[SpecificDisjointConceptAxiom]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.SpecificDisjointConceptAxiomUUID]
+    	  disjointTaxonomyParentUUID <- c.downField("disjointTaxonomyParentUUID").as[taggedTypes.ConceptTreeDisjunctionUUID]
+    	  disjointLeafUUID <- c.downField("disjointLeafUUID").as[taggedTypes.ConceptUUID]
+    	} yield SpecificDisjointConceptAxiom(
+    	  uuid,
+    	  disjointTaxonomyParentUUID,
+    	  disjointLeafUUID
+    	)
+  }
+  
+  implicit val encodeSpecificDisjointConceptAxiom: Encoder[SpecificDisjointConceptAxiom]
+  = new Encoder[SpecificDisjointConceptAxiom] {
+    override final def apply(x: SpecificDisjointConceptAxiom): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeSpecificDisjointConceptAxiomUUID(x.uuid)),
+    	  ("disjointTaxonomyParentUUID", taggedTypes.encodeConceptTreeDisjunctionUUID(x.disjointTaxonomyParentUUID)),
+    	  ("disjointLeafUUID", taggedTypes.encodeConceptUUID(x.disjointLeafUUID))
+    )
+  }
 
   @JSExport
   def toJSON(c: SpecificDisjointConceptAxiom)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[SpecificDisjointConceptAxiom]
-  = upickle.default.macroR[SpecificDisjointConceptAxiom]
+  = encodeSpecificDisjointConceptAxiom(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : SpecificDisjointConceptAxiom
-  = upickle.default.read[SpecificDisjointConceptAxiom](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeSpecificDisjointConceptAxiom(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

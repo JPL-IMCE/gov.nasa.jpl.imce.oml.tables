@@ -35,12 +35,12 @@ trait ConceptualEntitySingletonInstance
   with Resource
 {
 
-  override val name: gov.nasa.jpl.imce.oml.tables.LocalName
+  override val name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName
 
   def descriptionBox
   ()(implicit extent: Extent): scala.Option[DescriptionBox]
   override def iri
-  ()(implicit extent: Extent): scala.Option[gov.nasa.jpl.imce.oml.tables.IRI]
+  ()(implicit extent: Extent): scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI]
   override def abbrevIRI
   ()(implicit extent: Extent): scala.Option[scala.Predef.String]
   def conceptualEntitySingletonClassifier
@@ -58,7 +58,7 @@ object ConceptualEntitySingletonInstance {
 
   def iri
   (c: ConceptualEntitySingletonInstance, ext: Extent)
-  : scala.Option[gov.nasa.jpl.imce.oml.tables.IRI]
+  : scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI]
   = c.iri()(ext)
 
   def abbrevIRI

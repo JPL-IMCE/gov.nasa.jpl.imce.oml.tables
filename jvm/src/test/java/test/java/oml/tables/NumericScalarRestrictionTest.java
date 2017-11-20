@@ -43,13 +43,13 @@ public class NumericScalarRestrictionTest {
 
         String s1 = NumericScalarRestrictionHelper.toJSON(w1);
 
-        String maxE_s = "[{\"literalType\":\"LiteralPositiveIntegerType\",\"value\":\"" + w1.maxExclusive().get().value() + "\"}]";
+        String maxE_s = "{\"literalType\":\"LiteralPositiveIntegerType\",\"value\":\"" + w1.maxExclusive().get().value() + "\"}";
 
-        String maxI_s = "[{\"literalType\":\"LiteralPositiveIntegerType\",\"value\":\"" + w1.maxInclusive().get().value() + "\"}]";
+        String maxI_s = "{\"literalType\":\"LiteralPositiveIntegerType\",\"value\":\"" + w1.maxInclusive().get().value() + "\"}";
 
-        String minE_s = "[{\"literalType\":\"LiteralPositiveIntegerType\",\"value\":\"" + w1.minExclusive().get().value() + "\"}]";
+        String minE_s = "{\"literalType\":\"LiteralPositiveIntegerType\",\"value\":\"" + w1.minExclusive().get().value() + "\"}";
 
-        String minI_s = "[{\"literalType\":\"LiteralPositiveIntegerType\",\"value\":\"" + w1.minInclusive().get().value() + "\"}]";
+        String minI_s = "{\"literalType\":\"LiteralPositiveIntegerType\",\"value\":\"" + w1.minInclusive().get().value() + "\"}";
 
         String t1 = String.format(
                 "{\"uuid\":\"%s\",\"tboxUUID\":\"%s\",\"restrictedRangeUUID\":\"%s\",\"minExclusive\":%s,\"minInclusive\":%s,\"maxExclusive\":%s,\"maxInclusive\":%s,\"name\":\"%s\"}",

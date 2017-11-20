@@ -4,12 +4,11 @@ import com.typesafe.sbt.license.{LicenseInfo, DepModuleInfo}
 import com.typesafe.sbt.sbtghpages.GhpagesPlugin
 
 import de.heikoseeberger.sbtheader.HeaderPlugin
-import de.heikoseeberger.sbtheader.HeaderPattern
-import de.heikoseeberger.sbtheader.license.CommentBlock
+import de.heikoseeberger.sbtheader.CommentStyle
 
 import gov.nasa.jpl.imce.sbt._
 
-val oti_mof_schema_license =
+val oml_license =
   s"""|Copyright 2016 California Institute of Technology ("Caltech").
       |U.S. Government sponsorship acknowledged.
       |
@@ -37,12 +36,12 @@ val tablesLicenseSettings: Seq[Setting[_]] =
 
     startYear  := Some(2016),
 
-    headers := Map(
-      "java" -> (HeaderPattern.cStyleBlockComment, CommentBlock.cStyle(oti_mof_schema_license)),
-      "js" -> (HeaderPattern.cStyleBlockComment, CommentBlock.cStyle(oti_mof_schema_license)),
-      "scala" -> (HeaderPattern.cStyleBlockComment, CommentBlock.cStyle(oti_mof_schema_license))
+    headerLicense := Some(HeaderLicense.ALv2("2016", oml_license)),
 
-    ),
+    headerMappings := headerMappings.value +
+      (HeaderFileType.java -> CommentStyle.CStyleBlockComment) +
+    (HeaderFileType("js") -> CommentStyle.CStyleBlockComment) +
+    (HeaderFileType.scala -> CommentStyle.CStyleBlockComment),
 
     licenseReportTitle := "LicenseReportOfAggregatedSBTPluginsAndLibraries",
 
@@ -294,14 +293,19 @@ lazy val tables = crossProject
     ) : _*
   )
   .jsSettings(
+
+    // For easier debugging, disable JavaScript optimizations
+    // scalaJSLinkerConfig ~= { _.withOptimizer(false) },
+
+    // Disable if debugging.
     scalaJSStage in Global := FullOptStage,
-    requiresDOM := false,
+
+    jsEnv := new org.scalajs.jsenv.jsdomnodejs.JSDOMNodeJSEnv,
 
     libraryDependencies ++= Settings.scalajsDependencies.value,
     //scalaJSOutputMode := ECMAScript51Global,
-    scalaJSOutputMode := ECMAScript51Isolated,
-    //scalaJSOutputMode := ECMAScript6, // ECMAScript6 does not work with 'npm run dist' that uses webpack 1.13.2 & uglify 2.6.4
-    requiresDOM := false,
+    //scalaJSOutputMode := ECMAScript51Isolated,
+    scalaJSOutputMode := ECMAScript2015,
 
     crossTarget in (Compile, fastOptJS) := baseDirectory.value / "..",
     crossTarget in (Compile, fullOptJS) := baseDirectory.value / "..",

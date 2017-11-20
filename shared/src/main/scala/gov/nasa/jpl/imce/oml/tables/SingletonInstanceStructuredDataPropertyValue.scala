@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -33,23 +32,23 @@ import scala.Predef._
 @JSExportTopLevel("SingletonInstanceStructuredDataPropertyValue")
 case class SingletonInstanceStructuredDataPropertyValue
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) descriptionBoxUUID: UUID,
-  @(JSExport @field) singletonInstanceUUID: UUID,
-  @(JSExport @field) structuredDataPropertyUUID: UUID
+  @(JSExport @field) uuid: taggedTypes.SingletonInstanceStructuredDataPropertyValueUUID,
+  @(JSExport @field) descriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
+  @(JSExport @field) singletonInstanceUUID: taggedTypes.ConceptualEntitySingletonInstanceXRef,
+  @(JSExport @field) structuredDataPropertyUUID: taggedTypes.DataRelationshipToStructureXRef
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    descriptionBoxUUID: UUID,
-    singletonInstanceUUID: UUID,
-    structuredDataPropertyUUID: UUID)
+    descriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
+    singletonInstanceUUID: taggedTypes.ConceptualEntitySingletonInstanceXRef,
+    structuredDataPropertyUUID: taggedTypes.DataRelationshipToStructureXRef)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.singletonInstanceStructuredDataPropertyValueUUID(oug.namespaceUUID(
         "SingletonInstanceStructuredDataPropertyValue",
         "descriptionBox" -> descriptionBoxUUID,
         "singletonInstance" -> singletonInstanceUUID,
-        "structuredDataProperty" -> structuredDataPropertyUUID).toString,
+        "structuredDataProperty" -> structuredDataPropertyUUID).toString),
       descriptionBoxUUID,
       singletonInstanceUUID,
       structuredDataPropertyUUID)
@@ -63,9 +62,9 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: SingletonInstanceStructuredDataPropertyValue =>
   	  (this.uuid == that.uuid) &&
-  	  (this.descriptionBoxUUID == that.descriptionBoxUUID) &&
-  	  (this.singletonInstanceUUID == that.singletonInstanceUUID) &&
-  	  (this.structuredDataPropertyUUID == that.structuredDataPropertyUUID)
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.descriptionBoxUUID, that.descriptionBoxUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.singletonInstanceUUID, that.singletonInstanceUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.structuredDataPropertyUUID, that.structuredDataPropertyUUID) 
     case _ =>
       false
   }
@@ -75,26 +74,61 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("SingletonInstanceStructuredDataPropertyValueHelper")
 object SingletonInstanceStructuredDataPropertyValueHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "SingletonInstanceStructuredDataPropertyValues.json"
+
+  implicit val decodeSingletonInstanceStructuredDataPropertyValue: Decoder[SingletonInstanceStructuredDataPropertyValue]
+  = Decoder.instance[SingletonInstanceStructuredDataPropertyValue] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[SingletonInstanceStructuredDataPropertyValue]
-  = upickle.default.macroW[SingletonInstanceStructuredDataPropertyValue]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.SingletonInstanceStructuredDataPropertyValueUUID]
+    	  descriptionBoxUUID <- c.downField("descriptionBoxUUID").as[taggedTypes.DescriptionBoxUUID]
+    	  singletonInstanceUUID <- c.downField("singletonInstanceUUID").as[taggedTypes.ConceptualEntitySingletonInstanceUUID]
+    	  structuredDataPropertyUUID <- c.downField("structuredDataPropertyUUID").as[taggedTypes.DataRelationshipToStructureUUID]
+    	} yield SingletonInstanceStructuredDataPropertyValue(
+    	  uuid,
+    	  descriptionBoxUUID,
+    	  singletonInstanceUUID,
+    	  structuredDataPropertyUUID
+    	)
+  }
+  
+  implicit val encodeSingletonInstanceStructuredDataPropertyValue: Encoder[SingletonInstanceStructuredDataPropertyValue]
+  = new Encoder[SingletonInstanceStructuredDataPropertyValue] {
+    override final def apply(x: SingletonInstanceStructuredDataPropertyValue): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeSingletonInstanceStructuredDataPropertyValueUUID(x.uuid)),
+    	  ("descriptionBoxUUID", taggedTypes.encodeDescriptionBoxUUID(x.descriptionBoxUUID)),
+    	  ("singletonInstanceUUID", taggedTypes.encodeConceptualEntitySingletonInstanceUUID(x.singletonInstanceUUID)),
+    	  ("structuredDataPropertyUUID", taggedTypes.encodeDataRelationshipToStructureUUID(x.structuredDataPropertyUUID))
+    )
+  }
 
   @JSExport
   def toJSON(c: SingletonInstanceStructuredDataPropertyValue)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[SingletonInstanceStructuredDataPropertyValue]
-  = upickle.default.macroR[SingletonInstanceStructuredDataPropertyValue]
+  = encodeSingletonInstanceStructuredDataPropertyValue(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : SingletonInstanceStructuredDataPropertyValue
-  = upickle.default.read[SingletonInstanceStructuredDataPropertyValue](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeSingletonInstanceStructuredDataPropertyValue(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

@@ -36,6 +36,9 @@ object Settings {
     val scala = "2.11.11"
     val scalaJ8CompatVersion = "0.8.0"
     val scalaGraphLibraries = "3.6.0"
+
+    val circeVersion = "0.9.0-M2"
+    val catsCoreVersion = "1.0.0-RC1"
   }
 
   /**
@@ -45,7 +48,11 @@ object Settings {
   val sharedDependencies = Def.setting(Seq(
     "org.apache.commons" % "commons-compress" % "1.4.1",
     "org.scalacheck" %%% "scalacheck" % "1.13.5" % "test",
-    "com.lihaoyi" %%% "upickle" % "0.4.3"
+    "org.typelevel" %%% "cats-core" % versions.catsCoreVersion,
+    "io.circe" %%% "circe-generic" % versions.circeVersion,
+    "io.circe" %%% "circe-literal" % versions.circeVersion,
+    "io.circe" %%% "circe-optics" % versions.circeVersion,
+    "io.circe" %%% "circe-parser" % versions.circeVersion
   ))
 
 
@@ -61,6 +68,7 @@ object Settings {
 
   /** Dependencies only used by the JS project (note the use of %%% instead of %%) */
   val scalajsDependencies = Def.setting(Seq(
+    "org.scala-js" %%% "scalajs-dom" % "0.9.3"
   ))
 
 }

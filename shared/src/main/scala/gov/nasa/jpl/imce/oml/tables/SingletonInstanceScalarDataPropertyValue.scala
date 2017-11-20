@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -34,18 +33,18 @@ import scala.Predef._
   */
 case class SingletonInstanceScalarDataPropertyValue
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) descriptionBoxUUID: UUID,
-  @(JSExport @field) singletonInstanceUUID: UUID,
-  @(JSExport @field) scalarDataPropertyUUID: UUID,
+  @(JSExport @field) uuid: taggedTypes.SingletonInstanceScalarDataPropertyValueUUID,
+  @(JSExport @field) descriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
+  @(JSExport @field) singletonInstanceUUID: taggedTypes.ConceptualEntitySingletonInstanceXRef,
+  @(JSExport @field) scalarDataPropertyUUID: taggedTypes.EntityScalarDataPropertyXRef,
   @(JSExport @field) scalarPropertyValue: LiteralValue,
-  @(JSExport @field) valueTypeUUID: scala.Option[UUID]
+  @(JSExport @field) valueTypeUUID: scala.Option[taggedTypes.DataRangeXRef]
 ) {
   def this(
-    uuid: UUID,
-    descriptionBoxUUID: UUID,
-    singletonInstanceUUID: UUID,
-    scalarDataPropertyUUID: UUID,
+    uuid: taggedTypes.SingletonInstanceScalarDataPropertyValueUUID,
+    descriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
+    singletonInstanceUUID: taggedTypes.ConceptualEntitySingletonInstanceXRef,
+    scalarDataPropertyUUID: taggedTypes.EntityScalarDataPropertyXRef,
     scalarPropertyValue: LiteralValue)
   = this(
       uuid,
@@ -53,25 +52,25 @@ case class SingletonInstanceScalarDataPropertyValue
       singletonInstanceUUID,
       scalarDataPropertyUUID,
       scalarPropertyValue,
-      None /* valueTypeUUID */)
+      scala.None /* valueTypeUUID */)
 
-  def withValueTypeUUID(l: UUID)	 
+  def withValueTypeUUID(l: taggedTypes.DataRangeXRef)	 
   : SingletonInstanceScalarDataPropertyValue
-  = copy(valueTypeUUID=Some(l))
+  = copy(valueTypeUUID=scala.Some(l))
   
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    descriptionBoxUUID: UUID,
-    singletonInstanceUUID: UUID,
-    scalarDataPropertyUUID: UUID,
+    descriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
+    singletonInstanceUUID: taggedTypes.ConceptualEntitySingletonInstanceXRef,
+    scalarDataPropertyUUID: taggedTypes.EntityScalarDataPropertyXRef,
     scalarPropertyValue: LiteralValue)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.singletonInstanceScalarDataPropertyValueUUID(oug.namespaceUUID(
         "SingletonInstanceScalarDataPropertyValue",
         "descriptionBox" -> descriptionBoxUUID,
         "singletonInstance" -> singletonInstanceUUID,
-        "scalarDataProperty" -> scalarDataPropertyUUID).toString,
+        "scalarDataProperty" -> scalarDataPropertyUUID).toString),
       descriptionBoxUUID,
       singletonInstanceUUID,
       scalarDataPropertyUUID,
@@ -86,11 +85,18 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: SingletonInstanceScalarDataPropertyValue =>
   	  (this.uuid == that.uuid) &&
-  	  (this.descriptionBoxUUID == that.descriptionBoxUUID) &&
-  	  (this.singletonInstanceUUID == that.singletonInstanceUUID) &&
-  	  (this.scalarDataPropertyUUID == that.scalarDataPropertyUUID) &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.descriptionBoxUUID, that.descriptionBoxUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.singletonInstanceUUID, that.singletonInstanceUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.scalarDataPropertyUUID, that.scalarDataPropertyUUID)  &&
   	  (this.scalarPropertyValue == that.scalarPropertyValue) &&
-  	  (this.valueTypeUUID == that.valueTypeUUID)
+  	  ((this.valueTypeUUID, that.valueTypeUUID) match {
+  	      case (scala.Some(t1), scala.Some(t2)) =>
+  	        gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(t1, t2)
+  	      case (scala.None, scala.None) =>
+  	        true
+  	      case _ =>
+  	        false
+  	  })
     case _ =>
       false
   }
@@ -100,26 +106,67 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("SingletonInstanceScalarDataPropertyValueHelper")
 object SingletonInstanceScalarDataPropertyValueHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "SingletonInstanceScalarDataPropertyValues.json"
+
+  implicit val decodeSingletonInstanceScalarDataPropertyValue: Decoder[SingletonInstanceScalarDataPropertyValue]
+  = Decoder.instance[SingletonInstanceScalarDataPropertyValue] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[SingletonInstanceScalarDataPropertyValue]
-  = upickle.default.macroW[SingletonInstanceScalarDataPropertyValue]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.SingletonInstanceScalarDataPropertyValueUUID]
+    	  descriptionBoxUUID <- c.downField("descriptionBoxUUID").as[taggedTypes.DescriptionBoxUUID]
+    	  singletonInstanceUUID <- c.downField("singletonInstanceUUID").as[taggedTypes.ConceptualEntitySingletonInstanceUUID]
+    	  scalarDataPropertyUUID <- c.downField("scalarDataPropertyUUID").as[taggedTypes.EntityScalarDataPropertyUUID]
+    	  scalarPropertyValue <- c.downField("scalarPropertyValue").as[LiteralValue]
+    	  valueTypeUUID <- Decoder.decodeOption(taggedTypes.decodeDataRangeUUID)(c.downField("valueTypeUUID").success.get)
+    	} yield SingletonInstanceScalarDataPropertyValue(
+    	  uuid,
+    	  descriptionBoxUUID,
+    	  singletonInstanceUUID,
+    	  scalarDataPropertyUUID,
+    	  scalarPropertyValue,
+    	  valueTypeUUID
+    	)
+  }
+  
+  implicit val encodeSingletonInstanceScalarDataPropertyValue: Encoder[SingletonInstanceScalarDataPropertyValue]
+  = new Encoder[SingletonInstanceScalarDataPropertyValue] {
+    override final def apply(x: SingletonInstanceScalarDataPropertyValue): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeSingletonInstanceScalarDataPropertyValueUUID(x.uuid)),
+    	  ("descriptionBoxUUID", taggedTypes.encodeDescriptionBoxUUID(x.descriptionBoxUUID)),
+    	  ("singletonInstanceUUID", taggedTypes.encodeConceptualEntitySingletonInstanceUUID(x.singletonInstanceUUID)),
+    	  ("scalarDataPropertyUUID", taggedTypes.encodeEntityScalarDataPropertyUUID(x.scalarDataPropertyUUID)),
+    	  ("scalarPropertyValue", LiteralValue.encodeLiteralValue(x.scalarPropertyValue)),
+    	  ("valueTypeUUID", Encoder.encodeOption(taggedTypes.encodeDataRangeUUID).apply(x.valueTypeUUID))
+    )
+  }
 
   @JSExport
   def toJSON(c: SingletonInstanceScalarDataPropertyValue)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[SingletonInstanceScalarDataPropertyValue]
-  = upickle.default.macroR[SingletonInstanceScalarDataPropertyValue]
+  = encodeSingletonInstanceScalarDataPropertyValue(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : SingletonInstanceScalarDataPropertyValue
-  = upickle.default.read[SingletonInstanceScalarDataPropertyValue](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeSingletonInstanceScalarDataPropertyValue(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

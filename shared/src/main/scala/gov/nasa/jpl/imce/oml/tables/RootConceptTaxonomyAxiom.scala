@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -32,20 +31,20 @@ import scala.Predef._
 @JSExportTopLevel("RootConceptTaxonomyAxiom")
 case class RootConceptTaxonomyAxiom
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) bundleUUID: UUID,
-  @(JSExport @field) rootUUID: UUID
+  @(JSExport @field) uuid: taggedTypes.RootConceptTaxonomyAxiomUUID,
+  @(JSExport @field) bundleUUID: taggedTypes.BundleXRef,
+  @(JSExport @field) rootUUID: taggedTypes.ConceptXRef
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    bundleUUID: UUID,
-    rootUUID: UUID)
+    bundleUUID: taggedTypes.BundleXRef,
+    rootUUID: taggedTypes.ConceptXRef)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.rootConceptTaxonomyAxiomUUID(oug.namespaceUUID(
         "RootConceptTaxonomyAxiom",
         "bundle" -> bundleUUID,
-        "root" -> rootUUID).toString,
+        "root" -> rootUUID).toString),
       bundleUUID,
       rootUUID)
 
@@ -58,8 +57,8 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: RootConceptTaxonomyAxiom =>
   	  (this.uuid == that.uuid) &&
-  	  (this.bundleUUID == that.bundleUUID) &&
-  	  (this.rootUUID == that.rootUUID)
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.bundleUUID, that.bundleUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.rootUUID, that.rootUUID) 
     case _ =>
       false
   }
@@ -69,26 +68,58 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("RootConceptTaxonomyAxiomHelper")
 object RootConceptTaxonomyAxiomHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "RootConceptTaxonomyAxioms.json"
+
+  implicit val decodeRootConceptTaxonomyAxiom: Decoder[RootConceptTaxonomyAxiom]
+  = Decoder.instance[RootConceptTaxonomyAxiom] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[RootConceptTaxonomyAxiom]
-  = upickle.default.macroW[RootConceptTaxonomyAxiom]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.RootConceptTaxonomyAxiomUUID]
+    	  bundleUUID <- c.downField("bundleUUID").as[taggedTypes.BundleUUID]
+    	  rootUUID <- c.downField("rootUUID").as[taggedTypes.ConceptUUID]
+    	} yield RootConceptTaxonomyAxiom(
+    	  uuid,
+    	  bundleUUID,
+    	  rootUUID
+    	)
+  }
+  
+  implicit val encodeRootConceptTaxonomyAxiom: Encoder[RootConceptTaxonomyAxiom]
+  = new Encoder[RootConceptTaxonomyAxiom] {
+    override final def apply(x: RootConceptTaxonomyAxiom): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeRootConceptTaxonomyAxiomUUID(x.uuid)),
+    	  ("bundleUUID", taggedTypes.encodeBundleUUID(x.bundleUUID)),
+    	  ("rootUUID", taggedTypes.encodeConceptUUID(x.rootUUID))
+    )
+  }
 
   @JSExport
   def toJSON(c: RootConceptTaxonomyAxiom)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[RootConceptTaxonomyAxiom]
-  = upickle.default.macroR[RootConceptTaxonomyAxiom]
+  = encodeRootConceptTaxonomyAxiom(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : RootConceptTaxonomyAxiom
-  = upickle.default.read[RootConceptTaxonomyAxiom](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeRootConceptTaxonomyAxiom(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

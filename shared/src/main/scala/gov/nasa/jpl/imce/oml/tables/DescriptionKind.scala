@@ -18,6 +18,8 @@
 
 package gov.nasa.jpl.imce.oml.tables
 
+import io.circe._
+
 import scala.scalajs.js.annotation.JSExportTopLevel
 import scala.Predef.String
 
@@ -41,15 +43,12 @@ object DescriptionKind {
       "Partial"
   }
 
-  implicit val w
-  : upickle.default.Writer[DescriptionKind]
-  = upickle.default.Writer[DescriptionKind]{ (k: DescriptionKind) =>
-    upickle.Js.Str(toString(k))
-  }
+  implicit val decodeDescriptionKind: Decoder[DescriptionKind] = Decoder.decodeString.map(fromString)
+  implicit val encodeDescriptionKind: Encoder[DescriptionKind] = Encoder.encodeString.contramap[DescriptionKind](toString)
 
   def toJSON(k: DescriptionKind)
   : String
-  = upickle.default.write(expr=k, indent=0)
+  = encodeDescriptionKind(k).noSpaces
 
   def fromString(k: String)
   : DescriptionKind
@@ -60,15 +59,17 @@ object DescriptionKind {
       Partial
   }
 
-  implicit val r
-  : upickle.default.Reader[DescriptionKind]
-  = upickle.default.Reader[DescriptionKind]{
-    case upickle.Js.Str(k) =>
-      fromString(k)
-  }
-
   def fromJSON(k: String)
   : DescriptionKind
-  = upickle.default.read[DescriptionKind](k)
-
+  = parser.parse(k) match {
+    case scala.Right(json) =>
+      decodeDescriptionKind(json.hcursor) match {
+        case scala.Right(result) =>
+          result
+        case scala.Left(failure) =>
+          throw failure
+      }
+    case scala.Left(failure) =>
+      throw failure
+  }
 }

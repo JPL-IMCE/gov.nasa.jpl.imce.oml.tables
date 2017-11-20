@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -32,19 +31,19 @@ import scala.Predef._
 @JSExportTopLevel("AnonymousConceptUnionAxiom")
 case class AnonymousConceptUnionAxiom
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) disjointTaxonomyParentUUID: UUID,
-  @(JSExport @field) name: LocalName
+  @(JSExport @field) uuid: taggedTypes.AnonymousConceptUnionAxiomUUID,
+  @(JSExport @field) disjointTaxonomyParentUUID: taggedTypes.ConceptTreeDisjunctionXRef,
+  @(JSExport @field) name: taggedTypes.LocalName
 ) {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    disjointTaxonomyParentUUID: UUID,
-    name: LocalName)
+    disjointTaxonomyParentUUID: taggedTypes.ConceptTreeDisjunctionXRef,
+    name: taggedTypes.LocalName)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.anonymousConceptUnionAxiomUUID(oug.namespaceUUID(
         disjointTaxonomyParentUUID,
-        "name" -> name).toString,
+        "name" -> name).toString),
       disjointTaxonomyParentUUID,
       name)
 
@@ -57,7 +56,7 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: AnonymousConceptUnionAxiom =>
   	  (this.uuid == that.uuid) &&
-  	  (this.disjointTaxonomyParentUUID == that.disjointTaxonomyParentUUID) &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.disjointTaxonomyParentUUID, that.disjointTaxonomyParentUUID)  &&
   	  (this.name == that.name)
     case _ =>
       false
@@ -68,26 +67,58 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("AnonymousConceptUnionAxiomHelper")
 object AnonymousConceptUnionAxiomHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "AnonymousConceptUnionAxioms.json"
+
+  implicit val decodeAnonymousConceptUnionAxiom: Decoder[AnonymousConceptUnionAxiom]
+  = Decoder.instance[AnonymousConceptUnionAxiom] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[AnonymousConceptUnionAxiom]
-  = upickle.default.macroW[AnonymousConceptUnionAxiom]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.AnonymousConceptUnionAxiomUUID]
+    	  disjointTaxonomyParentUUID <- c.downField("disjointTaxonomyParentUUID").as[taggedTypes.ConceptTreeDisjunctionUUID]
+    	  name <- c.downField("name").as[taggedTypes.LocalName]
+    	} yield AnonymousConceptUnionAxiom(
+    	  uuid,
+    	  disjointTaxonomyParentUUID,
+    	  name
+    	)
+  }
+  
+  implicit val encodeAnonymousConceptUnionAxiom: Encoder[AnonymousConceptUnionAxiom]
+  = new Encoder[AnonymousConceptUnionAxiom] {
+    override final def apply(x: AnonymousConceptUnionAxiom): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeAnonymousConceptUnionAxiomUUID(x.uuid)),
+    	  ("disjointTaxonomyParentUUID", taggedTypes.encodeConceptTreeDisjunctionUUID(x.disjointTaxonomyParentUUID)),
+    	  ("name", taggedTypes.encodeLocalName(x.name))
+    )
+  }
 
   @JSExport
   def toJSON(c: AnonymousConceptUnionAxiom)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[AnonymousConceptUnionAxiom]
-  = upickle.default.macroR[AnonymousConceptUnionAxiom]
+  = encodeAnonymousConceptUnionAxiom(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : AnonymousConceptUnionAxiom
-  = upickle.default.read[AnonymousConceptUnionAxiom](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeAnonymousConceptUnionAxiom(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

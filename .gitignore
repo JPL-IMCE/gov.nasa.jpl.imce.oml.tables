@@ -11,7 +11,10 @@ gh-pages/
 local.*
 gov-nasa-jpl-imce-oml-tables.js
 gov-nasa-jpl-imce-oml-tables.js.map
+gov-nasa-jpl-imce-oml-tables-test-fastopt.js
+gov-nasa-jpl-imce-oml-tables-test-fastopt.js.map
 gov-nasa-jpl-imce-oml-tables-test-opt.js
 gov-nasa-jpl-imce-oml-tables-test-opt.js.map
-package.json
+package.json*
+package-lock.json
 project/project/

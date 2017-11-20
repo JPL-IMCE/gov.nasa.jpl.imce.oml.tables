@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -34,26 +33,26 @@ import scala.Predef._
 @JSExportTopLevel("EntityScalarDataPropertyUniversalRestrictionAxiom")
 case class EntityScalarDataPropertyUniversalRestrictionAxiom
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) tboxUUID: UUID,
-  @(JSExport @field) restrictedEntityUUID: UUID,
-  @(JSExport @field) scalarPropertyUUID: UUID,
-  @(JSExport @field) scalarRestrictionUUID: UUID
+  @(JSExport @field) uuid: taggedTypes.EntityScalarDataPropertyUniversalRestrictionAxiomUUID,
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
+  @(JSExport @field) restrictedEntityUUID: taggedTypes.EntityXRef,
+  @(JSExport @field) scalarPropertyUUID: taggedTypes.EntityScalarDataPropertyXRef,
+  @(JSExport @field) scalarRestrictionUUID: taggedTypes.DataRangeXRef
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: UUID,
-    restrictedEntityUUID: UUID,
-    scalarPropertyUUID: UUID,
-    scalarRestrictionUUID: UUID)
+    tboxUUID: taggedTypes.TerminologyBoxXRef,
+    restrictedEntityUUID: taggedTypes.EntityXRef,
+    scalarPropertyUUID: taggedTypes.EntityScalarDataPropertyXRef,
+    scalarRestrictionUUID: taggedTypes.DataRangeXRef)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.entityScalarDataPropertyUniversalRestrictionAxiomUUID(oug.namespaceUUID(
         "EntityScalarDataPropertyUniversalRestrictionAxiom",
         "tbox" -> tboxUUID,
         "restrictedEntity" -> restrictedEntityUUID,
         "scalarProperty" -> scalarPropertyUUID,
-        "scalarRestriction" -> scalarRestrictionUUID).toString,
+        "scalarRestriction" -> scalarRestrictionUUID).toString),
       tboxUUID,
       restrictedEntityUUID,
       scalarPropertyUUID,
@@ -68,10 +67,10 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: EntityScalarDataPropertyUniversalRestrictionAxiom =>
   	  (this.uuid == that.uuid) &&
-  	  (this.tboxUUID == that.tboxUUID) &&
-  	  (this.restrictedEntityUUID == that.restrictedEntityUUID) &&
-  	  (this.scalarPropertyUUID == that.scalarPropertyUUID) &&
-  	  (this.scalarRestrictionUUID == that.scalarRestrictionUUID)
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.restrictedEntityUUID, that.restrictedEntityUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.scalarPropertyUUID, that.scalarPropertyUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.scalarRestrictionUUID, that.scalarRestrictionUUID) 
     case _ =>
       false
   }
@@ -81,26 +80,64 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("EntityScalarDataPropertyUniversalRestrictionAxiomHelper")
 object EntityScalarDataPropertyUniversalRestrictionAxiomHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "EntityScalarDataPropertyUniversalRestrictionAxioms.json"
+
+  implicit val decodeEntityScalarDataPropertyUniversalRestrictionAxiom: Decoder[EntityScalarDataPropertyUniversalRestrictionAxiom]
+  = Decoder.instance[EntityScalarDataPropertyUniversalRestrictionAxiom] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[EntityScalarDataPropertyUniversalRestrictionAxiom]
-  = upickle.default.macroW[EntityScalarDataPropertyUniversalRestrictionAxiom]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.EntityScalarDataPropertyUniversalRestrictionAxiomUUID]
+    	  tboxUUID <- c.downField("tboxUUID").as[taggedTypes.TerminologyBoxUUID]
+    	  restrictedEntityUUID <- c.downField("restrictedEntityUUID").as[taggedTypes.EntityUUID]
+    	  scalarPropertyUUID <- c.downField("scalarPropertyUUID").as[taggedTypes.EntityScalarDataPropertyUUID]
+    	  scalarRestrictionUUID <- c.downField("scalarRestrictionUUID").as[taggedTypes.DataRangeUUID]
+    	} yield EntityScalarDataPropertyUniversalRestrictionAxiom(
+    	  uuid,
+    	  tboxUUID,
+    	  restrictedEntityUUID,
+    	  scalarPropertyUUID,
+    	  scalarRestrictionUUID
+    	)
+  }
+  
+  implicit val encodeEntityScalarDataPropertyUniversalRestrictionAxiom: Encoder[EntityScalarDataPropertyUniversalRestrictionAxiom]
+  = new Encoder[EntityScalarDataPropertyUniversalRestrictionAxiom] {
+    override final def apply(x: EntityScalarDataPropertyUniversalRestrictionAxiom): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeEntityScalarDataPropertyUniversalRestrictionAxiomUUID(x.uuid)),
+    	  ("tboxUUID", taggedTypes.encodeTerminologyBoxUUID(x.tboxUUID)),
+    	  ("restrictedEntityUUID", taggedTypes.encodeEntityUUID(x.restrictedEntityUUID)),
+    	  ("scalarPropertyUUID", taggedTypes.encodeEntityScalarDataPropertyUUID(x.scalarPropertyUUID)),
+    	  ("scalarRestrictionUUID", taggedTypes.encodeDataRangeUUID(x.scalarRestrictionUUID))
+    )
+  }
 
   @JSExport
   def toJSON(c: EntityScalarDataPropertyUniversalRestrictionAxiom)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[EntityScalarDataPropertyUniversalRestrictionAxiom]
-  = upickle.default.macroR[EntityScalarDataPropertyUniversalRestrictionAxiom]
+  = encodeEntityScalarDataPropertyUniversalRestrictionAxiom(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : EntityScalarDataPropertyUniversalRestrictionAxiom
-  = upickle.default.read[EntityScalarDataPropertyUniversalRestrictionAxiom](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeEntityScalarDataPropertyUniversalRestrictionAxiom(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

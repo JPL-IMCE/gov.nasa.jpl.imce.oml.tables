@@ -42,15 +42,15 @@ public class PlainLiteralScalarRestrictionTest {
 
         String s1 = PlainLiteralScalarRestrictionHelper.toJSON(w1);
 
-        String lan_s = "[\"" + w1.langRange().get() + "\"]";
+        String lan_s = "\"" + w1.langRange().get() + "\"";
 
-        String ls = "[\"" + w1.length().get() + "\"]";
+        String ls = "\"" + w1.length().get() + "\"";
 
-        String maxL = "[\"" + w1.maxLength().get() + "\"]";
+        String maxL = "\"" + w1.maxLength().get() + "\"";
 
-        String minL = "[\"" + w1.minLength().get() + "\"]";
+        String minL = "\"" + w1.minLength().get() + "\"";
 
-        String ps = "[\"" + w1.pattern().get() + "\"]";
+        String ps = "\"" + w1.pattern().get() + "\"";
 
         String t1 = String.format(
                 "{\"uuid\":\"%s\",\"tboxUUID\":\"%s\",\"restrictedRangeUUID\":\"%s\",\"length\":%s,\"minLength\":%s,\"maxLength\":%s,\"name\":\"%s\",\"langRange\":%s,\"pattern\":%s}",

@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -34,26 +33,26 @@ import scala.Predef._
 @JSExportTopLevel("UnreifiedRelationshipInstanceTuple")
 case class UnreifiedRelationshipInstanceTuple
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) descriptionBoxUUID: UUID,
-  @(JSExport @field) unreifiedRelationshipUUID: UUID,
-  @(JSExport @field) domainUUID: UUID,
-  @(JSExport @field) rangeUUID: UUID
+  @(JSExport @field) uuid: taggedTypes.UnreifiedRelationshipInstanceTupleUUID,
+  @(JSExport @field) descriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
+  @(JSExport @field) unreifiedRelationshipUUID: taggedTypes.UnreifiedRelationshipXRef,
+  @(JSExport @field) domainUUID: taggedTypes.ConceptualEntitySingletonInstanceXRef,
+  @(JSExport @field) rangeUUID: taggedTypes.ConceptualEntitySingletonInstanceXRef
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    descriptionBoxUUID: UUID,
-    unreifiedRelationshipUUID: UUID,
-    domainUUID: UUID,
-    rangeUUID: UUID)
+    descriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
+    unreifiedRelationshipUUID: taggedTypes.UnreifiedRelationshipXRef,
+    domainUUID: taggedTypes.ConceptualEntitySingletonInstanceXRef,
+    rangeUUID: taggedTypes.ConceptualEntitySingletonInstanceXRef)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.unreifiedRelationshipInstanceTupleUUID(oug.namespaceUUID(
         "UnreifiedRelationshipInstanceTuple",
         "descriptionBox" -> descriptionBoxUUID,
         "unreifiedRelationship" -> unreifiedRelationshipUUID,
         "domain" -> domainUUID,
-        "range" -> rangeUUID).toString,
+        "range" -> rangeUUID).toString),
       descriptionBoxUUID,
       unreifiedRelationshipUUID,
       domainUUID,
@@ -68,10 +67,10 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: UnreifiedRelationshipInstanceTuple =>
   	  (this.uuid == that.uuid) &&
-  	  (this.descriptionBoxUUID == that.descriptionBoxUUID) &&
-  	  (this.unreifiedRelationshipUUID == that.unreifiedRelationshipUUID) &&
-  	  (this.domainUUID == that.domainUUID) &&
-  	  (this.rangeUUID == that.rangeUUID)
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.descriptionBoxUUID, that.descriptionBoxUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.unreifiedRelationshipUUID, that.unreifiedRelationshipUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.domainUUID, that.domainUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.rangeUUID, that.rangeUUID) 
     case _ =>
       false
   }
@@ -81,26 +80,64 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("UnreifiedRelationshipInstanceTupleHelper")
 object UnreifiedRelationshipInstanceTupleHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "UnreifiedRelationshipInstanceTuples.json"
+
+  implicit val decodeUnreifiedRelationshipInstanceTuple: Decoder[UnreifiedRelationshipInstanceTuple]
+  = Decoder.instance[UnreifiedRelationshipInstanceTuple] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[UnreifiedRelationshipInstanceTuple]
-  = upickle.default.macroW[UnreifiedRelationshipInstanceTuple]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.UnreifiedRelationshipInstanceTupleUUID]
+    	  descriptionBoxUUID <- c.downField("descriptionBoxUUID").as[taggedTypes.DescriptionBoxUUID]
+    	  unreifiedRelationshipUUID <- c.downField("unreifiedRelationshipUUID").as[taggedTypes.UnreifiedRelationshipUUID]
+    	  domainUUID <- c.downField("domainUUID").as[taggedTypes.ConceptualEntitySingletonInstanceUUID]
+    	  rangeUUID <- c.downField("rangeUUID").as[taggedTypes.ConceptualEntitySingletonInstanceUUID]
+    	} yield UnreifiedRelationshipInstanceTuple(
+    	  uuid,
+    	  descriptionBoxUUID,
+    	  unreifiedRelationshipUUID,
+    	  domainUUID,
+    	  rangeUUID
+    	)
+  }
+  
+  implicit val encodeUnreifiedRelationshipInstanceTuple: Encoder[UnreifiedRelationshipInstanceTuple]
+  = new Encoder[UnreifiedRelationshipInstanceTuple] {
+    override final def apply(x: UnreifiedRelationshipInstanceTuple): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeUnreifiedRelationshipInstanceTupleUUID(x.uuid)),
+    	  ("descriptionBoxUUID", taggedTypes.encodeDescriptionBoxUUID(x.descriptionBoxUUID)),
+    	  ("unreifiedRelationshipUUID", taggedTypes.encodeUnreifiedRelationshipUUID(x.unreifiedRelationshipUUID)),
+    	  ("domainUUID", taggedTypes.encodeConceptualEntitySingletonInstanceUUID(x.domainUUID)),
+    	  ("rangeUUID", taggedTypes.encodeConceptualEntitySingletonInstanceUUID(x.rangeUUID))
+    )
+  }
 
   @JSExport
   def toJSON(c: UnreifiedRelationshipInstanceTuple)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[UnreifiedRelationshipInstanceTuple]
-  = upickle.default.macroR[UnreifiedRelationshipInstanceTuple]
+  = encodeUnreifiedRelationshipInstanceTuple(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : UnreifiedRelationshipInstanceTuple
-  = upickle.default.read[UnreifiedRelationshipInstanceTuple](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeUnreifiedRelationshipInstanceTuple(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

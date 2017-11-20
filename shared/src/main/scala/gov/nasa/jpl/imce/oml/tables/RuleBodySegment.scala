@@ -21,8 +21,6 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
 
 /**
   * @param uuid[1,1]
@@ -31,24 +29,24 @@ import scala.Predef._
   */
 case class RuleBodySegment
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) previousSegmentUUID: scala.Option[UUID],
-  @(JSExport @field) ruleUUID: scala.Option[UUID]
+  @(JSExport @field) uuid: taggedTypes.RuleBodySegmentUUID,
+  @(JSExport @field) previousSegmentUUID: scala.Option[taggedTypes.RuleBodySegmentXRef],
+  @(JSExport @field) ruleUUID: scala.Option[taggedTypes.ChainRuleXRef]
 ) {
   def this(
-    uuid: UUID)
+    uuid: taggedTypes.RuleBodySegmentUUID)
   = this(
       uuid,
-      None /* previousSegmentUUID */,
-      None /* ruleUUID */)
+      scala.None /* previousSegmentUUID */,
+      scala.None /* ruleUUID */)
 
-  def withPreviousSegmentUUID(l: UUID)	 
+  def withPreviousSegmentUUID(l: taggedTypes.RuleBodySegmentXRef)	 
   : RuleBodySegment
-  = copy(previousSegmentUUID=Some(l))
+  = copy(previousSegmentUUID=scala.Some(l))
   
-  def withRuleUUID(l: UUID)	 
+  def withRuleUUID(l: taggedTypes.ChainRuleXRef)	 
   : RuleBodySegment
-  = copy(ruleUUID=Some(l))
+  = copy(ruleUUID=scala.Some(l))
   
 
 val vertexId: scala.Long = uuid.hashCode.toLong
@@ -60,8 +58,22 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: RuleBodySegment =>
   	  (this.uuid == that.uuid) &&
-  	  (this.previousSegmentUUID == that.previousSegmentUUID) &&
-  	  (this.ruleUUID == that.ruleUUID)
+  	  ((this.previousSegmentUUID, that.previousSegmentUUID) match {
+  	      case (scala.Some(t1), scala.Some(t2)) =>
+  	        gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(t1, t2)
+  	      case (scala.None, scala.None) =>
+  	        true
+  	      case _ =>
+  	        false
+  	  }) &&
+  	  ((this.ruleUUID, that.ruleUUID) match {
+  	      case (scala.Some(t1), scala.Some(t2)) =>
+  	        gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(t1, t2)
+  	      case (scala.None, scala.None) =>
+  	        true
+  	      case _ =>
+  	        false
+  	  })
     case _ =>
       false
   }
@@ -71,26 +83,58 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("RuleBodySegmentHelper")
 object RuleBodySegmentHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "RuleBodySegments.json"
+
+  implicit val decodeRuleBodySegment: Decoder[RuleBodySegment]
+  = Decoder.instance[RuleBodySegment] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[RuleBodySegment]
-  = upickle.default.macroW[RuleBodySegment]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.RuleBodySegmentUUID]
+    	  previousSegmentUUID <- Decoder.decodeOption(taggedTypes.decodeRuleBodySegmentUUID)(c.downField("previousSegmentUUID").success.get)
+    	  ruleUUID <- Decoder.decodeOption(taggedTypes.decodeChainRuleUUID)(c.downField("ruleUUID").success.get)
+    	} yield RuleBodySegment(
+    	  uuid,
+    	  previousSegmentUUID,
+    	  ruleUUID
+    	)
+  }
+  
+  implicit val encodeRuleBodySegment: Encoder[RuleBodySegment]
+  = new Encoder[RuleBodySegment] {
+    override final def apply(x: RuleBodySegment): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeRuleBodySegmentUUID(x.uuid)),
+    	  ("previousSegmentUUID", Encoder.encodeOption(taggedTypes.encodeRuleBodySegmentUUID).apply(x.previousSegmentUUID)),
+    	  ("ruleUUID", Encoder.encodeOption(taggedTypes.encodeChainRuleUUID).apply(x.ruleUUID))
+    )
+  }
 
   @JSExport
   def toJSON(c: RuleBodySegment)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[RuleBodySegment]
-  = upickle.default.macroR[RuleBodySegment]
+  = encodeRuleBodySegment(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : RuleBodySegment
-  = upickle.default.read[RuleBodySegment](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeRuleBodySegment(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

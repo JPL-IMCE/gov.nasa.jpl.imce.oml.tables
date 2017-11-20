@@ -30,9 +30,9 @@ trait Resource
 {
 
   def iri
-  ()(implicit extent: Extent): scala.Option[gov.nasa.jpl.imce.oml.tables.IRI]
+  ()(implicit extent: Extent): scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI]
   def name
-  (): gov.nasa.jpl.imce.oml.tables.LocalName
+  (): gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName
   def abbrevIRI
   ()(implicit extent: Extent): scala.Option[scala.Predef.String]
 }
@@ -41,7 +41,7 @@ object Resource {
 
   def iri
   (r: Resource, ext: Extent)
-  : scala.Option[gov.nasa.jpl.imce.oml.tables.IRI]
+  : scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI]
   = r.iri()(ext)
 
   def abbrevIRI

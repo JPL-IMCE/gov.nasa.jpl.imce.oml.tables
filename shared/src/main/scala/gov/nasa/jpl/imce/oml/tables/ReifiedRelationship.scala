@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -44,10 +43,10 @@ import scala.Predef._
   */
 case class ReifiedRelationship
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) tboxUUID: UUID,
-  @(JSExport @field) sourceUUID: UUID,
-  @(JSExport @field) targetUUID: UUID,
+  @(JSExport @field) uuid: taggedTypes.ReifiedRelationshipUUID,
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
+  @(JSExport @field) sourceUUID: taggedTypes.EntityXRef,
+  @(JSExport @field) targetUUID: taggedTypes.EntityXRef,
   @(JSExport @field) isAsymmetric: scala.Boolean,
   @(JSExport @field) isEssential: scala.Boolean,
   @(JSExport @field) isFunctional: scala.Boolean,
@@ -57,15 +56,15 @@ case class ReifiedRelationship
   @(JSExport @field) isReflexive: scala.Boolean,
   @(JSExport @field) isSymmetric: scala.Boolean,
   @(JSExport @field) isTransitive: scala.Boolean,
-  @(JSExport @field) name: LocalName,
-  @(JSExport @field) unreifiedPropertyName: LocalName,
-  @(JSExport @field) unreifiedInversePropertyName: scala.Option[LocalName]
+  @(JSExport @field) name: taggedTypes.LocalName,
+  @(JSExport @field) unreifiedPropertyName: taggedTypes.LocalName,
+  @(JSExport @field) unreifiedInversePropertyName: scala.Option[taggedTypes.LocalName]
 ) {
   def this(
-    uuid: UUID,
-    tboxUUID: UUID,
-    sourceUUID: UUID,
-    targetUUID: UUID,
+    uuid: taggedTypes.ReifiedRelationshipUUID,
+    tboxUUID: taggedTypes.TerminologyBoxXRef,
+    sourceUUID: taggedTypes.EntityXRef,
+    targetUUID: taggedTypes.EntityXRef,
     isAsymmetric: scala.Boolean,
     isEssential: scala.Boolean,
     isFunctional: scala.Boolean,
@@ -75,8 +74,8 @@ case class ReifiedRelationship
     isReflexive: scala.Boolean,
     isSymmetric: scala.Boolean,
     isTransitive: scala.Boolean,
-    name: LocalName,
-    unreifiedPropertyName: LocalName)
+    name: taggedTypes.LocalName,
+    unreifiedPropertyName: taggedTypes.LocalName)
   = this(
       uuid,
       tboxUUID,
@@ -93,18 +92,18 @@ case class ReifiedRelationship
       isTransitive,
       name,
       unreifiedPropertyName,
-      None /* unreifiedInversePropertyName */)
+      scala.None /* unreifiedInversePropertyName */)
 
-  def withUnreifiedInversePropertyName(l: LocalName)	 
+  def withUnreifiedInversePropertyName(l: taggedTypes.LocalName)	 
   : ReifiedRelationship
-  = copy(unreifiedInversePropertyName=Some(l))
+  = copy(unreifiedInversePropertyName=scala.Some(l))
   
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: UUID,
-    sourceUUID: UUID,
-    targetUUID: UUID,
+    tboxUUID: taggedTypes.TerminologyBoxXRef,
+    sourceUUID: taggedTypes.EntityXRef,
+    targetUUID: taggedTypes.EntityXRef,
     isAsymmetric: scala.Boolean,
     isEssential: scala.Boolean,
     isFunctional: scala.Boolean,
@@ -114,12 +113,12 @@ case class ReifiedRelationship
     isReflexive: scala.Boolean,
     isSymmetric: scala.Boolean,
     isTransitive: scala.Boolean,
-    name: LocalName,
-    unreifiedPropertyName: LocalName)
+    name: taggedTypes.LocalName,
+    unreifiedPropertyName: taggedTypes.LocalName)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.reifiedRelationshipUUID(oug.namespaceUUID(
         tboxUUID,
-        "name" -> name).toString,
+        "name" -> name).toString),
       tboxUUID,
       sourceUUID,
       targetUUID,
@@ -144,9 +143,9 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: ReifiedRelationship =>
   	  (this.uuid == that.uuid) &&
-  	  (this.tboxUUID == that.tboxUUID) &&
-  	  (this.sourceUUID == that.sourceUUID) &&
-  	  (this.targetUUID == that.targetUUID) &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.sourceUUID, that.sourceUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.targetUUID, that.targetUUID)  &&
   	  (this.isAsymmetric == that.isAsymmetric) &&
   	  (this.isEssential == that.isEssential) &&
   	  (this.isFunctional == that.isFunctional) &&
@@ -168,26 +167,97 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("ReifiedRelationshipHelper")
 object ReifiedRelationshipHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "ReifiedRelationships.json"
+
+  implicit val decodeReifiedRelationship: Decoder[ReifiedRelationship]
+  = Decoder.instance[ReifiedRelationship] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[ReifiedRelationship]
-  = upickle.default.macroW[ReifiedRelationship]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.ReifiedRelationshipUUID]
+    	  tboxUUID <- c.downField("tboxUUID").as[taggedTypes.TerminologyBoxUUID]
+    	  sourceUUID <- c.downField("sourceUUID").as[taggedTypes.EntityUUID]
+    	  targetUUID <- c.downField("targetUUID").as[taggedTypes.EntityUUID]
+    	  isAsymmetric <- c.downField("isAsymmetric").as[scala.Boolean]
+    	  isEssential <- c.downField("isEssential").as[scala.Boolean]
+    	  isFunctional <- c.downField("isFunctional").as[scala.Boolean]
+    	  isInverseEssential <- c.downField("isInverseEssential").as[scala.Boolean]
+    	  isInverseFunctional <- c.downField("isInverseFunctional").as[scala.Boolean]
+    	  isIrreflexive <- c.downField("isIrreflexive").as[scala.Boolean]
+    	  isReflexive <- c.downField("isReflexive").as[scala.Boolean]
+    	  isSymmetric <- c.downField("isSymmetric").as[scala.Boolean]
+    	  isTransitive <- c.downField("isTransitive").as[scala.Boolean]
+    	  name <- c.downField("name").as[taggedTypes.LocalName]
+    	  unreifiedPropertyName <- c.downField("unreifiedPropertyName").as[taggedTypes.LocalName]
+    	  unreifiedInversePropertyName <- Decoder.decodeOption(taggedTypes.decodeLocalName)(c.downField("unreifiedInversePropertyName").success.get)
+    	} yield ReifiedRelationship(
+    	  uuid,
+    	  tboxUUID,
+    	  sourceUUID,
+    	  targetUUID,
+    	  isAsymmetric,
+    	  isEssential,
+    	  isFunctional,
+    	  isInverseEssential,
+    	  isInverseFunctional,
+    	  isIrreflexive,
+    	  isReflexive,
+    	  isSymmetric,
+    	  isTransitive,
+    	  name,
+    	  unreifiedPropertyName,
+    	  unreifiedInversePropertyName
+    	)
+  }
+  
+  implicit val encodeReifiedRelationship: Encoder[ReifiedRelationship]
+  = new Encoder[ReifiedRelationship] {
+    override final def apply(x: ReifiedRelationship): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeReifiedRelationshipUUID(x.uuid)),
+    	  ("tboxUUID", taggedTypes.encodeTerminologyBoxUUID(x.tboxUUID)),
+    	  ("sourceUUID", taggedTypes.encodeEntityUUID(x.sourceUUID)),
+    	  ("targetUUID", taggedTypes.encodeEntityUUID(x.targetUUID)),
+    	  ("isAsymmetric", Encoder.encodeBoolean(x.isAsymmetric)),
+    	  ("isEssential", Encoder.encodeBoolean(x.isEssential)),
+    	  ("isFunctional", Encoder.encodeBoolean(x.isFunctional)),
+    	  ("isInverseEssential", Encoder.encodeBoolean(x.isInverseEssential)),
+    	  ("isInverseFunctional", Encoder.encodeBoolean(x.isInverseFunctional)),
+    	  ("isIrreflexive", Encoder.encodeBoolean(x.isIrreflexive)),
+    	  ("isReflexive", Encoder.encodeBoolean(x.isReflexive)),
+    	  ("isSymmetric", Encoder.encodeBoolean(x.isSymmetric)),
+    	  ("isTransitive", Encoder.encodeBoolean(x.isTransitive)),
+    	  ("name", taggedTypes.encodeLocalName(x.name)),
+    	  ("unreifiedPropertyName", taggedTypes.encodeLocalName(x.unreifiedPropertyName)),
+    	  ("unreifiedInversePropertyName", Encoder.encodeOption(taggedTypes.encodeLocalName).apply(x.unreifiedInversePropertyName))
+    )
+  }
 
   @JSExport
   def toJSON(c: ReifiedRelationship)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[ReifiedRelationship]
-  = upickle.default.macroR[ReifiedRelationship]
+  = encodeReifiedRelationship(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : ReifiedRelationship
-  = upickle.default.read[ReifiedRelationship](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeReifiedRelationship(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

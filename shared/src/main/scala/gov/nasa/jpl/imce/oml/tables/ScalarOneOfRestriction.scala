@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -33,21 +32,21 @@ import scala.Predef._
 @JSExportTopLevel("ScalarOneOfRestriction")
 case class ScalarOneOfRestriction
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) tboxUUID: UUID,
-  @(JSExport @field) restrictedRangeUUID: UUID,
-  @(JSExport @field) name: LocalName
+  @(JSExport @field) uuid: taggedTypes.ScalarOneOfRestrictionUUID,
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
+  @(JSExport @field) restrictedRangeUUID: taggedTypes.DataRangeXRef,
+  @(JSExport @field) name: taggedTypes.LocalName
 ) {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: UUID,
-    restrictedRangeUUID: UUID,
-    name: LocalName)
+    tboxUUID: taggedTypes.TerminologyBoxXRef,
+    restrictedRangeUUID: taggedTypes.DataRangeXRef,
+    name: taggedTypes.LocalName)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.scalarOneOfRestrictionUUID(oug.namespaceUUID(
         tboxUUID,
-        "name" -> name).toString,
+        "name" -> name).toString),
       tboxUUID,
       restrictedRangeUUID,
       name)
@@ -61,8 +60,8 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: ScalarOneOfRestriction =>
   	  (this.uuid == that.uuid) &&
-  	  (this.tboxUUID == that.tboxUUID) &&
-  	  (this.restrictedRangeUUID == that.restrictedRangeUUID) &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.restrictedRangeUUID, that.restrictedRangeUUID)  &&
   	  (this.name == that.name)
     case _ =>
       false
@@ -73,26 +72,61 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("ScalarOneOfRestrictionHelper")
 object ScalarOneOfRestrictionHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "ScalarOneOfRestrictions.json"
+
+  implicit val decodeScalarOneOfRestriction: Decoder[ScalarOneOfRestriction]
+  = Decoder.instance[ScalarOneOfRestriction] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[ScalarOneOfRestriction]
-  = upickle.default.macroW[ScalarOneOfRestriction]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.ScalarOneOfRestrictionUUID]
+    	  tboxUUID <- c.downField("tboxUUID").as[taggedTypes.TerminologyBoxUUID]
+    	  restrictedRangeUUID <- c.downField("restrictedRangeUUID").as[taggedTypes.DataRangeUUID]
+    	  name <- c.downField("name").as[taggedTypes.LocalName]
+    	} yield ScalarOneOfRestriction(
+    	  uuid,
+    	  tboxUUID,
+    	  restrictedRangeUUID,
+    	  name
+    	)
+  }
+  
+  implicit val encodeScalarOneOfRestriction: Encoder[ScalarOneOfRestriction]
+  = new Encoder[ScalarOneOfRestriction] {
+    override final def apply(x: ScalarOneOfRestriction): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeScalarOneOfRestrictionUUID(x.uuid)),
+    	  ("tboxUUID", taggedTypes.encodeTerminologyBoxUUID(x.tboxUUID)),
+    	  ("restrictedRangeUUID", taggedTypes.encodeDataRangeUUID(x.restrictedRangeUUID)),
+    	  ("name", taggedTypes.encodeLocalName(x.name))
+    )
+  }
 
   @JSExport
   def toJSON(c: ScalarOneOfRestriction)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[ScalarOneOfRestriction]
-  = upickle.default.macroR[ScalarOneOfRestriction]
+  = encodeScalarOneOfRestriction(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : ScalarOneOfRestriction
-  = upickle.default.read[ScalarOneOfRestriction](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeScalarOneOfRestriction(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

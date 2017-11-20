@@ -28,16 +28,16 @@ trait Module
   with Resource
 {
 
-  val iri: gov.nasa.jpl.imce.oml.tables.IRI
+  val iri: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI
 
   def moduleEdges
   ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: ModuleEdge]
   override def iri
-  ()(implicit extent: Extent): scala.Option[gov.nasa.jpl.imce.oml.tables.IRI]
+  ()(implicit extent: Extent): scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI]
   def nsPrefix
-  (): gov.nasa.jpl.imce.oml.tables.NamespacePrefix
+  (): gov.nasa.jpl.imce.oml.tables.taggedTypes.NamespacePrefix
   def name
-  (): gov.nasa.jpl.imce.oml.tables.LocalName
+  (): gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName
   def abbrevIRI
   ()(implicit extent: Extent): scala.Option[scala.Predef.String]
   def moduleContext
@@ -55,7 +55,7 @@ object Module {
 
   def iri
   (m: Module, ext: Extent)
-  : scala.Option[gov.nasa.jpl.imce.oml.tables.IRI]
+  : scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI]
   = m.iri()(ext)
 
   def abbrevIRI

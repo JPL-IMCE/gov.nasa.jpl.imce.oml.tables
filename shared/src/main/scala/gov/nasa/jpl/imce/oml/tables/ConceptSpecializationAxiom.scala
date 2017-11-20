@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -33,23 +32,23 @@ import scala.Predef._
 @JSExportTopLevel("ConceptSpecializationAxiom")
 case class ConceptSpecializationAxiom
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) tboxUUID: UUID,
-  @(JSExport @field) superConceptUUID: UUID,
-  @(JSExport @field) subConceptUUID: UUID
+  @(JSExport @field) uuid: taggedTypes.ConceptSpecializationAxiomUUID,
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
+  @(JSExport @field) superConceptUUID: taggedTypes.ConceptXRef,
+  @(JSExport @field) subConceptUUID: taggedTypes.ConceptXRef
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: UUID,
-    superConceptUUID: UUID,
-    subConceptUUID: UUID)
+    tboxUUID: taggedTypes.TerminologyBoxXRef,
+    superConceptUUID: taggedTypes.ConceptXRef,
+    subConceptUUID: taggedTypes.ConceptXRef)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.conceptSpecializationAxiomUUID(oug.namespaceUUID(
         "ConceptSpecializationAxiom",
         "tbox" -> tboxUUID,
         "superConcept" -> superConceptUUID,
-        "subConcept" -> subConceptUUID).toString,
+        "subConcept" -> subConceptUUID).toString),
       tboxUUID,
       superConceptUUID,
       subConceptUUID)
@@ -63,9 +62,9 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: ConceptSpecializationAxiom =>
   	  (this.uuid == that.uuid) &&
-  	  (this.tboxUUID == that.tboxUUID) &&
-  	  (this.superConceptUUID == that.superConceptUUID) &&
-  	  (this.subConceptUUID == that.subConceptUUID)
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.superConceptUUID, that.superConceptUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.subConceptUUID, that.subConceptUUID) 
     case _ =>
       false
   }
@@ -75,26 +74,61 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("ConceptSpecializationAxiomHelper")
 object ConceptSpecializationAxiomHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "ConceptSpecializationAxioms.json"
+
+  implicit val decodeConceptSpecializationAxiom: Decoder[ConceptSpecializationAxiom]
+  = Decoder.instance[ConceptSpecializationAxiom] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[ConceptSpecializationAxiom]
-  = upickle.default.macroW[ConceptSpecializationAxiom]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.ConceptSpecializationAxiomUUID]
+    	  tboxUUID <- c.downField("tboxUUID").as[taggedTypes.TerminologyBoxUUID]
+    	  superConceptUUID <- c.downField("superConceptUUID").as[taggedTypes.ConceptUUID]
+    	  subConceptUUID <- c.downField("subConceptUUID").as[taggedTypes.ConceptUUID]
+    	} yield ConceptSpecializationAxiom(
+    	  uuid,
+    	  tboxUUID,
+    	  superConceptUUID,
+    	  subConceptUUID
+    	)
+  }
+  
+  implicit val encodeConceptSpecializationAxiom: Encoder[ConceptSpecializationAxiom]
+  = new Encoder[ConceptSpecializationAxiom] {
+    override final def apply(x: ConceptSpecializationAxiom): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeConceptSpecializationAxiomUUID(x.uuid)),
+    	  ("tboxUUID", taggedTypes.encodeTerminologyBoxUUID(x.tboxUUID)),
+    	  ("superConceptUUID", taggedTypes.encodeConceptUUID(x.superConceptUUID)),
+    	  ("subConceptUUID", taggedTypes.encodeConceptUUID(x.subConceptUUID))
+    )
+  }
 
   @JSExport
   def toJSON(c: ConceptSpecializationAxiom)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[ConceptSpecializationAxiom]
-  = upickle.default.macroR[ConceptSpecializationAxiom]
+  = encodeConceptSpecializationAxiom(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : ConceptSpecializationAxiom
-  = upickle.default.read[ConceptSpecializationAxiom](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeConceptSpecializationAxiom(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

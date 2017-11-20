@@ -36,7 +36,9 @@ package test.oml.tables
  * License Terms
  */
 
-import gov.nasa.jpl.imce.oml.tables._
+import gov.nasa.jpl.imce.oml.covariantTag
+import gov.nasa.jpl.imce.oml.tables.{taggedTypes,BinaryScalarRestriction,BinaryScalarRestrictionHelper}
+import scala.Predef.String
 import org.scalacheck.Prop.forAll
 import org.scalacheck.Properties
 
@@ -54,28 +56,42 @@ object BinaryScalarRestrictionAxiomTest extends Properties("BinaryScalarRestrict
     SchemaGenerators.name)(
     (tboxUUID: java.util.UUID,
      uuid: java.util.UUID,
-     length: Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral],
-     maxLength: Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral],
-     minLength: Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral],
+     length: Option[String],
+     maxLength: Option[String],
+     minLength: Option[String],
      restrictedScalarUUID: java.util.UUID,
-     scalarName: LocalName) => {
-      val w = new BinaryScalarRestriction(uuid.toString, tboxUUID.toString, restrictedScalarUUID.toString, length, minLength, maxLength, scalarName)
+     scalarName: String) => {
+      val w = new BinaryScalarRestriction(
+        covariantTag[taggedTypes.BinaryScalarRestrictionTag][String](uuid.toString),
+        covariantTag[taggedTypes.TerminologyBoxTag][String](tboxUUID.toString),
+        covariantTag[taggedTypes.DataRangeTag][String](restrictedScalarUUID.toString),
+        length.map(covariantTag[taggedTypes.PositiveIntegerLiteralTag][String]),
+        minLength.map(covariantTag[taggedTypes.PositiveIntegerLiteralTag][String]),
+        maxLength.map(covariantTag[taggedTypes.PositiveIntegerLiteralTag][String]),
+        covariantTag[taggedTypes.LocalNameTag][String](scalarName))
       val s = BinaryScalarRestrictionHelper.toJSON(w)
       val l = w.length match {
-        case None => "[]"
-        case Some(n) => s"""["$n"]"""
+        case None => "null"
+        case Some(n) => s"""\"$n\""""
       }
       val min = w.minLength match {
-        case None => "[]"
-        case Some(n) => s"""["$n"]"""
+        case None => "null"
+        case Some(n) => s"""\"$n\""""
       }
       val max = w.maxLength match {
-        case None => "[]"
-        case Some(n) => s"""["$n"]"""
+        case None => "null"
+        case Some(n) => s"""\"$n\""""
       }
       val t = s"""{"uuid":"${w.uuid}","tboxUUID":"${w.tboxUUID}","restrictedRangeUUID":"${w.restrictedRangeUUID}","length":$l,"minLength":$min,"maxLength":$max,"name":"${w.name}"}"""
       val r = BinaryScalarRestrictionHelper.fromJSON(s)
-      (s == t) && (w.tboxUUID == r.tboxUUID) && (w.uuid == r.uuid) && (w.length == r.length) && (w.maxLength == r.maxLength) && (w.minLength == r.minLength) && (w.restrictedRangeUUID == r.restrictedRangeUUID) && (w.name == r.name)
+      (s == t) &&
+        covariantTag.compareTaggedValues(w.tboxUUID, r.tboxUUID) &&
+        (w.uuid == r.uuid) &&
+        (w.length == r.length) &&
+        (w.maxLength == r.maxLength) &&
+        (w.minLength == r.minLength) &&
+        covariantTag.compareTaggedValues(w.restrictedRangeUUID, r.restrictedRangeUUID) &&
+        (w.name == r.name)
     })
 
 }

@@ -39,21 +39,21 @@ trait PlainLiteralScalarRestriction
   /*
    * The length of the plain literal
    */
-  val length: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral]
+  val length: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral]
   /*
    * The minimum length of the plain literal
    */
-  val minLength: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral]
+  val minLength: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral]
   /*
    * The maximum length of the plain literal
    */
-  val maxLength: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral]
+  val maxLength: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral]
   /*
    * The pattern of the plain literal (https://www.w3.org/TR/xmlschema-2/#regexs)
    */
-  val pattern: scala.Option[gov.nasa.jpl.imce.oml.tables.LiteralPattern]
+  val pattern: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.LiteralPattern]
   /*
    * The language of the plain literal (http://www.rfc-editor.org/rfc/bcp/bcp47.txt)
    */
-  val langRange: scala.Option[gov.nasa.jpl.imce.oml.tables.LanguageTagDataType]
+  val langRange: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.LanguageTagDataType]
 }

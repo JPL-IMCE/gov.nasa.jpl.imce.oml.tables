@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -32,20 +31,20 @@ import scala.Predef._
 @JSExportTopLevel("DescriptionBoxExtendsClosedWorldDefinitions")
 case class DescriptionBoxExtendsClosedWorldDefinitions
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) descriptionBoxUUID: UUID,
-  @(JSExport @field) closedWorldDefinitionsIRI: IRI
+  @(JSExport @field) uuid: taggedTypes.DescriptionBoxExtendsClosedWorldDefinitionsUUID,
+  @(JSExport @field) descriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
+  @(JSExport @field) closedWorldDefinitionsIRI: taggedTypes.IRI
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    descriptionBoxUUID: UUID,
-    closedWorldDefinitionsIRI: IRI)
+    descriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
+    closedWorldDefinitionsIRI: taggedTypes.IRI)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.descriptionBoxExtendsClosedWorldDefinitionsUUID(oug.namespaceUUID(
         "DescriptionBoxExtendsClosedWorldDefinitions",
         "descriptionBox" -> descriptionBoxUUID,
-        "closedWorldDefinitions" -> oug.namespaceUUID(closedWorldDefinitionsIRI).toString).toString,
+        "closedWorldDefinitions" -> oug.namespaceUUID(closedWorldDefinitionsIRI).toString).toString),
       descriptionBoxUUID,
       closedWorldDefinitionsIRI)
 
@@ -58,7 +57,7 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: DescriptionBoxExtendsClosedWorldDefinitions =>
   	  (this.uuid == that.uuid) &&
-  	  (this.descriptionBoxUUID == that.descriptionBoxUUID) &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.descriptionBoxUUID, that.descriptionBoxUUID)  &&
   	  (this.closedWorldDefinitionsIRI == that.closedWorldDefinitionsIRI)
     case _ =>
       false
@@ -69,26 +68,58 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("DescriptionBoxExtendsClosedWorldDefinitionsHelper")
 object DescriptionBoxExtendsClosedWorldDefinitionsHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "DescriptionBoxExtendsClosedWorldDefinitions.json"
+
+  implicit val decodeDescriptionBoxExtendsClosedWorldDefinitions: Decoder[DescriptionBoxExtendsClosedWorldDefinitions]
+  = Decoder.instance[DescriptionBoxExtendsClosedWorldDefinitions] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[DescriptionBoxExtendsClosedWorldDefinitions]
-  = upickle.default.macroW[DescriptionBoxExtendsClosedWorldDefinitions]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.DescriptionBoxExtendsClosedWorldDefinitionsUUID]
+    	  descriptionBoxUUID <- c.downField("descriptionBoxUUID").as[taggedTypes.DescriptionBoxUUID]
+    	  closedWorldDefinitionsIRI <- c.downField("closedWorldDefinitionsIRI").as[taggedTypes.IRI]
+    	} yield DescriptionBoxExtendsClosedWorldDefinitions(
+    	  uuid,
+    	  descriptionBoxUUID,
+    	  closedWorldDefinitionsIRI
+    	)
+  }
+  
+  implicit val encodeDescriptionBoxExtendsClosedWorldDefinitions: Encoder[DescriptionBoxExtendsClosedWorldDefinitions]
+  = new Encoder[DescriptionBoxExtendsClosedWorldDefinitions] {
+    override final def apply(x: DescriptionBoxExtendsClosedWorldDefinitions): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeDescriptionBoxExtendsClosedWorldDefinitionsUUID(x.uuid)),
+    	  ("descriptionBoxUUID", taggedTypes.encodeDescriptionBoxUUID(x.descriptionBoxUUID)),
+    	  ("closedWorldDefinitionsIRI", taggedTypes.encodeIRI(x.closedWorldDefinitionsIRI))
+    )
+  }
 
   @JSExport
   def toJSON(c: DescriptionBoxExtendsClosedWorldDefinitions)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[DescriptionBoxExtendsClosedWorldDefinitions]
-  = upickle.default.macroR[DescriptionBoxExtendsClosedWorldDefinitions]
+  = encodeDescriptionBoxExtendsClosedWorldDefinitions(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : DescriptionBoxExtendsClosedWorldDefinitions
-  = upickle.default.read[DescriptionBoxExtendsClosedWorldDefinitions](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeDescriptionBoxExtendsClosedWorldDefinitions(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -33,23 +32,23 @@ import scala.Predef._
 @JSExportTopLevel("ReifiedRelationshipInstanceRange")
 case class ReifiedRelationshipInstanceRange
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) descriptionBoxUUID: UUID,
-  @(JSExport @field) reifiedRelationshipInstanceUUID: UUID,
-  @(JSExport @field) rangeUUID: UUID
+  @(JSExport @field) uuid: taggedTypes.ReifiedRelationshipInstanceRangeUUID,
+  @(JSExport @field) descriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
+  @(JSExport @field) reifiedRelationshipInstanceUUID: taggedTypes.ReifiedRelationshipInstanceXRef,
+  @(JSExport @field) rangeUUID: taggedTypes.ConceptualEntitySingletonInstanceXRef
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    descriptionBoxUUID: UUID,
-    reifiedRelationshipInstanceUUID: UUID,
-    rangeUUID: UUID)
+    descriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
+    reifiedRelationshipInstanceUUID: taggedTypes.ReifiedRelationshipInstanceXRef,
+    rangeUUID: taggedTypes.ConceptualEntitySingletonInstanceXRef)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.reifiedRelationshipInstanceRangeUUID(oug.namespaceUUID(
         "ReifiedRelationshipInstanceRange",
         "descriptionBox" -> descriptionBoxUUID,
         "reifiedRelationshipInstance" -> reifiedRelationshipInstanceUUID,
-        "range" -> rangeUUID).toString,
+        "range" -> rangeUUID).toString),
       descriptionBoxUUID,
       reifiedRelationshipInstanceUUID,
       rangeUUID)
@@ -63,9 +62,9 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: ReifiedRelationshipInstanceRange =>
   	  (this.uuid == that.uuid) &&
-  	  (this.descriptionBoxUUID == that.descriptionBoxUUID) &&
-  	  (this.reifiedRelationshipInstanceUUID == that.reifiedRelationshipInstanceUUID) &&
-  	  (this.rangeUUID == that.rangeUUID)
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.descriptionBoxUUID, that.descriptionBoxUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.reifiedRelationshipInstanceUUID, that.reifiedRelationshipInstanceUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.rangeUUID, that.rangeUUID) 
     case _ =>
       false
   }
@@ -75,26 +74,61 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("ReifiedRelationshipInstanceRangeHelper")
 object ReifiedRelationshipInstanceRangeHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "ReifiedRelationshipInstanceRanges.json"
+
+  implicit val decodeReifiedRelationshipInstanceRange: Decoder[ReifiedRelationshipInstanceRange]
+  = Decoder.instance[ReifiedRelationshipInstanceRange] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[ReifiedRelationshipInstanceRange]
-  = upickle.default.macroW[ReifiedRelationshipInstanceRange]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.ReifiedRelationshipInstanceRangeUUID]
+    	  descriptionBoxUUID <- c.downField("descriptionBoxUUID").as[taggedTypes.DescriptionBoxUUID]
+    	  reifiedRelationshipInstanceUUID <- c.downField("reifiedRelationshipInstanceUUID").as[taggedTypes.ReifiedRelationshipInstanceUUID]
+    	  rangeUUID <- c.downField("rangeUUID").as[taggedTypes.ConceptualEntitySingletonInstanceUUID]
+    	} yield ReifiedRelationshipInstanceRange(
+    	  uuid,
+    	  descriptionBoxUUID,
+    	  reifiedRelationshipInstanceUUID,
+    	  rangeUUID
+    	)
+  }
+  
+  implicit val encodeReifiedRelationshipInstanceRange: Encoder[ReifiedRelationshipInstanceRange]
+  = new Encoder[ReifiedRelationshipInstanceRange] {
+    override final def apply(x: ReifiedRelationshipInstanceRange): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeReifiedRelationshipInstanceRangeUUID(x.uuid)),
+    	  ("descriptionBoxUUID", taggedTypes.encodeDescriptionBoxUUID(x.descriptionBoxUUID)),
+    	  ("reifiedRelationshipInstanceUUID", taggedTypes.encodeReifiedRelationshipInstanceUUID(x.reifiedRelationshipInstanceUUID)),
+    	  ("rangeUUID", taggedTypes.encodeConceptualEntitySingletonInstanceUUID(x.rangeUUID))
+    )
+  }
 
   @JSExport
   def toJSON(c: ReifiedRelationshipInstanceRange)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[ReifiedRelationshipInstanceRange]
-  = upickle.default.macroR[ReifiedRelationshipInstanceRange]
+  = encodeReifiedRelationshipInstanceRange(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : ReifiedRelationshipInstanceRange
-  = upickle.default.read[ReifiedRelationshipInstanceRange](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeReifiedRelationshipInstanceRange(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

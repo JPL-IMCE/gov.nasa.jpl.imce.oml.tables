@@ -21,8 +21,6 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
 
 /**
   * @param uuid[1,1]
@@ -32,18 +30,18 @@ import scala.Predef._
 @JSExportTopLevel("DescriptionBox")
 case class DescriptionBox
 (
-  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) uuid: taggedTypes.DescriptionBoxUUID,
   @(JSExport @field) kind: DescriptionKind,
-  @(JSExport @field) iri: IRI
+  @(JSExport @field) iri: taggedTypes.IRI
 ) {
   // Ctor(uuidWithoutContainer)
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     kind: DescriptionKind,
-    iri: IRI)
+    iri: taggedTypes.IRI)
   = this(
-      oug.namespaceUUID(
-        iri.toString).toString,
+      taggedTypes.descriptionBoxUUID(oug.namespaceUUID(
+        iri.toString).toString),
       kind,
       iri)
 
@@ -67,26 +65,58 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("DescriptionBoxHelper")
 object DescriptionBoxHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "DescriptionBoxes.json"
+
+  implicit val decodeDescriptionBox: Decoder[DescriptionBox]
+  = Decoder.instance[DescriptionBox] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[DescriptionBox]
-  = upickle.default.macroW[DescriptionBox]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.DescriptionBoxUUID]
+    	  kind <- c.downField("kind").as[DescriptionKind]
+    	  iri <- c.downField("iri").as[taggedTypes.IRI]
+    	} yield DescriptionBox(
+    	  uuid,
+    	  kind,
+    	  iri
+    	)
+  }
+  
+  implicit val encodeDescriptionBox: Encoder[DescriptionBox]
+  = new Encoder[DescriptionBox] {
+    override final def apply(x: DescriptionBox): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeDescriptionBoxUUID(x.uuid)),
+    	  ("kind", DescriptionKind.encodeDescriptionKind(x.kind)),
+    	  ("iri", taggedTypes.encodeIRI(x.iri))
+    )
+  }
 
   @JSExport
   def toJSON(c: DescriptionBox)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[DescriptionBox]
-  = upickle.default.macroR[DescriptionBox]
+  = encodeDescriptionBox(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : DescriptionBox
-  = upickle.default.read[DescriptionBox](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeDescriptionBox(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

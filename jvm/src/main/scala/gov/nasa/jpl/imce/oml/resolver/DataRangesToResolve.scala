@@ -20,7 +20,7 @@ package gov.nasa.jpl.imce.oml.resolver
 
 import java.util.UUID
 
-import gov.nasa.jpl.imce.oml._
+import gov.nasa.jpl.imce.oml.tables
 
 import scala.{Boolean, None, Some, StringContext, Tuple2, Tuple3}
 import scala.collection.immutable.{Map, Seq, Set}
@@ -51,12 +51,16 @@ object DataRangesToResolve {
 
   import OMLOps._
 
+  def asDataRangeXRef(uuid: UUID)
+  : tables.taggedTypes.DataRangeXRef
+  = tables.taggedTypes.dataRangeUUID(uuid.toString)
+
   private def partitionRestrictableDataRanges[T]
   (r: OMLTablesResolver,
    tbox: api.TerminologyBox,
    drs: Seq[(UUID, T)],
-   dr2restrictedDataRange: T => tables.UUID)
-  : (Map[tables.UUID, api.DataRange], Seq[(UUID, T)], Seq[(UUID, T)])
+   dr2restrictedDataRange: T => tables.taggedTypes.DataRangeXRef)
+  : (Map[tables.taggedTypes.DataRangeXRef, api.DataRange], Seq[(UUID, T)], Seq[(UUID, T)])
   = {
     val allDataRanges
     : Set[api.DataRange]
@@ -73,8 +77,8 @@ object DataRangesToResolve {
     }
 
     val restrictableDataRanges
-    : Map[tables.UUID, api.DataRange]
-    = allDataRanges.map(dr => dr.uuid.toString -> dr).toMap
+    : Map[tables.taggedTypes.DataRangeXRef, api.DataRange]
+    = allDataRanges.map(dr => asDataRangeXRef(dr.uuid) -> dr).toMap
 
     val (available, remaining) =
       drs
@@ -128,7 +132,7 @@ object DataRangesToResolve {
                       rj.context,
                       UUID.fromString(dr.uuid), // @UUID
                       tbox,
-                      restrictableDataRanges(ruuid.toString),
+                      restrictableDataRanges(asDataRangeXRef(ruuid)),
                       dr.length,
                       dr.minLength,
                       dr.maxLength,
@@ -184,7 +188,7 @@ object DataRangesToResolve {
                       rj.context,
                       UUID.fromString(dr.uuid), // @UUID
                       tbox,
-                      restrictableDataRanges(ruuid.toString),
+                      restrictableDataRanges(asDataRangeXRef(ruuid)),
                       dr.length,
                       dr.minLength,
                       dr.maxLength,
@@ -241,7 +245,7 @@ object DataRangesToResolve {
                       rj.context,
                       UUID.fromString(dr.uuid), // @UUID
                       tbox,
-                      restrictableDataRanges(ruuid.toString),
+                      restrictableDataRanges(asDataRangeXRef(ruuid)),
                       dr.minExclusive,
                       dr.minInclusive,
                       dr.maxExclusive,
@@ -298,7 +302,7 @@ object DataRangesToResolve {
                       rj.context,
                       UUID.fromString(dr.uuid), // @UUID
                       tbox,
-                      restrictableDataRanges(ruuid.toString),
+                      restrictableDataRanges(asDataRangeXRef(ruuid)),
                       dr.length,
                       dr.minLength,
                       dr.maxLength,
@@ -356,7 +360,7 @@ object DataRangesToResolve {
                       rj.context,
                       UUID.fromString(dr.uuid), // @UUID
                       tbox,
-                      restrictableDataRanges(ruuid.toString),
+                      restrictableDataRanges(asDataRangeXRef(ruuid)),
                       dr.name)
                     (ej, x) = pair
                     ek <- if (!uuidEquivalent(x.uuid, dr.uuid))
@@ -409,7 +413,7 @@ object DataRangesToResolve {
                       rj.context,
                       UUID.fromString(dr.uuid), // @UUID
                       tbox,
-                      restrictableDataRanges(ruuid.toString),
+                      restrictableDataRanges(asDataRangeXRef(ruuid)),
                       dr.length,
                       dr.minLength,
                       dr.maxLength,
@@ -466,7 +470,7 @@ object DataRangesToResolve {
                       rj.context,
                       UUID.fromString(dr.uuid), // @UUID
                       tbox,
-                      restrictableDataRanges(ruuid.toString),
+                      restrictableDataRanges(asDataRangeXRef(ruuid)),
                       dr.name)
                     (ej, x) = pair
                     ek <- if (!uuidEquivalent(x.uuid, dr.uuid))
@@ -519,7 +523,7 @@ object DataRangesToResolve {
                       rj.context,
                       UUID.fromString(dr.uuid), // @UUID
                       tbox,
-                      restrictableDataRanges(ruuid.toString),
+                      restrictableDataRanges(asDataRangeXRef(ruuid)),
                       dr.minExclusive,
                       dr.minInclusive,
                       dr.maxExclusive,

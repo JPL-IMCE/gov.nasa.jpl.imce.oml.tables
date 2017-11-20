@@ -28,7 +28,7 @@ trait AnonymousConceptUnionAxiom
   with ConceptTreeDisjunction
 {
 
-  val name: gov.nasa.jpl.imce.oml.tables.LocalName
+  val name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName
 
   override val uuid: java.util.UUID
   override def bundleContainer

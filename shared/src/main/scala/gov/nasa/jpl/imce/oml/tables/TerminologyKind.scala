@@ -18,6 +18,8 @@
 
 package gov.nasa.jpl.imce.oml.tables
 
+import io.circe._
+
 import scala.scalajs.js.annotation.JSExportTopLevel
 import scala.Predef.String
 
@@ -41,15 +43,12 @@ object TerminologyKind {
       "ClosedWorldDesignations"
   }
 
-  implicit val w
-  : upickle.default.Writer[TerminologyKind]
-  = upickle.default.Writer[TerminologyKind]{ (k: TerminologyKind) =>
-    upickle.Js.Str(toString(k))
-  }
+  implicit val decodeTerminologyKind: Decoder[TerminologyKind] = Decoder.decodeString.map(fromString)
+  implicit val encodeTerminologyKind: Encoder[TerminologyKind] = Encoder.encodeString.contramap[TerminologyKind](toString)
 
   def toJSON(k: TerminologyKind)
   : String
-  = upickle.default.write(expr=k, indent=0)
+  = encodeTerminologyKind(k).noSpaces
 
   def fromString(k: String)
   : TerminologyKind
@@ -60,15 +59,18 @@ object TerminologyKind {
       ClosedWorldDesignations
   }
 
-  implicit val r
-  : upickle.default.Reader[TerminologyKind]
-  = upickle.default.Reader[TerminologyKind]{
-    case upickle.Js.Str(k) =>
-      fromString(k)
-  }
-
   def fromJSON(k: String)
   : TerminologyKind
-  = upickle.default.read[TerminologyKind](k)
+  = parser.parse(k) match {
+    case scala.Right(json) =>
+      decodeTerminologyKind(json.hcursor) match {
+        case scala.Right(result) =>
+          result
+        case scala.Left(failure) =>
+          throw failure
+      }
+    case scala.Left(failure) =>
+      throw failure
+  }
 
 }

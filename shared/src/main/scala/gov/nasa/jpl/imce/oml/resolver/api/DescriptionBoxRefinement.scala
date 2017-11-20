@@ -27,12 +27,12 @@ trait DescriptionBoxRefinement
   extends DescriptionBoxRelationship
 {
 
-  val refinedDescriptionBox: gov.nasa.jpl.imce.oml.tables.IRI
+  val refinedDescriptionBox: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI
 
   def descriptionDomain
   ()(implicit extent: Extent): scala.Option[DescriptionBox]
   def targetModule
-  ()(implicit extent: Extent): gov.nasa.jpl.imce.oml.tables.IRI
+  ()(implicit extent: Extent): gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI
 }
 
 object DescriptionBoxRefinement {
@@ -44,7 +44,7 @@ object DescriptionBoxRefinement {
 
   def targetModule
   (d: DescriptionBoxRefinement, ext: Extent)
-  : gov.nasa.jpl.imce.oml.tables.IRI
+  : gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI
   = d.targetModule()(ext)
 
 }

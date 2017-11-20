@@ -21,8 +21,6 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
 
 /**
   * @param uuid[1,1]
@@ -32,18 +30,18 @@ import scala.Predef._
 @JSExportTopLevel("TerminologyGraph")
 case class TerminologyGraph
 (
-  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) uuid: taggedTypes.TerminologyGraphUUID,
   @(JSExport @field) kind: TerminologyKind,
-  @(JSExport @field) iri: IRI
+  @(JSExport @field) iri: taggedTypes.IRI
 ) {
   // Ctor(uuidWithoutContainer)
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     kind: TerminologyKind,
-    iri: IRI)
+    iri: taggedTypes.IRI)
   = this(
-      oug.namespaceUUID(
-        iri.toString).toString,
+      taggedTypes.terminologyGraphUUID(oug.namespaceUUID(
+        iri.toString).toString),
       kind,
       iri)
 
@@ -67,26 +65,58 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("TerminologyGraphHelper")
 object TerminologyGraphHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "TerminologyGraphs.json"
+
+  implicit val decodeTerminologyGraph: Decoder[TerminologyGraph]
+  = Decoder.instance[TerminologyGraph] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[TerminologyGraph]
-  = upickle.default.macroW[TerminologyGraph]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.TerminologyGraphUUID]
+    	  kind <- c.downField("kind").as[TerminologyKind]
+    	  iri <- c.downField("iri").as[taggedTypes.IRI]
+    	} yield TerminologyGraph(
+    	  uuid,
+    	  kind,
+    	  iri
+    	)
+  }
+  
+  implicit val encodeTerminologyGraph: Encoder[TerminologyGraph]
+  = new Encoder[TerminologyGraph] {
+    override final def apply(x: TerminologyGraph): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeTerminologyGraphUUID(x.uuid)),
+    	  ("kind", TerminologyKind.encodeTerminologyKind(x.kind)),
+    	  ("iri", taggedTypes.encodeIRI(x.iri))
+    )
+  }
 
   @JSExport
   def toJSON(c: TerminologyGraph)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[TerminologyGraph]
-  = upickle.default.macroR[TerminologyGraph]
+  = encodeTerminologyGraph(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : TerminologyGraph
-  = upickle.default.read[TerminologyGraph](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeTerminologyGraph(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

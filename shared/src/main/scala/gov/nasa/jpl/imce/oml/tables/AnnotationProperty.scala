@@ -21,8 +21,6 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
 
 /**
   * @param uuid[1,1]
@@ -32,18 +30,18 @@ import scala.Predef._
 @JSExportTopLevel("AnnotationProperty")
 case class AnnotationProperty
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) iri: IRI,
-  @(JSExport @field) abbrevIRI: AbbrevIRI
+  @(JSExport @field) uuid: taggedTypes.AnnotationPropertyUUID,
+  @(JSExport @field) iri: taggedTypes.IRI,
+  @(JSExport @field) abbrevIRI: taggedTypes.AbbrevIRI
 ) {
   // Ctor(uuidWithoutContainer)
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    iri: IRI,
-    abbrevIRI: AbbrevIRI)
+    iri: taggedTypes.IRI,
+    abbrevIRI: taggedTypes.AbbrevIRI)
   = this(
-      oug.namespaceUUID(
-        iri.toString).toString,
+      taggedTypes.annotationPropertyUUID(oug.namespaceUUID(
+        iri.toString).toString),
       iri,
       abbrevIRI)
 
@@ -67,26 +65,58 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("AnnotationPropertyHelper")
 object AnnotationPropertyHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "AnnotationProperties.json"
+
+  implicit val decodeAnnotationProperty: Decoder[AnnotationProperty]
+  = Decoder.instance[AnnotationProperty] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[AnnotationProperty]
-  = upickle.default.macroW[AnnotationProperty]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.AnnotationPropertyUUID]
+    	  iri <- c.downField("iri").as[taggedTypes.IRI]
+    	  abbrevIRI <- c.downField("abbrevIRI").as[taggedTypes.AbbrevIRI]
+    	} yield AnnotationProperty(
+    	  uuid,
+    	  iri,
+    	  abbrevIRI
+    	)
+  }
+  
+  implicit val encodeAnnotationProperty: Encoder[AnnotationProperty]
+  = new Encoder[AnnotationProperty] {
+    override final def apply(x: AnnotationProperty): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeAnnotationPropertyUUID(x.uuid)),
+    	  ("iri", taggedTypes.encodeIRI(x.iri)),
+    	  ("abbrevIRI", taggedTypes.encodeAbbrevIRI(x.abbrevIRI))
+    )
+  }
 
   @JSExport
   def toJSON(c: AnnotationProperty)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[AnnotationProperty]
-  = upickle.default.macroR[AnnotationProperty]
+  = encodeAnnotationProperty(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : AnnotationProperty
-  = upickle.default.read[AnnotationProperty](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeAnnotationProperty(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

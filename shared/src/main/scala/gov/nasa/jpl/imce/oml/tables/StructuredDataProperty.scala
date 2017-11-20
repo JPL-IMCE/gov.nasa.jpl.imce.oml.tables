@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -34,23 +33,23 @@ import scala.Predef._
 @JSExportTopLevel("StructuredDataProperty")
 case class StructuredDataProperty
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) tboxUUID: UUID,
-  @(JSExport @field) domainUUID: UUID,
-  @(JSExport @field) rangeUUID: UUID,
-  @(JSExport @field) name: LocalName
+  @(JSExport @field) uuid: taggedTypes.StructuredDataPropertyUUID,
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
+  @(JSExport @field) domainUUID: taggedTypes.StructureXRef,
+  @(JSExport @field) rangeUUID: taggedTypes.StructureXRef,
+  @(JSExport @field) name: taggedTypes.LocalName
 ) {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: UUID,
-    domainUUID: UUID,
-    rangeUUID: UUID,
-    name: LocalName)
+    tboxUUID: taggedTypes.TerminologyBoxXRef,
+    domainUUID: taggedTypes.StructureXRef,
+    rangeUUID: taggedTypes.StructureXRef,
+    name: taggedTypes.LocalName)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.structuredDataPropertyUUID(oug.namespaceUUID(
         tboxUUID,
-        "name" -> name).toString,
+        "name" -> name).toString),
       tboxUUID,
       domainUUID,
       rangeUUID,
@@ -65,9 +64,9 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: StructuredDataProperty =>
   	  (this.uuid == that.uuid) &&
-  	  (this.tboxUUID == that.tboxUUID) &&
-  	  (this.domainUUID == that.domainUUID) &&
-  	  (this.rangeUUID == that.rangeUUID) &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.domainUUID, that.domainUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.rangeUUID, that.rangeUUID)  &&
   	  (this.name == that.name)
     case _ =>
       false
@@ -78,26 +77,64 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("StructuredDataPropertyHelper")
 object StructuredDataPropertyHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "StructuredDataProperties.json"
+
+  implicit val decodeStructuredDataProperty: Decoder[StructuredDataProperty]
+  = Decoder.instance[StructuredDataProperty] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[StructuredDataProperty]
-  = upickle.default.macroW[StructuredDataProperty]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.StructuredDataPropertyUUID]
+    	  tboxUUID <- c.downField("tboxUUID").as[taggedTypes.TerminologyBoxUUID]
+    	  domainUUID <- c.downField("domainUUID").as[taggedTypes.StructureUUID]
+    	  rangeUUID <- c.downField("rangeUUID").as[taggedTypes.StructureUUID]
+    	  name <- c.downField("name").as[taggedTypes.LocalName]
+    	} yield StructuredDataProperty(
+    	  uuid,
+    	  tboxUUID,
+    	  domainUUID,
+    	  rangeUUID,
+    	  name
+    	)
+  }
+  
+  implicit val encodeStructuredDataProperty: Encoder[StructuredDataProperty]
+  = new Encoder[StructuredDataProperty] {
+    override final def apply(x: StructuredDataProperty): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeStructuredDataPropertyUUID(x.uuid)),
+    	  ("tboxUUID", taggedTypes.encodeTerminologyBoxUUID(x.tboxUUID)),
+    	  ("domainUUID", taggedTypes.encodeStructureUUID(x.domainUUID)),
+    	  ("rangeUUID", taggedTypes.encodeStructureUUID(x.rangeUUID)),
+    	  ("name", taggedTypes.encodeLocalName(x.name))
+    )
+  }
 
   @JSExport
   def toJSON(c: StructuredDataProperty)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[StructuredDataProperty]
-  = upickle.default.macroR[StructuredDataProperty]
+  = encodeStructuredDataProperty(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : StructuredDataProperty
-  = upickle.default.read[StructuredDataProperty](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeStructuredDataProperty(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

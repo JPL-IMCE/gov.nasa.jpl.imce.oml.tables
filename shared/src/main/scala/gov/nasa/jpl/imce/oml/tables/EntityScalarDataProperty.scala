@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -35,25 +34,25 @@ import scala.Predef._
 @JSExportTopLevel("EntityScalarDataProperty")
 case class EntityScalarDataProperty
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) tboxUUID: UUID,
-  @(JSExport @field) domainUUID: UUID,
-  @(JSExport @field) rangeUUID: UUID,
+  @(JSExport @field) uuid: taggedTypes.EntityScalarDataPropertyUUID,
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
+  @(JSExport @field) domainUUID: taggedTypes.EntityXRef,
+  @(JSExport @field) rangeUUID: taggedTypes.DataRangeXRef,
   @(JSExport @field) isIdentityCriteria: scala.Boolean,
-  @(JSExport @field) name: LocalName
+  @(JSExport @field) name: taggedTypes.LocalName
 ) {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: UUID,
-    domainUUID: UUID,
-    rangeUUID: UUID,
+    tboxUUID: taggedTypes.TerminologyBoxXRef,
+    domainUUID: taggedTypes.EntityXRef,
+    rangeUUID: taggedTypes.DataRangeXRef,
     isIdentityCriteria: scala.Boolean,
-    name: LocalName)
+    name: taggedTypes.LocalName)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.entityScalarDataPropertyUUID(oug.namespaceUUID(
         tboxUUID,
-        "name" -> name).toString,
+        "name" -> name).toString),
       tboxUUID,
       domainUUID,
       rangeUUID,
@@ -69,9 +68,9 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: EntityScalarDataProperty =>
   	  (this.uuid == that.uuid) &&
-  	  (this.tboxUUID == that.tboxUUID) &&
-  	  (this.domainUUID == that.domainUUID) &&
-  	  (this.rangeUUID == that.rangeUUID) &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.domainUUID, that.domainUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.rangeUUID, that.rangeUUID)  &&
   	  (this.isIdentityCriteria == that.isIdentityCriteria) &&
   	  (this.name == that.name)
     case _ =>
@@ -83,26 +82,67 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("EntityScalarDataPropertyHelper")
 object EntityScalarDataPropertyHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "EntityScalarDataProperties.json"
+
+  implicit val decodeEntityScalarDataProperty: Decoder[EntityScalarDataProperty]
+  = Decoder.instance[EntityScalarDataProperty] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[EntityScalarDataProperty]
-  = upickle.default.macroW[EntityScalarDataProperty]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.EntityScalarDataPropertyUUID]
+    	  tboxUUID <- c.downField("tboxUUID").as[taggedTypes.TerminologyBoxUUID]
+    	  domainUUID <- c.downField("domainUUID").as[taggedTypes.EntityUUID]
+    	  rangeUUID <- c.downField("rangeUUID").as[taggedTypes.DataRangeUUID]
+    	  isIdentityCriteria <- c.downField("isIdentityCriteria").as[scala.Boolean]
+    	  name <- c.downField("name").as[taggedTypes.LocalName]
+    	} yield EntityScalarDataProperty(
+    	  uuid,
+    	  tboxUUID,
+    	  domainUUID,
+    	  rangeUUID,
+    	  isIdentityCriteria,
+    	  name
+    	)
+  }
+  
+  implicit val encodeEntityScalarDataProperty: Encoder[EntityScalarDataProperty]
+  = new Encoder[EntityScalarDataProperty] {
+    override final def apply(x: EntityScalarDataProperty): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeEntityScalarDataPropertyUUID(x.uuid)),
+    	  ("tboxUUID", taggedTypes.encodeTerminologyBoxUUID(x.tboxUUID)),
+    	  ("domainUUID", taggedTypes.encodeEntityUUID(x.domainUUID)),
+    	  ("rangeUUID", taggedTypes.encodeDataRangeUUID(x.rangeUUID)),
+    	  ("isIdentityCriteria", Encoder.encodeBoolean(x.isIdentityCriteria)),
+    	  ("name", taggedTypes.encodeLocalName(x.name))
+    )
+  }
 
   @JSExport
   def toJSON(c: EntityScalarDataProperty)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[EntityScalarDataProperty]
-  = upickle.default.macroR[EntityScalarDataProperty]
+  = encodeEntityScalarDataProperty(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : EntityScalarDataProperty
-  = upickle.default.read[EntityScalarDataProperty](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeEntityScalarDataProperty(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

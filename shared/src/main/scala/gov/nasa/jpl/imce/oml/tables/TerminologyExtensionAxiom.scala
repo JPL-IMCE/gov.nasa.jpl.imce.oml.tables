@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -32,20 +31,20 @@ import scala.Predef._
 @JSExportTopLevel("TerminologyExtensionAxiom")
 case class TerminologyExtensionAxiom
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) tboxUUID: UUID,
-  @(JSExport @field) extendedTerminologyIRI: IRI
+  @(JSExport @field) uuid: taggedTypes.TerminologyExtensionAxiomUUID,
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
+  @(JSExport @field) extendedTerminologyIRI: taggedTypes.IRI
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: UUID,
-    extendedTerminologyIRI: IRI)
+    tboxUUID: taggedTypes.TerminologyBoxXRef,
+    extendedTerminologyIRI: taggedTypes.IRI)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.terminologyExtensionAxiomUUID(oug.namespaceUUID(
         "TerminologyExtensionAxiom",
         "tbox" -> tboxUUID,
-        "extendedTerminology" -> oug.namespaceUUID(extendedTerminologyIRI).toString).toString,
+        "extendedTerminology" -> oug.namespaceUUID(extendedTerminologyIRI).toString).toString),
       tboxUUID,
       extendedTerminologyIRI)
 
@@ -58,7 +57,7 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: TerminologyExtensionAxiom =>
   	  (this.uuid == that.uuid) &&
-  	  (this.tboxUUID == that.tboxUUID) &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
   	  (this.extendedTerminologyIRI == that.extendedTerminologyIRI)
     case _ =>
       false
@@ -69,26 +68,58 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("TerminologyExtensionAxiomHelper")
 object TerminologyExtensionAxiomHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "TerminologyExtensionAxioms.json"
+
+  implicit val decodeTerminologyExtensionAxiom: Decoder[TerminologyExtensionAxiom]
+  = Decoder.instance[TerminologyExtensionAxiom] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[TerminologyExtensionAxiom]
-  = upickle.default.macroW[TerminologyExtensionAxiom]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.TerminologyExtensionAxiomUUID]
+    	  tboxUUID <- c.downField("tboxUUID").as[taggedTypes.TerminologyBoxUUID]
+    	  extendedTerminologyIRI <- c.downField("extendedTerminologyIRI").as[taggedTypes.IRI]
+    	} yield TerminologyExtensionAxiom(
+    	  uuid,
+    	  tboxUUID,
+    	  extendedTerminologyIRI
+    	)
+  }
+  
+  implicit val encodeTerminologyExtensionAxiom: Encoder[TerminologyExtensionAxiom]
+  = new Encoder[TerminologyExtensionAxiom] {
+    override final def apply(x: TerminologyExtensionAxiom): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeTerminologyExtensionAxiomUUID(x.uuid)),
+    	  ("tboxUUID", taggedTypes.encodeTerminologyBoxUUID(x.tboxUUID)),
+    	  ("extendedTerminologyIRI", taggedTypes.encodeIRI(x.extendedTerminologyIRI))
+    )
+  }
 
   @JSExport
   def toJSON(c: TerminologyExtensionAxiom)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[TerminologyExtensionAxiom]
-  = upickle.default.macroR[TerminologyExtensionAxiom]
+  = encodeTerminologyExtensionAxiom(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : TerminologyExtensionAxiom
-  = upickle.default.read[TerminologyExtensionAxiom](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeTerminologyExtensionAxiom(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

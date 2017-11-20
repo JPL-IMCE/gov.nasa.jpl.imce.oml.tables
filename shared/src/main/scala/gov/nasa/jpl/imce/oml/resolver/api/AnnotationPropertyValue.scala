@@ -34,5 +34,5 @@ trait AnnotationPropertyValue
   val uuid: java.util.UUID
   val subject: Element
   val property: AnnotationProperty
-  val value: gov.nasa.jpl.imce.oml.tables.StringDataType
+  val value: gov.nasa.jpl.imce.oml.tables.taggedTypes.StringDataType
 }

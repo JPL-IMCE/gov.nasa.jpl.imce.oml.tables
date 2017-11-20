@@ -36,9 +36,9 @@ trait TerminologyAxiom
    * The target TerminologyBox
    */
   def target
-  ()(implicit extent: Extent): gov.nasa.jpl.imce.oml.tables.IRI
+  ()(implicit extent: Extent): gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI
   def targetModule
-  ()(implicit extent: Extent): gov.nasa.jpl.imce.oml.tables.IRI
+  ()(implicit extent: Extent): gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI
 }
 
 object TerminologyAxiom {
@@ -55,12 +55,12 @@ object TerminologyAxiom {
 
   def target
   (t: TerminologyAxiom, ext: Extent)
-  : gov.nasa.jpl.imce.oml.tables.IRI
+  : gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI
   = t.target()(ext)
 
   def targetModule
   (t: TerminologyAxiom, ext: Extent)
-  : gov.nasa.jpl.imce.oml.tables.IRI
+  : gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI
   = t.targetModule()(ext)
 
 }

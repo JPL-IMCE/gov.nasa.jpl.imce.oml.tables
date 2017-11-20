@@ -27,3 +27,5 @@ gov.nasa.jpl.imce.oml.tables 0.90.0 resolves major issues in 0.80.0
 - [#30 BUG: OMLTablesResolver.mapRuleSegments should use global lookup instead of local lookup](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/30)
 
 - [#31 OMLResolverFactory @DerivedUUID without optional attributes](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/31)
+
+- [#32 Improve compile-time type safety of the OML Tabular representation without runtime overhead](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/32)

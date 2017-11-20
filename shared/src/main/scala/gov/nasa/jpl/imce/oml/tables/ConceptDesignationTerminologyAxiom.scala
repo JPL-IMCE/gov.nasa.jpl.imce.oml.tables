@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -33,23 +32,23 @@ import scala.Predef._
 @JSExportTopLevel("ConceptDesignationTerminologyAxiom")
 case class ConceptDesignationTerminologyAxiom
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) tboxUUID: UUID,
-  @(JSExport @field) designatedConceptUUID: UUID,
-  @(JSExport @field) designatedTerminologyIRI: IRI
+  @(JSExport @field) uuid: taggedTypes.ConceptDesignationTerminologyAxiomUUID,
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
+  @(JSExport @field) designatedConceptUUID: taggedTypes.ConceptXRef,
+  @(JSExport @field) designatedTerminologyIRI: taggedTypes.IRI
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: UUID,
-    designatedConceptUUID: UUID,
-    designatedTerminologyIRI: IRI)
+    tboxUUID: taggedTypes.TerminologyBoxXRef,
+    designatedConceptUUID: taggedTypes.ConceptXRef,
+    designatedTerminologyIRI: taggedTypes.IRI)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.conceptDesignationTerminologyAxiomUUID(oug.namespaceUUID(
         "ConceptDesignationTerminologyAxiom",
         "tbox" -> tboxUUID,
         "designatedConcept" -> designatedConceptUUID,
-        "designatedTerminology" -> oug.namespaceUUID(designatedTerminologyIRI).toString).toString,
+        "designatedTerminology" -> oug.namespaceUUID(designatedTerminologyIRI).toString).toString),
       tboxUUID,
       designatedConceptUUID,
       designatedTerminologyIRI)
@@ -63,8 +62,8 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: ConceptDesignationTerminologyAxiom =>
   	  (this.uuid == that.uuid) &&
-  	  (this.tboxUUID == that.tboxUUID) &&
-  	  (this.designatedConceptUUID == that.designatedConceptUUID) &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.designatedConceptUUID, that.designatedConceptUUID)  &&
   	  (this.designatedTerminologyIRI == that.designatedTerminologyIRI)
     case _ =>
       false
@@ -75,26 +74,61 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("ConceptDesignationTerminologyAxiomHelper")
 object ConceptDesignationTerminologyAxiomHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "ConceptDesignationTerminologyAxioms.json"
+
+  implicit val decodeConceptDesignationTerminologyAxiom: Decoder[ConceptDesignationTerminologyAxiom]
+  = Decoder.instance[ConceptDesignationTerminologyAxiom] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[ConceptDesignationTerminologyAxiom]
-  = upickle.default.macroW[ConceptDesignationTerminologyAxiom]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.ConceptDesignationTerminologyAxiomUUID]
+    	  tboxUUID <- c.downField("tboxUUID").as[taggedTypes.TerminologyBoxUUID]
+    	  designatedConceptUUID <- c.downField("designatedConceptUUID").as[taggedTypes.ConceptUUID]
+    	  designatedTerminologyIRI <- c.downField("designatedTerminologyIRI").as[taggedTypes.IRI]
+    	} yield ConceptDesignationTerminologyAxiom(
+    	  uuid,
+    	  tboxUUID,
+    	  designatedConceptUUID,
+    	  designatedTerminologyIRI
+    	)
+  }
+  
+  implicit val encodeConceptDesignationTerminologyAxiom: Encoder[ConceptDesignationTerminologyAxiom]
+  = new Encoder[ConceptDesignationTerminologyAxiom] {
+    override final def apply(x: ConceptDesignationTerminologyAxiom): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeConceptDesignationTerminologyAxiomUUID(x.uuid)),
+    	  ("tboxUUID", taggedTypes.encodeTerminologyBoxUUID(x.tboxUUID)),
+    	  ("designatedConceptUUID", taggedTypes.encodeConceptUUID(x.designatedConceptUUID)),
+    	  ("designatedTerminologyIRI", taggedTypes.encodeIRI(x.designatedTerminologyIRI))
+    )
+  }
 
   @JSExport
   def toJSON(c: ConceptDesignationTerminologyAxiom)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[ConceptDesignationTerminologyAxiom]
-  = upickle.default.macroR[ConceptDesignationTerminologyAxiom]
+  = encodeConceptDesignationTerminologyAxiom(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : ConceptDesignationTerminologyAxiom
-  = upickle.default.read[ConceptDesignationTerminologyAxiom](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeConceptDesignationTerminologyAxiom(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

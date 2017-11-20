@@ -25,30 +25,11 @@ import scala.io
 import scala.Predef.String
 
 package object tables {
-	type AbbrevIRI = String
-	type AbstractDecimalDataType = String
-	type DateTimeDataType = String
-	type DecimalDataType = String
-	type FloatDataType = String
-	type IRI = String
-	type LanguageTagDataType = String
-	type LiteralPattern = String
-	type LocalName = String
-	type NamespacePrefix = String
-	type PositiveIntegerLiteral = String
-	type QuotedStringDataType = String
-	type RationalDataType = String
-	type RawStringDataType = String
-	type RealDataType = String
-	type StringDataType = String
-	type URIDataType = String
-	type UUID = String
-	type UUIDDataType = String
-  	
+
   def readJSonTable[T](is: InputStream, fromJSon: String => T)
   : Seq[T]
   = io.Source.fromInputStream(is).getLines.map(fromJSon).to[Seq]
-  
+
   implicit def annotationPropertyOrdering
   : scala.Ordering[AnnotationProperty]
   = new scala.Ordering[AnnotationProperty] {

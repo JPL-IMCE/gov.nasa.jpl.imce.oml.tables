@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -32,19 +31,19 @@ import scala.Predef._
 @JSExportTopLevel("Aspect")
 case class Aspect
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) tboxUUID: UUID,
-  @(JSExport @field) name: LocalName
+  @(JSExport @field) uuid: taggedTypes.AspectUUID,
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
+  @(JSExport @field) name: taggedTypes.LocalName
 ) {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: UUID,
-    name: LocalName)
+    tboxUUID: taggedTypes.TerminologyBoxXRef,
+    name: taggedTypes.LocalName)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.aspectUUID(oug.namespaceUUID(
         tboxUUID,
-        "name" -> name).toString,
+        "name" -> name).toString),
       tboxUUID,
       name)
 
@@ -57,7 +56,7 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: Aspect =>
   	  (this.uuid == that.uuid) &&
-  	  (this.tboxUUID == that.tboxUUID) &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
   	  (this.name == that.name)
     case _ =>
       false
@@ -68,26 +67,58 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("AspectHelper")
 object AspectHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "Aspects.json"
+
+  implicit val decodeAspect: Decoder[Aspect]
+  = Decoder.instance[Aspect] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[Aspect]
-  = upickle.default.macroW[Aspect]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.AspectUUID]
+    	  tboxUUID <- c.downField("tboxUUID").as[taggedTypes.TerminologyBoxUUID]
+    	  name <- c.downField("name").as[taggedTypes.LocalName]
+    	} yield Aspect(
+    	  uuid,
+    	  tboxUUID,
+    	  name
+    	)
+  }
+  
+  implicit val encodeAspect: Encoder[Aspect]
+  = new Encoder[Aspect] {
+    override final def apply(x: Aspect): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeAspectUUID(x.uuid)),
+    	  ("tboxUUID", taggedTypes.encodeTerminologyBoxUUID(x.tboxUUID)),
+    	  ("name", taggedTypes.encodeLocalName(x.name))
+    )
+  }
 
   @JSExport
   def toJSON(c: Aspect)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[Aspect]
-  = upickle.default.macroR[Aspect]
+  = encodeAspect(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : Aspect
-  = upickle.default.read[Aspect](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeAspect(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

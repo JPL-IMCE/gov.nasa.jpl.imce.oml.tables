@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -32,20 +31,20 @@ import scala.Predef._
 @JSExportTopLevel("BundledTerminologyAxiom")
 case class BundledTerminologyAxiom
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) bundleUUID: UUID,
-  @(JSExport @field) bundledTerminologyIRI: IRI
+  @(JSExport @field) uuid: taggedTypes.BundledTerminologyAxiomUUID,
+  @(JSExport @field) bundleUUID: taggedTypes.BundleXRef,
+  @(JSExport @field) bundledTerminologyIRI: taggedTypes.IRI
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    bundleUUID: UUID,
-    bundledTerminologyIRI: IRI)
+    bundleUUID: taggedTypes.BundleXRef,
+    bundledTerminologyIRI: taggedTypes.IRI)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.bundledTerminologyAxiomUUID(oug.namespaceUUID(
         "BundledTerminologyAxiom",
         "bundle" -> bundleUUID,
-        "bundledTerminology" -> oug.namespaceUUID(bundledTerminologyIRI).toString).toString,
+        "bundledTerminology" -> oug.namespaceUUID(bundledTerminologyIRI).toString).toString),
       bundleUUID,
       bundledTerminologyIRI)
 
@@ -58,7 +57,7 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: BundledTerminologyAxiom =>
   	  (this.uuid == that.uuid) &&
-  	  (this.bundleUUID == that.bundleUUID) &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.bundleUUID, that.bundleUUID)  &&
   	  (this.bundledTerminologyIRI == that.bundledTerminologyIRI)
     case _ =>
       false
@@ -69,26 +68,58 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("BundledTerminologyAxiomHelper")
 object BundledTerminologyAxiomHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "BundledTerminologyAxioms.json"
+
+  implicit val decodeBundledTerminologyAxiom: Decoder[BundledTerminologyAxiom]
+  = Decoder.instance[BundledTerminologyAxiom] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[BundledTerminologyAxiom]
-  = upickle.default.macroW[BundledTerminologyAxiom]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.BundledTerminologyAxiomUUID]
+    	  bundleUUID <- c.downField("bundleUUID").as[taggedTypes.BundleUUID]
+    	  bundledTerminologyIRI <- c.downField("bundledTerminologyIRI").as[taggedTypes.IRI]
+    	} yield BundledTerminologyAxiom(
+    	  uuid,
+    	  bundleUUID,
+    	  bundledTerminologyIRI
+    	)
+  }
+  
+  implicit val encodeBundledTerminologyAxiom: Encoder[BundledTerminologyAxiom]
+  = new Encoder[BundledTerminologyAxiom] {
+    override final def apply(x: BundledTerminologyAxiom): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeBundledTerminologyAxiomUUID(x.uuid)),
+    	  ("bundleUUID", taggedTypes.encodeBundleUUID(x.bundleUUID)),
+    	  ("bundledTerminologyIRI", taggedTypes.encodeIRI(x.bundledTerminologyIRI))
+    )
+  }
 
   @JSExport
   def toJSON(c: BundledTerminologyAxiom)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[BundledTerminologyAxiom]
-  = upickle.default.macroR[BundledTerminologyAxiom]
+  = encodeBundledTerminologyAxiom(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : BundledTerminologyAxiom
-  = upickle.default.read[BundledTerminologyAxiom](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeBundledTerminologyAxiom(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

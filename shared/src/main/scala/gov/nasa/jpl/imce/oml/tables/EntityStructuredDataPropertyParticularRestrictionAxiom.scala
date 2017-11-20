@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -33,23 +32,23 @@ import scala.Predef._
 @JSExportTopLevel("EntityStructuredDataPropertyParticularRestrictionAxiom")
 case class EntityStructuredDataPropertyParticularRestrictionAxiom
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) tboxUUID: UUID,
-  @(JSExport @field) structuredDataPropertyUUID: UUID,
-  @(JSExport @field) restrictedEntityUUID: UUID
+  @(JSExport @field) uuid: taggedTypes.EntityStructuredDataPropertyParticularRestrictionAxiomUUID,
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
+  @(JSExport @field) structuredDataPropertyUUID: taggedTypes.DataRelationshipToStructureXRef,
+  @(JSExport @field) restrictedEntityUUID: taggedTypes.EntityXRef
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: UUID,
-    structuredDataPropertyUUID: UUID,
-    restrictedEntityUUID: UUID)
+    tboxUUID: taggedTypes.TerminologyBoxXRef,
+    structuredDataPropertyUUID: taggedTypes.DataRelationshipToStructureXRef,
+    restrictedEntityUUID: taggedTypes.EntityXRef)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.entityStructuredDataPropertyParticularRestrictionAxiomUUID(oug.namespaceUUID(
         "EntityStructuredDataPropertyParticularRestrictionAxiom",
         "tbox" -> tboxUUID,
         "structuredDataProperty" -> structuredDataPropertyUUID,
-        "restrictedEntity" -> restrictedEntityUUID).toString,
+        "restrictedEntity" -> restrictedEntityUUID).toString),
       tboxUUID,
       structuredDataPropertyUUID,
       restrictedEntityUUID)
@@ -63,9 +62,9 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: EntityStructuredDataPropertyParticularRestrictionAxiom =>
   	  (this.uuid == that.uuid) &&
-  	  (this.tboxUUID == that.tboxUUID) &&
-  	  (this.structuredDataPropertyUUID == that.structuredDataPropertyUUID) &&
-  	  (this.restrictedEntityUUID == that.restrictedEntityUUID)
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.structuredDataPropertyUUID, that.structuredDataPropertyUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.restrictedEntityUUID, that.restrictedEntityUUID) 
     case _ =>
       false
   }
@@ -75,26 +74,61 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("EntityStructuredDataPropertyParticularRestrictionAxiomHelper")
 object EntityStructuredDataPropertyParticularRestrictionAxiomHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "EntityStructuredDataPropertyParticularRestrictionAxioms.json"
+
+  implicit val decodeEntityStructuredDataPropertyParticularRestrictionAxiom: Decoder[EntityStructuredDataPropertyParticularRestrictionAxiom]
+  = Decoder.instance[EntityStructuredDataPropertyParticularRestrictionAxiom] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[EntityStructuredDataPropertyParticularRestrictionAxiom]
-  = upickle.default.macroW[EntityStructuredDataPropertyParticularRestrictionAxiom]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.EntityStructuredDataPropertyParticularRestrictionAxiomUUID]
+    	  tboxUUID <- c.downField("tboxUUID").as[taggedTypes.TerminologyBoxUUID]
+    	  structuredDataPropertyUUID <- c.downField("structuredDataPropertyUUID").as[taggedTypes.DataRelationshipToStructureUUID]
+    	  restrictedEntityUUID <- c.downField("restrictedEntityUUID").as[taggedTypes.EntityUUID]
+    	} yield EntityStructuredDataPropertyParticularRestrictionAxiom(
+    	  uuid,
+    	  tboxUUID,
+    	  structuredDataPropertyUUID,
+    	  restrictedEntityUUID
+    	)
+  }
+  
+  implicit val encodeEntityStructuredDataPropertyParticularRestrictionAxiom: Encoder[EntityStructuredDataPropertyParticularRestrictionAxiom]
+  = new Encoder[EntityStructuredDataPropertyParticularRestrictionAxiom] {
+    override final def apply(x: EntityStructuredDataPropertyParticularRestrictionAxiom): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeEntityStructuredDataPropertyParticularRestrictionAxiomUUID(x.uuid)),
+    	  ("tboxUUID", taggedTypes.encodeTerminologyBoxUUID(x.tboxUUID)),
+    	  ("structuredDataPropertyUUID", taggedTypes.encodeDataRelationshipToStructureUUID(x.structuredDataPropertyUUID)),
+    	  ("restrictedEntityUUID", taggedTypes.encodeEntityUUID(x.restrictedEntityUUID))
+    )
+  }
 
   @JSExport
   def toJSON(c: EntityStructuredDataPropertyParticularRestrictionAxiom)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[EntityStructuredDataPropertyParticularRestrictionAxiom]
-  = upickle.default.macroR[EntityStructuredDataPropertyParticularRestrictionAxiom]
+  = encodeEntityStructuredDataPropertyParticularRestrictionAxiom(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : EntityStructuredDataPropertyParticularRestrictionAxiom
-  = upickle.default.read[EntityStructuredDataPropertyParticularRestrictionAxiom](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeEntityStructuredDataPropertyParticularRestrictionAxiom(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

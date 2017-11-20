@@ -30,8 +30,8 @@ trait OMLResolvedFactory {
   // AnnotationProperty
   def createAnnotationProperty
   ( extent: Extent,
-    iri: gov.nasa.jpl.imce.oml.tables.IRI,
-    abbrevIRI: gov.nasa.jpl.imce.oml.tables.AbbrevIRI )
+    iri: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI,
+    abbrevIRI: gov.nasa.jpl.imce.oml.tables.taggedTypes.AbbrevIRI )
   : (Extent, AnnotationProperty)
   = {
     val uuid: java.util.UUID = namespaceUUID(iri.toString)
@@ -41,8 +41,8 @@ trait OMLResolvedFactory {
   def createAnnotationProperty
   ( extent: Extent,
     uuid: java.util.UUID,
-    iri: gov.nasa.jpl.imce.oml.tables.IRI,
-    abbrevIRI: gov.nasa.jpl.imce.oml.tables.AbbrevIRI )
+    iri: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI,
+    abbrevIRI: gov.nasa.jpl.imce.oml.tables.taggedTypes.AbbrevIRI )
   : (Extent, AnnotationProperty)
   
   // AnnotationPropertyValue
@@ -50,7 +50,7 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     subject: Element,
     property: AnnotationProperty,
-    value: gov.nasa.jpl.imce.oml.tables.StringDataType )
+    value: gov.nasa.jpl.imce.oml.tables.taggedTypes.StringDataType )
   : (Extent, AnnotationPropertyValue)
   = {
   	// implicitly derived uuid...
@@ -68,14 +68,14 @@ trait OMLResolvedFactory {
     uuid: java.util.UUID,
     subject: Element,
     property: AnnotationProperty,
-    value: gov.nasa.jpl.imce.oml.tables.StringDataType )
+    value: gov.nasa.jpl.imce.oml.tables.taggedTypes.StringDataType )
   : (Extent, AnnotationPropertyValue)
   
   // AnonymousConceptUnionAxiom
   def createAnonymousConceptUnionAxiom
   ( extent: Extent,
     disjointTaxonomyParent: ConceptTreeDisjunction,
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, AnonymousConceptUnionAxiom)
   = {
     // namespace uuid...
@@ -88,14 +88,14 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     uuid: java.util.UUID,
     disjointTaxonomyParent: ConceptTreeDisjunction,
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, AnonymousConceptUnionAxiom)
   
   // Aspect
   def createAspect
   ( extent: Extent,
     tbox: TerminologyBox,
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, Aspect)
   = {
     // namespace uuid...
@@ -108,7 +108,7 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     uuid: java.util.UUID,
     tbox: TerminologyBox,
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, Aspect)
   
   // AspectPredicate
@@ -167,10 +167,10 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     tbox: TerminologyBox,
     restrictedRange: DataRange,
-    length: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral],
-    minLength: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral],
-    maxLength: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral],
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    length: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral],
+    minLength: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral],
+    maxLength: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral],
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, BinaryScalarRestriction)
   = {
     // namespace uuid...
@@ -184,17 +184,17 @@ trait OMLResolvedFactory {
     uuid: java.util.UUID,
     tbox: TerminologyBox,
     restrictedRange: DataRange,
-    length: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral],
-    minLength: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral],
-    maxLength: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral],
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    length: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral],
+    minLength: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral],
+    maxLength: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral],
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, BinaryScalarRestriction)
   
   // Bundle
   def createBundle
   ( extent: Extent,
     kind: gov.nasa.jpl.imce.oml.tables.TerminologyKind,
-    iri: gov.nasa.jpl.imce.oml.tables.IRI )
+    iri: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI )
   : (Extent, Bundle)
   = {
     val uuid: java.util.UUID = namespaceUUID(iri.toString)
@@ -205,14 +205,14 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     uuid: java.util.UUID,
     kind: gov.nasa.jpl.imce.oml.tables.TerminologyKind,
-    iri: gov.nasa.jpl.imce.oml.tables.IRI )
+    iri: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI )
   : (Extent, Bundle)
   
   // BundledTerminologyAxiom
   def createBundledTerminologyAxiom
   ( extent: Extent,
     bundle: Bundle,
-    bundledTerminology: gov.nasa.jpl.imce.oml.tables.IRI )
+    bundledTerminology: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI )
   : (Extent, BundledTerminologyAxiom)
   = {
   	// derived uuid...
@@ -229,14 +229,14 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     uuid: java.util.UUID,
     bundle: Bundle,
-    bundledTerminology: gov.nasa.jpl.imce.oml.tables.IRI )
+    bundledTerminology: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI )
   : (Extent, BundledTerminologyAxiom)
   
   // ChainRule
   def createChainRule
   ( extent: Extent,
     tbox: TerminologyBox,
-    name: gov.nasa.jpl.imce.oml.tables.LocalName,
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName,
     head: UnreifiedRelationship )
   : (Extent, ChainRule)
   = {
@@ -250,7 +250,7 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     uuid: java.util.UUID,
     tbox: TerminologyBox,
-    name: gov.nasa.jpl.imce.oml.tables.LocalName,
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName,
     head: UnreifiedRelationship )
   : (Extent, ChainRule)
   
@@ -258,7 +258,7 @@ trait OMLResolvedFactory {
   def createConcept
   ( extent: Extent,
     tbox: TerminologyBox,
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, Concept)
   = {
     // namespace uuid...
@@ -271,7 +271,7 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     uuid: java.util.UUID,
     tbox: TerminologyBox,
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, Concept)
   
   // ConceptDesignationTerminologyAxiom
@@ -279,7 +279,7 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     tbox: TerminologyBox,
     designatedConcept: Concept,
-    designatedTerminology: gov.nasa.jpl.imce.oml.tables.IRI )
+    designatedTerminology: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI )
   : (Extent, ConceptDesignationTerminologyAxiom)
   = {
   	// derived uuid...
@@ -298,7 +298,7 @@ trait OMLResolvedFactory {
     uuid: java.util.UUID,
     tbox: TerminologyBox,
     designatedConcept: Concept,
-    designatedTerminology: gov.nasa.jpl.imce.oml.tables.IRI )
+    designatedTerminology: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI )
   : (Extent, ConceptDesignationTerminologyAxiom)
   
   // ConceptInstance
@@ -306,7 +306,7 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     descriptionBox: DescriptionBox,
     singletonConceptClassifier: Concept,
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, ConceptInstance)
   = {
     // namespace uuid...
@@ -320,7 +320,7 @@ trait OMLResolvedFactory {
     uuid: java.util.UUID,
     descriptionBox: DescriptionBox,
     singletonConceptClassifier: Concept,
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, ConceptInstance)
   
   // ConceptPredicate
@@ -378,7 +378,7 @@ trait OMLResolvedFactory {
   def createDescriptionBox
   ( extent: Extent,
     kind: gov.nasa.jpl.imce.oml.tables.DescriptionKind,
-    iri: gov.nasa.jpl.imce.oml.tables.IRI )
+    iri: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI )
   : (Extent, DescriptionBox)
   = {
     val uuid: java.util.UUID = namespaceUUID(iri.toString)
@@ -389,14 +389,14 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     uuid: java.util.UUID,
     kind: gov.nasa.jpl.imce.oml.tables.DescriptionKind,
-    iri: gov.nasa.jpl.imce.oml.tables.IRI )
+    iri: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI )
   : (Extent, DescriptionBox)
   
   // DescriptionBoxExtendsClosedWorldDefinitions
   def createDescriptionBoxExtendsClosedWorldDefinitions
   ( extent: Extent,
     descriptionBox: DescriptionBox,
-    closedWorldDefinitions: gov.nasa.jpl.imce.oml.tables.IRI )
+    closedWorldDefinitions: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI )
   : (Extent, DescriptionBoxExtendsClosedWorldDefinitions)
   = {
   	// derived uuid...
@@ -413,14 +413,14 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     uuid: java.util.UUID,
     descriptionBox: DescriptionBox,
-    closedWorldDefinitions: gov.nasa.jpl.imce.oml.tables.IRI )
+    closedWorldDefinitions: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI )
   : (Extent, DescriptionBoxExtendsClosedWorldDefinitions)
   
   // DescriptionBoxRefinement
   def createDescriptionBoxRefinement
   ( extent: Extent,
     refiningDescriptionBox: DescriptionBox,
-    refinedDescriptionBox: gov.nasa.jpl.imce.oml.tables.IRI )
+    refinedDescriptionBox: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI )
   : (Extent, DescriptionBoxRefinement)
   = {
   	// derived uuid...
@@ -437,7 +437,7 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     uuid: java.util.UUID,
     refiningDescriptionBox: DescriptionBox,
-    refinedDescriptionBox: gov.nasa.jpl.imce.oml.tables.IRI )
+    refinedDescriptionBox: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI )
   : (Extent, DescriptionBoxRefinement)
   
   // EntityExistentialRestrictionAxiom
@@ -477,7 +477,7 @@ trait OMLResolvedFactory {
     domain: Entity,
     range: DataRange,
     isIdentityCriteria: scala.Boolean,
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, EntityScalarDataProperty)
   = {
     // namespace uuid...
@@ -493,7 +493,7 @@ trait OMLResolvedFactory {
     domain: Entity,
     range: DataRange,
     isIdentityCriteria: scala.Boolean,
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, EntityScalarDataProperty)
   
   // EntityScalarDataPropertyExistentialRestrictionAxiom
@@ -594,7 +594,7 @@ trait OMLResolvedFactory {
     domain: Entity,
     range: Structure,
     isIdentityCriteria: scala.Boolean,
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, EntityStructuredDataProperty)
   = {
     // namespace uuid...
@@ -610,7 +610,7 @@ trait OMLResolvedFactory {
     domain: Entity,
     range: Structure,
     isIdentityCriteria: scala.Boolean,
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, EntityStructuredDataProperty)
   
   // EntityStructuredDataPropertyParticularRestrictionAxiom
@@ -679,11 +679,11 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     tbox: TerminologyBox,
     restrictedRange: DataRange,
-    length: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral],
-    minLength: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral],
-    maxLength: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral],
-    name: gov.nasa.jpl.imce.oml.tables.LocalName,
-    pattern: scala.Option[gov.nasa.jpl.imce.oml.tables.LiteralPattern] )
+    length: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral],
+    minLength: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral],
+    maxLength: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral],
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName,
+    pattern: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.LiteralPattern] )
   : (Extent, IRIScalarRestriction)
   = {
     // namespace uuid...
@@ -697,11 +697,11 @@ trait OMLResolvedFactory {
     uuid: java.util.UUID,
     tbox: TerminologyBox,
     restrictedRange: DataRange,
-    length: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral],
-    minLength: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral],
-    maxLength: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral],
-    name: gov.nasa.jpl.imce.oml.tables.LocalName,
-    pattern: scala.Option[gov.nasa.jpl.imce.oml.tables.LiteralPattern] )
+    length: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral],
+    minLength: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral],
+    maxLength: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral],
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName,
+    pattern: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.LiteralPattern] )
   : (Extent, IRIScalarRestriction)
   
   // NumericScalarRestriction
@@ -713,7 +713,7 @@ trait OMLResolvedFactory {
     minInclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LiteralNumber],
     maxExclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LiteralNumber],
     maxInclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LiteralNumber],
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, NumericScalarRestriction)
   = {
     // namespace uuid...
@@ -731,7 +731,7 @@ trait OMLResolvedFactory {
     minInclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LiteralNumber],
     maxExclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LiteralNumber],
     maxInclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LiteralNumber],
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, NumericScalarRestriction)
   
   // PlainLiteralScalarRestriction
@@ -739,12 +739,12 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     tbox: TerminologyBox,
     restrictedRange: DataRange,
-    length: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral],
-    minLength: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral],
-    maxLength: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral],
-    name: gov.nasa.jpl.imce.oml.tables.LocalName,
-    langRange: scala.Option[gov.nasa.jpl.imce.oml.tables.LanguageTagDataType],
-    pattern: scala.Option[gov.nasa.jpl.imce.oml.tables.LiteralPattern] )
+    length: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral],
+    minLength: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral],
+    maxLength: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral],
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName,
+    langRange: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.LanguageTagDataType],
+    pattern: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.LiteralPattern] )
   : (Extent, PlainLiteralScalarRestriction)
   = {
     // namespace uuid...
@@ -758,12 +758,12 @@ trait OMLResolvedFactory {
     uuid: java.util.UUID,
     tbox: TerminologyBox,
     restrictedRange: DataRange,
-    length: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral],
-    minLength: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral],
-    maxLength: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral],
-    name: gov.nasa.jpl.imce.oml.tables.LocalName,
-    langRange: scala.Option[gov.nasa.jpl.imce.oml.tables.LanguageTagDataType],
-    pattern: scala.Option[gov.nasa.jpl.imce.oml.tables.LiteralPattern] )
+    length: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral],
+    minLength: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral],
+    maxLength: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral],
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName,
+    langRange: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.LanguageTagDataType],
+    pattern: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.LiteralPattern] )
   : (Extent, PlainLiteralScalarRestriction)
   
   // ReifiedRelationship
@@ -781,9 +781,9 @@ trait OMLResolvedFactory {
     isReflexive: scala.Boolean,
     isSymmetric: scala.Boolean,
     isTransitive: scala.Boolean,
-    name: gov.nasa.jpl.imce.oml.tables.LocalName,
-    unreifiedPropertyName: gov.nasa.jpl.imce.oml.tables.LocalName,
-    unreifiedInversePropertyName: scala.Option[gov.nasa.jpl.imce.oml.tables.LocalName] )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName,
+    unreifiedPropertyName: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName,
+    unreifiedInversePropertyName: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName] )
   : (Extent, ReifiedRelationship)
   = {
     // namespace uuid...
@@ -807,9 +807,9 @@ trait OMLResolvedFactory {
     isReflexive: scala.Boolean,
     isSymmetric: scala.Boolean,
     isTransitive: scala.Boolean,
-    name: gov.nasa.jpl.imce.oml.tables.LocalName,
-    unreifiedPropertyName: gov.nasa.jpl.imce.oml.tables.LocalName,
-    unreifiedInversePropertyName: scala.Option[gov.nasa.jpl.imce.oml.tables.LocalName] )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName,
+    unreifiedPropertyName: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName,
+    unreifiedInversePropertyName: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName] )
   : (Extent, ReifiedRelationship)
   
   // ReifiedRelationshipInstance
@@ -817,7 +817,7 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     descriptionBox: DescriptionBox,
     singletonReifiedRelationshipClassifier: ReifiedRelationship,
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, ReifiedRelationshipInstance)
   = {
     // namespace uuid...
@@ -831,7 +831,7 @@ trait OMLResolvedFactory {
     uuid: java.util.UUID,
     descriptionBox: DescriptionBox,
     singletonReifiedRelationshipClassifier: ReifiedRelationship,
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, ReifiedRelationshipInstance)
   
   // ReifiedRelationshipInstanceDomain
@@ -1196,7 +1196,7 @@ trait OMLResolvedFactory {
   def createScalar
   ( extent: Extent,
     tbox: TerminologyBox,
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, Scalar)
   = {
     // namespace uuid...
@@ -1209,7 +1209,7 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     uuid: java.util.UUID,
     tbox: TerminologyBox,
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, Scalar)
   
   // ScalarDataProperty
@@ -1218,7 +1218,7 @@ trait OMLResolvedFactory {
     tbox: TerminologyBox,
     domain: Structure,
     range: DataRange,
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, ScalarDataProperty)
   = {
     // namespace uuid...
@@ -1233,7 +1233,7 @@ trait OMLResolvedFactory {
     tbox: TerminologyBox,
     domain: Structure,
     range: DataRange,
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, ScalarDataProperty)
   
   // ScalarDataPropertyValue
@@ -1297,7 +1297,7 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     tbox: TerminologyBox,
     restrictedRange: DataRange,
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, ScalarOneOfRestriction)
   = {
     // namespace uuid...
@@ -1311,7 +1311,7 @@ trait OMLResolvedFactory {
     uuid: java.util.UUID,
     tbox: TerminologyBox,
     restrictedRange: DataRange,
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, ScalarOneOfRestriction)
   
   // SingletonInstanceScalarDataPropertyValue
@@ -1401,11 +1401,11 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     tbox: TerminologyBox,
     restrictedRange: DataRange,
-    length: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral],
-    minLength: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral],
-    maxLength: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral],
-    name: gov.nasa.jpl.imce.oml.tables.LocalName,
-    pattern: scala.Option[gov.nasa.jpl.imce.oml.tables.LiteralPattern] )
+    length: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral],
+    minLength: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral],
+    maxLength: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral],
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName,
+    pattern: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.LiteralPattern] )
   : (Extent, StringScalarRestriction)
   = {
     // namespace uuid...
@@ -1419,18 +1419,18 @@ trait OMLResolvedFactory {
     uuid: java.util.UUID,
     tbox: TerminologyBox,
     restrictedRange: DataRange,
-    length: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral],
-    minLength: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral],
-    maxLength: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral],
-    name: gov.nasa.jpl.imce.oml.tables.LocalName,
-    pattern: scala.Option[gov.nasa.jpl.imce.oml.tables.LiteralPattern] )
+    length: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral],
+    minLength: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral],
+    maxLength: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral],
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName,
+    pattern: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.LiteralPattern] )
   : (Extent, StringScalarRestriction)
   
   // Structure
   def createStructure
   ( extent: Extent,
     tbox: TerminologyBox,
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, Structure)
   = {
     // namespace uuid...
@@ -1443,7 +1443,7 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     uuid: java.util.UUID,
     tbox: TerminologyBox,
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, Structure)
   
   // StructuredDataProperty
@@ -1452,7 +1452,7 @@ trait OMLResolvedFactory {
     tbox: TerminologyBox,
     domain: Structure,
     range: Structure,
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, StructuredDataProperty)
   = {
     // namespace uuid...
@@ -1467,7 +1467,7 @@ trait OMLResolvedFactory {
     tbox: TerminologyBox,
     domain: Structure,
     range: Structure,
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, StructuredDataProperty)
   
   // StructuredDataPropertyTuple
@@ -1499,7 +1499,7 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     tbox: TerminologyBox,
     restrictedRange: DataRange,
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, SynonymScalarRestriction)
   = {
     // namespace uuid...
@@ -1513,14 +1513,14 @@ trait OMLResolvedFactory {
     uuid: java.util.UUID,
     tbox: TerminologyBox,
     restrictedRange: DataRange,
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, SynonymScalarRestriction)
   
   // TerminologyExtensionAxiom
   def createTerminologyExtensionAxiom
   ( extent: Extent,
     tbox: TerminologyBox,
-    extendedTerminology: gov.nasa.jpl.imce.oml.tables.IRI )
+    extendedTerminology: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI )
   : (Extent, TerminologyExtensionAxiom)
   = {
   	// derived uuid...
@@ -1537,14 +1537,14 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     uuid: java.util.UUID,
     tbox: TerminologyBox,
-    extendedTerminology: gov.nasa.jpl.imce.oml.tables.IRI )
+    extendedTerminology: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI )
   : (Extent, TerminologyExtensionAxiom)
   
   // TerminologyGraph
   def createTerminologyGraph
   ( extent: Extent,
     kind: gov.nasa.jpl.imce.oml.tables.TerminologyKind,
-    iri: gov.nasa.jpl.imce.oml.tables.IRI )
+    iri: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI )
   : (Extent, TerminologyGraph)
   = {
     val uuid: java.util.UUID = namespaceUUID(iri.toString)
@@ -1555,7 +1555,7 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     uuid: java.util.UUID,
     kind: gov.nasa.jpl.imce.oml.tables.TerminologyKind,
-    iri: gov.nasa.jpl.imce.oml.tables.IRI )
+    iri: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI )
   : (Extent, TerminologyGraph)
   
   // TerminologyNestingAxiom
@@ -1563,7 +1563,7 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     tbox: TerminologyBox,
     nestingContext: Concept,
-    nestingTerminology: gov.nasa.jpl.imce.oml.tables.IRI )
+    nestingTerminology: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI )
   : (Extent, TerminologyNestingAxiom)
   = {
   	// derived uuid...
@@ -1582,7 +1582,7 @@ trait OMLResolvedFactory {
     uuid: java.util.UUID,
     tbox: TerminologyBox,
     nestingContext: Concept,
-    nestingTerminology: gov.nasa.jpl.imce.oml.tables.IRI )
+    nestingTerminology: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI )
   : (Extent, TerminologyNestingAxiom)
   
   // TimeScalarRestriction
@@ -1594,7 +1594,7 @@ trait OMLResolvedFactory {
     minInclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LiteralDateTime],
     maxExclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LiteralDateTime],
     maxInclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LiteralDateTime],
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, TimeScalarRestriction)
   = {
     // namespace uuid...
@@ -1612,7 +1612,7 @@ trait OMLResolvedFactory {
     minInclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LiteralDateTime],
     maxExclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LiteralDateTime],
     maxInclusive: scala.Option[gov.nasa.jpl.imce.oml.tables.LiteralDateTime],
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, TimeScalarRestriction)
   
   // UnreifiedRelationship
@@ -1630,7 +1630,7 @@ trait OMLResolvedFactory {
     isReflexive: scala.Boolean,
     isSymmetric: scala.Boolean,
     isTransitive: scala.Boolean,
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, UnreifiedRelationship)
   = {
     // namespace uuid...
@@ -1654,7 +1654,7 @@ trait OMLResolvedFactory {
     isReflexive: scala.Boolean,
     isSymmetric: scala.Boolean,
     isTransitive: scala.Boolean,
-    name: gov.nasa.jpl.imce.oml.tables.LocalName )
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, UnreifiedRelationship)
   
   // UnreifiedRelationshipInstanceTuple

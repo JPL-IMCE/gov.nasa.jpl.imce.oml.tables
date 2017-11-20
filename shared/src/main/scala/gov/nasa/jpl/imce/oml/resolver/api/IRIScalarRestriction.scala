@@ -38,17 +38,17 @@ trait IRIScalarRestriction
   /*
    * The length of the IRI
    */
-  val length: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral]
+  val length: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral]
   /*
    * The minimum length of the IRI
    */
-  val minLength: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral]
+  val minLength: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral]
   /*
    * The maximum length of the IRI
    */
-  val maxLength: scala.Option[gov.nasa.jpl.imce.oml.tables.PositiveIntegerLiteral]
+  val maxLength: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral]
   /*
    * The pattern of the IRI (https://www.w3.org/TR/xmlschema-2/#regexs)
    */
-  val pattern: scala.Option[gov.nasa.jpl.imce.oml.tables.LiteralPattern]
+  val pattern: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.LiteralPattern]
 }

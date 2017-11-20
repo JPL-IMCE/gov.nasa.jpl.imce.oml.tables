@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -33,23 +32,23 @@ import scala.Predef._
 @JSExportTopLevel("TerminologyNestingAxiom")
 case class TerminologyNestingAxiom
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) tboxUUID: UUID,
-  @(JSExport @field) nestingContextUUID: UUID,
-  @(JSExport @field) nestingTerminologyIRI: IRI
+  @(JSExport @field) uuid: taggedTypes.TerminologyNestingAxiomUUID,
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
+  @(JSExport @field) nestingContextUUID: taggedTypes.ConceptXRef,
+  @(JSExport @field) nestingTerminologyIRI: taggedTypes.IRI
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: UUID,
-    nestingContextUUID: UUID,
-    nestingTerminologyIRI: IRI)
+    tboxUUID: taggedTypes.TerminologyBoxXRef,
+    nestingContextUUID: taggedTypes.ConceptXRef,
+    nestingTerminologyIRI: taggedTypes.IRI)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.terminologyNestingAxiomUUID(oug.namespaceUUID(
         "TerminologyNestingAxiom",
         "tbox" -> tboxUUID,
         "nestingContext" -> nestingContextUUID,
-        "nestingTerminology" -> oug.namespaceUUID(nestingTerminologyIRI).toString).toString,
+        "nestingTerminology" -> oug.namespaceUUID(nestingTerminologyIRI).toString).toString),
       tboxUUID,
       nestingContextUUID,
       nestingTerminologyIRI)
@@ -63,8 +62,8 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: TerminologyNestingAxiom =>
   	  (this.uuid == that.uuid) &&
-  	  (this.tboxUUID == that.tboxUUID) &&
-  	  (this.nestingContextUUID == that.nestingContextUUID) &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.nestingContextUUID, that.nestingContextUUID)  &&
   	  (this.nestingTerminologyIRI == that.nestingTerminologyIRI)
     case _ =>
       false
@@ -75,26 +74,61 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("TerminologyNestingAxiomHelper")
 object TerminologyNestingAxiomHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "TerminologyNestingAxioms.json"
+
+  implicit val decodeTerminologyNestingAxiom: Decoder[TerminologyNestingAxiom]
+  = Decoder.instance[TerminologyNestingAxiom] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[TerminologyNestingAxiom]
-  = upickle.default.macroW[TerminologyNestingAxiom]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.TerminologyNestingAxiomUUID]
+    	  tboxUUID <- c.downField("tboxUUID").as[taggedTypes.TerminologyBoxUUID]
+    	  nestingContextUUID <- c.downField("nestingContextUUID").as[taggedTypes.ConceptUUID]
+    	  nestingTerminologyIRI <- c.downField("nestingTerminologyIRI").as[taggedTypes.IRI]
+    	} yield TerminologyNestingAxiom(
+    	  uuid,
+    	  tboxUUID,
+    	  nestingContextUUID,
+    	  nestingTerminologyIRI
+    	)
+  }
+  
+  implicit val encodeTerminologyNestingAxiom: Encoder[TerminologyNestingAxiom]
+  = new Encoder[TerminologyNestingAxiom] {
+    override final def apply(x: TerminologyNestingAxiom): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeTerminologyNestingAxiomUUID(x.uuid)),
+    	  ("tboxUUID", taggedTypes.encodeTerminologyBoxUUID(x.tboxUUID)),
+    	  ("nestingContextUUID", taggedTypes.encodeConceptUUID(x.nestingContextUUID)),
+    	  ("nestingTerminologyIRI", taggedTypes.encodeIRI(x.nestingTerminologyIRI))
+    )
+  }
 
   @JSExport
   def toJSON(c: TerminologyNestingAxiom)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[TerminologyNestingAxiom]
-  = upickle.default.macroR[TerminologyNestingAxiom]
+  = encodeTerminologyNestingAxiom(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : TerminologyNestingAxiom
-  = upickle.default.read[TerminologyNestingAxiom](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeTerminologyNestingAxiom(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

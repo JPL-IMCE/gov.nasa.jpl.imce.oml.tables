@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -32,20 +31,20 @@ import scala.Predef._
 @JSExportTopLevel("RestrictionStructuredDataPropertyTuple")
 case class RestrictionStructuredDataPropertyTuple
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) structuredDataPropertyUUID: UUID,
-  @(JSExport @field) structuredDataPropertyContextUUID: UUID
+  @(JSExport @field) uuid: taggedTypes.RestrictionStructuredDataPropertyTupleUUID,
+  @(JSExport @field) structuredDataPropertyUUID: taggedTypes.DataRelationshipToStructureXRef,
+  @(JSExport @field) structuredDataPropertyContextUUID: taggedTypes.RestrictionStructuredDataPropertyContextXRef
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    structuredDataPropertyUUID: UUID,
-    structuredDataPropertyContextUUID: UUID)
+    structuredDataPropertyUUID: taggedTypes.DataRelationshipToStructureXRef,
+    structuredDataPropertyContextUUID: taggedTypes.RestrictionStructuredDataPropertyContextXRef)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.restrictionStructuredDataPropertyTupleUUID(oug.namespaceUUID(
         "RestrictionStructuredDataPropertyTuple",
         "structuredDataProperty" -> structuredDataPropertyUUID,
-        "structuredDataPropertyContext" -> structuredDataPropertyContextUUID).toString,
+        "structuredDataPropertyContext" -> structuredDataPropertyContextUUID).toString),
       structuredDataPropertyUUID,
       structuredDataPropertyContextUUID)
 
@@ -58,8 +57,8 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: RestrictionStructuredDataPropertyTuple =>
   	  (this.uuid == that.uuid) &&
-  	  (this.structuredDataPropertyUUID == that.structuredDataPropertyUUID) &&
-  	  (this.structuredDataPropertyContextUUID == that.structuredDataPropertyContextUUID)
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.structuredDataPropertyUUID, that.structuredDataPropertyUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.structuredDataPropertyContextUUID, that.structuredDataPropertyContextUUID) 
     case _ =>
       false
   }
@@ -69,26 +68,58 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("RestrictionStructuredDataPropertyTupleHelper")
 object RestrictionStructuredDataPropertyTupleHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "RestrictionStructuredDataPropertyTuples.json"
+
+  implicit val decodeRestrictionStructuredDataPropertyTuple: Decoder[RestrictionStructuredDataPropertyTuple]
+  = Decoder.instance[RestrictionStructuredDataPropertyTuple] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[RestrictionStructuredDataPropertyTuple]
-  = upickle.default.macroW[RestrictionStructuredDataPropertyTuple]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.RestrictionStructuredDataPropertyTupleUUID]
+    	  structuredDataPropertyUUID <- c.downField("structuredDataPropertyUUID").as[taggedTypes.DataRelationshipToStructureUUID]
+    	  structuredDataPropertyContextUUID <- c.downField("structuredDataPropertyContextUUID").as[taggedTypes.RestrictionStructuredDataPropertyContextUUID]
+    	} yield RestrictionStructuredDataPropertyTuple(
+    	  uuid,
+    	  structuredDataPropertyUUID,
+    	  structuredDataPropertyContextUUID
+    	)
+  }
+  
+  implicit val encodeRestrictionStructuredDataPropertyTuple: Encoder[RestrictionStructuredDataPropertyTuple]
+  = new Encoder[RestrictionStructuredDataPropertyTuple] {
+    override final def apply(x: RestrictionStructuredDataPropertyTuple): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeRestrictionStructuredDataPropertyTupleUUID(x.uuid)),
+    	  ("structuredDataPropertyUUID", taggedTypes.encodeDataRelationshipToStructureUUID(x.structuredDataPropertyUUID)),
+    	  ("structuredDataPropertyContextUUID", taggedTypes.encodeRestrictionStructuredDataPropertyContextUUID(x.structuredDataPropertyContextUUID))
+    )
+  }
 
   @JSExport
   def toJSON(c: RestrictionStructuredDataPropertyTuple)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[RestrictionStructuredDataPropertyTuple]
-  = upickle.default.macroR[RestrictionStructuredDataPropertyTuple]
+  = encodeRestrictionStructuredDataPropertyTuple(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : RestrictionStructuredDataPropertyTuple
-  = upickle.default.read[RestrictionStructuredDataPropertyTuple](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeRestrictionStructuredDataPropertyTuple(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

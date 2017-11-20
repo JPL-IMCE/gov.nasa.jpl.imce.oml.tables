@@ -28,7 +28,7 @@ trait ModuleEdge
   def sourceModule
   ()(implicit extent: Extent): scala.Option[Module]
   def targetModule
-  ()(implicit extent: Extent): gov.nasa.jpl.imce.oml.tables.IRI
+  ()(implicit extent: Extent): gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI
   def moduleContext
   ()(implicit extent: Extent): scala.Option[Module]
 }
@@ -42,7 +42,7 @@ object ModuleEdge {
 
   def targetModule
   (m: ModuleEdge, ext: Extent)
-  : gov.nasa.jpl.imce.oml.tables.IRI
+  : gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI
   = m.targetModule()(ext)
 
   def moduleContext

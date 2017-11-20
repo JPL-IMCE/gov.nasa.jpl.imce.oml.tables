@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -32,19 +31,19 @@ import scala.Predef._
 @JSExportTopLevel("Concept")
 case class Concept
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) tboxUUID: UUID,
-  @(JSExport @field) name: LocalName
+  @(JSExport @field) uuid: taggedTypes.ConceptUUID,
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
+  @(JSExport @field) name: taggedTypes.LocalName
 ) {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: UUID,
-    name: LocalName)
+    tboxUUID: taggedTypes.TerminologyBoxXRef,
+    name: taggedTypes.LocalName)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.conceptUUID(oug.namespaceUUID(
         tboxUUID,
-        "name" -> name).toString,
+        "name" -> name).toString),
       tboxUUID,
       name)
 
@@ -57,7 +56,7 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: Concept =>
   	  (this.uuid == that.uuid) &&
-  	  (this.tboxUUID == that.tboxUUID) &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
   	  (this.name == that.name)
     case _ =>
       false
@@ -68,26 +67,58 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("ConceptHelper")
 object ConceptHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "Concepts.json"
+
+  implicit val decodeConcept: Decoder[Concept]
+  = Decoder.instance[Concept] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[Concept]
-  = upickle.default.macroW[Concept]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.ConceptUUID]
+    	  tboxUUID <- c.downField("tboxUUID").as[taggedTypes.TerminologyBoxUUID]
+    	  name <- c.downField("name").as[taggedTypes.LocalName]
+    	} yield Concept(
+    	  uuid,
+    	  tboxUUID,
+    	  name
+    	)
+  }
+  
+  implicit val encodeConcept: Encoder[Concept]
+  = new Encoder[Concept] {
+    override final def apply(x: Concept): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeConceptUUID(x.uuid)),
+    	  ("tboxUUID", taggedTypes.encodeTerminologyBoxUUID(x.tboxUUID)),
+    	  ("name", taggedTypes.encodeLocalName(x.name))
+    )
+  }
 
   @JSExport
   def toJSON(c: Concept)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[Concept]
-  = upickle.default.macroR[Concept]
+  = encodeConcept(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : Concept
-  = upickle.default.read[Concept](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeConcept(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

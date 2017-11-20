@@ -21,8 +21,6 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
 
 /**
   * @param uuid[1,1]
@@ -32,18 +30,18 @@ import scala.Predef._
 @JSExportTopLevel("Bundle")
 case class Bundle
 (
-  @(JSExport @field) uuid: UUID,
+  @(JSExport @field) uuid: taggedTypes.BundleUUID,
   @(JSExport @field) kind: TerminologyKind,
-  @(JSExport @field) iri: IRI
+  @(JSExport @field) iri: taggedTypes.IRI
 ) {
   // Ctor(uuidWithoutContainer)
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     kind: TerminologyKind,
-    iri: IRI)
+    iri: taggedTypes.IRI)
   = this(
-      oug.namespaceUUID(
-        iri.toString).toString,
+      taggedTypes.bundleUUID(oug.namespaceUUID(
+        iri.toString).toString),
       kind,
       iri)
 
@@ -67,26 +65,58 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("BundleHelper")
 object BundleHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "Bundles.json"
+
+  implicit val decodeBundle: Decoder[Bundle]
+  = Decoder.instance[Bundle] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[Bundle]
-  = upickle.default.macroW[Bundle]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.BundleUUID]
+    	  kind <- c.downField("kind").as[TerminologyKind]
+    	  iri <- c.downField("iri").as[taggedTypes.IRI]
+    	} yield Bundle(
+    	  uuid,
+    	  kind,
+    	  iri
+    	)
+  }
+  
+  implicit val encodeBundle: Encoder[Bundle]
+  = new Encoder[Bundle] {
+    override final def apply(x: Bundle): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeBundleUUID(x.uuid)),
+    	  ("kind", TerminologyKind.encodeTerminologyKind(x.kind)),
+    	  ("iri", taggedTypes.encodeIRI(x.iri))
+    )
+  }
 
   @JSExport
   def toJSON(c: Bundle)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[Bundle]
-  = upickle.default.macroR[Bundle]
+  = encodeBundle(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : Bundle
-  = upickle.default.read[Bundle](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeBundle(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

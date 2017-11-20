@@ -28,12 +28,12 @@ trait DescriptionBoxExtendsClosedWorldDefinitions
   extends DescriptionBoxRelationship
 {
 
-  val closedWorldDefinitions: gov.nasa.jpl.imce.oml.tables.IRI
+  val closedWorldDefinitions: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI
 
   def descriptionDomain
   ()(implicit extent: Extent): scala.Option[DescriptionBox]
   def targetModule
-  ()(implicit extent: Extent): gov.nasa.jpl.imce.oml.tables.IRI
+  ()(implicit extent: Extent): gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI
 }
 
 object DescriptionBoxExtendsClosedWorldDefinitions {
@@ -45,7 +45,7 @@ object DescriptionBoxExtendsClosedWorldDefinitions {
 
   def targetModule
   (d: DescriptionBoxExtendsClosedWorldDefinitions, ext: Extent)
-  : gov.nasa.jpl.imce.oml.tables.IRI
+  : gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI
   = d.targetModule()(ext)
 
 }

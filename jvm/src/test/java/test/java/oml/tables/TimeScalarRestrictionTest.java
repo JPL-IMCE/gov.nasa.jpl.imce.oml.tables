@@ -35,20 +35,20 @@ public class TimeScalarRestrictionTest {
         String restrictedRangeUUID = "1245-ABCD-2345-4567";
 
         TimeScalarRestriction w1 = new TimeScalarRestriction(uuid, tboxUUID, restrictedRangeUUID, name)
-                .withMaxExclusive(new LiteralDateTime("123"))
-                .withMinExclusive(new LiteralDateTime("4567"))
-                .withMaxInclusive(new LiteralDateTime("333"))
-                .withMinInclusive(new LiteralDateTime("678"));
+                .withMaxExclusive(new LiteralDateTime("dateTime=123"))
+                .withMinExclusive(new LiteralDateTime("dateTime=4567"))
+                .withMaxInclusive(new LiteralDateTime("dateTime=333"))
+                .withMinInclusive(new LiteralDateTime("dateTime=678"));
 
         String s1 = TimeScalarRestrictionHelper.toJSON(w1);
 
-        String maxE_s = "[\"" + w1.maxExclusive().get().value() + "\"]";
+        String maxE_s = "\"" + w1.maxExclusive().get().value() + "\"";
 
-        String maxI_s = "[\"" + w1.maxInclusive().get().value() + "\"]";
+        String maxI_s = "\"" + w1.maxInclusive().get().value() + "\"";
 
-        String minE_s = "[\"" + w1.minExclusive().get().value() + "\"]";
+        String minE_s = "\"" + w1.minExclusive().get().value() + "\"";
 
-        String minI_s = "[\"" + w1.minInclusive().get().value() + "\"]";
+        String minI_s = "\"" + w1.minInclusive().get().value() + "\"";
 
         String t1 = String.format(
                 "{\"uuid\":\"%s\",\"tboxUUID\":\"%s\",\"restrictedRangeUUID\":\"%s\",\"minExclusive\":%s,\"minInclusive\":%s,\"maxExclusive\":%s,\"maxInclusive\":%s,\"name\":\"%s\"}",

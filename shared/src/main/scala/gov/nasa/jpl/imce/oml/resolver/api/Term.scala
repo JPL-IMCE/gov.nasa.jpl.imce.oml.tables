@@ -26,10 +26,10 @@ trait Term
   with Resource
 {
 
-  override val name: gov.nasa.jpl.imce.oml.tables.LocalName
+  override val name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName
 
   override def iri
-  ()(implicit extent: Extent): scala.Option[gov.nasa.jpl.imce.oml.tables.IRI]
+  ()(implicit extent: Extent): scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI]
   override def abbrevIRI
   ()(implicit extent: Extent): scala.Option[scala.Predef.String]
   def allNestedElements
@@ -40,7 +40,7 @@ object Term {
 
   def iri
   (t: Term, ext: Extent)
-  : scala.Option[gov.nasa.jpl.imce.oml.tables.IRI]
+  : scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI]
   = t.iri()(ext)
 
   def abbrevIRI

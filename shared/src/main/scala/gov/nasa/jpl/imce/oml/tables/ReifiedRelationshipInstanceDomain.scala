@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -33,23 +32,23 @@ import scala.Predef._
 @JSExportTopLevel("ReifiedRelationshipInstanceDomain")
 case class ReifiedRelationshipInstanceDomain
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) descriptionBoxUUID: UUID,
-  @(JSExport @field) reifiedRelationshipInstanceUUID: UUID,
-  @(JSExport @field) domainUUID: UUID
+  @(JSExport @field) uuid: taggedTypes.ReifiedRelationshipInstanceDomainUUID,
+  @(JSExport @field) descriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
+  @(JSExport @field) reifiedRelationshipInstanceUUID: taggedTypes.ReifiedRelationshipInstanceXRef,
+  @(JSExport @field) domainUUID: taggedTypes.ConceptualEntitySingletonInstanceXRef
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    descriptionBoxUUID: UUID,
-    reifiedRelationshipInstanceUUID: UUID,
-    domainUUID: UUID)
+    descriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
+    reifiedRelationshipInstanceUUID: taggedTypes.ReifiedRelationshipInstanceXRef,
+    domainUUID: taggedTypes.ConceptualEntitySingletonInstanceXRef)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.reifiedRelationshipInstanceDomainUUID(oug.namespaceUUID(
         "ReifiedRelationshipInstanceDomain",
         "descriptionBox" -> descriptionBoxUUID,
         "reifiedRelationshipInstance" -> reifiedRelationshipInstanceUUID,
-        "domain" -> domainUUID).toString,
+        "domain" -> domainUUID).toString),
       descriptionBoxUUID,
       reifiedRelationshipInstanceUUID,
       domainUUID)
@@ -63,9 +62,9 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: ReifiedRelationshipInstanceDomain =>
   	  (this.uuid == that.uuid) &&
-  	  (this.descriptionBoxUUID == that.descriptionBoxUUID) &&
-  	  (this.reifiedRelationshipInstanceUUID == that.reifiedRelationshipInstanceUUID) &&
-  	  (this.domainUUID == that.domainUUID)
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.descriptionBoxUUID, that.descriptionBoxUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.reifiedRelationshipInstanceUUID, that.reifiedRelationshipInstanceUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.domainUUID, that.domainUUID) 
     case _ =>
       false
   }
@@ -75,26 +74,61 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("ReifiedRelationshipInstanceDomainHelper")
 object ReifiedRelationshipInstanceDomainHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "ReifiedRelationshipInstanceDomains.json"
+
+  implicit val decodeReifiedRelationshipInstanceDomain: Decoder[ReifiedRelationshipInstanceDomain]
+  = Decoder.instance[ReifiedRelationshipInstanceDomain] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[ReifiedRelationshipInstanceDomain]
-  = upickle.default.macroW[ReifiedRelationshipInstanceDomain]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.ReifiedRelationshipInstanceDomainUUID]
+    	  descriptionBoxUUID <- c.downField("descriptionBoxUUID").as[taggedTypes.DescriptionBoxUUID]
+    	  reifiedRelationshipInstanceUUID <- c.downField("reifiedRelationshipInstanceUUID").as[taggedTypes.ReifiedRelationshipInstanceUUID]
+    	  domainUUID <- c.downField("domainUUID").as[taggedTypes.ConceptualEntitySingletonInstanceUUID]
+    	} yield ReifiedRelationshipInstanceDomain(
+    	  uuid,
+    	  descriptionBoxUUID,
+    	  reifiedRelationshipInstanceUUID,
+    	  domainUUID
+    	)
+  }
+  
+  implicit val encodeReifiedRelationshipInstanceDomain: Encoder[ReifiedRelationshipInstanceDomain]
+  = new Encoder[ReifiedRelationshipInstanceDomain] {
+    override final def apply(x: ReifiedRelationshipInstanceDomain): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeReifiedRelationshipInstanceDomainUUID(x.uuid)),
+    	  ("descriptionBoxUUID", taggedTypes.encodeDescriptionBoxUUID(x.descriptionBoxUUID)),
+    	  ("reifiedRelationshipInstanceUUID", taggedTypes.encodeReifiedRelationshipInstanceUUID(x.reifiedRelationshipInstanceUUID)),
+    	  ("domainUUID", taggedTypes.encodeConceptualEntitySingletonInstanceUUID(x.domainUUID))
+    )
+  }
 
   @JSExport
   def toJSON(c: ReifiedRelationshipInstanceDomain)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[ReifiedRelationshipInstanceDomain]
-  = upickle.default.macroR[ReifiedRelationshipInstanceDomain]
+  = encodeReifiedRelationshipInstanceDomain(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : ReifiedRelationshipInstanceDomain
-  = upickle.default.read[ReifiedRelationshipInstanceDomain](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeReifiedRelationshipInstanceDomain(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

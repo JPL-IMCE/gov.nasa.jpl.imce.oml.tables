@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -33,21 +32,21 @@ import scala.Predef._
 @JSExportTopLevel("ReifiedRelationshipInstance")
 case class ReifiedRelationshipInstance
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) descriptionBoxUUID: UUID,
-  @(JSExport @field) singletonReifiedRelationshipClassifierUUID: UUID,
-  @(JSExport @field) name: LocalName
+  @(JSExport @field) uuid: taggedTypes.ReifiedRelationshipInstanceUUID,
+  @(JSExport @field) descriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
+  @(JSExport @field) singletonReifiedRelationshipClassifierUUID: taggedTypes.ReifiedRelationshipXRef,
+  @(JSExport @field) name: taggedTypes.LocalName
 ) {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    descriptionBoxUUID: UUID,
-    singletonReifiedRelationshipClassifierUUID: UUID,
-    name: LocalName)
+    descriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
+    singletonReifiedRelationshipClassifierUUID: taggedTypes.ReifiedRelationshipXRef,
+    name: taggedTypes.LocalName)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.reifiedRelationshipInstanceUUID(oug.namespaceUUID(
         descriptionBoxUUID,
-        "name" -> name).toString,
+        "name" -> name).toString),
       descriptionBoxUUID,
       singletonReifiedRelationshipClassifierUUID,
       name)
@@ -61,8 +60,8 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: ReifiedRelationshipInstance =>
   	  (this.uuid == that.uuid) &&
-  	  (this.descriptionBoxUUID == that.descriptionBoxUUID) &&
-  	  (this.singletonReifiedRelationshipClassifierUUID == that.singletonReifiedRelationshipClassifierUUID) &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.descriptionBoxUUID, that.descriptionBoxUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.singletonReifiedRelationshipClassifierUUID, that.singletonReifiedRelationshipClassifierUUID)  &&
   	  (this.name == that.name)
     case _ =>
       false
@@ -73,26 +72,61 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("ReifiedRelationshipInstanceHelper")
 object ReifiedRelationshipInstanceHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "ReifiedRelationshipInstances.json"
+
+  implicit val decodeReifiedRelationshipInstance: Decoder[ReifiedRelationshipInstance]
+  = Decoder.instance[ReifiedRelationshipInstance] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[ReifiedRelationshipInstance]
-  = upickle.default.macroW[ReifiedRelationshipInstance]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.ReifiedRelationshipInstanceUUID]
+    	  descriptionBoxUUID <- c.downField("descriptionBoxUUID").as[taggedTypes.DescriptionBoxUUID]
+    	  singletonReifiedRelationshipClassifierUUID <- c.downField("singletonReifiedRelationshipClassifierUUID").as[taggedTypes.ReifiedRelationshipUUID]
+    	  name <- c.downField("name").as[taggedTypes.LocalName]
+    	} yield ReifiedRelationshipInstance(
+    	  uuid,
+    	  descriptionBoxUUID,
+    	  singletonReifiedRelationshipClassifierUUID,
+    	  name
+    	)
+  }
+  
+  implicit val encodeReifiedRelationshipInstance: Encoder[ReifiedRelationshipInstance]
+  = new Encoder[ReifiedRelationshipInstance] {
+    override final def apply(x: ReifiedRelationshipInstance): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeReifiedRelationshipInstanceUUID(x.uuid)),
+    	  ("descriptionBoxUUID", taggedTypes.encodeDescriptionBoxUUID(x.descriptionBoxUUID)),
+    	  ("singletonReifiedRelationshipClassifierUUID", taggedTypes.encodeReifiedRelationshipUUID(x.singletonReifiedRelationshipClassifierUUID)),
+    	  ("name", taggedTypes.encodeLocalName(x.name))
+    )
+  }
 
   @JSExport
   def toJSON(c: ReifiedRelationshipInstance)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[ReifiedRelationshipInstance]
-  = upickle.default.macroR[ReifiedRelationshipInstance]
+  = encodeReifiedRelationshipInstance(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : ReifiedRelationshipInstance
-  = upickle.default.read[ReifiedRelationshipInstance](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeReifiedRelationshipInstance(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

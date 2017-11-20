@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -33,39 +32,39 @@ import scala.Predef._
   */
 case class ScalarOneOfLiteralAxiom
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) tboxUUID: UUID,
-  @(JSExport @field) axiomUUID: UUID,
+  @(JSExport @field) uuid: taggedTypes.ScalarOneOfLiteralAxiomUUID,
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
+  @(JSExport @field) axiomUUID: taggedTypes.ScalarOneOfRestrictionXRef,
   @(JSExport @field) value: LiteralValue,
-  @(JSExport @field) valueTypeUUID: scala.Option[UUID]
+  @(JSExport @field) valueTypeUUID: scala.Option[taggedTypes.DataRangeXRef]
 ) {
   def this(
-    uuid: UUID,
-    tboxUUID: UUID,
-    axiomUUID: UUID,
+    uuid: taggedTypes.ScalarOneOfLiteralAxiomUUID,
+    tboxUUID: taggedTypes.TerminologyBoxXRef,
+    axiomUUID: taggedTypes.ScalarOneOfRestrictionXRef,
     value: LiteralValue)
   = this(
       uuid,
       tboxUUID,
       axiomUUID,
       value,
-      None /* valueTypeUUID */)
+      scala.None /* valueTypeUUID */)
 
-  def withValueTypeUUID(l: UUID)	 
+  def withValueTypeUUID(l: taggedTypes.DataRangeXRef)	 
   : ScalarOneOfLiteralAxiom
-  = copy(valueTypeUUID=Some(l))
+  = copy(valueTypeUUID=scala.Some(l))
   
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: UUID,
-    axiomUUID: UUID,
+    tboxUUID: taggedTypes.TerminologyBoxXRef,
+    axiomUUID: taggedTypes.ScalarOneOfRestrictionXRef,
     value: LiteralValue)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.scalarOneOfLiteralAxiomUUID(oug.namespaceUUID(
         "ScalarOneOfLiteralAxiom",
         "tbox" -> tboxUUID,
-        "axiom" -> axiomUUID).toString,
+        "axiom" -> axiomUUID).toString),
       tboxUUID,
       axiomUUID,
       value)
@@ -79,10 +78,17 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: ScalarOneOfLiteralAxiom =>
   	  (this.uuid == that.uuid) &&
-  	  (this.tboxUUID == that.tboxUUID) &&
-  	  (this.axiomUUID == that.axiomUUID) &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.axiomUUID, that.axiomUUID)  &&
   	  (this.value == that.value) &&
-  	  (this.valueTypeUUID == that.valueTypeUUID)
+  	  ((this.valueTypeUUID, that.valueTypeUUID) match {
+  	      case (scala.Some(t1), scala.Some(t2)) =>
+  	        gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(t1, t2)
+  	      case (scala.None, scala.None) =>
+  	        true
+  	      case _ =>
+  	        false
+  	  })
     case _ =>
       false
   }
@@ -92,26 +98,64 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("ScalarOneOfLiteralAxiomHelper")
 object ScalarOneOfLiteralAxiomHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "ScalarOneOfLiteralAxioms.json"
+
+  implicit val decodeScalarOneOfLiteralAxiom: Decoder[ScalarOneOfLiteralAxiom]
+  = Decoder.instance[ScalarOneOfLiteralAxiom] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[ScalarOneOfLiteralAxiom]
-  = upickle.default.macroW[ScalarOneOfLiteralAxiom]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.ScalarOneOfLiteralAxiomUUID]
+    	  tboxUUID <- c.downField("tboxUUID").as[taggedTypes.TerminologyBoxUUID]
+    	  axiomUUID <- c.downField("axiomUUID").as[taggedTypes.ScalarOneOfRestrictionUUID]
+    	  value <- c.downField("value").as[LiteralValue]
+    	  valueTypeUUID <- Decoder.decodeOption(taggedTypes.decodeDataRangeUUID)(c.downField("valueTypeUUID").success.get)
+    	} yield ScalarOneOfLiteralAxiom(
+    	  uuid,
+    	  tboxUUID,
+    	  axiomUUID,
+    	  value,
+    	  valueTypeUUID
+    	)
+  }
+  
+  implicit val encodeScalarOneOfLiteralAxiom: Encoder[ScalarOneOfLiteralAxiom]
+  = new Encoder[ScalarOneOfLiteralAxiom] {
+    override final def apply(x: ScalarOneOfLiteralAxiom): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeScalarOneOfLiteralAxiomUUID(x.uuid)),
+    	  ("tboxUUID", taggedTypes.encodeTerminologyBoxUUID(x.tboxUUID)),
+    	  ("axiomUUID", taggedTypes.encodeScalarOneOfRestrictionUUID(x.axiomUUID)),
+    	  ("value", LiteralValue.encodeLiteralValue(x.value)),
+    	  ("valueTypeUUID", Encoder.encodeOption(taggedTypes.encodeDataRangeUUID).apply(x.valueTypeUUID))
+    )
+  }
 
   @JSExport
   def toJSON(c: ScalarOneOfLiteralAxiom)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[ScalarOneOfLiteralAxiom]
-  = upickle.default.macroR[ScalarOneOfLiteralAxiom]
+  = encodeScalarOneOfLiteralAxiom(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : ScalarOneOfLiteralAxiom
-  = upickle.default.read[ScalarOneOfLiteralAxiom](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeScalarOneOfLiteralAxiom(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

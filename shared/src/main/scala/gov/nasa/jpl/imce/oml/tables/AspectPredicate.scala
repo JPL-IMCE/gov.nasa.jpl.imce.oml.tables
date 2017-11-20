@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -32,20 +31,20 @@ import scala.Predef._
 @JSExportTopLevel("AspectPredicate")
 case class AspectPredicate
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) aspectUUID: UUID,
-  @(JSExport @field) bodySegmentUUID: UUID
+  @(JSExport @field) uuid: taggedTypes.AspectPredicateUUID,
+  @(JSExport @field) aspectUUID: taggedTypes.AspectXRef,
+  @(JSExport @field) bodySegmentUUID: taggedTypes.RuleBodySegmentXRef
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    aspectUUID: UUID,
-    bodySegmentUUID: UUID)
+    aspectUUID: taggedTypes.AspectXRef,
+    bodySegmentUUID: taggedTypes.RuleBodySegmentXRef)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.aspectPredicateUUID(oug.namespaceUUID(
         "AspectPredicate",
         "aspect" -> aspectUUID,
-        "bodySegment" -> bodySegmentUUID).toString,
+        "bodySegment" -> bodySegmentUUID).toString),
       aspectUUID,
       bodySegmentUUID)
 
@@ -58,8 +57,8 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: AspectPredicate =>
   	  (this.uuid == that.uuid) &&
-  	  (this.aspectUUID == that.aspectUUID) &&
-  	  (this.bodySegmentUUID == that.bodySegmentUUID)
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.aspectUUID, that.aspectUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.bodySegmentUUID, that.bodySegmentUUID) 
     case _ =>
       false
   }
@@ -69,26 +68,58 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("AspectPredicateHelper")
 object AspectPredicateHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "AspectPredicates.json"
+
+  implicit val decodeAspectPredicate: Decoder[AspectPredicate]
+  = Decoder.instance[AspectPredicate] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[AspectPredicate]
-  = upickle.default.macroW[AspectPredicate]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.AspectPredicateUUID]
+    	  aspectUUID <- c.downField("aspectUUID").as[taggedTypes.AspectUUID]
+    	  bodySegmentUUID <- c.downField("bodySegmentUUID").as[taggedTypes.RuleBodySegmentUUID]
+    	} yield AspectPredicate(
+    	  uuid,
+    	  aspectUUID,
+    	  bodySegmentUUID
+    	)
+  }
+  
+  implicit val encodeAspectPredicate: Encoder[AspectPredicate]
+  = new Encoder[AspectPredicate] {
+    override final def apply(x: AspectPredicate): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeAspectPredicateUUID(x.uuid)),
+    	  ("aspectUUID", taggedTypes.encodeAspectUUID(x.aspectUUID)),
+    	  ("bodySegmentUUID", taggedTypes.encodeRuleBodySegmentUUID(x.bodySegmentUUID))
+    )
+  }
 
   @JSExport
   def toJSON(c: AspectPredicate)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[AspectPredicate]
-  = upickle.default.macroR[AspectPredicate]
+  = encodeAspectPredicate(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : AspectPredicate
-  = upickle.default.read[AspectPredicate](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeAspectPredicate(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

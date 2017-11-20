@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -32,20 +31,20 @@ import scala.Predef._
 @JSExportTopLevel("UnreifiedRelationshipInversePropertyPredicate")
 case class UnreifiedRelationshipInversePropertyPredicate
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) unreifiedRelationshipUUID: UUID,
-  @(JSExport @field) bodySegmentUUID: UUID
+  @(JSExport @field) uuid: taggedTypes.UnreifiedRelationshipInversePropertyPredicateUUID,
+  @(JSExport @field) unreifiedRelationshipUUID: taggedTypes.UnreifiedRelationshipXRef,
+  @(JSExport @field) bodySegmentUUID: taggedTypes.RuleBodySegmentXRef
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    unreifiedRelationshipUUID: UUID,
-    bodySegmentUUID: UUID)
+    unreifiedRelationshipUUID: taggedTypes.UnreifiedRelationshipXRef,
+    bodySegmentUUID: taggedTypes.RuleBodySegmentXRef)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.unreifiedRelationshipInversePropertyPredicateUUID(oug.namespaceUUID(
         "UnreifiedRelationshipInversePropertyPredicate",
         "unreifiedRelationship" -> unreifiedRelationshipUUID,
-        "bodySegment" -> bodySegmentUUID).toString,
+        "bodySegment" -> bodySegmentUUID).toString),
       unreifiedRelationshipUUID,
       bodySegmentUUID)
 
@@ -58,8 +57,8 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: UnreifiedRelationshipInversePropertyPredicate =>
   	  (this.uuid == that.uuid) &&
-  	  (this.unreifiedRelationshipUUID == that.unreifiedRelationshipUUID) &&
-  	  (this.bodySegmentUUID == that.bodySegmentUUID)
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.unreifiedRelationshipUUID, that.unreifiedRelationshipUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.bodySegmentUUID, that.bodySegmentUUID) 
     case _ =>
       false
   }
@@ -69,26 +68,58 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("UnreifiedRelationshipInversePropertyPredicateHelper")
 object UnreifiedRelationshipInversePropertyPredicateHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "UnreifiedRelationshipInversePropertyPredicates.json"
+
+  implicit val decodeUnreifiedRelationshipInversePropertyPredicate: Decoder[UnreifiedRelationshipInversePropertyPredicate]
+  = Decoder.instance[UnreifiedRelationshipInversePropertyPredicate] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[UnreifiedRelationshipInversePropertyPredicate]
-  = upickle.default.macroW[UnreifiedRelationshipInversePropertyPredicate]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.UnreifiedRelationshipInversePropertyPredicateUUID]
+    	  unreifiedRelationshipUUID <- c.downField("unreifiedRelationshipUUID").as[taggedTypes.UnreifiedRelationshipUUID]
+    	  bodySegmentUUID <- c.downField("bodySegmentUUID").as[taggedTypes.RuleBodySegmentUUID]
+    	} yield UnreifiedRelationshipInversePropertyPredicate(
+    	  uuid,
+    	  unreifiedRelationshipUUID,
+    	  bodySegmentUUID
+    	)
+  }
+  
+  implicit val encodeUnreifiedRelationshipInversePropertyPredicate: Encoder[UnreifiedRelationshipInversePropertyPredicate]
+  = new Encoder[UnreifiedRelationshipInversePropertyPredicate] {
+    override final def apply(x: UnreifiedRelationshipInversePropertyPredicate): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeUnreifiedRelationshipInversePropertyPredicateUUID(x.uuid)),
+    	  ("unreifiedRelationshipUUID", taggedTypes.encodeUnreifiedRelationshipUUID(x.unreifiedRelationshipUUID)),
+    	  ("bodySegmentUUID", taggedTypes.encodeRuleBodySegmentUUID(x.bodySegmentUUID))
+    )
+  }
 
   @JSExport
   def toJSON(c: UnreifiedRelationshipInversePropertyPredicate)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[UnreifiedRelationshipInversePropertyPredicate]
-  = upickle.default.macroR[UnreifiedRelationshipInversePropertyPredicate]
+  = encodeUnreifiedRelationshipInversePropertyPredicate(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : UnreifiedRelationshipInversePropertyPredicate
-  = upickle.default.read[UnreifiedRelationshipInversePropertyPredicate](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeUnreifiedRelationshipInversePropertyPredicate(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

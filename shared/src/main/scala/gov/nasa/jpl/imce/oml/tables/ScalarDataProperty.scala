@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -34,23 +33,23 @@ import scala.Predef._
 @JSExportTopLevel("ScalarDataProperty")
 case class ScalarDataProperty
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) tboxUUID: UUID,
-  @(JSExport @field) domainUUID: UUID,
-  @(JSExport @field) rangeUUID: UUID,
-  @(JSExport @field) name: LocalName
+  @(JSExport @field) uuid: taggedTypes.ScalarDataPropertyUUID,
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
+  @(JSExport @field) domainUUID: taggedTypes.StructureXRef,
+  @(JSExport @field) rangeUUID: taggedTypes.DataRangeXRef,
+  @(JSExport @field) name: taggedTypes.LocalName
 ) {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: UUID,
-    domainUUID: UUID,
-    rangeUUID: UUID,
-    name: LocalName)
+    tboxUUID: taggedTypes.TerminologyBoxXRef,
+    domainUUID: taggedTypes.StructureXRef,
+    rangeUUID: taggedTypes.DataRangeXRef,
+    name: taggedTypes.LocalName)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.scalarDataPropertyUUID(oug.namespaceUUID(
         tboxUUID,
-        "name" -> name).toString,
+        "name" -> name).toString),
       tboxUUID,
       domainUUID,
       rangeUUID,
@@ -65,9 +64,9 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: ScalarDataProperty =>
   	  (this.uuid == that.uuid) &&
-  	  (this.tboxUUID == that.tboxUUID) &&
-  	  (this.domainUUID == that.domainUUID) &&
-  	  (this.rangeUUID == that.rangeUUID) &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.domainUUID, that.domainUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.rangeUUID, that.rangeUUID)  &&
   	  (this.name == that.name)
     case _ =>
       false
@@ -78,26 +77,64 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("ScalarDataPropertyHelper")
 object ScalarDataPropertyHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "ScalarDataProperties.json"
+
+  implicit val decodeScalarDataProperty: Decoder[ScalarDataProperty]
+  = Decoder.instance[ScalarDataProperty] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[ScalarDataProperty]
-  = upickle.default.macroW[ScalarDataProperty]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.ScalarDataPropertyUUID]
+    	  tboxUUID <- c.downField("tboxUUID").as[taggedTypes.TerminologyBoxUUID]
+    	  domainUUID <- c.downField("domainUUID").as[taggedTypes.StructureUUID]
+    	  rangeUUID <- c.downField("rangeUUID").as[taggedTypes.DataRangeUUID]
+    	  name <- c.downField("name").as[taggedTypes.LocalName]
+    	} yield ScalarDataProperty(
+    	  uuid,
+    	  tboxUUID,
+    	  domainUUID,
+    	  rangeUUID,
+    	  name
+    	)
+  }
+  
+  implicit val encodeScalarDataProperty: Encoder[ScalarDataProperty]
+  = new Encoder[ScalarDataProperty] {
+    override final def apply(x: ScalarDataProperty): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeScalarDataPropertyUUID(x.uuid)),
+    	  ("tboxUUID", taggedTypes.encodeTerminologyBoxUUID(x.tboxUUID)),
+    	  ("domainUUID", taggedTypes.encodeStructureUUID(x.domainUUID)),
+    	  ("rangeUUID", taggedTypes.encodeDataRangeUUID(x.rangeUUID)),
+    	  ("name", taggedTypes.encodeLocalName(x.name))
+    )
+  }
 
   @JSExport
   def toJSON(c: ScalarDataProperty)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[ScalarDataProperty]
-  = upickle.default.macroR[ScalarDataProperty]
+  = encodeScalarDataProperty(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : ScalarDataProperty
-  = upickle.default.read[ScalarDataProperty](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeScalarDataProperty(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

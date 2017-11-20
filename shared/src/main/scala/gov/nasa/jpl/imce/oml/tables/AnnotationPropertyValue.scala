@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -33,22 +32,22 @@ import scala.Predef._
 @JSExportTopLevel("AnnotationPropertyValue")
 case class AnnotationPropertyValue
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) subjectUUID: UUID,
-  @(JSExport @field) propertyUUID: UUID,
-  @(JSExport @field) value: StringDataType
+  @(JSExport @field) uuid: taggedTypes.AnnotationPropertyValueUUID,
+  @(JSExport @field) subjectUUID: taggedTypes.ElementXRef,
+  @(JSExport @field) propertyUUID: taggedTypes.AnnotationPropertyXRef,
+  @(JSExport @field) value: taggedTypes.StringDataType
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    subjectUUID: UUID,
-    propertyUUID: UUID,
-    value: StringDataType)
+    subjectUUID: taggedTypes.ElementXRef,
+    propertyUUID: taggedTypes.AnnotationPropertyXRef,
+    value: taggedTypes.StringDataType)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.annotationPropertyValueUUID(oug.namespaceUUID(
         "AnnotationPropertyValue",
         "subject" -> subjectUUID,
-        "property" -> propertyUUID).toString,
+        "property" -> propertyUUID).toString),
       subjectUUID,
       propertyUUID,
       value)
@@ -62,8 +61,8 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: AnnotationPropertyValue =>
   	  (this.uuid == that.uuid) &&
-  	  (this.subjectUUID == that.subjectUUID) &&
-  	  (this.propertyUUID == that.propertyUUID) &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.subjectUUID, that.subjectUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.propertyUUID, that.propertyUUID)  &&
   	  (this.value == that.value)
     case _ =>
       false
@@ -74,26 +73,61 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("AnnotationPropertyValueHelper")
 object AnnotationPropertyValueHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "AnnotationPropertyValues.json"
+
+  implicit val decodeAnnotationPropertyValue: Decoder[AnnotationPropertyValue]
+  = Decoder.instance[AnnotationPropertyValue] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[AnnotationPropertyValue]
-  = upickle.default.macroW[AnnotationPropertyValue]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.AnnotationPropertyValueUUID]
+    	  subjectUUID <- c.downField("subjectUUID").as[taggedTypes.ElementUUID]
+    	  propertyUUID <- c.downField("propertyUUID").as[taggedTypes.AnnotationPropertyUUID]
+    	  value <- c.downField("value").as[taggedTypes.StringDataType]
+    	} yield AnnotationPropertyValue(
+    	  uuid,
+    	  subjectUUID,
+    	  propertyUUID,
+    	  value
+    	)
+  }
+  
+  implicit val encodeAnnotationPropertyValue: Encoder[AnnotationPropertyValue]
+  = new Encoder[AnnotationPropertyValue] {
+    override final def apply(x: AnnotationPropertyValue): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeAnnotationPropertyValueUUID(x.uuid)),
+    	  ("subjectUUID", taggedTypes.encodeElementUUID(x.subjectUUID)),
+    	  ("propertyUUID", taggedTypes.encodeAnnotationPropertyUUID(x.propertyUUID)),
+    	  ("value", taggedTypes.encodeStringDataType(x.value))
+    )
+  }
 
   @JSExport
   def toJSON(c: AnnotationPropertyValue)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[AnnotationPropertyValue]
-  = upickle.default.macroR[AnnotationPropertyValue]
+  = encodeAnnotationPropertyValue(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : AnnotationPropertyValue
-  = upickle.default.read[AnnotationPropertyValue](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeAnnotationPropertyValue(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

@@ -37,13 +37,13 @@ public class StringScalarRestrictionEmptyTest {
 
         String s1 = StringScalarRestrictionHelper.toJSON(w1);
 
-        String ls = (w1.length().isEmpty()) ? "[]" : w1.length().toString();
+        String ls = (w1.length().isEmpty()) ? "null" : "\"" + w1.length().toString() + "\"";
 
-        String maxL = (w1.maxLength().isEmpty()) ? "[]" : w1.maxLength().toString();
+        String maxL = (w1.maxLength().isEmpty()) ? "null" : "\"" + w1.maxLength().toString() + "\"";
 
-        String minL = (w1.minLength().isEmpty()) ? "[]" : w1.minLength().toString();
+        String minL = (w1.minLength().isEmpty()) ? "null" : "\"" + w1.minLength().toString() + "\"";
 
-        String ps = (w1.pattern().isEmpty()) ? "[]" : w1.pattern().toString();
+        String ps = (w1.pattern().isEmpty()) ? "null" : "\"" + w1.pattern().toString() + "\"";
 
         String t1 = String.format(
                 "{\"uuid\":\"%s\",\"tboxUUID\":\"%s\",\"restrictedRangeUUID\":\"%s\",\"length\":%s,\"minLength\":%s,\"maxLength\":%s,\"name\":\"%s\",\"pattern\":%s}",

@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -32,19 +31,19 @@ import scala.Predef._
 @JSExportTopLevel("Structure")
 case class Structure
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) tboxUUID: UUID,
-  @(JSExport @field) name: LocalName
+  @(JSExport @field) uuid: taggedTypes.StructureUUID,
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
+  @(JSExport @field) name: taggedTypes.LocalName
 ) {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: UUID,
-    name: LocalName)
+    tboxUUID: taggedTypes.TerminologyBoxXRef,
+    name: taggedTypes.LocalName)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.structureUUID(oug.namespaceUUID(
         tboxUUID,
-        "name" -> name).toString,
+        "name" -> name).toString),
       tboxUUID,
       name)
 
@@ -57,7 +56,7 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: Structure =>
   	  (this.uuid == that.uuid) &&
-  	  (this.tboxUUID == that.tboxUUID) &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
   	  (this.name == that.name)
     case _ =>
       false
@@ -68,26 +67,58 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("StructureHelper")
 object StructureHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "Structures.json"
+
+  implicit val decodeStructure: Decoder[Structure]
+  = Decoder.instance[Structure] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[Structure]
-  = upickle.default.macroW[Structure]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.StructureUUID]
+    	  tboxUUID <- c.downField("tboxUUID").as[taggedTypes.TerminologyBoxUUID]
+    	  name <- c.downField("name").as[taggedTypes.LocalName]
+    	} yield Structure(
+    	  uuid,
+    	  tboxUUID,
+    	  name
+    	)
+  }
+  
+  implicit val encodeStructure: Encoder[Structure]
+  = new Encoder[Structure] {
+    override final def apply(x: Structure): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeStructureUUID(x.uuid)),
+    	  ("tboxUUID", taggedTypes.encodeTerminologyBoxUUID(x.tboxUUID)),
+    	  ("name", taggedTypes.encodeLocalName(x.name))
+    )
+  }
 
   @JSExport
   def toJSON(c: Structure)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[Structure]
-  = upickle.default.macroR[Structure]
+  = encodeStructure(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : Structure
-  = upickle.default.read[Structure](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeStructure(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}

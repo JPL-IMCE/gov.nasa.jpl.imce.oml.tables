@@ -21,8 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import scala.annotation.meta.field
 import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
-import scala._
-import scala.Predef._
+import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
@@ -32,20 +31,20 @@ import scala.Predef._
 @JSExportTopLevel("ConceptPredicate")
 case class ConceptPredicate
 (
-  @(JSExport @field) uuid: UUID,
-  @(JSExport @field) bodySegmentUUID: UUID,
-  @(JSExport @field) conceptUUID: UUID
+  @(JSExport @field) uuid: taggedTypes.ConceptPredicateUUID,
+  @(JSExport @field) bodySegmentUUID: taggedTypes.RuleBodySegmentXRef,
+  @(JSExport @field) conceptUUID: taggedTypes.ConceptXRef
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    bodySegmentUUID: UUID,
-    conceptUUID: UUID)
+    bodySegmentUUID: taggedTypes.RuleBodySegmentXRef,
+    conceptUUID: taggedTypes.ConceptXRef)
   = this(
-      oug.namespaceUUID(
+      taggedTypes.conceptPredicateUUID(oug.namespaceUUID(
         "ConceptPredicate",
         "bodySegment" -> bodySegmentUUID,
-        "concept" -> conceptUUID).toString,
+        "concept" -> conceptUUID).toString),
       bodySegmentUUID,
       conceptUUID)
 
@@ -58,8 +57,8 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: ConceptPredicate =>
   	  (this.uuid == that.uuid) &&
-  	  (this.bodySegmentUUID == that.bodySegmentUUID) &&
-  	  (this.conceptUUID == that.conceptUUID)
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.bodySegmentUUID, that.bodySegmentUUID)  &&
+  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.conceptUUID, that.conceptUUID) 
     case _ =>
       false
   }
@@ -69,26 +68,58 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 @JSExportTopLevel("ConceptPredicateHelper")
 object ConceptPredicateHelper {
 
+  import io.circe.{Decoder, Encoder, HCursor, Json}
+  import io.circe.parser.parse
+  import scala.Predef.String
+
   val TABLE_JSON_FILENAME 
-  : scala.Predef.String 
+  : String 
   = "ConceptPredicates.json"
+
+  implicit val decodeConceptPredicate: Decoder[ConceptPredicate]
+  = Decoder.instance[ConceptPredicate] { c: HCursor =>
+    
+    import cats.syntax.either._
   
-  implicit val w
-  : upickle.default.Writer[ConceptPredicate]
-  = upickle.default.macroW[ConceptPredicate]
+    for {
+    	  uuid <- c.downField("uuid").as[taggedTypes.ConceptPredicateUUID]
+    	  bodySegmentUUID <- c.downField("bodySegmentUUID").as[taggedTypes.RuleBodySegmentUUID]
+    	  conceptUUID <- c.downField("conceptUUID").as[taggedTypes.ConceptUUID]
+    	} yield ConceptPredicate(
+    	  uuid,
+    	  bodySegmentUUID,
+    	  conceptUUID
+    	)
+  }
+  
+  implicit val encodeConceptPredicate: Encoder[ConceptPredicate]
+  = new Encoder[ConceptPredicate] {
+    override final def apply(x: ConceptPredicate): Json 
+    = Json.obj(
+    	  ("uuid", taggedTypes.encodeConceptPredicateUUID(x.uuid)),
+    	  ("bodySegmentUUID", taggedTypes.encodeRuleBodySegmentUUID(x.bodySegmentUUID)),
+    	  ("conceptUUID", taggedTypes.encodeConceptUUID(x.conceptUUID))
+    )
+  }
 
   @JSExport
   def toJSON(c: ConceptPredicate)
   : String
-  = upickle.default.write(expr=c, indent=0)
-
-  implicit val r
-  : upickle.default.Reader[ConceptPredicate]
-  = upickle.default.macroR[ConceptPredicate]
+  = encodeConceptPredicate(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
   : ConceptPredicate
-  = upickle.default.read[ConceptPredicate](c)
+  = parse(c) match {
+  	case scala.Right(json) =>
+  	  decodeConceptPredicate(json.hcursor) match {
+  	    	case scala.Right(result) =>
+  	    	  result
+  	    	case scala.Left(failure) =>
+  	    	  throw failure
+  	  }
+    case scala.Left(failure) =>
+  	  throw failure
+  }
 
-}	
+}
