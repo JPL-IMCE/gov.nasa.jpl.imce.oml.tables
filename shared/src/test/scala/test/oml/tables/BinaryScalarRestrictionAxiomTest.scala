@@ -85,12 +85,12 @@ object BinaryScalarRestrictionAxiomTest extends Properties("BinaryScalarRestrict
       val t = s"""{"uuid":"${w.uuid}","tboxUUID":"${w.tboxUUID}","restrictedRangeUUID":"${w.restrictedRangeUUID}","length":$l,"minLength":$min,"maxLength":$max,"name":"${w.name}"}"""
       val r = BinaryScalarRestrictionHelper.fromJSON(s)
       (s == t) &&
-        covariantTag.compareTaggedValues(w.tboxUUID, r.tboxUUID) &&
+        (w.tboxUUID == r.tboxUUID) &&
         (w.uuid == r.uuid) &&
         (w.length == r.length) &&
         (w.maxLength == r.maxLength) &&
         (w.minLength == r.minLength) &&
-        covariantTag.compareTaggedValues(w.restrictedRangeUUID, r.restrictedRangeUUID) &&
+        (w.restrictedRangeUUID == r.restrictedRangeUUID) &&
         (w.name == r.name)
     })
 
