@@ -24,6 +24,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait TerminologyBundleAxiom
   extends TerminologyAxiom
 {
+  override val uuid: taggedTypes.TerminologyBundleAxiomUUID
 
   val bundle: Bundle
 }

@@ -27,10 +27,9 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait AspectPredicate
   extends UnarySegmentPredicate
 {
-
   val aspect: Aspect
 
   override def termPredicate
   (): Term
-  override val uuid: java.util.UUID
+  override val uuid: taggedTypes.AspectPredicateUUID
 }

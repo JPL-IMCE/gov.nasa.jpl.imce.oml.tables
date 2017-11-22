@@ -34,6 +34,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait BinaryScalarRestriction
   extends RestrictedDataRange
 {
+  override val uuid: taggedTypes.BinaryScalarRestrictionUUID
 
   /*
    * The length of the binary data

@@ -28,6 +28,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait ConceptDesignationTerminologyAxiom
   extends TerminologyBoxAxiom
 {
+  override val uuid: taggedTypes.ConceptDesignationTerminologyAxiomUUID
 
   val designatedTerminology: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI
   val designatedConcept: Concept

@@ -24,4 +24,5 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait DataRange
   extends Datatype
 {
+  override val uuid: taggedTypes.DataRangeUUID
 }

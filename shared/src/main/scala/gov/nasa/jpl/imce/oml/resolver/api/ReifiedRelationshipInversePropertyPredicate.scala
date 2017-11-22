@@ -29,10 +29,9 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait ReifiedRelationshipInversePropertyPredicate
   extends BinarySegmentReversePropertyPredicate
 {
-
   val reifiedRelationship: ReifiedRelationship
 
   override def termPredicate
   (): Term
-  override val uuid: java.util.UUID
+  override val uuid: taggedTypes.ReifiedRelationshipInversePropertyPredicateUUID
 }

@@ -26,6 +26,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait TerminologyExtensionAxiom
   extends TerminologyBoxAxiom
 {
+  override val uuid: taggedTypes.TerminologyExtensionAxiomUUID
 
   val extendedTerminology: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI
 

@@ -26,6 +26,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait ConceptSpecializationAxiom
   extends SpecializationAxiom
 {
+  override val uuid: taggedTypes.ConceptSpecializationAxiomUUID
 
   val subConcept: Concept
   val superConcept: Concept

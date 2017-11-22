@@ -30,8 +30,8 @@ import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
 case class RuleBodySegment
 (
   @(JSExport @field) uuid: taggedTypes.RuleBodySegmentUUID,
-  @(JSExport @field) previousSegmentUUID: scala.Option[taggedTypes.RuleBodySegmentXRef],
-  @(JSExport @field) ruleUUID: scala.Option[taggedTypes.ChainRuleXRef]
+  @(JSExport @field) previousSegmentUUID: scala.Option[taggedTypes.RuleBodySegmentUUID],
+  @(JSExport @field) ruleUUID: scala.Option[taggedTypes.ChainRuleUUID]
 ) {
   def this(
     uuid: taggedTypes.RuleBodySegmentUUID)
@@ -40,11 +40,11 @@ case class RuleBodySegment
       scala.None /* previousSegmentUUID */,
       scala.None /* ruleUUID */)
 
-  def withPreviousSegmentUUID(l: taggedTypes.RuleBodySegmentXRef)	 
+  def withPreviousSegmentUUID(l: taggedTypes.RuleBodySegmentUUID)	 
   : RuleBodySegment
   = copy(previousSegmentUUID=scala.Some(l))
   
-  def withRuleUUID(l: taggedTypes.ChainRuleXRef)	 
+  def withRuleUUID(l: taggedTypes.ChainRuleUUID)	 
   : RuleBodySegment
   = copy(ruleUUID=scala.Some(l))
   
@@ -60,7 +60,7 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   	  (this.uuid == that.uuid) &&
   	  ((this.previousSegmentUUID, that.previousSegmentUUID) match {
   	      case (scala.Some(t1), scala.Some(t2)) =>
-  	        gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(t1, t2)
+  	        t1 == t2
   	      case (scala.None, scala.None) =>
   	        true
   	      case _ =>
@@ -68,7 +68,7 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   	  }) &&
   	  ((this.ruleUUID, that.ruleUUID) match {
   	      case (scala.Some(t1), scala.Some(t2)) =>
-  	        gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(t1, t2)
+  	        t1 == t2
   	      case (scala.None, scala.None) =>
   	        true
   	      case _ =>

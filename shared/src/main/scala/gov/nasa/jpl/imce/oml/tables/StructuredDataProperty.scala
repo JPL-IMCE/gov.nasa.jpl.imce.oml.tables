@@ -34,17 +34,17 @@ import scala.Predef.ArrowAssoc
 case class StructuredDataProperty
 (
   @(JSExport @field) uuid: taggedTypes.StructuredDataPropertyUUID,
-  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
-  @(JSExport @field) domainUUID: taggedTypes.StructureXRef,
-  @(JSExport @field) rangeUUID: taggedTypes.StructureXRef,
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxUUID,
+  @(JSExport @field) domainUUID: taggedTypes.StructureUUID,
+  @(JSExport @field) rangeUUID: taggedTypes.StructureUUID,
   @(JSExport @field) name: taggedTypes.LocalName
 ) {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: taggedTypes.TerminologyBoxXRef,
-    domainUUID: taggedTypes.StructureXRef,
-    rangeUUID: taggedTypes.StructureXRef,
+    tboxUUID: taggedTypes.TerminologyBoxUUID,
+    domainUUID: taggedTypes.StructureUUID,
+    rangeUUID: taggedTypes.StructureUUID,
     name: taggedTypes.LocalName)
   = this(
       taggedTypes.structuredDataPropertyUUID(oug.namespaceUUID(
@@ -64,9 +64,9 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: StructuredDataProperty =>
   	  (this.uuid == that.uuid) &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.domainUUID, that.domainUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.rangeUUID, that.rangeUUID)  &&
+  	  (this.tboxUUID == that.tboxUUID)  &&
+  	  (this.domainUUID == that.domainUUID)  &&
+  	  (this.rangeUUID == that.rangeUUID)  &&
   	  (this.name == that.name)
     case _ =>
       false

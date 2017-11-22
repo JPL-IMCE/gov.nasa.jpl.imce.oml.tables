@@ -34,6 +34,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait IRIScalarRestriction
   extends RestrictedDataRange
 {
+  override val uuid: taggedTypes.IRIScalarRestrictionUUID
 
   /*
    * The length of the IRI

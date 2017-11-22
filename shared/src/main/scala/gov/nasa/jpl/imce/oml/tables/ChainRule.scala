@@ -33,16 +33,16 @@ import scala.Predef.ArrowAssoc
 case class ChainRule
 (
   @(JSExport @field) uuid: taggedTypes.ChainRuleUUID,
-  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxUUID,
   @(JSExport @field) name: taggedTypes.LocalName,
-  @(JSExport @field) headUUID: taggedTypes.UnreifiedRelationshipXRef
+  @(JSExport @field) headUUID: taggedTypes.UnreifiedRelationshipUUID
 ) {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: taggedTypes.TerminologyBoxXRef,
+    tboxUUID: taggedTypes.TerminologyBoxUUID,
     name: taggedTypes.LocalName,
-    headUUID: taggedTypes.UnreifiedRelationshipXRef)
+    headUUID: taggedTypes.UnreifiedRelationshipUUID)
   = this(
       taggedTypes.chainRuleUUID(oug.namespaceUUID(
         tboxUUID,
@@ -60,9 +60,9 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: ChainRule =>
   	  (this.uuid == that.uuid) &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
+  	  (this.tboxUUID == that.tboxUUID)  &&
   	  (this.name == that.name) &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.headUUID, that.headUUID) 
+  	  (this.headUUID == that.headUUID) 
     case _ =>
       false
   }

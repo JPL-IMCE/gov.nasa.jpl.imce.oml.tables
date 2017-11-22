@@ -24,6 +24,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait ModuleElement
   extends Element
 {
+  override val uuid: taggedTypes.ModuleElementUUID
 
   def allNestedElements
   ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]

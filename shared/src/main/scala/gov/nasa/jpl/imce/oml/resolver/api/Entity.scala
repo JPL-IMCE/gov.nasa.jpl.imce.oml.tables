@@ -27,4 +27,5 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait Entity
   extends Term
 {
+  override val uuid: taggedTypes.EntityUUID
 }

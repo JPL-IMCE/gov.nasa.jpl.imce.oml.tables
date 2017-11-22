@@ -33,15 +33,15 @@ import scala.Predef.ArrowAssoc
 case class ScalarOneOfLiteralAxiom
 (
   @(JSExport @field) uuid: taggedTypes.ScalarOneOfLiteralAxiomUUID,
-  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
-  @(JSExport @field) axiomUUID: taggedTypes.ScalarOneOfRestrictionXRef,
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxUUID,
+  @(JSExport @field) axiomUUID: taggedTypes.ScalarOneOfRestrictionUUID,
   @(JSExport @field) value: LiteralValue,
-  @(JSExport @field) valueTypeUUID: scala.Option[taggedTypes.DataRangeXRef]
+  @(JSExport @field) valueTypeUUID: scala.Option[taggedTypes.DataRangeUUID]
 ) {
   def this(
     uuid: taggedTypes.ScalarOneOfLiteralAxiomUUID,
-    tboxUUID: taggedTypes.TerminologyBoxXRef,
-    axiomUUID: taggedTypes.ScalarOneOfRestrictionXRef,
+    tboxUUID: taggedTypes.TerminologyBoxUUID,
+    axiomUUID: taggedTypes.ScalarOneOfRestrictionUUID,
     value: LiteralValue)
   = this(
       uuid,
@@ -50,15 +50,15 @@ case class ScalarOneOfLiteralAxiom
       value,
       scala.None /* valueTypeUUID */)
 
-  def withValueTypeUUID(l: taggedTypes.DataRangeXRef)	 
+  def withValueTypeUUID(l: taggedTypes.DataRangeUUID)	 
   : ScalarOneOfLiteralAxiom
   = copy(valueTypeUUID=scala.Some(l))
   
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: taggedTypes.TerminologyBoxXRef,
-    axiomUUID: taggedTypes.ScalarOneOfRestrictionXRef,
+    tboxUUID: taggedTypes.TerminologyBoxUUID,
+    axiomUUID: taggedTypes.ScalarOneOfRestrictionUUID,
     value: LiteralValue)
   = this(
       taggedTypes.scalarOneOfLiteralAxiomUUID(oug.namespaceUUID(
@@ -78,12 +78,12 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: ScalarOneOfLiteralAxiom =>
   	  (this.uuid == that.uuid) &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.axiomUUID, that.axiomUUID)  &&
+  	  (this.tboxUUID == that.tboxUUID)  &&
+  	  (this.axiomUUID == that.axiomUUID)  &&
   	  (this.value == that.value) &&
   	  ((this.valueTypeUUID, that.valueTypeUUID) match {
   	      case (scala.Some(t1), scala.Some(t2)) =>
-  	        gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(t1, t2)
+  	        t1 == t2
   	      case (scala.None, scala.None) =>
   	        true
   	      case _ =>

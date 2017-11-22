@@ -25,6 +25,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait DataRelationshipToScalar
   extends DataRelationshipRange
 {
+  override val uuid: taggedTypes.DataRelationshipToScalarUUID
 
   val range: DataRange
 }

@@ -24,4 +24,5 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait UnarySegmentPredicate
   extends SegmentPredicate
 {
+  override val uuid: taggedTypes.UnarySegmentPredicateUUID
 }

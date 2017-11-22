@@ -24,6 +24,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait ReifiedRelationshipInstance
   extends ConceptualEntitySingletonInstance
 {
+  override val uuid: taggedTypes.ReifiedRelationshipInstanceUUID
 
   val singletonReifiedRelationshipClassifier: ReifiedRelationship
 

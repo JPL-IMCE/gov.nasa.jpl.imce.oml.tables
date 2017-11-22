@@ -33,16 +33,16 @@ import scala.Predef.ArrowAssoc
 case class SingletonInstanceStructuredDataPropertyValue
 (
   @(JSExport @field) uuid: taggedTypes.SingletonInstanceStructuredDataPropertyValueUUID,
-  @(JSExport @field) descriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
-  @(JSExport @field) singletonInstanceUUID: taggedTypes.ConceptualEntitySingletonInstanceXRef,
-  @(JSExport @field) structuredDataPropertyUUID: taggedTypes.DataRelationshipToStructureXRef
+  @(JSExport @field) descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
+  @(JSExport @field) singletonInstanceUUID: taggedTypes.ConceptualEntitySingletonInstanceUUID,
+  @(JSExport @field) structuredDataPropertyUUID: taggedTypes.DataRelationshipToStructureUUID
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    descriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
-    singletonInstanceUUID: taggedTypes.ConceptualEntitySingletonInstanceXRef,
-    structuredDataPropertyUUID: taggedTypes.DataRelationshipToStructureXRef)
+    descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
+    singletonInstanceUUID: taggedTypes.ConceptualEntitySingletonInstanceUUID,
+    structuredDataPropertyUUID: taggedTypes.DataRelationshipToStructureUUID)
   = this(
       taggedTypes.singletonInstanceStructuredDataPropertyValueUUID(oug.namespaceUUID(
         "SingletonInstanceStructuredDataPropertyValue",
@@ -62,9 +62,9 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: SingletonInstanceStructuredDataPropertyValue =>
   	  (this.uuid == that.uuid) &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.descriptionBoxUUID, that.descriptionBoxUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.singletonInstanceUUID, that.singletonInstanceUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.structuredDataPropertyUUID, that.structuredDataPropertyUUID) 
+  	  (this.descriptionBoxUUID == that.descriptionBoxUUID)  &&
+  	  (this.singletonInstanceUUID == that.singletonInstanceUUID)  &&
+  	  (this.structuredDataPropertyUUID == that.structuredDataPropertyUUID) 
     case _ =>
       false
   }

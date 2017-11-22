@@ -34,18 +34,18 @@ import scala.Predef.ArrowAssoc
 case class EntityScalarDataPropertyUniversalRestrictionAxiom
 (
   @(JSExport @field) uuid: taggedTypes.EntityScalarDataPropertyUniversalRestrictionAxiomUUID,
-  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
-  @(JSExport @field) restrictedEntityUUID: taggedTypes.EntityXRef,
-  @(JSExport @field) scalarPropertyUUID: taggedTypes.EntityScalarDataPropertyXRef,
-  @(JSExport @field) scalarRestrictionUUID: taggedTypes.DataRangeXRef
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxUUID,
+  @(JSExport @field) restrictedEntityUUID: taggedTypes.EntityUUID,
+  @(JSExport @field) scalarPropertyUUID: taggedTypes.EntityScalarDataPropertyUUID,
+  @(JSExport @field) scalarRestrictionUUID: taggedTypes.DataRangeUUID
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: taggedTypes.TerminologyBoxXRef,
-    restrictedEntityUUID: taggedTypes.EntityXRef,
-    scalarPropertyUUID: taggedTypes.EntityScalarDataPropertyXRef,
-    scalarRestrictionUUID: taggedTypes.DataRangeXRef)
+    tboxUUID: taggedTypes.TerminologyBoxUUID,
+    restrictedEntityUUID: taggedTypes.EntityUUID,
+    scalarPropertyUUID: taggedTypes.EntityScalarDataPropertyUUID,
+    scalarRestrictionUUID: taggedTypes.DataRangeUUID)
   = this(
       taggedTypes.entityScalarDataPropertyUniversalRestrictionAxiomUUID(oug.namespaceUUID(
         "EntityScalarDataPropertyUniversalRestrictionAxiom",
@@ -67,10 +67,10 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: EntityScalarDataPropertyUniversalRestrictionAxiom =>
   	  (this.uuid == that.uuid) &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.restrictedEntityUUID, that.restrictedEntityUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.scalarPropertyUUID, that.scalarPropertyUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.scalarRestrictionUUID, that.scalarRestrictionUUID) 
+  	  (this.tboxUUID == that.tboxUUID)  &&
+  	  (this.restrictedEntityUUID == that.restrictedEntityUUID)  &&
+  	  (this.scalarPropertyUUID == that.scalarPropertyUUID)  &&
+  	  (this.scalarRestrictionUUID == that.scalarRestrictionUUID) 
     case _ =>
       false
   }

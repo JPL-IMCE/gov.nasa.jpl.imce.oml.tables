@@ -27,4 +27,5 @@ trait Aspect
   extends Entity
   with UnaryTermKind
 {
+  override val uuid: taggedTypes.AspectUUID
 }

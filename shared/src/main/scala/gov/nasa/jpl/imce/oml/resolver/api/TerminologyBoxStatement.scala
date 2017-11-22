@@ -25,6 +25,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait TerminologyBoxStatement
   extends ModuleElement
 {
+  override val uuid: taggedTypes.TerminologyBoxStatementUUID
 
   def moduleContext
   ()(implicit extent: Extent): scala.Option[Module]

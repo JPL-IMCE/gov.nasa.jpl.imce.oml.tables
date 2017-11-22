@@ -45,6 +45,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait ChainRule
   extends Rule
 {
+  override val uuid: taggedTypes.ChainRuleUUID
 
   val head: UnreifiedRelationship
 }

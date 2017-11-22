@@ -652,7 +652,7 @@ object Extent2Tables {
   = acc ++ x._2.flatMap {
     case y: api.IRIScalarRestriction =>
       Some(tables.IRIScalarRestriction(
-        taggedTypes.iRIScalarRestrictionUUID(y.uuid.toString),
+        taggedTypes.iriScalarRestrictionUUID(y.uuid.toString),
         taggedTypes.terminologyBoxUUID(x._1.uuid.toString),
         taggedTypes.dataRangeUUID(y.restrictedRange.uuid.toString),
         y.length,

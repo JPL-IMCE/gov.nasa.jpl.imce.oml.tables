@@ -26,6 +26,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait DisjointUnionOfConceptsAxiom
   extends Element
 {
+  override val uuid: taggedTypes.DisjointUnionOfConceptsAxiomUUID
 
   def conceptTreeDisjunctionParent
   ()(implicit extent: Extent): scala.Option[ConceptTreeDisjunction]

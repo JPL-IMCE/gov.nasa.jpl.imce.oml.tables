@@ -25,6 +25,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait EntityScalarDataPropertyUniversalRestrictionAxiom
   extends EntityScalarDataPropertyRestrictionAxiom
 {
+  override val uuid: taggedTypes.EntityScalarDataPropertyUniversalRestrictionAxiomUUID
 
   val scalarRestriction: DataRange
 }

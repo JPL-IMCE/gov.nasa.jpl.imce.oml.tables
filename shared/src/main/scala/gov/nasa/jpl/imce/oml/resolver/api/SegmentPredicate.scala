@@ -24,6 +24,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait SegmentPredicate
   extends Element
 {
+  override val uuid: taggedTypes.SegmentPredicateUUID
 
   val bodySegment: RuleBodySegment
 

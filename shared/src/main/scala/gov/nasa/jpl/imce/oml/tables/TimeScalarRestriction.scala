@@ -36,8 +36,8 @@ import scala.Predef.ArrowAssoc
 case class TimeScalarRestriction
 (
   @(JSExport @field) uuid: taggedTypes.TimeScalarRestrictionUUID,
-  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
-  @(JSExport @field) restrictedRangeUUID: taggedTypes.DataRangeXRef,
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxUUID,
+  @(JSExport @field) restrictedRangeUUID: taggedTypes.DataRangeUUID,
   @(JSExport @field) minExclusive: scala.Option[LiteralDateTime],
   @(JSExport @field) minInclusive: scala.Option[LiteralDateTime],
   @(JSExport @field) maxExclusive: scala.Option[LiteralDateTime],
@@ -46,8 +46,8 @@ case class TimeScalarRestriction
 ) {
   def this(
     uuid: taggedTypes.TimeScalarRestrictionUUID,
-    tboxUUID: taggedTypes.TerminologyBoxXRef,
-    restrictedRangeUUID: taggedTypes.DataRangeXRef,
+    tboxUUID: taggedTypes.TerminologyBoxUUID,
+    restrictedRangeUUID: taggedTypes.DataRangeUUID,
     name: taggedTypes.LocalName)
   = this(
       uuid,
@@ -78,8 +78,8 @@ case class TimeScalarRestriction
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: taggedTypes.TerminologyBoxXRef,
-    restrictedRangeUUID: taggedTypes.DataRangeXRef,
+    tboxUUID: taggedTypes.TerminologyBoxUUID,
+    restrictedRangeUUID: taggedTypes.DataRangeUUID,
     name: taggedTypes.LocalName)
   = this(
       taggedTypes.timeScalarRestrictionUUID(oug.namespaceUUID(
@@ -98,8 +98,8 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: TimeScalarRestriction =>
   	  (this.uuid == that.uuid) &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.restrictedRangeUUID, that.restrictedRangeUUID)  &&
+  	  (this.tboxUUID == that.tboxUUID)  &&
+  	  (this.restrictedRangeUUID == that.restrictedRangeUUID)  &&
   	  (this.minExclusive == that.minExclusive) &&
   	  (this.minInclusive == that.minInclusive) &&
   	  (this.maxExclusive == that.maxExclusive) &&

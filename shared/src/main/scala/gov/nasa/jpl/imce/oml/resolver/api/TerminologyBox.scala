@@ -30,6 +30,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait TerminologyBox
   extends Module
 {
+  override val uuid: taggedTypes.TerminologyBoxUUID
 
   val kind: gov.nasa.jpl.imce.oml.tables.TerminologyKind
 }

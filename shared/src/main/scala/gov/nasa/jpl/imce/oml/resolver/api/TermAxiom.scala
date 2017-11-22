@@ -24,4 +24,5 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait TermAxiom
   extends TerminologyBoxStatement
 {
+  override val uuid: taggedTypes.TermAxiomUUID
 }

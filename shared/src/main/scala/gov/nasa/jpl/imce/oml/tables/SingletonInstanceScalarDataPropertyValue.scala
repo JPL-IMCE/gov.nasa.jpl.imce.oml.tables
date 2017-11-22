@@ -34,17 +34,17 @@ import scala.Predef.ArrowAssoc
 case class SingletonInstanceScalarDataPropertyValue
 (
   @(JSExport @field) uuid: taggedTypes.SingletonInstanceScalarDataPropertyValueUUID,
-  @(JSExport @field) descriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
-  @(JSExport @field) singletonInstanceUUID: taggedTypes.ConceptualEntitySingletonInstanceXRef,
-  @(JSExport @field) scalarDataPropertyUUID: taggedTypes.EntityScalarDataPropertyXRef,
+  @(JSExport @field) descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
+  @(JSExport @field) singletonInstanceUUID: taggedTypes.ConceptualEntitySingletonInstanceUUID,
+  @(JSExport @field) scalarDataPropertyUUID: taggedTypes.EntityScalarDataPropertyUUID,
   @(JSExport @field) scalarPropertyValue: LiteralValue,
-  @(JSExport @field) valueTypeUUID: scala.Option[taggedTypes.DataRangeXRef]
+  @(JSExport @field) valueTypeUUID: scala.Option[taggedTypes.DataRangeUUID]
 ) {
   def this(
     uuid: taggedTypes.SingletonInstanceScalarDataPropertyValueUUID,
-    descriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
-    singletonInstanceUUID: taggedTypes.ConceptualEntitySingletonInstanceXRef,
-    scalarDataPropertyUUID: taggedTypes.EntityScalarDataPropertyXRef,
+    descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
+    singletonInstanceUUID: taggedTypes.ConceptualEntitySingletonInstanceUUID,
+    scalarDataPropertyUUID: taggedTypes.EntityScalarDataPropertyUUID,
     scalarPropertyValue: LiteralValue)
   = this(
       uuid,
@@ -54,16 +54,16 @@ case class SingletonInstanceScalarDataPropertyValue
       scalarPropertyValue,
       scala.None /* valueTypeUUID */)
 
-  def withValueTypeUUID(l: taggedTypes.DataRangeXRef)	 
+  def withValueTypeUUID(l: taggedTypes.DataRangeUUID)	 
   : SingletonInstanceScalarDataPropertyValue
   = copy(valueTypeUUID=scala.Some(l))
   
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    descriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
-    singletonInstanceUUID: taggedTypes.ConceptualEntitySingletonInstanceXRef,
-    scalarDataPropertyUUID: taggedTypes.EntityScalarDataPropertyXRef,
+    descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
+    singletonInstanceUUID: taggedTypes.ConceptualEntitySingletonInstanceUUID,
+    scalarDataPropertyUUID: taggedTypes.EntityScalarDataPropertyUUID,
     scalarPropertyValue: LiteralValue)
   = this(
       taggedTypes.singletonInstanceScalarDataPropertyValueUUID(oug.namespaceUUID(
@@ -85,13 +85,13 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: SingletonInstanceScalarDataPropertyValue =>
   	  (this.uuid == that.uuid) &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.descriptionBoxUUID, that.descriptionBoxUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.singletonInstanceUUID, that.singletonInstanceUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.scalarDataPropertyUUID, that.scalarDataPropertyUUID)  &&
+  	  (this.descriptionBoxUUID == that.descriptionBoxUUID)  &&
+  	  (this.singletonInstanceUUID == that.singletonInstanceUUID)  &&
+  	  (this.scalarDataPropertyUUID == that.scalarDataPropertyUUID)  &&
   	  (this.scalarPropertyValue == that.scalarPropertyValue) &&
   	  ((this.valueTypeUUID, that.valueTypeUUID) match {
   	      case (scala.Some(t1), scala.Some(t2)) =>
-  	        gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(t1, t2)
+  	        t1 == t2
   	      case (scala.None, scala.None) =>
   	        true
   	      case _ =>

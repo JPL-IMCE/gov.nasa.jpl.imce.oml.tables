@@ -23,7 +23,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
  * for the range of an OML DataRelationship
  */
 trait DataRelationshipRange
-  extends ModuleElement
-  with Resource
+  extends DataRelationship
 {
+  override val uuid: taggedTypes.DataRelationshipRangeUUID
 }

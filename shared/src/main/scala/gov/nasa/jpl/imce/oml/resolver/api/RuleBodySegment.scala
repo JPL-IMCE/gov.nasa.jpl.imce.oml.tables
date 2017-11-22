@@ -27,7 +27,6 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait RuleBodySegment
   extends Element
 {
-
   val previousSegment: scala.Option[RuleBodySegment]
   val rule: scala.Option[ChainRule]
 
@@ -35,7 +34,7 @@ trait RuleBodySegment
   (): scala.Int
   def chainRule
   (): ChainRule
-  override val uuid: java.util.UUID
+  override val uuid: taggedTypes.RuleBodySegmentUUID
   def moduleContext
   ()(implicit extent: Extent): scala.Option[Module]
 }

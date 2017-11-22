@@ -26,6 +26,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait DescriptionBoxRefinement
   extends DescriptionBoxRelationship
 {
+  override val uuid: taggedTypes.DescriptionBoxRefinementUUID
 
   val refinedDescriptionBox: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI
 

@@ -30,8 +30,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
  */
 trait AnnotationPropertyValue
 {
-
-  val uuid: java.util.UUID
+  val uuid: taggedTypes.AnnotationPropertyValueUUID
   val subject: Element
   val property: AnnotationProperty
   val value: gov.nasa.jpl.imce.oml.tables.taggedTypes.StringDataType

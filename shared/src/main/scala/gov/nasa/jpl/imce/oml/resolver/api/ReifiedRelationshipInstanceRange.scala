@@ -28,6 +28,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait ReifiedRelationshipInstanceRange
   extends TerminologyInstanceAssertion
 {
+  override val uuid: taggedTypes.ReifiedRelationshipInstanceRangeUUID
 
   val reifiedRelationshipInstance: ReifiedRelationshipInstance
   val range: ConceptualEntitySingletonInstance

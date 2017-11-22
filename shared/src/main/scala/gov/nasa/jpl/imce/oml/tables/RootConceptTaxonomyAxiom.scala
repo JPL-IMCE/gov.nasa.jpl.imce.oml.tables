@@ -32,14 +32,14 @@ import scala.Predef.ArrowAssoc
 case class RootConceptTaxonomyAxiom
 (
   @(JSExport @field) uuid: taggedTypes.RootConceptTaxonomyAxiomUUID,
-  @(JSExport @field) bundleUUID: taggedTypes.BundleXRef,
-  @(JSExport @field) rootUUID: taggedTypes.ConceptXRef
+  @(JSExport @field) bundleUUID: taggedTypes.BundleUUID,
+  @(JSExport @field) rootUUID: taggedTypes.ConceptUUID
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    bundleUUID: taggedTypes.BundleXRef,
-    rootUUID: taggedTypes.ConceptXRef)
+    bundleUUID: taggedTypes.BundleUUID,
+    rootUUID: taggedTypes.ConceptUUID)
   = this(
       taggedTypes.rootConceptTaxonomyAxiomUUID(oug.namespaceUUID(
         "RootConceptTaxonomyAxiom",
@@ -57,8 +57,8 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: RootConceptTaxonomyAxiom =>
   	  (this.uuid == that.uuid) &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.bundleUUID, that.bundleUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.rootUUID, that.rootUUID) 
+  	  (this.bundleUUID == that.bundleUUID)  &&
+  	  (this.rootUUID == that.rootUUID) 
     case _ =>
       false
   }

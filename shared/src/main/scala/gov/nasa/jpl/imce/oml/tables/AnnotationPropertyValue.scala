@@ -33,15 +33,15 @@ import scala.Predef.ArrowAssoc
 case class AnnotationPropertyValue
 (
   @(JSExport @field) uuid: taggedTypes.AnnotationPropertyValueUUID,
-  @(JSExport @field) subjectUUID: taggedTypes.ElementXRef,
-  @(JSExport @field) propertyUUID: taggedTypes.AnnotationPropertyXRef,
+  @(JSExport @field) subjectUUID: taggedTypes.ElementUUID,
+  @(JSExport @field) propertyUUID: taggedTypes.AnnotationPropertyUUID,
   @(JSExport @field) value: taggedTypes.StringDataType
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    subjectUUID: taggedTypes.ElementXRef,
-    propertyUUID: taggedTypes.AnnotationPropertyXRef,
+    subjectUUID: taggedTypes.ElementUUID,
+    propertyUUID: taggedTypes.AnnotationPropertyUUID,
     value: taggedTypes.StringDataType)
   = this(
       taggedTypes.annotationPropertyValueUUID(oug.namespaceUUID(
@@ -61,8 +61,8 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: AnnotationPropertyValue =>
   	  (this.uuid == that.uuid) &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.subjectUUID, that.subjectUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.propertyUUID, that.propertyUUID)  &&
+  	  (this.subjectUUID == that.subjectUUID)  &&
+  	  (this.propertyUUID == that.propertyUUID)  &&
   	  (this.value == that.value)
     case _ =>
       false

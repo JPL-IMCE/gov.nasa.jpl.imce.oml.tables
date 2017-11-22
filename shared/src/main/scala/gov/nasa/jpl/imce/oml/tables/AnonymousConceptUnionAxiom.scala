@@ -32,13 +32,13 @@ import scala.Predef.ArrowAssoc
 case class AnonymousConceptUnionAxiom
 (
   @(JSExport @field) uuid: taggedTypes.AnonymousConceptUnionAxiomUUID,
-  @(JSExport @field) disjointTaxonomyParentUUID: taggedTypes.ConceptTreeDisjunctionXRef,
+  @(JSExport @field) disjointTaxonomyParentUUID: taggedTypes.ConceptTreeDisjunctionUUID,
   @(JSExport @field) name: taggedTypes.LocalName
 ) {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    disjointTaxonomyParentUUID: taggedTypes.ConceptTreeDisjunctionXRef,
+    disjointTaxonomyParentUUID: taggedTypes.ConceptTreeDisjunctionUUID,
     name: taggedTypes.LocalName)
   = this(
       taggedTypes.anonymousConceptUnionAxiomUUID(oug.namespaceUUID(
@@ -56,7 +56,7 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: AnonymousConceptUnionAxiom =>
   	  (this.uuid == that.uuid) &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.disjointTaxonomyParentUUID, that.disjointTaxonomyParentUUID)  &&
+  	  (this.disjointTaxonomyParentUUID == that.disjointTaxonomyParentUUID)  &&
   	  (this.name == that.name)
     case _ =>
       false

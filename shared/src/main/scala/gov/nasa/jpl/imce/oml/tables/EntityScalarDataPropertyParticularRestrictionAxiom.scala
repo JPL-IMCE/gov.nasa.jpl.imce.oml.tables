@@ -34,17 +34,17 @@ import scala.Predef.ArrowAssoc
 case class EntityScalarDataPropertyParticularRestrictionAxiom
 (
   @(JSExport @field) uuid: taggedTypes.EntityScalarDataPropertyParticularRestrictionAxiomUUID,
-  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
-  @(JSExport @field) restrictedEntityUUID: taggedTypes.EntityXRef,
-  @(JSExport @field) scalarPropertyUUID: taggedTypes.EntityScalarDataPropertyXRef,
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxUUID,
+  @(JSExport @field) restrictedEntityUUID: taggedTypes.EntityUUID,
+  @(JSExport @field) scalarPropertyUUID: taggedTypes.EntityScalarDataPropertyUUID,
   @(JSExport @field) literalValue: LiteralValue,
-  @(JSExport @field) valueTypeUUID: scala.Option[taggedTypes.DataRangeXRef]
+  @(JSExport @field) valueTypeUUID: scala.Option[taggedTypes.DataRangeUUID]
 ) {
   def this(
     uuid: taggedTypes.EntityScalarDataPropertyParticularRestrictionAxiomUUID,
-    tboxUUID: taggedTypes.TerminologyBoxXRef,
-    restrictedEntityUUID: taggedTypes.EntityXRef,
-    scalarPropertyUUID: taggedTypes.EntityScalarDataPropertyXRef,
+    tboxUUID: taggedTypes.TerminologyBoxUUID,
+    restrictedEntityUUID: taggedTypes.EntityUUID,
+    scalarPropertyUUID: taggedTypes.EntityScalarDataPropertyUUID,
     literalValue: LiteralValue)
   = this(
       uuid,
@@ -54,16 +54,16 @@ case class EntityScalarDataPropertyParticularRestrictionAxiom
       literalValue,
       scala.None /* valueTypeUUID */)
 
-  def withValueTypeUUID(l: taggedTypes.DataRangeXRef)	 
+  def withValueTypeUUID(l: taggedTypes.DataRangeUUID)	 
   : EntityScalarDataPropertyParticularRestrictionAxiom
   = copy(valueTypeUUID=scala.Some(l))
   
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: taggedTypes.TerminologyBoxXRef,
-    restrictedEntityUUID: taggedTypes.EntityXRef,
-    scalarPropertyUUID: taggedTypes.EntityScalarDataPropertyXRef,
+    tboxUUID: taggedTypes.TerminologyBoxUUID,
+    restrictedEntityUUID: taggedTypes.EntityUUID,
+    scalarPropertyUUID: taggedTypes.EntityScalarDataPropertyUUID,
     literalValue: LiteralValue)
   = this(
       taggedTypes.entityScalarDataPropertyParticularRestrictionAxiomUUID(oug.namespaceUUID(
@@ -85,13 +85,13 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: EntityScalarDataPropertyParticularRestrictionAxiom =>
   	  (this.uuid == that.uuid) &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.restrictedEntityUUID, that.restrictedEntityUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.scalarPropertyUUID, that.scalarPropertyUUID)  &&
+  	  (this.tboxUUID == that.tboxUUID)  &&
+  	  (this.restrictedEntityUUID == that.restrictedEntityUUID)  &&
+  	  (this.scalarPropertyUUID == that.scalarPropertyUUID)  &&
   	  (this.literalValue == that.literalValue) &&
   	  ((this.valueTypeUUID, that.valueTypeUUID) match {
   	      case (scala.Some(t1), scala.Some(t2)) =>
-  	        gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(t1, t2)
+  	        t1 == t2
   	      case (scala.None, scala.None) =>
   	        true
   	      case _ =>

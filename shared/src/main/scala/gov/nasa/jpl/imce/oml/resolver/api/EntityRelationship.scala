@@ -27,6 +27,7 @@ trait EntityRelationship
   extends Term
   with DirectedBinaryRelationshipKind
 {
+  override val uuid: taggedTypes.EntityRelationshipUUID
 
   val source: Entity
   val target: Entity

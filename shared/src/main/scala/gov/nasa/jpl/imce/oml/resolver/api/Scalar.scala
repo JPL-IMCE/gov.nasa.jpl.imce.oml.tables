@@ -25,4 +25,5 @@ trait Scalar
   extends DataRange
   with UnaryTermKind
 {
+  override val uuid: taggedTypes.ScalarUUID
 }

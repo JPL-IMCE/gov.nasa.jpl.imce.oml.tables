@@ -24,6 +24,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait ConceptInstance
   extends ConceptualEntitySingletonInstance
 {
+  override val uuid: taggedTypes.ConceptInstanceUUID
 
   val singletonConceptClassifier: Concept
 

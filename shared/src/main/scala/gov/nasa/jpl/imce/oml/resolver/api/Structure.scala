@@ -29,4 +29,5 @@ trait Structure
   extends Datatype
   with UnaryTermKind
 {
+  override val uuid: taggedTypes.StructureUUID
 }

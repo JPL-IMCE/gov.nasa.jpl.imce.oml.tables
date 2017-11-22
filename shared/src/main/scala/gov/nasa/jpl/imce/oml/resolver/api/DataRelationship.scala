@@ -26,6 +26,7 @@ trait DataRelationship
   extends Term
   with DirectedBinaryRelationshipKind
 {
+  override val uuid: taggedTypes.DataRelationshipUUID
 
   def source
   (): Term

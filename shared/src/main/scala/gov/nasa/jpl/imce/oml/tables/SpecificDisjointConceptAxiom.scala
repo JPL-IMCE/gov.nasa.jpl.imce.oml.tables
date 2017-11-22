@@ -32,14 +32,14 @@ import scala.Predef.ArrowAssoc
 case class SpecificDisjointConceptAxiom
 (
   @(JSExport @field) uuid: taggedTypes.SpecificDisjointConceptAxiomUUID,
-  @(JSExport @field) disjointTaxonomyParentUUID: taggedTypes.ConceptTreeDisjunctionXRef,
-  @(JSExport @field) disjointLeafUUID: taggedTypes.ConceptXRef
+  @(JSExport @field) disjointTaxonomyParentUUID: taggedTypes.ConceptTreeDisjunctionUUID,
+  @(JSExport @field) disjointLeafUUID: taggedTypes.ConceptUUID
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    disjointTaxonomyParentUUID: taggedTypes.ConceptTreeDisjunctionXRef,
-    disjointLeafUUID: taggedTypes.ConceptXRef)
+    disjointTaxonomyParentUUID: taggedTypes.ConceptTreeDisjunctionUUID,
+    disjointLeafUUID: taggedTypes.ConceptUUID)
   = this(
       taggedTypes.specificDisjointConceptAxiomUUID(oug.namespaceUUID(
         "SpecificDisjointConceptAxiom",
@@ -57,8 +57,8 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: SpecificDisjointConceptAxiom =>
   	  (this.uuid == that.uuid) &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.disjointTaxonomyParentUUID, that.disjointTaxonomyParentUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.disjointLeafUUID, that.disjointLeafUUID) 
+  	  (this.disjointTaxonomyParentUUID == that.disjointTaxonomyParentUUID)  &&
+  	  (this.disjointLeafUUID == that.disjointLeafUUID) 
     case _ =>
       false
   }

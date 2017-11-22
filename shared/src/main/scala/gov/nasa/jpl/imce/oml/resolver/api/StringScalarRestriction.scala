@@ -40,6 +40,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait StringScalarRestriction
   extends RestrictedDataRange
 {
+  override val uuid: taggedTypes.StringScalarRestrictionUUID
 
   /*
    * The length of the string

@@ -25,6 +25,7 @@ trait Term
   extends TerminologyBoxStatement
   with Resource
 {
+  override val uuid: taggedTypes.TermUUID
 
   override val name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName
 

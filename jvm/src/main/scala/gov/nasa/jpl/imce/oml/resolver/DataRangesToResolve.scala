@@ -38,29 +38,46 @@ import scala.Predef.ArrowAssoc
   * @param timeScalarRestrictions
   */
 case class DataRangesToResolve
-( binaryScalarRestrictions: Map[UUID, Seq[(UUID, tables.BinaryScalarRestriction)]],
-  iriScalarRestrictions: Map[UUID, Seq[(UUID, tables.IRIScalarRestriction)]],
-  numericScalarRestrictions: Map[UUID, Seq[(UUID, tables.NumericScalarRestriction)]],
-  plainLiteralScalarRestrictions: Map[UUID, Seq[(UUID, tables.PlainLiteralScalarRestriction)]],
-  scalarOneOfRestrictions: Map[UUID, Seq[(UUID, tables.ScalarOneOfRestriction)]],
-  stringScalarRestrictions: Map[UUID, Seq[(UUID, tables.StringScalarRestriction)]],
-  synonymScalarRestrictions: Map[UUID, Seq[(UUID, tables.SynonymScalarRestriction)]],
-  timeScalarRestrictions: Map[UUID, Seq[(UUID, tables.TimeScalarRestriction)]] )
+( binaryScalarRestrictions
+  : Map[api.taggedTypes.TerminologyBoxUUID, Seq[(tables.taggedTypes.DataRangeUUID, tables.BinaryScalarRestriction)]],
+
+  iriScalarRestrictions
+  : Map[api.taggedTypes.TerminologyBoxUUID, Seq[(tables.taggedTypes.DataRangeUUID, tables.IRIScalarRestriction)]],
+
+  numericScalarRestrictions
+  : Map[api.taggedTypes.TerminologyBoxUUID, Seq[(tables.taggedTypes.DataRangeUUID, tables.NumericScalarRestriction)]],
+
+  plainLiteralScalarRestrictions
+  : Map[api.taggedTypes.TerminologyBoxUUID, Seq[(tables.taggedTypes.DataRangeUUID, tables.PlainLiteralScalarRestriction)]],
+
+  scalarOneOfRestrictions
+  : Map[api.taggedTypes.TerminologyBoxUUID, Seq[(tables.taggedTypes.DataRangeUUID, tables.ScalarOneOfRestriction)]],
+
+  stringScalarRestrictions
+  : Map[api.taggedTypes.TerminologyBoxUUID, Seq[(tables.taggedTypes.DataRangeUUID, tables.StringScalarRestriction)]],
+
+  synonymScalarRestrictions
+  : Map[api.taggedTypes.TerminologyBoxUUID, Seq[(tables.taggedTypes.DataRangeUUID, tables.SynonymScalarRestriction)]],
+
+  timeScalarRestrictions
+  : Map[api.taggedTypes.TerminologyBoxUUID, Seq[(tables.taggedTypes.DataRangeUUID, tables.TimeScalarRestriction)]] )
 
 object DataRangesToResolve {
 
   import OMLOps._
 
-  def asDataRangeXRef(uuid: UUID)
-  : tables.taggedTypes.DataRangeXRef
+  def asDataRangeXRef(uuid: api.taggedTypes.DataRangeUUID)
+  : tables.taggedTypes.DataRangeUUID
   = tables.taggedTypes.dataRangeUUID(uuid.toString)
 
   private def partitionRestrictableDataRanges[T]
   (r: OMLTablesResolver,
    tbox: api.TerminologyBox,
-   drs: Seq[(UUID, T)],
-   dr2restrictedDataRange: T => tables.taggedTypes.DataRangeXRef)
-  : (Map[tables.taggedTypes.DataRangeXRef, api.DataRange], Seq[(UUID, T)], Seq[(UUID, T)])
+   drs: Seq[(tables.taggedTypes.DataRangeUUID, T)],
+   dr2restrictedDataRange: T => tables.taggedTypes.DataRangeUUID)
+  : (Map[tables.taggedTypes.DataRangeUUID, api.DataRange],
+     Seq[(tables.taggedTypes.DataRangeUUID, T)],
+     Seq[(tables.taggedTypes.DataRangeUUID, T)])
   = {
     val allDataRanges
     : Set[api.DataRange]
@@ -77,7 +94,7 @@ object DataRangesToResolve {
     }
 
     val restrictableDataRanges
-    : Map[tables.taggedTypes.DataRangeXRef, api.DataRange]
+    : Map[tables.taggedTypes.DataRangeUUID, api.DataRange]
     = allDataRanges.map(dr => asDataRangeXRef(dr.uuid) -> dr).toMap
 
     val (available, remaining) =
@@ -111,7 +128,11 @@ object DataRangesToResolve {
             case Some(tbox) =>
 
               val (restrictableDataRanges, available, remaining) =
-                partitionRestrictableDataRanges[tables.BinaryScalarRestriction](ri, tbox, drs, _.restrictedRangeUUID)
+                partitionRestrictableDataRanges[tables.BinaryScalarRestriction](
+                  ri,
+                  tbox,
+                  drs,
+                  _.restrictedRangeUUID)
 
               val si
               : Try[(OMLTablesResolver, DataRangesToResolve, Boolean)]
@@ -130,9 +151,9 @@ object DataRangesToResolve {
                     (rj, qj, fj) = tuple
                     pair = rj.factory.createBinaryScalarRestriction(
                       rj.context,
-                      UUID.fromString(dr.uuid), // @UUID
+                      api.taggedTypes.binaryScalarRestrictionUUID(UUID.fromString(dr.uuid)), // @UUID
                       tbox,
-                      restrictableDataRanges(asDataRangeXRef(ruuid)),
+                      restrictableDataRanges(ruuid),
                       dr.length,
                       dr.minLength,
                       dr.maxLength,
@@ -186,9 +207,9 @@ object DataRangesToResolve {
                     (rj, qj, fj) = tuple
                     pair = ri.factory.createIRIScalarRestriction(
                       rj.context,
-                      UUID.fromString(dr.uuid), // @UUID
+                      api.taggedTypes.iriScalarRestrictionUUID(UUID.fromString(dr.uuid)), // @UUID
                       tbox,
-                      restrictableDataRanges(asDataRangeXRef(ruuid)),
+                      restrictableDataRanges(ruuid),
                       dr.length,
                       dr.minLength,
                       dr.maxLength,
@@ -243,9 +264,9 @@ object DataRangesToResolve {
                     (rj, qj, fj) = tuple
                     pair = ri.factory.createNumericScalarRestriction(
                       rj.context,
-                      UUID.fromString(dr.uuid), // @UUID
+                      api.taggedTypes.numericScalarRestrictionUUID(UUID.fromString(dr.uuid)), // @UUID
                       tbox,
-                      restrictableDataRanges(asDataRangeXRef(ruuid)),
+                      restrictableDataRanges(ruuid),
                       dr.minExclusive,
                       dr.minInclusive,
                       dr.maxExclusive,
@@ -300,9 +321,9 @@ object DataRangesToResolve {
                     (rj, qj, fj) = tuple
                     pair = ri.factory.createPlainLiteralScalarRestriction(
                       rj.context,
-                      UUID.fromString(dr.uuid), // @UUID
+                      api.taggedTypes.plainLiteralScalarRestrictionUUID(UUID.fromString(dr.uuid)), // @UUID
                       tbox,
-                      restrictableDataRanges(asDataRangeXRef(ruuid)),
+                      restrictableDataRanges(ruuid),
                       dr.length,
                       dr.minLength,
                       dr.maxLength,
@@ -358,9 +379,9 @@ object DataRangesToResolve {
                     (rj, qj, fj) = tuple
                     pair = ri.factory.createScalarOneOfRestriction(
                       rj.context,
-                      UUID.fromString(dr.uuid), // @UUID
+                      api.taggedTypes.scalarOneOfRestrictionUUID(UUID.fromString(dr.uuid)), // @UUID
                       tbox,
-                      restrictableDataRanges(asDataRangeXRef(ruuid)),
+                      restrictableDataRanges(ruuid),
                       dr.name)
                     (ej, x) = pair
                     ek <- if (!uuidEquivalent(x.uuid, dr.uuid))
@@ -411,9 +432,9 @@ object DataRangesToResolve {
                     (rj, qj, fj) = tuple
                     pair = ri.factory.createStringScalarRestriction(
                       rj.context,
-                      UUID.fromString(dr.uuid), // @UUID
+                      api.taggedTypes.stringScalarRestrictionUUID(UUID.fromString(dr.uuid)), // @UUID
                       tbox,
-                      restrictableDataRanges(asDataRangeXRef(ruuid)),
+                      restrictableDataRanges(ruuid),
                       dr.length,
                       dr.minLength,
                       dr.maxLength,
@@ -468,9 +489,9 @@ object DataRangesToResolve {
                     (rj, qj, fj) = tuple
                     pair = ri.factory.createSynonymScalarRestriction(
                       rj.context,
-                      UUID.fromString(dr.uuid), // @UUID
+                      api.taggedTypes.synonymScalarRestrictionUUID(UUID.fromString(dr.uuid)), // @UUID
                       tbox,
-                      restrictableDataRanges(asDataRangeXRef(ruuid)),
+                      restrictableDataRanges(ruuid),
                       dr.name)
                     (ej, x) = pair
                     ek <- if (!uuidEquivalent(x.uuid, dr.uuid))
@@ -521,9 +542,9 @@ object DataRangesToResolve {
                     (rj, qj, fj) = tuple
                     pair = ri.factory.createTimeScalarRestriction(
                       rj.context,
-                      UUID.fromString(dr.uuid), // @UUID
+                      api.taggedTypes.timeScalarRestrictionUUID(UUID.fromString(dr.uuid)), // @UUID
                       tbox,
-                      restrictableDataRanges(asDataRangeXRef(ruuid)),
+                      restrictableDataRanges(ruuid),
                       dr.minExclusive,
                       dr.minInclusive,
                       dr.maxExclusive,

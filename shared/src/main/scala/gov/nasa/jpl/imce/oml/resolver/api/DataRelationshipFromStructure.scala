@@ -25,6 +25,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait DataRelationshipFromStructure
   extends DataRelationshipDomain
 {
+  override val uuid: taggedTypes.DataRelationshipFromStructureUUID
 
   val domain: Structure
 }

@@ -24,4 +24,5 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait Rule
   extends Term
 {
+  override val uuid: taggedTypes.RuleUUID
 }

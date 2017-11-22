@@ -26,6 +26,7 @@ trait SingletonInstanceStructuredDataPropertyValue
   extends SingletonInstanceStructuredDataPropertyContext
   with ModuleElement
 {
+  override val uuid: taggedTypes.SingletonInstanceStructuredDataPropertyValueUUID
 
   val singletonInstance: ConceptualEntitySingletonInstance
 

@@ -31,6 +31,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait RestrictedDataRange
   extends DataRange
 {
+  override val uuid: taggedTypes.RestrictedDataRangeUUID
 
   /*
    * The restricted (general) data range of this data range (specific)

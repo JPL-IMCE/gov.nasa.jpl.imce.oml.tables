@@ -33,15 +33,15 @@ import scala.Predef.ArrowAssoc
 case class SynonymScalarRestriction
 (
   @(JSExport @field) uuid: taggedTypes.SynonymScalarRestrictionUUID,
-  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
-  @(JSExport @field) restrictedRangeUUID: taggedTypes.DataRangeXRef,
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxUUID,
+  @(JSExport @field) restrictedRangeUUID: taggedTypes.DataRangeUUID,
   @(JSExport @field) name: taggedTypes.LocalName
 ) {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: taggedTypes.TerminologyBoxXRef,
-    restrictedRangeUUID: taggedTypes.DataRangeXRef,
+    tboxUUID: taggedTypes.TerminologyBoxUUID,
+    restrictedRangeUUID: taggedTypes.DataRangeUUID,
     name: taggedTypes.LocalName)
   = this(
       taggedTypes.synonymScalarRestrictionUUID(oug.namespaceUUID(
@@ -60,8 +60,8 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: SynonymScalarRestriction =>
   	  (this.uuid == that.uuid) &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.restrictedRangeUUID, that.restrictedRangeUUID)  &&
+  	  (this.tboxUUID == that.tboxUUID)  &&
+  	  (this.restrictedRangeUUID == that.restrictedRangeUUID)  &&
   	  (this.name == that.name)
     case _ =>
       false

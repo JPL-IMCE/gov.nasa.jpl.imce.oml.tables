@@ -28,10 +28,9 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait UnreifiedRelationshipPropertyPredicate
   extends BinarySegmentForwardPropertyPredicate
 {
-
   val unreifiedRelationship: UnreifiedRelationship
 
   override def termPredicate
   (): Term
-  override val uuid: java.util.UUID
+  override val uuid: taggedTypes.UnreifiedRelationshipPropertyPredicateUUID
 }

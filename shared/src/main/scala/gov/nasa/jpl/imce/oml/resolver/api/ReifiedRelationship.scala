@@ -30,6 +30,7 @@ trait ReifiedRelationship
   with Entity
   with ConceptualEntity
 {
+  override val uuid: taggedTypes.ReifiedRelationshipUUID
 
   val unreifiedPropertyName: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName
   val unreifiedInversePropertyName: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName]

@@ -24,13 +24,12 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait SpecificDisjointConceptAxiom
   extends DisjointUnionOfConceptsAxiom
 {
-
   /*
    * A Concept that is a disjoint leaf in a taxonomy tree.
    */
   val disjointLeaf: Concept
 
-  override val uuid: java.util.UUID
+  override val uuid: taggedTypes.SpecificDisjointConceptAxiomUUID
   def allNestedUnions
   ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
 }

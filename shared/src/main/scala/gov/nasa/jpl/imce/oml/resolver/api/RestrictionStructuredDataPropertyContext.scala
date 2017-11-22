@@ -26,6 +26,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait RestrictionStructuredDataPropertyContext
   extends ModuleElement
 {
+  override val uuid: taggedTypes.RestrictionStructuredDataPropertyContextUUID
 
   val structuredDataProperty: DataRelationshipToStructure
 

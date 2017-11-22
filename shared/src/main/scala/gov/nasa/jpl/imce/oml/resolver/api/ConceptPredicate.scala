@@ -27,10 +27,9 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait ConceptPredicate
   extends UnarySegmentPredicate
 {
-
   val concept: Concept
 
   override def termPredicate
   (): Term
-  override val uuid: java.util.UUID
+  override val uuid: taggedTypes.ConceptPredicateUUID
 }

@@ -34,6 +34,7 @@ trait ConceptualEntitySingletonInstance
   extends TerminologyInstanceAssertion
   with Resource
 {
+  override val uuid: taggedTypes.ConceptualEntitySingletonInstanceUUID
 
   override val name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName
 

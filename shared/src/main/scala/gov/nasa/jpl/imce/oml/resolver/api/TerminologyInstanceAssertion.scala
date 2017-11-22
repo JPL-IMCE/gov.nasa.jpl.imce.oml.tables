@@ -24,4 +24,5 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait TerminologyInstanceAssertion
   extends ModuleElement
 {
+  override val uuid: taggedTypes.TerminologyInstanceAssertionUUID
 }

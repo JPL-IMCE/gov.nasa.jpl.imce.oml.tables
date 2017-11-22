@@ -25,6 +25,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait DescriptionBoxRelationship
   extends ModuleEdge
 {
+  override val uuid: taggedTypes.DescriptionBoxRelationshipUUID
 
   def descriptionDomain
   ()(implicit extent: Extent): scala.Option[DescriptionBox]

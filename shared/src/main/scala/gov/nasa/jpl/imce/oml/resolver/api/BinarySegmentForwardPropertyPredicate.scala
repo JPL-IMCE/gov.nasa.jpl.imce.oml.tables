@@ -26,4 +26,5 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait BinarySegmentForwardPropertyPredicate
   extends BinarySegmentPropertyPredicate
 {
+  override val uuid: taggedTypes.BinarySegmentForwardPropertyPredicateUUID
 }

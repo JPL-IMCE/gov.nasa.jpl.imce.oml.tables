@@ -26,4 +26,5 @@ trait Concept
   with ConceptualEntity
   with UnaryTermKind
 {
+  override val uuid: taggedTypes.ConceptUUID
 }

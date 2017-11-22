@@ -29,8 +29,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
  */
 trait Element
 {
-
-  val uuid: java.util.UUID
+  val uuid: taggedTypes.ElementUUID
 
   def moduleContext
   ()(implicit extent: Extent): scala.Option[Module]

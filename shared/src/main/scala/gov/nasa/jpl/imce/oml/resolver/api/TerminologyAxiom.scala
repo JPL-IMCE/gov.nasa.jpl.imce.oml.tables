@@ -24,6 +24,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait TerminologyAxiom
   extends ModuleEdge
 {
+  override val uuid: taggedTypes.TerminologyAxiomUUID
 
   /*
    * The source TerminologyBox

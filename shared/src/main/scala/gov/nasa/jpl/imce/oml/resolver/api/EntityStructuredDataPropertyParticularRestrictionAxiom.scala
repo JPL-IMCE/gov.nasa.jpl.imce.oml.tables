@@ -26,6 +26,7 @@ trait EntityStructuredDataPropertyParticularRestrictionAxiom
   extends EntityStructuredDataPropertyRestrictionAxiom
   with RestrictionStructuredDataPropertyContext
 {
+  override val uuid: taggedTypes.EntityStructuredDataPropertyParticularRestrictionAxiomUUID
 
   override def terminologyBox
   ()(implicit extent: Extent): scala.Option[TerminologyBox]

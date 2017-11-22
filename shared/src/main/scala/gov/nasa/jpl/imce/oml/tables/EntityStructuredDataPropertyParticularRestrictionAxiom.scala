@@ -33,16 +33,16 @@ import scala.Predef.ArrowAssoc
 case class EntityStructuredDataPropertyParticularRestrictionAxiom
 (
   @(JSExport @field) uuid: taggedTypes.EntityStructuredDataPropertyParticularRestrictionAxiomUUID,
-  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
-  @(JSExport @field) structuredDataPropertyUUID: taggedTypes.DataRelationshipToStructureXRef,
-  @(JSExport @field) restrictedEntityUUID: taggedTypes.EntityXRef
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxUUID,
+  @(JSExport @field) structuredDataPropertyUUID: taggedTypes.DataRelationshipToStructureUUID,
+  @(JSExport @field) restrictedEntityUUID: taggedTypes.EntityUUID
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: taggedTypes.TerminologyBoxXRef,
-    structuredDataPropertyUUID: taggedTypes.DataRelationshipToStructureXRef,
-    restrictedEntityUUID: taggedTypes.EntityXRef)
+    tboxUUID: taggedTypes.TerminologyBoxUUID,
+    structuredDataPropertyUUID: taggedTypes.DataRelationshipToStructureUUID,
+    restrictedEntityUUID: taggedTypes.EntityUUID)
   = this(
       taggedTypes.entityStructuredDataPropertyParticularRestrictionAxiomUUID(oug.namespaceUUID(
         "EntityStructuredDataPropertyParticularRestrictionAxiom",
@@ -62,9 +62,9 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: EntityStructuredDataPropertyParticularRestrictionAxiom =>
   	  (this.uuid == that.uuid) &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.structuredDataPropertyUUID, that.structuredDataPropertyUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.restrictedEntityUUID, that.restrictedEntityUUID) 
+  	  (this.tboxUUID == that.tboxUUID)  &&
+  	  (this.structuredDataPropertyUUID == that.structuredDataPropertyUUID)  &&
+  	  (this.restrictedEntityUUID == that.restrictedEntityUUID) 
     case _ =>
       false
   }

@@ -35,6 +35,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait PlainLiteralScalarRestriction
   extends RestrictedDataRange
 {
+  override val uuid: taggedTypes.PlainLiteralScalarRestrictionUUID
 
   /*
    * The length of the plain literal

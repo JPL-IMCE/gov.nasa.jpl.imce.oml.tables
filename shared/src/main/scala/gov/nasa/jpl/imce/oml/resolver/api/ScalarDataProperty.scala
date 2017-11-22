@@ -28,7 +28,7 @@ trait ScalarDataProperty
   with DataRelationshipToScalar
 {
 
-  override val uuid: java.util.UUID
+  override val uuid: taggedTypes.ScalarDataPropertyUUID
   override def source
   (): Term
   override def target

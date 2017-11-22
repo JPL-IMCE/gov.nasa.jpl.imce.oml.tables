@@ -33,16 +33,16 @@ import scala.Predef.ArrowAssoc
 case class ReifiedRelationshipInstanceDomain
 (
   @(JSExport @field) uuid: taggedTypes.ReifiedRelationshipInstanceDomainUUID,
-  @(JSExport @field) descriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
-  @(JSExport @field) reifiedRelationshipInstanceUUID: taggedTypes.ReifiedRelationshipInstanceXRef,
-  @(JSExport @field) domainUUID: taggedTypes.ConceptualEntitySingletonInstanceXRef
+  @(JSExport @field) descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
+  @(JSExport @field) reifiedRelationshipInstanceUUID: taggedTypes.ReifiedRelationshipInstanceUUID,
+  @(JSExport @field) domainUUID: taggedTypes.ConceptualEntitySingletonInstanceUUID
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    descriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
-    reifiedRelationshipInstanceUUID: taggedTypes.ReifiedRelationshipInstanceXRef,
-    domainUUID: taggedTypes.ConceptualEntitySingletonInstanceXRef)
+    descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
+    reifiedRelationshipInstanceUUID: taggedTypes.ReifiedRelationshipInstanceUUID,
+    domainUUID: taggedTypes.ConceptualEntitySingletonInstanceUUID)
   = this(
       taggedTypes.reifiedRelationshipInstanceDomainUUID(oug.namespaceUUID(
         "ReifiedRelationshipInstanceDomain",
@@ -62,9 +62,9 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: ReifiedRelationshipInstanceDomain =>
   	  (this.uuid == that.uuid) &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.descriptionBoxUUID, that.descriptionBoxUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.reifiedRelationshipInstanceUUID, that.reifiedRelationshipInstanceUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.domainUUID, that.domainUUID) 
+  	  (this.descriptionBoxUUID == that.descriptionBoxUUID)  &&
+  	  (this.reifiedRelationshipInstanceUUID == that.reifiedRelationshipInstanceUUID)  &&
+  	  (this.domainUUID == that.domainUUID) 
     case _ =>
       false
   }

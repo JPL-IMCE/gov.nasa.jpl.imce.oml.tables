@@ -33,16 +33,16 @@ import scala.Predef.ArrowAssoc
 case class RestrictionScalarDataPropertyValue
 (
   @(JSExport @field) uuid: taggedTypes.RestrictionScalarDataPropertyValueUUID,
-  @(JSExport @field) scalarDataPropertyUUID: taggedTypes.DataRelationshipToScalarXRef,
+  @(JSExport @field) scalarDataPropertyUUID: taggedTypes.DataRelationshipToScalarUUID,
   @(JSExport @field) scalarPropertyValue: LiteralValue,
-  @(JSExport @field) structuredDataPropertyContextUUID: taggedTypes.RestrictionStructuredDataPropertyContextXRef,
-  @(JSExport @field) valueTypeUUID: scala.Option[taggedTypes.DataRangeXRef]
+  @(JSExport @field) structuredDataPropertyContextUUID: taggedTypes.RestrictionStructuredDataPropertyContextUUID,
+  @(JSExport @field) valueTypeUUID: scala.Option[taggedTypes.DataRangeUUID]
 ) {
   def this(
     uuid: taggedTypes.RestrictionScalarDataPropertyValueUUID,
-    scalarDataPropertyUUID: taggedTypes.DataRelationshipToScalarXRef,
+    scalarDataPropertyUUID: taggedTypes.DataRelationshipToScalarUUID,
     scalarPropertyValue: LiteralValue,
-    structuredDataPropertyContextUUID: taggedTypes.RestrictionStructuredDataPropertyContextXRef)
+    structuredDataPropertyContextUUID: taggedTypes.RestrictionStructuredDataPropertyContextUUID)
   = this(
       uuid,
       scalarDataPropertyUUID,
@@ -50,16 +50,16 @@ case class RestrictionScalarDataPropertyValue
       structuredDataPropertyContextUUID,
       scala.None /* valueTypeUUID */)
 
-  def withValueTypeUUID(l: taggedTypes.DataRangeXRef)	 
+  def withValueTypeUUID(l: taggedTypes.DataRangeUUID)	 
   : RestrictionScalarDataPropertyValue
   = copy(valueTypeUUID=scala.Some(l))
   
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    scalarDataPropertyUUID: taggedTypes.DataRelationshipToScalarXRef,
+    scalarDataPropertyUUID: taggedTypes.DataRelationshipToScalarUUID,
     scalarPropertyValue: LiteralValue,
-    structuredDataPropertyContextUUID: taggedTypes.RestrictionStructuredDataPropertyContextXRef)
+    structuredDataPropertyContextUUID: taggedTypes.RestrictionStructuredDataPropertyContextUUID)
   = this(
       taggedTypes.restrictionScalarDataPropertyValueUUID(oug.namespaceUUID(
         "RestrictionScalarDataPropertyValue",
@@ -78,12 +78,12 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: RestrictionScalarDataPropertyValue =>
   	  (this.uuid == that.uuid) &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.scalarDataPropertyUUID, that.scalarDataPropertyUUID)  &&
+  	  (this.scalarDataPropertyUUID == that.scalarDataPropertyUUID)  &&
   	  (this.scalarPropertyValue == that.scalarPropertyValue) &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.structuredDataPropertyContextUUID, that.structuredDataPropertyContextUUID)  &&
+  	  (this.structuredDataPropertyContextUUID == that.structuredDataPropertyContextUUID)  &&
   	  ((this.valueTypeUUID, that.valueTypeUUID) match {
   	      case (scala.Some(t1), scala.Some(t2)) =>
-  	        gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(t1, t2)
+  	        t1 == t2
   	      case (scala.None, scala.None) =>
   	        true
   	      case _ =>

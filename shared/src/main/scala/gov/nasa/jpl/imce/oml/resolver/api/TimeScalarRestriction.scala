@@ -35,6 +35,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait TimeScalarRestriction
   extends RestrictedDataRange
 {
+  override val uuid: taggedTypes.TimeScalarRestrictionUUID
 
   /*
    * The inclusive minimum value in the range

@@ -26,6 +26,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait ReifiedRelationshipSpecializationAxiom
   extends SpecializationAxiom
 {
+  override val uuid: taggedTypes.ReifiedRelationshipSpecializationAxiomUUID
 
   /*
    * The sub (child) relationship

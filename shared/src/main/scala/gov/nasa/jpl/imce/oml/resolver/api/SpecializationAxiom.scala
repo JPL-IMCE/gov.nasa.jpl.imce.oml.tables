@@ -25,6 +25,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait SpecializationAxiom
   extends TermAxiom
 {
+  override val uuid: taggedTypes.SpecializationAxiomUUID
 
   /*
    * Get the sub (child) entity

@@ -43,9 +43,9 @@ import scala.Predef.ArrowAssoc
 case class UnreifiedRelationship
 (
   @(JSExport @field) uuid: taggedTypes.UnreifiedRelationshipUUID,
-  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
-  @(JSExport @field) sourceUUID: taggedTypes.EntityXRef,
-  @(JSExport @field) targetUUID: taggedTypes.EntityXRef,
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxUUID,
+  @(JSExport @field) sourceUUID: taggedTypes.EntityUUID,
+  @(JSExport @field) targetUUID: taggedTypes.EntityUUID,
   @(JSExport @field) isAsymmetric: scala.Boolean,
   @(JSExport @field) isEssential: scala.Boolean,
   @(JSExport @field) isFunctional: scala.Boolean,
@@ -60,9 +60,9 @@ case class UnreifiedRelationship
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: taggedTypes.TerminologyBoxXRef,
-    sourceUUID: taggedTypes.EntityXRef,
-    targetUUID: taggedTypes.EntityXRef,
+    tboxUUID: taggedTypes.TerminologyBoxUUID,
+    sourceUUID: taggedTypes.EntityUUID,
+    targetUUID: taggedTypes.EntityUUID,
     isAsymmetric: scala.Boolean,
     isEssential: scala.Boolean,
     isFunctional: scala.Boolean,
@@ -100,9 +100,9 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: UnreifiedRelationship =>
   	  (this.uuid == that.uuid) &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.sourceUUID, that.sourceUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.targetUUID, that.targetUUID)  &&
+  	  (this.tboxUUID == that.tboxUUID)  &&
+  	  (this.sourceUUID == that.sourceUUID)  &&
+  	  (this.targetUUID == that.targetUUID)  &&
   	  (this.isAsymmetric == that.isAsymmetric) &&
   	  (this.isEssential == that.isEssential) &&
   	  (this.isFunctional == that.isFunctional) &&

@@ -33,15 +33,15 @@ import scala.Predef.ArrowAssoc
 case class ConceptInstance
 (
   @(JSExport @field) uuid: taggedTypes.ConceptInstanceUUID,
-  @(JSExport @field) descriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
-  @(JSExport @field) singletonConceptClassifierUUID: taggedTypes.ConceptXRef,
+  @(JSExport @field) descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
+  @(JSExport @field) singletonConceptClassifierUUID: taggedTypes.ConceptUUID,
   @(JSExport @field) name: taggedTypes.LocalName
 ) {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    descriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
-    singletonConceptClassifierUUID: taggedTypes.ConceptXRef,
+    descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
+    singletonConceptClassifierUUID: taggedTypes.ConceptUUID,
     name: taggedTypes.LocalName)
   = this(
       taggedTypes.conceptInstanceUUID(oug.namespaceUUID(
@@ -60,8 +60,8 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: ConceptInstance =>
   	  (this.uuid == that.uuid) &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.descriptionBoxUUID, that.descriptionBoxUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.singletonConceptClassifierUUID, that.singletonConceptClassifierUUID)  &&
+  	  (this.descriptionBoxUUID == that.descriptionBoxUUID)  &&
+  	  (this.singletonConceptClassifierUUID == that.singletonConceptClassifierUUID)  &&
   	  (this.name == that.name)
     case _ =>
       false

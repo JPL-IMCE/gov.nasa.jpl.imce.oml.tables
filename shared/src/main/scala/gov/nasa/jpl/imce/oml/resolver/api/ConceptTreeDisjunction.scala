@@ -26,6 +26,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait ConceptTreeDisjunction
   extends Element
 {
+  override val uuid: taggedTypes.ConceptTreeDisjunctionUUID
 
   def bundleContainer
   ()(implicit extent: Extent): scala.Option[Bundle]

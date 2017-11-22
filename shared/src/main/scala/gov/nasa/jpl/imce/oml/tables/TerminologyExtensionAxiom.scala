@@ -32,13 +32,13 @@ import scala.Predef.ArrowAssoc
 case class TerminologyExtensionAxiom
 (
   @(JSExport @field) uuid: taggedTypes.TerminologyExtensionAxiomUUID,
-  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxUUID,
   @(JSExport @field) extendedTerminologyIRI: taggedTypes.IRI
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: taggedTypes.TerminologyBoxXRef,
+    tboxUUID: taggedTypes.TerminologyBoxUUID,
     extendedTerminologyIRI: taggedTypes.IRI)
   = this(
       taggedTypes.terminologyExtensionAxiomUUID(oug.namespaceUUID(
@@ -57,7 +57,7 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: TerminologyExtensionAxiom =>
   	  (this.uuid == that.uuid) &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
+  	  (this.tboxUUID == that.tboxUUID)  &&
   	  (this.extendedTerminologyIRI == that.extendedTerminologyIRI)
     case _ =>
       false

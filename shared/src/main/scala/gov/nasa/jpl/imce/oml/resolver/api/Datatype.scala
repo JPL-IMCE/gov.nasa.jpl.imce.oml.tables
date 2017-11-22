@@ -28,4 +28,5 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait Datatype
   extends Term
 {
+  override val uuid: taggedTypes.DatatypeUUID
 }

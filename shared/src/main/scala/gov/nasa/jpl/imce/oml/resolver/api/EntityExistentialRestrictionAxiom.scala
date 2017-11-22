@@ -25,4 +25,5 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait EntityExistentialRestrictionAxiom
   extends EntityRestrictionAxiom
 {
+  override val uuid: taggedTypes.EntityExistentialRestrictionAxiomUUID
 }

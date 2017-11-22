@@ -27,10 +27,9 @@ trait AnonymousConceptUnionAxiom
   extends DisjointUnionOfConceptsAxiom
   with ConceptTreeDisjunction
 {
-
   val name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName
 
-  override val uuid: java.util.UUID
+  override val uuid: taggedTypes.AnonymousConceptUnionAxiomUUID
   override def bundleContainer
   ()(implicit extent: Extent): scala.Option[Bundle]
   def allNestedDisjunctions

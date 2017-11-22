@@ -51,6 +51,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait NumericScalarRestriction
   extends RestrictedDataRange
 {
+  override val uuid: taggedTypes.NumericScalarRestrictionUUID
 
   /*
    * The inclusive minimum value in the range

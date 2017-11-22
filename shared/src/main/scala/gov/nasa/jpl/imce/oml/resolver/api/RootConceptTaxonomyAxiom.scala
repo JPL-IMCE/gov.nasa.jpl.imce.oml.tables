@@ -26,13 +26,12 @@ trait RootConceptTaxonomyAxiom
   extends TerminologyBundleStatement
   with ConceptTreeDisjunction
 {
-
   /*
    * The Concept that is at the root of a taxonomy of disjunctions.
    */
   val root: Concept
 
-  override val uuid: java.util.UUID
+  override val uuid: taggedTypes.RootConceptTaxonomyAxiomUUID
   override def bundleContainer
   ()(implicit extent: Extent): scala.Option[Bundle]
   def allNestedElements

@@ -25,6 +25,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait DescriptionBox
   extends Module
 {
+  override val uuid: taggedTypes.DescriptionBoxUUID
 
   val kind: gov.nasa.jpl.imce.oml.tables.DescriptionKind
 

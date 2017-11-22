@@ -25,6 +25,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait EntityRestrictionAxiom
   extends TermAxiom
 {
+  override val uuid: taggedTypes.EntityRestrictionAxiomUUID
 
   val restrictedRelation: EntityRelationship
   val restrictedRange: Entity

@@ -33,15 +33,15 @@ import scala.Predef.ArrowAssoc
 case class ReifiedRelationshipInstance
 (
   @(JSExport @field) uuid: taggedTypes.ReifiedRelationshipInstanceUUID,
-  @(JSExport @field) descriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
-  @(JSExport @field) singletonReifiedRelationshipClassifierUUID: taggedTypes.ReifiedRelationshipXRef,
+  @(JSExport @field) descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
+  @(JSExport @field) singletonReifiedRelationshipClassifierUUID: taggedTypes.ReifiedRelationshipUUID,
   @(JSExport @field) name: taggedTypes.LocalName
 ) {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    descriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
-    singletonReifiedRelationshipClassifierUUID: taggedTypes.ReifiedRelationshipXRef,
+    descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
+    singletonReifiedRelationshipClassifierUUID: taggedTypes.ReifiedRelationshipUUID,
     name: taggedTypes.LocalName)
   = this(
       taggedTypes.reifiedRelationshipInstanceUUID(oug.namespaceUUID(
@@ -60,8 +60,8 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: ReifiedRelationshipInstance =>
   	  (this.uuid == that.uuid) &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.descriptionBoxUUID, that.descriptionBoxUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.singletonReifiedRelationshipClassifierUUID, that.singletonReifiedRelationshipClassifierUUID)  &&
+  	  (this.descriptionBoxUUID == that.descriptionBoxUUID)  &&
+  	  (this.singletonReifiedRelationshipClassifierUUID == that.singletonReifiedRelationshipClassifierUUID)  &&
   	  (this.name == that.name)
     case _ =>
       false

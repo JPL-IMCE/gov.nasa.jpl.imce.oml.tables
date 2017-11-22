@@ -33,16 +33,16 @@ import scala.Predef.ArrowAssoc
 case class ConceptSpecializationAxiom
 (
   @(JSExport @field) uuid: taggedTypes.ConceptSpecializationAxiomUUID,
-  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
-  @(JSExport @field) superConceptUUID: taggedTypes.ConceptXRef,
-  @(JSExport @field) subConceptUUID: taggedTypes.ConceptXRef
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxUUID,
+  @(JSExport @field) superConceptUUID: taggedTypes.ConceptUUID,
+  @(JSExport @field) subConceptUUID: taggedTypes.ConceptUUID
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: taggedTypes.TerminologyBoxXRef,
-    superConceptUUID: taggedTypes.ConceptXRef,
-    subConceptUUID: taggedTypes.ConceptXRef)
+    tboxUUID: taggedTypes.TerminologyBoxUUID,
+    superConceptUUID: taggedTypes.ConceptUUID,
+    subConceptUUID: taggedTypes.ConceptUUID)
   = this(
       taggedTypes.conceptSpecializationAxiomUUID(oug.namespaceUUID(
         "ConceptSpecializationAxiom",
@@ -62,9 +62,9 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: ConceptSpecializationAxiom =>
   	  (this.uuid == that.uuid) &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.superConceptUUID, that.superConceptUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.subConceptUUID, that.subConceptUUID) 
+  	  (this.tboxUUID == that.tboxUUID)  &&
+  	  (this.superConceptUUID == that.superConceptUUID)  &&
+  	  (this.subConceptUUID == that.subConceptUUID) 
     case _ =>
       false
   }

@@ -25,6 +25,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait RestrictionStructuredDataPropertyTuple
   extends RestrictionStructuredDataPropertyContext
 {
+  override val uuid: taggedTypes.RestrictionStructuredDataPropertyTupleUUID
 
   override def terminologyBox
   ()(implicit extent: Extent): scala.Option[TerminologyBox]

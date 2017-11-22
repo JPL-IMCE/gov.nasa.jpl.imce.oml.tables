@@ -24,4 +24,5 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait SynonymScalarRestriction
   extends RestrictedDataRange
 {
+  override val uuid: taggedTypes.SynonymScalarRestrictionUUID
 }

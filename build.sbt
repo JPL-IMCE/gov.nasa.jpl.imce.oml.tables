@@ -203,9 +203,6 @@ lazy val tables = crossProject
     scalaVersion := Settings.versions.scala,
     scalacOptions ++= Settings.scalacOptions,
 
-    logLevel in update := Level.Warn,
-    logLevel in aether.AetherKeys.aetherDeploy := Level.Warn,
-
     // do not include all repositories in the POM
     // (this is important for staging since artifacts published to a staging repository
     //  can be promoted (i.e. published) to another repository)

@@ -28,6 +28,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait ReifiedRelationshipInstanceDomain
   extends TerminologyInstanceAssertion
 {
+  override val uuid: taggedTypes.ReifiedRelationshipInstanceDomainUUID
 
   val reifiedRelationshipInstance: ReifiedRelationshipInstance
   val domain: ConceptualEntitySingletonInstance

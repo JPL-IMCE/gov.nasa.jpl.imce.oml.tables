@@ -32,13 +32,13 @@ import scala.Predef.ArrowAssoc
 case class Scalar
 (
   @(JSExport @field) uuid: taggedTypes.ScalarUUID,
-  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxUUID,
   @(JSExport @field) name: taggedTypes.LocalName
 ) {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: taggedTypes.TerminologyBoxXRef,
+    tboxUUID: taggedTypes.TerminologyBoxUUID,
     name: taggedTypes.LocalName)
   = this(
       taggedTypes.scalarUUID(oug.namespaceUUID(
@@ -56,7 +56,7 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: Scalar =>
   	  (this.uuid == that.uuid) &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
+  	  (this.tboxUUID == that.tboxUUID)  &&
   	  (this.name == that.name)
     case _ =>
       false

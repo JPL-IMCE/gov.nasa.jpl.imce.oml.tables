@@ -25,4 +25,5 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait ScalarOneOfRestriction
   extends RestrictedDataRange
 {
+  override val uuid: taggedTypes.ScalarOneOfRestrictionUUID
 }

@@ -25,6 +25,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait RestrictionScalarDataPropertyValue
   extends Element
 {
+  override val uuid: taggedTypes.RestrictionScalarDataPropertyValueUUID
 
   val scalarDataProperty: DataRelationshipToScalar
   val scalarPropertyValue: gov.nasa.jpl.imce.oml.tables.LiteralValue

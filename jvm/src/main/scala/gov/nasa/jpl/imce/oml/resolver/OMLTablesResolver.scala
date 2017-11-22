@@ -39,57 +39,83 @@ case class OMLTablesResolver private[resolver]
 
   lazy val allContexts: Seq[resolver.api.Extent] = context +: otherContexts
 
-  def lookupModule(uuid: Option[java.util.UUID])
+  def lookupModule(uuid: Option[api.taggedTypes.ModuleUUID])
   : Option[resolver.api.Module]
-  = uuid.fold[Option[resolver.api.Module]](None) { lookupModule }
+  = uuid.fold[Option[resolver.api.Module]](None) {
+    lookupModule
+  }
 
-  def lookupModule(uuid: java.util.UUID)
+  def lookupModule(uuid: api.taggedTypes.ModuleUUID)
   : Option[resolver.api.Module]
   = lookupTerminologyBox(uuid) orElse lookupDescriptionBox(uuid)
 
-  def lookupTerminologyBox(uuid: Option[java.util.UUID])
+  def lookupTerminologyBox(uuid: Option[api.taggedTypes.TerminologyBoxUUID])
   : Option[resolver.api.TerminologyBox]
-  = uuid.fold[Option[resolver.api.TerminologyBox]](None) { lookupTerminologyBox }
+  = uuid.fold[Option[resolver.api.TerminologyBox]](None) {
+    lookupTerminologyBox
+  }
 
-  def lookupTerminologyBox(uuid: java.util.UUID)
+  def lookupTerminologyBox(uuid: api.taggedTypes.ModuleUUID)
   : Option[resolver.api.TerminologyBox]
   = lookupTerminologyGraph(uuid) orElse lookupBundle(uuid)
 
-  def lookupAnnotationProperty(uuid: Option[java.util.UUID])
+  def lookupAnnotationProperty(uuid: Option[api.taggedTypes.AnnotationPropertyUUID])
   : Option[resolver.api.AnnotationProperty]
-  = uuid.fold[Option[resolver.api.AnnotationProperty]](None) { lookupAnnotationProperty }
+  = uuid.fold[Option[resolver.api.AnnotationProperty]](None) {
+    lookupAnnotationProperty
+  }
 
-  def lookupAnnotationProperty(uuid: java.util.UUID)
+  def lookupAnnotationProperty(uuid: api.taggedTypes.AnnotationPropertyUUID)
   : Option[resolver.api.AnnotationProperty]
   = OMLTablesResolver.collectFirstOption(allContexts)(_.annotationProperties.get(uuid))
 
-  def lookupTerminologyGraph(uuid: Option[java.util.UUID])
+  def lookupTerminologyGraph(uuid: Option[api.taggedTypes.TerminologyGraphUUID])
   : Option[resolver.api.TerminologyGraph]
-  = uuid.fold[Option[resolver.api.TerminologyGraph]](None) { lookupTerminologyGraph }
+  = uuid.fold[Option[resolver.api.TerminologyGraph]](None) {
+    lookupTerminologyGraph
+  }
 
-  def lookupTerminologyGraph(uuid: java.util.UUID)
+  def lookupTerminologyGraph(uuid: api.taggedTypes.ModuleUUID)
   : Option[resolver.api.TerminologyGraph]
-  = OMLTablesResolver.collectFirstOption(allContexts)(_.lookupTerminologyGraph(uuid))
+  = OMLTablesResolver.collectFirstOption(allContexts)(
+    _
+      .terminologyGraphs
+      .get(uuid.asInstanceOf[api.taggedTypes.TerminologyGraphUUID])
+  )
 
-  def lookupBundle(uuid: Option[java.util.UUID])
+  def lookupBundle(uuid: Option[api.taggedTypes.BundleUUID])
   : Option[resolver.api.Bundle]
-  = uuid.fold[Option[resolver.api.Bundle]](None) { lookupBundle }
+  = uuid.fold[Option[resolver.api.Bundle]](None) {
+    lookupBundle
+  }
 
-  def lookupBundle(uuid: java.util.UUID)
+  def lookupBundle(uuid: api.taggedTypes.ModuleUUID)
   : Option[resolver.api.Bundle]
-  = OMLTablesResolver.collectFirstOption(allContexts)(_.bundles.get(uuid))
+  = OMLTablesResolver.collectFirstOption(allContexts)(
+    _
+      .bundles
+      .get(uuid.asInstanceOf[api.taggedTypes.BundleUUID])
+  )
 
-  def lookupDescriptionBox(uuid: Option[java.util.UUID])
+  def lookupDescriptionBox(uuid: Option[api.taggedTypes.DescriptionBoxUUID])
   : Option[resolver.api.DescriptionBox]
-  = uuid.fold[Option[resolver.api.DescriptionBox]](None) { lookupDescriptionBox }
+  = uuid.fold[Option[resolver.api.DescriptionBox]](None) {
+    lookupDescriptionBox
+  }
 
-  def lookupDescriptionBox(uuid: java.util.UUID)
+  def lookupDescriptionBox(uuid: api.taggedTypes.ModuleUUID)
   : Option[resolver.api.DescriptionBox]
-  = OMLTablesResolver.collectFirstOption(allContexts)(_.descriptionBoxes.get(uuid))
+  = OMLTablesResolver
+    .collectFirstOption(allContexts)(
+      _
+        .descriptionBoxes
+        .get(uuid.asInstanceOf[api.taggedTypes.DescriptionBoxUUID]))
 
   def lookupAnnotations(key: Option[resolver.api.Module])
   : Set[resolver.api.AnnotationPropertyValue]
-  = key.fold[Set[resolver.api.AnnotationPropertyValue]](Set.empty[resolver.api.AnnotationPropertyValue]) { lookupAnnotations }
+  = key.fold[Set[resolver.api.AnnotationPropertyValue]](Set.empty[resolver.api.AnnotationPropertyValue]) {
+    lookupAnnotations
+  }
 
   def lookupAnnotations(key: resolver.api.Module)
   : Set[resolver.api.AnnotationPropertyValue]
@@ -98,305 +124,441 @@ case class OMLTablesResolver private[resolver]
 
   def lookupBoxAxioms(key: Option[resolver.api.TerminologyBox])
   : Set[resolver.api.TerminologyBoxAxiom]
-  = key.fold[Set[resolver.api.TerminologyBoxAxiom]](Set.empty[resolver.api.TerminologyBoxAxiom]) { lookupBoxAxioms }
+  = key.fold[Set[resolver.api.TerminologyBoxAxiom]](Set.empty[resolver.api.TerminologyBoxAxiom]) {
+    lookupBoxAxioms
+  }
 
   def lookupBoxAxioms(key: resolver.api.TerminologyBox)
   : Set[resolver.api.TerminologyBoxAxiom]
   = OMLTablesResolver.collectFirstOption(allContexts)(_.boxAxioms.get(key))
     .getOrElse(Set.empty[resolver.api.TerminologyBoxAxiom])
 
-  def lookupTerminologyBoxAxiom(uuid: Option[java.util.UUID])
+  def lookupTerminologyBoxAxiom(uuid: Option[api.taggedTypes.TerminologyBoxAxiomUUID])
   : Option[resolver.api.TerminologyBoxAxiom]
-  = uuid.fold[Option[resolver.api.TerminologyBoxAxiom]](None) { lookupTerminologyBoxAxiom }
+  = uuid.fold[Option[resolver.api.TerminologyBoxAxiom]](None) {
+    lookupTerminologyBoxAxiom
+  }
 
-  def lookupTerminologyBoxAxiom(uuid: java.util.UUID)
+  def lookupTerminologyBoxAxiom(uuid: api.taggedTypes.TerminologyBoxAxiomUUID)
   : Option[resolver.api.TerminologyBoxAxiom]
-  = OMLTablesResolver.collectFirstOption(allContexts)(_.terminologyBoxAxiomByUUID.get(uuid))
+  = OMLTablesResolver.collectFirstOption(allContexts)(
+    _
+      .terminologyBoxAxiomByUUID
+      .get(uuid)
+  )
 
   def lookupBoxStatements(key: Option[resolver.api.TerminologyBox])
   : Set[resolver.api.TerminologyBoxStatement]
-  = key.fold[Set[resolver.api.TerminologyBoxStatement]](Set.empty[resolver.api.TerminologyBoxStatement]) { lookupBoxStatements }
+  = key.fold[Set[resolver.api.TerminologyBoxStatement]](Set.empty[resolver.api.TerminologyBoxStatement]) {
+    lookupBoxStatements
+  }
 
   def lookupBoxStatements(key: resolver.api.TerminologyBox)
   : Set[resolver.api.TerminologyBoxStatement]
   = OMLTablesResolver.collectFirstOption(allContexts)(_.boxStatements.get(key))
     .getOrElse(Set.empty[resolver.api.TerminologyBoxStatement])
 
-  def lookupTerminologyBoxStatement(uuid: Option[java.util.UUID])
+  def lookupTerminologyBoxStatement(uuid: Option[api.taggedTypes.TerminologyBoxStatementUUID])
   : Option[resolver.api.TerminologyBoxStatement]
-  = uuid.fold[Option[resolver.api.TerminologyBoxStatement]](None) { lookupTerminologyBoxStatement }
+  = uuid.fold[Option[resolver.api.TerminologyBoxStatement]](None) {
+    lookupTerminologyBoxStatement
+  }
 
-  def lookupTerminologyBoxStatement(uuid: java.util.UUID)
+  def lookupTerminologyBoxStatement(uuid: api.taggedTypes.TerminologyBoxStatementUUID)
   : Option[resolver.api.TerminologyBoxStatement]
-  = OMLTablesResolver.collectFirstOption(allContexts)(_.terminologyBoxStatementByUUID.get(uuid))
+  = OMLTablesResolver.collectFirstOption(allContexts)(
+    _
+      .terminologyBoxStatementByUUID
+      .get(uuid)
+  )
 
   def lookupBundleAxioms(key: Option[resolver.api.Bundle])
   : Set[resolver.api.TerminologyBundleAxiom]
-  = key.fold[Set[resolver.api.TerminologyBundleAxiom]](Set.empty[resolver.api.TerminologyBundleAxiom]) { lookupBundleAxioms }
+  = key.fold[Set[resolver.api.TerminologyBundleAxiom]](Set.empty[resolver.api.TerminologyBundleAxiom]) {
+    lookupBundleAxioms
+  }
 
   def lookupBundleAxioms(key: resolver.api.Bundle)
   : Set[resolver.api.TerminologyBundleAxiom]
   = OMLTablesResolver.collectFirstOption(allContexts)(_.bundleAxioms.get(key))
     .getOrElse(Set.empty[resolver.api.TerminologyBundleAxiom])
 
-  def lookupTerminologyBundleAxiom(uuid: Option[java.util.UUID])
+  def lookupTerminologyBundleAxiom(uuid: Option[api.taggedTypes.TerminologyBundleAxiomUUID])
   : Option[resolver.api.TerminologyBundleAxiom]
-  = uuid.fold[Option[resolver.api.TerminologyBundleAxiom]](None) { lookupTerminologyBundleAxiom }
+  = uuid.fold[Option[resolver.api.TerminologyBundleAxiom]](None) {
+    lookupTerminologyBundleAxiom
+  }
 
-  def lookupTerminologyBundleAxiom(uuid: java.util.UUID)
+  def lookupTerminologyBundleAxiom(uuid: api.taggedTypes.TerminologyBundleAxiomUUID)
   : Option[resolver.api.TerminologyBundleAxiom]
-  = OMLTablesResolver.collectFirstOption(allContexts)(_.terminologyBundleAxiomByUUID.get(uuid))
+  = OMLTablesResolver.collectFirstOption(allContexts)(
+    _
+      .terminologyBundleAxiomByUUID
+      .get(uuid)
+  )
 
   def lookupBundleStatements(key: Option[resolver.api.Bundle])
   : Set[resolver.api.TerminologyBundleStatement]
-  = key.fold[Set[resolver.api.TerminologyBundleStatement]](Set.empty[resolver.api.TerminologyBundleStatement]) { lookupBundleStatements }
+  = key.fold[Set[resolver.api.TerminologyBundleStatement]](Set.empty[resolver.api.TerminologyBundleStatement]) {
+    lookupBundleStatements
+  }
 
   def lookupBundleStatements(key: resolver.api.Bundle)
   : Set[resolver.api.TerminologyBundleStatement]
   = OMLTablesResolver.collectFirstOption(allContexts)(_.bundleStatements.get(key))
     .getOrElse(Set.empty[resolver.api.TerminologyBundleStatement])
 
-  def lookupTerminologyBundleStatement(uuid: Option[java.util.UUID])
+  def lookupTerminologyBundleStatement(uuid: Option[api.taggedTypes.TerminologyBundleStatementUUID])
   : Option[resolver.api.TerminologyBundleStatement]
-  = uuid.fold[Option[resolver.api.TerminologyBundleStatement]](None) { lookupTerminologyBundleStatement }
+  = uuid.fold[Option[resolver.api.TerminologyBundleStatement]](None) {
+    lookupTerminologyBundleStatement
+  }
 
-  def lookupTerminologyBundleStatement(uuid: java.util.UUID)
+  def lookupTerminologyBundleStatement(uuid: api.taggedTypes.TerminologyBundleStatementUUID)
   : Option[resolver.api.TerminologyBundleStatement]
-  = OMLTablesResolver.collectFirstOption(allContexts)(_.terminologyBundleStatementByUUID.get(uuid))
+  = OMLTablesResolver.collectFirstOption(allContexts)(
+    _
+      .terminologyBundleStatementByUUID
+      .get(uuid)
+  )
 
   def lookupDisjunctions(key: Option[resolver.api.ConceptTreeDisjunction])
   : Set[resolver.api.DisjointUnionOfConceptsAxiom]
-  = key.fold[Set[resolver.api.DisjointUnionOfConceptsAxiom]](Set.empty[resolver.api.DisjointUnionOfConceptsAxiom]) { lookupDisjunctions }
+  = key.fold[Set[resolver.api.DisjointUnionOfConceptsAxiom]](Set.empty[resolver.api.DisjointUnionOfConceptsAxiom]) {
+    lookupDisjunctions
+  }
 
   def lookupDisjunctions(key: resolver.api.ConceptTreeDisjunction)
   : Set[resolver.api.DisjointUnionOfConceptsAxiom]
   = OMLTablesResolver.collectFirstOption(allContexts)(_.disjunctions.get(key))
     .getOrElse(Set.empty[resolver.api.DisjointUnionOfConceptsAxiom])
 
-  def lookupDisjointUnionOfConceptsAxiom(uuid: Option[java.util.UUID])
+  def lookupDisjointUnionOfConceptsAxiom(uuid: Option[api.taggedTypes.DisjointUnionOfConceptsAxiomUUID])
   : Option[resolver.api.DisjointUnionOfConceptsAxiom]
-  = uuid.fold[Option[resolver.api.DisjointUnionOfConceptsAxiom]](None) { lookupDisjointUnionOfConceptsAxiom }
+  = uuid.fold[Option[resolver.api.DisjointUnionOfConceptsAxiom]](None) {
+    lookupDisjointUnionOfConceptsAxiom
+  }
 
-  def lookupDisjointUnionOfConceptsAxiom(uuid: java.util.UUID)
+  def lookupDisjointUnionOfConceptsAxiom(uuid: api.taggedTypes.DisjointUnionOfConceptsAxiomUUID)
   : Option[resolver.api.DisjointUnionOfConceptsAxiom]
-  = OMLTablesResolver.collectFirstOption(allContexts)(_.disjointUnionOfConceptsAxiomByUUID.get(uuid))
+  = OMLTablesResolver.collectFirstOption(allContexts)(
+    _
+      .disjointUnionOfConceptsAxiomByUUID
+      .get(uuid)
+  )
 
   def lookupDescriptionBoxRefinements(key: Option[resolver.api.DescriptionBox])
   : Set[resolver.api.DescriptionBoxRefinement]
-  = key.fold[Set[resolver.api.DescriptionBoxRefinement]](Set.empty[resolver.api.DescriptionBoxRefinement]) { lookupDescriptionBoxRefinements }
+  = key.fold[Set[resolver.api.DescriptionBoxRefinement]](Set.empty[resolver.api.DescriptionBoxRefinement]) {
+    lookupDescriptionBoxRefinements
+  }
 
   def lookupDescriptionBoxRefinements(key: resolver.api.DescriptionBox)
   : Set[resolver.api.DescriptionBoxRefinement]
   = OMLTablesResolver.collectFirstOption(allContexts)(_.descriptionBoxRefinements.get(key))
     .getOrElse(Set.empty[resolver.api.DescriptionBoxRefinement])
 
-  def lookupDescriptionBoxRefinement(uuid: Option[java.util.UUID])
+  def lookupDescriptionBoxRefinement(uuid: Option[api.taggedTypes.DescriptionBoxRefinementUUID])
   : Option[resolver.api.DescriptionBoxRefinement]
-  = uuid.fold[Option[resolver.api.DescriptionBoxRefinement]](None) { lookupDescriptionBoxRefinement }
+  = uuid.fold[Option[resolver.api.DescriptionBoxRefinement]](None) {
+    lookupDescriptionBoxRefinement
+  }
 
-  def lookupDescriptionBoxRefinement(uuid: java.util.UUID)
+  def lookupDescriptionBoxRefinement(uuid: api.taggedTypes.DescriptionBoxRefinementUUID)
   : Option[resolver.api.DescriptionBoxRefinement]
-  = OMLTablesResolver.collectFirstOption(allContexts)(_.descriptionBoxRefinementByUUID.get(uuid))
+  = OMLTablesResolver.collectFirstOption(allContexts)(
+    _
+      .descriptionBoxRefinementByUUID
+      .get(uuid)
+  )
 
   def lookupClosedWorldDefinitions(key: Option[resolver.api.DescriptionBox])
   : Set[resolver.api.DescriptionBoxExtendsClosedWorldDefinitions]
-  = key.fold[Set[resolver.api.DescriptionBoxExtendsClosedWorldDefinitions]](Set.empty[resolver.api.DescriptionBoxExtendsClosedWorldDefinitions]) { lookupClosedWorldDefinitions }
+  = key.fold[Set[resolver.api.DescriptionBoxExtendsClosedWorldDefinitions]](
+    Set.empty[resolver.api.DescriptionBoxExtendsClosedWorldDefinitions]
+  ) {
+    lookupClosedWorldDefinitions
+  }
 
   def lookupClosedWorldDefinitions(key: resolver.api.DescriptionBox)
   : Set[resolver.api.DescriptionBoxExtendsClosedWorldDefinitions]
   = OMLTablesResolver.collectFirstOption(allContexts)(_.closedWorldDefinitions.get(key))
     .getOrElse(Set.empty[resolver.api.DescriptionBoxExtendsClosedWorldDefinitions])
 
-  def lookupDescriptionBoxExtendsClosedWorldDefinitions(uuid: Option[java.util.UUID])
+  def lookupDescriptionBoxExtendsClosedWorldDefinitions
+  (uuid: Option[api.taggedTypes.DescriptionBoxExtendsClosedWorldDefinitionsUUID])
   : Option[resolver.api.DescriptionBoxExtendsClosedWorldDefinitions]
-  = uuid.fold[Option[resolver.api.DescriptionBoxExtendsClosedWorldDefinitions]](None) { lookupDescriptionBoxExtendsClosedWorldDefinitions }
+  = uuid.fold[Option[resolver.api.DescriptionBoxExtendsClosedWorldDefinitions]](None) {
+    lookupDescriptionBoxExtendsClosedWorldDefinitions
+  }
 
-  def lookupDescriptionBoxExtendsClosedWorldDefinitions(uuid: java.util.UUID)
+  def lookupDescriptionBoxExtendsClosedWorldDefinitions
+  (uuid: api.taggedTypes.DescriptionBoxExtendsClosedWorldDefinitionsUUID)
   : Option[resolver.api.DescriptionBoxExtendsClosedWorldDefinitions]
-  = OMLTablesResolver.collectFirstOption(allContexts)(_.descriptionBoxExtendsClosedWorldDefinitionsByUUID.get(uuid))
+  = OMLTablesResolver.collectFirstOption(allContexts)(
+    _
+      .descriptionBoxExtendsClosedWorldDefinitionsByUUID
+      .get(uuid)
+  )
 
   def lookupConceptInstances(key: Option[resolver.api.DescriptionBox])
   : Set[resolver.api.ConceptInstance]
-  = key.fold[Set[resolver.api.ConceptInstance]](Set.empty[resolver.api.ConceptInstance]) { lookupConceptInstances }
+  = key.fold[Set[resolver.api.ConceptInstance]](Set.empty[resolver.api.ConceptInstance]) {
+    lookupConceptInstances
+  }
 
   def lookupConceptInstances(key: resolver.api.DescriptionBox)
   : Set[resolver.api.ConceptInstance]
   = OMLTablesResolver.collectFirstOption(allContexts)(_.conceptInstances.get(key))
     .getOrElse(Set.empty[resolver.api.ConceptInstance])
 
-  def lookupConceptInstance(uuid: Option[java.util.UUID])
+  def lookupConceptInstance(uuid: Option[api.taggedTypes.ConceptInstanceUUID])
   : Option[resolver.api.ConceptInstance]
-  = uuid.fold[Option[resolver.api.ConceptInstance]](None) { lookupConceptInstance }
+  = uuid.fold[Option[resolver.api.ConceptInstance]](None) {
+    lookupConceptInstance
+  }
 
-  def lookupConceptInstance(uuid: java.util.UUID)
+  def lookupConceptInstance(uuid: api.taggedTypes.ConceptualEntitySingletonInstanceUUID)
   : Option[resolver.api.ConceptInstance]
-  = OMLTablesResolver.collectFirstOption(allContexts)(_.conceptInstanceByUUID.get(uuid))
+  = OMLTablesResolver.collectFirstOption(allContexts)(
+    _
+      .conceptInstanceByUUID
+      .get(uuid.asInstanceOf[api.taggedTypes.ConceptInstanceUUID])
+  )
 
   def lookupReifiedRelationshipInstances(key: Option[resolver.api.DescriptionBox])
   : Set[resolver.api.ReifiedRelationshipInstance]
-  = key.fold[Set[resolver.api.ReifiedRelationshipInstance]](Set.empty[resolver.api.ReifiedRelationshipInstance]) { lookupReifiedRelationshipInstances }
+  = key.fold[Set[resolver.api.ReifiedRelationshipInstance]](Set.empty[resolver.api.ReifiedRelationshipInstance]) { 
+    lookupReifiedRelationshipInstances 
+  }
 
   def lookupReifiedRelationshipInstances(key: resolver.api.DescriptionBox)
   : Set[resolver.api.ReifiedRelationshipInstance]
   = OMLTablesResolver.collectFirstOption(allContexts)(_.reifiedRelationshipInstances.get(key))
     .getOrElse(Set.empty[resolver.api.ReifiedRelationshipInstance])
 
-  def lookupReifiedRelationshipInstance(uuid: Option[java.util.UUID])
+  def lookupReifiedRelationshipInstance(uuid: Option[api.taggedTypes.ReifiedRelationshipInstanceUUID])
   : Option[resolver.api.ReifiedRelationshipInstance]
-  = uuid.fold[Option[resolver.api.ReifiedRelationshipInstance]](None) { lookupReifiedRelationshipInstance }
+  = uuid.fold[Option[resolver.api.ReifiedRelationshipInstance]](None) {
+    lookupReifiedRelationshipInstance
+  }
 
-  def lookupReifiedRelationshipInstance(uuid: java.util.UUID)
+  def lookupReifiedRelationshipInstance(uuid: api.taggedTypes.ConceptualEntitySingletonInstanceUUID)
   : Option[resolver.api.ReifiedRelationshipInstance]
-  = OMLTablesResolver.collectFirstOption(allContexts)(_.reifiedRelationshipInstanceByUUID.get(uuid))
+  = OMLTablesResolver.collectFirstOption(allContexts)(
+    _
+      .reifiedRelationshipInstanceByUUID
+      .get(uuid.asInstanceOf[api.taggedTypes.ReifiedRelationshipInstanceUUID])
+  )
 
-  def lookupConceptualEntitySingletonInstance(uuid: java.util.UUID)
+  def lookupConceptualEntitySingletonInstance(uuid: api.taggedTypes.ConceptualEntitySingletonInstanceUUID)
   : Option[resolver.api.ConceptualEntitySingletonInstance]
   = lookupConceptInstance(uuid) orElse lookupReifiedRelationshipInstance(uuid)
   
   def lookupReifiedRelationshipInstanceDomains(key: Option[resolver.api.DescriptionBox])
   : Set[resolver.api.ReifiedRelationshipInstanceDomain]
-  = key.fold[Set[resolver.api.ReifiedRelationshipInstanceDomain]](Set.empty[resolver.api.ReifiedRelationshipInstanceDomain]) { lookupReifiedRelationshipInstanceDomains }
+  = key.fold[Set[resolver.api.ReifiedRelationshipInstanceDomain]](Set.empty[resolver.api.ReifiedRelationshipInstanceDomain]) {
+    lookupReifiedRelationshipInstanceDomains
+  }
 
   def lookupReifiedRelationshipInstanceDomains(key: resolver.api.DescriptionBox)
   : Set[resolver.api.ReifiedRelationshipInstanceDomain]
   = OMLTablesResolver.collectFirstOption(allContexts)(_.reifiedRelationshipInstanceDomains.get(key))
     .getOrElse(Set.empty[resolver.api.ReifiedRelationshipInstanceDomain])
 
-  def lookupReifiedRelationshipInstanceDomain(uuid: Option[java.util.UUID])
+  def lookupReifiedRelationshipInstanceDomain(uuid: Option[api.taggedTypes.ReifiedRelationshipInstanceDomainUUID])
   : Option[resolver.api.ReifiedRelationshipInstanceDomain]
-  = uuid.fold[Option[resolver.api.ReifiedRelationshipInstanceDomain]](None) { lookupReifiedRelationshipInstanceDomain }
+  = uuid.fold[Option[resolver.api.ReifiedRelationshipInstanceDomain]](None) {
+    lookupReifiedRelationshipInstanceDomain
+  }
 
-  def lookupReifiedRelationshipInstanceDomain(uuid: java.util.UUID)
+  def lookupReifiedRelationshipInstanceDomain(uuid: api.taggedTypes.ReifiedRelationshipInstanceDomainUUID)
   : Option[resolver.api.ReifiedRelationshipInstanceDomain]
-  = OMLTablesResolver.collectFirstOption(allContexts)(_.reifiedRelationshipInstanceDomainByUUID.get(uuid))
+  = OMLTablesResolver.collectFirstOption(allContexts)(
+    _
+      .reifiedRelationshipInstanceDomainByUUID
+      .get(uuid)
+  )
 
   def lookupReifiedRelationshipInstanceRanges(key: Option[resolver.api.DescriptionBox])
   : Set[resolver.api.ReifiedRelationshipInstanceRange]
-  = key.fold[Set[resolver.api.ReifiedRelationshipInstanceRange]](Set.empty[resolver.api.ReifiedRelationshipInstanceRange]) { lookupReifiedRelationshipInstanceRanges }
+  = key.fold[Set[resolver.api.ReifiedRelationshipInstanceRange]](Set.empty[resolver.api.ReifiedRelationshipInstanceRange]) {
+    lookupReifiedRelationshipInstanceRanges
+  }
 
   def lookupReifiedRelationshipInstanceRanges(key: resolver.api.DescriptionBox)
   : Set[resolver.api.ReifiedRelationshipInstanceRange]
   = OMLTablesResolver.collectFirstOption(allContexts)(_.reifiedRelationshipInstanceRanges.get(key))
     .getOrElse(Set.empty[resolver.api.ReifiedRelationshipInstanceRange])
 
-  def lookupReifiedRelationshipInstanceRange(uuid: Option[java.util.UUID])
+  def lookupReifiedRelationshipInstanceRange(uuid: Option[api.taggedTypes.ReifiedRelationshipInstanceRangeUUID])
   : Option[resolver.api.ReifiedRelationshipInstanceRange]
-  = uuid.fold[Option[resolver.api.ReifiedRelationshipInstanceRange]](None) { lookupReifiedRelationshipInstanceRange }
+  = uuid.fold[Option[resolver.api.ReifiedRelationshipInstanceRange]](None) {
+    lookupReifiedRelationshipInstanceRange
+  }
 
-  def lookupReifiedRelationshipInstanceRange(uuid: java.util.UUID)
+  def lookupReifiedRelationshipInstanceRange(uuid: api.taggedTypes.ReifiedRelationshipInstanceRangeUUID)
   : Option[resolver.api.ReifiedRelationshipInstanceRange]
-  = OMLTablesResolver.collectFirstOption(allContexts)(_.reifiedRelationshipInstanceRangeByUUID.get(uuid))
+  = OMLTablesResolver.collectFirstOption(allContexts)(
+    _
+      .reifiedRelationshipInstanceRangeByUUID
+      .get(uuid)
+  )
 
   def lookupUnreifiedRelationshipInstanceTuples(key: Option[resolver.api.DescriptionBox])
   : Set[resolver.api.UnreifiedRelationshipInstanceTuple]
-  = key.fold[Set[resolver.api.UnreifiedRelationshipInstanceTuple]](Set.empty[resolver.api.UnreifiedRelationshipInstanceTuple]) { lookupUnreifiedRelationshipInstanceTuples }
+  = key.fold[Set[resolver.api.UnreifiedRelationshipInstanceTuple]](Set.empty[resolver.api.UnreifiedRelationshipInstanceTuple]) {
+    lookupUnreifiedRelationshipInstanceTuples
+  }
 
   def lookupUnreifiedRelationshipInstanceTuples(key: resolver.api.DescriptionBox)
   : Set[resolver.api.UnreifiedRelationshipInstanceTuple]
   = OMLTablesResolver.collectFirstOption(allContexts)(_.unreifiedRelationshipInstanceTuples.get(key))
     .getOrElse(Set.empty[resolver.api.UnreifiedRelationshipInstanceTuple])
 
-  def lookupUnreifiedRelationshipInstanceTuple(uuid: Option[java.util.UUID])
+  def lookupUnreifiedRelationshipInstanceTuple(uuid: Option[api.taggedTypes.UnreifiedRelationshipInstanceTupleUUID])
   : Option[resolver.api.UnreifiedRelationshipInstanceTuple]
-  = uuid.fold[Option[resolver.api.UnreifiedRelationshipInstanceTuple]](None) { lookupUnreifiedRelationshipInstanceTuple }
+  = uuid.fold[Option[resolver.api.UnreifiedRelationshipInstanceTuple]](None) {
+    lookupUnreifiedRelationshipInstanceTuple
+  }
 
-  def lookupUnreifiedRelationshipInstanceTuple(uuid: java.util.UUID)
+  def lookupUnreifiedRelationshipInstanceTuple(uuid: api.taggedTypes.UnreifiedRelationshipInstanceTupleUUID)
   : Option[resolver.api.UnreifiedRelationshipInstanceTuple]
-  = OMLTablesResolver.collectFirstOption(allContexts)(_.unreifiedRelationshipInstanceTupleByUUID.get(uuid))
+  = OMLTablesResolver.collectFirstOption(allContexts)(
+    _
+      .unreifiedRelationshipInstanceTupleByUUID
+      .get(uuid)
+  )
 
   def lookupSingletonScalarDataPropertyValues(key: Option[resolver.api.DescriptionBox])
   : Set[resolver.api.SingletonInstanceScalarDataPropertyValue]
-  = key.fold[Set[resolver.api.SingletonInstanceScalarDataPropertyValue]](Set.empty[resolver.api.SingletonInstanceScalarDataPropertyValue]) { lookupSingletonScalarDataPropertyValues }
+  = key.fold[Set[resolver.api.SingletonInstanceScalarDataPropertyValue]](Set.empty[resolver.api.SingletonInstanceScalarDataPropertyValue]) {
+    lookupSingletonScalarDataPropertyValues
+  }
 
   def lookupSingletonScalarDataPropertyValues(key: resolver.api.DescriptionBox)
   : Set[resolver.api.SingletonInstanceScalarDataPropertyValue]
   = OMLTablesResolver.collectFirstOption(allContexts)(_.singletonScalarDataPropertyValues.get(key))
     .getOrElse(Set.empty[resolver.api.SingletonInstanceScalarDataPropertyValue])
 
-  def lookupSingletonInstanceScalarDataPropertyValue(uuid: Option[java.util.UUID])
+  def lookupSingletonInstanceScalarDataPropertyValue(uuid: Option[api.taggedTypes.SingletonInstanceScalarDataPropertyValueUUID])
   : Option[resolver.api.SingletonInstanceScalarDataPropertyValue]
-  = uuid.fold[Option[resolver.api.SingletonInstanceScalarDataPropertyValue]](None) { lookupSingletonInstanceScalarDataPropertyValue }
+  = uuid.fold[Option[resolver.api.SingletonInstanceScalarDataPropertyValue]](None) {
+    lookupSingletonInstanceScalarDataPropertyValue
+  }
 
-  def lookupSingletonInstanceScalarDataPropertyValue(uuid: java.util.UUID)
+  def lookupSingletonInstanceScalarDataPropertyValue(uuid: api.taggedTypes.SingletonInstanceScalarDataPropertyValueUUID)
   : Option[resolver.api.SingletonInstanceScalarDataPropertyValue]
-  = OMLTablesResolver.collectFirstOption(allContexts)(_.singletonInstanceScalarDataPropertyValueByUUID.get(uuid))
+  = OMLTablesResolver.collectFirstOption(allContexts)(
+    _
+      .singletonInstanceScalarDataPropertyValueByUUID
+      .get(uuid)
+  )
 
   def lookupSingletonStructuredDataPropertyValues(key: Option[resolver.api.DescriptionBox])
   : Set[resolver.api.SingletonInstanceStructuredDataPropertyValue]
-  = key.fold[Set[resolver.api.SingletonInstanceStructuredDataPropertyValue]](Set.empty[resolver.api.SingletonInstanceStructuredDataPropertyValue]) { lookupSingletonStructuredDataPropertyValues }
+  = key.fold[Set[resolver.api.SingletonInstanceStructuredDataPropertyValue]](Set.empty[resolver.api.SingletonInstanceStructuredDataPropertyValue]) {
+    lookupSingletonStructuredDataPropertyValues
+  }
 
   def lookupSingletonStructuredDataPropertyValues(key: resolver.api.DescriptionBox)
   : Set[resolver.api.SingletonInstanceStructuredDataPropertyValue]
   = OMLTablesResolver.collectFirstOption(allContexts)(_.singletonStructuredDataPropertyValues.get(key))
     .getOrElse(Set.empty[resolver.api.SingletonInstanceStructuredDataPropertyValue])
 
-  def lookupSingletonInstanceStructuredDataPropertyValue(uuid: Option[java.util.UUID])
+  def lookupSingletonInstanceStructuredDataPropertyValue(uuid: Option[api.taggedTypes.SingletonInstanceStructuredDataPropertyValueUUID])
   : Option[resolver.api.SingletonInstanceStructuredDataPropertyValue]
-  = uuid.fold[Option[resolver.api.SingletonInstanceStructuredDataPropertyValue]](None) { lookupSingletonInstanceStructuredDataPropertyValue }
+  = uuid.fold[Option[resolver.api.SingletonInstanceStructuredDataPropertyValue]](None) {
+    lookupSingletonInstanceStructuredDataPropertyValue
+  }
 
-  def lookupSingletonInstanceStructuredDataPropertyValue(uuid: java.util.UUID)
+  def lookupSingletonInstanceStructuredDataPropertyValue(uuid: api.taggedTypes.SingletonInstanceStructuredDataPropertyValueUUID)
   : Option[resolver.api.SingletonInstanceStructuredDataPropertyValue]
-  = OMLTablesResolver.collectFirstOption(allContexts)(_.singletonInstanceStructuredDataPropertyValueByUUID.get(uuid))
+  = OMLTablesResolver.collectFirstOption(allContexts)(
+    _
+      .singletonInstanceStructuredDataPropertyValueByUUID
+      .get(uuid)
+  )
 
   def lookupStructuredPropertyTuples(key: Option[resolver.api.SingletonInstanceStructuredDataPropertyContext])
   : Set[resolver.api.StructuredDataPropertyTuple]
-  = key.fold[Set[resolver.api.StructuredDataPropertyTuple]](Set.empty[resolver.api.StructuredDataPropertyTuple]) { lookupStructuredPropertyTuples }
+  = key.fold[Set[resolver.api.StructuredDataPropertyTuple]](Set.empty[resolver.api.StructuredDataPropertyTuple]) {
+    lookupStructuredPropertyTuples
+  }
 
   def lookupStructuredPropertyTuples(key: resolver.api.SingletonInstanceStructuredDataPropertyContext)
   : Set[resolver.api.StructuredDataPropertyTuple]
   = OMLTablesResolver.collectFirstOption(allContexts)(_.structuredPropertyTuples.get(key))
     .getOrElse(Set.empty[resolver.api.StructuredDataPropertyTuple])
 
-  def lookupStructuredDataPropertyTuple(uuid: Option[java.util.UUID])
+  def lookupStructuredDataPropertyTuple(uuid: Option[api.taggedTypes.StructuredDataPropertyTupleUUID])
   : Option[resolver.api.StructuredDataPropertyTuple]
-  = uuid.fold[Option[resolver.api.StructuredDataPropertyTuple]](None) { lookupStructuredDataPropertyTuple }
+  = uuid.fold[Option[resolver.api.StructuredDataPropertyTuple]](None) {
+    lookupStructuredDataPropertyTuple
+  }
 
-  def lookupStructuredDataPropertyTuple(uuid: java.util.UUID)
+  def lookupStructuredDataPropertyTuple(uuid: api.taggedTypes.StructuredDataPropertyTupleUUID)
   : Option[resolver.api.StructuredDataPropertyTuple]
-  = OMLTablesResolver.collectFirstOption(allContexts)(_.structuredDataPropertyTupleByUUID.get(uuid))
+  = OMLTablesResolver.collectFirstOption(allContexts)(
+    _
+      .structuredDataPropertyTupleByUUID
+      .get(uuid)
+  )
 
-  def lookupSingletonInstanceStructuredDataPropertyContext(uuid: java.util.UUID)
+  def lookupSingletonInstanceStructuredDataPropertyContext
+  (uuid: api.taggedTypes.SingletonInstanceStructuredDataPropertyContextUUID)
   : Option[resolver.api.SingletonInstanceStructuredDataPropertyContext]
-  = lookupSingletonInstanceStructuredDataPropertyValue(uuid) orElse lookupStructuredDataPropertyTuple(uuid)
+  = lookupSingletonInstanceStructuredDataPropertyValue(
+    uuid.asInstanceOf[api.taggedTypes.SingletonInstanceStructuredDataPropertyValueUUID]) orElse
+    lookupStructuredDataPropertyTuple(
+      uuid.asInstanceOf[api.taggedTypes.StructuredDataPropertyTupleUUID])
 
   def lookupScalarDataPropertyValues(key: Option[resolver.api.SingletonInstanceStructuredDataPropertyContext])
   : Set[resolver.api.ScalarDataPropertyValue]
-  = key.fold[Set[resolver.api.ScalarDataPropertyValue]](Set.empty[resolver.api.ScalarDataPropertyValue]) { lookupScalarDataPropertyValues }
+  = key.fold[Set[resolver.api.ScalarDataPropertyValue]](Set.empty[resolver.api.ScalarDataPropertyValue]) {
+    lookupScalarDataPropertyValues
+  }
 
   def lookupScalarDataPropertyValues(key: resolver.api.SingletonInstanceStructuredDataPropertyContext)
   : Set[resolver.api.ScalarDataPropertyValue]
   = OMLTablesResolver.collectFirstOption(allContexts)(_.scalarDataPropertyValues.get(key))
     .getOrElse(Set.empty[resolver.api.ScalarDataPropertyValue])
 
-  def lookupScalarDataPropertyValue(uuid: Option[java.util.UUID])
+  def lookupScalarDataPropertyValue(uuid: Option[api.taggedTypes.ScalarDataPropertyValueUUID])
   : Option[resolver.api.ScalarDataPropertyValue]
-  = uuid.fold[Option[resolver.api.ScalarDataPropertyValue]](None) { lookupScalarDataPropertyValue }
+  = uuid.fold[Option[resolver.api.ScalarDataPropertyValue]](None) {
+    lookupScalarDataPropertyValue
+  }
 
-  def lookupScalarDataPropertyValue(uuid: java.util.UUID)
+  def lookupScalarDataPropertyValue(uuid: api.taggedTypes.ScalarDataPropertyValueUUID)
   : Option[resolver.api.ScalarDataPropertyValue]
-  = OMLTablesResolver.collectFirstOption(allContexts)(_.scalarDataPropertyValueByUUID.get(uuid))
+  = OMLTablesResolver.collectFirstOption(allContexts)(
+    _
+      .scalarDataPropertyValueByUUID
+      .get(uuid)
+  )
 
-  def lookupElement(uuid: java.util.UUID)
+  def lookupElement(uuid: api.taggedTypes.ElementUUID)
   : Option[resolver.api.Element]
-  = lookupModule(uuid) orElse
-    lookupTerminologyBoxAxiom(uuid) orElse
-    lookupTerminologyBoxStatement(uuid) orElse
-    lookupTerminologyBundleAxiom(uuid) orElse
-    lookupTerminologyBundleStatement(uuid) orElse
-    lookupDisjointUnionOfConceptsAxiom(uuid) orElse
-    lookupDescriptionBoxRefinement(uuid) orElse
-    lookupDescriptionBoxExtendsClosedWorldDefinitions(uuid) orElse
-    lookupConceptInstance(uuid) orElse
-    lookupReifiedRelationshipInstance(uuid) orElse
-    lookupReifiedRelationshipInstanceDomain(uuid) orElse
-    lookupReifiedRelationshipInstanceRange(uuid) orElse
-    lookupUnreifiedRelationshipInstanceTuple(uuid) orElse
-    lookupSingletonInstanceScalarDataPropertyValue(uuid) orElse
-    lookupSingletonInstanceStructuredDataPropertyValue(uuid) orElse
-    lookupStructuredDataPropertyTuple(uuid) orElse
-    lookupScalarDataPropertyValue(uuid)
+  = lookupModule(uuid.asInstanceOf[api.taggedTypes.ModuleUUID]) orElse
+    lookupTerminologyBoxAxiom(uuid.asInstanceOf[api.taggedTypes.TerminologyBoxAxiomUUID]) orElse
+    lookupTerminologyBoxStatement(uuid.asInstanceOf[api.taggedTypes.TerminologyBoxStatementUUID]) orElse
+    lookupTerminologyBundleAxiom(uuid.asInstanceOf[api.taggedTypes.TerminologyBundleAxiomUUID]) orElse
+    lookupTerminologyBundleStatement(uuid.asInstanceOf[api.taggedTypes.TerminologyBundleStatementUUID]) orElse
+    lookupDisjointUnionOfConceptsAxiom(uuid.asInstanceOf[api.taggedTypes.DisjointUnionOfConceptsAxiomUUID]) orElse
+    lookupDescriptionBoxRefinement(uuid.asInstanceOf[api.taggedTypes.DescriptionBoxRefinementUUID]) orElse
+    lookupDescriptionBoxExtendsClosedWorldDefinitions(uuid.asInstanceOf[api.taggedTypes.DescriptionBoxExtendsClosedWorldDefinitionsUUID]) orElse
+    lookupConceptInstance(uuid.asInstanceOf[api.taggedTypes.ConceptInstanceUUID]) orElse
+    lookupReifiedRelationshipInstance(uuid.asInstanceOf[api.taggedTypes.ReifiedRelationshipInstanceUUID]) orElse
+    lookupReifiedRelationshipInstanceDomain(uuid.asInstanceOf[api.taggedTypes.ReifiedRelationshipInstanceDomainUUID]) orElse
+    lookupReifiedRelationshipInstanceRange(uuid.asInstanceOf[api.taggedTypes.ReifiedRelationshipInstanceRangeUUID]) orElse
+    lookupUnreifiedRelationshipInstanceTuple(uuid.asInstanceOf[api.taggedTypes.UnreifiedRelationshipInstanceTupleUUID]) orElse
+    lookupSingletonInstanceScalarDataPropertyValue(uuid.asInstanceOf[api.taggedTypes.SingletonInstanceScalarDataPropertyValueUUID]) orElse
+    lookupSingletonInstanceStructuredDataPropertyValue(uuid.asInstanceOf[api.taggedTypes.SingletonInstanceStructuredDataPropertyValueUUID]) orElse
+    lookupStructuredDataPropertyTuple(uuid.asInstanceOf[api.taggedTypes.StructuredDataPropertyTupleUUID]) orElse
+    lookupScalarDataPropertyValue(uuid.asInstanceOf[api.taggedTypes.ScalarDataPropertyValueUUID])
 
-  def lookupDataRange(uuid: java.util.UUID)
+  def lookupDataRange(uuid: api.taggedTypes.DataRangeUUID)
   : Option[resolver.api.DataRange]
   = lookupTerminologyBoxStatement(uuid) match {
     case Some(dr: resolver.api.DataRange) =>
@@ -439,7 +601,11 @@ object OMLTablesResolver {
     Success(r.copy(queue = r.queue.copy(annotationProperties = Seq.empty)))
   } {
     case (Success(ri), tap) =>
-      val (ej, rap) = ri.factory.createAnnotationProperty(ri.context, UUID.fromString(tap.uuid), tap.iri, tap.abbrevIRI)
+      val (ej, rap) = ri.factory.createAnnotationProperty(
+        ri.context,
+        api.taggedTypes.fromUUIDString(tap.uuid),
+        tap.iri,
+        tap.abbrevIRI)
       if (!ej.lookupAnnotationProperty(rap.uuid).contains(rap))
         Failure(new IllegalArgumentException(s"AnnotationProperty not in extent: $rap"))
       else if (rap.uuid.toString != tap.uuid.toString)
@@ -511,7 +677,7 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.aspects
         .groupBy(_.tboxUUID)
-        .map { case (tboxUUID, aspects) => UUID.fromString(tboxUUID) -> aspects }
+        .map { case (tboxUUID, aspects) => api.taggedTypes.fromUUIDString(tboxUUID) -> aspects }
 
     val byTBox = for {
       pair <- byUUID
@@ -532,7 +698,10 @@ object OMLTablesResolver {
           : Try[OMLTablesResolver]
           = aspects.foldLeft[Try[OMLTablesResolver]](Success(ri)) {
             case (Success(rk), taspect) =>
-              val (ek, raspect) = rk.factory.createAspect(rk.context, tboxM, taspect.name)
+              val (ek, raspect) = rk.factory.createAspect(
+                rk.context,
+                tboxM,
+                taspect.name)
               if (!ek.lookupBoxStatements(tboxM).contains(raspect))
                 Failure(new IllegalArgumentException(s"Aspect not in extent: $raspect"))
               else if (!OMLOps.uuidEquivalent(raspect.uuid, taspect.uuid))
@@ -556,7 +725,7 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.concepts
         .groupBy(_.tboxUUID)
-        .map { case (tboxUUID, concepts) => UUID.fromString(tboxUUID) -> concepts }
+        .map { case (tboxUUID, concepts) => api.taggedTypes.fromUUIDString(tboxUUID) -> concepts }
 
     val byTBox = for {
       pair <- byUUID
@@ -601,7 +770,7 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.scalars
         .groupBy(_.tboxUUID)
-        .map { case (tboxUUID, scalars) => UUID.fromString(tboxUUID) -> scalars }
+        .map { case (tboxUUID, scalars) => api.taggedTypes.fromUUIDString(tboxUUID) -> scalars }
 
     val byTBox = for {
       pair <- byUUID
@@ -646,7 +815,7 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.structures
         .groupBy(_.tboxUUID)
-        .map { case (tboxUUID, structures) => UUID.fromString(tboxUUID) -> structures }
+        .map { case (tboxUUID, structures) => api.taggedTypes.fromUUIDString(tboxUUID) -> structures }
 
     val byTBox = for {
       pair <- byUUID
@@ -690,7 +859,7 @@ object OMLTablesResolver {
   = {
     val byUUID =
       r.queue.terminologyExtensionAxioms
-        .map { tAxiom => UUID.fromString(tAxiom.tboxUUID) -> tAxiom }
+        .map { tAxiom => api.taggedTypes.fromUUIDString(tAxiom.tboxUUID) -> tAxiom }
 
     val byTBox = for {
       pair <- byUUID
@@ -727,8 +896,8 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.terminologyNestingAxioms
         .map { tAxiom =>
-          ( UUID.fromString(tAxiom.tboxUUID),
-            UUID.fromString(tAxiom.nestingContextUUID) ) -> tAxiom
+          ( api.taggedTypes.fromUUIDString(tAxiom.tboxUUID),
+            api.taggedTypes.fromUUIDString(tAxiom.nestingContextUUID) ) -> tAxiom
         }
 
     val byTBox = for {
@@ -770,8 +939,8 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.conceptDesignationTerminologyAxioms
         .map { tAxiom =>
-          ( UUID.fromString(tAxiom.tboxUUID),
-            UUID.fromString(tAxiom.designatedConceptUUID) ) -> tAxiom
+          ( api.taggedTypes.fromUUIDString(tAxiom.tboxUUID),
+            api.taggedTypes.fromUUIDString(tAxiom.designatedConceptUUID) ) -> tAxiom
         }
 
     val byTBox = for {
@@ -812,7 +981,7 @@ object OMLTablesResolver {
   = {
     val byUUID =
       r.queue.bundledTerminologyAxioms
-        .map { tAxiom => UUID.fromString(tAxiom.bundleUUID) -> tAxiom }
+        .map { tAxiom => api.taggedTypes.fromUUIDString(tAxiom.bundleUUID) -> tAxiom }
 
     val byTBox = for {
       pair <- byUUID
@@ -848,7 +1017,7 @@ object OMLTablesResolver {
   = {
     val info =
       r.queue.descriptionBoxExtendsClosedWorldDefinitions.map { tAxiom =>
-        val dboxUUID = UUID.fromString(tAxiom.descriptionBoxUUID)
+        val dboxUUID = api.taggedTypes.fromUUIDString(tAxiom.descriptionBoxUUID)
         val dboxM = r.lookupDescriptionBox(dboxUUID)
         dboxM -> tAxiom
       }
@@ -883,7 +1052,7 @@ object OMLTablesResolver {
   = {
     val info =
       r.queue.descriptionBoxRefinements.map { tAxiom =>
-        val dboxUUID = UUID.fromString(tAxiom.refiningDescriptionBoxUUID)
+        val dboxUUID = api.taggedTypes.fromUUIDString(tAxiom.refiningDescriptionBoxUUID)
         val dboxM = r.lookupDescriptionBox(dboxUUID)
         dboxM -> tAxiom
       }
@@ -920,61 +1089,61 @@ object OMLTablesResolver {
     val (r1, u1) =
       r.queue.binaryScalarRestrictions
         .groupBy(_.tboxUUID)
-        .map { case (uuid, ranges) => UUID.fromString(uuid) -> ranges }
+        .map { case (uuid, ranges) => api.taggedTypes.fromUUIDString(uuid.asInstanceOf[tables.taggedTypes.TerminologyGraphUUID]) -> ranges }
         .partition { case (tboxUUID, _) => ns.contains(tboxUUID) }
     val (r2, u2) =
       r.queue.iriScalarRestrictions
         .groupBy(_.tboxUUID)
-        .map { case (uuid, ranges) => UUID.fromString(uuid) -> ranges }
+        .map { case (uuid, ranges) => api.taggedTypes.fromUUIDString(uuid.asInstanceOf[tables.taggedTypes.TerminologyGraphUUID]) -> ranges }
         .partition { case (tboxUUID, _) => ns.contains(tboxUUID) }
     val (r3, u3) =
       r.queue.numericScalarRestrictions
         .groupBy(_.tboxUUID)
-        .map { case (uuid, ranges) => UUID.fromString(uuid) -> ranges }
+        .map { case (uuid, ranges) => api.taggedTypes.fromUUIDString(uuid.asInstanceOf[tables.taggedTypes.TerminologyGraphUUID]) -> ranges }
         .partition { case (tboxUUID, _) => ns.contains(tboxUUID) }
     val (r4, u4) =
       r.queue.plainLiteralScalarRestrictions
         .groupBy(_.tboxUUID)
-        .map { case (uuid, ranges) => UUID.fromString(uuid) -> ranges }
+        .map { case (uuid, ranges) => api.taggedTypes.fromUUIDString(uuid.asInstanceOf[tables.taggedTypes.TerminologyGraphUUID]) -> ranges }
         .partition { case (tboxUUID, _) => ns.contains(tboxUUID) }
     val (r5, u5) =
       r.queue.scalarOneOfRestrictions
         .groupBy(_.tboxUUID)
-        .map { case (uuid, ranges) => UUID.fromString(uuid) -> ranges }
+        .map { case (uuid, ranges) => api.taggedTypes.fromUUIDString(uuid.asInstanceOf[tables.taggedTypes.TerminologyGraphUUID]) -> ranges }
         .partition { case (tboxUUID, _) => ns.contains(tboxUUID) }
     val (r6, u6) =
       r.queue.stringScalarRestrictions
         .groupBy(_.tboxUUID)
-        .map { case (uuid, ranges) => UUID.fromString(uuid) -> ranges }
+        .map { case (uuid, ranges) => api.taggedTypes.fromUUIDString(uuid.asInstanceOf[tables.taggedTypes.TerminologyGraphUUID]) -> ranges }
         .partition { case (tboxUUID, _) => ns.contains(tboxUUID) }
     val (r7, u7) =
       r.queue.synonymScalarRestrictions
         .groupBy(_.tboxUUID)
-        .map { case (uuid, ranges) => UUID.fromString(uuid) -> ranges }
+        .map { case (uuid, ranges) => api.taggedTypes.fromUUIDString(uuid.asInstanceOf[tables.taggedTypes.TerminologyGraphUUID]) -> ranges }
         .partition { case (tboxUUID, _) => ns.contains(tboxUUID) }
     val (r8, u8) =
       r.queue.timeScalarRestrictions
         .groupBy(_.tboxUUID)
-        .map { case (uuid, ranges) => UUID.fromString(uuid) -> ranges }
+        .map { case (uuid, ranges) => api.taggedTypes.fromUUIDString(uuid.asInstanceOf[tables.taggedTypes.TerminologyGraphUUID]) -> ranges }
         .partition { case (tboxUUID, _) => ns.contains(tboxUUID) }
 
     val worklist = DataRangesToResolve(
       binaryScalarRestrictions =
-        r1.map { case (guuid, drs) => guuid -> drs.map(dr => UUID.fromString(dr.restrictedRangeUUID) -> dr) },
+        r1.map { case (guuid, drs) => guuid -> drs.map(dr => tables.taggedTypes.dataRangeUUID(dr.restrictedRangeUUID.toString) -> dr) },
       iriScalarRestrictions =
-        r2.map { case (guuid, drs) => guuid -> drs.map(dr => UUID.fromString(dr.restrictedRangeUUID) -> dr) },
+        r2.map { case (guuid, drs) => guuid -> drs.map(dr => tables.taggedTypes.dataRangeUUID(dr.restrictedRangeUUID.toString) -> dr) },
       numericScalarRestrictions =
-        r3.map { case (guuid, drs) => guuid -> drs.map(dr => UUID.fromString(dr.restrictedRangeUUID) -> dr) },
+        r3.map { case (guuid, drs) => guuid -> drs.map(dr => tables.taggedTypes.dataRangeUUID(dr.restrictedRangeUUID.toString) -> dr) },
       plainLiteralScalarRestrictions =
-        r4.map { case (guuid, drs) => guuid -> drs.map(dr => UUID.fromString(dr.restrictedRangeUUID) -> dr) },
+        r4.map { case (guuid, drs) => guuid -> drs.map(dr => tables.taggedTypes.dataRangeUUID(dr.restrictedRangeUUID.toString) -> dr) },
       scalarOneOfRestrictions =
-        r5.map { case (guuid, drs) => guuid -> drs.map(dr => UUID.fromString(dr.restrictedRangeUUID) -> dr) },
+        r5.map { case (guuid, drs) => guuid -> drs.map(dr => tables.taggedTypes.dataRangeUUID(dr.restrictedRangeUUID.toString) -> dr) },
       stringScalarRestrictions =
-        r6.map { case (guuid, drs) => guuid -> drs.map(dr => UUID.fromString(dr.restrictedRangeUUID) -> dr) },
+        r6.map { case (guuid, drs) => guuid -> drs.map(dr => tables.taggedTypes.dataRangeUUID(dr.restrictedRangeUUID.toString) -> dr) },
       synonymScalarRestrictions =
-        r7.map { case (guuid, drs) => guuid -> drs.map(dr => UUID.fromString(dr.restrictedRangeUUID) -> dr) },
+        r7.map { case (guuid, drs) => guuid -> drs.map(dr => tables.taggedTypes.dataRangeUUID(dr.restrictedRangeUUID.toString) -> dr) },
       timeScalarRestrictions =
-        r8.map { case (guuid, drs) => guuid -> drs.map(dr => UUID.fromString(dr.restrictedRangeUUID) -> dr) }
+        r8.map { case (guuid, drs) => guuid -> drs.map(dr => tables.taggedTypes.dataRangeUUID(dr.restrictedRangeUUID.toString) -> dr) }
     )
 
     DataRangesToResolve
@@ -1110,9 +1279,9 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.reifiedRelationships
         .map { trr =>
-          ( UUID.fromString(trr.tboxUUID),
-            UUID.fromString(trr.sourceUUID),
-            UUID.fromString(trr.targetUUID) ) -> trr
+          ( api.taggedTypes.fromUUIDString(trr.tboxUUID),
+            api.taggedTypes.fromUUIDString(trr.sourceUUID),
+            api.taggedTypes.fromUUIDString(trr.targetUUID) ) -> trr
         }
 
     val byTBox = for {
@@ -1159,7 +1328,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rrr))
             Failure(new IllegalArgumentException(s"ReifiedRelationship not in extent: $rrr"))
-          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(trr.uuid)).contains(rrr))
+          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(trr.uuid)).contains(rrr))
             Failure(new IllegalArgumentException(s"ReifiedRelationship: $trr vs. $rrr"))
           else
             Success(ri.copy(context = ej))
@@ -1176,9 +1345,9 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.unreifiedRelationships
         .map { tur =>
-          ( UUID.fromString(tur.tboxUUID),
-            UUID.fromString(tur.sourceUUID),
-            UUID.fromString(tur.targetUUID) ) -> tur
+          ( api.taggedTypes.fromUUIDString(tur.tboxUUID),
+            api.taggedTypes.fromUUIDString(tur.sourceUUID),
+            api.taggedTypes.fromUUIDString(tur.targetUUID) ) -> tur
         }
 
     val byTBox = for {
@@ -1226,7 +1395,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rur))
             Failure(new IllegalArgumentException(s"UnreifiedRelationship not in extent: $rur"))
-          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(tur.uuid)).contains(rur))
+          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tur.uuid)).contains(rur))
             Failure(new IllegalArgumentException(s"UnreifiedRelationship: $tur vs. $rur"))
           else
             Success(ri.copy(context = ej))
@@ -1242,8 +1411,8 @@ object OMLTablesResolver {
   = {
     val byUUID =
       r.queue.chainRules.map { rule =>
-        ( UUID.fromString(rule.tboxUUID),
-          UUID.fromString(rule.headUUID) ) -> rule
+        ( api.taggedTypes.fromUUIDString(rule.tboxUUID),
+          api.taggedTypes.fromUUIDString(rule.headUUID) ) -> rule
       }
 
     val info = for {
@@ -1277,7 +1446,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rrule))
             Failure(new IllegalArgumentException(s"ChainRule not in extent: $rrule"))
-          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(trule.uuid)).contains(rrule))
+          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(trule.uuid)).contains(rrule))
             Failure(new IllegalArgumentException(s"ChainRule: $trule vs. $rrule"))
           else
             ri.queue.ruleBodySegments
@@ -1317,9 +1486,9 @@ object OMLTablesResolver {
       context = ej,
       queue = ri.queue.copy(ruleBodySegments =
         ri.queue.ruleBodySegments.filter(_ != tseg)))
-    rj.queue.aspectPredicates.find(x => covariantTag.compareTaggedValues(x.bodySegmentUUID,puuid)) match {
+    rj.queue.aspectPredicates.find(_.bodySegmentUUID == puuid) match {
       case Some(tap: tables.AspectPredicate) =>
-        rj.lookupTerminologyBoxStatement(UUID.fromString(tap.aspectUUID)) match {
+        rj.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tap.aspectUUID)) match {
           case Some(ra: api.Aspect) =>
             val (ek, _) = rj.factory.createAspectPredicate(rj.context, ra, rseg)
             val rk = rj.copy(
@@ -1336,9 +1505,9 @@ object OMLTablesResolver {
             Failure(new IllegalArgumentException(s"AspectPredicate: $tap failed to resolve aspect: ${tap.aspectUUID}"))
         }
       case None =>
-        rj.queue.conceptPredicates.find(x => covariantTag.compareTaggedValues(x.bodySegmentUUID, puuid)) match {
+        rj.queue.conceptPredicates.find(_.bodySegmentUUID == puuid) match {
           case Some(tcp: tables.ConceptPredicate) =>
-            rj.lookupTerminologyBoxStatement(UUID.fromString(tcp.conceptUUID)) match {
+            rj.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tcp.conceptUUID)) match {
               case Some(rc: api.Concept) =>
                 val (ek, _) = rj.factory.createConceptPredicate(rj.context, rseg, rc)
                 val rk = rj.copy(
@@ -1355,9 +1524,9 @@ object OMLTablesResolver {
                 Failure(new IllegalArgumentException(s"ConceptPredicate: $tcp failed to resolve concept: ${tcp.conceptUUID}"))
             }
           case None =>
-            rj.queue.reifiedRelationshipPredicates.find(x => covariantTag.compareTaggedValues(x.bodySegmentUUID, puuid)) match {
+            rj.queue.reifiedRelationshipPredicates.find(_.bodySegmentUUID == puuid) match {
               case Some(trrp: tables.ReifiedRelationshipPredicate) =>
-                rj.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
+                rj.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(trrp.reifiedRelationshipUUID)) match {
                   case Some(rrr: api.ReifiedRelationship) =>
                     val (ek, _) = rj.factory.createReifiedRelationshipPredicate(rj.context, rseg, rrr)
                     val rk = rj.copy(
@@ -1374,9 +1543,9 @@ object OMLTablesResolver {
                     Failure(new IllegalArgumentException(s"ReifiedRelationshipPredicate: $trrp failed to resolve reified relationship: ${trrp.reifiedRelationshipUUID}"))
                 }
               case None =>
-                rj.queue.reifiedRelationshipPropertyPredicates.find(x => covariantTag.compareTaggedValues(x.bodySegmentUUID, puuid)) match {
+                rj.queue.reifiedRelationshipPropertyPredicates.find(_.bodySegmentUUID == puuid) match {
                   case Some(trrp: tables.ReifiedRelationshipPropertyPredicate) =>
-                    rj.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
+                    rj.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(trrp.reifiedRelationshipUUID)) match {
                       case Some(rrr: api.ReifiedRelationship) =>
                         val (ek, _) = rj.factory.createReifiedRelationshipPropertyPredicate(rj.context, rseg, rrr)
                         val rk = rj.copy(
@@ -1393,9 +1562,9 @@ object OMLTablesResolver {
                         Failure(new IllegalArgumentException(s"ReifiedRelationshipPropertyPredicate: $trrp failed to resolve reified relationship: ${trrp.reifiedRelationshipUUID}"))
                     }
                   case None =>
-                    rj.queue.reifiedRelationshipSourcePropertyPredicates.find(x => covariantTag.compareTaggedValues(x.bodySegmentUUID, puuid)) match {
+                    rj.queue.reifiedRelationshipSourcePropertyPredicates.find(_.bodySegmentUUID == puuid) match {
                       case Some(trrp: tables.ReifiedRelationshipSourcePropertyPredicate) =>
-                        rj.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
+                        rj.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(trrp.reifiedRelationshipUUID)) match {
                           case Some(rrr: api.ReifiedRelationship) =>
                             val (ek, _) = rj.factory.createReifiedRelationshipSourcePropertyPredicate(rj.context, rseg, rrr)
                             val rk = rj.copy(
@@ -1412,9 +1581,9 @@ object OMLTablesResolver {
                             Failure(new IllegalArgumentException(s"ReifiedRelationshipSourcePropertyPredicate: $trrp failed to resolve reified relationship: ${trrp.reifiedRelationshipUUID}"))
                         }
                       case None =>
-                        rj.queue.reifiedRelationshipTargetPropertyPredicates.find(x => covariantTag.compareTaggedValues(x.bodySegmentUUID, puuid)) match {
+                        rj.queue.reifiedRelationshipTargetPropertyPredicates.find(_.bodySegmentUUID == puuid) match {
                           case Some(trrp: tables.ReifiedRelationshipTargetPropertyPredicate) =>
-                            rj.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
+                            rj.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(trrp.reifiedRelationshipUUID)) match {
                               case Some(rrr: api.ReifiedRelationship) =>
                                 val (ek, _) = rj.factory.createReifiedRelationshipTargetPropertyPredicate(rj.context, rseg, rrr)
                                 val rk = rj.copy(
@@ -1431,9 +1600,9 @@ object OMLTablesResolver {
                                 Failure(new IllegalArgumentException(s"ReifiedRelationshipTargetPropertyPredicate: $trrp failed to resolve reified relationship: ${trrp.reifiedRelationshipUUID}"))
                             }
                           case None =>
-                            rj.queue.unreifiedRelationshipPropertyPredicates.find(x => covariantTag.compareTaggedValues(x.bodySegmentUUID, puuid)) match {
+                            rj.queue.unreifiedRelationshipPropertyPredicates.find(_.bodySegmentUUID == puuid) match {
                               case Some(turp: tables.UnreifiedRelationshipPropertyPredicate) =>
-                                rj.lookupTerminologyBoxStatement(UUID.fromString(turp.unreifiedRelationshipUUID)) match {
+                                rj.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(turp.unreifiedRelationshipUUID)) match {
                                   case Some(rur: api.UnreifiedRelationship) =>
                                     val (ek, _) = rj.factory.createUnreifiedRelationshipPropertyPredicate(rj.context, rur, rseg)
                                     val rk = rj.copy(
@@ -1450,9 +1619,9 @@ object OMLTablesResolver {
                                     Failure(new IllegalArgumentException(s"UnreifiedRelationshipPropertyPredicate: $turp failed to resolve unreified relationship: ${turp.unreifiedRelationshipUUID}"))
                                 }
                               case None =>
-                                rj.queue.reifiedRelationshipInversePropertyPredicates.find(x => covariantTag.compareTaggedValues(x.bodySegmentUUID, puuid)) match {
+                                rj.queue.reifiedRelationshipInversePropertyPredicates.find(_.bodySegmentUUID == puuid) match {
                                   case Some(trrp: tables.ReifiedRelationshipInversePropertyPredicate) =>
-                                    rj.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
+                                    rj.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(trrp.reifiedRelationshipUUID)) match {
                                       case Some(rrr: api.ReifiedRelationship) =>
                                         val (ek, _) = rj.factory.createReifiedRelationshipInversePropertyPredicate(rj.context, rseg, rrr)
                                         val rk = rj.copy(
@@ -1469,9 +1638,9 @@ object OMLTablesResolver {
                                         Failure(new IllegalArgumentException(s"ReifiedRelationshipInversePropertyPredicate: $trrp failed to resolve reified relationship: ${trrp.reifiedRelationshipUUID}"))
                                     }
                                   case None =>
-                                    rj.queue.reifiedRelationshipSourceInversePropertyPredicates.find(x => covariantTag.compareTaggedValues(x.bodySegmentUUID, puuid)) match {
+                                    rj.queue.reifiedRelationshipSourceInversePropertyPredicates.find(_.bodySegmentUUID == puuid) match {
                                       case Some(trrp: tables.ReifiedRelationshipSourceInversePropertyPredicate) =>
-                                        rj.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
+                                        rj.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(trrp.reifiedRelationshipUUID)) match {
                                           case Some(rrr: api.ReifiedRelationship) =>
                                             val (ek, _) = rj.factory.createReifiedRelationshipSourceInversePropertyPredicate(rj.context, rseg, rrr)
                                             val rk = rj.copy(
@@ -1488,9 +1657,9 @@ object OMLTablesResolver {
                                             Failure(new IllegalArgumentException(s"ReifiedRelationshipSourceInversePropertyPredicate: $trrp failed to resolve reified relationship: ${trrp.reifiedRelationshipUUID}"))
                                         }
                                       case None =>
-                                        rj.queue.reifiedRelationshipTargetInversePropertyPredicates.find(x => covariantTag.compareTaggedValues(x.bodySegmentUUID, puuid)) match {
+                                        rj.queue.reifiedRelationshipTargetInversePropertyPredicates.find(_.bodySegmentUUID == puuid) match {
                                           case Some(trrp: tables.ReifiedRelationshipTargetInversePropertyPredicate) =>
-                                            rj.lookupTerminologyBoxStatement(UUID.fromString(trrp.reifiedRelationshipUUID)) match {
+                                            rj.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(trrp.reifiedRelationshipUUID)) match {
                                               case Some(rrr: api.ReifiedRelationship) =>
                                                 val (ek, _) = rj.factory.createReifiedRelationshipTargetInversePropertyPredicate(rj.context, rseg, rrr)
                                                 val rk = rj.copy(
@@ -1507,9 +1676,9 @@ object OMLTablesResolver {
                                                 Failure(new IllegalArgumentException(s"ReifiedRelationshipTargetInversePropertyPredicate: $trrp failed to resolve reified relationship: ${trrp.reifiedRelationshipUUID}"))
                                             }
                                           case None =>
-                                            rj.queue.unreifiedRelationshipInversePropertyPredicates.find(x => covariantTag.compareTaggedValues(x.bodySegmentUUID, puuid)) match {
+                                            rj.queue.unreifiedRelationshipInversePropertyPredicates.find(_.bodySegmentUUID == puuid) match {
                                               case Some(turp: tables.UnreifiedRelationshipInversePropertyPredicate) =>
-                                                rj.lookupTerminologyBoxStatement(UUID.fromString(turp.unreifiedRelationshipUUID)) match {
+                                                rj.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(turp.unreifiedRelationshipUUID)) match {
                                                   case Some(rur: api.UnreifiedRelationship) =>
                                                     val (ek, _) = rj.factory.createUnreifiedRelationshipInversePropertyPredicate(rj.context, rur, rseg)
                                                     val rk = rj.copy(
@@ -1547,9 +1716,9 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.entityScalarDataProperties
         .map { tsdp =>
-          ( UUID.fromString(tsdp.tboxUUID),
-            UUID.fromString(tsdp.domainUUID),
-            UUID.fromString(tsdp.rangeUUID) ) -> tsdp
+          ( api.taggedTypes.fromUUIDString(tsdp.tboxUUID),
+            api.taggedTypes.fromUUIDString(tsdp.domainUUID),
+            api.taggedTypes.fromUUIDString(tsdp.rangeUUID) ) -> tsdp
         }
 
     val byTBox = for {
@@ -1586,7 +1755,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rsdp))
             Failure(new IllegalArgumentException(s"EntityScalarDataProperty not in extent: $rsdp"))
-          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(tsdp.uuid)).contains(rsdp))
+          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tsdp.uuid)).contains(rsdp))
             Failure(new IllegalArgumentException(s"EntityScalarDataProperty: $tsdp vs. $rsdp"))
           else
             Success(ri.copy(context = ej))
@@ -1603,9 +1772,9 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.entityStructuredDataProperties
         .map { tsdp =>
-          ( UUID.fromString(tsdp.tboxUUID),
-            UUID.fromString(tsdp.domainUUID),
-            UUID.fromString(tsdp.rangeUUID) ) -> tsdp
+          ( api.taggedTypes.fromUUIDString(tsdp.tboxUUID),
+            api.taggedTypes.fromUUIDString(tsdp.domainUUID),
+            api.taggedTypes.fromUUIDString(tsdp.rangeUUID) ) -> tsdp
         }
 
     val byTBox = for {
@@ -1642,7 +1811,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rsdp))
             Failure(new IllegalArgumentException(s"EntityStructuredDataProperty not in extent: $rsdp"))
-          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(tsdp.uuid)).contains(rsdp))
+          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tsdp.uuid)).contains(rsdp))
             Failure(new IllegalArgumentException(s"EntityStructuredDataProperty: $tsdp vs. $rsdp"))
           else
             Success(ri.copy(context = ej))
@@ -1659,9 +1828,9 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.scalarDataProperties
         .map { tsdp =>
-          ( UUID.fromString(tsdp.tboxUUID),
-            UUID.fromString(tsdp.domainUUID),
-            UUID.fromString(tsdp.rangeUUID) ) -> tsdp
+          ( api.taggedTypes.fromUUIDString(tsdp.tboxUUID),
+            api.taggedTypes.fromUUIDString(tsdp.domainUUID),
+            api.taggedTypes.fromUUIDString(tsdp.rangeUUID) ) -> tsdp
         }
 
     val byTBox = for {
@@ -1697,7 +1866,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rsdp))
             Failure(new IllegalArgumentException(s"ScalarDataProperty not in extent: $rsdp"))
-          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(tsdp.uuid)).contains(rsdp))
+          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tsdp.uuid)).contains(rsdp))
             Failure(new IllegalArgumentException(s"ScalarDataProperty: $tsdp vs. $rsdp"))
           else
             Success(ri.copy(context = ej))
@@ -1714,9 +1883,9 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.structuredDataProperties
         .map { tsdp =>
-          ( UUID.fromString(tsdp.tboxUUID),
-            UUID.fromString(tsdp.domainUUID),
-            UUID.fromString(tsdp.rangeUUID) ) -> tsdp
+          ( api.taggedTypes.fromUUIDString(tsdp.tboxUUID),
+            api.taggedTypes.fromUUIDString(tsdp.domainUUID),
+            api.taggedTypes.fromUUIDString(tsdp.rangeUUID) ) -> tsdp
         }
 
     val byTBox = for {
@@ -1752,7 +1921,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rsdp))
             Failure(new IllegalArgumentException(s"StructuredDataProperty not in extent: $rsdp"))
-          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(tsdp.uuid)).contains(rsdp))
+          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tsdp.uuid)).contains(rsdp))
             Failure(new IllegalArgumentException(s"StructuredDataProperty: $tsdp vs. $rsdp"))
           else
             Success(ri.copy(context = ej))
@@ -1769,9 +1938,9 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.scalarOneOfLiteralAxioms
         .map { tsool =>
-          ( UUID.fromString(tsool.tboxUUID),
-            UUID.fromString(tsool.axiomUUID),
-            tsool.valueTypeUUID.map(UUID.fromString) ) -> tsool
+          ( api.taggedTypes.fromUUIDString(tsool.tboxUUID),
+            api.taggedTypes.fromUUIDString(tsool.axiomUUID),
+            tsool.valueTypeUUID.map(id => api.taggedTypes.fromUUIDString(id)) ) -> tsool
         }
 
     val byTBox = for {
@@ -1805,7 +1974,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rsool))
             Failure(new IllegalArgumentException(s"ScalarOneOfLiteralAxiom not in extent: $rsool"))
-          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(tsool.uuid)).contains(rsool))
+          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tsool.uuid)).contains(rsool))
             Failure(new IllegalArgumentException(s"ScalarOneOfLiteralAxiom: $tsool vs. $rsool"))
           else
             Success(ri.copy(context = ej))
@@ -1822,10 +1991,10 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.entityExistentialRestrictionAxioms
         .map { tra =>
-          ( UUID.fromString(tra.tboxUUID),
-            UUID.fromString(tra.restrictedDomainUUID),
-            UUID.fromString(tra.restrictedRangeUUID),
-            UUID.fromString(tra.restrictedRelationUUID) ) -> tra
+          ( api.taggedTypes.fromUUIDString(tra.tboxUUID),
+            api.taggedTypes.fromUUIDString(tra.restrictedDomainUUID),
+            api.taggedTypes.fromUUIDString(tra.restrictedRangeUUID),
+            api.taggedTypes.fromUUIDString(tra.restrictedRelationUUID) ) -> tra
         }
 
     val byTBox = for {
@@ -1868,7 +2037,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rra))
             Failure(new IllegalArgumentException(s"EntityExistentialRestrictionAxiom not in extent: $rra"))
-          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(tra.uuid)).contains(rra))
+          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tra.uuid)).contains(rra))
             Failure(new IllegalArgumentException(s"EntityExistentialRestrictionAxiom: $tra vs. $rra"))
           else
             Success(ri.copy(context = ej))
@@ -1885,10 +2054,10 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.entityUniversalRestrictionAxioms
         .map { tra =>
-          ( UUID.fromString(tra.tboxUUID),
-            UUID.fromString(tra.restrictedDomainUUID),
-            UUID.fromString(tra.restrictedRangeUUID),
-            UUID.fromString(tra.restrictedRelationUUID) ) -> tra
+          ( api.taggedTypes.fromUUIDString(tra.tboxUUID),
+            api.taggedTypes.fromUUIDString(tra.restrictedDomainUUID),
+            api.taggedTypes.fromUUIDString(tra.restrictedRangeUUID),
+            api.taggedTypes.fromUUIDString(tra.restrictedRelationUUID) ) -> tra
         }
 
     val byTBox = for {
@@ -1931,7 +2100,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rra))
             Failure(new IllegalArgumentException(s"EntityUniversalRestrictionAxiom not in extent: $rra"))
-          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(tra.uuid)).contains(rra))
+          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tra.uuid)).contains(rra))
             Failure(new IllegalArgumentException(s"EntityUniversalRestrictionAxiom: $tra vs. $rra"))
           else
             Success(ri.copy(context = ej))
@@ -1948,10 +2117,10 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.entityScalarDataPropertyExistentialRestrictionAxioms
         .map { tra =>
-          ( UUID.fromString(tra.tboxUUID),
-            UUID.fromString(tra.restrictedEntityUUID),
-            UUID.fromString(tra.scalarPropertyUUID),
-            UUID.fromString(tra.scalarRestrictionUUID) ) -> tra
+          ( api.taggedTypes.fromUUIDString(tra.tboxUUID),
+            api.taggedTypes.fromUUIDString(tra.restrictedEntityUUID),
+            api.taggedTypes.fromUUIDString(tra.scalarPropertyUUID),
+            api.taggedTypes.fromUUIDString(tra.scalarRestrictionUUID) ) -> tra
         }
 
     val byTBox = for {
@@ -1991,7 +2160,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rra))
             Failure(new IllegalArgumentException(s"EntityScalarDataPropertyExistentialRestrictionAxiom not in extent: $rra"))
-          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(tra.uuid)).contains(rra))
+          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tra.uuid)).contains(rra))
             Failure(new IllegalArgumentException(s"EntityScalarDataPropertyExistentialRestrictionAxiom: $tra vs. $rra"))
           else
             Success(ri.copy(context = ej))
@@ -2008,10 +2177,10 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.entityScalarDataPropertyUniversalRestrictionAxioms
         .map { tra =>
-          ( UUID.fromString(tra.tboxUUID),
-            UUID.fromString(tra.restrictedEntityUUID),
-            UUID.fromString(tra.scalarPropertyUUID),
-            UUID.fromString(tra.scalarRestrictionUUID) ) -> tra
+          ( api.taggedTypes.fromUUIDString(tra.tboxUUID),
+            api.taggedTypes.fromUUIDString(tra.restrictedEntityUUID),
+            api.taggedTypes.fromUUIDString(tra.scalarPropertyUUID),
+            api.taggedTypes.fromUUIDString(tra.scalarRestrictionUUID) ) -> tra
         }
 
     val byTBox = for {
@@ -2051,7 +2220,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rra))
             Failure(new IllegalArgumentException(s"EntityScalarDataPropertyUniversalRestrictionAxiom not in extent: $rra"))
-          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(tra.uuid)).contains(rra))
+          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tra.uuid)).contains(rra))
             Failure(new IllegalArgumentException(s"EntityScalarDataPropertyUniversalRestrictionAxiom: $tra vs. $rra"))
           else
             Success(ri.copy(context = ej))
@@ -2068,10 +2237,10 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.entityScalarDataPropertyParticularRestrictionAxioms
         .map { tra =>
-          ( UUID.fromString(tra.tboxUUID),
-            UUID.fromString(tra.restrictedEntityUUID),
-            UUID.fromString(tra.scalarPropertyUUID),
-            tra.valueTypeUUID.map(UUID.fromString)) -> tra
+          ( api.taggedTypes.fromUUIDString(tra.tboxUUID),
+            api.taggedTypes.fromUUIDString(tra.restrictedEntityUUID),
+            api.taggedTypes.fromUUIDString(tra.scalarPropertyUUID),
+            tra.valueTypeUUID.map(api.taggedTypes.fromUUIDString)) -> tra
         }
 
     val byTBox = for {
@@ -2110,7 +2279,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rra))
             Failure(new IllegalArgumentException(s"EntityScalarDataPropertyParticularRestrictionAxiom not in extent: $rra"))
-          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(tra.uuid)).contains(rra))
+          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tra.uuid)).contains(rra))
             Failure(new IllegalArgumentException(s"EntityScalarDataPropertyParticularRestrictionAxiom: $tra vs. $rra"))
           else
             Success(ri.copy(context = ej))
@@ -2127,9 +2296,9 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.entityStructuredDataPropertyParticularRestrictionAxioms
       .map { tra =>
-        ( UUID.fromString(tra.tboxUUID),
-          UUID.fromString(tra.restrictedEntityUUID),
-          UUID.fromString(tra.structuredDataPropertyUUID)) -> tra
+        ( api.taggedTypes.fromUUIDString(tra.tboxUUID),
+          api.taggedTypes.fromUUIDString(tra.restrictedEntityUUID),
+          api.taggedTypes.fromUUIDString(tra.structuredDataPropertyUUID)) -> tra
       }
 
     val info = for {
@@ -2162,7 +2331,7 @@ object OMLTablesResolver {
             entityM)
           if (!ej.lookupBoxStatements(tboxM).contains(rra))
             Failure(new IllegalArgumentException(s"EntityStructuredDataPropertyParticularRestrictionAxiom not in extent: $rra"))
-          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(tra.uuid)).contains(rra))
+          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tra.uuid)).contains(rra))
             Failure(new IllegalArgumentException(s"EntityStructuredDataPropertyParticularRestrictionAxiom: $tra vs. $rra"))
           else
             mapRestrictionStructuredDataPropertyContext(ri.copy(context = ej), Seq(tra.uuid -> rra))
@@ -2175,7 +2344,7 @@ object OMLTablesResolver {
   @tailrec
   def mapRestrictionStructuredDataPropertyContext
   (r: OMLTablesResolver,
-   queue: Seq[(tables.taggedTypes.RestrictionStructuredDataPropertyContextXRef, api.RestrictionStructuredDataPropertyContext)])
+   queue: Seq[(tables.taggedTypes.RestrictionStructuredDataPropertyContextUUID, api.RestrictionStructuredDataPropertyContext)])
   : Try[OMLTablesResolver]
   = if (queue.isEmpty)
     Success(r)
@@ -2185,12 +2354,12 @@ object OMLTablesResolver {
     val scr = r
       .queue
       .restrictionScalarDataPropertyValues
-      .partition(x => covariantTag.compareTaggedValues(x.structuredDataPropertyContextUUID, contextUUID))
+      .partition(_.structuredDataPropertyContextUUID == contextUUID)
 
     val ssr = r
       .queue
       .restrictionStructuredDataPropertyTuples
-      .partition(x => covariantTag.compareTaggedValues(x.structuredDataPropertyContextUUID, contextUUID))
+      .partition(_.structuredDataPropertyContextUUID == contextUUID)
 
     val r0 = r.copy(queue = r.queue.copy(
       restrictionScalarDataPropertyValues = scr._2,
@@ -2198,12 +2367,12 @@ object OMLTablesResolver {
 
     val values =
       scr._1.map { v =>
-        val sdpUUID = UUID.fromString(v.scalarDataPropertyUUID)
+        val sdpUUID = api.taggedTypes.fromUUIDString(v.scalarDataPropertyUUID)
         val rsdp = r0.lookupTerminologyBoxStatement(sdpUUID) match {
           case Some(sdp: api.ScalarDataProperty) => Some(sdp)
           case _ => None
         }
-        val vtUUID = v.valueTypeUUID.map(UUID.fromString)
+        val vtUUID = v.valueTypeUUID.map(api.taggedTypes.fromUUIDString)
         val rvt = vtUUID.flatMap { id =>
           r0.lookupTerminologyBoxStatement(id) match {
             case Some(vt: api.DataRange) => Some(vt)
@@ -2242,7 +2411,7 @@ object OMLTablesResolver {
 
     val tuples =
       ssr._1.map { t =>
-        val sdpUUID = UUID.fromString(t.structuredDataPropertyUUID)
+        val sdpUUID = api.taggedTypes.fromUUIDString(t.structuredDataPropertyUUID)
         val rsdp = r2.lookupTerminologyBoxStatement(sdpUUID) match {
           case Some(sdp: api.StructuredDataProperty) => Some(sdp)
           case _ => None
@@ -2267,8 +2436,8 @@ object OMLTablesResolver {
 
     val (r4, more) =
       tResolvable
-        .foldLeft[(OMLTablesResolver, Seq[(tables.taggedTypes.RestrictionStructuredDataPropertyContextXRef, api.RestrictionStructuredDataPropertyContext)])]{
-        (r3, Seq.empty[(tables.taggedTypes.RestrictionStructuredDataPropertyContextXRef, api.RestrictionStructuredDataPropertyContext)])
+        .foldLeft[(OMLTablesResolver, Seq[(tables.taggedTypes.RestrictionStructuredDataPropertyContextUUID, api.RestrictionStructuredDataPropertyContext)])]{
+        (r3, Seq.empty[(tables.taggedTypes.RestrictionStructuredDataPropertyContextUUID, api.RestrictionStructuredDataPropertyContext)])
       } {
         case ((ri, acc), (rsdp, tv)) =>
           val (ej, rv) = ri.factory.createRestrictionStructuredDataPropertyTuple(
@@ -2288,9 +2457,9 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.aspectSpecializationAxioms
         .map { tax =>
-          ( UUID.fromString(tax.tboxUUID),
-            UUID.fromString(tax.superAspectUUID),
-            UUID.fromString(tax.subEntityUUID) ) -> tax
+          ( api.taggedTypes.fromUUIDString(tax.tboxUUID),
+            api.taggedTypes.fromUUIDString(tax.superAspectUUID),
+            api.taggedTypes.fromUUIDString(tax.subEntityUUID) ) -> tax
         }
 
     val byTBox = for {
@@ -2325,7 +2494,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rax))
             Failure(new IllegalArgumentException(s"AspectSpecializationAxiom not in extent: $rax"))
-          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(tax.uuid)).contains(rax))
+          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tax.uuid)).contains(rax))
             Failure(new IllegalArgumentException(s"AspectSpecializationAxiom: $tax vs. $rax"))
           else
             Success(ri.copy(context = ej))
@@ -2342,9 +2511,9 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.conceptSpecializationAxioms
         .map { tax =>
-          ( UUID.fromString(tax.tboxUUID),
-            UUID.fromString(tax.superConceptUUID),
-            UUID.fromString(tax.subConceptUUID) ) -> tax
+          ( api.taggedTypes.fromUUIDString(tax.tboxUUID),
+            api.taggedTypes.fromUUIDString(tax.superConceptUUID),
+            api.taggedTypes.fromUUIDString(tax.subConceptUUID) ) -> tax
         }
 
     val byTBox = for {
@@ -2382,7 +2551,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rax))
             Failure(new IllegalArgumentException(s"ConceptSpecializationAxiom not in extent: $rax"))
-          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(tax.uuid)).contains(rax))
+          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tax.uuid)).contains(rax))
             Failure(new IllegalArgumentException(s"ConceptSpecializationAxiom: $tax vs. $rax"))
           else
             Success(ri.copy(context = ej))
@@ -2399,9 +2568,9 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.reifiedRelationshipSpecializationAxioms
         .map { tax =>
-          ( UUID.fromString(tax.tboxUUID),
-            UUID.fromString(tax.superRelationshipUUID),
-            UUID.fromString(tax.subRelationshipUUID) ) -> tax
+          ( api.taggedTypes.fromUUIDString(tax.tboxUUID),
+            api.taggedTypes.fromUUIDString(tax.superRelationshipUUID),
+            api.taggedTypes.fromUUIDString(tax.subRelationshipUUID) ) -> tax
         }
 
     val byTBox = for {
@@ -2436,7 +2605,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rax))
             Failure(new IllegalArgumentException(s"ReifiedRelationshipSpecializationAxiom not in extent: $rax"))
-          else if (!ej.lookupTerminologyBoxStatement(UUID.fromString(tax.uuid)).contains(rax))
+          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tax.uuid)).contains(rax))
             Failure(new IllegalArgumentException(s"ReifiedRelationshipSpecializationAxiom: $tax vs. $rax"))
           else
             Success(ri.copy(context = ej))
@@ -2453,8 +2622,8 @@ object OMLTablesResolver {
     val info =
       r.queue.rootConceptTaxonomyAxioms
         .map { tax =>
-          val bundleUUID = UUID.fromString(tax.bundleUUID)
-          val rootUUID = UUID.fromString(tax.rootUUID)
+          val bundleUUID = api.taggedTypes.fromUUIDString(tax.bundleUUID)
+          val rootUUID = api.taggedTypes.fromUUIDString(tax.rootUUID)
 
           val bundleM = r.lookupBundle(bundleUUID)
           val rootM = r.lookupTerminologyBoxStatement(rootUUID) match {
@@ -2478,7 +2647,7 @@ object OMLTablesResolver {
 
           if (!ej.lookupBundleStatements(bundleM).contains(rax))
             Failure(new IllegalArgumentException(s"RootConceptTaxonomyAxiom not in extent: $rax"))
-          else if (!ej.lookupTerminologyBundleStatement(UUID.fromString(tax.uuid)).contains(rax))
+          else if (!ej.lookupTerminologyBundleStatement(api.taggedTypes.fromUUIDString(tax.uuid)).contains(rax))
             Failure(new IllegalArgumentException(s"RootConceptTaxonomyAxiom: $tax vs. $rax"))
           else
             mapDisjunctions(ri.copy(context = ej), Seq(rax -> tax.uuid))
@@ -2490,21 +2659,21 @@ object OMLTablesResolver {
 
   @tailrec
   def mapDisjunctions
-  (r: OMLTablesResolver, queue: Seq[(api.ConceptTreeDisjunction, tables.taggedTypes.ConceptTreeDisjunctionXRef)])
+  (r: OMLTablesResolver, queue: Seq[(api.ConceptTreeDisjunction, tables.taggedTypes.ConceptTreeDisjunctionUUID)])
   : Try[OMLTablesResolver]
   = if (queue.isEmpty)
     Success(r)
   else {
     val (conceptTreeDisjunctParent, conceptTreeDisjunctUUID) = queue.head
-    val as = r.queue.anonymousConceptUnionAxioms.partition(x => covariantTag.compareTaggedValues(x.disjointTaxonomyParentUUID, conceptTreeDisjunctUUID))
-    val ss = r.queue.specificDisjointConceptAxioms.partition(x => covariantTag.compareTaggedValues(x.disjointTaxonomyParentUUID, conceptTreeDisjunctUUID))
+    val as = r.queue.anonymousConceptUnionAxioms.partition(_.disjointTaxonomyParentUUID == conceptTreeDisjunctUUID)
+    val ss = r.queue.specificDisjointConceptAxioms.partition(_.disjointTaxonomyParentUUID == conceptTreeDisjunctUUID)
 
     val r1 = r.copy(queue = r.queue.copy(
       anonymousConceptUnionAxioms = as._2,
       specificDisjointConceptAxioms = ss._2))
 
-    val r2 = as._1.foldLeft[Try[(OMLTablesResolver, Seq[(api.ConceptTreeDisjunction, tables.taggedTypes.ConceptTreeDisjunctionXRef)])]]{
-      Success(r1 -> Seq.empty[(api.ConceptTreeDisjunction, tables.taggedTypes.ConceptTreeDisjunctionXRef)])
+    val r2 = as._1.foldLeft[Try[(OMLTablesResolver, Seq[(api.ConceptTreeDisjunction, tables.taggedTypes.ConceptTreeDisjunctionUUID)])]]{
+      Success(r1 -> Seq.empty[(api.ConceptTreeDisjunction, tables.taggedTypes.ConceptTreeDisjunctionUUID)])
     } {
         case (Success((ri, acc)), tax) =>
           val (ej, rax) = ri.factory.createAnonymousConceptUnionAxiom(ri.context, conceptTreeDisjunctParent, tax.name)
@@ -2519,9 +2688,9 @@ object OMLTablesResolver {
           Failure(f)
       }
 
-    val r3 = ss._1.foldLeft[Try[(OMLTablesResolver, Seq[(api.ConceptTreeDisjunction, tables.taggedTypes.ConceptTreeDisjunctionXRef)])]](r2) {
+    val r3 = ss._1.foldLeft[Try[(OMLTablesResolver, Seq[(api.ConceptTreeDisjunction, tables.taggedTypes.ConceptTreeDisjunctionUUID)])]](r2) {
       case (Success((ri, acc)), tax) =>
-        ri.lookupTerminologyBoxStatement(UUID.fromString(tax.disjointLeafUUID)) match {
+        ri.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tax.disjointLeafUUID)) match {
           case Some(leaf: api.Concept) =>
             val (ej, rax) = ri.factory.createSpecificDisjointConceptAxiom(ri.context, conceptTreeDisjunctParent, leaf)
 
@@ -2551,8 +2720,8 @@ object OMLTablesResolver {
   : Try[OMLTablesResolver]
   = {
     val info = r.queue.conceptInstances.map { tci =>
-      val dboxUUID = UUID.fromString(tci.descriptionBoxUUID)
-      val cUUID = UUID.fromString(tci.singletonConceptClassifierUUID)
+      val dboxUUID = api.taggedTypes.fromUUIDString(tci.descriptionBoxUUID)
+      val cUUID = api.taggedTypes.fromUUIDString(tci.singletonConceptClassifierUUID)
       val dboxM = r.lookupDescriptionBox(dboxUUID)
       val cM = r.lookupTerminologyBoxStatement(cUUID) match {
         case Some(c: api.Concept) => Some(c)
@@ -2579,7 +2748,7 @@ object OMLTablesResolver {
 
         if (!ej.lookupConceptInstances(dboxM).contains(rci))
           Failure(new IllegalArgumentException(s"ConceptInstance not in extent: $rci"))
-        else if (!ej.lookupConceptInstance(UUID.fromString(tci.uuid)).contains(rci))
+        else if (!ej.lookupConceptInstance(api.taggedTypes.fromUUIDString(tci.uuid)).contains(rci))
           Failure(new IllegalArgumentException(s"ConceptInstance: $rci vs. $tci"))
         else
           Success(ri.copy(context = ej))
@@ -2595,8 +2764,8 @@ object OMLTablesResolver {
   : Try[OMLTablesResolver]
   = {
     val info = r.queue.reifiedRelationshipInstances.map { trri =>
-      val dboxUUID = UUID.fromString(trri.descriptionBoxUUID)
-      val rrUUID = UUID.fromString(trri.singletonReifiedRelationshipClassifierUUID)
+      val dboxUUID = api.taggedTypes.fromUUIDString(trri.descriptionBoxUUID)
+      val rrUUID = api.taggedTypes.fromUUIDString(trri.singletonReifiedRelationshipClassifierUUID)
       val dboxM = r.lookupDescriptionBox(dboxUUID)
       val rrM = r.lookupTerminologyBoxStatement(rrUUID) match {
         case Some(rr: api.ReifiedRelationship) => Some(rr)
@@ -2623,7 +2792,7 @@ object OMLTablesResolver {
 
         if (!ej.lookupReifiedRelationshipInstances(dboxM).contains(rrri))
           Failure(new IllegalArgumentException(s"ReifiedRelationshipInstance not in extent: $rrri"))
-        else if (!ej.lookupReifiedRelationshipInstance(UUID.fromString(trri.uuid)).contains(rrri))
+        else if (!ej.lookupReifiedRelationshipInstance(api.taggedTypes.fromUUIDString(trri.uuid)).contains(rrri))
           Failure(new IllegalArgumentException(s"ReifiedRelationshipInstance: $rrri vs. $trri"))
         else
           Success(ri.copy(context = ej))
@@ -2639,9 +2808,9 @@ object OMLTablesResolver {
   : Try[OMLTablesResolver]
   = {
     val info = r.queue.reifiedRelationshipInstanceDomains.map { trrid =>
-      val dboxUUID = UUID.fromString(trrid.descriptionBoxUUID)
-      val rriUUID = UUID.fromString(trrid.reifiedRelationshipInstanceUUID)
-      val dUUID = UUID.fromString(trrid.domainUUID)
+      val dboxUUID = api.taggedTypes.fromUUIDString(trrid.descriptionBoxUUID)
+      val rriUUID = api.taggedTypes.fromUUIDString(trrid.reifiedRelationshipInstanceUUID)
+      val dUUID = api.taggedTypes.fromUUIDString(trrid.domainUUID)
       val dboxM = r.lookupDescriptionBox(dboxUUID)
       val rriM = r.lookupReifiedRelationshipInstance(rriUUID)
       val dM = r.lookupConceptualEntitySingletonInstance(dUUID)
@@ -2666,7 +2835,7 @@ object OMLTablesResolver {
 
         if (!ej.lookupReifiedRelationshipInstanceDomains(dboxM).contains(rrrid))
           Failure(new IllegalArgumentException(s"ReifiedRelationshipInstanceDomain not in extent: $rrrid"))
-        else if (!ej.lookupReifiedRelationshipInstanceDomain(UUID.fromString(trrid.uuid)).contains(rrrid))
+        else if (!ej.lookupReifiedRelationshipInstanceDomain(api.taggedTypes.fromUUIDString(trrid.uuid)).contains(rrrid))
           Failure(new IllegalArgumentException(s"ReifiedRelationshipInstanceDomain: $rrrid vs. $trrid"))
         else
           Success(ri.copy(context = ej))
@@ -2682,9 +2851,9 @@ object OMLTablesResolver {
   : Try[OMLTablesResolver]
   = {
     val info = r.queue.reifiedRelationshipInstanceRanges.map { trrir =>
-      val dboxUUID = UUID.fromString(trrir.descriptionBoxUUID)
-      val rriUUID = UUID.fromString(trrir.reifiedRelationshipInstanceUUID)
-      val rUUID = UUID.fromString(trrir.rangeUUID)
+      val dboxUUID = api.taggedTypes.fromUUIDString(trrir.descriptionBoxUUID)
+      val rriUUID = api.taggedTypes.fromUUIDString(trrir.reifiedRelationshipInstanceUUID)
+      val rUUID = api.taggedTypes.fromUUIDString(trrir.rangeUUID)
       val dboxM = r.lookupDescriptionBox(dboxUUID)
       val rriM = r.lookupReifiedRelationshipInstance(rriUUID)
       val rM = r.lookupConceptualEntitySingletonInstance(rUUID)
@@ -2709,7 +2878,7 @@ object OMLTablesResolver {
 
         if (!ej.lookupReifiedRelationshipInstanceRanges(dboxM).contains(rrrir))
           Failure(new IllegalArgumentException(s"ReifiedRelationshipInstanceRange not in extent: $rrrir"))
-        else if (!ej.lookupReifiedRelationshipInstanceRange(UUID.fromString(trrir.uuid)).contains(rrrir))
+        else if (!ej.lookupReifiedRelationshipInstanceRange(api.taggedTypes.fromUUIDString(trrir.uuid)).contains(rrrir))
           Failure(new IllegalArgumentException(s"ReifiedRelationshipInstanceRange: $rrrir vs. $trrir"))
         else
           Success(ri.copy(context = ej))
@@ -2725,10 +2894,10 @@ object OMLTablesResolver {
   : Try[OMLTablesResolver]
   = {
     val info = r.queue.unreifiedRelationshipInstanceTuples.map { turi =>
-      val dboxUUID = UUID.fromString(turi.descriptionBoxUUID)
-      val urUUID = UUID.fromString(turi.unreifiedRelationshipUUID)
-      val dUUID = UUID.fromString(turi.domainUUID)
-      val rUUID = UUID.fromString(turi.rangeUUID)
+      val dboxUUID = api.taggedTypes.fromUUIDString(turi.descriptionBoxUUID)
+      val urUUID = api.taggedTypes.fromUUIDString(turi.unreifiedRelationshipUUID)
+      val dUUID = api.taggedTypes.fromUUIDString(turi.domainUUID)
+      val rUUID = api.taggedTypes.fromUUIDString(turi.rangeUUID)
       val dboxM = r.lookupDescriptionBox(dboxUUID)
       val urM = r.lookupTerminologyBoxStatement(urUUID) match {
         case Some(ur: api.UnreifiedRelationship) => Some(ur)
@@ -2758,7 +2927,7 @@ object OMLTablesResolver {
 
         if (!ej.lookupUnreifiedRelationshipInstanceTuples(dboxM).contains(ruri))
           Failure(new IllegalArgumentException(s"UnreifiedRelationshipInstanceTuple not in extent: $ruri"))
-        else if (!ej.lookupUnreifiedRelationshipInstanceTuple(UUID.fromString(turi.uuid)).contains(ruri))
+        else if (!ej.lookupUnreifiedRelationshipInstanceTuple(api.taggedTypes.fromUUIDString(turi.uuid)).contains(ruri))
           Failure(new IllegalArgumentException(s"UnreifiedRelationshipInstanceTuple: $ruri vs. $turi"))
         else
           Success(ri.copy(context = ej))
@@ -2774,10 +2943,10 @@ object OMLTablesResolver {
   : Try[OMLTablesResolver]
   = {
     val info = r.queue.singletonInstanceScalarDataPropertyValues.map { tvi =>
-      val dboxUUID = UUID.fromString(tvi.descriptionBoxUUID)
-      val ciUUID = UUID.fromString(tvi.singletonInstanceUUID)
-      val dpUUID = UUID.fromString(tvi.scalarDataPropertyUUID)
-      val vtUUID = tvi.valueTypeUUID.map(UUID.fromString)
+      val dboxUUID = api.taggedTypes.fromUUIDString(tvi.descriptionBoxUUID)
+      val ciUUID = api.taggedTypes.fromUUIDString(tvi.singletonInstanceUUID)
+      val dpUUID = api.taggedTypes.fromUUIDString(tvi.scalarDataPropertyUUID)
+      val vtUUID = tvi.valueTypeUUID.map(api.taggedTypes.fromUUIDString)
       val dboxM = r.lookupDescriptionBox(dboxUUID)
       val ciM = r.lookupConceptualEntitySingletonInstance(ciUUID)
       val dpM = r.lookupTerminologyBoxStatement(dpUUID) match {
@@ -2811,7 +2980,7 @@ object OMLTablesResolver {
 
         if (!ej.lookupSingletonScalarDataPropertyValues(dboxM).contains(rvi))
           Failure(new IllegalArgumentException(s"SingletonInstanceScalarDataPropertyValue not in extent: $rvi"))
-        else if (!ej.lookupSingletonInstanceScalarDataPropertyValue(UUID.fromString(tvi.uuid)).contains(rvi))
+        else if (!ej.lookupSingletonInstanceScalarDataPropertyValue(api.taggedTypes.fromUUIDString(tvi.uuid)).contains(rvi))
           Failure(new IllegalArgumentException(s"SingletonInstanceScalarDataPropertyValue: $rvi vs. $tvi"))
         else
           Success(ri.copy(context = ej))
@@ -2827,9 +2996,9 @@ object OMLTablesResolver {
   : Try[OMLTablesResolver]
   = {
     val info = r.queue.singletonInstanceStructuredDataPropertyValues.map { tvi =>
-      val dboxUUID = UUID.fromString(tvi.descriptionBoxUUID)
-      val ciUUID = UUID.fromString(tvi.singletonInstanceUUID)
-      val dpUUID = UUID.fromString(tvi.structuredDataPropertyUUID)
+      val dboxUUID = api.taggedTypes.fromUUIDString(tvi.descriptionBoxUUID)
+      val ciUUID = api.taggedTypes.fromUUIDString(tvi.singletonInstanceUUID)
+      val dpUUID = api.taggedTypes.fromUUIDString(tvi.structuredDataPropertyUUID)
       val dboxM = r.lookupDescriptionBox(dboxUUID)
       val ciM = r.lookupConceptualEntitySingletonInstance(ciUUID)
       val dpM = r.lookupTerminologyBoxStatement(dpUUID) match {
@@ -2857,7 +3026,7 @@ object OMLTablesResolver {
 
         if (!ej.lookupSingletonStructuredDataPropertyValues(dboxM).contains(rvi))
           Failure(new IllegalArgumentException(s"SingletonInstanceStructuredDataPropertyValue not in extent: $rvi"))
-        else if (!ej.lookupSingletonInstanceStructuredDataPropertyValue(UUID.fromString(tvi.uuid)).contains(rvi))
+        else if (!ej.lookupSingletonInstanceStructuredDataPropertyValue(api.taggedTypes.fromUUIDString(tvi.uuid)).contains(rvi))
           Failure(new IllegalArgumentException(s"SingletonInstanceStructuredDataPropertyValue: $rvi vs. $tvi"))
         else
           mapSingletonInstanceStructuredDataPropertyContext(ri.copy(context = ej), Seq(tvi.uuid -> rvi))
@@ -2870,7 +3039,7 @@ object OMLTablesResolver {
 
   @tailrec
   def mapSingletonInstanceStructuredDataPropertyContext
-  (r: OMLTablesResolver, queue: Seq[(tables.taggedTypes.SingletonInstanceStructuredDataPropertyContextXRef, api.SingletonInstanceStructuredDataPropertyContext)])
+  (r: OMLTablesResolver, queue: Seq[(tables.taggedTypes.SingletonInstanceStructuredDataPropertyContextUUID, api.SingletonInstanceStructuredDataPropertyContext)])
   : Try[OMLTablesResolver]
   = if (queue.isEmpty)
     Success(r)
@@ -2880,12 +3049,12 @@ object OMLTablesResolver {
     val scr = r
       .queue
       .scalarDataPropertyValues
-      .partition(x => covariantTag.compareTaggedValues(x.structuredDataPropertyContextUUID, contextUUID))
+      .partition(_.structuredDataPropertyContextUUID == contextUUID)
 
     val str = r
       .queue
       .structuredDataPropertyTuples
-      .partition(x => covariantTag.compareTaggedValues(x.structuredDataPropertyContextUUID, contextUUID))
+      .partition(_.structuredDataPropertyContextUUID == contextUUID)
 
     val r0 = r.copy(queue = r.queue.copy(
       scalarDataPropertyValues = scr._2,
@@ -2893,8 +3062,8 @@ object OMLTablesResolver {
 
     val values =
       scr._1.map { tvi =>
-      val dpUUID = UUID.fromString(tvi.scalarDataPropertyUUID)
-      val vtUUID = tvi.valueTypeUUID.map(UUID.fromString)
+      val dpUUID = api.taggedTypes.fromUUIDString(tvi.scalarDataPropertyUUID)
+      val vtUUID = tvi.valueTypeUUID.map(id => api.taggedTypes.fromUUIDString(id))
       val dpM = r.lookupTerminologyBoxStatement(dpUUID) match {
         case Some(dp: api.DataRelationshipToScalar) => Some(dp)
         case _ => None
@@ -2926,7 +3095,7 @@ object OMLTablesResolver {
 
         if (!ej.lookupScalarDataPropertyValues(rcontext).contains(rvi))
           Failure(new IllegalArgumentException(s"ScalarDataPropertyValue not in extent: $rvi"))
-        else if (!ej.lookupScalarDataPropertyValue(UUID.fromString(tvi.uuid)).contains(rvi))
+        else if (!ej.lookupScalarDataPropertyValue(api.taggedTypes.fromUUIDString(tvi.uuid)).contains(rvi))
           Failure(new IllegalArgumentException(s"ScalarDataPropertyValue: $rvi vs. $tvi"))
         else
           Success(ri.copy(context = ej))
@@ -2939,7 +3108,7 @@ object OMLTablesResolver {
 
         val tuples =
           str._1.map { tvi =>
-            val dpUUID = UUID.fromString(tvi.structuredDataPropertyUUID)
+            val dpUUID = api.taggedTypes.fromUUIDString(tvi.structuredDataPropertyUUID)
             val dpM = r.lookupTerminologyBoxStatement(dpUUID) match {
               case Some(dp: api.DataRelationshipToStructure) => Some(dp)
               case _ => None
@@ -2957,8 +3126,8 @@ object OMLTablesResolver {
           r2.queue.structuredDataPropertyTuples ++ tUnresolvable))
 
         val tr4 = tResolvable
-          .foldLeft[Try[(OMLTablesResolver, Seq[(tables.taggedTypes.SingletonInstanceStructuredDataPropertyContextXRef, api.SingletonInstanceStructuredDataPropertyContext)])]] {
-          Success(r3 -> Seq.empty[(tables.taggedTypes.SingletonInstanceStructuredDataPropertyContextXRef, api.SingletonInstanceStructuredDataPropertyContext)])
+          .foldLeft[Try[(OMLTablesResolver, Seq[(tables.taggedTypes.SingletonInstanceStructuredDataPropertyContextUUID, api.SingletonInstanceStructuredDataPropertyContext)])]] {
+          Success(r3 -> Seq.empty[(tables.taggedTypes.SingletonInstanceStructuredDataPropertyContextUUID, api.SingletonInstanceStructuredDataPropertyContext)])
         } {
           case (Success((ri, acc)), (dpM, tvi)) =>
             val (ej, rvi) = ri.factory.createStructuredDataPropertyTuple(
@@ -2968,7 +3137,7 @@ object OMLTablesResolver {
 
             if (!ej.lookupStructuredPropertyTuples(rcontext).contains(rvi))
               Failure(new IllegalArgumentException(s"StructuredDataPropertyTuple not in extent: $rvi"))
-            else if (!ej.lookupStructuredDataPropertyTuple(UUID.fromString(tvi.uuid)).contains(rvi))
+            else if (!ej.lookupStructuredDataPropertyTuple(api.taggedTypes.fromUUIDString(tvi.uuid)).contains(rvi))
               Failure(new IllegalArgumentException(s"StructuredDataPropertyTuple: $rvi vs. $tvi"))
             else
               Success(ri.copy(context = ej) -> (acc :+ (tvi.uuid -> rvi)))
@@ -2997,8 +3166,8 @@ object OMLTablesResolver {
     : Seq[((Option[api.AnnotationProperty], Option[api.Element]), tables.AnnotationPropertyValue)]
     = r.queue.annotationPropertyValues
         .map { apv =>
-          ( r.lookupAnnotationProperty(UUID.fromString(apv.propertyUUID)),
-            r.lookupElement(UUID.fromString(apv.subjectUUID))
+          ( r.lookupAnnotationProperty(api.taggedTypes.fromUUIDString(apv.propertyUUID)),
+            r.lookupElement(api.taggedTypes.fromUUIDString(apv.subjectUUID))
           ) -> apv
         }
 

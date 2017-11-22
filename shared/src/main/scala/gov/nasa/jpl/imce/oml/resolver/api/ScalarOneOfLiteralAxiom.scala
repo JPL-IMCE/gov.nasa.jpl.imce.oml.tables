@@ -24,6 +24,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait ScalarOneOfLiteralAxiom
   extends TermAxiom
 {
+  override val uuid: taggedTypes.ScalarOneOfLiteralAxiomUUID
 
   val axiom: ScalarOneOfRestriction
   /*

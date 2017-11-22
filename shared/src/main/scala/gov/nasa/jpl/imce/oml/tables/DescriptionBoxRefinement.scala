@@ -32,13 +32,13 @@ import scala.Predef.ArrowAssoc
 case class DescriptionBoxRefinement
 (
   @(JSExport @field) uuid: taggedTypes.DescriptionBoxRefinementUUID,
-  @(JSExport @field) refiningDescriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
+  @(JSExport @field) refiningDescriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
   @(JSExport @field) refinedDescriptionBoxIRI: taggedTypes.IRI
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    refiningDescriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
+    refiningDescriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
     refinedDescriptionBoxIRI: taggedTypes.IRI)
   = this(
       taggedTypes.descriptionBoxRefinementUUID(oug.namespaceUUID(
@@ -57,7 +57,7 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: DescriptionBoxRefinement =>
   	  (this.uuid == that.uuid) &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.refiningDescriptionBoxUUID, that.refiningDescriptionBoxUUID)  &&
+  	  (this.refiningDescriptionBoxUUID == that.refiningDescriptionBoxUUID)  &&
   	  (this.refinedDescriptionBoxIRI == that.refinedDescriptionBoxIRI)
     case _ =>
       false

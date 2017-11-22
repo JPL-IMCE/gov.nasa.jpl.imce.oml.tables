@@ -24,6 +24,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait ModuleEdge
   extends Element
 {
+  override val uuid: taggedTypes.ModuleEdgeUUID
 
   def sourceModule
   ()(implicit extent: Extent): scala.Option[Module]

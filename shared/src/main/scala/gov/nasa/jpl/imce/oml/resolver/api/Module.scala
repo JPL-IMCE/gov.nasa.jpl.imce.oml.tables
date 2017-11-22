@@ -27,6 +27,7 @@ trait Module
   extends Element
   with Resource
 {
+  override val uuid: taggedTypes.ModuleUUID
 
   val iri: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI
 

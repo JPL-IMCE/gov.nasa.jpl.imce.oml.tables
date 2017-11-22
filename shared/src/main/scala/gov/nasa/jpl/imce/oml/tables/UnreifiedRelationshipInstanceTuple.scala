@@ -34,18 +34,18 @@ import scala.Predef.ArrowAssoc
 case class UnreifiedRelationshipInstanceTuple
 (
   @(JSExport @field) uuid: taggedTypes.UnreifiedRelationshipInstanceTupleUUID,
-  @(JSExport @field) descriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
-  @(JSExport @field) unreifiedRelationshipUUID: taggedTypes.UnreifiedRelationshipXRef,
-  @(JSExport @field) domainUUID: taggedTypes.ConceptualEntitySingletonInstanceXRef,
-  @(JSExport @field) rangeUUID: taggedTypes.ConceptualEntitySingletonInstanceXRef
+  @(JSExport @field) descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
+  @(JSExport @field) unreifiedRelationshipUUID: taggedTypes.UnreifiedRelationshipUUID,
+  @(JSExport @field) domainUUID: taggedTypes.ConceptualEntitySingletonInstanceUUID,
+  @(JSExport @field) rangeUUID: taggedTypes.ConceptualEntitySingletonInstanceUUID
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    descriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
-    unreifiedRelationshipUUID: taggedTypes.UnreifiedRelationshipXRef,
-    domainUUID: taggedTypes.ConceptualEntitySingletonInstanceXRef,
-    rangeUUID: taggedTypes.ConceptualEntitySingletonInstanceXRef)
+    descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
+    unreifiedRelationshipUUID: taggedTypes.UnreifiedRelationshipUUID,
+    domainUUID: taggedTypes.ConceptualEntitySingletonInstanceUUID,
+    rangeUUID: taggedTypes.ConceptualEntitySingletonInstanceUUID)
   = this(
       taggedTypes.unreifiedRelationshipInstanceTupleUUID(oug.namespaceUUID(
         "UnreifiedRelationshipInstanceTuple",
@@ -67,10 +67,10 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: UnreifiedRelationshipInstanceTuple =>
   	  (this.uuid == that.uuid) &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.descriptionBoxUUID, that.descriptionBoxUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.unreifiedRelationshipUUID, that.unreifiedRelationshipUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.domainUUID, that.domainUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.rangeUUID, that.rangeUUID) 
+  	  (this.descriptionBoxUUID == that.descriptionBoxUUID)  &&
+  	  (this.unreifiedRelationshipUUID == that.unreifiedRelationshipUUID)  &&
+  	  (this.domainUUID == that.domainUUID)  &&
+  	  (this.rangeUUID == that.rangeUUID) 
     case _ =>
       false
   }

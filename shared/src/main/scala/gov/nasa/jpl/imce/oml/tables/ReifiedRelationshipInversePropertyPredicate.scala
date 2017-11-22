@@ -32,14 +32,14 @@ import scala.Predef.ArrowAssoc
 case class ReifiedRelationshipInversePropertyPredicate
 (
   @(JSExport @field) uuid: taggedTypes.ReifiedRelationshipInversePropertyPredicateUUID,
-  @(JSExport @field) bodySegmentUUID: taggedTypes.RuleBodySegmentXRef,
-  @(JSExport @field) reifiedRelationshipUUID: taggedTypes.ReifiedRelationshipXRef
+  @(JSExport @field) bodySegmentUUID: taggedTypes.RuleBodySegmentUUID,
+  @(JSExport @field) reifiedRelationshipUUID: taggedTypes.ReifiedRelationshipUUID
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    bodySegmentUUID: taggedTypes.RuleBodySegmentXRef,
-    reifiedRelationshipUUID: taggedTypes.ReifiedRelationshipXRef)
+    bodySegmentUUID: taggedTypes.RuleBodySegmentUUID,
+    reifiedRelationshipUUID: taggedTypes.ReifiedRelationshipUUID)
   = this(
       taggedTypes.reifiedRelationshipInversePropertyPredicateUUID(oug.namespaceUUID(
         "ReifiedRelationshipInversePropertyPredicate",
@@ -57,8 +57,8 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: ReifiedRelationshipInversePropertyPredicate =>
   	  (this.uuid == that.uuid) &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.bodySegmentUUID, that.bodySegmentUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.reifiedRelationshipUUID, that.reifiedRelationshipUUID) 
+  	  (this.bodySegmentUUID == that.bodySegmentUUID)  &&
+  	  (this.reifiedRelationshipUUID == that.reifiedRelationshipUUID) 
     case _ =>
       false
   }

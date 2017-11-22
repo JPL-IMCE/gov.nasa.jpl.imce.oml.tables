@@ -25,6 +25,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait StructuredDataPropertyTuple
   extends SingletonInstanceStructuredDataPropertyContext
 {
+  override val uuid: taggedTypes.StructuredDataPropertyTupleUUID
 
   override def descriptionBox
   ()(implicit extent: Extent): scala.Option[DescriptionBox]

@@ -32,14 +32,14 @@ import scala.Predef.ArrowAssoc
 case class ConceptPredicate
 (
   @(JSExport @field) uuid: taggedTypes.ConceptPredicateUUID,
-  @(JSExport @field) bodySegmentUUID: taggedTypes.RuleBodySegmentXRef,
-  @(JSExport @field) conceptUUID: taggedTypes.ConceptXRef
+  @(JSExport @field) bodySegmentUUID: taggedTypes.RuleBodySegmentUUID,
+  @(JSExport @field) conceptUUID: taggedTypes.ConceptUUID
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    bodySegmentUUID: taggedTypes.RuleBodySegmentXRef,
-    conceptUUID: taggedTypes.ConceptXRef)
+    bodySegmentUUID: taggedTypes.RuleBodySegmentUUID,
+    conceptUUID: taggedTypes.ConceptUUID)
   = this(
       taggedTypes.conceptPredicateUUID(oug.namespaceUUID(
         "ConceptPredicate",
@@ -57,8 +57,8 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: ConceptPredicate =>
   	  (this.uuid == that.uuid) &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.bodySegmentUUID, that.bodySegmentUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.conceptUUID, that.conceptUUID) 
+  	  (this.bodySegmentUUID == that.bodySegmentUUID)  &&
+  	  (this.conceptUUID == that.conceptUUID) 
     case _ =>
       false
   }

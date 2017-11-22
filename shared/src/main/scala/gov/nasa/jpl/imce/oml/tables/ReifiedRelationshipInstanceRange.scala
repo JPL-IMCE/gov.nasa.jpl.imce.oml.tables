@@ -33,16 +33,16 @@ import scala.Predef.ArrowAssoc
 case class ReifiedRelationshipInstanceRange
 (
   @(JSExport @field) uuid: taggedTypes.ReifiedRelationshipInstanceRangeUUID,
-  @(JSExport @field) descriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
-  @(JSExport @field) reifiedRelationshipInstanceUUID: taggedTypes.ReifiedRelationshipInstanceXRef,
-  @(JSExport @field) rangeUUID: taggedTypes.ConceptualEntitySingletonInstanceXRef
+  @(JSExport @field) descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
+  @(JSExport @field) reifiedRelationshipInstanceUUID: taggedTypes.ReifiedRelationshipInstanceUUID,
+  @(JSExport @field) rangeUUID: taggedTypes.ConceptualEntitySingletonInstanceUUID
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    descriptionBoxUUID: taggedTypes.DescriptionBoxXRef,
-    reifiedRelationshipInstanceUUID: taggedTypes.ReifiedRelationshipInstanceXRef,
-    rangeUUID: taggedTypes.ConceptualEntitySingletonInstanceXRef)
+    descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
+    reifiedRelationshipInstanceUUID: taggedTypes.ReifiedRelationshipInstanceUUID,
+    rangeUUID: taggedTypes.ConceptualEntitySingletonInstanceUUID)
   = this(
       taggedTypes.reifiedRelationshipInstanceRangeUUID(oug.namespaceUUID(
         "ReifiedRelationshipInstanceRange",
@@ -62,9 +62,9 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: ReifiedRelationshipInstanceRange =>
   	  (this.uuid == that.uuid) &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.descriptionBoxUUID, that.descriptionBoxUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.reifiedRelationshipInstanceUUID, that.reifiedRelationshipInstanceUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.rangeUUID, that.rangeUUID) 
+  	  (this.descriptionBoxUUID == that.descriptionBoxUUID)  &&
+  	  (this.reifiedRelationshipInstanceUUID == that.reifiedRelationshipInstanceUUID)  &&
+  	  (this.rangeUUID == that.rangeUUID) 
     case _ =>
       false
   }

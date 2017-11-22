@@ -33,15 +33,15 @@ import scala.Predef.ArrowAssoc
 case class ConceptDesignationTerminologyAxiom
 (
   @(JSExport @field) uuid: taggedTypes.ConceptDesignationTerminologyAxiomUUID,
-  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
-  @(JSExport @field) designatedConceptUUID: taggedTypes.ConceptXRef,
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxUUID,
+  @(JSExport @field) designatedConceptUUID: taggedTypes.ConceptUUID,
   @(JSExport @field) designatedTerminologyIRI: taggedTypes.IRI
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: taggedTypes.TerminologyBoxXRef,
-    designatedConceptUUID: taggedTypes.ConceptXRef,
+    tboxUUID: taggedTypes.TerminologyBoxUUID,
+    designatedConceptUUID: taggedTypes.ConceptUUID,
     designatedTerminologyIRI: taggedTypes.IRI)
   = this(
       taggedTypes.conceptDesignationTerminologyAxiomUUID(oug.namespaceUUID(
@@ -62,8 +62,8 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: ConceptDesignationTerminologyAxiom =>
   	  (this.uuid == that.uuid) &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.designatedConceptUUID, that.designatedConceptUUID)  &&
+  	  (this.tboxUUID == that.tboxUUID)  &&
+  	  (this.designatedConceptUUID == that.designatedConceptUUID)  &&
   	  (this.designatedTerminologyIRI == that.designatedTerminologyIRI)
     case _ =>
       false

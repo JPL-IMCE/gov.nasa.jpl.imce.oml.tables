@@ -27,6 +27,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait DescriptionBoxExtendsClosedWorldDefinitions
   extends DescriptionBoxRelationship
 {
+  override val uuid: taggedTypes.DescriptionBoxExtendsClosedWorldDefinitionsUUID
 
   val closedWorldDefinitions: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI
 

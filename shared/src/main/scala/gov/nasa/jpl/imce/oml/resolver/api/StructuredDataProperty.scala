@@ -28,7 +28,7 @@ trait StructuredDataProperty
   with DataRelationshipToStructure
 {
 
-  override val uuid: java.util.UUID
+  override val uuid: taggedTypes.StructuredDataPropertyUUID
   override def source
   (): Term
   override def target

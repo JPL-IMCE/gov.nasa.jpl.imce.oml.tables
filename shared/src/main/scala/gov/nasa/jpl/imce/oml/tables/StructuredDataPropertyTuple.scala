@@ -32,14 +32,14 @@ import scala.Predef.ArrowAssoc
 case class StructuredDataPropertyTuple
 (
   @(JSExport @field) uuid: taggedTypes.StructuredDataPropertyTupleUUID,
-  @(JSExport @field) structuredDataPropertyUUID: taggedTypes.DataRelationshipToStructureXRef,
-  @(JSExport @field) structuredDataPropertyContextUUID: taggedTypes.SingletonInstanceStructuredDataPropertyContextXRef
+  @(JSExport @field) structuredDataPropertyUUID: taggedTypes.DataRelationshipToStructureUUID,
+  @(JSExport @field) structuredDataPropertyContextUUID: taggedTypes.SingletonInstanceStructuredDataPropertyContextUUID
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    structuredDataPropertyUUID: taggedTypes.DataRelationshipToStructureXRef,
-    structuredDataPropertyContextUUID: taggedTypes.SingletonInstanceStructuredDataPropertyContextXRef)
+    structuredDataPropertyUUID: taggedTypes.DataRelationshipToStructureUUID,
+    structuredDataPropertyContextUUID: taggedTypes.SingletonInstanceStructuredDataPropertyContextUUID)
   = this(
       taggedTypes.structuredDataPropertyTupleUUID(oug.namespaceUUID(
         "StructuredDataPropertyTuple",
@@ -57,8 +57,8 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: StructuredDataPropertyTuple =>
   	  (this.uuid == that.uuid) &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.structuredDataPropertyUUID, that.structuredDataPropertyUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.structuredDataPropertyContextUUID, that.structuredDataPropertyContextUUID) 
+  	  (this.structuredDataPropertyUUID == that.structuredDataPropertyUUID)  &&
+  	  (this.structuredDataPropertyContextUUID == that.structuredDataPropertyContextUUID) 
     case _ =>
       false
   }

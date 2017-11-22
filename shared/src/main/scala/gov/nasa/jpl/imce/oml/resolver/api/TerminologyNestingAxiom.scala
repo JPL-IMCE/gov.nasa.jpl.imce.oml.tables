@@ -28,6 +28,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait TerminologyNestingAxiom
   extends TerminologyBoxAxiom
 {
+  override val uuid: taggedTypes.TerminologyNestingAxiomUUID
 
   val nestingTerminology: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI
   val nestingContext: Concept

@@ -34,18 +34,18 @@ import scala.Predef.ArrowAssoc
 case class EntityUniversalRestrictionAxiom
 (
   @(JSExport @field) uuid: taggedTypes.EntityUniversalRestrictionAxiomUUID,
-  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
-  @(JSExport @field) restrictedRelationUUID: taggedTypes.EntityRelationshipXRef,
-  @(JSExport @field) restrictedDomainUUID: taggedTypes.EntityXRef,
-  @(JSExport @field) restrictedRangeUUID: taggedTypes.EntityXRef
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxUUID,
+  @(JSExport @field) restrictedRelationUUID: taggedTypes.EntityRelationshipUUID,
+  @(JSExport @field) restrictedDomainUUID: taggedTypes.EntityUUID,
+  @(JSExport @field) restrictedRangeUUID: taggedTypes.EntityUUID
 ) {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: taggedTypes.TerminologyBoxXRef,
-    restrictedRelationUUID: taggedTypes.EntityRelationshipXRef,
-    restrictedDomainUUID: taggedTypes.EntityXRef,
-    restrictedRangeUUID: taggedTypes.EntityXRef)
+    tboxUUID: taggedTypes.TerminologyBoxUUID,
+    restrictedRelationUUID: taggedTypes.EntityRelationshipUUID,
+    restrictedDomainUUID: taggedTypes.EntityUUID,
+    restrictedRangeUUID: taggedTypes.EntityUUID)
   = this(
       taggedTypes.entityUniversalRestrictionAxiomUUID(oug.namespaceUUID(
         "EntityUniversalRestrictionAxiom",
@@ -67,10 +67,10 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: EntityUniversalRestrictionAxiom =>
   	  (this.uuid == that.uuid) &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.restrictedRelationUUID, that.restrictedRelationUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.restrictedDomainUUID, that.restrictedDomainUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.restrictedRangeUUID, that.restrictedRangeUUID) 
+  	  (this.tboxUUID == that.tboxUUID)  &&
+  	  (this.restrictedRelationUUID == that.restrictedRelationUUID)  &&
+  	  (this.restrictedDomainUUID == that.restrictedDomainUUID)  &&
+  	  (this.restrictedRangeUUID == that.restrictedRangeUUID) 
     case _ =>
       false
   }

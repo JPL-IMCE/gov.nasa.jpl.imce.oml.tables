@@ -36,8 +36,8 @@ import scala.Predef.ArrowAssoc
 case class StringScalarRestriction
 (
   @(JSExport @field) uuid: taggedTypes.StringScalarRestrictionUUID,
-  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxXRef,
-  @(JSExport @field) restrictedRangeUUID: taggedTypes.DataRangeXRef,
+  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxUUID,
+  @(JSExport @field) restrictedRangeUUID: taggedTypes.DataRangeUUID,
   @(JSExport @field) length: scala.Option[taggedTypes.PositiveIntegerLiteral],
   @(JSExport @field) minLength: scala.Option[taggedTypes.PositiveIntegerLiteral],
   @(JSExport @field) maxLength: scala.Option[taggedTypes.PositiveIntegerLiteral],
@@ -46,8 +46,8 @@ case class StringScalarRestriction
 ) {
   def this(
     uuid: taggedTypes.StringScalarRestrictionUUID,
-    tboxUUID: taggedTypes.TerminologyBoxXRef,
-    restrictedRangeUUID: taggedTypes.DataRangeXRef,
+    tboxUUID: taggedTypes.TerminologyBoxUUID,
+    restrictedRangeUUID: taggedTypes.DataRangeUUID,
     name: taggedTypes.LocalName)
   = this(
       uuid,
@@ -78,8 +78,8 @@ case class StringScalarRestriction
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    tboxUUID: taggedTypes.TerminologyBoxXRef,
-    restrictedRangeUUID: taggedTypes.DataRangeXRef,
+    tboxUUID: taggedTypes.TerminologyBoxUUID,
+    restrictedRangeUUID: taggedTypes.DataRangeUUID,
     name: taggedTypes.LocalName)
   = this(
       taggedTypes.stringScalarRestrictionUUID(oug.namespaceUUID(
@@ -98,8 +98,8 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: StringScalarRestriction =>
   	  (this.uuid == that.uuid) &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.tboxUUID, that.tboxUUID)  &&
-  	  gov.nasa.jpl.imce.oml.covariantTag.compareTaggedValues(this.restrictedRangeUUID, that.restrictedRangeUUID)  &&
+  	  (this.tboxUUID == that.tboxUUID)  &&
+  	  (this.restrictedRangeUUID == that.restrictedRangeUUID)  &&
   	  (this.length == that.length) &&
   	  (this.minLength == that.minLength) &&
   	  (this.maxLength == that.maxLength) &&

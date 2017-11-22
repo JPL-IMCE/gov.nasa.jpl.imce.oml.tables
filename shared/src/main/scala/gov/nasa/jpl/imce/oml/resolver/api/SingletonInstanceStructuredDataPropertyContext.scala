@@ -27,6 +27,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait SingletonInstanceStructuredDataPropertyContext
   extends Element
 {
+  override val uuid: taggedTypes.SingletonInstanceStructuredDataPropertyContextUUID
 
   val structuredDataProperty: DataRelationshipToStructure
 

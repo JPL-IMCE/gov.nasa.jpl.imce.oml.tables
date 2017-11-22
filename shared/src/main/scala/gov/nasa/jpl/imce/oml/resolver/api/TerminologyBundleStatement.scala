@@ -25,6 +25,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait TerminologyBundleStatement
   extends ModuleElement
 {
+  override val uuid: taggedTypes.TerminologyBundleStatementUUID
 
   val bundle: Bundle
 

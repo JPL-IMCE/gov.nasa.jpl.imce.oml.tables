@@ -25,6 +25,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait DataRelationshipToStructure
   extends DataRelationshipRange
 {
+  override val uuid: taggedTypes.DataRelationshipToStructureUUID
 
   val range: Structure
 }

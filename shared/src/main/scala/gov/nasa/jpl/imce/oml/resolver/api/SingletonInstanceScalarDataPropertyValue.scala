@@ -25,6 +25,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait SingletonInstanceScalarDataPropertyValue
   extends ModuleElement
 {
+  override val uuid: taggedTypes.SingletonInstanceScalarDataPropertyValueUUID
 
   val singletonInstance: ConceptualEntitySingletonInstance
   val scalarDataProperty: EntityScalarDataProperty
