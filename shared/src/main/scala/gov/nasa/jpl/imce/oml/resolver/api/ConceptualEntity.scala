@@ -26,5 +26,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
  * an OML TerminologyInstanceAssertion specifying its reference or value respectively.
  */
 trait ConceptualEntity
+  extends Entity
 {
+  override val uuid: taggedTypes.ConceptualEntityUUID
 }

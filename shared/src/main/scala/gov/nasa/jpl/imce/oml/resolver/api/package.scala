@@ -220,6 +220,16 @@ package object api {
   	 	case 0 => 0 }
   }
   
+  implicit def conceptualEntityOrdering
+  : scala.Ordering[ConceptualEntity]
+  = new scala.Ordering[ConceptualEntity] {
+  	def compare(x: ConceptualEntity, y: ConceptualEntity)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
   implicit def conceptualEntitySingletonInstanceOrdering
   : scala.Ordering[ConceptualEntitySingletonInstance]
   = new scala.Ordering[ConceptualEntitySingletonInstance] {
@@ -354,6 +364,16 @@ package object api {
   : scala.Ordering[DescriptionBoxRelationship]
   = new scala.Ordering[DescriptionBoxRelationship] {
   	def compare(x: DescriptionBoxRelationship, y: DescriptionBoxRelationship)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def directedBinaryRelationshipKindOrdering
+  : scala.Ordering[DirectedBinaryRelationshipKind]
+  = new scala.Ordering[DirectedBinaryRelationshipKind] {
+  	def compare(x: DirectedBinaryRelationshipKind, y: DirectedBinaryRelationshipKind)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid
@@ -684,6 +704,16 @@ package object api {
   : scala.Ordering[ReifiedRelationshipTargetPropertyPredicate]
   = new scala.Ordering[ReifiedRelationshipTargetPropertyPredicate] {
   	def compare(x: ReifiedRelationshipTargetPropertyPredicate, y: ReifiedRelationshipTargetPropertyPredicate)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def resourceOrdering
+  : scala.Ordering[Resource]
+  = new scala.Ordering[Resource] {
+  	def compare(x: Resource, y: Resource)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid
@@ -1054,6 +1084,16 @@ package object api {
   : scala.Ordering[UnarySegmentPredicate]
   = new scala.Ordering[UnarySegmentPredicate] {
   	def compare(x: UnarySegmentPredicate, y: UnarySegmentPredicate)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def unaryTermKindOrdering
+  : scala.Ordering[UnaryTermKind]
+  = new scala.Ordering[UnaryTermKind] {
+  	def compare(x: UnaryTermKind, y: UnaryTermKind)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid

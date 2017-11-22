@@ -34,7 +34,7 @@ case class Concept
   @(JSExport @field) override val uuid: taggedTypes.ConceptUUID,
   @(JSExport @field) override val tboxUUID: taggedTypes.TerminologyBoxUUID,
   @(JSExport @field) override val name: taggedTypes.LocalName
-) extends ConceptualEntity with Entity with UnaryTermKind {
+) extends ConceptualEntity with UnaryTermKind {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

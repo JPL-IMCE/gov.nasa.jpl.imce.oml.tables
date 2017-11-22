@@ -167,13 +167,13 @@ object taggedTypes {
   trait BundleTag <: TerminologyBoxTag
   trait BundledTerminologyAxiomTag <: TerminologyBundleAxiomTag
   trait ChainRuleTag <: RuleTag
-  trait ConceptTag <: ConceptualEntityTag with EntityTag with UnaryTermKindTag
+  trait ConceptTag <: ConceptualEntityTag with UnaryTermKindTag
   trait ConceptDesignationTerminologyAxiomTag <: TerminologyBoxAxiomTag
   trait ConceptInstanceTag <: ConceptualEntitySingletonInstanceTag
   trait ConceptPredicateTag <: UnarySegmentPredicateTag
   trait ConceptSpecializationAxiomTag <: SpecializationAxiomTag
   trait ConceptTreeDisjunctionTag <: ElementTag
-  trait ConceptualEntityTag
+  trait ConceptualEntityTag <: EntityTag
   trait ConceptualEntitySingletonInstanceTag <: ResourceTag with TerminologyInstanceAssertionTag
   trait DataRangeTag <: DatatypeTag
   trait DataRelationshipTag <: DirectedBinaryRelationshipKindTag with TermTag
@@ -188,7 +188,7 @@ object taggedTypes {
   trait DescriptionBoxExtendsClosedWorldDefinitionsTag <: DescriptionBoxRelationshipTag
   trait DescriptionBoxRefinementTag <: DescriptionBoxRelationshipTag
   trait DescriptionBoxRelationshipTag <: ModuleEdgeTag
-  trait DirectedBinaryRelationshipKindTag
+  trait DirectedBinaryRelationshipKindTag <: TermTag
   trait DisjointUnionOfConceptsAxiomTag <: ElementTag
   trait ElementTag
   trait EntityTag <: TermTag
@@ -219,12 +219,12 @@ object taggedTypes {
   trait LiteralURITag <: LiteralValueTag
   trait LiteralUUIDTag <: LiteralValueTag
   trait LiteralValueTag
-  trait ModuleTag <: ElementTag with ResourceTag
+  trait ModuleTag <: ResourceTag
   trait ModuleEdgeTag <: ElementTag
   trait ModuleElementTag <: ElementTag
   trait NumericScalarRestrictionTag <: RestrictedDataRangeTag
   trait PlainLiteralScalarRestrictionTag <: RestrictedDataRangeTag
-  trait ReifiedRelationshipTag <: ConceptualEntityTag with EntityTag with EntityRelationshipTag
+  trait ReifiedRelationshipTag <: ConceptualEntityTag with EntityRelationshipTag
   trait ReifiedRelationshipInstanceTag <: ConceptualEntitySingletonInstanceTag
   trait ReifiedRelationshipInstanceDomainTag <: TerminologyInstanceAssertionTag
   trait ReifiedRelationshipInstanceRangeTag <: TerminologyInstanceAssertionTag
@@ -236,7 +236,7 @@ object taggedTypes {
   trait ReifiedRelationshipSpecializationAxiomTag <: SpecializationAxiomTag
   trait ReifiedRelationshipTargetInversePropertyPredicateTag <: BinarySegmentReversePropertyPredicateTag
   trait ReifiedRelationshipTargetPropertyPredicateTag <: BinarySegmentForwardPropertyPredicateTag
-  trait ResourceTag
+  trait ResourceTag <: ElementTag
   trait RestrictedDataRangeTag <: DataRangeTag
   trait RestrictionScalarDataPropertyValueTag <: ElementTag
   trait RestrictionStructuredDataPropertyContextTag <: ModuleElementTag
@@ -274,7 +274,7 @@ object taggedTypes {
   trait TerminologyNestingAxiomTag <: TerminologyBoxAxiomTag
   trait TimeScalarRestrictionTag <: RestrictedDataRangeTag
   trait UnarySegmentPredicateTag <: SegmentPredicateTag
-  trait UnaryTermKindTag
+  trait UnaryTermKindTag <: TermTag
   trait UnreifiedRelationshipTag <: EntityRelationshipTag
   trait UnreifiedRelationshipInstanceTupleTag <: TerminologyInstanceAssertionTag
   trait UnreifiedRelationshipInversePropertyPredicateTag <: BinarySegmentReversePropertyPredicateTag

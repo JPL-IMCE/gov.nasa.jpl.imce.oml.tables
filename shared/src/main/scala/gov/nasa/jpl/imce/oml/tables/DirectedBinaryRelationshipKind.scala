@@ -19,5 +19,8 @@
  
 package gov.nasa.jpl.imce.oml.tables
 
-trait DirectedBinaryRelationshipKind {
+trait DirectedBinaryRelationshipKind extends Term {
+  override val uuid: taggedTypes.DirectedBinaryRelationshipKindUUID
+  override val tboxUUID: taggedTypes.TerminologyBoxUUID
+  override val name: taggedTypes.LocalName
 }

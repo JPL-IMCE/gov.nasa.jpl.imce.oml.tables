@@ -19,5 +19,8 @@
  
 package gov.nasa.jpl.imce.oml.tables
 
-trait ConceptualEntity {
+trait ConceptualEntity extends Entity {
+  override val uuid: taggedTypes.ConceptualEntityUUID
+  override val tboxUUID: taggedTypes.TerminologyBoxUUID
+  override val name: taggedTypes.LocalName
 }

@@ -19,7 +19,7 @@
  
 package gov.nasa.jpl.imce.oml.tables
 
-trait Module extends Element with Resource {
+trait Module extends Resource {
   override val uuid: taggedTypes.ModuleUUID
   val iri: taggedTypes.IRI
 }

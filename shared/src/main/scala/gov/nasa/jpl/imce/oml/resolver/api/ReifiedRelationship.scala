@@ -27,7 +27,6 @@ package gov.nasa.jpl.imce.oml.resolver.api
  */
 trait ReifiedRelationship
   extends EntityRelationship
-  with Entity
   with ConceptualEntity
 {
   override val uuid: taggedTypes.ReifiedRelationshipUUID

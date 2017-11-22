@@ -27,7 +27,9 @@ package gov.nasa.jpl.imce.oml.resolver.api
  * between its name and its IRI depend on what kind of OML Resource it is.
  */
 trait Resource
+  extends Element
 {
+  override val uuid: taggedTypes.ResourceUUID
 
   def iri
   ()(implicit extent: Extent): scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI]

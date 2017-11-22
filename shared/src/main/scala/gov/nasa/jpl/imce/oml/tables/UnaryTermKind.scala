@@ -19,5 +19,8 @@
  
 package gov.nasa.jpl.imce.oml.tables
 
-trait UnaryTermKind {
+trait UnaryTermKind extends Term {
+  override val uuid: taggedTypes.UnaryTermKindUUID
+  override val tboxUUID: taggedTypes.TerminologyBoxUUID
+  override val name: taggedTypes.LocalName
 }

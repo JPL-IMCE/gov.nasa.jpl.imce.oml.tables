@@ -24,7 +24,9 @@ package gov.nasa.jpl.imce.oml.resolver.api
  * that are relationships with arity 2
  */
 trait DirectedBinaryRelationshipKind
+  extends Term
 {
+  override val uuid: taggedTypes.DirectedBinaryRelationshipKindUUID
 
   def relationDomain
   (): Term

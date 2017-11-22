@@ -23,5 +23,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
  * that are relationships with arity 1
  */
 trait UnaryTermKind
+  extends Term
 {
+  override val uuid: taggedTypes.UnaryTermKindUUID
 }

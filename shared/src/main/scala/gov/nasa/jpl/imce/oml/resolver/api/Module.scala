@@ -24,8 +24,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
  * and a non-logical container of OML Annotation(s).
  */
 trait Module
-  extends Element
-  with Resource
+  extends Resource
 {
   override val uuid: taggedTypes.ModuleUUID
 

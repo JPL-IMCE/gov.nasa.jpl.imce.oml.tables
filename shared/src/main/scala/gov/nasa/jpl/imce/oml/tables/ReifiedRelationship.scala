@@ -59,7 +59,7 @@ case class ReifiedRelationship
   @(JSExport @field) override val name: taggedTypes.LocalName,
   @(JSExport @field) val unreifiedPropertyName: taggedTypes.LocalName,
   @(JSExport @field) val unreifiedInversePropertyName: scala.Option[taggedTypes.LocalName]
-) extends ConceptualEntity with Entity with EntityRelationship {
+) extends ConceptualEntity with EntityRelationship {
   def this(
     uuid: taggedTypes.ReifiedRelationshipUUID,
     tboxUUID: taggedTypes.TerminologyBoxUUID,
