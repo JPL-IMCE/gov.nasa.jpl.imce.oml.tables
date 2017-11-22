@@ -32,11 +32,11 @@ import scala.Predef.ArrowAssoc
 @JSExportTopLevel("TerminologyNestingAxiom")
 case class TerminologyNestingAxiom
 (
-  @(JSExport @field) uuid: taggedTypes.TerminologyNestingAxiomUUID,
-  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxUUID,
-  @(JSExport @field) nestingContextUUID: taggedTypes.ConceptUUID,
-  @(JSExport @field) nestingTerminologyIRI: taggedTypes.IRI
-) {
+  @(JSExport @field) override val uuid: taggedTypes.TerminologyNestingAxiomUUID,
+  @(JSExport @field) override val tboxUUID: taggedTypes.TerminologyBoxUUID,
+  @(JSExport @field) val nestingContextUUID: taggedTypes.ConceptUUID,
+  @(JSExport @field) val nestingTerminologyIRI: taggedTypes.IRI
+) extends TerminologyBoxAxiom {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

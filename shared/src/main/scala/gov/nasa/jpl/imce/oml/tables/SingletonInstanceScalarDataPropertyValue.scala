@@ -33,13 +33,13 @@ import scala.Predef.ArrowAssoc
   */
 case class SingletonInstanceScalarDataPropertyValue
 (
-  @(JSExport @field) uuid: taggedTypes.SingletonInstanceScalarDataPropertyValueUUID,
-  @(JSExport @field) descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
-  @(JSExport @field) singletonInstanceUUID: taggedTypes.ConceptualEntitySingletonInstanceUUID,
-  @(JSExport @field) scalarDataPropertyUUID: taggedTypes.EntityScalarDataPropertyUUID,
-  @(JSExport @field) scalarPropertyValue: LiteralValue,
-  @(JSExport @field) valueTypeUUID: scala.Option[taggedTypes.DataRangeUUID]
-) {
+  @(JSExport @field) override val uuid: taggedTypes.SingletonInstanceScalarDataPropertyValueUUID,
+  @(JSExport @field) val descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
+  @(JSExport @field) val singletonInstanceUUID: taggedTypes.ConceptualEntitySingletonInstanceUUID,
+  @(JSExport @field) val scalarDataPropertyUUID: taggedTypes.EntityScalarDataPropertyUUID,
+  @(JSExport @field) val scalarPropertyValue: LiteralValue,
+  @(JSExport @field) val valueTypeUUID: scala.Option[taggedTypes.DataRangeUUID]
+) extends ModuleElement {
   def this(
     uuid: taggedTypes.SingletonInstanceScalarDataPropertyValueUUID,
     descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,

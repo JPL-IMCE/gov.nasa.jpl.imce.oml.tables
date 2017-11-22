@@ -32,10 +32,10 @@ import scala.Predef.ArrowAssoc
 @JSExportTopLevel("AnnotationPropertyValue")
 case class AnnotationPropertyValue
 (
-  @(JSExport @field) uuid: taggedTypes.AnnotationPropertyValueUUID,
-  @(JSExport @field) subjectUUID: taggedTypes.ElementUUID,
-  @(JSExport @field) propertyUUID: taggedTypes.AnnotationPropertyUUID,
-  @(JSExport @field) value: taggedTypes.StringDataType
+  @(JSExport @field) val uuid: taggedTypes.AnnotationPropertyValueUUID,
+  @(JSExport @field) val subjectUUID: taggedTypes.ElementUUID,
+  @(JSExport @field) val propertyUUID: taggedTypes.AnnotationPropertyUUID,
+  @(JSExport @field) val value: taggedTypes.StringDataType
 ) {
   // Ctor(uuidWithContainer)   
   def this(

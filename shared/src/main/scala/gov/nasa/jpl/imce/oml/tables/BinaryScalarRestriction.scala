@@ -34,14 +34,14 @@ import scala.Predef.ArrowAssoc
   */
 case class BinaryScalarRestriction
 (
-  @(JSExport @field) uuid: taggedTypes.BinaryScalarRestrictionUUID,
-  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxUUID,
-  @(JSExport @field) restrictedRangeUUID: taggedTypes.DataRangeUUID,
-  @(JSExport @field) length: scala.Option[taggedTypes.PositiveIntegerLiteral],
-  @(JSExport @field) minLength: scala.Option[taggedTypes.PositiveIntegerLiteral],
-  @(JSExport @field) maxLength: scala.Option[taggedTypes.PositiveIntegerLiteral],
-  @(JSExport @field) name: taggedTypes.LocalName
-) {
+  @(JSExport @field) override val uuid: taggedTypes.BinaryScalarRestrictionUUID,
+  @(JSExport @field) override val tboxUUID: taggedTypes.TerminologyBoxUUID,
+  @(JSExport @field) override val restrictedRangeUUID: taggedTypes.DataRangeUUID,
+  @(JSExport @field) val length: scala.Option[taggedTypes.PositiveIntegerLiteral],
+  @(JSExport @field) val minLength: scala.Option[taggedTypes.PositiveIntegerLiteral],
+  @(JSExport @field) val maxLength: scala.Option[taggedTypes.PositiveIntegerLiteral],
+  @(JSExport @field) override val name: taggedTypes.LocalName
+) extends RestrictedDataRange {
   def this(
     uuid: taggedTypes.BinaryScalarRestrictionUUID,
     tboxUUID: taggedTypes.TerminologyBoxUUID,

@@ -32,11 +32,11 @@ import scala.Predef.ArrowAssoc
 @JSExportTopLevel("ChainRule")
 case class ChainRule
 (
-  @(JSExport @field) uuid: taggedTypes.ChainRuleUUID,
-  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxUUID,
-  @(JSExport @field) name: taggedTypes.LocalName,
-  @(JSExport @field) headUUID: taggedTypes.UnreifiedRelationshipUUID
-) {
+  @(JSExport @field) override val uuid: taggedTypes.ChainRuleUUID,
+  @(JSExport @field) override val tboxUUID: taggedTypes.TerminologyBoxUUID,
+  @(JSExport @field) override val name: taggedTypes.LocalName,
+  @(JSExport @field) val headUUID: taggedTypes.UnreifiedRelationshipUUID
+) extends Rule {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

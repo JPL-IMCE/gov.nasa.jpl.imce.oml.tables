@@ -29,10 +29,10 @@ import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
   */
 case class RuleBodySegment
 (
-  @(JSExport @field) uuid: taggedTypes.RuleBodySegmentUUID,
-  @(JSExport @field) previousSegmentUUID: scala.Option[taggedTypes.RuleBodySegmentUUID],
-  @(JSExport @field) ruleUUID: scala.Option[taggedTypes.ChainRuleUUID]
-) {
+  @(JSExport @field) override val uuid: taggedTypes.RuleBodySegmentUUID,
+  @(JSExport @field) val previousSegmentUUID: scala.Option[taggedTypes.RuleBodySegmentUUID],
+  @(JSExport @field) val ruleUUID: scala.Option[taggedTypes.ChainRuleUUID]
+) extends Element {
   def this(
     uuid: taggedTypes.RuleBodySegmentUUID)
   = this(

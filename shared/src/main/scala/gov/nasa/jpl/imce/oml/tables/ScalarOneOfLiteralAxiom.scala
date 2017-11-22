@@ -32,12 +32,12 @@ import scala.Predef.ArrowAssoc
   */
 case class ScalarOneOfLiteralAxiom
 (
-  @(JSExport @field) uuid: taggedTypes.ScalarOneOfLiteralAxiomUUID,
-  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxUUID,
-  @(JSExport @field) axiomUUID: taggedTypes.ScalarOneOfRestrictionUUID,
-  @(JSExport @field) value: LiteralValue,
-  @(JSExport @field) valueTypeUUID: scala.Option[taggedTypes.DataRangeUUID]
-) {
+  @(JSExport @field) override val uuid: taggedTypes.ScalarOneOfLiteralAxiomUUID,
+  @(JSExport @field) override val tboxUUID: taggedTypes.TerminologyBoxUUID,
+  @(JSExport @field) val axiomUUID: taggedTypes.ScalarOneOfRestrictionUUID,
+  @(JSExport @field) val value: LiteralValue,
+  @(JSExport @field) val valueTypeUUID: scala.Option[taggedTypes.DataRangeUUID]
+) extends TermAxiom {
   def this(
     uuid: taggedTypes.ScalarOneOfLiteralAxiomUUID,
     tboxUUID: taggedTypes.TerminologyBoxUUID,

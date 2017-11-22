@@ -31,10 +31,10 @@ import scala.Predef.ArrowAssoc
 @JSExportTopLevel("Aspect")
 case class Aspect
 (
-  @(JSExport @field) uuid: taggedTypes.AspectUUID,
-  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxUUID,
-  @(JSExport @field) name: taggedTypes.LocalName
-) {
+  @(JSExport @field) override val uuid: taggedTypes.AspectUUID,
+  @(JSExport @field) override val tboxUUID: taggedTypes.TerminologyBoxUUID,
+  @(JSExport @field) override val name: taggedTypes.LocalName
+) extends Entity with UnaryTermKind {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

@@ -32,11 +32,11 @@ import scala.Predef.ArrowAssoc
 @JSExportTopLevel("ConceptDesignationTerminologyAxiom")
 case class ConceptDesignationTerminologyAxiom
 (
-  @(JSExport @field) uuid: taggedTypes.ConceptDesignationTerminologyAxiomUUID,
-  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxUUID,
-  @(JSExport @field) designatedConceptUUID: taggedTypes.ConceptUUID,
-  @(JSExport @field) designatedTerminologyIRI: taggedTypes.IRI
-) {
+  @(JSExport @field) override val uuid: taggedTypes.ConceptDesignationTerminologyAxiomUUID,
+  @(JSExport @field) override val tboxUUID: taggedTypes.TerminologyBoxUUID,
+  @(JSExport @field) val designatedConceptUUID: taggedTypes.ConceptUUID,
+  @(JSExport @field) val designatedTerminologyIRI: taggedTypes.IRI
+) extends TerminologyBoxAxiom {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

@@ -34,13 +34,13 @@ import scala.Predef.ArrowAssoc
 @JSExportTopLevel("EntityStructuredDataProperty")
 case class EntityStructuredDataProperty
 (
-  @(JSExport @field) uuid: taggedTypes.EntityStructuredDataPropertyUUID,
-  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxUUID,
-  @(JSExport @field) domainUUID: taggedTypes.EntityUUID,
-  @(JSExport @field) rangeUUID: taggedTypes.StructureUUID,
-  @(JSExport @field) isIdentityCriteria: scala.Boolean,
-  @(JSExport @field) name: taggedTypes.LocalName
-) {
+  @(JSExport @field) override val uuid: taggedTypes.EntityStructuredDataPropertyUUID,
+  @(JSExport @field) override val tboxUUID: taggedTypes.TerminologyBoxUUID,
+  @(JSExport @field) override val domainUUID: taggedTypes.EntityUUID,
+  @(JSExport @field) override val rangeUUID: taggedTypes.StructureUUID,
+  @(JSExport @field) override val isIdentityCriteria: scala.Boolean,
+  @(JSExport @field) override val name: taggedTypes.LocalName
+) extends DataRelationship with DataRelationshipFromEntity with DataRelationshipToStructure {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

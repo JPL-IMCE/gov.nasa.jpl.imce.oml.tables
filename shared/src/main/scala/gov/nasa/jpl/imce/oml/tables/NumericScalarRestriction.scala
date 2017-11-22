@@ -35,15 +35,15 @@ import scala.Predef.ArrowAssoc
   */
 case class NumericScalarRestriction
 (
-  @(JSExport @field) uuid: taggedTypes.NumericScalarRestrictionUUID,
-  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxUUID,
-  @(JSExport @field) restrictedRangeUUID: taggedTypes.DataRangeUUID,
-  @(JSExport @field) minExclusive: scala.Option[LiteralNumber],
-  @(JSExport @field) minInclusive: scala.Option[LiteralNumber],
-  @(JSExport @field) maxExclusive: scala.Option[LiteralNumber],
-  @(JSExport @field) maxInclusive: scala.Option[LiteralNumber],
-  @(JSExport @field) name: taggedTypes.LocalName
-) {
+  @(JSExport @field) override val uuid: taggedTypes.NumericScalarRestrictionUUID,
+  @(JSExport @field) override val tboxUUID: taggedTypes.TerminologyBoxUUID,
+  @(JSExport @field) override val restrictedRangeUUID: taggedTypes.DataRangeUUID,
+  @(JSExport @field) val minExclusive: scala.Option[LiteralNumber],
+  @(JSExport @field) val minInclusive: scala.Option[LiteralNumber],
+  @(JSExport @field) val maxExclusive: scala.Option[LiteralNumber],
+  @(JSExport @field) val maxInclusive: scala.Option[LiteralNumber],
+  @(JSExport @field) override val name: taggedTypes.LocalName
+) extends RestrictedDataRange {
   def this(
     uuid: taggedTypes.NumericScalarRestrictionUUID,
     tboxUUID: taggedTypes.TerminologyBoxUUID,

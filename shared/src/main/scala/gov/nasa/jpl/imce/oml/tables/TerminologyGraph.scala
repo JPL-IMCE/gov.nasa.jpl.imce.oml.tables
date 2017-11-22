@@ -30,10 +30,10 @@ import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
 @JSExportTopLevel("TerminologyGraph")
 case class TerminologyGraph
 (
-  @(JSExport @field) uuid: taggedTypes.TerminologyGraphUUID,
-  @(JSExport @field) kind: TerminologyKind,
-  @(JSExport @field) iri: taggedTypes.IRI
-) {
+  @(JSExport @field) override val uuid: taggedTypes.TerminologyGraphUUID,
+  @(JSExport @field) override val kind: TerminologyKind,
+  @(JSExport @field) override val iri: taggedTypes.IRI
+) extends TerminologyBox {
   // Ctor(uuidWithoutContainer)
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

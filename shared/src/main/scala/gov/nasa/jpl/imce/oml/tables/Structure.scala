@@ -31,10 +31,10 @@ import scala.Predef.ArrowAssoc
 @JSExportTopLevel("Structure")
 case class Structure
 (
-  @(JSExport @field) uuid: taggedTypes.StructureUUID,
-  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxUUID,
-  @(JSExport @field) name: taggedTypes.LocalName
-) {
+  @(JSExport @field) override val uuid: taggedTypes.StructureUUID,
+  @(JSExport @field) override val tboxUUID: taggedTypes.TerminologyBoxUUID,
+  @(JSExport @field) override val name: taggedTypes.LocalName
+) extends Datatype with UnaryTermKind {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

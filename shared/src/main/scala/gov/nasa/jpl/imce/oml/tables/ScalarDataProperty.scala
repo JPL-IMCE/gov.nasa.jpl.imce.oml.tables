@@ -33,12 +33,12 @@ import scala.Predef.ArrowAssoc
 @JSExportTopLevel("ScalarDataProperty")
 case class ScalarDataProperty
 (
-  @(JSExport @field) uuid: taggedTypes.ScalarDataPropertyUUID,
-  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxUUID,
-  @(JSExport @field) domainUUID: taggedTypes.StructureUUID,
-  @(JSExport @field) rangeUUID: taggedTypes.DataRangeUUID,
-  @(JSExport @field) name: taggedTypes.LocalName
-) {
+  @(JSExport @field) override val uuid: taggedTypes.ScalarDataPropertyUUID,
+  @(JSExport @field) override val tboxUUID: taggedTypes.TerminologyBoxUUID,
+  @(JSExport @field) override val domainUUID: taggedTypes.StructureUUID,
+  @(JSExport @field) override val rangeUUID: taggedTypes.DataRangeUUID,
+  @(JSExport @field) override val name: taggedTypes.LocalName
+) extends DataRelationship with DataRelationshipFromStructure with DataRelationshipToScalar {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

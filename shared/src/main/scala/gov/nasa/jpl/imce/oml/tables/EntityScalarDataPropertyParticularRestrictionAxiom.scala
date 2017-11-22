@@ -33,13 +33,13 @@ import scala.Predef.ArrowAssoc
   */
 case class EntityScalarDataPropertyParticularRestrictionAxiom
 (
-  @(JSExport @field) uuid: taggedTypes.EntityScalarDataPropertyParticularRestrictionAxiomUUID,
-  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxUUID,
-  @(JSExport @field) restrictedEntityUUID: taggedTypes.EntityUUID,
-  @(JSExport @field) scalarPropertyUUID: taggedTypes.EntityScalarDataPropertyUUID,
-  @(JSExport @field) literalValue: LiteralValue,
-  @(JSExport @field) valueTypeUUID: scala.Option[taggedTypes.DataRangeUUID]
-) {
+  @(JSExport @field) override val uuid: taggedTypes.EntityScalarDataPropertyParticularRestrictionAxiomUUID,
+  @(JSExport @field) override val tboxUUID: taggedTypes.TerminologyBoxUUID,
+  @(JSExport @field) override val restrictedEntityUUID: taggedTypes.EntityUUID,
+  @(JSExport @field) override val scalarPropertyUUID: taggedTypes.EntityScalarDataPropertyUUID,
+  @(JSExport @field) val literalValue: LiteralValue,
+  @(JSExport @field) val valueTypeUUID: scala.Option[taggedTypes.DataRangeUUID]
+) extends EntityScalarDataPropertyRestrictionAxiom {
   def this(
     uuid: taggedTypes.EntityScalarDataPropertyParticularRestrictionAxiomUUID,
     tboxUUID: taggedTypes.TerminologyBoxUUID,

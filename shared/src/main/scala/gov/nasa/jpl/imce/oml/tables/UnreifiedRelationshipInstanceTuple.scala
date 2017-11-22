@@ -33,12 +33,12 @@ import scala.Predef.ArrowAssoc
 @JSExportTopLevel("UnreifiedRelationshipInstanceTuple")
 case class UnreifiedRelationshipInstanceTuple
 (
-  @(JSExport @field) uuid: taggedTypes.UnreifiedRelationshipInstanceTupleUUID,
-  @(JSExport @field) descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
-  @(JSExport @field) unreifiedRelationshipUUID: taggedTypes.UnreifiedRelationshipUUID,
-  @(JSExport @field) domainUUID: taggedTypes.ConceptualEntitySingletonInstanceUUID,
-  @(JSExport @field) rangeUUID: taggedTypes.ConceptualEntitySingletonInstanceUUID
-) {
+  @(JSExport @field) override val uuid: taggedTypes.UnreifiedRelationshipInstanceTupleUUID,
+  @(JSExport @field) val descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
+  @(JSExport @field) val unreifiedRelationshipUUID: taggedTypes.UnreifiedRelationshipUUID,
+  @(JSExport @field) val domainUUID: taggedTypes.ConceptualEntitySingletonInstanceUUID,
+  @(JSExport @field) val rangeUUID: taggedTypes.ConceptualEntitySingletonInstanceUUID
+) extends TerminologyInstanceAssertion {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

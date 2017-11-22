@@ -33,12 +33,12 @@ import scala.Predef.ArrowAssoc
 @JSExportTopLevel("EntityScalarDataPropertyExistentialRestrictionAxiom")
 case class EntityScalarDataPropertyExistentialRestrictionAxiom
 (
-  @(JSExport @field) uuid: taggedTypes.EntityScalarDataPropertyExistentialRestrictionAxiomUUID,
-  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxUUID,
-  @(JSExport @field) restrictedEntityUUID: taggedTypes.EntityUUID,
-  @(JSExport @field) scalarPropertyUUID: taggedTypes.EntityScalarDataPropertyUUID,
-  @(JSExport @field) scalarRestrictionUUID: taggedTypes.DataRangeUUID
-) {
+  @(JSExport @field) override val uuid: taggedTypes.EntityScalarDataPropertyExistentialRestrictionAxiomUUID,
+  @(JSExport @field) override val tboxUUID: taggedTypes.TerminologyBoxUUID,
+  @(JSExport @field) override val restrictedEntityUUID: taggedTypes.EntityUUID,
+  @(JSExport @field) override val scalarPropertyUUID: taggedTypes.EntityScalarDataPropertyUUID,
+  @(JSExport @field) val scalarRestrictionUUID: taggedTypes.DataRangeUUID
+) extends EntityScalarDataPropertyRestrictionAxiom {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

@@ -31,10 +31,10 @@ import scala.Predef.ArrowAssoc
 @JSExportTopLevel("AspectPredicate")
 case class AspectPredicate
 (
-  @(JSExport @field) uuid: taggedTypes.AspectPredicateUUID,
-  @(JSExport @field) aspectUUID: taggedTypes.AspectUUID,
-  @(JSExport @field) bodySegmentUUID: taggedTypes.RuleBodySegmentUUID
-) {
+  @(JSExport @field) override val uuid: taggedTypes.AspectPredicateUUID,
+  @(JSExport @field) val aspectUUID: taggedTypes.AspectUUID,
+  @(JSExport @field) override val bodySegmentUUID: taggedTypes.RuleBodySegmentUUID
+) extends UnarySegmentPredicate {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

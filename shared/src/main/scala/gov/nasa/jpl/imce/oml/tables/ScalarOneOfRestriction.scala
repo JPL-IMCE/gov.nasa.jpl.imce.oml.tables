@@ -32,11 +32,11 @@ import scala.Predef.ArrowAssoc
 @JSExportTopLevel("ScalarOneOfRestriction")
 case class ScalarOneOfRestriction
 (
-  @(JSExport @field) uuid: taggedTypes.ScalarOneOfRestrictionUUID,
-  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxUUID,
-  @(JSExport @field) restrictedRangeUUID: taggedTypes.DataRangeUUID,
-  @(JSExport @field) name: taggedTypes.LocalName
-) {
+  @(JSExport @field) override val uuid: taggedTypes.ScalarOneOfRestrictionUUID,
+  @(JSExport @field) override val tboxUUID: taggedTypes.TerminologyBoxUUID,
+  @(JSExport @field) override val restrictedRangeUUID: taggedTypes.DataRangeUUID,
+  @(JSExport @field) override val name: taggedTypes.LocalName
+) extends RestrictedDataRange {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

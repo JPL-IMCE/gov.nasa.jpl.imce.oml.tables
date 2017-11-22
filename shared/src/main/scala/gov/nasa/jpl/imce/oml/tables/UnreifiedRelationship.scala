@@ -42,21 +42,21 @@ import scala.Predef.ArrowAssoc
 @JSExportTopLevel("UnreifiedRelationship")
 case class UnreifiedRelationship
 (
-  @(JSExport @field) uuid: taggedTypes.UnreifiedRelationshipUUID,
-  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxUUID,
-  @(JSExport @field) sourceUUID: taggedTypes.EntityUUID,
-  @(JSExport @field) targetUUID: taggedTypes.EntityUUID,
-  @(JSExport @field) isAsymmetric: scala.Boolean,
-  @(JSExport @field) isEssential: scala.Boolean,
-  @(JSExport @field) isFunctional: scala.Boolean,
-  @(JSExport @field) isInverseEssential: scala.Boolean,
-  @(JSExport @field) isInverseFunctional: scala.Boolean,
-  @(JSExport @field) isIrreflexive: scala.Boolean,
-  @(JSExport @field) isReflexive: scala.Boolean,
-  @(JSExport @field) isSymmetric: scala.Boolean,
-  @(JSExport @field) isTransitive: scala.Boolean,
-  @(JSExport @field) name: taggedTypes.LocalName
-) {
+  @(JSExport @field) override val uuid: taggedTypes.UnreifiedRelationshipUUID,
+  @(JSExport @field) override val tboxUUID: taggedTypes.TerminologyBoxUUID,
+  @(JSExport @field) override val sourceUUID: taggedTypes.EntityUUID,
+  @(JSExport @field) override val targetUUID: taggedTypes.EntityUUID,
+  @(JSExport @field) override val isAsymmetric: scala.Boolean,
+  @(JSExport @field) override val isEssential: scala.Boolean,
+  @(JSExport @field) override val isFunctional: scala.Boolean,
+  @(JSExport @field) override val isInverseEssential: scala.Boolean,
+  @(JSExport @field) override val isInverseFunctional: scala.Boolean,
+  @(JSExport @field) override val isIrreflexive: scala.Boolean,
+  @(JSExport @field) override val isReflexive: scala.Boolean,
+  @(JSExport @field) override val isSymmetric: scala.Boolean,
+  @(JSExport @field) override val isTransitive: scala.Boolean,
+  @(JSExport @field) override val name: taggedTypes.LocalName
+) extends EntityRelationship {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

@@ -31,10 +31,10 @@ import scala.Predef.ArrowAssoc
 @JSExportTopLevel("RootConceptTaxonomyAxiom")
 case class RootConceptTaxonomyAxiom
 (
-  @(JSExport @field) uuid: taggedTypes.RootConceptTaxonomyAxiomUUID,
-  @(JSExport @field) bundleUUID: taggedTypes.BundleUUID,
-  @(JSExport @field) rootUUID: taggedTypes.ConceptUUID
-) {
+  @(JSExport @field) override val uuid: taggedTypes.RootConceptTaxonomyAxiomUUID,
+  @(JSExport @field) override val bundleUUID: taggedTypes.BundleUUID,
+  @(JSExport @field) val rootUUID: taggedTypes.ConceptUUID
+) extends ConceptTreeDisjunction with TerminologyBundleStatement {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

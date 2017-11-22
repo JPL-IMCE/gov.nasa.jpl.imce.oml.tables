@@ -32,11 +32,11 @@ import scala.Predef.ArrowAssoc
 @JSExportTopLevel("ReifiedRelationshipInstance")
 case class ReifiedRelationshipInstance
 (
-  @(JSExport @field) uuid: taggedTypes.ReifiedRelationshipInstanceUUID,
-  @(JSExport @field) descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
-  @(JSExport @field) singletonReifiedRelationshipClassifierUUID: taggedTypes.ReifiedRelationshipUUID,
-  @(JSExport @field) name: taggedTypes.LocalName
-) {
+  @(JSExport @field) override val uuid: taggedTypes.ReifiedRelationshipInstanceUUID,
+  @(JSExport @field) val descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
+  @(JSExport @field) val singletonReifiedRelationshipClassifierUUID: taggedTypes.ReifiedRelationshipUUID,
+  @(JSExport @field) override val name: taggedTypes.LocalName
+) extends ConceptualEntitySingletonInstance {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

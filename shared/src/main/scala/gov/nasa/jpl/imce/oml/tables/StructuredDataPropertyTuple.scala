@@ -31,10 +31,10 @@ import scala.Predef.ArrowAssoc
 @JSExportTopLevel("StructuredDataPropertyTuple")
 case class StructuredDataPropertyTuple
 (
-  @(JSExport @field) uuid: taggedTypes.StructuredDataPropertyTupleUUID,
-  @(JSExport @field) structuredDataPropertyUUID: taggedTypes.DataRelationshipToStructureUUID,
-  @(JSExport @field) structuredDataPropertyContextUUID: taggedTypes.SingletonInstanceStructuredDataPropertyContextUUID
-) {
+  @(JSExport @field) override val uuid: taggedTypes.StructuredDataPropertyTupleUUID,
+  @(JSExport @field) override val structuredDataPropertyUUID: taggedTypes.DataRelationshipToStructureUUID,
+  @(JSExport @field) val structuredDataPropertyContextUUID: taggedTypes.SingletonInstanceStructuredDataPropertyContextUUID
+) extends SingletonInstanceStructuredDataPropertyContext {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

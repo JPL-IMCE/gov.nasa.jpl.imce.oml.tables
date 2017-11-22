@@ -31,10 +31,10 @@ import scala.Predef.ArrowAssoc
 @JSExportTopLevel("DescriptionBoxExtendsClosedWorldDefinitions")
 case class DescriptionBoxExtendsClosedWorldDefinitions
 (
-  @(JSExport @field) uuid: taggedTypes.DescriptionBoxExtendsClosedWorldDefinitionsUUID,
-  @(JSExport @field) descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
-  @(JSExport @field) closedWorldDefinitionsIRI: taggedTypes.IRI
-) {
+  @(JSExport @field) override val uuid: taggedTypes.DescriptionBoxExtendsClosedWorldDefinitionsUUID,
+  @(JSExport @field) val descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
+  @(JSExport @field) val closedWorldDefinitionsIRI: taggedTypes.IRI
+) extends DescriptionBoxRelationship {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

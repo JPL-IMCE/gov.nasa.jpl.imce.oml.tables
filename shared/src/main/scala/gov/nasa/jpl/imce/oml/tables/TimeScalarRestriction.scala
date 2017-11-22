@@ -35,15 +35,15 @@ import scala.Predef.ArrowAssoc
   */
 case class TimeScalarRestriction
 (
-  @(JSExport @field) uuid: taggedTypes.TimeScalarRestrictionUUID,
-  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxUUID,
-  @(JSExport @field) restrictedRangeUUID: taggedTypes.DataRangeUUID,
-  @(JSExport @field) minExclusive: scala.Option[LiteralDateTime],
-  @(JSExport @field) minInclusive: scala.Option[LiteralDateTime],
-  @(JSExport @field) maxExclusive: scala.Option[LiteralDateTime],
-  @(JSExport @field) maxInclusive: scala.Option[LiteralDateTime],
-  @(JSExport @field) name: taggedTypes.LocalName
-) {
+  @(JSExport @field) override val uuid: taggedTypes.TimeScalarRestrictionUUID,
+  @(JSExport @field) override val tboxUUID: taggedTypes.TerminologyBoxUUID,
+  @(JSExport @field) override val restrictedRangeUUID: taggedTypes.DataRangeUUID,
+  @(JSExport @field) val minExclusive: scala.Option[LiteralDateTime],
+  @(JSExport @field) val minInclusive: scala.Option[LiteralDateTime],
+  @(JSExport @field) val maxExclusive: scala.Option[LiteralDateTime],
+  @(JSExport @field) val maxInclusive: scala.Option[LiteralDateTime],
+  @(JSExport @field) override val name: taggedTypes.LocalName
+) extends RestrictedDataRange {
   def this(
     uuid: taggedTypes.TimeScalarRestrictionUUID,
     tboxUUID: taggedTypes.TerminologyBoxUUID,

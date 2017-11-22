@@ -32,11 +32,11 @@ import scala.Predef.ArrowAssoc
 @JSExportTopLevel("ReifiedRelationshipSpecializationAxiom")
 case class ReifiedRelationshipSpecializationAxiom
 (
-  @(JSExport @field) uuid: taggedTypes.ReifiedRelationshipSpecializationAxiomUUID,
-  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxUUID,
-  @(JSExport @field) superRelationshipUUID: taggedTypes.ReifiedRelationshipUUID,
-  @(JSExport @field) subRelationshipUUID: taggedTypes.ReifiedRelationshipUUID
-) {
+  @(JSExport @field) override val uuid: taggedTypes.ReifiedRelationshipSpecializationAxiomUUID,
+  @(JSExport @field) override val tboxUUID: taggedTypes.TerminologyBoxUUID,
+  @(JSExport @field) val superRelationshipUUID: taggedTypes.ReifiedRelationshipUUID,
+  @(JSExport @field) val subRelationshipUUID: taggedTypes.ReifiedRelationshipUUID
+) extends SpecializationAxiom {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

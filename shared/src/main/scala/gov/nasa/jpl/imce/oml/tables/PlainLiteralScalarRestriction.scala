@@ -36,16 +36,16 @@ import scala.Predef.ArrowAssoc
   */
 case class PlainLiteralScalarRestriction
 (
-  @(JSExport @field) uuid: taggedTypes.PlainLiteralScalarRestrictionUUID,
-  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxUUID,
-  @(JSExport @field) restrictedRangeUUID: taggedTypes.DataRangeUUID,
-  @(JSExport @field) length: scala.Option[taggedTypes.PositiveIntegerLiteral],
-  @(JSExport @field) minLength: scala.Option[taggedTypes.PositiveIntegerLiteral],
-  @(JSExport @field) maxLength: scala.Option[taggedTypes.PositiveIntegerLiteral],
-  @(JSExport @field) name: taggedTypes.LocalName,
-  @(JSExport @field) langRange: scala.Option[taggedTypes.LanguageTagDataType],
-  @(JSExport @field) pattern: scala.Option[taggedTypes.LiteralPattern]
-) {
+  @(JSExport @field) override val uuid: taggedTypes.PlainLiteralScalarRestrictionUUID,
+  @(JSExport @field) override val tboxUUID: taggedTypes.TerminologyBoxUUID,
+  @(JSExport @field) override val restrictedRangeUUID: taggedTypes.DataRangeUUID,
+  @(JSExport @field) val length: scala.Option[taggedTypes.PositiveIntegerLiteral],
+  @(JSExport @field) val minLength: scala.Option[taggedTypes.PositiveIntegerLiteral],
+  @(JSExport @field) val maxLength: scala.Option[taggedTypes.PositiveIntegerLiteral],
+  @(JSExport @field) override val name: taggedTypes.LocalName,
+  @(JSExport @field) val langRange: scala.Option[taggedTypes.LanguageTagDataType],
+  @(JSExport @field) val pattern: scala.Option[taggedTypes.LiteralPattern]
+) extends RestrictedDataRange {
   def this(
     uuid: taggedTypes.PlainLiteralScalarRestrictionUUID,
     tboxUUID: taggedTypes.TerminologyBoxUUID,

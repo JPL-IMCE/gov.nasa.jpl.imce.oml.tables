@@ -30,9 +30,9 @@ import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
 @JSExportTopLevel("AnnotationProperty")
 case class AnnotationProperty
 (
-  @(JSExport @field) uuid: taggedTypes.AnnotationPropertyUUID,
-  @(JSExport @field) iri: taggedTypes.IRI,
-  @(JSExport @field) abbrevIRI: taggedTypes.AbbrevIRI
+  @(JSExport @field) val uuid: taggedTypes.AnnotationPropertyUUID,
+  @(JSExport @field) val iri: taggedTypes.IRI,
+  @(JSExport @field) val abbrevIRI: taggedTypes.AbbrevIRI
 ) {
   // Ctor(uuidWithoutContainer)
   def this(

@@ -31,10 +31,10 @@ import scala.Predef.ArrowAssoc
 @JSExportTopLevel("AnonymousConceptUnionAxiom")
 case class AnonymousConceptUnionAxiom
 (
-  @(JSExport @field) uuid: taggedTypes.AnonymousConceptUnionAxiomUUID,
-  @(JSExport @field) disjointTaxonomyParentUUID: taggedTypes.ConceptTreeDisjunctionUUID,
-  @(JSExport @field) name: taggedTypes.LocalName
-) {
+  @(JSExport @field) override val uuid: taggedTypes.AnonymousConceptUnionAxiomUUID,
+  @(JSExport @field) override val disjointTaxonomyParentUUID: taggedTypes.ConceptTreeDisjunctionUUID,
+  @(JSExport @field) val name: taggedTypes.LocalName
+) extends ConceptTreeDisjunction with DisjointUnionOfConceptsAxiom {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

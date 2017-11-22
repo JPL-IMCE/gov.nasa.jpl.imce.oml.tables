@@ -32,11 +32,11 @@ import scala.Predef.ArrowAssoc
 @JSExportTopLevel("SingletonInstanceStructuredDataPropertyValue")
 case class SingletonInstanceStructuredDataPropertyValue
 (
-  @(JSExport @field) uuid: taggedTypes.SingletonInstanceStructuredDataPropertyValueUUID,
-  @(JSExport @field) descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
-  @(JSExport @field) singletonInstanceUUID: taggedTypes.ConceptualEntitySingletonInstanceUUID,
-  @(JSExport @field) structuredDataPropertyUUID: taggedTypes.DataRelationshipToStructureUUID
-) {
+  @(JSExport @field) override val uuid: taggedTypes.SingletonInstanceStructuredDataPropertyValueUUID,
+  @(JSExport @field) val descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
+  @(JSExport @field) val singletonInstanceUUID: taggedTypes.ConceptualEntitySingletonInstanceUUID,
+  @(JSExport @field) override val structuredDataPropertyUUID: taggedTypes.DataRelationshipToStructureUUID
+) extends ModuleElement with SingletonInstanceStructuredDataPropertyContext {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

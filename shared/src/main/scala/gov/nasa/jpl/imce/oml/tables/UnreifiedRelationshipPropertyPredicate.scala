@@ -31,10 +31,10 @@ import scala.Predef.ArrowAssoc
 @JSExportTopLevel("UnreifiedRelationshipPropertyPredicate")
 case class UnreifiedRelationshipPropertyPredicate
 (
-  @(JSExport @field) uuid: taggedTypes.UnreifiedRelationshipPropertyPredicateUUID,
-  @(JSExport @field) unreifiedRelationshipUUID: taggedTypes.UnreifiedRelationshipUUID,
-  @(JSExport @field) bodySegmentUUID: taggedTypes.RuleBodySegmentUUID
-) {
+  @(JSExport @field) override val uuid: taggedTypes.UnreifiedRelationshipPropertyPredicateUUID,
+  @(JSExport @field) val unreifiedRelationshipUUID: taggedTypes.UnreifiedRelationshipUUID,
+  @(JSExport @field) override val bodySegmentUUID: taggedTypes.RuleBodySegmentUUID
+) extends BinarySegmentForwardPropertyPredicate {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

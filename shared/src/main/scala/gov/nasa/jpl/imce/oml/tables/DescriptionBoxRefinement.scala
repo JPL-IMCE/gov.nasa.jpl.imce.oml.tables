@@ -31,10 +31,10 @@ import scala.Predef.ArrowAssoc
 @JSExportTopLevel("DescriptionBoxRefinement")
 case class DescriptionBoxRefinement
 (
-  @(JSExport @field) uuid: taggedTypes.DescriptionBoxRefinementUUID,
-  @(JSExport @field) refiningDescriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
-  @(JSExport @field) refinedDescriptionBoxIRI: taggedTypes.IRI
-) {
+  @(JSExport @field) override val uuid: taggedTypes.DescriptionBoxRefinementUUID,
+  @(JSExport @field) val refiningDescriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
+  @(JSExport @field) val refinedDescriptionBoxIRI: taggedTypes.IRI
+) extends DescriptionBoxRelationship {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

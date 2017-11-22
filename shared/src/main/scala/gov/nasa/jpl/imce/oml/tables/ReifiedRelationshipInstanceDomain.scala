@@ -32,11 +32,11 @@ import scala.Predef.ArrowAssoc
 @JSExportTopLevel("ReifiedRelationshipInstanceDomain")
 case class ReifiedRelationshipInstanceDomain
 (
-  @(JSExport @field) uuid: taggedTypes.ReifiedRelationshipInstanceDomainUUID,
-  @(JSExport @field) descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
-  @(JSExport @field) reifiedRelationshipInstanceUUID: taggedTypes.ReifiedRelationshipInstanceUUID,
-  @(JSExport @field) domainUUID: taggedTypes.ConceptualEntitySingletonInstanceUUID
-) {
+  @(JSExport @field) override val uuid: taggedTypes.ReifiedRelationshipInstanceDomainUUID,
+  @(JSExport @field) val descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
+  @(JSExport @field) val reifiedRelationshipInstanceUUID: taggedTypes.ReifiedRelationshipInstanceUUID,
+  @(JSExport @field) val domainUUID: taggedTypes.ConceptualEntitySingletonInstanceUUID
+) extends TerminologyInstanceAssertion {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

@@ -32,12 +32,12 @@ import scala.Predef.ArrowAssoc
   */
 case class RestrictionScalarDataPropertyValue
 (
-  @(JSExport @field) uuid: taggedTypes.RestrictionScalarDataPropertyValueUUID,
-  @(JSExport @field) scalarDataPropertyUUID: taggedTypes.DataRelationshipToScalarUUID,
-  @(JSExport @field) scalarPropertyValue: LiteralValue,
-  @(JSExport @field) structuredDataPropertyContextUUID: taggedTypes.RestrictionStructuredDataPropertyContextUUID,
-  @(JSExport @field) valueTypeUUID: scala.Option[taggedTypes.DataRangeUUID]
-) {
+  @(JSExport @field) override val uuid: taggedTypes.RestrictionScalarDataPropertyValueUUID,
+  @(JSExport @field) val scalarDataPropertyUUID: taggedTypes.DataRelationshipToScalarUUID,
+  @(JSExport @field) val scalarPropertyValue: LiteralValue,
+  @(JSExport @field) val structuredDataPropertyContextUUID: taggedTypes.RestrictionStructuredDataPropertyContextUUID,
+  @(JSExport @field) val valueTypeUUID: scala.Option[taggedTypes.DataRangeUUID]
+) extends Element {
   def this(
     uuid: taggedTypes.RestrictionScalarDataPropertyValueUUID,
     scalarDataPropertyUUID: taggedTypes.DataRelationshipToScalarUUID,

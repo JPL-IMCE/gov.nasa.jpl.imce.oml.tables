@@ -32,11 +32,11 @@ import scala.Predef.ArrowAssoc
 @JSExportTopLevel("ConceptInstance")
 case class ConceptInstance
 (
-  @(JSExport @field) uuid: taggedTypes.ConceptInstanceUUID,
-  @(JSExport @field) descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
-  @(JSExport @field) singletonConceptClassifierUUID: taggedTypes.ConceptUUID,
-  @(JSExport @field) name: taggedTypes.LocalName
-) {
+  @(JSExport @field) override val uuid: taggedTypes.ConceptInstanceUUID,
+  @(JSExport @field) val descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
+  @(JSExport @field) val singletonConceptClassifierUUID: taggedTypes.ConceptUUID,
+  @(JSExport @field) override val name: taggedTypes.LocalName
+) extends ConceptualEntitySingletonInstance {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

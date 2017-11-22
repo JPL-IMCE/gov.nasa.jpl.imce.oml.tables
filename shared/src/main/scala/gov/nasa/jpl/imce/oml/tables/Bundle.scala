@@ -30,10 +30,10 @@ import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
 @JSExportTopLevel("Bundle")
 case class Bundle
 (
-  @(JSExport @field) uuid: taggedTypes.BundleUUID,
-  @(JSExport @field) kind: TerminologyKind,
-  @(JSExport @field) iri: taggedTypes.IRI
-) {
+  @(JSExport @field) override val uuid: taggedTypes.BundleUUID,
+  @(JSExport @field) override val kind: TerminologyKind,
+  @(JSExport @field) override val iri: taggedTypes.IRI
+) extends TerminologyBox {
   // Ctor(uuidWithoutContainer)
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

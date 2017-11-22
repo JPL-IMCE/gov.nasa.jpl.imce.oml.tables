@@ -32,11 +32,11 @@ import scala.Predef.ArrowAssoc
 @JSExportTopLevel("AspectSpecializationAxiom")
 case class AspectSpecializationAxiom
 (
-  @(JSExport @field) uuid: taggedTypes.AspectSpecializationAxiomUUID,
-  @(JSExport @field) tboxUUID: taggedTypes.TerminologyBoxUUID,
-  @(JSExport @field) superAspectUUID: taggedTypes.AspectUUID,
-  @(JSExport @field) subEntityUUID: taggedTypes.EntityUUID
-) {
+  @(JSExport @field) override val uuid: taggedTypes.AspectSpecializationAxiomUUID,
+  @(JSExport @field) override val tboxUUID: taggedTypes.TerminologyBoxUUID,
+  @(JSExport @field) val superAspectUUID: taggedTypes.AspectUUID,
+  @(JSExport @field) val subEntityUUID: taggedTypes.EntityUUID
+) extends SpecializationAxiom {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

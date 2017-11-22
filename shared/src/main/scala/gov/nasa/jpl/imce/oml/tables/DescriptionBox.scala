@@ -30,10 +30,10 @@ import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
 @JSExportTopLevel("DescriptionBox")
 case class DescriptionBox
 (
-  @(JSExport @field) uuid: taggedTypes.DescriptionBoxUUID,
-  @(JSExport @field) kind: DescriptionKind,
-  @(JSExport @field) iri: taggedTypes.IRI
-) {
+  @(JSExport @field) override val uuid: taggedTypes.DescriptionBoxUUID,
+  @(JSExport @field) val kind: DescriptionKind,
+  @(JSExport @field) override val iri: taggedTypes.IRI
+) extends Module {
   // Ctor(uuidWithoutContainer)
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
