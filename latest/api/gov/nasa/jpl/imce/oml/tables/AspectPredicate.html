@@ -45,7 +45,7 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">AspectPredicate</span><span class="params">(<span name="uuid">uuid: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.UUID">UUID</a></span>, <span name="aspectUUID">aspectUUID: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.UUID">UUID</a></span>, <span name="bodySegmentUUID">bodySegmentUUID: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.UUID">UUID</a></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <span class="name">AspectPredicate</span><span class="params">(<span name="uuid">uuid: <a href="taggedTypes$.html#AspectPredicateUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.AspectPredicateTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.AspectPredicateUUID">AspectPredicateUUID</a></span>, <span name="aspectUUID">aspectUUID: <a href="taggedTypes$.html#AspectUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.AspectTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.AspectUUID">AspectUUID</a></span>, <span name="bodySegmentUUID">bodySegmentUUID: <a href="taggedTypes$.html#RuleBodySegmentUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.RuleBodySegmentTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.RuleBodySegmentUUID">RuleBodySegmentUUID</a></span>)</span><span class="result"> extends <a href="UnarySegmentPredicate.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.UnarySegmentPredicate">UnarySegmentPredicate</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
@@ -57,7 +57,7 @@
               
         </dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.Product">Product</span>, <span class="extype" name="scala.Equals">Equals</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.Product">Product</span>, <span class="extype" name="scala.Equals">Equals</span>, <a href="UnarySegmentPredicate.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.UnarySegmentPredicate">UnarySegmentPredicate</a>, <a href="SegmentPredicate.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.SegmentPredicate">SegmentPredicate</a>, <a href="Element.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.Element">Element</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -75,7 +75,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="gov.nasa.jpl.imce.oml.tables.AspectPredicate"><span>AspectPredicate</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.Product"><span>Product</span></li><li class="in" name="scala.Equals"><span>Equals</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="gov.nasa.jpl.imce.oml.tables.AspectPredicate"><span>AspectPredicate</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.Product"><span>Product</span></li><li class="in" name="scala.Equals"><span>Equals</span></li><li class="in" name="gov.nasa.jpl.imce.oml.tables.UnarySegmentPredicate"><span>UnarySegmentPredicate</span></li><li class="in" name="gov.nasa.jpl.imce.oml.tables.SegmentPredicate"><span>SegmentPredicate</span></li><li class="in" name="gov.nasa.jpl.imce.oml.tables.Element"><span>Element</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -95,7 +95,7 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="gov.nasa.jpl.imce.oml.tables.AspectPredicate#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(oug:gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,aspectUUID:gov.nasa.jpl.imce.oml.tables.UUID,bodySegmentUUID:gov.nasa.jpl.imce.oml.tables.UUID):gov.nasa.jpl.imce.oml.tables.AspectPredicate"></a>
+      <a id="&lt;init&gt;(oug:gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,aspectUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.AspectUUID,bodySegmentUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.RuleBodySegmentUUID):gov.nasa.jpl.imce.oml.tables.AspectPredicate"></a>
       <a id="&lt;init&gt;:AspectPredicate"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -103,16 +103,16 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">AspectPredicate</span><span class="params">(<span name="oug">oug: <a href="../uuid/OMLUUIDGenerator.html" class="extype" name="gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator">OMLUUIDGenerator</a></span>, <span name="aspectUUID">aspectUUID: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.UUID">UUID</a></span>, <span name="bodySegmentUUID">bodySegmentUUID: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.UUID">UUID</a></span>)</span>
+        <span class="name">AspectPredicate</span><span class="params">(<span name="oug">oug: <a href="../uuid/OMLUUIDGenerator.html" class="extype" name="gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator">OMLUUIDGenerator</a></span>, <span name="aspectUUID">aspectUUID: <a href="taggedTypes$.html#AspectUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.AspectTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.AspectUUID">AspectUUID</a></span>, <span name="bodySegmentUUID">bodySegmentUUID: <a href="taggedTypes$.html#RuleBodySegmentUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.RuleBodySegmentTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.RuleBodySegmentUUID">RuleBodySegmentUUID</a></span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.AspectPredicate@&lt;init&gt;(oug:gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,aspectUUID:gov.nasa.jpl.imce.oml.tables.UUID,bodySegmentUUID:gov.nasa.jpl.imce.oml.tables.UUID):gov.nasa.jpl.imce.oml.tables.AspectPredicate" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.AspectPredicate@&lt;init&gt;(oug:gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,aspectUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.AspectUUID,bodySegmentUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.RuleBodySegmentUUID):gov.nasa.jpl.imce.oml.tables.AspectPredicate" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
     </li><li name="gov.nasa.jpl.imce.oml.tables.AspectPredicate#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(uuid:gov.nasa.jpl.imce.oml.tables.UUID,aspectUUID:gov.nasa.jpl.imce.oml.tables.UUID,bodySegmentUUID:gov.nasa.jpl.imce.oml.tables.UUID):gov.nasa.jpl.imce.oml.tables.AspectPredicate"></a>
+      <a id="&lt;init&gt;(uuid:gov.nasa.jpl.imce.oml.tables.taggedTypes.AspectPredicateUUID,aspectUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.AspectUUID,bodySegmentUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.RuleBodySegmentUUID):gov.nasa.jpl.imce.oml.tables.AspectPredicate"></a>
       <a id="&lt;init&gt;:AspectPredicate"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -120,10 +120,10 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">AspectPredicate</span><span class="params">(<span name="uuid">uuid: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.UUID">UUID</a></span>, <span name="aspectUUID">aspectUUID: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.UUID">UUID</a></span>, <span name="bodySegmentUUID">bodySegmentUUID: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.UUID">UUID</a></span>)</span>
+        <span class="name">AspectPredicate</span><span class="params">(<span name="uuid">uuid: <a href="taggedTypes$.html#AspectPredicateUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.AspectPredicateTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.AspectPredicateUUID">AspectPredicateUUID</a></span>, <span name="aspectUUID">aspectUUID: <a href="taggedTypes$.html#AspectUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.AspectTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.AspectUUID">AspectUUID</a></span>, <span name="bodySegmentUUID">bodySegmentUUID: <a href="taggedTypes$.html#RuleBodySegmentUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.RuleBodySegmentTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.RuleBodySegmentUUID">RuleBodySegmentUUID</a></span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.AspectPredicate@&lt;init&gt;(uuid:gov.nasa.jpl.imce.oml.tables.UUID,aspectUUID:gov.nasa.jpl.imce.oml.tables.UUID,bodySegmentUUID:gov.nasa.jpl.imce.oml.tables.UUID):gov.nasa.jpl.imce.oml.tables.AspectPredicate" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.AspectPredicate@&lt;init&gt;(uuid:gov.nasa.jpl.imce.oml.tables.taggedTypes.AspectPredicateUUID,aspectUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.AspectUUID,bodySegmentUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.RuleBodySegmentUUID):gov.nasa.jpl.imce.oml.tables.AspectPredicate" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -206,39 +206,39 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
     </li><li name="gov.nasa.jpl.imce.oml.tables.AspectPredicate#aspectUUID" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="aspectUUID:gov.nasa.jpl.imce.oml.tables.UUID"></a>
-      <a id="aspectUUID:UUID"></a>
+      <a id="aspectUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.AspectUUID"></a>
+      <a id="aspectUUID:AspectUUID"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">aspectUUID</span><span class="result">: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.UUID">UUID</a></span>
+        <span class="name">aspectUUID</span><span class="result">: <a href="taggedTypes$.html#AspectUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.AspectTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.AspectUUID">AspectUUID</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.AspectPredicate@aspectUUID:gov.nasa.jpl.imce.oml.tables.UUID" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.AspectPredicate@aspectUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.AspectUUID" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
-    </li><li name="gov.nasa.jpl.imce.oml.tables.AspectPredicate#bodySegmentUUID" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="bodySegmentUUID:gov.nasa.jpl.imce.oml.tables.UUID"></a>
-      <a id="bodySegmentUUID:UUID"></a>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.AspectPredicate#bodySegmentUUID" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="bodySegmentUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.RuleBodySegmentUUID"></a>
+      <a id="bodySegmentUUID:RuleBodySegmentUUID"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">bodySegmentUUID</span><span class="result">: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.UUID">UUID</a></span>
+        <span class="name">bodySegmentUUID</span><span class="result">: <a href="taggedTypes$.html#RuleBodySegmentUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.RuleBodySegmentTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.RuleBodySegmentUUID">RuleBodySegmentUUID</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.AspectPredicate@bodySegmentUUID:gov.nasa.jpl.imce.oml.tables.UUID" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.AspectPredicate@bodySegmentUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.RuleBodySegmentUUID" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.AspectPredicate">AspectPredicate</a> → <a href="UnarySegmentPredicate.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.UnarySegmentPredicate">UnarySegmentPredicate</a> → <a href="SegmentPredicate.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.SegmentPredicate">SegmentPredicate</a></dd></dl></div>
     </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a>
       <a id="clone():AnyRef"></a>
@@ -438,23 +438,23 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="gov.nasa.jpl.imce.oml.tables.AspectPredicate#uuid" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="uuid:gov.nasa.jpl.imce.oml.tables.UUID"></a>
-      <a id="uuid:UUID"></a>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.AspectPredicate#uuid" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="uuid:gov.nasa.jpl.imce.oml.tables.taggedTypes.AspectPredicateUUID"></a>
+      <a id="uuid:AspectPredicateUUID"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">uuid</span><span class="result">: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.UUID">UUID</a></span>
+        <span class="name">uuid</span><span class="result">: <a href="taggedTypes$.html#AspectPredicateUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.AspectPredicateTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.AspectPredicateUUID">AspectPredicateUUID</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.AspectPredicate@uuid:gov.nasa.jpl.imce.oml.tables.UUID" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.AspectPredicate@uuid:gov.nasa.jpl.imce.oml.tables.taggedTypes.AspectPredicateUUID" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.AspectPredicate">AspectPredicate</a> → <a href="UnarySegmentPredicate.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.UnarySegmentPredicate">UnarySegmentPredicate</a> → <a href="SegmentPredicate.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.SegmentPredicate">SegmentPredicate</a> → <a href="Element.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.Element">Element</a></dd></dl></div>
     </li><li name="gov.nasa.jpl.imce.oml.tables.AspectPredicate#vertexId" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="vertexId:Long"></a>
       <a id="vertexId:Long"></a>
@@ -558,6 +558,12 @@
               <h3>Inherited from <span class="extype" name="scala.Product">Product</span></h3>
             </div><div class="parent" name="scala.Equals">
               <h3>Inherited from <span class="extype" name="scala.Equals">Equals</span></h3>
+            </div><div class="parent" name="gov.nasa.jpl.imce.oml.tables.UnarySegmentPredicate">
+              <h3>Inherited from <a href="UnarySegmentPredicate.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.UnarySegmentPredicate">UnarySegmentPredicate</a></h3>
+            </div><div class="parent" name="gov.nasa.jpl.imce.oml.tables.SegmentPredicate">
+              <h3>Inherited from <a href="SegmentPredicate.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.SegmentPredicate">SegmentPredicate</a></h3>
+            </div><div class="parent" name="gov.nasa.jpl.imce.oml.tables.Element">
+              <h3>Inherited from <a href="Element.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.Element">Element</a></h3>
             </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
             </div><div class="parent" name="scala.Any">

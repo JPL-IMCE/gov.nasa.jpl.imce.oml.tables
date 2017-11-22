@@ -45,7 +45,7 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">DescriptionBox</span><span class="params">(<span name="uuid">uuid: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.UUID">UUID</a></span>, <span name="kind">kind: <a href="DescriptionKind.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.DescriptionKind">DescriptionKind</a></span>, <span name="iri">iri: <a href="package.html#IRI=String" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.IRI">IRI</a></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <span class="name">DescriptionBox</span><span class="params">(<span name="uuid">uuid: <a href="taggedTypes$.html#DescriptionBoxUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.DescriptionBoxTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.DescriptionBoxUUID">DescriptionBoxUUID</a></span>, <span name="kind">kind: <a href="DescriptionKind.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.DescriptionKind">DescriptionKind</a></span>, <span name="iri">iri: <a href="taggedTypes$.html#IRI=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.IRITag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI">IRI</a></span>)</span><span class="result"> extends <a href="Module.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.Module">Module</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
@@ -57,7 +57,7 @@
               
         </dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.Product">Product</span>, <span class="extype" name="scala.Equals">Equals</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.Product">Product</span>, <span class="extype" name="scala.Equals">Equals</span>, <a href="Module.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.Module">Module</a>, <a href="Resource.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.Resource">Resource</a>, <a href="Element.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.Element">Element</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -75,7 +75,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="gov.nasa.jpl.imce.oml.tables.DescriptionBox"><span>DescriptionBox</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.Product"><span>Product</span></li><li class="in" name="scala.Equals"><span>Equals</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="gov.nasa.jpl.imce.oml.tables.DescriptionBox"><span>DescriptionBox</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.Product"><span>Product</span></li><li class="in" name="scala.Equals"><span>Equals</span></li><li class="in" name="gov.nasa.jpl.imce.oml.tables.Module"><span>Module</span></li><li class="in" name="gov.nasa.jpl.imce.oml.tables.Resource"><span>Resource</span></li><li class="in" name="gov.nasa.jpl.imce.oml.tables.Element"><span>Element</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -95,7 +95,7 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="gov.nasa.jpl.imce.oml.tables.DescriptionBox#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(oug:gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,kind:gov.nasa.jpl.imce.oml.tables.DescriptionKind,iri:gov.nasa.jpl.imce.oml.tables.IRI):gov.nasa.jpl.imce.oml.tables.DescriptionBox"></a>
+      <a id="&lt;init&gt;(oug:gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,kind:gov.nasa.jpl.imce.oml.tables.DescriptionKind,iri:gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI):gov.nasa.jpl.imce.oml.tables.DescriptionBox"></a>
       <a id="&lt;init&gt;:DescriptionBox"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -103,16 +103,16 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">DescriptionBox</span><span class="params">(<span name="oug">oug: <a href="../uuid/OMLUUIDGenerator.html" class="extype" name="gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator">OMLUUIDGenerator</a></span>, <span name="kind">kind: <a href="DescriptionKind.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.DescriptionKind">DescriptionKind</a></span>, <span name="iri">iri: <a href="package.html#IRI=String" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.IRI">IRI</a></span>)</span>
+        <span class="name">DescriptionBox</span><span class="params">(<span name="oug">oug: <a href="../uuid/OMLUUIDGenerator.html" class="extype" name="gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator">OMLUUIDGenerator</a></span>, <span name="kind">kind: <a href="DescriptionKind.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.DescriptionKind">DescriptionKind</a></span>, <span name="iri">iri: <a href="taggedTypes$.html#IRI=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.IRITag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI">IRI</a></span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.DescriptionBox@&lt;init&gt;(oug:gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,kind:gov.nasa.jpl.imce.oml.tables.DescriptionKind,iri:gov.nasa.jpl.imce.oml.tables.IRI):gov.nasa.jpl.imce.oml.tables.DescriptionBox" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.DescriptionBox@&lt;init&gt;(oug:gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,kind:gov.nasa.jpl.imce.oml.tables.DescriptionKind,iri:gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI):gov.nasa.jpl.imce.oml.tables.DescriptionBox" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
     </li><li name="gov.nasa.jpl.imce.oml.tables.DescriptionBox#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(uuid:gov.nasa.jpl.imce.oml.tables.UUID,kind:gov.nasa.jpl.imce.oml.tables.DescriptionKind,iri:gov.nasa.jpl.imce.oml.tables.IRI):gov.nasa.jpl.imce.oml.tables.DescriptionBox"></a>
+      <a id="&lt;init&gt;(uuid:gov.nasa.jpl.imce.oml.tables.taggedTypes.DescriptionBoxUUID,kind:gov.nasa.jpl.imce.oml.tables.DescriptionKind,iri:gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI):gov.nasa.jpl.imce.oml.tables.DescriptionBox"></a>
       <a id="&lt;init&gt;:DescriptionBox"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -120,10 +120,10 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">DescriptionBox</span><span class="params">(<span name="uuid">uuid: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.UUID">UUID</a></span>, <span name="kind">kind: <a href="DescriptionKind.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.DescriptionKind">DescriptionKind</a></span>, <span name="iri">iri: <a href="package.html#IRI=String" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.IRI">IRI</a></span>)</span>
+        <span class="name">DescriptionBox</span><span class="params">(<span name="uuid">uuid: <a href="taggedTypes$.html#DescriptionBoxUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.DescriptionBoxTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.DescriptionBoxUUID">DescriptionBoxUUID</a></span>, <span name="kind">kind: <a href="DescriptionKind.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.DescriptionKind">DescriptionKind</a></span>, <span name="iri">iri: <a href="taggedTypes$.html#IRI=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.IRITag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI">IRI</a></span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.DescriptionBox@&lt;init&gt;(uuid:gov.nasa.jpl.imce.oml.tables.UUID,kind:gov.nasa.jpl.imce.oml.tables.DescriptionKind,iri:gov.nasa.jpl.imce.oml.tables.IRI):gov.nasa.jpl.imce.oml.tables.DescriptionBox" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.DescriptionBox@&lt;init&gt;(uuid:gov.nasa.jpl.imce.oml.tables.taggedTypes.DescriptionBoxUUID,kind:gov.nasa.jpl.imce.oml.tables.DescriptionKind,iri:gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI):gov.nasa.jpl.imce.oml.tables.DescriptionBox" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -319,8 +319,8 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.DescriptionBox">DescriptionBox</a> → AnyRef → Any</dd></dl></div>
-    </li><li name="gov.nasa.jpl.imce.oml.tables.DescriptionBox#iri" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="iri:gov.nasa.jpl.imce.oml.tables.IRI"></a>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.DescriptionBox#iri" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="iri:gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI"></a>
       <a id="iri:IRI"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -328,14 +328,14 @@
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">iri</span><span class="result">: <a href="package.html#IRI=String" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.IRI">IRI</a></span>
+        <span class="name">iri</span><span class="result">: <a href="taggedTypes$.html#IRI=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.IRITag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI">IRI</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.DescriptionBox@iri:gov.nasa.jpl.imce.oml.tables.IRI" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.DescriptionBox@iri:gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.DescriptionBox">DescriptionBox</a> → <a href="Module.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.Module">Module</a></dd></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <a id="isInstanceOf[T0]:Boolean"></a>
@@ -438,23 +438,23 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="gov.nasa.jpl.imce.oml.tables.DescriptionBox#uuid" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="uuid:gov.nasa.jpl.imce.oml.tables.UUID"></a>
-      <a id="uuid:UUID"></a>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.DescriptionBox#uuid" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="uuid:gov.nasa.jpl.imce.oml.tables.taggedTypes.DescriptionBoxUUID"></a>
+      <a id="uuid:DescriptionBoxUUID"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">uuid</span><span class="result">: <a href="package.html#UUID=String" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.UUID">UUID</a></span>
+        <span class="name">uuid</span><span class="result">: <a href="taggedTypes$.html#DescriptionBoxUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.DescriptionBoxTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.DescriptionBoxUUID">DescriptionBoxUUID</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.DescriptionBox@uuid:gov.nasa.jpl.imce.oml.tables.UUID" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.DescriptionBox@uuid:gov.nasa.jpl.imce.oml.tables.taggedTypes.DescriptionBoxUUID" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.DescriptionBox">DescriptionBox</a> → <a href="Module.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.Module">Module</a> → <a href="Element.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.Element">Element</a></dd></dl></div>
     </li><li name="gov.nasa.jpl.imce.oml.tables.DescriptionBox#vertexId" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="vertexId:Long"></a>
       <a id="vertexId:Long"></a>
@@ -558,6 +558,12 @@
               <h3>Inherited from <span class="extype" name="scala.Product">Product</span></h3>
             </div><div class="parent" name="scala.Equals">
               <h3>Inherited from <span class="extype" name="scala.Equals">Equals</span></h3>
+            </div><div class="parent" name="gov.nasa.jpl.imce.oml.tables.Module">
+              <h3>Inherited from <a href="Module.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.Module">Module</a></h3>
+            </div><div class="parent" name="gov.nasa.jpl.imce.oml.tables.Resource">
+              <h3>Inherited from <a href="Resource.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.Resource">Resource</a></h3>
+            </div><div class="parent" name="gov.nasa.jpl.imce.oml.tables.Element">
+              <h3>Inherited from <a href="Element.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.Element">Element</a></h3>
             </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
             </div><div class="parent" name="scala.Any">
