@@ -22,7 +22,7 @@ package gov.nasa.jpl.imce.oml.tables
 import java.io.{File,InputStream}
 import org.apache.commons.compress.archivers.zip.{ZipArchiveEntry, ZipFile}
 
-import scala.collection.immutable.Seq
+import scala.collection.immutable.{Seq,Set}
 import scala.collection.JavaConversions._
 import scala.util.control.Exception._
 import scala.util.{Failure,Success,Try}
@@ -101,202 +101,400 @@ case class OMLSpecificationTables
 {
   def readAnnotationProperties(is: InputStream)
   : OMLSpecificationTables
-  = copy(annotationProperties = readJSonTable(is, AnnotationPropertyHelper.fromJSON))
+  = copy(annotationProperties = 
+    (annotationProperties.to[Set] ++ 
+     readJSonTable(is, AnnotationPropertyHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readTerminologyGraphs(is: InputStream)
   : OMLSpecificationTables
-  = copy(terminologyGraphs = readJSonTable(is, TerminologyGraphHelper.fromJSON))
+  = copy(terminologyGraphs = 
+    (terminologyGraphs.to[Set] ++ 
+     readJSonTable(is, TerminologyGraphHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readBundles(is: InputStream)
   : OMLSpecificationTables
-  = copy(bundles = readJSonTable(is, BundleHelper.fromJSON))
+  = copy(bundles = 
+    (bundles.to[Set] ++ 
+     readJSonTable(is, BundleHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readConceptDesignationTerminologyAxioms(is: InputStream)
   : OMLSpecificationTables
-  = copy(conceptDesignationTerminologyAxioms = readJSonTable(is, ConceptDesignationTerminologyAxiomHelper.fromJSON))
+  = copy(conceptDesignationTerminologyAxioms = 
+    (conceptDesignationTerminologyAxioms.to[Set] ++ 
+     readJSonTable(is, ConceptDesignationTerminologyAxiomHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readTerminologyExtensionAxioms(is: InputStream)
   : OMLSpecificationTables
-  = copy(terminologyExtensionAxioms = readJSonTable(is, TerminologyExtensionAxiomHelper.fromJSON))
+  = copy(terminologyExtensionAxioms = 
+    (terminologyExtensionAxioms.to[Set] ++ 
+     readJSonTable(is, TerminologyExtensionAxiomHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readTerminologyNestingAxioms(is: InputStream)
   : OMLSpecificationTables
-  = copy(terminologyNestingAxioms = readJSonTable(is, TerminologyNestingAxiomHelper.fromJSON))
+  = copy(terminologyNestingAxioms = 
+    (terminologyNestingAxioms.to[Set] ++ 
+     readJSonTable(is, TerminologyNestingAxiomHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readAspects(is: InputStream)
   : OMLSpecificationTables
-  = copy(aspects = readJSonTable(is, AspectHelper.fromJSON))
+  = copy(aspects = 
+    (aspects.to[Set] ++ 
+     readJSonTable(is, AspectHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readConcepts(is: InputStream)
   : OMLSpecificationTables
-  = copy(concepts = readJSonTable(is, ConceptHelper.fromJSON))
+  = copy(concepts = 
+    (concepts.to[Set] ++ 
+     readJSonTable(is, ConceptHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readReifiedRelationships(is: InputStream)
   : OMLSpecificationTables
-  = copy(reifiedRelationships = readJSonTable(is, ReifiedRelationshipHelper.fromJSON))
+  = copy(reifiedRelationships = 
+    (reifiedRelationships.to[Set] ++ 
+     readJSonTable(is, ReifiedRelationshipHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readUnreifiedRelationships(is: InputStream)
   : OMLSpecificationTables
-  = copy(unreifiedRelationships = readJSonTable(is, UnreifiedRelationshipHelper.fromJSON))
+  = copy(unreifiedRelationships = 
+    (unreifiedRelationships.to[Set] ++ 
+     readJSonTable(is, UnreifiedRelationshipHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readScalars(is: InputStream)
   : OMLSpecificationTables
-  = copy(scalars = readJSonTable(is, ScalarHelper.fromJSON))
+  = copy(scalars = 
+    (scalars.to[Set] ++ 
+     readJSonTable(is, ScalarHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readStructures(is: InputStream)
   : OMLSpecificationTables
-  = copy(structures = readJSonTable(is, StructureHelper.fromJSON))
+  = copy(structures = 
+    (structures.to[Set] ++ 
+     readJSonTable(is, StructureHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readBinaryScalarRestrictions(is: InputStream)
   : OMLSpecificationTables
-  = copy(binaryScalarRestrictions = readJSonTable(is, BinaryScalarRestrictionHelper.fromJSON))
+  = copy(binaryScalarRestrictions = 
+    (binaryScalarRestrictions.to[Set] ++ 
+     readJSonTable(is, BinaryScalarRestrictionHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readIRIScalarRestrictions(is: InputStream)
   : OMLSpecificationTables
-  = copy(iriScalarRestrictions = readJSonTable(is, IRIScalarRestrictionHelper.fromJSON))
+  = copy(iriScalarRestrictions = 
+    (iriScalarRestrictions.to[Set] ++ 
+     readJSonTable(is, IRIScalarRestrictionHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readNumericScalarRestrictions(is: InputStream)
   : OMLSpecificationTables
-  = copy(numericScalarRestrictions = readJSonTable(is, NumericScalarRestrictionHelper.fromJSON))
+  = copy(numericScalarRestrictions = 
+    (numericScalarRestrictions.to[Set] ++ 
+     readJSonTable(is, NumericScalarRestrictionHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readPlainLiteralScalarRestrictions(is: InputStream)
   : OMLSpecificationTables
-  = copy(plainLiteralScalarRestrictions = readJSonTable(is, PlainLiteralScalarRestrictionHelper.fromJSON))
+  = copy(plainLiteralScalarRestrictions = 
+    (plainLiteralScalarRestrictions.to[Set] ++ 
+     readJSonTable(is, PlainLiteralScalarRestrictionHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readScalarOneOfRestrictions(is: InputStream)
   : OMLSpecificationTables
-  = copy(scalarOneOfRestrictions = readJSonTable(is, ScalarOneOfRestrictionHelper.fromJSON))
+  = copy(scalarOneOfRestrictions = 
+    (scalarOneOfRestrictions.to[Set] ++ 
+     readJSonTable(is, ScalarOneOfRestrictionHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readStringScalarRestrictions(is: InputStream)
   : OMLSpecificationTables
-  = copy(stringScalarRestrictions = readJSonTable(is, StringScalarRestrictionHelper.fromJSON))
+  = copy(stringScalarRestrictions = 
+    (stringScalarRestrictions.to[Set] ++ 
+     readJSonTable(is, StringScalarRestrictionHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readSynonymScalarRestrictions(is: InputStream)
   : OMLSpecificationTables
-  = copy(synonymScalarRestrictions = readJSonTable(is, SynonymScalarRestrictionHelper.fromJSON))
+  = copy(synonymScalarRestrictions = 
+    (synonymScalarRestrictions.to[Set] ++ 
+     readJSonTable(is, SynonymScalarRestrictionHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readTimeScalarRestrictions(is: InputStream)
   : OMLSpecificationTables
-  = copy(timeScalarRestrictions = readJSonTable(is, TimeScalarRestrictionHelper.fromJSON))
+  = copy(timeScalarRestrictions = 
+    (timeScalarRestrictions.to[Set] ++ 
+     readJSonTable(is, TimeScalarRestrictionHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readEntityScalarDataProperties(is: InputStream)
   : OMLSpecificationTables
-  = copy(entityScalarDataProperties = readJSonTable(is, EntityScalarDataPropertyHelper.fromJSON))
+  = copy(entityScalarDataProperties = 
+    (entityScalarDataProperties.to[Set] ++ 
+     readJSonTable(is, EntityScalarDataPropertyHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readEntityStructuredDataProperties(is: InputStream)
   : OMLSpecificationTables
-  = copy(entityStructuredDataProperties = readJSonTable(is, EntityStructuredDataPropertyHelper.fromJSON))
+  = copy(entityStructuredDataProperties = 
+    (entityStructuredDataProperties.to[Set] ++ 
+     readJSonTable(is, EntityStructuredDataPropertyHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readScalarDataProperties(is: InputStream)
   : OMLSpecificationTables
-  = copy(scalarDataProperties = readJSonTable(is, ScalarDataPropertyHelper.fromJSON))
+  = copy(scalarDataProperties = 
+    (scalarDataProperties.to[Set] ++ 
+     readJSonTable(is, ScalarDataPropertyHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readStructuredDataProperties(is: InputStream)
   : OMLSpecificationTables
-  = copy(structuredDataProperties = readJSonTable(is, StructuredDataPropertyHelper.fromJSON))
+  = copy(structuredDataProperties = 
+    (structuredDataProperties.to[Set] ++ 
+     readJSonTable(is, StructuredDataPropertyHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readAspectSpecializationAxioms(is: InputStream)
   : OMLSpecificationTables
-  = copy(aspectSpecializationAxioms = readJSonTable(is, AspectSpecializationAxiomHelper.fromJSON))
+  = copy(aspectSpecializationAxioms = 
+    (aspectSpecializationAxioms.to[Set] ++ 
+     readJSonTable(is, AspectSpecializationAxiomHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readConceptSpecializationAxioms(is: InputStream)
   : OMLSpecificationTables
-  = copy(conceptSpecializationAxioms = readJSonTable(is, ConceptSpecializationAxiomHelper.fromJSON))
+  = copy(conceptSpecializationAxioms = 
+    (conceptSpecializationAxioms.to[Set] ++ 
+     readJSonTable(is, ConceptSpecializationAxiomHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readReifiedRelationshipSpecializationAxioms(is: InputStream)
   : OMLSpecificationTables
-  = copy(reifiedRelationshipSpecializationAxioms = readJSonTable(is, ReifiedRelationshipSpecializationAxiomHelper.fromJSON))
+  = copy(reifiedRelationshipSpecializationAxioms = 
+    (reifiedRelationshipSpecializationAxioms.to[Set] ++ 
+     readJSonTable(is, ReifiedRelationshipSpecializationAxiomHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readEntityExistentialRestrictionAxioms(is: InputStream)
   : OMLSpecificationTables
-  = copy(entityExistentialRestrictionAxioms = readJSonTable(is, EntityExistentialRestrictionAxiomHelper.fromJSON))
+  = copy(entityExistentialRestrictionAxioms = 
+    (entityExistentialRestrictionAxioms.to[Set] ++ 
+     readJSonTable(is, EntityExistentialRestrictionAxiomHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readEntityUniversalRestrictionAxioms(is: InputStream)
   : OMLSpecificationTables
-  = copy(entityUniversalRestrictionAxioms = readJSonTable(is, EntityUniversalRestrictionAxiomHelper.fromJSON))
+  = copy(entityUniversalRestrictionAxioms = 
+    (entityUniversalRestrictionAxioms.to[Set] ++ 
+     readJSonTable(is, EntityUniversalRestrictionAxiomHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readEntityScalarDataPropertyExistentialRestrictionAxioms(is: InputStream)
   : OMLSpecificationTables
-  = copy(entityScalarDataPropertyExistentialRestrictionAxioms = readJSonTable(is, EntityScalarDataPropertyExistentialRestrictionAxiomHelper.fromJSON))
+  = copy(entityScalarDataPropertyExistentialRestrictionAxioms = 
+    (entityScalarDataPropertyExistentialRestrictionAxioms.to[Set] ++ 
+     readJSonTable(is, EntityScalarDataPropertyExistentialRestrictionAxiomHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readEntityScalarDataPropertyParticularRestrictionAxioms(is: InputStream)
   : OMLSpecificationTables
-  = copy(entityScalarDataPropertyParticularRestrictionAxioms = readJSonTable(is, EntityScalarDataPropertyParticularRestrictionAxiomHelper.fromJSON))
+  = copy(entityScalarDataPropertyParticularRestrictionAxioms = 
+    (entityScalarDataPropertyParticularRestrictionAxioms.to[Set] ++ 
+     readJSonTable(is, EntityScalarDataPropertyParticularRestrictionAxiomHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readEntityScalarDataPropertyUniversalRestrictionAxioms(is: InputStream)
   : OMLSpecificationTables
-  = copy(entityScalarDataPropertyUniversalRestrictionAxioms = readJSonTable(is, EntityScalarDataPropertyUniversalRestrictionAxiomHelper.fromJSON))
+  = copy(entityScalarDataPropertyUniversalRestrictionAxioms = 
+    (entityScalarDataPropertyUniversalRestrictionAxioms.to[Set] ++ 
+     readJSonTable(is, EntityScalarDataPropertyUniversalRestrictionAxiomHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readScalarOneOfLiteralAxioms(is: InputStream)
   : OMLSpecificationTables
-  = copy(scalarOneOfLiteralAxioms = readJSonTable(is, ScalarOneOfLiteralAxiomHelper.fromJSON))
+  = copy(scalarOneOfLiteralAxioms = 
+    (scalarOneOfLiteralAxioms.to[Set] ++ 
+     readJSonTable(is, ScalarOneOfLiteralAxiomHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readBundledTerminologyAxioms(is: InputStream)
   : OMLSpecificationTables
-  = copy(bundledTerminologyAxioms = readJSonTable(is, BundledTerminologyAxiomHelper.fromJSON))
+  = copy(bundledTerminologyAxioms = 
+    (bundledTerminologyAxioms.to[Set] ++ 
+     readJSonTable(is, BundledTerminologyAxiomHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readRootConceptTaxonomyAxioms(is: InputStream)
   : OMLSpecificationTables
-  = copy(rootConceptTaxonomyAxioms = readJSonTable(is, RootConceptTaxonomyAxiomHelper.fromJSON))
+  = copy(rootConceptTaxonomyAxioms = 
+    (rootConceptTaxonomyAxioms.to[Set] ++ 
+     readJSonTable(is, RootConceptTaxonomyAxiomHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readSpecificDisjointConceptAxioms(is: InputStream)
   : OMLSpecificationTables
-  = copy(specificDisjointConceptAxioms = readJSonTable(is, SpecificDisjointConceptAxiomHelper.fromJSON))
+  = copy(specificDisjointConceptAxioms = 
+    (specificDisjointConceptAxioms.to[Set] ++ 
+     readJSonTable(is, SpecificDisjointConceptAxiomHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readAnnotationPropertyValues(is: InputStream)
   : OMLSpecificationTables
-  = copy(annotationPropertyValues = readJSonTable(is, AnnotationPropertyValueHelper.fromJSON))
+  = copy(annotationPropertyValues = 
+    (annotationPropertyValues.to[Set] ++ 
+     readJSonTable(is, AnnotationPropertyValueHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readAnonymousConceptUnionAxioms(is: InputStream)
   : OMLSpecificationTables
-  = copy(anonymousConceptUnionAxioms = readJSonTable(is, AnonymousConceptUnionAxiomHelper.fromJSON))
+  = copy(anonymousConceptUnionAxioms = 
+    (anonymousConceptUnionAxioms.to[Set] ++ 
+     readJSonTable(is, AnonymousConceptUnionAxiomHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readAspectPredicates(is: InputStream)
   : OMLSpecificationTables
-  = copy(aspectPredicates = readJSonTable(is, AspectPredicateHelper.fromJSON))
+  = copy(aspectPredicates = 
+    (aspectPredicates.to[Set] ++ 
+     readJSonTable(is, AspectPredicateHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readChainRules(is: InputStream)
   : OMLSpecificationTables
-  = copy(chainRules = readJSonTable(is, ChainRuleHelper.fromJSON))
+  = copy(chainRules = 
+    (chainRules.to[Set] ++ 
+     readJSonTable(is, ChainRuleHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readConceptInstances(is: InputStream)
   : OMLSpecificationTables
-  = copy(conceptInstances = readJSonTable(is, ConceptInstanceHelper.fromJSON))
+  = copy(conceptInstances = 
+    (conceptInstances.to[Set] ++ 
+     readJSonTable(is, ConceptInstanceHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readConceptPredicates(is: InputStream)
   : OMLSpecificationTables
-  = copy(conceptPredicates = readJSonTable(is, ConceptPredicateHelper.fromJSON))
+  = copy(conceptPredicates = 
+    (conceptPredicates.to[Set] ++ 
+     readJSonTable(is, ConceptPredicateHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readDescriptionBoxes(is: InputStream)
   : OMLSpecificationTables
-  = copy(descriptionBoxes = readJSonTable(is, DescriptionBoxHelper.fromJSON))
+  = copy(descriptionBoxes = 
+    (descriptionBoxes.to[Set] ++ 
+     readJSonTable(is, DescriptionBoxHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readDescriptionBoxExtendsClosedWorldDefinitions(is: InputStream)
   : OMLSpecificationTables
-  = copy(descriptionBoxExtendsClosedWorldDefinitions = readJSonTable(is, DescriptionBoxExtendsClosedWorldDefinitionsHelper.fromJSON))
+  = copy(descriptionBoxExtendsClosedWorldDefinitions = 
+    (descriptionBoxExtendsClosedWorldDefinitions.to[Set] ++ 
+     readJSonTable(is, DescriptionBoxExtendsClosedWorldDefinitionsHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readDescriptionBoxRefinements(is: InputStream)
   : OMLSpecificationTables
-  = copy(descriptionBoxRefinements = readJSonTable(is, DescriptionBoxRefinementHelper.fromJSON))
+  = copy(descriptionBoxRefinements = 
+    (descriptionBoxRefinements.to[Set] ++ 
+     readJSonTable(is, DescriptionBoxRefinementHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readEntityStructuredDataPropertyParticularRestrictionAxioms(is: InputStream)
   : OMLSpecificationTables
-  = copy(entityStructuredDataPropertyParticularRestrictionAxioms = readJSonTable(is, EntityStructuredDataPropertyParticularRestrictionAxiomHelper.fromJSON))
+  = copy(entityStructuredDataPropertyParticularRestrictionAxioms = 
+    (entityStructuredDataPropertyParticularRestrictionAxioms.to[Set] ++ 
+     readJSonTable(is, EntityStructuredDataPropertyParticularRestrictionAxiomHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readReifiedRelationshipInstances(is: InputStream)
   : OMLSpecificationTables
-  = copy(reifiedRelationshipInstances = readJSonTable(is, ReifiedRelationshipInstanceHelper.fromJSON))
+  = copy(reifiedRelationshipInstances = 
+    (reifiedRelationshipInstances.to[Set] ++ 
+     readJSonTable(is, ReifiedRelationshipInstanceHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readReifiedRelationshipInstanceDomains(is: InputStream)
   : OMLSpecificationTables
-  = copy(reifiedRelationshipInstanceDomains = readJSonTable(is, ReifiedRelationshipInstanceDomainHelper.fromJSON))
+  = copy(reifiedRelationshipInstanceDomains = 
+    (reifiedRelationshipInstanceDomains.to[Set] ++ 
+     readJSonTable(is, ReifiedRelationshipInstanceDomainHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readReifiedRelationshipInstanceRanges(is: InputStream)
   : OMLSpecificationTables
-  = copy(reifiedRelationshipInstanceRanges = readJSonTable(is, ReifiedRelationshipInstanceRangeHelper.fromJSON))
+  = copy(reifiedRelationshipInstanceRanges = 
+    (reifiedRelationshipInstanceRanges.to[Set] ++ 
+     readJSonTable(is, ReifiedRelationshipInstanceRangeHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readReifiedRelationshipInversePropertyPredicates(is: InputStream)
   : OMLSpecificationTables
-  = copy(reifiedRelationshipInversePropertyPredicates = readJSonTable(is, ReifiedRelationshipInversePropertyPredicateHelper.fromJSON))
+  = copy(reifiedRelationshipInversePropertyPredicates = 
+    (reifiedRelationshipInversePropertyPredicates.to[Set] ++ 
+     readJSonTable(is, ReifiedRelationshipInversePropertyPredicateHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readReifiedRelationshipPredicates(is: InputStream)
   : OMLSpecificationTables
-  = copy(reifiedRelationshipPredicates = readJSonTable(is, ReifiedRelationshipPredicateHelper.fromJSON))
+  = copy(reifiedRelationshipPredicates = 
+    (reifiedRelationshipPredicates.to[Set] ++ 
+     readJSonTable(is, ReifiedRelationshipPredicateHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readReifiedRelationshipPropertyPredicates(is: InputStream)
   : OMLSpecificationTables
-  = copy(reifiedRelationshipPropertyPredicates = readJSonTable(is, ReifiedRelationshipPropertyPredicateHelper.fromJSON))
+  = copy(reifiedRelationshipPropertyPredicates = 
+    (reifiedRelationshipPropertyPredicates.to[Set] ++ 
+     readJSonTable(is, ReifiedRelationshipPropertyPredicateHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readReifiedRelationshipSourceInversePropertyPredicates(is: InputStream)
   : OMLSpecificationTables
-  = copy(reifiedRelationshipSourceInversePropertyPredicates = readJSonTable(is, ReifiedRelationshipSourceInversePropertyPredicateHelper.fromJSON))
+  = copy(reifiedRelationshipSourceInversePropertyPredicates = 
+    (reifiedRelationshipSourceInversePropertyPredicates.to[Set] ++ 
+     readJSonTable(is, ReifiedRelationshipSourceInversePropertyPredicateHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readReifiedRelationshipSourcePropertyPredicates(is: InputStream)
   : OMLSpecificationTables
-  = copy(reifiedRelationshipSourcePropertyPredicates = readJSonTable(is, ReifiedRelationshipSourcePropertyPredicateHelper.fromJSON))
+  = copy(reifiedRelationshipSourcePropertyPredicates = 
+    (reifiedRelationshipSourcePropertyPredicates.to[Set] ++ 
+     readJSonTable(is, ReifiedRelationshipSourcePropertyPredicateHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readReifiedRelationshipTargetInversePropertyPredicates(is: InputStream)
   : OMLSpecificationTables
-  = copy(reifiedRelationshipTargetInversePropertyPredicates = readJSonTable(is, ReifiedRelationshipTargetInversePropertyPredicateHelper.fromJSON))
+  = copy(reifiedRelationshipTargetInversePropertyPredicates = 
+    (reifiedRelationshipTargetInversePropertyPredicates.to[Set] ++ 
+     readJSonTable(is, ReifiedRelationshipTargetInversePropertyPredicateHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readReifiedRelationshipTargetPropertyPredicates(is: InputStream)
   : OMLSpecificationTables
-  = copy(reifiedRelationshipTargetPropertyPredicates = readJSonTable(is, ReifiedRelationshipTargetPropertyPredicateHelper.fromJSON))
+  = copy(reifiedRelationshipTargetPropertyPredicates = 
+    (reifiedRelationshipTargetPropertyPredicates.to[Set] ++ 
+     readJSonTable(is, ReifiedRelationshipTargetPropertyPredicateHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readRestrictionScalarDataPropertyValues(is: InputStream)
   : OMLSpecificationTables
-  = copy(restrictionScalarDataPropertyValues = readJSonTable(is, RestrictionScalarDataPropertyValueHelper.fromJSON))
+  = copy(restrictionScalarDataPropertyValues = 
+    (restrictionScalarDataPropertyValues.to[Set] ++ 
+     readJSonTable(is, RestrictionScalarDataPropertyValueHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readRestrictionStructuredDataPropertyTuples(is: InputStream)
   : OMLSpecificationTables
-  = copy(restrictionStructuredDataPropertyTuples = readJSonTable(is, RestrictionStructuredDataPropertyTupleHelper.fromJSON))
+  = copy(restrictionStructuredDataPropertyTuples = 
+    (restrictionStructuredDataPropertyTuples.to[Set] ++ 
+     readJSonTable(is, RestrictionStructuredDataPropertyTupleHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readRuleBodySegments(is: InputStream)
   : OMLSpecificationTables
-  = copy(ruleBodySegments = readJSonTable(is, RuleBodySegmentHelper.fromJSON))
+  = copy(ruleBodySegments = 
+    (ruleBodySegments.to[Set] ++ 
+     readJSonTable(is, RuleBodySegmentHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readScalarDataPropertyValues(is: InputStream)
   : OMLSpecificationTables
-  = copy(scalarDataPropertyValues = readJSonTable(is, ScalarDataPropertyValueHelper.fromJSON))
+  = copy(scalarDataPropertyValues = 
+    (scalarDataPropertyValues.to[Set] ++ 
+     readJSonTable(is, ScalarDataPropertyValueHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readSingletonInstanceScalarDataPropertyValues(is: InputStream)
   : OMLSpecificationTables
-  = copy(singletonInstanceScalarDataPropertyValues = readJSonTable(is, SingletonInstanceScalarDataPropertyValueHelper.fromJSON))
+  = copy(singletonInstanceScalarDataPropertyValues = 
+    (singletonInstanceScalarDataPropertyValues.to[Set] ++ 
+     readJSonTable(is, SingletonInstanceScalarDataPropertyValueHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readSingletonInstanceStructuredDataPropertyValues(is: InputStream)
   : OMLSpecificationTables
-  = copy(singletonInstanceStructuredDataPropertyValues = readJSonTable(is, SingletonInstanceStructuredDataPropertyValueHelper.fromJSON))
+  = copy(singletonInstanceStructuredDataPropertyValues = 
+    (singletonInstanceStructuredDataPropertyValues.to[Set] ++ 
+     readJSonTable(is, SingletonInstanceStructuredDataPropertyValueHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readStructuredDataPropertyTuples(is: InputStream)
   : OMLSpecificationTables
-  = copy(structuredDataPropertyTuples = readJSonTable(is, StructuredDataPropertyTupleHelper.fromJSON))
+  = copy(structuredDataPropertyTuples = 
+    (structuredDataPropertyTuples.to[Set] ++ 
+     readJSonTable(is, StructuredDataPropertyTupleHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readUnreifiedRelationshipInstanceTuples(is: InputStream)
   : OMLSpecificationTables
-  = copy(unreifiedRelationshipInstanceTuples = readJSonTable(is, UnreifiedRelationshipInstanceTupleHelper.fromJSON))
+  = copy(unreifiedRelationshipInstanceTuples = 
+    (unreifiedRelationshipInstanceTuples.to[Set] ++ 
+     readJSonTable(is, UnreifiedRelationshipInstanceTupleHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readUnreifiedRelationshipInversePropertyPredicates(is: InputStream)
   : OMLSpecificationTables
-  = copy(unreifiedRelationshipInversePropertyPredicates = readJSonTable(is, UnreifiedRelationshipInversePropertyPredicateHelper.fromJSON))
+  = copy(unreifiedRelationshipInversePropertyPredicates = 
+    (unreifiedRelationshipInversePropertyPredicates.to[Set] ++ 
+     readJSonTable(is, UnreifiedRelationshipInversePropertyPredicateHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readUnreifiedRelationshipPropertyPredicates(is: InputStream)
   : OMLSpecificationTables
-  = copy(unreifiedRelationshipPropertyPredicates = readJSonTable(is, UnreifiedRelationshipPropertyPredicateHelper.fromJSON))
+  = copy(unreifiedRelationshipPropertyPredicates = 
+    (unreifiedRelationshipPropertyPredicates.to[Set] ++ 
+     readJSonTable(is, UnreifiedRelationshipPropertyPredicateHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   
   def isEmpty: Boolean
   = annotationProperties.isEmpty &&
@@ -480,72 +678,138 @@ object OMLSpecificationTables {
   (t1: OMLSpecificationTables, t2: OMLSpecificationTables)
   : OMLSpecificationTables
   = OMLSpecificationTables(
-      annotationProperties = t1.annotationProperties ++ t2.annotationProperties,
-      terminologyGraphs = t1.terminologyGraphs ++ t2.terminologyGraphs,
-      bundles = t1.bundles ++ t2.bundles,
-      conceptDesignationTerminologyAxioms = t1.conceptDesignationTerminologyAxioms ++ t2.conceptDesignationTerminologyAxioms,
-      terminologyExtensionAxioms = t1.terminologyExtensionAxioms ++ t2.terminologyExtensionAxioms,
-      terminologyNestingAxioms = t1.terminologyNestingAxioms ++ t2.terminologyNestingAxioms,
-      aspects = t1.aspects ++ t2.aspects,
-      concepts = t1.concepts ++ t2.concepts,
-      reifiedRelationships = t1.reifiedRelationships ++ t2.reifiedRelationships,
-      unreifiedRelationships = t1.unreifiedRelationships ++ t2.unreifiedRelationships,
-      scalars = t1.scalars ++ t2.scalars,
-      structures = t1.structures ++ t2.structures,
-      binaryScalarRestrictions = t1.binaryScalarRestrictions ++ t2.binaryScalarRestrictions,
-      iriScalarRestrictions = t1.iriScalarRestrictions ++ t2.iriScalarRestrictions,
-      numericScalarRestrictions = t1.numericScalarRestrictions ++ t2.numericScalarRestrictions,
-      plainLiteralScalarRestrictions = t1.plainLiteralScalarRestrictions ++ t2.plainLiteralScalarRestrictions,
-      scalarOneOfRestrictions = t1.scalarOneOfRestrictions ++ t2.scalarOneOfRestrictions,
-      stringScalarRestrictions = t1.stringScalarRestrictions ++ t2.stringScalarRestrictions,
-      synonymScalarRestrictions = t1.synonymScalarRestrictions ++ t2.synonymScalarRestrictions,
-      timeScalarRestrictions = t1.timeScalarRestrictions ++ t2.timeScalarRestrictions,
-      entityScalarDataProperties = t1.entityScalarDataProperties ++ t2.entityScalarDataProperties,
-      entityStructuredDataProperties = t1.entityStructuredDataProperties ++ t2.entityStructuredDataProperties,
-      scalarDataProperties = t1.scalarDataProperties ++ t2.scalarDataProperties,
-      structuredDataProperties = t1.structuredDataProperties ++ t2.structuredDataProperties,
-      aspectSpecializationAxioms = t1.aspectSpecializationAxioms ++ t2.aspectSpecializationAxioms,
-      conceptSpecializationAxioms = t1.conceptSpecializationAxioms ++ t2.conceptSpecializationAxioms,
-      reifiedRelationshipSpecializationAxioms = t1.reifiedRelationshipSpecializationAxioms ++ t2.reifiedRelationshipSpecializationAxioms,
-      entityExistentialRestrictionAxioms = t1.entityExistentialRestrictionAxioms ++ t2.entityExistentialRestrictionAxioms,
-      entityUniversalRestrictionAxioms = t1.entityUniversalRestrictionAxioms ++ t2.entityUniversalRestrictionAxioms,
-      entityScalarDataPropertyExistentialRestrictionAxioms = t1.entityScalarDataPropertyExistentialRestrictionAxioms ++ t2.entityScalarDataPropertyExistentialRestrictionAxioms,
-      entityScalarDataPropertyParticularRestrictionAxioms = t1.entityScalarDataPropertyParticularRestrictionAxioms ++ t2.entityScalarDataPropertyParticularRestrictionAxioms,
-      entityScalarDataPropertyUniversalRestrictionAxioms = t1.entityScalarDataPropertyUniversalRestrictionAxioms ++ t2.entityScalarDataPropertyUniversalRestrictionAxioms,
-      scalarOneOfLiteralAxioms = t1.scalarOneOfLiteralAxioms ++ t2.scalarOneOfLiteralAxioms,
-      bundledTerminologyAxioms = t1.bundledTerminologyAxioms ++ t2.bundledTerminologyAxioms,
-      rootConceptTaxonomyAxioms = t1.rootConceptTaxonomyAxioms ++ t2.rootConceptTaxonomyAxioms,
-      specificDisjointConceptAxioms = t1.specificDisjointConceptAxioms ++ t2.specificDisjointConceptAxioms,
-      annotationPropertyValues = t1.annotationPropertyValues ++ t2.annotationPropertyValues,
-      anonymousConceptUnionAxioms = t1.anonymousConceptUnionAxioms ++ t2.anonymousConceptUnionAxioms,
-      aspectPredicates = t1.aspectPredicates ++ t2.aspectPredicates,
-      chainRules = t1.chainRules ++ t2.chainRules,
-      conceptInstances = t1.conceptInstances ++ t2.conceptInstances,
-      conceptPredicates = t1.conceptPredicates ++ t2.conceptPredicates,
-      descriptionBoxes = t1.descriptionBoxes ++ t2.descriptionBoxes,
-      descriptionBoxExtendsClosedWorldDefinitions = t1.descriptionBoxExtendsClosedWorldDefinitions ++ t2.descriptionBoxExtendsClosedWorldDefinitions,
-      descriptionBoxRefinements = t1.descriptionBoxRefinements ++ t2.descriptionBoxRefinements,
-      entityStructuredDataPropertyParticularRestrictionAxioms = t1.entityStructuredDataPropertyParticularRestrictionAxioms ++ t2.entityStructuredDataPropertyParticularRestrictionAxioms,
-      reifiedRelationshipInstances = t1.reifiedRelationshipInstances ++ t2.reifiedRelationshipInstances,
-      reifiedRelationshipInstanceDomains = t1.reifiedRelationshipInstanceDomains ++ t2.reifiedRelationshipInstanceDomains,
-      reifiedRelationshipInstanceRanges = t1.reifiedRelationshipInstanceRanges ++ t2.reifiedRelationshipInstanceRanges,
-      reifiedRelationshipInversePropertyPredicates = t1.reifiedRelationshipInversePropertyPredicates ++ t2.reifiedRelationshipInversePropertyPredicates,
-      reifiedRelationshipPredicates = t1.reifiedRelationshipPredicates ++ t2.reifiedRelationshipPredicates,
-      reifiedRelationshipPropertyPredicates = t1.reifiedRelationshipPropertyPredicates ++ t2.reifiedRelationshipPropertyPredicates,
-      reifiedRelationshipSourceInversePropertyPredicates = t1.reifiedRelationshipSourceInversePropertyPredicates ++ t2.reifiedRelationshipSourceInversePropertyPredicates,
-      reifiedRelationshipSourcePropertyPredicates = t1.reifiedRelationshipSourcePropertyPredicates ++ t2.reifiedRelationshipSourcePropertyPredicates,
-      reifiedRelationshipTargetInversePropertyPredicates = t1.reifiedRelationshipTargetInversePropertyPredicates ++ t2.reifiedRelationshipTargetInversePropertyPredicates,
-      reifiedRelationshipTargetPropertyPredicates = t1.reifiedRelationshipTargetPropertyPredicates ++ t2.reifiedRelationshipTargetPropertyPredicates,
-      restrictionScalarDataPropertyValues = t1.restrictionScalarDataPropertyValues ++ t2.restrictionScalarDataPropertyValues,
-      restrictionStructuredDataPropertyTuples = t1.restrictionStructuredDataPropertyTuples ++ t2.restrictionStructuredDataPropertyTuples,
-      ruleBodySegments = t1.ruleBodySegments ++ t2.ruleBodySegments,
-      scalarDataPropertyValues = t1.scalarDataPropertyValues ++ t2.scalarDataPropertyValues,
-      singletonInstanceScalarDataPropertyValues = t1.singletonInstanceScalarDataPropertyValues ++ t2.singletonInstanceScalarDataPropertyValues,
-      singletonInstanceStructuredDataPropertyValues = t1.singletonInstanceStructuredDataPropertyValues ++ t2.singletonInstanceStructuredDataPropertyValues,
-      structuredDataPropertyTuples = t1.structuredDataPropertyTuples ++ t2.structuredDataPropertyTuples,
-      unreifiedRelationshipInstanceTuples = t1.unreifiedRelationshipInstanceTuples ++ t2.unreifiedRelationshipInstanceTuples,
-      unreifiedRelationshipInversePropertyPredicates = t1.unreifiedRelationshipInversePropertyPredicates ++ t2.unreifiedRelationshipInversePropertyPredicates,
-      unreifiedRelationshipPropertyPredicates = t1.unreifiedRelationshipPropertyPredicates ++ t2.unreifiedRelationshipPropertyPredicates)
+      annotationProperties = 
+  (t1.annotationProperties.to[Set] ++ t2.annotationProperties.to[Set]).to[Seq].sortBy(_.uuid),
+      terminologyGraphs = 
+  (t1.terminologyGraphs.to[Set] ++ t2.terminologyGraphs.to[Set]).to[Seq].sortBy(_.uuid),
+      bundles = 
+  (t1.bundles.to[Set] ++ t2.bundles.to[Set]).to[Seq].sortBy(_.uuid),
+      conceptDesignationTerminologyAxioms = 
+  (t1.conceptDesignationTerminologyAxioms.to[Set] ++ t2.conceptDesignationTerminologyAxioms.to[Set]).to[Seq].sortBy(_.uuid),
+      terminologyExtensionAxioms = 
+  (t1.terminologyExtensionAxioms.to[Set] ++ t2.terminologyExtensionAxioms.to[Set]).to[Seq].sortBy(_.uuid),
+      terminologyNestingAxioms = 
+  (t1.terminologyNestingAxioms.to[Set] ++ t2.terminologyNestingAxioms.to[Set]).to[Seq].sortBy(_.uuid),
+      aspects = 
+  (t1.aspects.to[Set] ++ t2.aspects.to[Set]).to[Seq].sortBy(_.uuid),
+      concepts = 
+  (t1.concepts.to[Set] ++ t2.concepts.to[Set]).to[Seq].sortBy(_.uuid),
+      reifiedRelationships = 
+  (t1.reifiedRelationships.to[Set] ++ t2.reifiedRelationships.to[Set]).to[Seq].sortBy(_.uuid),
+      unreifiedRelationships = 
+  (t1.unreifiedRelationships.to[Set] ++ t2.unreifiedRelationships.to[Set]).to[Seq].sortBy(_.uuid),
+      scalars = 
+  (t1.scalars.to[Set] ++ t2.scalars.to[Set]).to[Seq].sortBy(_.uuid),
+      structures = 
+  (t1.structures.to[Set] ++ t2.structures.to[Set]).to[Seq].sortBy(_.uuid),
+      binaryScalarRestrictions = 
+  (t1.binaryScalarRestrictions.to[Set] ++ t2.binaryScalarRestrictions.to[Set]).to[Seq].sortBy(_.uuid),
+      iriScalarRestrictions = 
+  (t1.iriScalarRestrictions.to[Set] ++ t2.iriScalarRestrictions.to[Set]).to[Seq].sortBy(_.uuid),
+      numericScalarRestrictions = 
+  (t1.numericScalarRestrictions.to[Set] ++ t2.numericScalarRestrictions.to[Set]).to[Seq].sortBy(_.uuid),
+      plainLiteralScalarRestrictions = 
+  (t1.plainLiteralScalarRestrictions.to[Set] ++ t2.plainLiteralScalarRestrictions.to[Set]).to[Seq].sortBy(_.uuid),
+      scalarOneOfRestrictions = 
+  (t1.scalarOneOfRestrictions.to[Set] ++ t2.scalarOneOfRestrictions.to[Set]).to[Seq].sortBy(_.uuid),
+      stringScalarRestrictions = 
+  (t1.stringScalarRestrictions.to[Set] ++ t2.stringScalarRestrictions.to[Set]).to[Seq].sortBy(_.uuid),
+      synonymScalarRestrictions = 
+  (t1.synonymScalarRestrictions.to[Set] ++ t2.synonymScalarRestrictions.to[Set]).to[Seq].sortBy(_.uuid),
+      timeScalarRestrictions = 
+  (t1.timeScalarRestrictions.to[Set] ++ t2.timeScalarRestrictions.to[Set]).to[Seq].sortBy(_.uuid),
+      entityScalarDataProperties = 
+  (t1.entityScalarDataProperties.to[Set] ++ t2.entityScalarDataProperties.to[Set]).to[Seq].sortBy(_.uuid),
+      entityStructuredDataProperties = 
+  (t1.entityStructuredDataProperties.to[Set] ++ t2.entityStructuredDataProperties.to[Set]).to[Seq].sortBy(_.uuid),
+      scalarDataProperties = 
+  (t1.scalarDataProperties.to[Set] ++ t2.scalarDataProperties.to[Set]).to[Seq].sortBy(_.uuid),
+      structuredDataProperties = 
+  (t1.structuredDataProperties.to[Set] ++ t2.structuredDataProperties.to[Set]).to[Seq].sortBy(_.uuid),
+      aspectSpecializationAxioms = 
+  (t1.aspectSpecializationAxioms.to[Set] ++ t2.aspectSpecializationAxioms.to[Set]).to[Seq].sortBy(_.uuid),
+      conceptSpecializationAxioms = 
+  (t1.conceptSpecializationAxioms.to[Set] ++ t2.conceptSpecializationAxioms.to[Set]).to[Seq].sortBy(_.uuid),
+      reifiedRelationshipSpecializationAxioms = 
+  (t1.reifiedRelationshipSpecializationAxioms.to[Set] ++ t2.reifiedRelationshipSpecializationAxioms.to[Set]).to[Seq].sortBy(_.uuid),
+      entityExistentialRestrictionAxioms = 
+  (t1.entityExistentialRestrictionAxioms.to[Set] ++ t2.entityExistentialRestrictionAxioms.to[Set]).to[Seq].sortBy(_.uuid),
+      entityUniversalRestrictionAxioms = 
+  (t1.entityUniversalRestrictionAxioms.to[Set] ++ t2.entityUniversalRestrictionAxioms.to[Set]).to[Seq].sortBy(_.uuid),
+      entityScalarDataPropertyExistentialRestrictionAxioms = 
+  (t1.entityScalarDataPropertyExistentialRestrictionAxioms.to[Set] ++ t2.entityScalarDataPropertyExistentialRestrictionAxioms.to[Set]).to[Seq].sortBy(_.uuid),
+      entityScalarDataPropertyParticularRestrictionAxioms = 
+  (t1.entityScalarDataPropertyParticularRestrictionAxioms.to[Set] ++ t2.entityScalarDataPropertyParticularRestrictionAxioms.to[Set]).to[Seq].sortBy(_.uuid),
+      entityScalarDataPropertyUniversalRestrictionAxioms = 
+  (t1.entityScalarDataPropertyUniversalRestrictionAxioms.to[Set] ++ t2.entityScalarDataPropertyUniversalRestrictionAxioms.to[Set]).to[Seq].sortBy(_.uuid),
+      scalarOneOfLiteralAxioms = 
+  (t1.scalarOneOfLiteralAxioms.to[Set] ++ t2.scalarOneOfLiteralAxioms.to[Set]).to[Seq].sortBy(_.uuid),
+      bundledTerminologyAxioms = 
+  (t1.bundledTerminologyAxioms.to[Set] ++ t2.bundledTerminologyAxioms.to[Set]).to[Seq].sortBy(_.uuid),
+      rootConceptTaxonomyAxioms = 
+  (t1.rootConceptTaxonomyAxioms.to[Set] ++ t2.rootConceptTaxonomyAxioms.to[Set]).to[Seq].sortBy(_.uuid),
+      specificDisjointConceptAxioms = 
+  (t1.specificDisjointConceptAxioms.to[Set] ++ t2.specificDisjointConceptAxioms.to[Set]).to[Seq].sortBy(_.uuid),
+      annotationPropertyValues = 
+  (t1.annotationPropertyValues.to[Set] ++ t2.annotationPropertyValues.to[Set]).to[Seq].sortBy(_.uuid),
+      anonymousConceptUnionAxioms = 
+  (t1.anonymousConceptUnionAxioms.to[Set] ++ t2.anonymousConceptUnionAxioms.to[Set]).to[Seq].sortBy(_.uuid),
+      aspectPredicates = 
+  (t1.aspectPredicates.to[Set] ++ t2.aspectPredicates.to[Set]).to[Seq].sortBy(_.uuid),
+      chainRules = 
+  (t1.chainRules.to[Set] ++ t2.chainRules.to[Set]).to[Seq].sortBy(_.uuid),
+      conceptInstances = 
+  (t1.conceptInstances.to[Set] ++ t2.conceptInstances.to[Set]).to[Seq].sortBy(_.uuid),
+      conceptPredicates = 
+  (t1.conceptPredicates.to[Set] ++ t2.conceptPredicates.to[Set]).to[Seq].sortBy(_.uuid),
+      descriptionBoxes = 
+  (t1.descriptionBoxes.to[Set] ++ t2.descriptionBoxes.to[Set]).to[Seq].sortBy(_.uuid),
+      descriptionBoxExtendsClosedWorldDefinitions = 
+  (t1.descriptionBoxExtendsClosedWorldDefinitions.to[Set] ++ t2.descriptionBoxExtendsClosedWorldDefinitions.to[Set]).to[Seq].sortBy(_.uuid),
+      descriptionBoxRefinements = 
+  (t1.descriptionBoxRefinements.to[Set] ++ t2.descriptionBoxRefinements.to[Set]).to[Seq].sortBy(_.uuid),
+      entityStructuredDataPropertyParticularRestrictionAxioms = 
+  (t1.entityStructuredDataPropertyParticularRestrictionAxioms.to[Set] ++ t2.entityStructuredDataPropertyParticularRestrictionAxioms.to[Set]).to[Seq].sortBy(_.uuid),
+      reifiedRelationshipInstances = 
+  (t1.reifiedRelationshipInstances.to[Set] ++ t2.reifiedRelationshipInstances.to[Set]).to[Seq].sortBy(_.uuid),
+      reifiedRelationshipInstanceDomains = 
+  (t1.reifiedRelationshipInstanceDomains.to[Set] ++ t2.reifiedRelationshipInstanceDomains.to[Set]).to[Seq].sortBy(_.uuid),
+      reifiedRelationshipInstanceRanges = 
+  (t1.reifiedRelationshipInstanceRanges.to[Set] ++ t2.reifiedRelationshipInstanceRanges.to[Set]).to[Seq].sortBy(_.uuid),
+      reifiedRelationshipInversePropertyPredicates = 
+  (t1.reifiedRelationshipInversePropertyPredicates.to[Set] ++ t2.reifiedRelationshipInversePropertyPredicates.to[Set]).to[Seq].sortBy(_.uuid),
+      reifiedRelationshipPredicates = 
+  (t1.reifiedRelationshipPredicates.to[Set] ++ t2.reifiedRelationshipPredicates.to[Set]).to[Seq].sortBy(_.uuid),
+      reifiedRelationshipPropertyPredicates = 
+  (t1.reifiedRelationshipPropertyPredicates.to[Set] ++ t2.reifiedRelationshipPropertyPredicates.to[Set]).to[Seq].sortBy(_.uuid),
+      reifiedRelationshipSourceInversePropertyPredicates = 
+  (t1.reifiedRelationshipSourceInversePropertyPredicates.to[Set] ++ t2.reifiedRelationshipSourceInversePropertyPredicates.to[Set]).to[Seq].sortBy(_.uuid),
+      reifiedRelationshipSourcePropertyPredicates = 
+  (t1.reifiedRelationshipSourcePropertyPredicates.to[Set] ++ t2.reifiedRelationshipSourcePropertyPredicates.to[Set]).to[Seq].sortBy(_.uuid),
+      reifiedRelationshipTargetInversePropertyPredicates = 
+  (t1.reifiedRelationshipTargetInversePropertyPredicates.to[Set] ++ t2.reifiedRelationshipTargetInversePropertyPredicates.to[Set]).to[Seq].sortBy(_.uuid),
+      reifiedRelationshipTargetPropertyPredicates = 
+  (t1.reifiedRelationshipTargetPropertyPredicates.to[Set] ++ t2.reifiedRelationshipTargetPropertyPredicates.to[Set]).to[Seq].sortBy(_.uuid),
+      restrictionScalarDataPropertyValues = 
+  (t1.restrictionScalarDataPropertyValues.to[Set] ++ t2.restrictionScalarDataPropertyValues.to[Set]).to[Seq].sortBy(_.uuid),
+      restrictionStructuredDataPropertyTuples = 
+  (t1.restrictionStructuredDataPropertyTuples.to[Set] ++ t2.restrictionStructuredDataPropertyTuples.to[Set]).to[Seq].sortBy(_.uuid),
+      ruleBodySegments = 
+  (t1.ruleBodySegments.to[Set] ++ t2.ruleBodySegments.to[Set]).to[Seq].sortBy(_.uuid),
+      scalarDataPropertyValues = 
+  (t1.scalarDataPropertyValues.to[Set] ++ t2.scalarDataPropertyValues.to[Set]).to[Seq].sortBy(_.uuid),
+      singletonInstanceScalarDataPropertyValues = 
+  (t1.singletonInstanceScalarDataPropertyValues.to[Set] ++ t2.singletonInstanceScalarDataPropertyValues.to[Set]).to[Seq].sortBy(_.uuid),
+      singletonInstanceStructuredDataPropertyValues = 
+  (t1.singletonInstanceStructuredDataPropertyValues.to[Set] ++ t2.singletonInstanceStructuredDataPropertyValues.to[Set]).to[Seq].sortBy(_.uuid),
+      structuredDataPropertyTuples = 
+  (t1.structuredDataPropertyTuples.to[Set] ++ t2.structuredDataPropertyTuples.to[Set]).to[Seq].sortBy(_.uuid),
+      unreifiedRelationshipInstanceTuples = 
+  (t1.unreifiedRelationshipInstanceTuples.to[Set] ++ t2.unreifiedRelationshipInstanceTuples.to[Set]).to[Seq].sortBy(_.uuid),
+      unreifiedRelationshipInversePropertyPredicates = 
+  (t1.unreifiedRelationshipInversePropertyPredicates.to[Set] ++ t2.unreifiedRelationshipInversePropertyPredicates.to[Set]).to[Seq].sortBy(_.uuid),
+      unreifiedRelationshipPropertyPredicates = 
+  (t1.unreifiedRelationshipPropertyPredicates.to[Set] ++ t2.unreifiedRelationshipPropertyPredicates.to[Set]).to[Seq].sortBy(_.uuid))
   
   def readZipArchive
   (zipFile: ZipFile)

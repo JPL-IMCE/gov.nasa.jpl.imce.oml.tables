@@ -31,3 +31,5 @@ gov.nasa.jpl.imce.oml.tables 0.90.0 resolves major issues in 0.80.0
 - [#32 Improve compile-time type safety of the OML Tabular representation without runtime overhead](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/32)
 
 - [#33 Updated classification of abstract OML classes](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/33)
+
+- [#34 Ensure OML table readers properly merge read content and maintain sorting](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/34)
