@@ -9,12 +9,12 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 1570)">
 <title>dependency&#45;graph</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-1570 3102,-1570 3102,4 -4,4"/>
-<!-- gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M27 -->
-<g id="node1" class="node"><title>gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M27</title>
+<!-- gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M28 -->
+<g id="node1" class="node"><title>gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M28</title>
 <ellipse fill="none" stroke="black" cx="181" cy="-442" rx="180.125" ry="35.2113"/>
 <text text-anchor="start" x="132.5" y="-452.8" font-family="Times,serif" font-size="14.00">gov.nasa.jpl.imce</text>
 <text text-anchor="start" x="61.5" y="-438.8" font-family="Times,serif" font-weight="bold" font-size="14.00">gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11</text>
-<text text-anchor="start" x="148" y="-424.8" font-family="Times,serif" font-size="14.00">0.90.0&#45;M27</text>
+<text text-anchor="start" x="148" y="-424.8" font-family="Times,serif" font-size="14.00">0.90.0&#45;M28</text>
 </g>
 <!-- org.scala&#45;js:scalajs&#45;dom_sjs0.6_2.11:0.9.3 -->
 <g id="node2" class="node"><title>org.scala&#45;js:scalajs&#45;dom_sjs0.6_2.11:0.9.3</title>
@@ -23,8 +23,8 @@
 <text text-anchor="start" x="441.5" y="-1329.8" font-family="Times,serif" font-weight="bold" font-size="14.00">scalajs&#45;dom_sjs0.6_2.11</text>
 <text text-anchor="start" x="497" y="-1315.8" font-family="Times,serif" font-size="14.00">0.9.3</text>
 </g>
-<!-- gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M27&#45;&gt;org.scala&#45;js:scalajs&#45;dom_sjs0.6_2.11:0.9.3 -->
-<g id="edge1" class="edge"><title>gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M27&#45;&gt;org.scala&#45;js:scalajs&#45;dom_sjs0.6_2.11:0.9.3</title>
+<!-- gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M28&#45;&gt;org.scala&#45;js:scalajs&#45;dom_sjs0.6_2.11:0.9.3 -->
+<g id="edge1" class="edge"><title>gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M28&#45;&gt;org.scala&#45;js:scalajs&#45;dom_sjs0.6_2.11:0.9.3</title>
 <path fill="none" stroke="black" d="M184.963,-477.422C195.623,-589.692 239.181,-945.049 380,-1197 400.684,-1234.01 433.812,-1268.45 461.449,-1293.41"/>
 <polygon fill="black" stroke="black" points="459.284,-1296.17 469.083,-1300.2 463.933,-1290.94 459.284,-1296.17"/>
 </g>
@@ -35,8 +35,8 @@
 <text text-anchor="start" x="441" y="-438.8" font-family="Times,serif" font-weight="bold" font-size="14.00">circe&#45;parser_sjs0.6_2.11</text>
 <text text-anchor="start" x="485" y="-424.8" font-family="Times,serif" font-size="14.00">0.9.0&#45;M2</text>
 </g>
-<!-- gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M27&#45;&gt;io.circe:circe&#45;parser_sjs0.6_2.11:0.9.0&#45;M2 -->
-<g id="edge2" class="edge"><title>gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M27&#45;&gt;io.circe:circe&#45;parser_sjs0.6_2.11:0.9.0&#45;M2</title>
+<!-- gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M28&#45;&gt;io.circe:circe&#45;parser_sjs0.6_2.11:0.9.0&#45;M2 -->
+<g id="edge2" class="edge"><title>gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M28&#45;&gt;io.circe:circe&#45;parser_sjs0.6_2.11:0.9.0&#45;M2</title>
 <path fill="none" stroke="black" d="M361.355,-442C371.13,-442 380.832,-442 390.32,-442"/>
 <polygon fill="black" stroke="black" points="390.524,-445.5 400.524,-442 390.524,-438.5 390.524,-445.5"/>
 </g>
@@ -47,8 +47,8 @@
 <text text-anchor="start" x="706" y="-873.8" font-family="Times,serif" font-weight="bold" font-size="14.00">circe&#45;optics_sjs0.6_2.11</text>
 <text text-anchor="start" x="748" y="-859.8" font-family="Times,serif" font-size="14.00">0.9.0&#45;M2</text>
 </g>
-<!-- gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M27&#45;&gt;io.circe:circe&#45;optics_sjs0.6_2.11:0.9.0&#45;M2 -->
-<g id="edge4" class="edge"><title>gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M27&#45;&gt;io.circe:circe&#45;optics_sjs0.6_2.11:0.9.0&#45;M2</title>
+<!-- gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M28&#45;&gt;io.circe:circe&#45;optics_sjs0.6_2.11:0.9.0&#45;M2 -->
+<g id="edge4" class="edge"><title>gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M28&#45;&gt;io.circe:circe&#45;optics_sjs0.6_2.11:0.9.0&#45;M2</title>
 <path fill="none" stroke="black" d="M228.375,-476.134C336.953,-556.051 607.073,-754.871 721.002,-838.728"/>
 <polygon fill="black" stroke="black" points="719.129,-841.695 729.257,-844.804 723.278,-836.057 719.129,-841.695"/>
 </g>
@@ -59,8 +59,8 @@
 <text text-anchor="start" x="705.5" y="-1036.8" font-family="Times,serif" font-weight="bold" font-size="14.00">circe&#45;literal_sjs0.6_2.11</text>
 <text text-anchor="start" x="748" y="-1022.8" font-family="Times,serif" font-size="14.00">0.9.0&#45;M2</text>
 </g>
-<!-- gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M27&#45;&gt;io.circe:circe&#45;literal_sjs0.6_2.11:0.9.0&#45;M2 -->
-<g id="edge7" class="edge"><title>gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M27&#45;&gt;io.circe:circe&#45;literal_sjs0.6_2.11:0.9.0&#45;M2</title>
+<!-- gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M28&#45;&gt;io.circe:circe&#45;literal_sjs0.6_2.11:0.9.0&#45;M2 -->
+<g id="edge7" class="edge"><title>gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M28&#45;&gt;io.circe:circe&#45;literal_sjs0.6_2.11:0.9.0&#45;M2</title>
 <path fill="none" stroke="black" d="M209.245,-476.873C249.271,-527.449 327.13,-623.372 400,-699 511.31,-814.522 653.888,-938.973 726.292,-1000.67"/>
 <polygon fill="black" stroke="black" points="724.037,-1003.35 733.922,-1007.16 728.573,-998.016 724.037,-1003.35"/>
 </g>
@@ -71,8 +71,8 @@
 <text text-anchor="start" x="701.5" y="-1294.8" font-family="Times,serif" font-weight="bold" font-size="14.00">circe&#45;generic_sjs0.6_2.11</text>
 <text text-anchor="start" x="748" y="-1280.8" font-family="Times,serif" font-size="14.00">0.9.0&#45;M2</text>
 </g>
-<!-- gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M27&#45;&gt;io.circe:circe&#45;generic_sjs0.6_2.11:0.9.0&#45;M2 -->
-<g id="edge8" class="edge"><title>gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M27&#45;&gt;io.circe:circe&#45;generic_sjs0.6_2.11:0.9.0&#45;M2</title>
+<!-- gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M28&#45;&gt;io.circe:circe&#45;generic_sjs0.6_2.11:0.9.0&#45;M2 -->
+<g id="edge8" class="edge"><title>gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M28&#45;&gt;io.circe:circe&#45;generic_sjs0.6_2.11:0.9.0&#45;M2</title>
 <path fill="none" stroke="black" d="M200.322,-477.165C236.036,-544.852 318.612,-697.235 400,-818 513.902,-987.01 668.219,-1174.18 737.157,-1255.94"/>
 <polygon fill="black" stroke="black" points="734.826,-1258.6 743.953,-1263.98 740.174,-1254.08 734.826,-1258.6"/>
 </g>
@@ -83,8 +83,8 @@
 <text text-anchor="start" x="1447" y="-473.8" font-family="Times,serif" font-weight="bold" font-size="14.00">cats&#45;core_sjs0.6_2.11</text>
 <text text-anchor="start" x="1479" y="-459.8" font-family="Times,serif" font-size="14.00">1.0.0&#45;RC1</text>
 </g>
-<!-- gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M27&#45;&gt;org.typelevel:cats&#45;core_sjs0.6_2.11:1.0.0&#45;RC1 -->
-<g id="edge19" class="edge"><title>gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M27&#45;&gt;org.typelevel:cats&#45;core_sjs0.6_2.11:1.0.0&#45;RC1</title>
+<!-- gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M28&#45;&gt;org.typelevel:cats&#45;core_sjs0.6_2.11:1.0.0&#45;RC1 -->
+<g id="edge20" class="edge"><title>gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M28&#45;&gt;org.typelevel:cats&#45;core_sjs0.6_2.11:1.0.0&#45;RC1</title>
 <path fill="none" stroke="black" d="M277.858,-412.282C342.726,-394.764 430.713,-376 510,-376 510,-376 510,-376 1233,-376 1311.12,-376 1394.46,-412.59 1448.44,-441.724"/>
 <polygon fill="black" stroke="black" points="1447.06,-444.956 1457.51,-446.697 1450.42,-438.819 1447.06,-444.956"/>
 </g>
@@ -95,8 +95,8 @@
 <text text-anchor="start" x="453" y="-119.8" font-family="Times,serif" font-weight="bold" font-size="14.00">commons&#45;compress</text>
 <text text-anchor="start" x="497" y="-105.8" font-family="Times,serif" font-size="14.00">1.4.1</text>
 </g>
-<!-- gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M27&#45;&gt;org.apache.commons:commons&#45;compress:1.4.1 -->
-<g id="edge25" class="edge"><title>gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M27&#45;&gt;org.apache.commons:commons&#45;compress:1.4.1</title>
+<!-- gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M28&#45;&gt;org.apache.commons:commons&#45;compress:1.4.1 -->
+<g id="edge25" class="edge"><title>gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M28&#45;&gt;org.apache.commons:commons&#45;compress:1.4.1</title>
 <path fill="none" stroke="black" d="M199.237,-406.68C228.732,-349.672 294.111,-237.192 380,-172 393.126,-162.037 408.505,-153.902 423.999,-147.329"/>
 <polygon fill="black" stroke="black" points="425.68,-150.425 433.642,-143.436 423.059,-143.934 425.68,-150.425"/>
 </g>
@@ -107,8 +107,8 @@
 <text text-anchor="start" x="2663.5" y="-372.8" font-family="Times,serif" font-weight="bold" font-size="14.00">scalajs&#45;library_2.11</text>
 <text text-anchor="start" x="2703.5" y="-358.8" font-family="Times,serif" font-size="14.00">0.6.16</text>
 </g>
-<!-- gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M27&#45;&gt;org.scala&#45;js:scalajs&#45;library_2.11:0.6.16 -->
-<g id="edge51" class="edge"><title>gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M27&#45;&gt;org.scala&#45;js:scalajs&#45;library_2.11:0.6.16</title>
+<!-- gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M28&#45;&gt;org.scala&#45;js:scalajs&#45;library_2.11:0.6.16 -->
+<g id="edge52" class="edge"><title>gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M28&#45;&gt;org.scala&#45;js:scalajs&#45;library_2.11:0.6.16</title>
 <path fill="none" stroke="black" d="M209.441,-406.975C261.099,-345.351 379.405,-224 510,-224 510,-224 510,-224 2430,-224 2527.05,-224 2623.64,-291.61 2677.22,-336.647"/>
 <polygon fill="black" stroke="black" points="2675.24,-339.564 2685.12,-343.392 2679.79,-334.239 2675.24,-339.564"/>
 </g>
@@ -119,8 +119,8 @@
 <text text-anchor="start" x="1892" y="-125.8" font-family="Times,serif" font-weight="bold" font-size="14.00">scalac&#45;scapegoat&#45;plugin_2.11</text>
 <text text-anchor="start" x="1962" y="-111.8" font-family="Times,serif" font-size="14.00">1.0.0</text>
 </g>
-<!-- gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M27&#45;&gt;com.sksamuel.scapegoat:scalac&#45;scapegoat&#45;plugin_2.11:1.0.0 -->
-<g id="edge66" class="edge"><title>gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M27&#45;&gt;com.sksamuel.scapegoat:scalac&#45;scapegoat&#45;plugin_2.11:1.0.0</title>
+<!-- gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M28&#45;&gt;com.sksamuel.scapegoat:scalac&#45;scapegoat&#45;plugin_2.11:1.0.0 -->
+<g id="edge66" class="edge"><title>gov.nasa.jpl.imce:gov&#45;nasa&#45;jpl&#45;imce&#45;oml&#45;tables_sjs0.6_2.11:0.90.0&#45;M28&#45;&gt;com.sksamuel.scapegoat:scalac&#45;scapegoat&#45;plugin_2.11:1.0.0</title>
 <path fill="none" stroke="black" d="M201.397,-406.697C232.025,-354.578 296.76,-258.04 380,-210 430.887,-180.631 451.246,-186 510,-186 510,-186 510,-186 1509,-186 1629.12,-186 1765.38,-167.108 1859.39,-151.077"/>
 <polygon fill="black" stroke="black" points="1860.23,-154.483 1869.49,-149.337 1859.04,-147.585 1860.23,-154.483"/>
 </g>
@@ -373,7 +373,7 @@
 <polygon fill="black" stroke="black" points="1846.69,-840.97 1856.83,-837.904 1846.99,-833.976 1846.69,-840.97"/>
 </g>
 <!-- io.circe:circe&#45;core_sjs0.6_2.11:0.9.0&#45;M2&#45;&gt;org.typelevel:cats&#45;core_sjs0.6_2.11:1.0.0&#45;RC1 -->
-<g id="edge20" class="edge"><title>io.circe:circe&#45;core_sjs0.6_2.11:0.9.0&#45;M2&#45;&gt;org.typelevel:cats&#45;core_sjs0.6_2.11:1.0.0&#45;RC1</title>
+<g id="edge19" class="edge"><title>io.circe:circe&#45;core_sjs0.6_2.11:0.9.0&#45;M2&#45;&gt;org.typelevel:cats&#45;core_sjs0.6_2.11:1.0.0&#45;RC1</title>
 <path fill="none" stroke="black" d="M1260.78,-777.136C1311.25,-715.621 1417.82,-585.713 1472.71,-518.793"/>
 <polygon fill="black" stroke="black" points="1475.51,-520.905 1479.15,-510.953 1470.1,-516.465 1475.51,-520.905"/>
 </g>
@@ -454,7 +454,7 @@
 <polygon fill="black" stroke="black" points="2363.26,-836.588 2373.8,-837.699 2366.25,-830.26 2363.26,-836.588"/>
 </g>
 <!-- org.typelevel:cats&#45;core_sjs0.6_2.11:1.0.0&#45;RC1&#45;&gt;org.scala&#45;js:scalajs&#45;library_2.11:0.6.16 -->
-<g id="edge52" class="edge"><title>org.typelevel:cats&#45;core_sjs0.6_2.11:1.0.0&#45;RC1&#45;&gt;org.scala&#45;js:scalajs&#45;library_2.11:0.6.16</title>
+<g id="edge51" class="edge"><title>org.typelevel:cats&#45;core_sjs0.6_2.11:1.0.0&#45;RC1&#45;&gt;org.scala&#45;js:scalajs&#45;library_2.11:0.6.16</title>
 <path fill="none" stroke="black" d="M1582.75,-454.151C1650.44,-434.357 1753.91,-407.06 1846,-395 2123.85,-358.615 2455.54,-364.831 2618.88,-371.124"/>
 <polygon fill="black" stroke="black" points="2618.79,-374.623 2628.92,-371.519 2619.06,-367.628 2618.79,-374.623"/>
 </g>
