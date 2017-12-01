@@ -19,6 +19,6 @@
  
 package gov.nasa.jpl.imce.oml.tables
 
-trait ModuleEdge extends Element {
+trait ModuleEdge extends ElementCrossReferenceTuple {
   override val uuid: taggedTypes.ModuleEdgeUUID
 }

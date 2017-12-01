@@ -19,7 +19,7 @@
  
 package gov.nasa.jpl.imce.oml.tables
 
-trait EntityScalarDataPropertyRestrictionAxiom extends TermAxiom {
+trait EntityScalarDataPropertyRestrictionAxiom extends ExtrinsicIdentityKind with TermAxiom {
   override val uuid: taggedTypes.EntityScalarDataPropertyRestrictionAxiomUUID
   override val tboxUUID: taggedTypes.TerminologyBoxUUID
   val restrictedEntityUUID: taggedTypes.EntityUUID

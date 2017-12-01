@@ -137,8 +137,8 @@ object taggedTypes {
   implicit val decodeUUIDDataType: Decoder[UUIDDataType] = decodeTag[UUIDDataTypeTag]
   implicit val encodeUUIDDataType: Encoder[UUIDDataType] = encodeTag[UUIDDataTypeTag]
   
-  trait AnnotationPropertyTag
-  trait AnnotationPropertyValueTag
+  trait AnnotationPropertyTag <: IntrinsicIdentityKindTag
+  trait AnnotationPropertyValueTag <: ValueCrossReferenceTupleTag
   trait AnonymousConceptUnionAxiomTag <: ConceptTreeDisjunctionTag with DisjointUnionOfConceptsAxiomTag
   trait AspectTag <: EntityTag with UnaryTermKindTag
   trait AspectPredicateTag <: UnarySegmentPredicateTag
@@ -155,7 +155,7 @@ object taggedTypes {
   trait ConceptInstanceTag <: ConceptualEntitySingletonInstanceTag
   trait ConceptPredicateTag <: UnarySegmentPredicateTag
   trait ConceptSpecializationAxiomTag <: SpecializationAxiomTag
-  trait ConceptTreeDisjunctionTag <: ElementTag
+  trait ConceptTreeDisjunctionTag <: ElementCrossReferenceTupleTag
   trait ConceptualEntityTag <: EntityTag
   trait ConceptualEntitySingletonInstanceTag <: ResourceTag with TerminologyInstanceAssertionTag
   trait DataRangeTag <: DatatypeTag
@@ -172,23 +172,27 @@ object taggedTypes {
   trait DescriptionBoxRefinementTag <: DescriptionBoxRelationshipTag
   trait DescriptionBoxRelationshipTag <: ModuleEdgeTag
   trait DirectedBinaryRelationshipKindTag <: TermTag
-  trait DisjointUnionOfConceptsAxiomTag <: ElementTag
-  trait ElementTag
+  trait DisjointUnionOfConceptsAxiomTag <: ElementCrossReferenceTupleTag
+  trait ElementTag <: IdentityKindTag
+  trait ElementCrossReferenceTupleTag <: ElementTag with ExtrinsicIdentityKindTag
   trait EntityTag <: TermTag
   trait EntityExistentialRestrictionAxiomTag <: EntityRestrictionAxiomTag
   trait EntityRelationshipTag <: DirectedBinaryRelationshipKindTag with TermTag
-  trait EntityRestrictionAxiomTag <: TermAxiomTag
+  trait EntityRestrictionAxiomTag <: ElementCrossReferenceTupleTag with TermAxiomTag
   trait EntityScalarDataPropertyTag <: DataRelationshipTag with DataRelationshipFromEntityTag with DataRelationshipToScalarTag
   trait EntityScalarDataPropertyExistentialRestrictionAxiomTag <: EntityScalarDataPropertyRestrictionAxiomTag
   trait EntityScalarDataPropertyParticularRestrictionAxiomTag <: EntityScalarDataPropertyRestrictionAxiomTag
-  trait EntityScalarDataPropertyRestrictionAxiomTag <: TermAxiomTag
+  trait EntityScalarDataPropertyRestrictionAxiomTag <: ExtrinsicIdentityKindTag with TermAxiomTag
   trait EntityScalarDataPropertyUniversalRestrictionAxiomTag <: EntityScalarDataPropertyRestrictionAxiomTag
   trait EntityStructuredDataPropertyTag <: DataRelationshipTag with DataRelationshipFromEntityTag with DataRelationshipToStructureTag
   trait EntityStructuredDataPropertyParticularRestrictionAxiomTag <: EntityStructuredDataPropertyRestrictionAxiomTag with RestrictionStructuredDataPropertyContextTag
-  trait EntityStructuredDataPropertyRestrictionAxiomTag <: TermAxiomTag
+  trait EntityStructuredDataPropertyRestrictionAxiomTag <: ElementCrossReferenceTupleTag with TermAxiomTag
   trait EntityUniversalRestrictionAxiomTag <: EntityRestrictionAxiomTag
   trait ExtentTag
+  trait ExtrinsicIdentityKindTag <: IdentityKindTag
   trait IRIScalarRestrictionTag <: RestrictedDataRangeTag
+  trait IdentityKindTag
+  trait IntrinsicIdentityKindTag <: IdentityKindTag
   trait LiteralBooleanTag <: LiteralValueTag
   trait LiteralDateTimeTag <: LiteralValueTag
   trait LiteralDecimalTag <: LiteralNumberTag
@@ -203,14 +207,14 @@ object taggedTypes {
   trait LiteralUUIDTag <: LiteralValueTag
   trait LiteralValueTag
   trait ModuleTag <: ResourceTag
-  trait ModuleEdgeTag <: ElementTag
+  trait ModuleEdgeTag <: ElementCrossReferenceTupleTag
   trait ModuleElementTag <: ElementTag
   trait NumericScalarRestrictionTag <: RestrictedDataRangeTag
   trait PlainLiteralScalarRestrictionTag <: RestrictedDataRangeTag
   trait ReifiedRelationshipTag <: ConceptualEntityTag with EntityRelationshipTag
   trait ReifiedRelationshipInstanceTag <: ConceptualEntitySingletonInstanceTag
-  trait ReifiedRelationshipInstanceDomainTag <: TerminologyInstanceAssertionTag
-  trait ReifiedRelationshipInstanceRangeTag <: TerminologyInstanceAssertionTag
+  trait ReifiedRelationshipInstanceDomainTag <: ElementCrossReferenceTupleTag with TerminologyInstanceAssertionTag
+  trait ReifiedRelationshipInstanceRangeTag <: ElementCrossReferenceTupleTag with TerminologyInstanceAssertionTag
   trait ReifiedRelationshipInversePropertyPredicateTag <: BinarySegmentReversePropertyPredicateTag
   trait ReifiedRelationshipPredicateTag <: UnarySegmentPredicateTag
   trait ReifiedRelationshipPropertyPredicateTag <: BinarySegmentForwardPropertyPredicateTag
@@ -219,24 +223,24 @@ object taggedTypes {
   trait ReifiedRelationshipSpecializationAxiomTag <: SpecializationAxiomTag
   trait ReifiedRelationshipTargetInversePropertyPredicateTag <: BinarySegmentReversePropertyPredicateTag
   trait ReifiedRelationshipTargetPropertyPredicateTag <: BinarySegmentForwardPropertyPredicateTag
-  trait ResourceTag <: ElementTag
+  trait ResourceTag <: ElementTag with IntrinsicIdentityKindTag
   trait RestrictedDataRangeTag <: DataRangeTag
-  trait RestrictionScalarDataPropertyValueTag <: ElementTag
-  trait RestrictionStructuredDataPropertyContextTag <: ModuleElementTag
+  trait RestrictionScalarDataPropertyValueTag <: ElementTag with ValueCrossReferenceTupleTag
+  trait RestrictionStructuredDataPropertyContextTag <: ElementCrossReferenceTupleTag with ModuleElementTag
   trait RestrictionStructuredDataPropertyTupleTag <: RestrictionStructuredDataPropertyContextTag
   trait RootConceptTaxonomyAxiomTag <: ConceptTreeDisjunctionTag with TerminologyBundleStatementTag
   trait RuleTag <: TermTag
-  trait RuleBodySegmentTag <: ElementTag
+  trait RuleBodySegmentTag <: ElementCrossReferenceTupleTag
   trait ScalarTag <: DataRangeTag with UnaryTermKindTag
   trait ScalarDataPropertyTag <: DataRelationshipTag with DataRelationshipFromStructureTag with DataRelationshipToScalarTag
-  trait ScalarDataPropertyValueTag <: ElementTag
-  trait ScalarOneOfLiteralAxiomTag <: TermAxiomTag
+  trait ScalarDataPropertyValueTag <: ElementTag with ValueCrossReferenceTupleTag
+  trait ScalarOneOfLiteralAxiomTag <: TermAxiomTag with ValueCrossReferenceTupleTag
   trait ScalarOneOfRestrictionTag <: RestrictedDataRangeTag
-  trait SegmentPredicateTag <: ElementTag
-  trait SingletonInstanceScalarDataPropertyValueTag <: ModuleElementTag
-  trait SingletonInstanceStructuredDataPropertyContextTag <: ElementTag
+  trait SegmentPredicateTag <: ElementCrossReferenceTupleTag
+  trait SingletonInstanceScalarDataPropertyValueTag <: ModuleElementTag with ValueCrossReferenceTupleTag
+  trait SingletonInstanceStructuredDataPropertyContextTag <: ElementCrossReferenceTupleTag
   trait SingletonInstanceStructuredDataPropertyValueTag <: ModuleElementTag with SingletonInstanceStructuredDataPropertyContextTag
-  trait SpecializationAxiomTag <: TermAxiomTag
+  trait SpecializationAxiomTag <: ElementCrossReferenceTupleTag with TermAxiomTag
   trait SpecificDisjointConceptAxiomTag <: DisjointUnionOfConceptsAxiomTag
   trait StringScalarRestrictionTag <: RestrictedDataRangeTag
   trait StructureTag <: DatatypeTag with UnaryTermKindTag
@@ -259,9 +263,10 @@ object taggedTypes {
   trait UnarySegmentPredicateTag <: SegmentPredicateTag
   trait UnaryTermKindTag <: TermTag
   trait UnreifiedRelationshipTag <: EntityRelationshipTag
-  trait UnreifiedRelationshipInstanceTupleTag <: TerminologyInstanceAssertionTag
+  trait UnreifiedRelationshipInstanceTupleTag <: ElementCrossReferenceTupleTag with TerminologyInstanceAssertionTag
   trait UnreifiedRelationshipInversePropertyPredicateTag <: BinarySegmentReversePropertyPredicateTag
   trait UnreifiedRelationshipPropertyPredicateTag <: BinarySegmentForwardPropertyPredicateTag
+  trait ValueCrossReferenceTupleTag <: ExtrinsicIdentityKindTag
   
   type AnnotationPropertyUUID 
   = String @@ AnnotationPropertyTag
@@ -1151,6 +1156,30 @@ object taggedTypes {
   	: Int = x.compareTo(y)
   }
   
+  type ElementCrossReferenceTupleUUID 
+  = String @@ ElementCrossReferenceTupleTag
+  
+  def elementCrossReferenceTupleUUID(uuid: String)
+  : ElementCrossReferenceTupleUUID
+  = covariantTag[ElementCrossReferenceTupleTag][String](uuid)
+  
+  implicit val decodeElementCrossReferenceTupleUUID
+  : Decoder[ElementCrossReferenceTupleUUID]
+  = decodeTag[ElementCrossReferenceTupleTag]
+  
+  implicit val encodeElementCrossReferenceTupleUUID
+  : Encoder[ElementCrossReferenceTupleUUID]
+  = encodeTag[ElementCrossReferenceTupleTag]
+  
+  implicit val orderingElementCrossReferenceTupleUUID
+  : Ordering[ElementCrossReferenceTupleUUID] 
+  = new Ordering[ElementCrossReferenceTupleUUID] {
+  	override def compare
+  	(x: ElementCrossReferenceTupleUUID, 
+  	 y: ElementCrossReferenceTupleUUID)
+  	: Int = x.compareTo(y)
+  }
+  
   type EntityUUID 
   = String @@ EntityTag
   
@@ -1463,6 +1492,30 @@ object taggedTypes {
   	: Int = x.compareTo(y)
   }
   
+  type ExtrinsicIdentityKindUUID 
+  = String @@ ExtrinsicIdentityKindTag
+  
+  def extrinsicIdentityKindUUID(uuid: String)
+  : ExtrinsicIdentityKindUUID
+  = covariantTag[ExtrinsicIdentityKindTag][String](uuid)
+  
+  implicit val decodeExtrinsicIdentityKindUUID
+  : Decoder[ExtrinsicIdentityKindUUID]
+  = decodeTag[ExtrinsicIdentityKindTag]
+  
+  implicit val encodeExtrinsicIdentityKindUUID
+  : Encoder[ExtrinsicIdentityKindUUID]
+  = encodeTag[ExtrinsicIdentityKindTag]
+  
+  implicit val orderingExtrinsicIdentityKindUUID
+  : Ordering[ExtrinsicIdentityKindUUID] 
+  = new Ordering[ExtrinsicIdentityKindUUID] {
+  	override def compare
+  	(x: ExtrinsicIdentityKindUUID, 
+  	 y: ExtrinsicIdentityKindUUID)
+  	: Int = x.compareTo(y)
+  }
+  
   type IRIScalarRestrictionUUID 
   = String @@ IRIScalarRestrictionTag
   
@@ -1484,6 +1537,54 @@ object taggedTypes {
   	override def compare
   	(x: IRIScalarRestrictionUUID, 
   	 y: IRIScalarRestrictionUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type IdentityKindUUID 
+  = String @@ IdentityKindTag
+  
+  def identityKindUUID(uuid: String)
+  : IdentityKindUUID
+  = covariantTag[IdentityKindTag][String](uuid)
+  
+  implicit val decodeIdentityKindUUID
+  : Decoder[IdentityKindUUID]
+  = decodeTag[IdentityKindTag]
+  
+  implicit val encodeIdentityKindUUID
+  : Encoder[IdentityKindUUID]
+  = encodeTag[IdentityKindTag]
+  
+  implicit val orderingIdentityKindUUID
+  : Ordering[IdentityKindUUID] 
+  = new Ordering[IdentityKindUUID] {
+  	override def compare
+  	(x: IdentityKindUUID, 
+  	 y: IdentityKindUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type IntrinsicIdentityKindUUID 
+  = String @@ IntrinsicIdentityKindTag
+  
+  def intrinsicIdentityKindUUID(uuid: String)
+  : IntrinsicIdentityKindUUID
+  = covariantTag[IntrinsicIdentityKindTag][String](uuid)
+  
+  implicit val decodeIntrinsicIdentityKindUUID
+  : Decoder[IntrinsicIdentityKindUUID]
+  = decodeTag[IntrinsicIdentityKindTag]
+  
+  implicit val encodeIntrinsicIdentityKindUUID
+  : Encoder[IntrinsicIdentityKindUUID]
+  = encodeTag[IntrinsicIdentityKindTag]
+  
+  implicit val orderingIntrinsicIdentityKindUUID
+  : Ordering[IntrinsicIdentityKindUUID] 
+  = new Ordering[IntrinsicIdentityKindUUID] {
+  	override def compare
+  	(x: IntrinsicIdentityKindUUID, 
+  	 y: IntrinsicIdentityKindUUID)
   	: Int = x.compareTo(y)
   }
   
@@ -2924,6 +3025,30 @@ object taggedTypes {
   	override def compare
   	(x: UnreifiedRelationshipPropertyPredicateUUID, 
   	 y: UnreifiedRelationshipPropertyPredicateUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type ValueCrossReferenceTupleUUID 
+  = String @@ ValueCrossReferenceTupleTag
+  
+  def valueCrossReferenceTupleUUID(uuid: String)
+  : ValueCrossReferenceTupleUUID
+  = covariantTag[ValueCrossReferenceTupleTag][String](uuid)
+  
+  implicit val decodeValueCrossReferenceTupleUUID
+  : Decoder[ValueCrossReferenceTupleUUID]
+  = decodeTag[ValueCrossReferenceTupleTag]
+  
+  implicit val encodeValueCrossReferenceTupleUUID
+  : Encoder[ValueCrossReferenceTupleUUID]
+  = encodeTag[ValueCrossReferenceTupleTag]
+  
+  implicit val orderingValueCrossReferenceTupleUUID
+  : Ordering[ValueCrossReferenceTupleUUID] 
+  = new Ordering[ValueCrossReferenceTupleUUID] {
+  	override def compare
+  	(x: ValueCrossReferenceTupleUUID, 
+  	 y: ValueCrossReferenceTupleUUID)
   	: Int = x.compareTo(y)
   }
   

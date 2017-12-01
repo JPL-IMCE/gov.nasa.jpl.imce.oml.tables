@@ -32,7 +32,7 @@ case class RuleBodySegment
   @(JSExport @field) override val uuid: taggedTypes.RuleBodySegmentUUID,
   @(JSExport @field) val previousSegmentUUID: scala.Option[taggedTypes.RuleBodySegmentUUID],
   @(JSExport @field) val ruleUUID: scala.Option[taggedTypes.ChainRuleUUID]
-) extends Element {
+) extends ElementCrossReferenceTuple {
   def this(
     uuid: taggedTypes.RuleBodySegmentUUID)
   = this(

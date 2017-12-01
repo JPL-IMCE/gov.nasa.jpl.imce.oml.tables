@@ -19,10 +19,6 @@
  
 package gov.nasa.jpl.imce.oml.tables
 
-trait EntityRestrictionAxiom extends ElementCrossReferenceTuple with TermAxiom {
-  override val uuid: taggedTypes.EntityRestrictionAxiomUUID
-  override val tboxUUID: taggedTypes.TerminologyBoxUUID
-  val restrictedRelationUUID: taggedTypes.EntityRelationshipUUID
-  val restrictedDomainUUID: taggedTypes.EntityUUID
-  val restrictedRangeUUID: taggedTypes.EntityUUID
+trait IdentityKind {
+  val uuid: taggedTypes.IdentityKindUUID
 }

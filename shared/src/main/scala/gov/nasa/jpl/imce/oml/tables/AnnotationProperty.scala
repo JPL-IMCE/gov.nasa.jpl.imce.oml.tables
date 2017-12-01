@@ -30,10 +30,10 @@ import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
 @JSExportTopLevel("AnnotationProperty")
 case class AnnotationProperty
 (
-  @(JSExport @field) val uuid: taggedTypes.AnnotationPropertyUUID,
+  @(JSExport @field) override val uuid: taggedTypes.AnnotationPropertyUUID,
   @(JSExport @field) val iri: taggedTypes.IRI,
   @(JSExport @field) val abbrevIRI: taggedTypes.AbbrevIRI
-) {
+) extends IntrinsicIdentityKind {
   // Ctor(uuidWithoutContainer)
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

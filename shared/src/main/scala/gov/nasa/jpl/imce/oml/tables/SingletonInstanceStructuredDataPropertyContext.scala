@@ -19,7 +19,7 @@
  
 package gov.nasa.jpl.imce.oml.tables
 
-trait SingletonInstanceStructuredDataPropertyContext extends Element {
+trait SingletonInstanceStructuredDataPropertyContext extends ElementCrossReferenceTuple {
   override val uuid: taggedTypes.SingletonInstanceStructuredDataPropertyContextUUID
   val structuredDataPropertyUUID: taggedTypes.DataRelationshipToStructureUUID
 }

@@ -19,6 +19,6 @@
  
 package gov.nasa.jpl.imce.oml.tables
 
-trait Element {
-  val uuid: taggedTypes.ElementUUID
+trait Element extends IdentityKind {
+  override val uuid: taggedTypes.ElementUUID
 }

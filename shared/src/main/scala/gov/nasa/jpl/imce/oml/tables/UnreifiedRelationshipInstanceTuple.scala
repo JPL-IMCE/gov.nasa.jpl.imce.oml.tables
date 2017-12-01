@@ -38,7 +38,7 @@ case class UnreifiedRelationshipInstanceTuple
   @(JSExport @field) val unreifiedRelationshipUUID: taggedTypes.UnreifiedRelationshipUUID,
   @(JSExport @field) val domainUUID: taggedTypes.ConceptualEntitySingletonInstanceUUID,
   @(JSExport @field) val rangeUUID: taggedTypes.ConceptualEntitySingletonInstanceUUID
-) extends TerminologyInstanceAssertion {
+) extends ElementCrossReferenceTuple with TerminologyInstanceAssertion {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

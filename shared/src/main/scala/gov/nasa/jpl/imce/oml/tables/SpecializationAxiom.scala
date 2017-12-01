@@ -19,7 +19,7 @@
  
 package gov.nasa.jpl.imce.oml.tables
 
-trait SpecializationAxiom extends TermAxiom {
+trait SpecializationAxiom extends ElementCrossReferenceTuple with TermAxiom {
   override val uuid: taggedTypes.SpecializationAxiomUUID
   override val tboxUUID: taggedTypes.TerminologyBoxUUID
 }

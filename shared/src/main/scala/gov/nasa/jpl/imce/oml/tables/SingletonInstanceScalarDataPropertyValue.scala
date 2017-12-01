@@ -39,7 +39,7 @@ case class SingletonInstanceScalarDataPropertyValue
   @(JSExport @field) val scalarDataPropertyUUID: taggedTypes.EntityScalarDataPropertyUUID,
   @(JSExport @field) val scalarPropertyValue: LiteralValue,
   @(JSExport @field) val valueTypeUUID: scala.Option[taggedTypes.DataRangeUUID]
-) extends ModuleElement {
+) extends ModuleElement with ValueCrossReferenceTuple {
   def this(
     uuid: taggedTypes.SingletonInstanceScalarDataPropertyValueUUID,
     descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
@@ -70,7 +70,8 @@ case class SingletonInstanceScalarDataPropertyValue
         "SingletonInstanceScalarDataPropertyValue",
         "descriptionBox" -> descriptionBoxUUID,
         "singletonInstance" -> singletonInstanceUUID,
-        "scalarDataProperty" -> scalarDataPropertyUUID).toString),
+        "scalarDataProperty" -> scalarDataPropertyUUID,
+        "scalarPropertyValue" -> "scalarPropertyValue".toString).toString),
       descriptionBoxUUID,
       singletonInstanceUUID,
       scalarDataPropertyUUID,

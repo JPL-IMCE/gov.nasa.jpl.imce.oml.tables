@@ -19,6 +19,6 @@
  
 package gov.nasa.jpl.imce.oml.tables
 
-trait ConceptTreeDisjunction extends Element {
+trait ConceptTreeDisjunction extends ElementCrossReferenceTuple {
   override val uuid: taggedTypes.ConceptTreeDisjunctionUUID
 }

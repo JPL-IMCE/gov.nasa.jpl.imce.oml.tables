@@ -19,7 +19,7 @@
  
 package gov.nasa.jpl.imce.oml.tables
 
-trait DisjointUnionOfConceptsAxiom extends Element {
+trait DisjointUnionOfConceptsAxiom extends ElementCrossReferenceTuple {
   override val uuid: taggedTypes.DisjointUnionOfConceptsAxiomUUID
   val disjointTaxonomyParentUUID: taggedTypes.ConceptTreeDisjunctionUUID
 }

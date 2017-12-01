@@ -19,7 +19,7 @@
  
 package gov.nasa.jpl.imce.oml.tables
 
-trait SegmentPredicate extends Element {
+trait SegmentPredicate extends ElementCrossReferenceTuple {
   override val uuid: taggedTypes.SegmentPredicateUUID
   val bodySegmentUUID: taggedTypes.RuleBodySegmentUUID
 }

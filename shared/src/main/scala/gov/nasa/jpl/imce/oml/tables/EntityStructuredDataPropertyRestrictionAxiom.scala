@@ -19,7 +19,7 @@
  
 package gov.nasa.jpl.imce.oml.tables
 
-trait EntityStructuredDataPropertyRestrictionAxiom extends TermAxiom {
+trait EntityStructuredDataPropertyRestrictionAxiom extends ElementCrossReferenceTuple with TermAxiom {
   override val uuid: taggedTypes.EntityStructuredDataPropertyRestrictionAxiomUUID
   override val tboxUUID: taggedTypes.TerminologyBoxUUID
   val restrictedEntityUUID: taggedTypes.EntityUUID

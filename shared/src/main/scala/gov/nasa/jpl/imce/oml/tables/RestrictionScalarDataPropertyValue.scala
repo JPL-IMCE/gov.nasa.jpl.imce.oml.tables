@@ -37,7 +37,7 @@ case class RestrictionScalarDataPropertyValue
   @(JSExport @field) val scalarPropertyValue: LiteralValue,
   @(JSExport @field) val structuredDataPropertyContextUUID: taggedTypes.RestrictionStructuredDataPropertyContextUUID,
   @(JSExport @field) val valueTypeUUID: scala.Option[taggedTypes.DataRangeUUID]
-) extends Element {
+) extends Element with ValueCrossReferenceTuple {
   def this(
     uuid: taggedTypes.RestrictionScalarDataPropertyValueUUID,
     scalarDataPropertyUUID: taggedTypes.DataRelationshipToScalarUUID,
@@ -64,6 +64,7 @@ case class RestrictionScalarDataPropertyValue
       taggedTypes.restrictionScalarDataPropertyValueUUID(oug.namespaceUUID(
         "RestrictionScalarDataPropertyValue",
         "scalarDataProperty" -> scalarDataPropertyUUID,
+        "scalarPropertyValue" -> "scalarPropertyValue".toString,
         "structuredDataPropertyContext" -> structuredDataPropertyContextUUID).toString),
       scalarDataPropertyUUID,
       scalarPropertyValue,

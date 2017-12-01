@@ -32,11 +32,11 @@ import scala.Predef.ArrowAssoc
 @JSExportTopLevel("AnnotationPropertyValue")
 case class AnnotationPropertyValue
 (
-  @(JSExport @field) val uuid: taggedTypes.AnnotationPropertyValueUUID,
+  @(JSExport @field) override val uuid: taggedTypes.AnnotationPropertyValueUUID,
   @(JSExport @field) val subjectUUID: taggedTypes.ElementUUID,
   @(JSExport @field) val propertyUUID: taggedTypes.AnnotationPropertyUUID,
   @(JSExport @field) val value: taggedTypes.StringDataType
-) {
+) extends ValueCrossReferenceTuple {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
@@ -47,7 +47,8 @@ case class AnnotationPropertyValue
       taggedTypes.annotationPropertyValueUUID(oug.namespaceUUID(
         "AnnotationPropertyValue",
         "subject" -> subjectUUID,
-        "property" -> propertyUUID).toString),
+        "property" -> propertyUUID,
+        "value" -> "value".toString).toString),
       subjectUUID,
       propertyUUID,
       value)

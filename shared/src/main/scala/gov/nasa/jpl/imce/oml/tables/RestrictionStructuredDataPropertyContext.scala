@@ -19,7 +19,7 @@
  
 package gov.nasa.jpl.imce.oml.tables
 
-trait RestrictionStructuredDataPropertyContext extends ModuleElement {
+trait RestrictionStructuredDataPropertyContext extends ElementCrossReferenceTuple with ModuleElement {
   override val uuid: taggedTypes.RestrictionStructuredDataPropertyContextUUID
   val structuredDataPropertyUUID: taggedTypes.DataRelationshipToStructureUUID
 }

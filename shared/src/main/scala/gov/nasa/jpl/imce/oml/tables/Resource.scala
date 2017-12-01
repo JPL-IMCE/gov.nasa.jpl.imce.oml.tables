@@ -19,6 +19,6 @@
  
 package gov.nasa.jpl.imce.oml.tables
 
-trait Resource extends Element {
+trait Resource extends Element with IntrinsicIdentityKind {
   override val uuid: taggedTypes.ResourceUUID
 }

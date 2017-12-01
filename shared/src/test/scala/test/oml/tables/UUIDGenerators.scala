@@ -63,6 +63,7 @@ object UUIDGenerators {
   val directedBinaryRelationshipKindUUID = uuid.map(id => taggedTypes.directedBinaryRelationshipKindUUID(id.toString))
   val disjointUnionOfConceptsAxiomUUID = uuid.map(id => taggedTypes.disjointUnionOfConceptsAxiomUUID(id.toString))
   val elementUUID = uuid.map(id => taggedTypes.elementUUID(id.toString))
+  val elementCrossReferenceTupleUUID = uuid.map(id => taggedTypes.elementCrossReferenceTupleUUID(id.toString))
   val entityUUID = uuid.map(id => taggedTypes.entityUUID(id.toString))
   val entityExistentialRestrictionAxiomUUID = uuid.map(id => taggedTypes.entityExistentialRestrictionAxiomUUID(id.toString))
   val entityRelationshipUUID = uuid.map(id => taggedTypes.entityRelationshipUUID(id.toString))
@@ -76,7 +77,10 @@ object UUIDGenerators {
   val entityStructuredDataPropertyParticularRestrictionAxiomUUID = uuid.map(id => taggedTypes.entityStructuredDataPropertyParticularRestrictionAxiomUUID(id.toString))
   val entityStructuredDataPropertyRestrictionAxiomUUID = uuid.map(id => taggedTypes.entityStructuredDataPropertyRestrictionAxiomUUID(id.toString))
   val entityUniversalRestrictionAxiomUUID = uuid.map(id => taggedTypes.entityUniversalRestrictionAxiomUUID(id.toString))
+  val extrinsicIdentityKindUUID = uuid.map(id => taggedTypes.extrinsicIdentityKindUUID(id.toString))
   val iriScalarRestrictionUUID = uuid.map(id => taggedTypes.iriScalarRestrictionUUID(id.toString))
+  val identityKindUUID = uuid.map(id => taggedTypes.identityKindUUID(id.toString))
+  val intrinsicIdentityKindUUID = uuid.map(id => taggedTypes.intrinsicIdentityKindUUID(id.toString))
   val moduleUUID = uuid.map(id => taggedTypes.moduleUUID(id.toString))
   val moduleEdgeUUID = uuid.map(id => taggedTypes.moduleEdgeUUID(id.toString))
   val moduleElementUUID = uuid.map(id => taggedTypes.moduleElementUUID(id.toString))
@@ -137,5 +141,6 @@ object UUIDGenerators {
   val unreifiedRelationshipInstanceTupleUUID = uuid.map(id => taggedTypes.unreifiedRelationshipInstanceTupleUUID(id.toString))
   val unreifiedRelationshipInversePropertyPredicateUUID = uuid.map(id => taggedTypes.unreifiedRelationshipInversePropertyPredicateUUID(id.toString))
   val unreifiedRelationshipPropertyPredicateUUID = uuid.map(id => taggedTypes.unreifiedRelationshipPropertyPredicateUUID(id.toString))
+  val valueCrossReferenceTupleUUID = uuid.map(id => taggedTypes.valueCrossReferenceTupleUUID(id.toString))
 
 }

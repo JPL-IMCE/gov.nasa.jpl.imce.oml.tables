@@ -37,7 +37,7 @@ case class ScalarOneOfLiteralAxiom
   @(JSExport @field) val axiomUUID: taggedTypes.ScalarOneOfRestrictionUUID,
   @(JSExport @field) val value: LiteralValue,
   @(JSExport @field) val valueTypeUUID: scala.Option[taggedTypes.DataRangeUUID]
-) extends TermAxiom {
+) extends TermAxiom with ValueCrossReferenceTuple {
   def this(
     uuid: taggedTypes.ScalarOneOfLiteralAxiomUUID,
     tboxUUID: taggedTypes.TerminologyBoxUUID,
@@ -64,7 +64,8 @@ case class ScalarOneOfLiteralAxiom
       taggedTypes.scalarOneOfLiteralAxiomUUID(oug.namespaceUUID(
         "ScalarOneOfLiteralAxiom",
         "tbox" -> tboxUUID,
-        "axiom" -> axiomUUID).toString),
+        "axiom" -> axiomUUID,
+        "value" -> "value".toString).toString),
       tboxUUID,
       axiomUUID,
       value)
