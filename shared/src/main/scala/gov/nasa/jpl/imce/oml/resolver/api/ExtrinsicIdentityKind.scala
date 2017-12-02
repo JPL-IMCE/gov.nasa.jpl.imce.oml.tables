@@ -19,27 +19,12 @@
 package gov.nasa.jpl.imce.oml.resolver.api
 
 /*
- * An OML EntityScalarDataPropertyRestrictionAxiom maps to
- * some kind of OWL2 Data Property Restriction.
+ * An OML ExtrinsicIdentityKind is an abstraction for a kind of OML IdentityKind
+ * where the identity stems from extrinsic criteria,
+ * including a tuple of at least 2 cross references to other OML IdentityKind(s).
  */
-trait EntityScalarDataPropertyRestrictionAxiom
-  extends TermAxiom
-  with ExtrinsicIdentityKind
+trait ExtrinsicIdentityKind
+  extends IdentityKind
 {
-  override val uuid: taggedTypes.EntityScalarDataPropertyRestrictionAxiomUUID
-
-  val restrictedEntity: Entity
-  val scalarProperty: EntityScalarDataProperty
-
-  def allNestedElements
-  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
-}
-
-object EntityScalarDataPropertyRestrictionAxiom {
-
-  def allNestedElements
-  (e: EntityScalarDataPropertyRestrictionAxiom, ext: Extent)
-  : scala.collection.immutable.Set[_ <: Element]
-  = e.allNestedElements()(ext)
-
+  override val uuid: taggedTypes.ExtrinsicIdentityKindUUID
 }

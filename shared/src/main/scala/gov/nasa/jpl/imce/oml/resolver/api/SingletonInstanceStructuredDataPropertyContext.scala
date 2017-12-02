@@ -25,7 +25,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
  * via nested OML StructuredDataPropertyTuple(s) and OML ScalarDataPropertyValue(s).
  */
 trait SingletonInstanceStructuredDataPropertyContext
-  extends Element
+  extends ElementCrossReferenceTuple
 {
   override val uuid: taggedTypes.SingletonInstanceStructuredDataPropertyContextUUID
 

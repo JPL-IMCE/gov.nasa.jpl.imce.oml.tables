@@ -38,7 +38,7 @@ case class EntityScalarDataPropertyUniversalRestrictionAxiom
   @(JSExport @field) override val restrictedEntityUUID: taggedTypes.EntityUUID,
   @(JSExport @field) override val scalarPropertyUUID: taggedTypes.EntityScalarDataPropertyUUID,
   @(JSExport @field) val scalarRestrictionUUID: taggedTypes.DataRangeUUID
-) extends EntityScalarDataPropertyRestrictionAxiom {
+) extends ElementCrossReferenceTuple with EntityScalarDataPropertyRestrictionAxiom {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

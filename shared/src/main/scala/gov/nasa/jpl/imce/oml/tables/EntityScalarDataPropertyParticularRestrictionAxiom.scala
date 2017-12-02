@@ -39,7 +39,7 @@ case class EntityScalarDataPropertyParticularRestrictionAxiom
   @(JSExport @field) override val scalarPropertyUUID: taggedTypes.EntityScalarDataPropertyUUID,
   @(JSExport @field) val literalValue: LiteralValue,
   @(JSExport @field) val valueTypeUUID: scala.Option[taggedTypes.DataRangeUUID]
-) extends EntityScalarDataPropertyRestrictionAxiom {
+) extends EntityScalarDataPropertyRestrictionAxiom with ValueCrossReferenceTuple {
   def this(
     uuid: taggedTypes.EntityScalarDataPropertyParticularRestrictionAxiomUUID,
     tboxUUID: taggedTypes.TerminologyBoxUUID,

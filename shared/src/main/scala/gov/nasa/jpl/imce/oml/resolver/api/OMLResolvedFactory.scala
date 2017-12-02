@@ -58,8 +58,9 @@ trait OMLResolvedFactory {
     val implicitUUID = taggedTypes.annotationPropertyValueUUID(namespaceUUID(
       "AnnotationPropertyValue",
       Seq.empty[(String, String)] ++
-        Seq("subject" -> subject.uuid.toString) ++
-        Seq("property" -> property.uuid.toString) : _*))
+          Seq("subject" -> subject.uuid.toString) ++
+          Seq("property" -> property.uuid.toString) ++
+          Seq("value" -> value.toString) : _*))
     createAnnotationPropertyValue( extent, implicitUUID, subject, property, value )
   }
   
@@ -123,8 +124,8 @@ trait OMLResolvedFactory {
     val implicitUUID = taggedTypes.aspectPredicateUUID(namespaceUUID(
       "AspectPredicate",
       Seq.empty[(String, String)] ++
-        Seq("aspect" -> aspect.uuid.toString) ++
-        Seq("bodySegment" -> bodySegment.uuid.toString) : _*))
+          Seq("aspect" -> aspect.uuid.toString) ++
+          Seq("bodySegment" -> bodySegment.uuid.toString) : _*))
     createAspectPredicate( extent, implicitUUID, aspect, bodySegment )
   }
   
@@ -148,9 +149,9 @@ trait OMLResolvedFactory {
     val uuid = taggedTypes.aspectSpecializationAxiomUUID(namespaceUUID(
       "AspectSpecializationAxiom",
       Seq.empty[(String, String)] ++
-        Seq("tbox" -> tbox.uuid.toString) ++
-        Seq("superAspect" -> superAspect.uuid.toString) ++
-        Seq("subEntity" -> subEntity.uuid.toString) : _*))
+          Seq("tbox" -> tbox.uuid.toString) ++
+          Seq("superAspect" -> superAspect.uuid.toString) ++
+          Seq("subEntity" -> subEntity.uuid.toString) : _*))
     createAspectSpecializationAxiom( extent, uuid, tbox, superAspect, subEntity )
   }
   
@@ -220,7 +221,7 @@ trait OMLResolvedFactory {
     val uuid = taggedTypes.bundledTerminologyAxiomUUID(namespaceUUID(
       "BundledTerminologyAxiom",
       Seq.empty[(String, String)] ++
-        Seq("bundle" -> bundle.uuid.toString) ++
+          Seq("bundle" -> bundle.uuid.toString) ++
         Seq("bundledTerminology" -> namespaceUUID(bundledTerminology).toString) : _*))
     createBundledTerminologyAxiom( extent, uuid, bundle, bundledTerminology )
   }
@@ -287,8 +288,8 @@ trait OMLResolvedFactory {
     val uuid = taggedTypes.conceptDesignationTerminologyAxiomUUID(namespaceUUID(
       "ConceptDesignationTerminologyAxiom",
       Seq.empty[(String, String)] ++
-        Seq("tbox" -> tbox.uuid.toString) ++
-        Seq("designatedConcept" -> designatedConcept.uuid.toString) ++
+          Seq("tbox" -> tbox.uuid.toString) ++
+          Seq("designatedConcept" -> designatedConcept.uuid.toString) ++
         Seq("designatedTerminology" -> namespaceUUID(designatedTerminology).toString) : _*))
     createConceptDesignationTerminologyAxiom( extent, uuid, tbox, designatedConcept, designatedTerminology )
   }
@@ -335,8 +336,8 @@ trait OMLResolvedFactory {
     val implicitUUID = taggedTypes.conceptPredicateUUID(namespaceUUID(
       "ConceptPredicate",
       Seq.empty[(String, String)] ++
-        Seq("bodySegment" -> bodySegment.uuid.toString) ++
-        Seq("concept" -> concept.uuid.toString) : _*))
+          Seq("bodySegment" -> bodySegment.uuid.toString) ++
+          Seq("concept" -> concept.uuid.toString) : _*))
     createConceptPredicate( extent, implicitUUID, bodySegment, concept )
   }
   
@@ -360,9 +361,9 @@ trait OMLResolvedFactory {
     val uuid = taggedTypes.conceptSpecializationAxiomUUID(namespaceUUID(
       "ConceptSpecializationAxiom",
       Seq.empty[(String, String)] ++
-        Seq("tbox" -> tbox.uuid.toString) ++
-        Seq("superConcept" -> superConcept.uuid.toString) ++
-        Seq("subConcept" -> subConcept.uuid.toString) : _*))
+          Seq("tbox" -> tbox.uuid.toString) ++
+          Seq("superConcept" -> superConcept.uuid.toString) ++
+          Seq("subConcept" -> subConcept.uuid.toString) : _*))
     createConceptSpecializationAxiom( extent, uuid, tbox, superConcept, subConcept )
   }
   
@@ -404,7 +405,7 @@ trait OMLResolvedFactory {
     val uuid = taggedTypes.descriptionBoxExtendsClosedWorldDefinitionsUUID(namespaceUUID(
       "DescriptionBoxExtendsClosedWorldDefinitions",
       Seq.empty[(String, String)] ++
-        Seq("descriptionBox" -> descriptionBox.uuid.toString) ++
+          Seq("descriptionBox" -> descriptionBox.uuid.toString) ++
         Seq("closedWorldDefinitions" -> namespaceUUID(closedWorldDefinitions).toString) : _*))
     createDescriptionBoxExtendsClosedWorldDefinitions( extent, uuid, descriptionBox, closedWorldDefinitions )
   }
@@ -428,7 +429,7 @@ trait OMLResolvedFactory {
     val uuid = taggedTypes.descriptionBoxRefinementUUID(namespaceUUID(
       "DescriptionBoxRefinement",
       Seq.empty[(String, String)] ++
-        Seq("refiningDescriptionBox" -> refiningDescriptionBox.uuid.toString) ++
+          Seq("refiningDescriptionBox" -> refiningDescriptionBox.uuid.toString) ++
         Seq("refinedDescriptionBox" -> namespaceUUID(refinedDescriptionBox).toString) : _*))
     createDescriptionBoxRefinement( extent, uuid, refiningDescriptionBox, refinedDescriptionBox )
   }
@@ -454,10 +455,10 @@ trait OMLResolvedFactory {
     val uuid = taggedTypes.entityExistentialRestrictionAxiomUUID(namespaceUUID(
       "EntityExistentialRestrictionAxiom",
       Seq.empty[(String, String)] ++
-        Seq("tbox" -> tbox.uuid.toString) ++
-        Seq("restrictedRelation" -> restrictedRelation.uuid.toString) ++
-        Seq("restrictedDomain" -> restrictedDomain.uuid.toString) ++
-        Seq("restrictedRange" -> restrictedRange.uuid.toString) : _*))
+          Seq("tbox" -> tbox.uuid.toString) ++
+          Seq("restrictedRelation" -> restrictedRelation.uuid.toString) ++
+          Seq("restrictedDomain" -> restrictedDomain.uuid.toString) ++
+          Seq("restrictedRange" -> restrictedRange.uuid.toString) : _*))
     createEntityExistentialRestrictionAxiom( extent, uuid, tbox, restrictedRelation, restrictedDomain, restrictedRange )
   }
   
@@ -510,10 +511,10 @@ trait OMLResolvedFactory {
     val uuid = taggedTypes.entityScalarDataPropertyExistentialRestrictionAxiomUUID(namespaceUUID(
       "EntityScalarDataPropertyExistentialRestrictionAxiom",
       Seq.empty[(String, String)] ++
-        Seq("tbox" -> tbox.uuid.toString) ++
-        Seq("restrictedEntity" -> restrictedEntity.uuid.toString) ++
-        Seq("scalarProperty" -> scalarProperty.uuid.toString) ++
-        Seq("scalarRestriction" -> scalarRestriction.uuid.toString) : _*))
+          Seq("tbox" -> tbox.uuid.toString) ++
+          Seq("restrictedEntity" -> restrictedEntity.uuid.toString) ++
+          Seq("scalarProperty" -> scalarProperty.uuid.toString) ++
+          Seq("scalarRestriction" -> scalarRestriction.uuid.toString) : _*))
     createEntityScalarDataPropertyExistentialRestrictionAxiom( extent, uuid, tbox, restrictedEntity, scalarProperty, scalarRestriction )
   }
   
@@ -541,9 +542,10 @@ trait OMLResolvedFactory {
     val uuid = taggedTypes.entityScalarDataPropertyParticularRestrictionAxiomUUID(namespaceUUID(
       "EntityScalarDataPropertyParticularRestrictionAxiom",
       Seq.empty[(String, String)] ++
-        Seq("tbox" -> tbox.uuid.toString) ++
-        Seq("restrictedEntity" -> restrictedEntity.uuid.toString) ++
-        Seq("scalarProperty" -> scalarProperty.uuid.toString) : _*))
+          Seq("tbox" -> tbox.uuid.toString) ++
+          Seq("restrictedEntity" -> restrictedEntity.uuid.toString) ++
+          Seq("scalarProperty" -> scalarProperty.uuid.toString) ++
+          Seq("literalValue" -> literalValue.toString) : _*))
     createEntityScalarDataPropertyParticularRestrictionAxiom( extent, uuid, tbox, restrictedEntity, scalarProperty, literalValue, valueType )
   }
   
@@ -571,10 +573,10 @@ trait OMLResolvedFactory {
     val uuid = taggedTypes.entityScalarDataPropertyUniversalRestrictionAxiomUUID(namespaceUUID(
       "EntityScalarDataPropertyUniversalRestrictionAxiom",
       Seq.empty[(String, String)] ++
-        Seq("tbox" -> tbox.uuid.toString) ++
-        Seq("restrictedEntity" -> restrictedEntity.uuid.toString) ++
-        Seq("scalarProperty" -> scalarProperty.uuid.toString) ++
-        Seq("scalarRestriction" -> scalarRestriction.uuid.toString) : _*))
+          Seq("tbox" -> tbox.uuid.toString) ++
+          Seq("restrictedEntity" -> restrictedEntity.uuid.toString) ++
+          Seq("scalarProperty" -> scalarProperty.uuid.toString) ++
+          Seq("scalarRestriction" -> scalarRestriction.uuid.toString) : _*))
     createEntityScalarDataPropertyUniversalRestrictionAxiom( extent, uuid, tbox, restrictedEntity, scalarProperty, scalarRestriction )
   }
   
@@ -626,9 +628,9 @@ trait OMLResolvedFactory {
     val uuid = taggedTypes.entityStructuredDataPropertyParticularRestrictionAxiomUUID(namespaceUUID(
       "EntityStructuredDataPropertyParticularRestrictionAxiom",
       Seq.empty[(String, String)] ++
-        Seq("tbox" -> tbox.uuid.toString) ++
-        Seq("structuredDataProperty" -> structuredDataProperty.uuid.toString) ++
-        Seq("restrictedEntity" -> restrictedEntity.uuid.toString) : _*))
+          Seq("tbox" -> tbox.uuid.toString) ++
+          Seq("structuredDataProperty" -> structuredDataProperty.uuid.toString) ++
+          Seq("restrictedEntity" -> restrictedEntity.uuid.toString) : _*))
     createEntityStructuredDataPropertyParticularRestrictionAxiom( extent, uuid, tbox, structuredDataProperty, restrictedEntity )
   }
   
@@ -654,10 +656,10 @@ trait OMLResolvedFactory {
     val uuid = taggedTypes.entityUniversalRestrictionAxiomUUID(namespaceUUID(
       "EntityUniversalRestrictionAxiom",
       Seq.empty[(String, String)] ++
-        Seq("tbox" -> tbox.uuid.toString) ++
-        Seq("restrictedRelation" -> restrictedRelation.uuid.toString) ++
-        Seq("restrictedDomain" -> restrictedDomain.uuid.toString) ++
-        Seq("restrictedRange" -> restrictedRange.uuid.toString) : _*))
+          Seq("tbox" -> tbox.uuid.toString) ++
+          Seq("restrictedRelation" -> restrictedRelation.uuid.toString) ++
+          Seq("restrictedDomain" -> restrictedDomain.uuid.toString) ++
+          Seq("restrictedRange" -> restrictedRange.uuid.toString) : _*))
     createEntityUniversalRestrictionAxiom( extent, uuid, tbox, restrictedRelation, restrictedDomain, restrictedRange )
   }
   
@@ -847,9 +849,9 @@ trait OMLResolvedFactory {
     val uuid = taggedTypes.reifiedRelationshipInstanceDomainUUID(namespaceUUID(
       "ReifiedRelationshipInstanceDomain",
       Seq.empty[(String, String)] ++
-        Seq("descriptionBox" -> descriptionBox.uuid.toString) ++
-        Seq("reifiedRelationshipInstance" -> reifiedRelationshipInstance.uuid.toString) ++
-        Seq("domain" -> domain.uuid.toString) : _*))
+          Seq("descriptionBox" -> descriptionBox.uuid.toString) ++
+          Seq("reifiedRelationshipInstance" -> reifiedRelationshipInstance.uuid.toString) ++
+          Seq("domain" -> domain.uuid.toString) : _*))
     createReifiedRelationshipInstanceDomain( extent, uuid, descriptionBox, reifiedRelationshipInstance, domain )
   }
   
@@ -874,9 +876,9 @@ trait OMLResolvedFactory {
     val uuid = taggedTypes.reifiedRelationshipInstanceRangeUUID(namespaceUUID(
       "ReifiedRelationshipInstanceRange",
       Seq.empty[(String, String)] ++
-        Seq("descriptionBox" -> descriptionBox.uuid.toString) ++
-        Seq("reifiedRelationshipInstance" -> reifiedRelationshipInstance.uuid.toString) ++
-        Seq("range" -> range.uuid.toString) : _*))
+          Seq("descriptionBox" -> descriptionBox.uuid.toString) ++
+          Seq("reifiedRelationshipInstance" -> reifiedRelationshipInstance.uuid.toString) ++
+          Seq("range" -> range.uuid.toString) : _*))
     createReifiedRelationshipInstanceRange( extent, uuid, descriptionBox, reifiedRelationshipInstance, range )
   }
   
@@ -900,8 +902,8 @@ trait OMLResolvedFactory {
     val implicitUUID = taggedTypes.reifiedRelationshipInversePropertyPredicateUUID(namespaceUUID(
       "ReifiedRelationshipInversePropertyPredicate",
       Seq.empty[(String, String)] ++
-        Seq("bodySegment" -> bodySegment.uuid.toString) ++
-        Seq("reifiedRelationship" -> reifiedRelationship.uuid.toString) : _*))
+          Seq("bodySegment" -> bodySegment.uuid.toString) ++
+          Seq("reifiedRelationship" -> reifiedRelationship.uuid.toString) : _*))
     createReifiedRelationshipInversePropertyPredicate( extent, implicitUUID, bodySegment, reifiedRelationship )
   }
   
@@ -924,8 +926,8 @@ trait OMLResolvedFactory {
     val implicitUUID = taggedTypes.reifiedRelationshipPredicateUUID(namespaceUUID(
       "ReifiedRelationshipPredicate",
       Seq.empty[(String, String)] ++
-        Seq("bodySegment" -> bodySegment.uuid.toString) ++
-        Seq("reifiedRelationship" -> reifiedRelationship.uuid.toString) : _*))
+          Seq("bodySegment" -> bodySegment.uuid.toString) ++
+          Seq("reifiedRelationship" -> reifiedRelationship.uuid.toString) : _*))
     createReifiedRelationshipPredicate( extent, implicitUUID, bodySegment, reifiedRelationship )
   }
   
@@ -948,8 +950,8 @@ trait OMLResolvedFactory {
     val implicitUUID = taggedTypes.reifiedRelationshipPropertyPredicateUUID(namespaceUUID(
       "ReifiedRelationshipPropertyPredicate",
       Seq.empty[(String, String)] ++
-        Seq("bodySegment" -> bodySegment.uuid.toString) ++
-        Seq("reifiedRelationship" -> reifiedRelationship.uuid.toString) : _*))
+          Seq("bodySegment" -> bodySegment.uuid.toString) ++
+          Seq("reifiedRelationship" -> reifiedRelationship.uuid.toString) : _*))
     createReifiedRelationshipPropertyPredicate( extent, implicitUUID, bodySegment, reifiedRelationship )
   }
   
@@ -972,8 +974,8 @@ trait OMLResolvedFactory {
     val implicitUUID = taggedTypes.reifiedRelationshipSourceInversePropertyPredicateUUID(namespaceUUID(
       "ReifiedRelationshipSourceInversePropertyPredicate",
       Seq.empty[(String, String)] ++
-        Seq("bodySegment" -> bodySegment.uuid.toString) ++
-        Seq("reifiedRelationship" -> reifiedRelationship.uuid.toString) : _*))
+          Seq("bodySegment" -> bodySegment.uuid.toString) ++
+          Seq("reifiedRelationship" -> reifiedRelationship.uuid.toString) : _*))
     createReifiedRelationshipSourceInversePropertyPredicate( extent, implicitUUID, bodySegment, reifiedRelationship )
   }
   
@@ -996,8 +998,8 @@ trait OMLResolvedFactory {
     val implicitUUID = taggedTypes.reifiedRelationshipSourcePropertyPredicateUUID(namespaceUUID(
       "ReifiedRelationshipSourcePropertyPredicate",
       Seq.empty[(String, String)] ++
-        Seq("bodySegment" -> bodySegment.uuid.toString) ++
-        Seq("reifiedRelationship" -> reifiedRelationship.uuid.toString) : _*))
+          Seq("bodySegment" -> bodySegment.uuid.toString) ++
+          Seq("reifiedRelationship" -> reifiedRelationship.uuid.toString) : _*))
     createReifiedRelationshipSourcePropertyPredicate( extent, implicitUUID, bodySegment, reifiedRelationship )
   }
   
@@ -1021,9 +1023,9 @@ trait OMLResolvedFactory {
     val uuid = taggedTypes.reifiedRelationshipSpecializationAxiomUUID(namespaceUUID(
       "ReifiedRelationshipSpecializationAxiom",
       Seq.empty[(String, String)] ++
-        Seq("tbox" -> tbox.uuid.toString) ++
-        Seq("superRelationship" -> superRelationship.uuid.toString) ++
-        Seq("subRelationship" -> subRelationship.uuid.toString) : _*))
+          Seq("tbox" -> tbox.uuid.toString) ++
+          Seq("superRelationship" -> superRelationship.uuid.toString) ++
+          Seq("subRelationship" -> subRelationship.uuid.toString) : _*))
     createReifiedRelationshipSpecializationAxiom( extent, uuid, tbox, superRelationship, subRelationship )
   }
   
@@ -1047,8 +1049,8 @@ trait OMLResolvedFactory {
     val implicitUUID = taggedTypes.reifiedRelationshipTargetInversePropertyPredicateUUID(namespaceUUID(
       "ReifiedRelationshipTargetInversePropertyPredicate",
       Seq.empty[(String, String)] ++
-        Seq("bodySegment" -> bodySegment.uuid.toString) ++
-        Seq("reifiedRelationship" -> reifiedRelationship.uuid.toString) : _*))
+          Seq("bodySegment" -> bodySegment.uuid.toString) ++
+          Seq("reifiedRelationship" -> reifiedRelationship.uuid.toString) : _*))
     createReifiedRelationshipTargetInversePropertyPredicate( extent, implicitUUID, bodySegment, reifiedRelationship )
   }
   
@@ -1071,8 +1073,8 @@ trait OMLResolvedFactory {
     val implicitUUID = taggedTypes.reifiedRelationshipTargetPropertyPredicateUUID(namespaceUUID(
       "ReifiedRelationshipTargetPropertyPredicate",
       Seq.empty[(String, String)] ++
-        Seq("bodySegment" -> bodySegment.uuid.toString) ++
-        Seq("reifiedRelationship" -> reifiedRelationship.uuid.toString) : _*))
+          Seq("bodySegment" -> bodySegment.uuid.toString) ++
+          Seq("reifiedRelationship" -> reifiedRelationship.uuid.toString) : _*))
     createReifiedRelationshipTargetPropertyPredicate( extent, implicitUUID, bodySegment, reifiedRelationship )
   }
   
@@ -1097,8 +1099,9 @@ trait OMLResolvedFactory {
     val uuid = taggedTypes.restrictionScalarDataPropertyValueUUID(namespaceUUID(
       "RestrictionScalarDataPropertyValue",
       Seq.empty[(String, String)] ++
-        Seq("scalarDataProperty" -> scalarDataProperty.uuid.toString) ++
-        Seq("structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString) : _*))
+          Seq("scalarDataProperty" -> scalarDataProperty.uuid.toString) ++
+          Seq("scalarPropertyValue" -> scalarPropertyValue.toString) ++
+          Seq("structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString) : _*))
     createRestrictionScalarDataPropertyValue( extent, uuid, scalarDataProperty, scalarPropertyValue, structuredDataPropertyContext, valueType )
   }
   
@@ -1123,8 +1126,8 @@ trait OMLResolvedFactory {
     val uuid = taggedTypes.restrictionStructuredDataPropertyTupleUUID(namespaceUUID(
       "RestrictionStructuredDataPropertyTuple",
       Seq.empty[(String, String)] ++
-        Seq("structuredDataProperty" -> structuredDataProperty.uuid.toString) ++
-        Seq("structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString) : _*))
+          Seq("structuredDataProperty" -> structuredDataProperty.uuid.toString) ++
+          Seq("structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString) : _*))
     createRestrictionStructuredDataPropertyTuple( extent, uuid, structuredDataProperty, structuredDataPropertyContext )
   }
   
@@ -1147,8 +1150,8 @@ trait OMLResolvedFactory {
     val uuid = taggedTypes.rootConceptTaxonomyAxiomUUID(namespaceUUID(
       "RootConceptTaxonomyAxiom",
       Seq.empty[(String, String)] ++
-        Seq("bundle" -> bundle.uuid.toString) ++
-        Seq("root" -> root.uuid.toString) : _*))
+          Seq("bundle" -> bundle.uuid.toString) ++
+          Seq("root" -> root.uuid.toString) : _*))
     createRootConceptTaxonomyAxiom( extent, uuid, bundle, root )
   }
   
@@ -1251,8 +1254,9 @@ trait OMLResolvedFactory {
     val uuid = taggedTypes.scalarDataPropertyValueUUID(namespaceUUID(
       "ScalarDataPropertyValue",
       Seq.empty[(String, String)] ++
-        Seq("scalarDataProperty" -> scalarDataProperty.uuid.toString) ++
-        Seq("structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString) : _*))
+          Seq("scalarDataProperty" -> scalarDataProperty.uuid.toString) ++
+          Seq("scalarPropertyValue" -> scalarPropertyValue.toString) ++
+          Seq("structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString) : _*))
     createScalarDataPropertyValue( extent, uuid, scalarDataProperty, scalarPropertyValue, structuredDataPropertyContext, valueType )
   }
   
@@ -1279,8 +1283,9 @@ trait OMLResolvedFactory {
     val uuid = taggedTypes.scalarOneOfLiteralAxiomUUID(namespaceUUID(
       "ScalarOneOfLiteralAxiom",
       Seq.empty[(String, String)] ++
-        Seq("tbox" -> tbox.uuid.toString) ++
-        Seq("axiom" -> axiom.uuid.toString) : _*))
+          Seq("tbox" -> tbox.uuid.toString) ++
+          Seq("axiom" -> axiom.uuid.toString) ++
+          Seq("value" -> value.toString) : _*))
     createScalarOneOfLiteralAxiom( extent, uuid, tbox, axiom, value, valueType )
   }
   
@@ -1330,9 +1335,10 @@ trait OMLResolvedFactory {
     val uuid = taggedTypes.singletonInstanceScalarDataPropertyValueUUID(namespaceUUID(
       "SingletonInstanceScalarDataPropertyValue",
       Seq.empty[(String, String)] ++
-        Seq("descriptionBox" -> descriptionBox.uuid.toString) ++
-        Seq("singletonInstance" -> singletonInstance.uuid.toString) ++
-        Seq("scalarDataProperty" -> scalarDataProperty.uuid.toString) : _*))
+          Seq("descriptionBox" -> descriptionBox.uuid.toString) ++
+          Seq("singletonInstance" -> singletonInstance.uuid.toString) ++
+          Seq("scalarDataProperty" -> scalarDataProperty.uuid.toString) ++
+          Seq("scalarPropertyValue" -> scalarPropertyValue.toString) : _*))
     createSingletonInstanceScalarDataPropertyValue( extent, uuid, descriptionBox, singletonInstance, scalarDataProperty, scalarPropertyValue, valueType )
   }
   
@@ -1359,9 +1365,9 @@ trait OMLResolvedFactory {
     val uuid = taggedTypes.singletonInstanceStructuredDataPropertyValueUUID(namespaceUUID(
       "SingletonInstanceStructuredDataPropertyValue",
       Seq.empty[(String, String)] ++
-        Seq("descriptionBox" -> descriptionBox.uuid.toString) ++
-        Seq("singletonInstance" -> singletonInstance.uuid.toString) ++
-        Seq("structuredDataProperty" -> structuredDataProperty.uuid.toString) : _*))
+          Seq("descriptionBox" -> descriptionBox.uuid.toString) ++
+          Seq("singletonInstance" -> singletonInstance.uuid.toString) ++
+          Seq("structuredDataProperty" -> structuredDataProperty.uuid.toString) : _*))
     createSingletonInstanceStructuredDataPropertyValue( extent, uuid, descriptionBox, singletonInstance, structuredDataProperty )
   }
   
@@ -1385,8 +1391,8 @@ trait OMLResolvedFactory {
     val uuid = taggedTypes.specificDisjointConceptAxiomUUID(namespaceUUID(
       "SpecificDisjointConceptAxiom",
       Seq.empty[(String, String)] ++
-        Seq("disjointTaxonomyParent" -> disjointTaxonomyParent.uuid.toString) ++
-        Seq("disjointLeaf" -> disjointLeaf.uuid.toString) : _*))
+          Seq("disjointTaxonomyParent" -> disjointTaxonomyParent.uuid.toString) ++
+          Seq("disjointLeaf" -> disjointLeaf.uuid.toString) : _*))
     createSpecificDisjointConceptAxiom( extent, uuid, disjointTaxonomyParent, disjointLeaf )
   }
   
@@ -1483,8 +1489,8 @@ trait OMLResolvedFactory {
     val uuid = taggedTypes.structuredDataPropertyTupleUUID(namespaceUUID(
       "StructuredDataPropertyTuple",
       Seq.empty[(String, String)] ++
-        Seq("structuredDataProperty" -> structuredDataProperty.uuid.toString) ++
-        Seq("structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString) : _*))
+          Seq("structuredDataProperty" -> structuredDataProperty.uuid.toString) ++
+          Seq("structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString) : _*))
     createStructuredDataPropertyTuple( extent, uuid, structuredDataProperty, structuredDataPropertyContext )
   }
   
@@ -1529,7 +1535,7 @@ trait OMLResolvedFactory {
     val uuid = taggedTypes.terminologyExtensionAxiomUUID(namespaceUUID(
       "TerminologyExtensionAxiom",
       Seq.empty[(String, String)] ++
-        Seq("tbox" -> tbox.uuid.toString) ++
+          Seq("tbox" -> tbox.uuid.toString) ++
         Seq("extendedTerminology" -> namespaceUUID(extendedTerminology).toString) : _*))
     createTerminologyExtensionAxiom( extent, uuid, tbox, extendedTerminology )
   }
@@ -1572,8 +1578,8 @@ trait OMLResolvedFactory {
     val uuid = taggedTypes.terminologyNestingAxiomUUID(namespaceUUID(
       "TerminologyNestingAxiom",
       Seq.empty[(String, String)] ++
-        Seq("tbox" -> tbox.uuid.toString) ++
-        Seq("nestingContext" -> nestingContext.uuid.toString) ++
+          Seq("tbox" -> tbox.uuid.toString) ++
+          Seq("nestingContext" -> nestingContext.uuid.toString) ++
         Seq("nestingTerminology" -> namespaceUUID(nestingTerminology).toString) : _*))
     createTerminologyNestingAxiom( extent, uuid, tbox, nestingContext, nestingTerminology )
   }
@@ -1672,10 +1678,10 @@ trait OMLResolvedFactory {
     val uuid = taggedTypes.unreifiedRelationshipInstanceTupleUUID(namespaceUUID(
       "UnreifiedRelationshipInstanceTuple",
       Seq.empty[(String, String)] ++
-        Seq("descriptionBox" -> descriptionBox.uuid.toString) ++
-        Seq("unreifiedRelationship" -> unreifiedRelationship.uuid.toString) ++
-        Seq("domain" -> domain.uuid.toString) ++
-        Seq("range" -> range.uuid.toString) : _*))
+          Seq("descriptionBox" -> descriptionBox.uuid.toString) ++
+          Seq("unreifiedRelationship" -> unreifiedRelationship.uuid.toString) ++
+          Seq("domain" -> domain.uuid.toString) ++
+          Seq("range" -> range.uuid.toString) : _*))
     createUnreifiedRelationshipInstanceTuple( extent, uuid, descriptionBox, unreifiedRelationship, domain, range )
   }
   
@@ -1700,8 +1706,8 @@ trait OMLResolvedFactory {
     val implicitUUID = taggedTypes.unreifiedRelationshipInversePropertyPredicateUUID(namespaceUUID(
       "UnreifiedRelationshipInversePropertyPredicate",
       Seq.empty[(String, String)] ++
-        Seq("unreifiedRelationship" -> unreifiedRelationship.uuid.toString) ++
-        Seq("bodySegment" -> bodySegment.uuid.toString) : _*))
+          Seq("unreifiedRelationship" -> unreifiedRelationship.uuid.toString) ++
+          Seq("bodySegment" -> bodySegment.uuid.toString) : _*))
     createUnreifiedRelationshipInversePropertyPredicate( extent, implicitUUID, unreifiedRelationship, bodySegment )
   }
   
@@ -1724,8 +1730,8 @@ trait OMLResolvedFactory {
     val implicitUUID = taggedTypes.unreifiedRelationshipPropertyPredicateUUID(namespaceUUID(
       "UnreifiedRelationshipPropertyPredicate",
       Seq.empty[(String, String)] ++
-        Seq("unreifiedRelationship" -> unreifiedRelationship.uuid.toString) ++
-        Seq("bodySegment" -> bodySegment.uuid.toString) : _*))
+          Seq("unreifiedRelationship" -> unreifiedRelationship.uuid.toString) ++
+          Seq("bodySegment" -> bodySegment.uuid.toString) : _*))
     createUnreifiedRelationshipPropertyPredicate( extent, implicitUUID, unreifiedRelationship, bodySegment )
   }
   

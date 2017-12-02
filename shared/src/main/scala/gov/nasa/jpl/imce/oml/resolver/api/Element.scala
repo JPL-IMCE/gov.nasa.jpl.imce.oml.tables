@@ -28,15 +28,12 @@ package gov.nasa.jpl.imce.oml.resolver.api
  * pair of OML Element and OML AnnotationProperty.
  */
 trait Element
+  extends IdentityKind
 {
-  val uuid: taggedTypes.ElementUUID
+  override val uuid: taggedTypes.ElementUUID
 
   def moduleContext
   ()(implicit extent: Extent): scala.Option[Module]
-  
-  val vertexId: scala.Long = uuid.toString.hashCode.toLong
-  
-  def canEqual(that: scala.Any): scala.Boolean
 }
 
 object Element {

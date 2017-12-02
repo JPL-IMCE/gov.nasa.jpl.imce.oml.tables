@@ -24,6 +24,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
  */
 trait SingletonInstanceScalarDataPropertyValue
   extends ModuleElement
+  with ValueCrossReferenceTuple
 {
   override val uuid: taggedTypes.SingletonInstanceScalarDataPropertyValueUUID
 

@@ -400,6 +400,16 @@ package object api {
   	 	case 0 => 0 }
   }
   
+  implicit def elementCrossReferenceTupleOrdering
+  : scala.Ordering[ElementCrossReferenceTuple]
+  = new scala.Ordering[ElementCrossReferenceTuple] {
+  	def compare(x: ElementCrossReferenceTuple, y: ElementCrossReferenceTuple)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
   implicit def entityOrdering
   : scala.Ordering[Entity]
   = new scala.Ordering[Entity] {
@@ -530,10 +540,40 @@ package object api {
   	 	case 0 => 0 }
   }
   
+  implicit def extrinsicIdentityKindOrdering
+  : scala.Ordering[ExtrinsicIdentityKind]
+  = new scala.Ordering[ExtrinsicIdentityKind] {
+  	def compare(x: ExtrinsicIdentityKind, y: ExtrinsicIdentityKind)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
   implicit def iRIScalarRestrictionOrdering
   : scala.Ordering[IRIScalarRestriction]
   = new scala.Ordering[IRIScalarRestriction] {
   	def compare(x: IRIScalarRestriction, y: IRIScalarRestriction)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def identityKindOrdering
+  : scala.Ordering[IdentityKind]
+  = new scala.Ordering[IdentityKind] {
+  	def compare(x: IdentityKind, y: IdentityKind)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def intrinsicIdentityKindOrdering
+  : scala.Ordering[IntrinsicIdentityKind]
+  = new scala.Ordering[IntrinsicIdentityKind] {
+  	def compare(x: IntrinsicIdentityKind, y: IntrinsicIdentityKind)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid
@@ -1134,6 +1174,16 @@ package object api {
   : scala.Ordering[UnreifiedRelationshipPropertyPredicate]
   = new scala.Ordering[UnreifiedRelationshipPropertyPredicate] {
   	def compare(x: UnreifiedRelationshipPropertyPredicate, y: UnreifiedRelationshipPropertyPredicate)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def valueCrossReferenceTupleOrdering
+  : scala.Ordering[ValueCrossReferenceTuple]
+  = new scala.Ordering[ValueCrossReferenceTuple] {
+  	def compare(x: ValueCrossReferenceTuple, y: ValueCrossReferenceTuple)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid

@@ -23,6 +23,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
  */
 trait ScalarOneOfLiteralAxiom
   extends TermAxiom
+  with ValueCrossReferenceTuple
 {
   override val uuid: taggedTypes.ScalarOneOfLiteralAxiomUUID
 

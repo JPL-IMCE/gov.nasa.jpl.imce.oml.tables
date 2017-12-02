@@ -24,7 +24,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
  * - Non-leaf nodes are AnonymousConceptTaxonomyAxioms.
  */
 trait ConceptTreeDisjunction
-  extends Element
+  extends ElementCrossReferenceTuple
 {
   override val uuid: taggedTypes.ConceptTreeDisjunctionUUID
 

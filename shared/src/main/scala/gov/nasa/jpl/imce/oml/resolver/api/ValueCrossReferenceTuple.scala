@@ -19,27 +19,14 @@
 package gov.nasa.jpl.imce.oml.resolver.api
 
 /*
- * An OML EntityScalarDataPropertyRestrictionAxiom maps to
- * some kind of OWL2 Data Property Restriction.
+ * An OML ValueCrossReferenceTuple is an abstraction for a kind of OML ExtrinsicIdentityKind
+ * where the extrinsic identity criteria is precisely the combination
+ * of a tuple of at least 2 cross references to other OML IdentityKind(s),
+ * at least one scalar value typed by an OML DataRange and nothing else.
+ * Note that the identity of an OML DataRange value is itself.
  */
-trait EntityScalarDataPropertyRestrictionAxiom
-  extends TermAxiom
-  with ExtrinsicIdentityKind
+trait ValueCrossReferenceTuple
+  extends ExtrinsicIdentityKind
 {
-  override val uuid: taggedTypes.EntityScalarDataPropertyRestrictionAxiomUUID
-
-  val restrictedEntity: Entity
-  val scalarProperty: EntityScalarDataProperty
-
-  def allNestedElements
-  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
-}
-
-object EntityScalarDataPropertyRestrictionAxiom {
-
-  def allNestedElements
-  (e: EntityScalarDataPropertyRestrictionAxiom, ext: Extent)
-  : scala.collection.immutable.Set[_ <: Element]
-  = e.allNestedElements()(ext)
-
+  override val uuid: taggedTypes.ValueCrossReferenceTupleUUID
 }

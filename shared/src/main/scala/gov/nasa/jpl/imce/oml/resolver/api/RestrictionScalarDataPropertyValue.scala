@@ -24,6 +24,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
  */
 trait RestrictionScalarDataPropertyValue
   extends Element
+  with ValueCrossReferenceTuple
 {
   override val uuid: taggedTypes.RestrictionScalarDataPropertyValueUUID
 

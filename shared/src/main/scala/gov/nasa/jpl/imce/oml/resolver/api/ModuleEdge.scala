@@ -22,7 +22,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
  * An OML ModuleEdge is a binary, directed relationship from one OML Module to another
  */
 trait ModuleEdge
-  extends Element
+  extends ElementCrossReferenceTuple
 {
   override val uuid: taggedTypes.ModuleEdgeUUID
 

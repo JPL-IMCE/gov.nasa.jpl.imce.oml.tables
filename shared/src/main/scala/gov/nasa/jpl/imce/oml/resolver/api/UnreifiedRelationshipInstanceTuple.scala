@@ -28,6 +28,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
  */
 trait UnreifiedRelationshipInstanceTuple
   extends TerminologyInstanceAssertion
+  with ElementCrossReferenceTuple
 {
   override val uuid: taggedTypes.UnreifiedRelationshipInstanceTupleUUID
 

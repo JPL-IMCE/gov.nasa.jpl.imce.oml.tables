@@ -29,8 +29,10 @@ package gov.nasa.jpl.imce.oml.resolver.api
  * be structurally distinct triples with the same UUID, which would be ill-formed.
  */
 trait AnnotationPropertyValue
+  extends ValueCrossReferenceTuple
 {
-  val uuid: taggedTypes.AnnotationPropertyValueUUID
+  override val uuid: taggedTypes.AnnotationPropertyValueUUID
+
   val subject: Element
   val property: AnnotationProperty
   val value: gov.nasa.jpl.imce.oml.tables.taggedTypes.StringDataType

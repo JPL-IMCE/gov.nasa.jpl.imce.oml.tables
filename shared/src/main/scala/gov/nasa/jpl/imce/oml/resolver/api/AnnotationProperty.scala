@@ -25,8 +25,22 @@ package gov.nasa.jpl.imce.oml.resolver.api
  * that an OML Element can have at most one OML AnnotationPropertyValue for a given OML AnnotationProperty.
  */
 trait AnnotationProperty
+  extends IntrinsicIdentityKind
 {
-  val uuid: taggedTypes.AnnotationPropertyUUID
   val iri: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI
   val abbrevIRI: gov.nasa.jpl.imce.oml.tables.taggedTypes.AbbrevIRI
+
+  override def uuid
+  (): taggedTypes.AnnotationPropertyUUID
+  override def iri
+  ()(implicit extent: Extent): scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI]
+}
+
+object AnnotationProperty {
+
+  def iri
+  (a: AnnotationProperty, ext: Extent)
+  : scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI]
+  = a.iri()(ext)
+
 }

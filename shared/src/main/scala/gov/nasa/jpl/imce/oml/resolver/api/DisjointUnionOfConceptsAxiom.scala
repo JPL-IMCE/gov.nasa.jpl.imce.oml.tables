@@ -24,7 +24,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
  * - Each leaf nodes is an OML SpecificDisjointConceptAxiom.
  */
 trait DisjointUnionOfConceptsAxiom
-  extends Element
+  extends ElementCrossReferenceTuple
 {
   override val uuid: taggedTypes.DisjointUnionOfConceptsAxiomUUID
 

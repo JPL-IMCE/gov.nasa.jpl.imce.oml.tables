@@ -25,7 +25,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
  * then the `position` of the `nextSegment`, if defined, is `p+1`.
  */
 trait RuleBodySegment
-  extends Element
+  extends ElementCrossReferenceTuple
 {
   val previousSegment: scala.Option[RuleBodySegment]
   val rule: scala.Option[ChainRule]

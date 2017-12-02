@@ -22,7 +22,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
  * An OML SegmentPredicate wraps a reference to an OML Term used as a predicate for an OML ChainRule.
  */
 trait SegmentPredicate
-  extends Element
+  extends ElementCrossReferenceTuple
 {
   override val uuid: taggedTypes.SegmentPredicateUUID
 
