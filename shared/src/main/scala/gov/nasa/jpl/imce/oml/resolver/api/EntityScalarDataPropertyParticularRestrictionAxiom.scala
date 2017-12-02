@@ -24,6 +24,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
  */
 trait EntityScalarDataPropertyParticularRestrictionAxiom
   extends EntityScalarDataPropertyRestrictionAxiom
+  with ValueCrossReferenceTuple
 {
   override val uuid: taggedTypes.EntityScalarDataPropertyParticularRestrictionAxiomUUID
 

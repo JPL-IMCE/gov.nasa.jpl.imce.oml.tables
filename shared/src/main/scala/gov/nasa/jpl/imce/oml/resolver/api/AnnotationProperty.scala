@@ -30,8 +30,7 @@ trait AnnotationProperty
   val iri: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI
   val abbrevIRI: gov.nasa.jpl.imce.oml.tables.taggedTypes.AbbrevIRI
 
-  override def uuid
-  (): taggedTypes.AnnotationPropertyUUID
+  override val uuid: taggedTypes.AnnotationPropertyUUID
   override def iri
   ()(implicit extent: Extent): scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI]
 }
