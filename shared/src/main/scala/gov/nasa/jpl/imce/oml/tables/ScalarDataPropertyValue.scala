@@ -64,7 +64,7 @@ case class ScalarDataPropertyValue
       taggedTypes.scalarDataPropertyValueUUID(oug.namespaceUUID(
         "ScalarDataPropertyValue",
         "scalarDataProperty" -> scalarDataPropertyUUID,
-        "scalarPropertyValue" -> "scalarPropertyValue".toString,
+        "scalarPropertyValue" -> scalarPropertyValue.value,
         "structuredDataPropertyContext" -> structuredDataPropertyContextUUID).toString),
       scalarDataPropertyUUID,
       scalarPropertyValue,

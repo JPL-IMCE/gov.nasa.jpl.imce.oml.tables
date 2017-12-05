@@ -71,7 +71,7 @@ case class EntityScalarDataPropertyParticularRestrictionAxiom
         "tbox" -> tboxUUID,
         "restrictedEntity" -> restrictedEntityUUID,
         "scalarProperty" -> scalarPropertyUUID,
-        "literalValue" -> "literalValue".toString).toString),
+        "literalValue" -> literalValue.value).toString),
       tboxUUID,
       restrictedEntityUUID,
       scalarPropertyUUID,

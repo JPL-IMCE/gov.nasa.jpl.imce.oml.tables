@@ -65,7 +65,7 @@ case class ScalarOneOfLiteralAxiom
         "ScalarOneOfLiteralAxiom",
         "tbox" -> tboxUUID,
         "axiom" -> axiomUUID,
-        "value" -> "value".toString).toString),
+        "value" -> value.value).toString),
       tboxUUID,
       axiomUUID,
       value)

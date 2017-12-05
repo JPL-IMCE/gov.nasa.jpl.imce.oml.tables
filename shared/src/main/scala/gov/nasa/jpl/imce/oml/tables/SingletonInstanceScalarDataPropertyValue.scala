@@ -71,7 +71,7 @@ case class SingletonInstanceScalarDataPropertyValue
         "descriptionBox" -> descriptionBoxUUID,
         "singletonInstance" -> singletonInstanceUUID,
         "scalarDataProperty" -> scalarDataPropertyUUID,
-        "scalarPropertyValue" -> "scalarPropertyValue".toString).toString),
+        "scalarPropertyValue" -> scalarPropertyValue.value).toString),
       descriptionBoxUUID,
       singletonInstanceUUID,
       scalarDataPropertyUUID,

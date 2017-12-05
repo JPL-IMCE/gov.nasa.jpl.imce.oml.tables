@@ -48,7 +48,7 @@ case class AnnotationPropertyValue
         "AnnotationPropertyValue",
         "subject" -> subjectUUID,
         "property" -> propertyUUID,
-        "value" -> "value".toString).toString),
+        "value" -> value).toString),
       subjectUUID,
       propertyUUID,
       value)

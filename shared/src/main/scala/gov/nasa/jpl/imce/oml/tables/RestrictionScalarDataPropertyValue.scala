@@ -64,7 +64,7 @@ case class RestrictionScalarDataPropertyValue
       taggedTypes.restrictionScalarDataPropertyValueUUID(oug.namespaceUUID(
         "RestrictionScalarDataPropertyValue",
         "scalarDataProperty" -> scalarDataPropertyUUID,
-        "scalarPropertyValue" -> "scalarPropertyValue".toString,
+        "scalarPropertyValue" -> scalarPropertyValue.value,
         "structuredDataPropertyContext" -> structuredDataPropertyContextUUID).toString),
       scalarDataPropertyUUID,
       scalarPropertyValue,
