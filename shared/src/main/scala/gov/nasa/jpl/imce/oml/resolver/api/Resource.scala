@@ -26,7 +26,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
  * the name and IRI depends on the kind of OML Resource.
  */
 trait Resource
-  extends Element
+  extends LogicalElement
   with IntrinsicIdentityKind
 {
   override val uuid: taggedTypes.ResourceUUID

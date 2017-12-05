@@ -1302,7 +1302,7 @@ object Extent2Tables {
   : tables.AnnotationPropertyValue
   = tables.AnnotationPropertyValue(
       taggedTypes.annotationPropertyValueUUID(apv.uuid.toString),
-      taggedTypes.elementUUID(apv.subject.uuid.toString),
+      taggedTypes.logicalElementUUID(apv.subject.uuid.toString),
       taggedTypes.annotationPropertyUUID(apv.property.uuid.toString),
       apv.value)
 

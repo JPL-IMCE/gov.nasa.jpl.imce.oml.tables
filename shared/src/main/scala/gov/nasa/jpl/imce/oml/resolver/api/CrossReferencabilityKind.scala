@@ -19,28 +19,16 @@
 package gov.nasa.jpl.imce.oml.resolver.api
 
 /*
- * An OML Element is a logical abstraction
- * for everything involved in OML that
- * is globally identified by a version 5 namespace UUID deterministically
- * derived from essential information about the OML Element.
- * An OML Element can be the subject of multiple OML AnnotationPropertyValues;
- * however, there can be at most one OML AnnotationPropertyValue for a given
- * pair of OML Element and OML AnnotationProperty.
+ * OML CrossReferencabilityKind categorizes OML things that have a globally unique Version 5 UUID
+ * according to whether the UUID can be used as a cross reference outside of containment purposes.
+ * 
+ * From a database perspective, the UUID is a single primary key of an OML CrossReferencabilityKind.
  */
-trait Element
-  extends IdentityKind
+trait CrossReferencabilityKind
 {
-  override val uuid: taggedTypes.ElementUUID
-
-  def moduleContext
-  ()(implicit extent: Extent): scala.Option[Module]
-}
-
-object Element {
-
-  def moduleContext
-  (e: Element, ext: Extent)
-  : scala.Option[Module]
-  = e.moduleContext()(ext)
-
+  val uuid: taggedTypes.CrossReferencabilityKindUUID
+  
+  val vertexId: scala.Long = uuid.toString.hashCode.toLong
+  
+  def canEqual(that: scala.Any): scala.Boolean
 }

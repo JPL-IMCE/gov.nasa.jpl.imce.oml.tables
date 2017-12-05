@@ -33,7 +33,7 @@ case class AnnotationProperty
   @(JSExport @field) override val uuid: taggedTypes.AnnotationPropertyUUID,
   @(JSExport @field) val iri: taggedTypes.IRI,
   @(JSExport @field) val abbrevIRI: taggedTypes.AbbrevIRI
-) extends IntrinsicIdentityKind {
+) extends IntrinsicIdentityKind with NonLogicalElement {
   // Ctor(uuidWithoutContainer)
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

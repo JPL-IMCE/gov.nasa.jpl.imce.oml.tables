@@ -23,7 +23,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
  * an OML DataRelationshipToScalar in the scope of an OML SingletonInstanceStructuredDataPropertyContext.
  */
 trait ScalarDataPropertyValue
-  extends Element
+  extends LogicalElement
   with ValueCrossReferenceTuple
 {
   override val uuid: taggedTypes.ScalarDataPropertyValueUUID

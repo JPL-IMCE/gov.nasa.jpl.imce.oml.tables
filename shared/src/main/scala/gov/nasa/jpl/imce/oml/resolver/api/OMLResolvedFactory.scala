@@ -48,7 +48,7 @@ trait OMLResolvedFactory {
   // AnnotationPropertyValue
   def createAnnotationPropertyValue
   ( extent: Extent,
-    subject: Element,
+    subject: LogicalElement,
     property: AnnotationProperty,
     value: gov.nasa.jpl.imce.oml.tables.taggedTypes.StringDataType )
   : (Extent, AnnotationPropertyValue)
@@ -67,7 +67,7 @@ trait OMLResolvedFactory {
   def createAnnotationPropertyValue
   ( extent: Extent,
     uuid: taggedTypes.AnnotationPropertyValueUUID,
-    subject: Element,
+    subject: LogicalElement,
     property: AnnotationProperty,
     value: gov.nasa.jpl.imce.oml.tables.taggedTypes.StringDataType )
   : (Extent, AnnotationPropertyValue)

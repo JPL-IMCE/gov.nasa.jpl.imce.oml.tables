@@ -20,10 +20,14 @@ package gov.nasa.jpl.imce.oml.resolver.api
 
 /*
  * An OML IntrinsicIdentityKind is an abstraction for a kind of OML IdentityKind
- * where the identity stems from a single intrinsic criteria: a IRI.
+ * where identity stems from a single intrinsic criteria: a globally unique IRI.
+ * 
+ * An OML IntrinsicIdentityKind is also an OML CrossReferencableKind
+ * where the cross reference is logically the primary key uuid.
  */
 trait IntrinsicIdentityKind
   extends IdentityKind
+  with CrossReferencableKind
 {
   override val uuid: taggedTypes.IntrinsicIdentityKindUUID
 

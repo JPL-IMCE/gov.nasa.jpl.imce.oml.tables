@@ -26,7 +26,7 @@ import scala.Option
 // - ChainRule (terminologies)
 // - ConceptTreeDisjunction (bundles)
 // - DescriptionBox (descriptions)
-// - Element (common)
+// - LogicalElement (common)
 // - RestrictionStructuredDataPropertyContext (terminologies)
 // - RuleBodySegment (terminologies)
 // - SingletonInstanceStructuredDataPropertyContext (descriptions)
@@ -72,8 +72,8 @@ case class Extent
   = HashMap.empty[taggedTypes.DescriptionBoxUUID, DescriptionBox],
 
   annotations
-  : Map[Element, Set[AnnotationPropertyValue]]
-  = HashMap.empty[Element, Set[AnnotationPropertyValue]],
+  : Map[LogicalElement, Set[AnnotationPropertyValue]]
+  = HashMap.empty[LogicalElement, Set[AnnotationPropertyValue]],
   boxAxioms
   : Map[TerminologyBox, Set[TerminologyBoxAxiom]]
   = HashMap.empty[TerminologyBox, Set[TerminologyBoxAxiom]],
@@ -138,9 +138,9 @@ case class Extent
   : Map[SingletonInstanceStructuredDataPropertyContext, Set[ScalarDataPropertyValue]]
   = HashMap.empty[SingletonInstanceStructuredDataPropertyContext, Set[ScalarDataPropertyValue]],
 
-  elementOfAnnotationPropertyValue
-  : Map[AnnotationPropertyValue, Element]
-  = HashMap.empty[AnnotationPropertyValue, Element],
+  logicalElementOfAnnotationPropertyValue
+  : Map[AnnotationPropertyValue, LogicalElement]
+  = HashMap.empty[AnnotationPropertyValue, LogicalElement],
   terminologyBoxOfTerminologyBoxAxiom
   : Map[TerminologyBoxAxiom, TerminologyBox]
   = HashMap.empty[TerminologyBoxAxiom, TerminologyBox],
@@ -270,8 +270,8 @@ case class Extent
   = HashMap.empty[taggedTypes.UnreifiedRelationshipInstanceTupleUUID, UnreifiedRelationshipInstanceTuple]
 ) {
   def withAnnotationPropertyValue
-  (key: Element, value: AnnotationPropertyValue)
-  : Map[Element, Set[AnnotationPropertyValue]] 
+  (key: LogicalElement, value: AnnotationPropertyValue)
+  : Map[LogicalElement, Set[AnnotationPropertyValue]] 
   = annotations
     .updated(key, annotations.getOrElse(key, Set.empty[AnnotationPropertyValue]) + value)
   
@@ -476,7 +476,7 @@ case class Extent
   = descriptionBoxes.get(uuid)
 
     def lookupAnnotations
-  (key: Option[Element])
+  (key: Option[LogicalElement])
   : Set[AnnotationPropertyValue]
   = key
   .fold[Set[AnnotationPropertyValue]] { 
@@ -484,7 +484,7 @@ case class Extent
   }{ lookupAnnotations }
   
   def lookupAnnotations
-  (key: Element)
+  (key: LogicalElement)
   : Set[AnnotationPropertyValue]
   = annotations.getOrElse(key, Set.empty[AnnotationPropertyValue])
   
@@ -1005,8 +1005,8 @@ case class Extent
   = scalarDataPropertyValueByUUID.get(uuid)
 
   
-  def lookupElement(uuid: taggedTypes.ElementUUID)
-  : Option[Element]
+  def lookupLogicalElement(uuid: taggedTypes.LogicalElementUUID)
+  : Option[LogicalElement]
   = lookupModule(uuid.asInstanceOf[taggedTypes.ModuleUUID]) orElse
     lookupTerminologyBoxAxiom(uuid.asInstanceOf[taggedTypes.TerminologyBoxAxiomUUID]) orElse
     lookupTerminologyBoxStatement(uuid.asInstanceOf[taggedTypes.TerminologyBoxStatementUUID]) orElse

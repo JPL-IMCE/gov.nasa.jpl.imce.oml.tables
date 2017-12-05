@@ -30,15 +30,15 @@ trait SpecificDisjointConceptAxiom
   val disjointLeaf: Concept
 
   override val uuid: taggedTypes.SpecificDisjointConceptAxiomUUID
-  def allNestedUnions
-  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
+  def allNestedElements
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: LogicalElement]
 }
 
 object SpecificDisjointConceptAxiom {
 
-  def allNestedUnions
+  def allNestedElements
   (s: SpecificDisjointConceptAxiom, ext: Extent)
-  : scala.collection.immutable.Set[_ <: Element]
-  = s.allNestedUnions()(ext)
+  : scala.collection.immutable.Set[_ <: LogicalElement]
+  = s.allNestedElements()(ext)
 
 }

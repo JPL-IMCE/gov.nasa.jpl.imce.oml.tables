@@ -26,6 +26,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
  */
 trait AnnotationProperty
   extends IntrinsicIdentityKind
+  with NonLogicalElement
 {
   val iri: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI
   val abbrevIRI: gov.nasa.jpl.imce.oml.tables.taggedTypes.AbbrevIRI

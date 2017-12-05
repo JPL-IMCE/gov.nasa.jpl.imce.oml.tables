@@ -30,8 +30,8 @@ trait ConceptTreeDisjunction
 
   def bundleContainer
   ()(implicit extent: Extent): scala.Option[Bundle]
-  def allNestedDisjunctions
-  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
+  def allNestedElements
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: LogicalElement]
 }
 
 object ConceptTreeDisjunction {
@@ -41,9 +41,9 @@ object ConceptTreeDisjunction {
   : scala.Option[Bundle]
   = c.bundleContainer()(ext)
 
-  def allNestedDisjunctions
+  def allNestedElements
   (c: ConceptTreeDisjunction, ext: Extent)
-  : scala.collection.immutable.Set[_ <: Element]
-  = c.allNestedDisjunctions()(ext)
+  : scala.collection.immutable.Set[_ <: LogicalElement]
+  = c.allNestedElements()(ext)
 
 }

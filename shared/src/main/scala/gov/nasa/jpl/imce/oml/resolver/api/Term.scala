@@ -34,7 +34,7 @@ trait Term
   override def abbrevIRI
   ()(implicit extent: Extent): scala.Option[scala.Predef.String]
   def allNestedElements
-  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: LogicalElement]
 }
 
 object Term {
@@ -51,7 +51,7 @@ object Term {
 
   def allNestedElements
   (t: Term, ext: Extent)
-  : scala.collection.immutable.Set[_ <: Element]
+  : scala.collection.immutable.Set[_ <: LogicalElement]
   = t.allNestedElements()(ext)
 
 }

@@ -538,8 +538,8 @@ case class OMLTablesResolver private[resolver]
       .get(uuid)
   )
 
-  def lookupElement(uuid: api.taggedTypes.ElementUUID)
-  : Option[resolver.api.Element]
+  def lookupLogicalElement(uuid: api.taggedTypes.LogicalElementUUID)
+  : Option[resolver.api.LogicalElement]
   = lookupModule(uuid.asInstanceOf[api.taggedTypes.ModuleUUID]) orElse
     lookupTerminologyBoxAxiom(uuid.asInstanceOf[api.taggedTypes.TerminologyBoxAxiomUUID]) orElse
     lookupTerminologyBoxStatement(uuid.asInstanceOf[api.taggedTypes.TerminologyBoxStatementUUID]) orElse
@@ -3163,11 +3163,11 @@ object OMLTablesResolver {
   = {
 
     val byUUID
-    : Seq[((Option[api.AnnotationProperty], Option[api.Element]), tables.AnnotationPropertyValue)]
+    : Seq[((Option[api.AnnotationProperty], Option[api.LogicalElement]), tables.AnnotationPropertyValue)]
     = r.queue.annotationPropertyValues
         .map { apv =>
           ( r.lookupAnnotationProperty(api.taggedTypes.fromUUIDString(apv.propertyUUID)),
-            r.lookupElement(api.taggedTypes.fromUUIDString(apv.subjectUUID))
+            r.lookupLogicalElement(api.taggedTypes.fromUUIDString(apv.subjectUUID))
           ) -> apv
         }
 
@@ -3183,7 +3183,7 @@ object OMLTablesResolver {
     }
 
     val resolvable
-    : Seq[(api.AnnotationProperty, api.Element, tables.AnnotationPropertyValue)]
+    : Seq[(api.AnnotationProperty, api.LogicalElement, tables.AnnotationPropertyValue)]
     = byUUID.flatMap {
       case ((Some(rap), Some(re)), apv) =>
         Some(Tuple3(rap, re, apv))

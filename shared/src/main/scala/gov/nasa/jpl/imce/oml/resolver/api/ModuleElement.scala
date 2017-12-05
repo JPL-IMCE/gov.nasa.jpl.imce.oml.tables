@@ -22,19 +22,19 @@ package gov.nasa.jpl.imce.oml.resolver.api
  * An OML ModuleElement is an OML Element defined in the scope of an OML Module
  */
 trait ModuleElement
-  extends Element
+  extends LogicalElement
 {
   override val uuid: taggedTypes.ModuleElementUUID
 
   def allNestedElements
-  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: LogicalElement]
 }
 
 object ModuleElement {
 
   def allNestedElements
   (m: ModuleElement, ext: Extent)
-  : scala.collection.immutable.Set[_ <: Element]
+  : scala.collection.immutable.Set[_ <: LogicalElement]
   = m.allNestedElements()(ext)
 
 }

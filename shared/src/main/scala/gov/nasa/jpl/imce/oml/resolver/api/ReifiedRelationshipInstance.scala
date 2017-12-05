@@ -33,7 +33,7 @@ trait ReifiedRelationshipInstance
   def descriptionBox
   ()(implicit extent: Extent): scala.Option[DescriptionBox]
   def allNestedElements
-  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: LogicalElement]
 }
 
 object ReifiedRelationshipInstance {
@@ -45,7 +45,7 @@ object ReifiedRelationshipInstance {
 
   def allNestedElements
   (r: ReifiedRelationshipInstance, ext: Extent)
-  : scala.collection.immutable.Set[_ <: Element]
+  : scala.collection.immutable.Set[_ <: LogicalElement]
   = r.allNestedElements()(ext)
 
 }

@@ -240,6 +240,26 @@ package object api {
   	 	case 0 => 0 }
   }
   
+  implicit def crossReferencabilityKindOrdering
+  : scala.Ordering[CrossReferencabilityKind]
+  = new scala.Ordering[CrossReferencabilityKind] {
+  	def compare(x: CrossReferencabilityKind, y: CrossReferencabilityKind)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def crossReferencableKindOrdering
+  : scala.Ordering[CrossReferencableKind]
+  = new scala.Ordering[CrossReferencableKind] {
+  	def compare(x: CrossReferencableKind, y: CrossReferencableKind)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
   implicit def dataRangeOrdering
   : scala.Ordering[DataRange]
   = new scala.Ordering[DataRange] {
@@ -384,16 +404,6 @@ package object api {
   : scala.Ordering[DisjointUnionOfConceptsAxiom]
   = new scala.Ordering[DisjointUnionOfConceptsAxiom] {
   	def compare(x: DisjointUnionOfConceptsAxiom, y: DisjointUnionOfConceptsAxiom)
-  	: scala.Int
-  	= x.uuid.compareTo(y.uuid) match {
-  	 	case c_uuid if 0 != c_uuid => c_uuid
-  	 	case 0 => 0 }
-  }
-  
-  implicit def elementOrdering
-  : scala.Ordering[Element]
-  = new scala.Ordering[Element] {
-  	def compare(x: Element, y: Element)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid
@@ -580,6 +590,16 @@ package object api {
   	 	case 0 => 0 }
   }
   
+  implicit def logicalElementOrdering
+  : scala.Ordering[LogicalElement]
+  = new scala.Ordering[LogicalElement] {
+  	def compare(x: LogicalElement, y: LogicalElement)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
   implicit def moduleOrdering
   : scala.Ordering[Module]
   = new scala.Ordering[Module] {
@@ -604,6 +624,26 @@ package object api {
   : scala.Ordering[ModuleElement]
   = new scala.Ordering[ModuleElement] {
   	def compare(x: ModuleElement, y: ModuleElement)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def nonCrossReferencableKindOrdering
+  : scala.Ordering[NonCrossReferencableKind]
+  = new scala.Ordering[NonCrossReferencableKind] {
+  	def compare(x: NonCrossReferencableKind, y: NonCrossReferencableKind)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def nonLogicalElementOrdering
+  : scala.Ordering[NonLogicalElement]
+  = new scala.Ordering[NonLogicalElement] {
+  	def compare(x: NonLogicalElement, y: NonLogicalElement)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid

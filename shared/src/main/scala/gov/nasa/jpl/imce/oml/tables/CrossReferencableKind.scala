@@ -16,19 +16,9 @@
  * License Terms
  */
 
-package gov.nasa.jpl.imce.oml.resolver.api
+ 
+package gov.nasa.jpl.imce.oml.tables
 
-/*
- * An OML ElementCrossReferenceTuple is an abstraction for a kind of OML Element
- * categorized as a OML CrossReferencableKind and OML ExtrinsicIdentityKind
- * where the extrinsic identity criteria is precisely
- * a tuple of at least 2 cross references to other OML IdentityKind(s)
- * and nothing else.
- */
-trait ElementCrossReferenceTuple
-  extends ExtrinsicIdentityKind
-  with CrossReferencableKind
-  with LogicalElement
-{
-  override val uuid: taggedTypes.ElementCrossReferenceTupleUUID
+trait CrossReferencableKind extends CrossReferencabilityKind {
+  override val uuid: taggedTypes.CrossReferencableKindUUID
 }

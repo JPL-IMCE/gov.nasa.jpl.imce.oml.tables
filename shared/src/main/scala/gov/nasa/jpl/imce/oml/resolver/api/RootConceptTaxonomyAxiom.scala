@@ -35,9 +35,7 @@ trait RootConceptTaxonomyAxiom
   override def bundleContainer
   ()(implicit extent: Extent): scala.Option[Bundle]
   def allNestedElements
-  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
-  def allNestedDisjunctions
-  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: LogicalElement]
 }
 
 object RootConceptTaxonomyAxiom {
@@ -49,12 +47,7 @@ object RootConceptTaxonomyAxiom {
 
   def allNestedElements
   (r: RootConceptTaxonomyAxiom, ext: Extent)
-  : scala.collection.immutable.Set[_ <: Element]
+  : scala.collection.immutable.Set[_ <: LogicalElement]
   = r.allNestedElements()(ext)
-
-  def allNestedDisjunctions
-  (r: RootConceptTaxonomyAxiom, ext: Extent)
-  : scala.collection.immutable.Set[_ <: Element]
-  = r.allNestedDisjunctions()(ext)
 
 }

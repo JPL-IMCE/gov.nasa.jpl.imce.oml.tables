@@ -32,14 +32,14 @@ trait EntityScalarDataPropertyRestrictionAxiom
   val scalarProperty: EntityScalarDataProperty
 
   def allNestedElements
-  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: LogicalElement]
 }
 
 object EntityScalarDataPropertyRestrictionAxiom {
 
   def allNestedElements
   (e: EntityScalarDataPropertyRestrictionAxiom, ext: Extent)
-  : scala.collection.immutable.Set[_ <: Element]
+  : scala.collection.immutable.Set[_ <: LogicalElement]
   = e.allNestedElements()(ext)
 
 }

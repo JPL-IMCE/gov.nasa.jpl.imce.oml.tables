@@ -36,7 +36,7 @@ trait SingletonInstanceStructuredDataPropertyContext
   def moduleContext
   ()(implicit extent: Extent): scala.Option[Module]
   def allNestedRestrictionElements
-  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: LogicalElement]
 }
 
 object SingletonInstanceStructuredDataPropertyContext {
@@ -53,7 +53,7 @@ object SingletonInstanceStructuredDataPropertyContext {
 
   def allNestedRestrictionElements
   (s: SingletonInstanceStructuredDataPropertyContext, ext: Extent)
-  : scala.collection.immutable.Set[_ <: Element]
+  : scala.collection.immutable.Set[_ <: LogicalElement]
   = s.allNestedRestrictionElements()(ext)
 
 }

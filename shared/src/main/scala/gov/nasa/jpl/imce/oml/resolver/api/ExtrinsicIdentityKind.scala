@@ -20,8 +20,8 @@ package gov.nasa.jpl.imce.oml.resolver.api
 
 /*
  * An OML ExtrinsicIdentityKind is an abstraction for a kind of OML IdentityKind
- * where the identity stems from extrinsic criteria,
- * including a tuple of at least 2 cross references to other OML IdentityKind(s).
+ * where identity stems from a combination of multiple extrinsic criteria,
+ * including a tuple of at least two cross references to other OML CrossReferencableKind(s).
  */
 trait ExtrinsicIdentityKind
   extends IdentityKind

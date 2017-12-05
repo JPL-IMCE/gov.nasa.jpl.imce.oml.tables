@@ -30,10 +30,11 @@ package gov.nasa.jpl.imce.oml.resolver.api
  */
 trait AnnotationPropertyValue
   extends ValueCrossReferenceTuple
+  with NonLogicalElement
 {
   override val uuid: taggedTypes.AnnotationPropertyValueUUID
 
-  val subject: Element
+  val subject: LogicalElement
   val property: AnnotationProperty
   val value: gov.nasa.jpl.imce.oml.tables.taggedTypes.StringDataType
 }

@@ -486,6 +486,48 @@ object taggedTypes {
   	: Int = x.compareTo(y)
   }
   
+  type CrossReferencabilityKindUUID
+  = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.CrossReferencabilityKindTag
+  
+  def crossReferencabilityKindUUID(uuid: UUID): CrossReferencabilityKindUUID
+  = covariantTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.CrossReferencabilityKindTag][UUID](uuid)
+  
+  implicit val decodeCrossReferencabilityKindUUID: Decoder[CrossReferencabilityKindUUID]
+  = decodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.CrossReferencabilityKindTag]
+  
+  implicit val encodeCrossReferencabilityKindUUID: Encoder[CrossReferencabilityKindUUID]
+  = encodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.CrossReferencabilityKindTag]
+
+  implicit val orderingCrossReferencabilityKindUUID
+  : Ordering[CrossReferencabilityKindUUID]
+  = new Ordering[CrossReferencabilityKindUUID] {
+  	override def compare
+  	(x: CrossReferencabilityKindUUID, 
+  	 y: CrossReferencabilityKindUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type CrossReferencableKindUUID
+  = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.CrossReferencableKindTag
+  
+  def crossReferencableKindUUID(uuid: UUID): CrossReferencableKindUUID
+  = covariantTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.CrossReferencableKindTag][UUID](uuid)
+  
+  implicit val decodeCrossReferencableKindUUID: Decoder[CrossReferencableKindUUID]
+  = decodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.CrossReferencableKindTag]
+  
+  implicit val encodeCrossReferencableKindUUID: Encoder[CrossReferencableKindUUID]
+  = encodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.CrossReferencableKindTag]
+
+  implicit val orderingCrossReferencableKindUUID
+  : Ordering[CrossReferencableKindUUID]
+  = new Ordering[CrossReferencableKindUUID] {
+  	override def compare
+  	(x: CrossReferencableKindUUID, 
+  	 y: CrossReferencableKindUUID)
+  	: Int = x.compareTo(y)
+  }
+  
   type DataRangeUUID
   = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.DataRangeTag
   
@@ -798,27 +840,6 @@ object taggedTypes {
   	override def compare
   	(x: DisjointUnionOfConceptsAxiomUUID, 
   	 y: DisjointUnionOfConceptsAxiomUUID)
-  	: Int = x.compareTo(y)
-  }
-  
-  type ElementUUID
-  = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.ElementTag
-  
-  def elementUUID(uuid: UUID): ElementUUID
-  = covariantTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.ElementTag][UUID](uuid)
-  
-  implicit val decodeElementUUID: Decoder[ElementUUID]
-  = decodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.ElementTag]
-  
-  implicit val encodeElementUUID: Encoder[ElementUUID]
-  = encodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.ElementTag]
-
-  implicit val orderingElementUUID
-  : Ordering[ElementUUID]
-  = new Ordering[ElementUUID] {
-  	override def compare
-  	(x: ElementUUID, 
-  	 y: ElementUUID)
   	: Int = x.compareTo(y)
   }
   
@@ -1200,6 +1221,27 @@ object taggedTypes {
   	: Int = x.compareTo(y)
   }
   
+  type LogicalElementUUID
+  = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.LogicalElementTag
+  
+  def logicalElementUUID(uuid: UUID): LogicalElementUUID
+  = covariantTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.LogicalElementTag][UUID](uuid)
+  
+  implicit val decodeLogicalElementUUID: Decoder[LogicalElementUUID]
+  = decodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.LogicalElementTag]
+  
+  implicit val encodeLogicalElementUUID: Encoder[LogicalElementUUID]
+  = encodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.LogicalElementTag]
+
+  implicit val orderingLogicalElementUUID
+  : Ordering[LogicalElementUUID]
+  = new Ordering[LogicalElementUUID] {
+  	override def compare
+  	(x: LogicalElementUUID, 
+  	 y: LogicalElementUUID)
+  	: Int = x.compareTo(y)
+  }
+  
   type ModuleUUID
   = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.ModuleTag
   
@@ -1260,6 +1302,48 @@ object taggedTypes {
   	override def compare
   	(x: ModuleElementUUID, 
   	 y: ModuleElementUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type NonCrossReferencableKindUUID
+  = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.NonCrossReferencableKindTag
+  
+  def nonCrossReferencableKindUUID(uuid: UUID): NonCrossReferencableKindUUID
+  = covariantTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.NonCrossReferencableKindTag][UUID](uuid)
+  
+  implicit val decodeNonCrossReferencableKindUUID: Decoder[NonCrossReferencableKindUUID]
+  = decodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.NonCrossReferencableKindTag]
+  
+  implicit val encodeNonCrossReferencableKindUUID: Encoder[NonCrossReferencableKindUUID]
+  = encodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.NonCrossReferencableKindTag]
+
+  implicit val orderingNonCrossReferencableKindUUID
+  : Ordering[NonCrossReferencableKindUUID]
+  = new Ordering[NonCrossReferencableKindUUID] {
+  	override def compare
+  	(x: NonCrossReferencableKindUUID, 
+  	 y: NonCrossReferencableKindUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type NonLogicalElementUUID
+  = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.NonLogicalElementTag
+  
+  def nonLogicalElementUUID(uuid: UUID): NonLogicalElementUUID
+  = covariantTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.NonLogicalElementTag][UUID](uuid)
+  
+  implicit val decodeNonLogicalElementUUID: Decoder[NonLogicalElementUUID]
+  = decodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.NonLogicalElementTag]
+  
+  implicit val encodeNonLogicalElementUUID: Encoder[NonLogicalElementUUID]
+  = encodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.NonLogicalElementTag]
+
+  implicit val orderingNonLogicalElementUUID
+  : Ordering[NonLogicalElementUUID]
+  = new Ordering[NonLogicalElementUUID] {
+  	override def compare
+  	(x: NonLogicalElementUUID, 
+  	 y: NonLogicalElementUUID)
   	: Int = x.compareTo(y)
   }
   

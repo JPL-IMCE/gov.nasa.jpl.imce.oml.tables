@@ -19,6 +19,6 @@
  
 package gov.nasa.jpl.imce.oml.tables
 
-trait ValueCrossReferenceTuple extends ExtrinsicIdentityKind {
+trait ValueCrossReferenceTuple extends ExtrinsicIdentityKind with NonCrossReferencableKind {
   override val uuid: taggedTypes.ValueCrossReferenceTupleUUID
 }

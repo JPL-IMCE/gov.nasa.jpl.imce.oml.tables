@@ -35,14 +35,14 @@ trait ScalarOneOfLiteralAxiom
   val valueType: scala.Option[DataRange]
 
   def allNestedElements
-  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: LogicalElement]
 }
 
 object ScalarOneOfLiteralAxiom {
 
   def allNestedElements
   (s: ScalarOneOfLiteralAxiom, ext: Extent)
-  : scala.collection.immutable.Set[_ <: Element]
+  : scala.collection.immutable.Set[_ <: LogicalElement]
   = s.allNestedElements()(ext)
 
 }

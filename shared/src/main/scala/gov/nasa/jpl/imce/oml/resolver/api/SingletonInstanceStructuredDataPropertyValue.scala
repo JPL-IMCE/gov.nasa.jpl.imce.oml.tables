@@ -33,7 +33,7 @@ trait SingletonInstanceStructuredDataPropertyValue
   def descriptionBox
   ()(implicit extent: Extent): scala.Option[DescriptionBox]
   def allNestedElements
-  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: LogicalElement]
 }
 
 object SingletonInstanceStructuredDataPropertyValue {
@@ -45,7 +45,7 @@ object SingletonInstanceStructuredDataPropertyValue {
 
   def allNestedElements
   (s: SingletonInstanceStructuredDataPropertyValue, ext: Extent)
-  : scala.collection.immutable.Set[_ <: Element]
+  : scala.collection.immutable.Set[_ <: LogicalElement]
   = s.allNestedElements()(ext)
 
 }

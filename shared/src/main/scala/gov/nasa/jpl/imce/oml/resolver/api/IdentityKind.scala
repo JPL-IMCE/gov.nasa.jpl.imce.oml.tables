@@ -19,14 +19,12 @@
 package gov.nasa.jpl.imce.oml.resolver.api
 
 /*
- * An OML IdentityKind is an abstraction for everything that can be identified;
- * which entails a Version 5 UUID namespace hash computed from the identity.
+ * An OML IdentityKind categorizes OML CrossReferencabilityKind according
+ * to which kind of identity criteria are available for computing
+ * the Version 5 UUID namespace hash.
  */
 trait IdentityKind
+  extends CrossReferencabilityKind
 {
-  val uuid: taggedTypes.IdentityKindUUID
-  
-  val vertexId: scala.Long = uuid.toString.hashCode.toLong
-  
-  def canEqual(that: scala.Any): scala.Boolean
+  override val uuid: taggedTypes.IdentityKindUUID
 }

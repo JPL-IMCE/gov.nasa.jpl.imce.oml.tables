@@ -19,6 +19,6 @@
  
 package gov.nasa.jpl.imce.oml.tables
 
-trait Element extends IdentityKind {
-  override val uuid: taggedTypes.ElementUUID
+trait NonCrossReferencableKind extends CrossReferencabilityKind {
+  override val uuid: taggedTypes.NonCrossReferencableKindUUID
 }

@@ -33,14 +33,14 @@ import scala.Predef.ArrowAssoc
 case class AnnotationPropertyValue
 (
   @(JSExport @field) override val uuid: taggedTypes.AnnotationPropertyValueUUID,
-  @(JSExport @field) val subjectUUID: taggedTypes.ElementUUID,
+  @(JSExport @field) val subjectUUID: taggedTypes.LogicalElementUUID,
   @(JSExport @field) val propertyUUID: taggedTypes.AnnotationPropertyUUID,
   @(JSExport @field) val value: taggedTypes.StringDataType
-) extends ValueCrossReferenceTuple {
+) extends NonLogicalElement with ValueCrossReferenceTuple {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    subjectUUID: taggedTypes.ElementUUID,
+    subjectUUID: taggedTypes.LogicalElementUUID,
     propertyUUID: taggedTypes.AnnotationPropertyUUID,
     value: taggedTypes.StringDataType)
   = this(
@@ -89,7 +89,7 @@ object AnnotationPropertyValueHelper {
   
     for {
     	  uuid <- c.downField("uuid").as[taggedTypes.AnnotationPropertyValueUUID]
-    	  subjectUUID <- c.downField("subjectUUID").as[taggedTypes.ElementUUID]
+    	  subjectUUID <- c.downField("subjectUUID").as[taggedTypes.LogicalElementUUID]
     	  propertyUUID <- c.downField("propertyUUID").as[taggedTypes.AnnotationPropertyUUID]
     	  value <- c.downField("value").as[taggedTypes.StringDataType]
     	} yield AnnotationPropertyValue(
@@ -105,7 +105,7 @@ object AnnotationPropertyValueHelper {
     override final def apply(x: AnnotationPropertyValue): Json 
     = Json.obj(
     	  ("uuid", taggedTypes.encodeAnnotationPropertyValueUUID(x.uuid)),
-    	  ("subjectUUID", taggedTypes.encodeElementUUID(x.subjectUUID)),
+    	  ("subjectUUID", taggedTypes.encodeLogicalElementUUID(x.subjectUUID)),
     	  ("propertyUUID", taggedTypes.encodeAnnotationPropertyUUID(x.propertyUUID)),
     	  ("value", taggedTypes.encodeStringDataType(x.value))
     )

@@ -21,12 +21,13 @@ package gov.nasa.jpl.imce.oml.resolver.api
 /*
  * An OML ValueCrossReferenceTuple is an abstraction for a kind of OML ExtrinsicIdentityKind
  * where the extrinsic identity criteria is precisely the combination
- * of a tuple of at least 2 cross references to other OML IdentityKind(s),
+ * of a tuple of at least 2 cross references to other OML CrossReferencableKind(s),
  * at least one scalar value typed by an OML DataRange and nothing else.
  * Note that the identity of an OML DataRange value is itself.
  */
 trait ValueCrossReferenceTuple
   extends ExtrinsicIdentityKind
+  with NonCrossReferencableKind
 {
   override val uuid: taggedTypes.ValueCrossReferenceTupleUUID
 }

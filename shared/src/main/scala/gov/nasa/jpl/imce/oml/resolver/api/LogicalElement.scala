@@ -19,16 +19,28 @@
 package gov.nasa.jpl.imce.oml.resolver.api
 
 /*
- * An OML ElementCrossReferenceTuple is an abstraction for a kind of OML Element
- * categorized as a OML CrossReferencableKind and OML ExtrinsicIdentityKind
- * where the extrinsic identity criteria is precisely
- * a tuple of at least 2 cross references to other OML IdentityKind(s)
- * and nothing else.
+ * An OML Element is a logical abstraction
+ * for everything involved in OML that
+ * is globally identified by a version 5 namespace UUID deterministically
+ * derived from essential information about the OML Element.
+ * An OML Element can be the subject of multiple OML AnnotationPropertyValues;
+ * however, there can be at most one OML AnnotationPropertyValue for a given
+ * pair of OML Element and OML AnnotationProperty.
  */
-trait ElementCrossReferenceTuple
-  extends ExtrinsicIdentityKind
-  with CrossReferencableKind
-  with LogicalElement
+trait LogicalElement
+  extends IdentityKind
 {
-  override val uuid: taggedTypes.ElementCrossReferenceTupleUUID
+  override val uuid: taggedTypes.LogicalElementUUID
+
+  def moduleContext
+  ()(implicit extent: Extent): scala.Option[Module]
+}
+
+object LogicalElement {
+
+  def moduleContext
+  (l: LogicalElement, ext: Extent)
+  : scala.Option[Module]
+  = l.moduleContext()(ext)
+
 }

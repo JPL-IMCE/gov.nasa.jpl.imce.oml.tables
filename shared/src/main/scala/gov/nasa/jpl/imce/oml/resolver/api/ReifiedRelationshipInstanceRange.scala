@@ -39,7 +39,7 @@ trait ReifiedRelationshipInstanceRange
   def moduleContext
   ()(implicit extent: Extent): scala.Option[Module]
   def allNestedElements
-  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: LogicalElement]
 }
 
 object ReifiedRelationshipInstanceRange {
@@ -56,7 +56,7 @@ object ReifiedRelationshipInstanceRange {
 
   def allNestedElements
   (r: ReifiedRelationshipInstanceRange, ext: Extent)
-  : scala.collection.immutable.Set[_ <: Element]
+  : scala.collection.immutable.Set[_ <: LogicalElement]
   = r.allNestedElements()(ext)
 
 }

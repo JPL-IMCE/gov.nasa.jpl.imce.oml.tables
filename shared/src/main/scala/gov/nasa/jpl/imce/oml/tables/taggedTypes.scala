@@ -137,8 +137,8 @@ object taggedTypes {
   implicit val decodeUUIDDataType: Decoder[UUIDDataType] = decodeTag[UUIDDataTypeTag]
   implicit val encodeUUIDDataType: Encoder[UUIDDataType] = encodeTag[UUIDDataTypeTag]
   
-  trait AnnotationPropertyTag <: IntrinsicIdentityKindTag
-  trait AnnotationPropertyValueTag <: ValueCrossReferenceTupleTag
+  trait AnnotationPropertyTag <: IntrinsicIdentityKindTag with NonLogicalElementTag
+  trait AnnotationPropertyValueTag <: NonLogicalElementTag with ValueCrossReferenceTupleTag
   trait AnonymousConceptUnionAxiomTag <: ConceptTreeDisjunctionTag with DisjointUnionOfConceptsAxiomTag
   trait AspectTag <: EntityTag with UnaryTermKindTag
   trait AspectPredicateTag <: UnarySegmentPredicateTag
@@ -158,6 +158,8 @@ object taggedTypes {
   trait ConceptTreeDisjunctionTag <: ElementCrossReferenceTupleTag
   trait ConceptualEntityTag <: EntityTag
   trait ConceptualEntitySingletonInstanceTag <: ResourceTag with TerminologyInstanceAssertionTag
+  trait CrossReferencabilityKindTag
+  trait CrossReferencableKindTag <: CrossReferencabilityKindTag
   trait DataRangeTag <: DatatypeTag
   trait DataRelationshipTag <: DirectedBinaryRelationshipKindTag with TermTag
   trait DataRelationshipDomainTag <: DataRelationshipTag
@@ -173,8 +175,7 @@ object taggedTypes {
   trait DescriptionBoxRelationshipTag <: ModuleEdgeTag
   trait DirectedBinaryRelationshipKindTag <: TermTag
   trait DisjointUnionOfConceptsAxiomTag <: ElementCrossReferenceTupleTag
-  trait ElementTag <: IdentityKindTag
-  trait ElementCrossReferenceTupleTag <: ElementTag with ExtrinsicIdentityKindTag
+  trait ElementCrossReferenceTupleTag <: CrossReferencableKindTag with ExtrinsicIdentityKindTag with LogicalElementTag
   trait EntityTag <: TermTag
   trait EntityExistentialRestrictionAxiomTag <: EntityRestrictionAxiomTag
   trait EntityRelationshipTag <: DirectedBinaryRelationshipKindTag with TermTag
@@ -191,8 +192,8 @@ object taggedTypes {
   trait ExtentTag
   trait ExtrinsicIdentityKindTag <: IdentityKindTag
   trait IRIScalarRestrictionTag <: RestrictedDataRangeTag
-  trait IdentityKindTag
-  trait IntrinsicIdentityKindTag <: IdentityKindTag
+  trait IdentityKindTag <: CrossReferencabilityKindTag
+  trait IntrinsicIdentityKindTag <: CrossReferencableKindTag with IdentityKindTag
   trait LiteralBooleanTag <: LiteralValueTag
   trait LiteralDateTimeTag <: LiteralValueTag
   trait LiteralDecimalTag <: LiteralNumberTag
@@ -206,9 +207,12 @@ object taggedTypes {
   trait LiteralURITag <: LiteralValueTag
   trait LiteralUUIDTag <: LiteralValueTag
   trait LiteralValueTag
+  trait LogicalElementTag <: IdentityKindTag
   trait ModuleTag <: ResourceTag
   trait ModuleEdgeTag <: ElementCrossReferenceTupleTag
-  trait ModuleElementTag <: ElementTag
+  trait ModuleElementTag <: LogicalElementTag
+  trait NonCrossReferencableKindTag <: CrossReferencabilityKindTag
+  trait NonLogicalElementTag <: IdentityKindTag
   trait NumericScalarRestrictionTag <: RestrictedDataRangeTag
   trait PlainLiteralScalarRestrictionTag <: RestrictedDataRangeTag
   trait ReifiedRelationshipTag <: ConceptualEntityTag with EntityRelationshipTag
@@ -223,9 +227,9 @@ object taggedTypes {
   trait ReifiedRelationshipSpecializationAxiomTag <: SpecializationAxiomTag
   trait ReifiedRelationshipTargetInversePropertyPredicateTag <: BinarySegmentReversePropertyPredicateTag
   trait ReifiedRelationshipTargetPropertyPredicateTag <: BinarySegmentForwardPropertyPredicateTag
-  trait ResourceTag <: ElementTag with IntrinsicIdentityKindTag
+  trait ResourceTag <: IntrinsicIdentityKindTag with LogicalElementTag
   trait RestrictedDataRangeTag <: DataRangeTag
-  trait RestrictionScalarDataPropertyValueTag <: ElementTag with ValueCrossReferenceTupleTag
+  trait RestrictionScalarDataPropertyValueTag <: LogicalElementTag with ValueCrossReferenceTupleTag
   trait RestrictionStructuredDataPropertyContextTag <: ElementCrossReferenceTupleTag with ModuleElementTag
   trait RestrictionStructuredDataPropertyTupleTag <: RestrictionStructuredDataPropertyContextTag
   trait RootConceptTaxonomyAxiomTag <: ConceptTreeDisjunctionTag with TerminologyBundleStatementTag
@@ -233,7 +237,7 @@ object taggedTypes {
   trait RuleBodySegmentTag <: ElementCrossReferenceTupleTag
   trait ScalarTag <: DataRangeTag with UnaryTermKindTag
   trait ScalarDataPropertyTag <: DataRelationshipTag with DataRelationshipFromStructureTag with DataRelationshipToScalarTag
-  trait ScalarDataPropertyValueTag <: ElementTag with ValueCrossReferenceTupleTag
+  trait ScalarDataPropertyValueTag <: LogicalElementTag with ValueCrossReferenceTupleTag
   trait ScalarOneOfLiteralAxiomTag <: TermAxiomTag with ValueCrossReferenceTupleTag
   trait ScalarOneOfRestrictionTag <: RestrictedDataRangeTag
   trait SegmentPredicateTag <: ElementCrossReferenceTupleTag
@@ -266,7 +270,7 @@ object taggedTypes {
   trait UnreifiedRelationshipInstanceTupleTag <: ElementCrossReferenceTupleTag with TerminologyInstanceAssertionTag
   trait UnreifiedRelationshipInversePropertyPredicateTag <: BinarySegmentReversePropertyPredicateTag
   trait UnreifiedRelationshipPropertyPredicateTag <: BinarySegmentForwardPropertyPredicateTag
-  trait ValueCrossReferenceTupleTag <: ExtrinsicIdentityKindTag
+  trait ValueCrossReferenceTupleTag <: ExtrinsicIdentityKindTag with NonCrossReferencableKindTag
   
   type AnnotationPropertyUUID 
   = String @@ AnnotationPropertyTag
@@ -772,6 +776,54 @@ object taggedTypes {
   	: Int = x.compareTo(y)
   }
   
+  type CrossReferencabilityKindUUID 
+  = String @@ CrossReferencabilityKindTag
+  
+  def crossReferencabilityKindUUID(uuid: String)
+  : CrossReferencabilityKindUUID
+  = covariantTag[CrossReferencabilityKindTag][String](uuid)
+  
+  implicit val decodeCrossReferencabilityKindUUID
+  : Decoder[CrossReferencabilityKindUUID]
+  = decodeTag[CrossReferencabilityKindTag]
+  
+  implicit val encodeCrossReferencabilityKindUUID
+  : Encoder[CrossReferencabilityKindUUID]
+  = encodeTag[CrossReferencabilityKindTag]
+  
+  implicit val orderingCrossReferencabilityKindUUID
+  : Ordering[CrossReferencabilityKindUUID] 
+  = new Ordering[CrossReferencabilityKindUUID] {
+  	override def compare
+  	(x: CrossReferencabilityKindUUID, 
+  	 y: CrossReferencabilityKindUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type CrossReferencableKindUUID 
+  = String @@ CrossReferencableKindTag
+  
+  def crossReferencableKindUUID(uuid: String)
+  : CrossReferencableKindUUID
+  = covariantTag[CrossReferencableKindTag][String](uuid)
+  
+  implicit val decodeCrossReferencableKindUUID
+  : Decoder[CrossReferencableKindUUID]
+  = decodeTag[CrossReferencableKindTag]
+  
+  implicit val encodeCrossReferencableKindUUID
+  : Encoder[CrossReferencableKindUUID]
+  = encodeTag[CrossReferencableKindTag]
+  
+  implicit val orderingCrossReferencableKindUUID
+  : Ordering[CrossReferencableKindUUID] 
+  = new Ordering[CrossReferencableKindUUID] {
+  	override def compare
+  	(x: CrossReferencableKindUUID, 
+  	 y: CrossReferencableKindUUID)
+  	: Int = x.compareTo(y)
+  }
+  
   type DataRangeUUID 
   = String @@ DataRangeTag
   
@@ -1129,30 +1181,6 @@ object taggedTypes {
   	override def compare
   	(x: DisjointUnionOfConceptsAxiomUUID, 
   	 y: DisjointUnionOfConceptsAxiomUUID)
-  	: Int = x.compareTo(y)
-  }
-  
-  type ElementUUID 
-  = String @@ ElementTag
-  
-  def elementUUID(uuid: String)
-  : ElementUUID
-  = covariantTag[ElementTag][String](uuid)
-  
-  implicit val decodeElementUUID
-  : Decoder[ElementUUID]
-  = decodeTag[ElementTag]
-  
-  implicit val encodeElementUUID
-  : Encoder[ElementUUID]
-  = encodeTag[ElementTag]
-  
-  implicit val orderingElementUUID
-  : Ordering[ElementUUID] 
-  = new Ordering[ElementUUID] {
-  	override def compare
-  	(x: ElementUUID, 
-  	 y: ElementUUID)
   	: Int = x.compareTo(y)
   }
   
@@ -1588,6 +1616,30 @@ object taggedTypes {
   	: Int = x.compareTo(y)
   }
   
+  type LogicalElementUUID 
+  = String @@ LogicalElementTag
+  
+  def logicalElementUUID(uuid: String)
+  : LogicalElementUUID
+  = covariantTag[LogicalElementTag][String](uuid)
+  
+  implicit val decodeLogicalElementUUID
+  : Decoder[LogicalElementUUID]
+  = decodeTag[LogicalElementTag]
+  
+  implicit val encodeLogicalElementUUID
+  : Encoder[LogicalElementUUID]
+  = encodeTag[LogicalElementTag]
+  
+  implicit val orderingLogicalElementUUID
+  : Ordering[LogicalElementUUID] 
+  = new Ordering[LogicalElementUUID] {
+  	override def compare
+  	(x: LogicalElementUUID, 
+  	 y: LogicalElementUUID)
+  	: Int = x.compareTo(y)
+  }
+  
   type ModuleUUID 
   = String @@ ModuleTag
   
@@ -1657,6 +1709,54 @@ object taggedTypes {
   	override def compare
   	(x: ModuleElementUUID, 
   	 y: ModuleElementUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type NonCrossReferencableKindUUID 
+  = String @@ NonCrossReferencableKindTag
+  
+  def nonCrossReferencableKindUUID(uuid: String)
+  : NonCrossReferencableKindUUID
+  = covariantTag[NonCrossReferencableKindTag][String](uuid)
+  
+  implicit val decodeNonCrossReferencableKindUUID
+  : Decoder[NonCrossReferencableKindUUID]
+  = decodeTag[NonCrossReferencableKindTag]
+  
+  implicit val encodeNonCrossReferencableKindUUID
+  : Encoder[NonCrossReferencableKindUUID]
+  = encodeTag[NonCrossReferencableKindTag]
+  
+  implicit val orderingNonCrossReferencableKindUUID
+  : Ordering[NonCrossReferencableKindUUID] 
+  = new Ordering[NonCrossReferencableKindUUID] {
+  	override def compare
+  	(x: NonCrossReferencableKindUUID, 
+  	 y: NonCrossReferencableKindUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type NonLogicalElementUUID 
+  = String @@ NonLogicalElementTag
+  
+  def nonLogicalElementUUID(uuid: String)
+  : NonLogicalElementUUID
+  = covariantTag[NonLogicalElementTag][String](uuid)
+  
+  implicit val decodeNonLogicalElementUUID
+  : Decoder[NonLogicalElementUUID]
+  = decodeTag[NonLogicalElementTag]
+  
+  implicit val encodeNonLogicalElementUUID
+  : Encoder[NonLogicalElementUUID]
+  = encodeTag[NonLogicalElementTag]
+  
+  implicit val orderingNonLogicalElementUUID
+  : Ordering[NonLogicalElementUUID] 
+  = new Ordering[NonLogicalElementUUID] {
+  	override def compare
+  	(x: NonLogicalElementUUID, 
+  	 y: NonLogicalElementUUID)
   	: Int = x.compareTo(y)
   }
   

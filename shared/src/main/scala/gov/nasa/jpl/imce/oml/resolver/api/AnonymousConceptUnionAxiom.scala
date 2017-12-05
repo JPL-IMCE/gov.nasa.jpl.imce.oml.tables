@@ -32,10 +32,8 @@ trait AnonymousConceptUnionAxiom
   override val uuid: taggedTypes.AnonymousConceptUnionAxiomUUID
   override def bundleContainer
   ()(implicit extent: Extent): scala.Option[Bundle]
-  def allNestedDisjunctions
-  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
-  def allNestedUnions
-  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: Element]
+  def allNestedElements
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: LogicalElement]
 }
 
 object AnonymousConceptUnionAxiom {
@@ -45,14 +43,9 @@ object AnonymousConceptUnionAxiom {
   : scala.Option[Bundle]
   = a.bundleContainer()(ext)
 
-  def allNestedDisjunctions
+  def allNestedElements
   (a: AnonymousConceptUnionAxiom, ext: Extent)
-  : scala.collection.immutable.Set[_ <: Element]
-  = a.allNestedDisjunctions()(ext)
-
-  def allNestedUnions
-  (a: AnonymousConceptUnionAxiom, ext: Extent)
-  : scala.collection.immutable.Set[_ <: Element]
-  = a.allNestedUnions()(ext)
+  : scala.collection.immutable.Set[_ <: LogicalElement]
+  = a.allNestedElements()(ext)
 
 }
