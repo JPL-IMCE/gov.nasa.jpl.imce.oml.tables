@@ -60,7 +60,7 @@ trait OMLResolvedFactory {
       Seq.empty[(String, String)] ++
           Seq("subject" -> subject.uuid.toString) ++
           Seq("property" -> property.uuid.toString) ++
-          Seq("value" -> value.value) : _*))
+          Seq("value" -> value.toString) : _*))
     createAnnotationPropertyValue( extent, implicitUUID, subject, property, value )
   }
   
