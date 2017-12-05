@@ -60,7 +60,7 @@ trait OMLResolvedFactory {
       Seq.empty[(String, String)] ++
           Seq("subject" -> subject.uuid.toString) ++
           Seq("property" -> property.uuid.toString) ++
-          Seq("value" -> value.toString) : _*))
+          Seq("value" -> value.value) : _*))
     createAnnotationPropertyValue( extent, implicitUUID, subject, property, value )
   }
   
@@ -545,7 +545,7 @@ trait OMLResolvedFactory {
           Seq("tbox" -> tbox.uuid.toString) ++
           Seq("restrictedEntity" -> restrictedEntity.uuid.toString) ++
           Seq("scalarProperty" -> scalarProperty.uuid.toString) ++
-          Seq("literalValue" -> literalValue.toString) : _*))
+          Seq("literalValue" -> literalValue.value) : _*))
     createEntityScalarDataPropertyParticularRestrictionAxiom( extent, uuid, tbox, restrictedEntity, scalarProperty, literalValue, valueType )
   }
   
@@ -1100,7 +1100,7 @@ trait OMLResolvedFactory {
       "RestrictionScalarDataPropertyValue",
       Seq.empty[(String, String)] ++
           Seq("scalarDataProperty" -> scalarDataProperty.uuid.toString) ++
-          Seq("scalarPropertyValue" -> scalarPropertyValue.toString) ++
+          Seq("scalarPropertyValue" -> scalarPropertyValue.value) ++
           Seq("structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString) : _*))
     createRestrictionScalarDataPropertyValue( extent, uuid, scalarDataProperty, scalarPropertyValue, structuredDataPropertyContext, valueType )
   }
@@ -1255,7 +1255,7 @@ trait OMLResolvedFactory {
       "ScalarDataPropertyValue",
       Seq.empty[(String, String)] ++
           Seq("scalarDataProperty" -> scalarDataProperty.uuid.toString) ++
-          Seq("scalarPropertyValue" -> scalarPropertyValue.toString) ++
+          Seq("scalarPropertyValue" -> scalarPropertyValue.value) ++
           Seq("structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString) : _*))
     createScalarDataPropertyValue( extent, uuid, scalarDataProperty, scalarPropertyValue, structuredDataPropertyContext, valueType )
   }
@@ -1285,7 +1285,7 @@ trait OMLResolvedFactory {
       Seq.empty[(String, String)] ++
           Seq("tbox" -> tbox.uuid.toString) ++
           Seq("axiom" -> axiom.uuid.toString) ++
-          Seq("value" -> value.toString) : _*))
+          Seq("value" -> value.value) : _*))
     createScalarOneOfLiteralAxiom( extent, uuid, tbox, axiom, value, valueType )
   }
   
@@ -1338,7 +1338,7 @@ trait OMLResolvedFactory {
           Seq("descriptionBox" -> descriptionBox.uuid.toString) ++
           Seq("singletonInstance" -> singletonInstance.uuid.toString) ++
           Seq("scalarDataProperty" -> scalarDataProperty.uuid.toString) ++
-          Seq("scalarPropertyValue" -> scalarPropertyValue.toString) : _*))
+          Seq("scalarPropertyValue" -> scalarPropertyValue.value) : _*))
     createSingletonInstanceScalarDataPropertyValue( extent, uuid, descriptionBox, singletonInstance, scalarDataProperty, scalarPropertyValue, valueType )
   }
   
