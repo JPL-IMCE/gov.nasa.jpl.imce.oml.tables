@@ -35,3 +35,5 @@ gov.nasa.jpl.imce.oml.tables 0.90.0 resolves major issues in 0.80.0
 - [#34 Ensure OML table readers properly merge read content and maintain sorting](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/34)
 
 - [#35 Update due to abstractions for OML cross-references (entity only & entity+value)](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/35)
+
+- [#36 Update README for `*.omlzip`](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/36)
