@@ -1239,8 +1239,11 @@ object OMLTablesResolver {
     step9a <- mapAspectSpecializationAxioms(step8d)
     step9b <- mapConceptSpecializationAxioms(step9a)
     step9c <- mapReifiedRelationshipSpecializationAxioms(step9b)
+    // -- SubPropertyOfAxioms
+    step9d <- mapSubDataPropertyOfAxioms(step9c)
+    step9e <- mapSubObjectPropertyOfAxioms(step9d)
     // TerminologyBundleStatements
-    step10 <- mapRootConceptTaxonomyAxioms(step9c)
+    step10 <- mapRootConceptTaxonomyAxioms(step9e)
     // DescriptionBoxStatements
     step11a <- mapConceptInstances(step10)
     step11b <- mapReifiedRelationshipInstances(step11a)
@@ -2607,6 +2610,114 @@ object OMLTablesResolver {
             Failure(new IllegalArgumentException(s"ReifiedRelationshipSpecializationAxiom not in extent: $rax"))
           else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tax.uuid)).contains(rax))
             Failure(new IllegalArgumentException(s"ReifiedRelationshipSpecializationAxiom: $tax vs. $rax"))
+          else
+            Success(ri.copy(context = ej))
+        case (Failure(f), _) =>
+          Failure(f)
+      }
+    s
+  }
+
+  def mapSubDataPropertyOfAxioms
+  (r: OMLTablesResolver)
+  : Try[OMLTablesResolver]
+  = {
+    val byUUID =
+      r.queue.subDataPropertyOfAxioms
+        .map { tax =>
+          ( api.taggedTypes.fromUUIDString(tax.tboxUUID),
+            api.taggedTypes.fromUUIDString(tax.subPropertyUUID),
+            api.taggedTypes.fromUUIDString(tax.subPropertyUUID) ) -> tax
+        }
+
+    val byTBox = for {
+      tuple <- byUUID
+      ((tboxUUID, subUUID, superUUID), tax) = tuple
+      tboxM = r.lookupTerminologyBox(tboxUUID)
+      subM = r.lookupTerminologyBoxStatement(superUUID) match {
+        case Some(e: api.EntityScalarDataProperty) => Some(e)
+        case _ => None
+      }
+      superM = r.lookupTerminologyBoxStatement(subUUID) match {
+        case Some(e: api.EntityScalarDataProperty) => Some(e)
+        case _ => None
+      }
+    } yield (tboxM, subM, superM, tax)
+
+
+    val unresolvable = byTBox.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty || tuple._3.isEmpty).map(_._4)
+    val resolvable = byTBox.flatMap {
+      case (Some(tboxM), Some(subM), Some(superM), tax) => Some(Tuple4(tboxM, subM, superM, tax))
+      case _ => None
+    }
+
+    val s =
+      resolvable.foldLeft[Try[OMLTablesResolver]](Success(r.copy(queue = r.queue.copy(subDataPropertyOfAxioms = unresolvable)))) {
+        case (Success(ri), (tboxM, subM, superM, tax)) =>
+          val (ej, rax) = ri.factory.createSubDataPropertyOfAxiom(
+            ri.context,
+            tboxM,
+            subM,
+            superM)
+
+          if (!ej.lookupBoxStatements(tboxM).contains(rax))
+            Failure(new IllegalArgumentException(s"SubDataPropertyOfAxiom not in extent: $rax"))
+          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tax.uuid)).contains(rax))
+            Failure(new IllegalArgumentException(s"SubDataPropertyOfAxiom: $tax vs. $rax"))
+          else
+            Success(ri.copy(context = ej))
+        case (Failure(f), _) =>
+          Failure(f)
+      }
+    s
+  }
+
+  def mapSubObjectPropertyOfAxioms
+  (r: OMLTablesResolver)
+  : Try[OMLTablesResolver]
+  = {
+    val byUUID =
+      r.queue.subObjectPropertyOfAxioms
+        .map { tax =>
+          ( api.taggedTypes.fromUUIDString(tax.tboxUUID),
+            api.taggedTypes.fromUUIDString(tax.subPropertyUUID),
+            api.taggedTypes.fromUUIDString(tax.subPropertyUUID) ) -> tax
+        }
+
+    val byTBox = for {
+      tuple <- byUUID
+      ((tboxUUID, subUUID, superUUID), tax) = tuple
+      tboxM = r.lookupTerminologyBox(tboxUUID)
+      subM = r.lookupTerminologyBoxStatement(superUUID) match {
+        case Some(e: api.UnreifiedRelationship) => Some(e)
+        case _ => None
+      }
+      superM = r.lookupTerminologyBoxStatement(subUUID) match {
+        case Some(e: api.UnreifiedRelationship) => Some(e)
+        case _ => None
+      }
+    } yield (tboxM, subM, superM, tax)
+
+
+    val unresolvable = byTBox.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty || tuple._3.isEmpty).map(_._4)
+    val resolvable = byTBox.flatMap {
+      case (Some(tboxM), Some(subM), Some(superM), tax) => Some(Tuple4(tboxM, subM, superM, tax))
+      case _ => None
+    }
+
+    val s =
+      resolvable.foldLeft[Try[OMLTablesResolver]](Success(r.copy(queue = r.queue.copy(subObjectPropertyOfAxioms = unresolvable)))) {
+        case (Success(ri), (tboxM, subM, superM, tax)) =>
+          val (ej, rax) = ri.factory.createSubObjectPropertyOfAxiom(
+            ri.context,
+            tboxM,
+            subM,
+            superM)
+
+          if (!ej.lookupBoxStatements(tboxM).contains(rax))
+            Failure(new IllegalArgumentException(s"SubObjectPropertyOfAxiom not in extent: $rax"))
+          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tax.uuid)).contains(rax))
+            Failure(new IllegalArgumentException(s"SubObjectPropertyOfAxiom: $tax vs. $rax"))
           else
             Success(ri.copy(context = ej))
         case (Failure(f), _) =>
