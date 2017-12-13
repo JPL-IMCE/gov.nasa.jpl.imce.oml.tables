@@ -1501,6 +1501,60 @@ trait OMLResolvedFactory {
     structuredDataPropertyContext: SingletonInstanceStructuredDataPropertyContext )
   : (Extent, StructuredDataPropertyTuple)
   
+  // SubDataPropertyOfAxiom
+  def createSubDataPropertyOfAxiom
+  ( extent: Extent,
+    tbox: TerminologyBox,
+    subProperty: EntityScalarDataProperty,
+    superProperty: EntityScalarDataProperty )
+  : (Extent, SubDataPropertyOfAxiom)
+  = {
+  	// implicitly derived uuid...
+    import scala.Predef.ArrowAssoc
+    val implicitUUID = taggedTypes.subDataPropertyOfAxiomUUID(namespaceUUID(
+      "SubDataPropertyOfAxiom",
+      Seq.empty[(String, String)] ++
+          Seq("tbox" -> tbox.uuid.toString) ++
+          Seq("subProperty" -> subProperty.uuid.toString) ++
+          Seq("superProperty" -> superProperty.uuid.toString) : _*))
+    createSubDataPropertyOfAxiom( extent, implicitUUID, tbox, subProperty, superProperty )
+  }
+  
+  def createSubDataPropertyOfAxiom
+  ( extent: Extent,
+    uuid: taggedTypes.SubDataPropertyOfAxiomUUID,
+    tbox: TerminologyBox,
+    subProperty: EntityScalarDataProperty,
+    superProperty: EntityScalarDataProperty )
+  : (Extent, SubDataPropertyOfAxiom)
+  
+  // SubObjectPropertyOfAxiom
+  def createSubObjectPropertyOfAxiom
+  ( extent: Extent,
+    tbox: TerminologyBox,
+    subProperty: UnreifiedRelationship,
+    superProperty: UnreifiedRelationship )
+  : (Extent, SubObjectPropertyOfAxiom)
+  = {
+  	// implicitly derived uuid...
+    import scala.Predef.ArrowAssoc
+    val implicitUUID = taggedTypes.subObjectPropertyOfAxiomUUID(namespaceUUID(
+      "SubObjectPropertyOfAxiom",
+      Seq.empty[(String, String)] ++
+          Seq("tbox" -> tbox.uuid.toString) ++
+          Seq("subProperty" -> subProperty.uuid.toString) ++
+          Seq("superProperty" -> superProperty.uuid.toString) : _*))
+    createSubObjectPropertyOfAxiom( extent, implicitUUID, tbox, subProperty, superProperty )
+  }
+  
+  def createSubObjectPropertyOfAxiom
+  ( extent: Extent,
+    uuid: taggedTypes.SubObjectPropertyOfAxiomUUID,
+    tbox: TerminologyBox,
+    subProperty: UnreifiedRelationship,
+    superProperty: UnreifiedRelationship )
+  : (Extent, SubObjectPropertyOfAxiom)
+  
   // SynonymScalarRestriction
   def createSynonymScalarRestriction
   ( extent: Extent,

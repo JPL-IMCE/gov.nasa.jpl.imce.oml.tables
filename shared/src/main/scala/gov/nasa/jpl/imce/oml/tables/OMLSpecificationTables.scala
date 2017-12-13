@@ -94,6 +94,8 @@ case class OMLSpecificationTables
   singletonInstanceScalarDataPropertyValues : Seq[SingletonInstanceScalarDataPropertyValue] = Seq.empty,
   singletonInstanceStructuredDataPropertyValues : Seq[SingletonInstanceStructuredDataPropertyValue] = Seq.empty,
   structuredDataPropertyTuples : Seq[StructuredDataPropertyTuple] = Seq.empty,
+  subDataPropertyOfAxioms : Seq[SubDataPropertyOfAxiom] = Seq.empty,
+  subObjectPropertyOfAxioms : Seq[SubObjectPropertyOfAxiom] = Seq.empty,
   unreifiedRelationshipInstanceTuples : Seq[UnreifiedRelationshipInstanceTuple] = Seq.empty,
   unreifiedRelationshipInversePropertyPredicates : Seq[UnreifiedRelationshipInversePropertyPredicate] = Seq.empty,
   unreifiedRelationshipPropertyPredicates : Seq[UnreifiedRelationshipPropertyPredicate] = Seq.empty
@@ -477,6 +479,18 @@ case class OMLSpecificationTables
     (structuredDataPropertyTuples.to[Set] ++ 
      readJSonTable(is, StructuredDataPropertyTupleHelper.fromJSON).to[Set]
     ).to[Seq].sortBy(_.uuid))
+  def readSubDataPropertyOfAxioms(is: InputStream)
+  : OMLSpecificationTables
+  = copy(subDataPropertyOfAxioms = 
+    (subDataPropertyOfAxioms.to[Set] ++ 
+     readJSonTable(is, SubDataPropertyOfAxiomHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
+  def readSubObjectPropertyOfAxioms(is: InputStream)
+  : OMLSpecificationTables
+  = copy(subObjectPropertyOfAxioms = 
+    (subObjectPropertyOfAxioms.to[Set] ++ 
+     readJSonTable(is, SubObjectPropertyOfAxiomHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readUnreifiedRelationshipInstanceTuples(is: InputStream)
   : OMLSpecificationTables
   = copy(unreifiedRelationshipInstanceTuples = 
@@ -560,6 +574,8 @@ case class OMLSpecificationTables
     singletonInstanceScalarDataPropertyValues.isEmpty &&
     singletonInstanceStructuredDataPropertyValues.isEmpty &&
     structuredDataPropertyTuples.isEmpty &&
+    subDataPropertyOfAxioms.isEmpty &&
+    subObjectPropertyOfAxioms.isEmpty &&
     unreifiedRelationshipInstanceTuples.isEmpty &&
     unreifiedRelationshipInversePropertyPredicates.isEmpty &&
     unreifiedRelationshipPropertyPredicates.isEmpty
@@ -639,6 +655,8 @@ case class OMLSpecificationTables
     buff ++= showSeq("singletonInstanceScalarDataPropertyValues", singletonInstanceScalarDataPropertyValues)
     buff ++= showSeq("singletonInstanceStructuredDataPropertyValues", singletonInstanceStructuredDataPropertyValues)
     buff ++= showSeq("structuredDataPropertyTuples", structuredDataPropertyTuples)
+    buff ++= showSeq("subDataPropertyOfAxioms", subDataPropertyOfAxioms)
+    buff ++= showSeq("subObjectPropertyOfAxioms", subObjectPropertyOfAxioms)
     buff ++= showSeq("unreifiedRelationshipInstanceTuples", unreifiedRelationshipInstanceTuples)
     buff ++= showSeq("unreifiedRelationshipInversePropertyPredicates", unreifiedRelationshipInversePropertyPredicates)
     buff ++= showSeq("unreifiedRelationshipPropertyPredicates", unreifiedRelationshipPropertyPredicates)
@@ -804,6 +822,10 @@ object OMLSpecificationTables {
   (t1.singletonInstanceStructuredDataPropertyValues.to[Set] ++ t2.singletonInstanceStructuredDataPropertyValues.to[Set]).to[Seq].sortBy(_.uuid),
       structuredDataPropertyTuples = 
   (t1.structuredDataPropertyTuples.to[Set] ++ t2.structuredDataPropertyTuples.to[Set]).to[Seq].sortBy(_.uuid),
+      subDataPropertyOfAxioms = 
+  (t1.subDataPropertyOfAxioms.to[Set] ++ t2.subDataPropertyOfAxioms.to[Set]).to[Seq].sortBy(_.uuid),
+      subObjectPropertyOfAxioms = 
+  (t1.subObjectPropertyOfAxioms.to[Set] ++ t2.subObjectPropertyOfAxioms.to[Set]).to[Seq].sortBy(_.uuid),
       unreifiedRelationshipInstanceTuples = 
   (t1.unreifiedRelationshipInstanceTuples.to[Set] ++ t2.unreifiedRelationshipInstanceTuples.to[Set]).to[Seq].sortBy(_.uuid),
       unreifiedRelationshipInversePropertyPredicates = 
@@ -944,6 +966,10 @@ object OMLSpecificationTables {
   	    tables.readSingletonInstanceStructuredDataPropertyValues(is)
   	  case StructuredDataPropertyTupleHelper.TABLE_JSON_FILENAME =>
   	    tables.readStructuredDataPropertyTuples(is)
+  	  case SubDataPropertyOfAxiomHelper.TABLE_JSON_FILENAME =>
+  	    tables.readSubDataPropertyOfAxioms(is)
+  	  case SubObjectPropertyOfAxiomHelper.TABLE_JSON_FILENAME =>
+  	    tables.readSubObjectPropertyOfAxioms(is)
   	  case UnreifiedRelationshipInstanceTupleHelper.TABLE_JSON_FILENAME =>
   	    tables.readUnreifiedRelationshipInstanceTuples(is)
   	  case UnreifiedRelationshipInversePropertyPredicateHelper.TABLE_JSON_FILENAME =>
@@ -1349,6 +1375,18 @@ object OMLSpecificationTables {
       zos.putNextEntry(new java.util.zip.ZipEntry(StructuredDataPropertyTupleHelper.TABLE_JSON_FILENAME))
       tables.structuredDataPropertyTuples.foreach { t =>
          val line = StructuredDataPropertyTupleHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(SubDataPropertyOfAxiomHelper.TABLE_JSON_FILENAME))
+      tables.subDataPropertyOfAxioms.foreach { t =>
+         val line = SubDataPropertyOfAxiomHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(SubObjectPropertyOfAxiomHelper.TABLE_JSON_FILENAME))
+      tables.subObjectPropertyOfAxioms.foreach { t =>
+         val line = SubObjectPropertyOfAxiomHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry()

@@ -37,3 +37,5 @@ gov.nasa.jpl.imce.oml.tables 0.90.0 resolves major issues in 0.80.0
 - [#35 Update due to abstractions for OML cross-references (entity only & entity+value)](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/35)
 
 - [#36 Update README for `*.omlzip`](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/36)
+
+- [#37 Support for OML SubObjectPropertyOf and SubDataPropertyOf](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/37)

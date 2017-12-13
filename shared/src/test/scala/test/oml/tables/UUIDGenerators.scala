@@ -125,6 +125,8 @@ object UUIDGenerators {
   val structureUUID = uuid.map(id => taggedTypes.structureUUID(id.toString))
   val structuredDataPropertyUUID = uuid.map(id => taggedTypes.structuredDataPropertyUUID(id.toString))
   val structuredDataPropertyTupleUUID = uuid.map(id => taggedTypes.structuredDataPropertyTupleUUID(id.toString))
+  val subDataPropertyOfAxiomUUID = uuid.map(id => taggedTypes.subDataPropertyOfAxiomUUID(id.toString))
+  val subObjectPropertyOfAxiomUUID = uuid.map(id => taggedTypes.subObjectPropertyOfAxiomUUID(id.toString))
   val synonymScalarRestrictionUUID = uuid.map(id => taggedTypes.synonymScalarRestrictionUUID(id.toString))
   val termUUID = uuid.map(id => taggedTypes.termUUID(id.toString))
   val termAxiomUUID = uuid.map(id => taggedTypes.termAxiomUUID(id.toString))

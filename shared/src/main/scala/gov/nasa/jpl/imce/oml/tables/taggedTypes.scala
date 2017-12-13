@@ -250,6 +250,8 @@ object taggedTypes {
   trait StructureTag <: DatatypeTag with UnaryTermKindTag
   trait StructuredDataPropertyTag <: DataRelationshipTag with DataRelationshipFromStructureTag with DataRelationshipToStructureTag
   trait StructuredDataPropertyTupleTag <: SingletonInstanceStructuredDataPropertyContextTag
+  trait SubDataPropertyOfAxiomTag <: ElementCrossReferenceTupleTag with TermAxiomTag
+  trait SubObjectPropertyOfAxiomTag <: ElementCrossReferenceTupleTag with TermAxiomTag
   trait SynonymScalarRestrictionTag <: RestrictedDataRangeTag
   trait TermTag <: ResourceTag with TerminologyBoxStatementTag
   trait TermAxiomTag <: TerminologyBoxStatementTag
@@ -2645,6 +2647,54 @@ object taggedTypes {
   	override def compare
   	(x: StructuredDataPropertyTupleUUID, 
   	 y: StructuredDataPropertyTupleUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type SubDataPropertyOfAxiomUUID 
+  = String @@ SubDataPropertyOfAxiomTag
+  
+  def subDataPropertyOfAxiomUUID(uuid: String)
+  : SubDataPropertyOfAxiomUUID
+  = covariantTag[SubDataPropertyOfAxiomTag][String](uuid)
+  
+  implicit val decodeSubDataPropertyOfAxiomUUID
+  : Decoder[SubDataPropertyOfAxiomUUID]
+  = decodeTag[SubDataPropertyOfAxiomTag]
+  
+  implicit val encodeSubDataPropertyOfAxiomUUID
+  : Encoder[SubDataPropertyOfAxiomUUID]
+  = encodeTag[SubDataPropertyOfAxiomTag]
+  
+  implicit val orderingSubDataPropertyOfAxiomUUID
+  : Ordering[SubDataPropertyOfAxiomUUID] 
+  = new Ordering[SubDataPropertyOfAxiomUUID] {
+  	override def compare
+  	(x: SubDataPropertyOfAxiomUUID, 
+  	 y: SubDataPropertyOfAxiomUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type SubObjectPropertyOfAxiomUUID 
+  = String @@ SubObjectPropertyOfAxiomTag
+  
+  def subObjectPropertyOfAxiomUUID(uuid: String)
+  : SubObjectPropertyOfAxiomUUID
+  = covariantTag[SubObjectPropertyOfAxiomTag][String](uuid)
+  
+  implicit val decodeSubObjectPropertyOfAxiomUUID
+  : Decoder[SubObjectPropertyOfAxiomUUID]
+  = decodeTag[SubObjectPropertyOfAxiomTag]
+  
+  implicit val encodeSubObjectPropertyOfAxiomUUID
+  : Encoder[SubObjectPropertyOfAxiomUUID]
+  = encodeTag[SubObjectPropertyOfAxiomTag]
+  
+  implicit val orderingSubObjectPropertyOfAxiomUUID
+  : Ordering[SubObjectPropertyOfAxiomUUID] 
+  = new Ordering[SubObjectPropertyOfAxiomUUID] {
+  	override def compare
+  	(x: SubObjectPropertyOfAxiomUUID, 
+  	 y: SubObjectPropertyOfAxiomUUID)
   	: Int = x.compareTo(y)
   }
   

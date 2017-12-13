@@ -600,6 +600,26 @@ package object tables {
   	 	case 0 => 0 }
   }
   
+  implicit def subDataPropertyOfAxiomOrdering
+  : scala.Ordering[SubDataPropertyOfAxiom]
+  = new scala.Ordering[SubDataPropertyOfAxiom] {
+  	def compare(x: SubDataPropertyOfAxiom, y: SubDataPropertyOfAxiom)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def subObjectPropertyOfAxiomOrdering
+  : scala.Ordering[SubObjectPropertyOfAxiom]
+  = new scala.Ordering[SubObjectPropertyOfAxiom] {
+  	def compare(x: SubObjectPropertyOfAxiom, y: SubObjectPropertyOfAxiom)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
   implicit def synonymScalarRestrictionOrdering
   : scala.Ordering[SynonymScalarRestriction]
   = new scala.Ordering[SynonymScalarRestriction] {

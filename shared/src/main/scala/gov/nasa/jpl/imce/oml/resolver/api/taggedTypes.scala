@@ -2124,6 +2124,48 @@ object taggedTypes {
   	: Int = x.compareTo(y)
   }
   
+  type SubDataPropertyOfAxiomUUID
+  = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.SubDataPropertyOfAxiomTag
+  
+  def subDataPropertyOfAxiomUUID(uuid: UUID): SubDataPropertyOfAxiomUUID
+  = covariantTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.SubDataPropertyOfAxiomTag][UUID](uuid)
+  
+  implicit val decodeSubDataPropertyOfAxiomUUID: Decoder[SubDataPropertyOfAxiomUUID]
+  = decodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.SubDataPropertyOfAxiomTag]
+  
+  implicit val encodeSubDataPropertyOfAxiomUUID: Encoder[SubDataPropertyOfAxiomUUID]
+  = encodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.SubDataPropertyOfAxiomTag]
+
+  implicit val orderingSubDataPropertyOfAxiomUUID
+  : Ordering[SubDataPropertyOfAxiomUUID]
+  = new Ordering[SubDataPropertyOfAxiomUUID] {
+  	override def compare
+  	(x: SubDataPropertyOfAxiomUUID, 
+  	 y: SubDataPropertyOfAxiomUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type SubObjectPropertyOfAxiomUUID
+  = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.SubObjectPropertyOfAxiomTag
+  
+  def subObjectPropertyOfAxiomUUID(uuid: UUID): SubObjectPropertyOfAxiomUUID
+  = covariantTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.SubObjectPropertyOfAxiomTag][UUID](uuid)
+  
+  implicit val decodeSubObjectPropertyOfAxiomUUID: Decoder[SubObjectPropertyOfAxiomUUID]
+  = decodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.SubObjectPropertyOfAxiomTag]
+  
+  implicit val encodeSubObjectPropertyOfAxiomUUID: Encoder[SubObjectPropertyOfAxiomUUID]
+  = encodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.SubObjectPropertyOfAxiomTag]
+
+  implicit val orderingSubObjectPropertyOfAxiomUUID
+  : Ordering[SubObjectPropertyOfAxiomUUID]
+  = new Ordering[SubObjectPropertyOfAxiomUUID] {
+  	override def compare
+  	(x: SubObjectPropertyOfAxiomUUID, 
+  	 y: SubObjectPropertyOfAxiomUUID)
+  	: Int = x.compareTo(y)
+  }
+  
   type SynonymScalarRestrictionUUID
   = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.SynonymScalarRestrictionTag
   
