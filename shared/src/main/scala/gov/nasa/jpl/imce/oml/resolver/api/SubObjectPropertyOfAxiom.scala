@@ -31,4 +31,16 @@ trait SubObjectPropertyOfAxiom
 
   val subProperty: UnreifiedRelationship
   val superProperty: UnreifiedRelationship
+
+  def allNestedElements
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: LogicalElement]
+}
+
+object SubObjectPropertyOfAxiom {
+
+  def allNestedElements
+  (s: SubObjectPropertyOfAxiom, ext: Extent)
+  : scala.collection.immutable.Set[_ <: LogicalElement]
+  = s.allNestedElements()(ext)
+
 }

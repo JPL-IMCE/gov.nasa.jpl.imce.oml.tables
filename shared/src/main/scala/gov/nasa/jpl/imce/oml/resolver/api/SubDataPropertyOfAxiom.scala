@@ -31,4 +31,16 @@ trait SubDataPropertyOfAxiom
 
   val subProperty: EntityScalarDataProperty
   val superProperty: EntityScalarDataProperty
+
+  def allNestedElements
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: LogicalElement]
+}
+
+object SubDataPropertyOfAxiom {
+
+  def allNestedElements
+  (s: SubDataPropertyOfAxiom, ext: Extent)
+  : scala.collection.immutable.Set[_ <: LogicalElement]
+  = s.allNestedElements()(ext)
+
 }
