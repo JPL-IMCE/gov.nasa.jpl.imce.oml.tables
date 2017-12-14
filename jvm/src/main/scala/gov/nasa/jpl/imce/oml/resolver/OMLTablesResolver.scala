@@ -2634,11 +2634,11 @@ object OMLTablesResolver {
       tuple <- byUUID
       ((tboxUUID, subUUID, superUUID), tax) = tuple
       tboxM = r.lookupTerminologyBox(tboxUUID)
-      subM = r.lookupTerminologyBoxStatement(superUUID) match {
+      subM = r.lookupTerminologyBoxStatement(subUUID) match {
         case Some(e: api.EntityScalarDataProperty) => Some(e)
         case _ => None
       }
-      superM = r.lookupTerminologyBoxStatement(subUUID) match {
+      superM = r.lookupTerminologyBoxStatement(superUUID) match {
         case Some(e: api.EntityScalarDataProperty) => Some(e)
         case _ => None
       }
@@ -2688,11 +2688,11 @@ object OMLTablesResolver {
       tuple <- byUUID
       ((tboxUUID, subUUID, superUUID), tax) = tuple
       tboxM = r.lookupTerminologyBox(tboxUUID)
-      subM = r.lookupTerminologyBoxStatement(superUUID) match {
+      subM = r.lookupTerminologyBoxStatement(subUUID) match {
         case Some(e: api.UnreifiedRelationship) => Some(e)
         case _ => None
       }
-      superM = r.lookupTerminologyBoxStatement(subUUID) match {
+      superM = r.lookupTerminologyBoxStatement(superUUID) match {
         case Some(e: api.UnreifiedRelationship) => Some(e)
         case _ => None
       }
