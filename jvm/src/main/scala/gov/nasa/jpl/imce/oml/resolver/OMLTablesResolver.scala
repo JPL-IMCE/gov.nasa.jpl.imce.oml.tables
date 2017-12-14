@@ -2627,7 +2627,7 @@ object OMLTablesResolver {
         .map { tax =>
           ( api.taggedTypes.fromUUIDString(tax.tboxUUID),
             api.taggedTypes.fromUUIDString(tax.subPropertyUUID),
-            api.taggedTypes.fromUUIDString(tax.subPropertyUUID) ) -> tax
+            api.taggedTypes.fromUUIDString(tax.superPropertyUUID) ) -> tax
         }
 
     val byTBox = for {
@@ -2681,7 +2681,7 @@ object OMLTablesResolver {
         .map { tax =>
           ( api.taggedTypes.fromUUIDString(tax.tboxUUID),
             api.taggedTypes.fromUUIDString(tax.subPropertyUUID),
-            api.taggedTypes.fromUUIDString(tax.subPropertyUUID) ) -> tax
+            api.taggedTypes.fromUUIDString(tax.superPropertyUUID) ) -> tax
         }
 
     val byTBox = for {
