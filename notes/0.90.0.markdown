@@ -39,3 +39,9 @@ gov.nasa.jpl.imce.oml.tables 0.90.0 resolves major issues in 0.80.0
 - [#36 Update README for `*.omlzip`](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/36)
 
 - [#37 Support for OML SubObjectPropertyOf and SubDataPropertyOf](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/37)
+
+- [#38 Add Extent API to get the single OML Module](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/38)
+
+- [#39 Scaladoc](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/39)
+
+- [#40 OML AnnotationProperty refactoring](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/40)
