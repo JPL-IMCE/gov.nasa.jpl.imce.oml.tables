@@ -18,23 +18,15 @@
 
 package gov.nasa.jpl.imce.oml.resolver
 
+import java.lang.IllegalArgumentException
 import gov.nasa.jpl.imce.oml.tables
 import gov.nasa.jpl.imce.oml.tables.taggedTypes
 
 import scala.collection.immutable._
-import scala.{Option,None,Some}
+import scala.{Option,None,Some,StringContext}
 import scala.Predef.ArrowAssoc
 
 object Extent2Tables {
-
-  def convertAnnotationProperty
-  (acc: Seq[tables.AnnotationProperty],
-   x: api.AnnotationProperty)
-  : Seq[tables.AnnotationProperty]
-  = acc :+ tables.AnnotationProperty(
-    taggedTypes.annotationPropertyUUID(x.uuid.toString),
-    x.iri,
-    x.abbrevIRI)
 
   def convertTerminologyGraph
   (acc: Seq[tables.TerminologyGraph],
@@ -62,6 +54,24 @@ object Extent2Tables {
     taggedTypes.descriptionBoxUUID(x.uuid.toString),
     x.kind,
     x.iri)
+
+  def convertAnnotationProperties
+  (e: api.Extent)
+  (acc: Seq[tables.AnnotationProperty],
+   x: (api.Module, Set[api.AnnotationProperty]))
+  : Seq[tables.AnnotationProperty]
+  = acc ++ x._2.map { ap =>
+    ap.moduleContext()(e) match {
+      case Some(m) =>
+        tables.AnnotationProperty(
+          taggedTypes.annotationPropertyUUID(ap.uuid.toString),
+          taggedTypes.moduleUUID(m.uuid.toString),
+          ap.iri,
+          ap.abbrevIRI)
+      case None =>
+        throw new IllegalArgumentException(s"convertAnnotationProperties: Cannot find module for $ap")
+    }
+  }
 
   def convertAspects
   (acc: Seq[tables.Aspect],
@@ -1315,10 +1325,6 @@ object Extent2Tables {
       tables
         .OMLSpecificationTables.createEmptyOMLSpecificationTables()
         .copy(
-          annotationProperties = e.annotationProperties.values
-            .foldLeft[Seq[tables.AnnotationProperty]](Seq.empty)(convertAnnotationProperty)
-            .sortBy(_.uuid.toString),
-
           // modules
 
           terminologyGraphs = e.terminologyGraphs.values
@@ -1331,6 +1337,12 @@ object Extent2Tables {
 
           descriptionBoxes = e.descriptionBoxes.values
             .foldLeft[Seq[tables.DescriptionBox]](Seq.empty)(convertDescriptionBox)
+            .sortBy(_.uuid.toString),
+
+          // annotation properties
+
+          annotationProperties = e.annotationProperties
+            .foldLeft[Seq[tables.AnnotationProperty]](Seq.empty)(convertAnnotationProperties(e))
             .sortBy(_.uuid.toString),
 
           // terms

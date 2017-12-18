@@ -37,7 +37,13 @@ case class OMLTablesResolver private[resolver]
  factory: api.OMLResolvedFactory,
  otherContexts: Seq[resolver.api.Extent] = Seq.empty) {
 
-  lazy val allContexts: Seq[resolver.api.Extent] = context +: otherContexts
+  lazy val allContexts: Seq[resolver.api.Extent]
+  = context +: otherContexts
+
+  lazy val allModules: Seq[resolver.api.Module]
+  = allContexts.flatMap(_.terminologyGraphs.values) ++
+    allContexts.flatMap(_.bundles.values) ++
+    allContexts.flatMap(_.descriptionBoxes.values)
 
   def lookupModule(uuid: Option[api.taggedTypes.ModuleUUID])
   : Option[resolver.api.Module]
@@ -67,7 +73,7 @@ case class OMLTablesResolver private[resolver]
 
   def lookupAnnotationProperty(uuid: api.taggedTypes.AnnotationPropertyUUID)
   : Option[resolver.api.AnnotationProperty]
-  = OMLTablesResolver.collectFirstOption(allContexts)(_.annotationProperties.get(uuid))
+  = OMLTablesResolver.collectFirstOption(allContexts)(_.annotationPropertyByUUID.get(uuid))
 
   def lookupTerminologyGraph(uuid: Option[api.taggedTypes.TerminologyGraphUUID])
   : Option[resolver.api.TerminologyGraph]
@@ -594,28 +600,6 @@ object OMLTablesResolver {
     collectFirstOptionInternal(es)
   }
 
-  def mapAnnotationProperties
-  (r: OMLTablesResolver)
-  : Try[OMLTablesResolver]
-  = r.queue.annotationProperties.foldLeft[Try[OMLTablesResolver]]{
-    Success(r.copy(queue = r.queue.copy(annotationProperties = Seq.empty)))
-  } {
-    case (Success(ri), tap) =>
-      val (ej, rap) = ri.factory.createAnnotationProperty(
-        ri.context,
-        api.taggedTypes.fromUUIDString(tap.uuid),
-        tap.iri,
-        tap.abbrevIRI)
-      if (!ej.lookupAnnotationProperty(rap.uuid).contains(rap))
-        Failure(new IllegalArgumentException(s"AnnotationProperty not in extent: $rap"))
-      else if (rap.uuid.toString != tap.uuid.toString)
-        Failure(new IllegalArgumentException(s"AnnotationProperty: $tap vs. $rap"))
-      else
-        Success(ri.copy(context = ej))
-    case (Failure(f), _) =>
-      Failure(f)
-  }
-
   def mapTerminologyGraphs
   (r: OMLTablesResolver)
   : Try[OMLTablesResolver]
@@ -668,6 +652,55 @@ object OMLTablesResolver {
         Success(ri.copy(context = ej))
     case (Failure(f), _) =>
       Failure(f)
+  }
+
+  def mapAnnotationProperties
+  (r: OMLTablesResolver)
+  : Try[OMLTablesResolver]
+  = {
+    val byUUID =
+      r.queue.annotationProperties
+        .groupBy(_.moduleUUID)
+        .map { case (moduleUUID, annotationProperties) => api.taggedTypes.fromUUIDString(moduleUUID) -> annotationProperties }
+
+    val byModule = for {
+      pair <- byUUID
+      (moduleUUID, annotationProperties) = pair
+      m = r.lookupModule(moduleUUID)
+    } yield (m, annotationProperties)
+
+    val unresolvable = byModule.filter(_._1.isEmpty).flatMap(_._2).to[Seq]
+    val resolvable = byModule.flatMap {
+      case ((Some(m), annotationProperties)) => Some(Tuple2(m, annotationProperties))
+      case _ => None
+    }
+
+    val s =
+      resolvable.foldLeft[Try[OMLTablesResolver]](Success(r.copy(queue = r.queue.copy(annotationProperties = unresolvable)))) {
+        case (Success(ri), (m, annotationProperties)) =>
+          val rj
+          : Try[OMLTablesResolver]
+          = annotationProperties.foldLeft[Try[OMLTablesResolver]](Success(ri)) {
+            case (Success(rk), tap) =>
+              val (ek, rap) = rk.factory.createAnnotationProperty(
+                rk.context,
+                m,
+                tap.iri,
+                tap.abbrevIRI)
+              if (!ek.lookupAnnotationProperty(rap.uuid).contains(rap))
+                Failure(new IllegalArgumentException(s"AnnotationProperty not in extent: $rap"))
+              else if (!OMLOps.uuidEquivalent(rap.uuid, tap.uuid))
+                Failure(new IllegalArgumentException(s"AnnotationProperty: $tap vs. $rap"))
+              else
+                Success(rk.copy(context = ek))
+            case (Failure(f), _) =>
+              Failure(f)
+          }
+          rj
+        case (Failure(f), _) =>
+          Failure(f)
+      }
+    s
   }
 
   def mapAspects
@@ -1194,14 +1227,14 @@ object OMLTablesResolver {
   = for {
     init <- Try.apply(otr)
 
-    // AnnotationProperties
-    step00 <- mapAnnotationProperties(init)
     // Terminologies
-    step0a <- mapTerminologyGraphs(step00)
+    step0a <- mapTerminologyGraphs(init)
     step0b <- mapBundles(step0a)
     step0c <- mapDescriptionBoxes(step0b)
+    // AnnotationProperties
+    step0d <- mapAnnotationProperties(step0c)
     // Atomic terms
-    step1a <- mapAspects(step0c)
+    step1a <- mapAspects(step0d)
     step1b <- mapConcepts(step1a)
     step1c <- mapScalars(step1b)
     step1d <- mapStructures(step1c)

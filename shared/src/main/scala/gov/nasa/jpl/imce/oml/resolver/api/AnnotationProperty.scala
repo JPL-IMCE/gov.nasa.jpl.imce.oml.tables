@@ -31,12 +31,19 @@ trait AnnotationProperty
   val iri: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI
   val abbrevIRI: gov.nasa.jpl.imce.oml.tables.taggedTypes.AbbrevIRI
 
+  def moduleContext
+  ()(implicit extent: Extent): scala.Option[Module]
   override val uuid: taggedTypes.AnnotationPropertyUUID
   override def iri
   ()(implicit extent: Extent): scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI]
 }
 
 object AnnotationProperty {
+
+  def moduleContext
+  (a: AnnotationProperty, ext: Extent)
+  : scala.Option[Module]
+  = a.moduleContext()(ext)
 
   def iri
   (a: AnnotationProperty, ext: Extent)

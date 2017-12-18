@@ -18,20 +18,24 @@
 
 package gov.nasa.jpl.imce.oml.resolver.api
 
-import scala.collection.immutable.{Map, HashMap, Set}
-import scala.Option
- 
+import java.lang.IllegalArgumentException
+import scala.collection.immutable.{::, HashMap, Map, Nil, Set}
+import scala.util.{Failure,Success,Try}
+import scala.{Option,StringContext}
+
 // Container types:
 // - Bundle (bundles)
 // - ChainRule (terminologies)
 // - ConceptTreeDisjunction (bundles)
 // - DescriptionBox (descriptions)
 // - LogicalElement (common)
+// - Module (common)
 // - RestrictionStructuredDataPropertyContext (terminologies)
 // - RuleBodySegment (terminologies)
 // - SingletonInstanceStructuredDataPropertyContext (descriptions)
 // - TerminologyBox (terminologies)
 // Contained types:
+// - AnnotationProperty (common)
 // - AnnotationPropertyValue (common)
 // - ConceptInstance (descriptions)
 // - DescriptionBoxExtendsClosedWorldDefinitions (descriptions)
@@ -58,10 +62,7 @@ import scala.Option
  * loaded from external OML documents.
  */
 case class Extent
-( annotationProperties
-  : Map[taggedTypes.AnnotationPropertyUUID, AnnotationProperty] 
-  = HashMap.empty[taggedTypes.AnnotationPropertyUUID, AnnotationProperty],
-  terminologyGraphs
+( terminologyGraphs
   : Map[taggedTypes.TerminologyGraphUUID, TerminologyGraph] 
   = HashMap.empty[taggedTypes.TerminologyGraphUUID, TerminologyGraph],
   bundles
@@ -74,6 +75,9 @@ case class Extent
   annotations
   : Map[LogicalElement, Set[AnnotationPropertyValue]]
   = HashMap.empty[LogicalElement, Set[AnnotationPropertyValue]],
+  annotationProperties
+  : Map[Module, Set[AnnotationProperty]]
+  = HashMap.empty[Module, Set[AnnotationProperty]],
   boxAxioms
   : Map[TerminologyBox, Set[TerminologyBoxAxiom]]
   = HashMap.empty[TerminologyBox, Set[TerminologyBoxAxiom]],
@@ -141,6 +145,9 @@ case class Extent
   logicalElementOfAnnotationPropertyValue
   : Map[AnnotationPropertyValue, LogicalElement]
   = HashMap.empty[AnnotationPropertyValue, LogicalElement],
+  moduleOfAnnotationProperty
+  : Map[AnnotationProperty, Module]
+  = HashMap.empty[AnnotationProperty, Module],
   terminologyBoxOfTerminologyBoxAxiom
   : Map[TerminologyBoxAxiom, TerminologyBox]
   = HashMap.empty[TerminologyBoxAxiom, TerminologyBox],
@@ -205,6 +212,9 @@ case class Extent
   : Map[ScalarDataPropertyValue, SingletonInstanceStructuredDataPropertyContext]
   = HashMap.empty[ScalarDataPropertyValue, SingletonInstanceStructuredDataPropertyContext],
 
+  annotationPropertyByUUID
+  : Map[taggedTypes.AnnotationPropertyUUID, AnnotationProperty]
+  = HashMap.empty[taggedTypes.AnnotationPropertyUUID, AnnotationProperty],
   annotationPropertyValueByUUID
   : Map[taggedTypes.AnnotationPropertyValueUUID, AnnotationPropertyValue]
   = HashMap.empty[taggedTypes.AnnotationPropertyValueUUID, AnnotationPropertyValue],
@@ -274,6 +284,12 @@ case class Extent
   : Map[LogicalElement, Set[AnnotationPropertyValue]] 
   = annotations
     .updated(key, annotations.getOrElse(key, Set.empty[AnnotationPropertyValue]) + value)
+  
+  def withAnnotationProperty
+  (key: Module, value: AnnotationProperty)
+  : Map[Module, Set[AnnotationProperty]] 
+  = annotationProperties
+    .updated(key, annotationProperties.getOrElse(key, Set.empty[AnnotationProperty]) + value)
   
   def withTerminologyBoxAxiom
   (key: TerminologyBox, value: TerminologyBoxAxiom)
@@ -443,19 +459,6 @@ case class Extent
   = lookupTerminologyGraph(uuid.asInstanceOf[taggedTypes.TerminologyGraphUUID]) orElse 
   lookupBundle(uuid.asInstanceOf[taggedTypes.BundleUUID])
   
-  def lookupAnnotationProperty
-  (uuid: Option[taggedTypes.AnnotationPropertyUUID])
-  : Option[AnnotationProperty]
-  = uuid.flatMap {
-    lookupAnnotationProperty
-  } 
-  
-  def lookupAnnotationProperty
-  (uuid: taggedTypes.AnnotationPropertyUUID)
-  : Option[AnnotationProperty]
-  = annotationProperties.get(uuid)
-    
-  
   def lookupTerminologyGraph
   (uuid: Option[taggedTypes.TerminologyGraphUUID])
   : Option[TerminologyGraph]
@@ -518,6 +521,31 @@ case class Extent
   (uuid: taggedTypes.AnnotationPropertyValueUUID)
   : Option[AnnotationPropertyValue]
   = annotationPropertyValueByUUID.get(uuid)
+    
+  def lookupAnnotationProperties
+  (key: Option[Module])
+  : Set[AnnotationProperty]
+  = key
+  .fold[Set[AnnotationProperty]] { 
+  	Set.empty[AnnotationProperty] 
+  }{ lookupAnnotationProperties }
+  
+  def lookupAnnotationProperties
+  (key: Module)
+  : Set[AnnotationProperty]
+  = annotationProperties.getOrElse(key, Set.empty[AnnotationProperty])
+  
+  def lookupAnnotationProperty
+  (uuid: Option[taggedTypes.AnnotationPropertyUUID])
+  : Option[AnnotationProperty]
+  = uuid.flatMap {
+    lookupAnnotationProperty
+  }
+  
+  def lookupAnnotationProperty
+  (uuid: taggedTypes.AnnotationPropertyUUID)
+  : Option[AnnotationProperty]
+  = annotationPropertyByUUID.get(uuid)
     
   def lookupBoxAxioms
   (key: Option[TerminologyBox])

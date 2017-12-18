@@ -30,17 +30,19 @@ trait OMLResolvedFactory {
   // AnnotationProperty
   def createAnnotationProperty
   ( extent: Extent,
+    module: Module,
     iri: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI,
     abbrevIRI: gov.nasa.jpl.imce.oml.tables.taggedTypes.AbbrevIRI )
   : (Extent, AnnotationProperty)
   = {
     val uuid = taggedTypes.annotationPropertyUUID(namespaceUUID(iri.toString))
-    createAnnotationProperty( extent, uuid, iri, abbrevIRI )
+    createAnnotationProperty( extent, uuid, module, iri, abbrevIRI )
   }
   
   def createAnnotationProperty
   ( extent: Extent,
     uuid: taggedTypes.AnnotationPropertyUUID,
+    module: Module,
     iri: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI,
     abbrevIRI: gov.nasa.jpl.imce.oml.tables.taggedTypes.AbbrevIRI )
   : (Extent, AnnotationProperty)

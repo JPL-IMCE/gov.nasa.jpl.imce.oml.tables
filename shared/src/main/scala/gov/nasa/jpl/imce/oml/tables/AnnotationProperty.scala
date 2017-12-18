@@ -24,6 +24,7 @@ import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
 
 /**
   * @param uuid[1,1]
+  * @param moduleUUID[1,1]
   * @param iri[1,1]
   * @param abbrevIRI[1,1]
   */
@@ -31,17 +32,20 @@ import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
 case class AnnotationProperty
 (
   @(JSExport @field) override val uuid: taggedTypes.AnnotationPropertyUUID,
+  @(JSExport @field) val moduleUUID: taggedTypes.ModuleUUID,
   @(JSExport @field) val iri: taggedTypes.IRI,
   @(JSExport @field) val abbrevIRI: taggedTypes.AbbrevIRI
 ) extends IntrinsicIdentityKind with NonLogicalElement {
-  // Ctor(uuidWithoutContainer)
+  // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
+    moduleUUID: taggedTypes.ModuleUUID,
     iri: taggedTypes.IRI,
     abbrevIRI: taggedTypes.AbbrevIRI)
   = this(
       taggedTypes.annotationPropertyUUID(oug.namespaceUUID(
-        iri.toString).toString),
+        iri).toString),
+      moduleUUID,
       iri,
       abbrevIRI)
 
@@ -49,11 +53,12 @@ val vertexId: scala.Long = uuid.hashCode.toLong
 
   override val hashCode
   : scala.Int 
-  = (uuid, iri, abbrevIRI).##
+  = (uuid, moduleUUID, iri, abbrevIRI).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: AnnotationProperty =>
   	  (this.uuid == that.uuid) &&
+  	  (this.moduleUUID == that.moduleUUID)  &&
   	  (this.iri == that.iri) &&
   	  (this.abbrevIRI == that.abbrevIRI)
     case _ =>
@@ -80,10 +85,12 @@ object AnnotationPropertyHelper {
   
     for {
     	  uuid <- c.downField("uuid").as[taggedTypes.AnnotationPropertyUUID]
+    	  moduleUUID <- c.downField("moduleUUID").as[taggedTypes.ModuleUUID]
     	  iri <- c.downField("iri").as[taggedTypes.IRI]
     	  abbrevIRI <- c.downField("abbrevIRI").as[taggedTypes.AbbrevIRI]
     	} yield AnnotationProperty(
     	  uuid,
+    	  moduleUUID,
     	  iri,
     	  abbrevIRI
     	)
@@ -94,6 +101,7 @@ object AnnotationPropertyHelper {
     override final def apply(x: AnnotationProperty): Json 
     = Json.obj(
     	  ("uuid", taggedTypes.encodeAnnotationPropertyUUID(x.uuid)),
+    	  ("moduleUUID", taggedTypes.encodeModuleUUID(x.moduleUUID)),
     	  ("iri", taggedTypes.encodeIRI(x.iri)),
     	  ("abbrevIRI", taggedTypes.encodeAbbrevIRI(x.abbrevIRI))
     )
