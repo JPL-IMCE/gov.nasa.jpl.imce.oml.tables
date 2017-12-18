@@ -2,6 +2,12 @@
 
 The key difference between these APIs stems from the representation of cross-references.
 
+== Covariant tags for OML's UUIDs & circe codecs
+
+[[gov.nasa.jpl.imce.oml.covariantTag]] (covariant tag mechanism)
+[[gov.nasa.jpl.imce.oml.taggedTypes]] (circe codecs)
+[[gov.nasa.jpl.imce.oml.tables.taggedTypes]] (OML tags)
+
 == 1. UUID-based Cross References in the tabular API
 
 [[gov.nasa.jpl.imce.oml.tables.CrossReferencabilityKind]]
@@ -9,3 +15,11 @@ The key difference between these APIs stems from the representation of cross-ref
 == 2. Object-based Cross References in the resolver API
 
 [[gov.nasa.jpl.imce.oml.resolver.api.CrossReferencabilityKind]]
+
+== 3. Conversion from OML Tables to OML Resolver
+
+[[gov.nasa.jpl.imce.oml.resolver.OMLTablesResolver]]
+
+== 4. Conversion from OML Resolver to OML Tables
+
+[[gov.nasa.jpl.imce.oml.resolver.OMLExtent2Tables]]
