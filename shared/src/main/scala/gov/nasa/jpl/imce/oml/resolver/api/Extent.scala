@@ -398,6 +398,25 @@ case class Extent
   = scalarDataPropertyValues
     .updated(key, scalarDataPropertyValues.getOrElse(key, Set.empty[ScalarDataPropertyValue]) + value)
   
+
+  def singleModule
+  : Try[Module]
+  = ( terminologyGraphs.values.toList,
+      bundles.values.toList,
+      descriptionBoxes.values.toList ) match {
+    case (Nil, Nil, Nil) =>
+      Failure(new IllegalArgumentException("No OML Modules"))
+    case (g :: Nil, Nil, Nil) =>
+      Success(g)
+    case (Nil, b :: Nil, Nil) =>
+      Success(b)
+    case (Nil, Nil, d :: Nil) =>
+      Success(d)
+    case (gs, bs, ds) =>
+      Failure(new IllegalArgumentException(
+        s"There should be exactly 1 OML Module, instead there are ${gs.size} Graphs, ${bs.size} Bundles and ${ds.size} Descriptions"))
+  }
+
   def lookupModule
   (uuid: Option[taggedTypes.ModuleUUID])
   : Option[Module]
