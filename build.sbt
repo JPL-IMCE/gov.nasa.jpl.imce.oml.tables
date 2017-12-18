@@ -249,7 +249,15 @@ lazy val tables = crossProject
   .jvmSettings(
     resolvers += Resolver.bintrayRepo("jpl-imce", "gov.nasa.jpl.imce"),
     libraryDependencies ++= Settings.jvmDependencies.value,
-    dynamicScriptsResourceSettings(Settings.dashName)
+    dynamicScriptsResourceSettings(Settings.dashName),
+
+    scalacOptions in (Compile,doc) ++= Seq(
+      "-diagrams",
+      "-doc-title", name.value,
+      "-doc-root-content", baseDirectory.value + "/rootdoc.txt"),
+
+    apiURL := Some(url("https://jpl-imce.github.io/gov.nasa.jpl.imce.oml.tables/latest/api/index.html"))
+
   )
   // set up settings specific to the JS project
   .jsConfigure(_ enablePlugins HeaderPlugin)

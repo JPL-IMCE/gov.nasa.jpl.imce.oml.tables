@@ -1,0 +1,11 @@
+= Tabular & Resolver APIs for the Ontological Modeling Language =
+
+The key difference between these APIs stems from the representation of cross-references.
+
+== 1. UUID-based Cross References in the tabular API
+
+[[gov.nasa.jpl.imce.oml.tables.CrossReferencabilityKind]]
+
+== 2. Object-based Cross References in the resolver API
+
+[[gov.nasa.jpl.imce.oml.resolver.api.CrossReferencabilityKind]]
