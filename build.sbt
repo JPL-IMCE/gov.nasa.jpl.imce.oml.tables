@@ -256,7 +256,9 @@ lazy val tables = crossProject
       "-doc-title", name.value,
       "-doc-root-content", baseDirectory.value + "/rootdoc.txt"),
 
-    apiURL := Some(url("https://jpl-imce.github.io/gov.nasa.jpl.imce.oml.tables/latest/api/index.html"))
+    apiURL := Some(url("https://jpl-imce.github.io/gov.nasa.jpl.imce.oml.tables/latest/api/index.html")),
+    dependencyOverrides += "com.fasterxml.jackson.module" % "jackson-module-paranamer" % Settings.versions.spark_jackson % "compile",
+    dependencyOverrides += "com.fasterxml.jackson.module" %% "jackson-module-scala" % Settings.versions.spark_jackson % "compile"
 
   )
   // set up settings specific to the JS project

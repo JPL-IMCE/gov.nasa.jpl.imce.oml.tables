@@ -39,6 +39,9 @@ object Settings {
 
     val circeVersion = "0.9.0-M2"
     val catsCoreVersion = "1.0.0-RC1"
+
+    // spark requirements
+    val spark_jackson="2.8.10"
   }
 
   /**
