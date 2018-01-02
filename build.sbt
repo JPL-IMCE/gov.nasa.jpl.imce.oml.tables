@@ -219,7 +219,6 @@ lazy val tables = crossProject
       "JPL-IMCE" at
         s"https://api.bintray.com/content/jpl-imce/gov.nasa.jpl.imce/${Settings.dashName}/${version.value}"),
 
-
     scalacOptions in (Compile, compile) += s"-P:artima-supersafe:config-file:${baseDirectory.value}/project/supersafe.cfg",
     scalacOptions in (Test, compile) += s"-P:artima-supersafe:config-file:${baseDirectory.value}/project/supersafe.cfg",
     scalacOptions in (Compile, doc) += "-Xplugin-disable:artima-supersafe",
@@ -247,7 +246,6 @@ lazy val tables = crossProject
     ) : _*
   )
   .jvmSettings(
-    resolvers += Resolver.bintrayRepo("jpl-imce", "gov.nasa.jpl.imce"),
     libraryDependencies ++= Settings.jvmDependencies.value,
     dynamicScriptsResourceSettings(Settings.dashName),
 
@@ -256,10 +254,20 @@ lazy val tables = crossProject
       "-doc-title", name.value,
       "-doc-root-content", baseDirectory.value + "/rootdoc.txt"),
 
-    apiURL := Some(url("https://jpl-imce.github.io/gov.nasa.jpl.imce.oml.tables/latest/api/index.html")),
-    dependencyOverrides += "com.fasterxml.jackson.module" % "jackson-module-paranamer" % Settings.versions.spark_jackson % "compile",
-    dependencyOverrides += "com.fasterxml.jackson.module" %% "jackson-module-scala" % Settings.versions.spark_jackson % "compile"
+    autoAPIMappings := true,
 
+    apiURL := Some(url("https://jpl-imce.github.io/gov.nasa.jpl.imce.oml.tables/latest/api/index.html")),
+
+    dependencyOverrides += "com.fasterxml.jackson.module" % "jackson-module-paranamer" % Settings.versions.spark_jackson % "compile",
+    dependencyOverrides += "com.fasterxml.jackson.module" %% "jackson-module-scala" % Settings.versions.spark_jackson % "compile",
+
+    projectID := {
+      val previous = projectID.value
+      println(s"jvm: $previous")
+      previous.extra(
+        sbt.mavenint.SbtPomExtraProperties.POM_API_KEY -> "https://jpl-imce.github.io/gov.nasa.jpl.imce.oml.tables/latest/api/"
+      )
+    }
   )
   // set up settings specific to the JS project
   .jsConfigure(_ enablePlugins HeaderPlugin)

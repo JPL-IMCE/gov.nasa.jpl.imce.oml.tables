@@ -5,21 +5,36 @@ The key difference between these APIs stems from the representation of cross-ref
 == Covariant tags for OML UUIDs & circe codecs ==
 
 [[gov.nasa.jpl.imce.oml.covariantTag]] (covariant tag mechanism)
+
 [[gov.nasa.jpl.imce.oml.taggedTypes]] (circe codecs)
-[[gov.nasa.jpl.imce.oml.tables.taggedTypes]] (OML tags)
+
+[[gov.nasa.jpl.imce.oml.tables.taggedTypes Taxonomy of OML's covariant tagged types]]
 
 == 1. UUID-based Cross References in the tabular API ==
 
+[[gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator oml.uuid.OMLUUIDGenerator]]
+[[gov.nasa.jpl.imce.oml.uuid.JVMUUIDGenerator oml.uuid.JVMUUIDGenerator]] (JVM-based implementation)
+
 [[gov.nasa.jpl.imce.oml.tables.CrossReferencabilityKind]]
 
-== 2. Object-based Cross References in the resolver API ==
+== 2. OML Tabular API (UUID-based cross references) ==
+
+[[gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables oml.tables.OMLSpecificationTables]]
+
+== 3. OML resolver API (Object-based cross-references) ==
 
 [[gov.nasa.jpl.imce.oml.resolver.api.CrossReferencabilityKind]]
 
-== 3. Conversion from OML Tables to OML Resolver ==
+[[gov.nasa.jpl.imce.oml.resolver.api.Extent oml.resolver.api.Extent]]
+
+[[gov.nasa.jpl.imce.oml.resolver.OMLOps oml.resolver.OMLOps]]
+
+[[gov.nasa.jpl.imce.oml.resolver.OMLOps.ModuleOps oml.resolver.OMLOps.ModuleOps]]
+
+== 4. Conversion from OML Tables to OML Resolver ==
 
 [[gov.nasa.jpl.imce.oml.resolver.OMLTablesResolver]]
 
-== 4. Conversion from OML Resolver to OML Tables ==
+== 5. Conversion from OML Resolver to OML Tables ==
 
 [[gov.nasa.jpl.imce.oml.resolver.Extent2Tables]]
