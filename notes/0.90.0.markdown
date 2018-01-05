@@ -45,3 +45,5 @@ gov.nasa.jpl.imce.oml.tables 0.90.0 resolves major issues in 0.80.0
 - [#39 Scaladoc](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/39)
 
 - [#40 OML AnnotationProperty refactoring](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/40)
+
+- [#41 Sync OML schema](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/41)
