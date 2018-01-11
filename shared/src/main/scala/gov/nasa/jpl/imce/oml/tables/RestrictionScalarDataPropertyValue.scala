@@ -115,7 +115,7 @@ object RestrictionScalarDataPropertyValueHelper {
     for {
     	  uuid <- c.downField("uuid").as[taggedTypes.RestrictionScalarDataPropertyValueUUID]
     	  scalarDataPropertyUUID <- c.downField("scalarDataPropertyUUID").as[taggedTypes.DataRelationshipToScalarUUID]
-    	  scalarPropertyValue <- c.downField("scalarPropertyValue").as[LiteralValue]
+    	  scalarPropertyValue <- c.downField("scalarPropertyValue").as[LiteralValue](LiteralValue.decodeLiteralValueArray)
     	  structuredDataPropertyContextUUID <- c.downField("structuredDataPropertyContextUUID").as[taggedTypes.RestrictionStructuredDataPropertyContextUUID]
     	  valueTypeUUID <- Decoder.decodeOption(taggedTypes.decodeDataRangeUUID)(c.downField("valueTypeUUID").success.get)
     	} yield RestrictionScalarDataPropertyValue(
@@ -133,7 +133,7 @@ object RestrictionScalarDataPropertyValueHelper {
     = Json.obj(
     	  ("uuid", taggedTypes.encodeRestrictionScalarDataPropertyValueUUID(x.uuid)),
     	  ("scalarDataPropertyUUID", taggedTypes.encodeDataRelationshipToScalarUUID(x.scalarDataPropertyUUID)),
-    	  ("scalarPropertyValue", LiteralValue.encodeLiteralValue(x.scalarPropertyValue)),
+    	  ("scalarPropertyValue", LiteralValue.encodeLiteralValueArray(x.scalarPropertyValue)),
     	  ("structuredDataPropertyContextUUID", taggedTypes.encodeRestrictionStructuredDataPropertyContextUUID(x.structuredDataPropertyContextUUID)),
     	  ("valueTypeUUID", Encoder.encodeOption(taggedTypes.encodeDataRangeUUID).apply(x.valueTypeUUID))
     )

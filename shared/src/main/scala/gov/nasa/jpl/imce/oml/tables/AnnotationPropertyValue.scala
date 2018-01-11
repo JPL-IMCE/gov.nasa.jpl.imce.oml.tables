@@ -91,7 +91,7 @@ object AnnotationPropertyValueHelper {
     	  uuid <- c.downField("uuid").as[taggedTypes.AnnotationPropertyValueUUID]
     	  subjectUUID <- c.downField("subjectUUID").as[taggedTypes.LogicalElementUUID]
     	  propertyUUID <- c.downField("propertyUUID").as[taggedTypes.AnnotationPropertyUUID]
-    	  value <- c.downField("value").as[taggedTypes.StringDataType]
+    	  value <- c.downField("value").as[taggedTypes.StringDataType](gov.nasa.jpl.imce.oml.taggedTypes.decodeArrayTag[taggedTypes.StringDataTypeTag])
     	} yield AnnotationPropertyValue(
     	  uuid,
     	  subjectUUID,
@@ -107,7 +107,7 @@ object AnnotationPropertyValueHelper {
     	  ("uuid", taggedTypes.encodeAnnotationPropertyValueUUID(x.uuid)),
     	  ("subjectUUID", taggedTypes.encodeLogicalElementUUID(x.subjectUUID)),
     	  ("propertyUUID", taggedTypes.encodeAnnotationPropertyUUID(x.propertyUUID)),
-    	  ("value", taggedTypes.encodeStringDataType(x.value))
+    	  ("value", gov.nasa.jpl.imce.oml.taggedTypes.encodeArrayTag[taggedTypes.StringDataTypeTag](x.value))
     )
   }
 

@@ -125,7 +125,7 @@ object EntityScalarDataPropertyParticularRestrictionAxiomHelper {
     	  tboxUUID <- c.downField("tboxUUID").as[taggedTypes.TerminologyBoxUUID]
     	  restrictedEntityUUID <- c.downField("restrictedEntityUUID").as[taggedTypes.EntityUUID]
     	  scalarPropertyUUID <- c.downField("scalarPropertyUUID").as[taggedTypes.EntityScalarDataPropertyUUID]
-    	  literalValue <- c.downField("literalValue").as[LiteralValue]
+    	  literalValue <- c.downField("literalValue").as[LiteralValue](LiteralValue.decodeLiteralValueArray)
     	  valueTypeUUID <- Decoder.decodeOption(taggedTypes.decodeDataRangeUUID)(c.downField("valueTypeUUID").success.get)
     	} yield EntityScalarDataPropertyParticularRestrictionAxiom(
     	  uuid,
@@ -145,7 +145,7 @@ object EntityScalarDataPropertyParticularRestrictionAxiomHelper {
     	  ("tboxUUID", taggedTypes.encodeTerminologyBoxUUID(x.tboxUUID)),
     	  ("restrictedEntityUUID", taggedTypes.encodeEntityUUID(x.restrictedEntityUUID)),
     	  ("scalarPropertyUUID", taggedTypes.encodeEntityScalarDataPropertyUUID(x.scalarPropertyUUID)),
-    	  ("literalValue", LiteralValue.encodeLiteralValue(x.literalValue)),
+    	  ("literalValue", LiteralValue.encodeLiteralValueArray(x.literalValue)),
     	  ("valueTypeUUID", Encoder.encodeOption(taggedTypes.encodeDataRangeUUID).apply(x.valueTypeUUID))
     )
   }

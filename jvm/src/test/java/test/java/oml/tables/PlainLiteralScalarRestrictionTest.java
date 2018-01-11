@@ -53,7 +53,7 @@ public class PlainLiteralScalarRestrictionTest {
         String ps = "\"" + w1.pattern().get() + "\"";
 
         String t1 = String.format(
-                "{\"uuid\":\"%s\",\"tboxUUID\":\"%s\",\"restrictedRangeUUID\":\"%s\",\"length\":%s,\"minLength\":%s,\"maxLength\":%s,\"name\":\"%s\",\"langRange\":%s,\"pattern\":%s}",
+                "{\"uuid\":\"%s\",\"tboxUUID\":\"%s\",\"restrictedRangeUUID\":\"%s\",\"length\":%s,\"minLength\":%s,\"maxLength\":%s,\"name\":\"%s\",\"langRange\":%s,\"pattern\":[%s]}",
                 uuid, tboxUUID, restrictedRangeUUID, ls, minL, maxL, name, lan_s, ps);
         Assert.assertEquals(t1, s1);
 

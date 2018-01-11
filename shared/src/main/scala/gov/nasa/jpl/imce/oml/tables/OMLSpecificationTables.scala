@@ -696,142 +696,278 @@ object OMLSpecificationTables {
   (t1: OMLSpecificationTables, t2: OMLSpecificationTables)
   : OMLSpecificationTables
   = OMLSpecificationTables(
-      terminologyGraphs = 
-  (t1.terminologyGraphs.to[Set] ++ t2.terminologyGraphs.to[Set]).to[Seq].sortBy(_.uuid),
-      bundles = 
-  (t1.bundles.to[Set] ++ t2.bundles.to[Set]).to[Seq].sortBy(_.uuid),
-      descriptionBoxes = 
-  (t1.descriptionBoxes.to[Set] ++ t2.descriptionBoxes.to[Set]).to[Seq].sortBy(_.uuid),
-      annotationProperties = 
-  (t1.annotationProperties.to[Set] ++ t2.annotationProperties.to[Set]).to[Seq].sortBy(_.uuid),
-      aspects = 
-  (t1.aspects.to[Set] ++ t2.aspects.to[Set]).to[Seq].sortBy(_.uuid),
-      concepts = 
-  (t1.concepts.to[Set] ++ t2.concepts.to[Set]).to[Seq].sortBy(_.uuid),
-      scalars = 
-  (t1.scalars.to[Set] ++ t2.scalars.to[Set]).to[Seq].sortBy(_.uuid),
-      structures = 
-  (t1.structures.to[Set] ++ t2.structures.to[Set]).to[Seq].sortBy(_.uuid),
-      conceptDesignationTerminologyAxioms = 
-  (t1.conceptDesignationTerminologyAxioms.to[Set] ++ t2.conceptDesignationTerminologyAxioms.to[Set]).to[Seq].sortBy(_.uuid),
-      terminologyExtensionAxioms = 
-  (t1.terminologyExtensionAxioms.to[Set] ++ t2.terminologyExtensionAxioms.to[Set]).to[Seq].sortBy(_.uuid),
-      terminologyNestingAxioms = 
-  (t1.terminologyNestingAxioms.to[Set] ++ t2.terminologyNestingAxioms.to[Set]).to[Seq].sortBy(_.uuid),
-      bundledTerminologyAxioms = 
-  (t1.bundledTerminologyAxioms.to[Set] ++ t2.bundledTerminologyAxioms.to[Set]).to[Seq].sortBy(_.uuid),
-      descriptionBoxExtendsClosedWorldDefinitions = 
-  (t1.descriptionBoxExtendsClosedWorldDefinitions.to[Set] ++ t2.descriptionBoxExtendsClosedWorldDefinitions.to[Set]).to[Seq].sortBy(_.uuid),
-      descriptionBoxRefinements = 
-  (t1.descriptionBoxRefinements.to[Set] ++ t2.descriptionBoxRefinements.to[Set]).to[Seq].sortBy(_.uuid),
-      binaryScalarRestrictions = 
-  (t1.binaryScalarRestrictions.to[Set] ++ t2.binaryScalarRestrictions.to[Set]).to[Seq].sortBy(_.uuid),
-      iriScalarRestrictions = 
-  (t1.iriScalarRestrictions.to[Set] ++ t2.iriScalarRestrictions.to[Set]).to[Seq].sortBy(_.uuid),
-      numericScalarRestrictions = 
-  (t1.numericScalarRestrictions.to[Set] ++ t2.numericScalarRestrictions.to[Set]).to[Seq].sortBy(_.uuid),
-      plainLiteralScalarRestrictions = 
-  (t1.plainLiteralScalarRestrictions.to[Set] ++ t2.plainLiteralScalarRestrictions.to[Set]).to[Seq].sortBy(_.uuid),
-      scalarOneOfRestrictions = 
-  (t1.scalarOneOfRestrictions.to[Set] ++ t2.scalarOneOfRestrictions.to[Set]).to[Seq].sortBy(_.uuid),
-      scalarOneOfLiteralAxioms = 
-  (t1.scalarOneOfLiteralAxioms.to[Set] ++ t2.scalarOneOfLiteralAxioms.to[Set]).to[Seq].sortBy(_.uuid),
-      stringScalarRestrictions = 
-  (t1.stringScalarRestrictions.to[Set] ++ t2.stringScalarRestrictions.to[Set]).to[Seq].sortBy(_.uuid),
-      synonymScalarRestrictions = 
-  (t1.synonymScalarRestrictions.to[Set] ++ t2.synonymScalarRestrictions.to[Set]).to[Seq].sortBy(_.uuid),
-      timeScalarRestrictions = 
-  (t1.timeScalarRestrictions.to[Set] ++ t2.timeScalarRestrictions.to[Set]).to[Seq].sortBy(_.uuid),
-      entityScalarDataProperties = 
-  (t1.entityScalarDataProperties.to[Set] ++ t2.entityScalarDataProperties.to[Set]).to[Seq].sortBy(_.uuid),
-      entityStructuredDataProperties = 
-  (t1.entityStructuredDataProperties.to[Set] ++ t2.entityStructuredDataProperties.to[Set]).to[Seq].sortBy(_.uuid),
-      scalarDataProperties = 
-  (t1.scalarDataProperties.to[Set] ++ t2.scalarDataProperties.to[Set]).to[Seq].sortBy(_.uuid),
-      structuredDataProperties = 
-  (t1.structuredDataProperties.to[Set] ++ t2.structuredDataProperties.to[Set]).to[Seq].sortBy(_.uuid),
-      reifiedRelationships = 
-  (t1.reifiedRelationships.to[Set] ++ t2.reifiedRelationships.to[Set]).to[Seq].sortBy(_.uuid),
-      unreifiedRelationships = 
-  (t1.unreifiedRelationships.to[Set] ++ t2.unreifiedRelationships.to[Set]).to[Seq].sortBy(_.uuid),
-      chainRules = 
-  (t1.chainRules.to[Set] ++ t2.chainRules.to[Set]).to[Seq].sortBy(_.uuid),
-      ruleBodySegments = 
-  (t1.ruleBodySegments.to[Set] ++ t2.ruleBodySegments.to[Set]).to[Seq].sortBy(_.uuid),
-      aspectPredicates = 
-  (t1.aspectPredicates.to[Set] ++ t2.aspectPredicates.to[Set]).to[Seq].sortBy(_.uuid),
-      conceptPredicates = 
-  (t1.conceptPredicates.to[Set] ++ t2.conceptPredicates.to[Set]).to[Seq].sortBy(_.uuid),
-      reifiedRelationshipPredicates = 
-  (t1.reifiedRelationshipPredicates.to[Set] ++ t2.reifiedRelationshipPredicates.to[Set]).to[Seq].sortBy(_.uuid),
-      reifiedRelationshipPropertyPredicates = 
-  (t1.reifiedRelationshipPropertyPredicates.to[Set] ++ t2.reifiedRelationshipPropertyPredicates.to[Set]).to[Seq].sortBy(_.uuid),
-      reifiedRelationshipSourcePropertyPredicates = 
-  (t1.reifiedRelationshipSourcePropertyPredicates.to[Set] ++ t2.reifiedRelationshipSourcePropertyPredicates.to[Set]).to[Seq].sortBy(_.uuid),
-      reifiedRelationshipTargetPropertyPredicates = 
-  (t1.reifiedRelationshipTargetPropertyPredicates.to[Set] ++ t2.reifiedRelationshipTargetPropertyPredicates.to[Set]).to[Seq].sortBy(_.uuid),
-      unreifiedRelationshipPropertyPredicates = 
-  (t1.unreifiedRelationshipPropertyPredicates.to[Set] ++ t2.unreifiedRelationshipPropertyPredicates.to[Set]).to[Seq].sortBy(_.uuid),
-      reifiedRelationshipInversePropertyPredicates = 
-  (t1.reifiedRelationshipInversePropertyPredicates.to[Set] ++ t2.reifiedRelationshipInversePropertyPredicates.to[Set]).to[Seq].sortBy(_.uuid),
-      reifiedRelationshipSourceInversePropertyPredicates = 
-  (t1.reifiedRelationshipSourceInversePropertyPredicates.to[Set] ++ t2.reifiedRelationshipSourceInversePropertyPredicates.to[Set]).to[Seq].sortBy(_.uuid),
-      reifiedRelationshipTargetInversePropertyPredicates = 
-  (t1.reifiedRelationshipTargetInversePropertyPredicates.to[Set] ++ t2.reifiedRelationshipTargetInversePropertyPredicates.to[Set]).to[Seq].sortBy(_.uuid),
-      unreifiedRelationshipInversePropertyPredicates = 
-  (t1.unreifiedRelationshipInversePropertyPredicates.to[Set] ++ t2.unreifiedRelationshipInversePropertyPredicates.to[Set]).to[Seq].sortBy(_.uuid),
-      entityExistentialRestrictionAxioms = 
-  (t1.entityExistentialRestrictionAxioms.to[Set] ++ t2.entityExistentialRestrictionAxioms.to[Set]).to[Seq].sortBy(_.uuid),
-      entityUniversalRestrictionAxioms = 
-  (t1.entityUniversalRestrictionAxioms.to[Set] ++ t2.entityUniversalRestrictionAxioms.to[Set]).to[Seq].sortBy(_.uuid),
-      entityScalarDataPropertyExistentialRestrictionAxioms = 
-  (t1.entityScalarDataPropertyExistentialRestrictionAxioms.to[Set] ++ t2.entityScalarDataPropertyExistentialRestrictionAxioms.to[Set]).to[Seq].sortBy(_.uuid),
-      entityScalarDataPropertyParticularRestrictionAxioms = 
-  (t1.entityScalarDataPropertyParticularRestrictionAxioms.to[Set] ++ t2.entityScalarDataPropertyParticularRestrictionAxioms.to[Set]).to[Seq].sortBy(_.uuid),
-      entityScalarDataPropertyUniversalRestrictionAxioms = 
-  (t1.entityScalarDataPropertyUniversalRestrictionAxioms.to[Set] ++ t2.entityScalarDataPropertyUniversalRestrictionAxioms.to[Set]).to[Seq].sortBy(_.uuid),
-      entityStructuredDataPropertyParticularRestrictionAxioms = 
-  (t1.entityStructuredDataPropertyParticularRestrictionAxioms.to[Set] ++ t2.entityStructuredDataPropertyParticularRestrictionAxioms.to[Set]).to[Seq].sortBy(_.uuid),
-      restrictionStructuredDataPropertyTuples = 
-  (t1.restrictionStructuredDataPropertyTuples.to[Set] ++ t2.restrictionStructuredDataPropertyTuples.to[Set]).to[Seq].sortBy(_.uuid),
-      restrictionScalarDataPropertyValues = 
-  (t1.restrictionScalarDataPropertyValues.to[Set] ++ t2.restrictionScalarDataPropertyValues.to[Set]).to[Seq].sortBy(_.uuid),
-      aspectSpecializationAxioms = 
-  (t1.aspectSpecializationAxioms.to[Set] ++ t2.aspectSpecializationAxioms.to[Set]).to[Seq].sortBy(_.uuid),
-      conceptSpecializationAxioms = 
-  (t1.conceptSpecializationAxioms.to[Set] ++ t2.conceptSpecializationAxioms.to[Set]).to[Seq].sortBy(_.uuid),
-      reifiedRelationshipSpecializationAxioms = 
-  (t1.reifiedRelationshipSpecializationAxioms.to[Set] ++ t2.reifiedRelationshipSpecializationAxioms.to[Set]).to[Seq].sortBy(_.uuid),
-      subDataPropertyOfAxioms = 
-  (t1.subDataPropertyOfAxioms.to[Set] ++ t2.subDataPropertyOfAxioms.to[Set]).to[Seq].sortBy(_.uuid),
-      subObjectPropertyOfAxioms = 
-  (t1.subObjectPropertyOfAxioms.to[Set] ++ t2.subObjectPropertyOfAxioms.to[Set]).to[Seq].sortBy(_.uuid),
-      rootConceptTaxonomyAxioms = 
-  (t1.rootConceptTaxonomyAxioms.to[Set] ++ t2.rootConceptTaxonomyAxioms.to[Set]).to[Seq].sortBy(_.uuid),
-      anonymousConceptUnionAxioms = 
-  (t1.anonymousConceptUnionAxioms.to[Set] ++ t2.anonymousConceptUnionAxioms.to[Set]).to[Seq].sortBy(_.uuid),
-      specificDisjointConceptAxioms = 
-  (t1.specificDisjointConceptAxioms.to[Set] ++ t2.specificDisjointConceptAxioms.to[Set]).to[Seq].sortBy(_.uuid),
-      conceptInstances = 
-  (t1.conceptInstances.to[Set] ++ t2.conceptInstances.to[Set]).to[Seq].sortBy(_.uuid),
-      reifiedRelationshipInstances = 
-  (t1.reifiedRelationshipInstances.to[Set] ++ t2.reifiedRelationshipInstances.to[Set]).to[Seq].sortBy(_.uuid),
-      reifiedRelationshipInstanceDomains = 
-  (t1.reifiedRelationshipInstanceDomains.to[Set] ++ t2.reifiedRelationshipInstanceDomains.to[Set]).to[Seq].sortBy(_.uuid),
-      reifiedRelationshipInstanceRanges = 
-  (t1.reifiedRelationshipInstanceRanges.to[Set] ++ t2.reifiedRelationshipInstanceRanges.to[Set]).to[Seq].sortBy(_.uuid),
-      unreifiedRelationshipInstanceTuples = 
-  (t1.unreifiedRelationshipInstanceTuples.to[Set] ++ t2.unreifiedRelationshipInstanceTuples.to[Set]).to[Seq].sortBy(_.uuid),
-      singletonInstanceStructuredDataPropertyValues = 
-  (t1.singletonInstanceStructuredDataPropertyValues.to[Set] ++ t2.singletonInstanceStructuredDataPropertyValues.to[Set]).to[Seq].sortBy(_.uuid),
-      singletonInstanceScalarDataPropertyValues = 
-  (t1.singletonInstanceScalarDataPropertyValues.to[Set] ++ t2.singletonInstanceScalarDataPropertyValues.to[Set]).to[Seq].sortBy(_.uuid),
-      structuredDataPropertyTuples = 
-  (t1.structuredDataPropertyTuples.to[Set] ++ t2.structuredDataPropertyTuples.to[Set]).to[Seq].sortBy(_.uuid),
-      scalarDataPropertyValues = 
-  (t1.scalarDataPropertyValues.to[Set] ++ t2.scalarDataPropertyValues.to[Set]).to[Seq].sortBy(_.uuid),
-      annotationPropertyValues = 
-  (t1.annotationPropertyValues.to[Set] ++ t2.annotationPropertyValues.to[Set]).to[Seq].sortBy(_.uuid))
+      terminologyGraphs = (
+        t1.terminologyGraphs.to[Set] ++ 
+        t2.terminologyGraphs.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      bundles = (
+        t1.bundles.to[Set] ++ 
+        t2.bundles.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      descriptionBoxes = (
+        t1.descriptionBoxes.to[Set] ++ 
+        t2.descriptionBoxes.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      annotationProperties = (
+        t1.annotationProperties.to[Set] ++ 
+        t2.annotationProperties.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      aspects = (
+        t1.aspects.to[Set] ++ 
+        t2.aspects.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      concepts = (
+        t1.concepts.to[Set] ++ 
+        t2.concepts.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      scalars = (
+        t1.scalars.to[Set] ++ 
+        t2.scalars.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      structures = (
+        t1.structures.to[Set] ++ 
+        t2.structures.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      conceptDesignationTerminologyAxioms = (
+        t1.conceptDesignationTerminologyAxioms.to[Set] ++ 
+        t2.conceptDesignationTerminologyAxioms.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      terminologyExtensionAxioms = (
+        t1.terminologyExtensionAxioms.to[Set] ++ 
+        t2.terminologyExtensionAxioms.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      terminologyNestingAxioms = (
+        t1.terminologyNestingAxioms.to[Set] ++ 
+        t2.terminologyNestingAxioms.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      bundledTerminologyAxioms = (
+        t1.bundledTerminologyAxioms.to[Set] ++ 
+        t2.bundledTerminologyAxioms.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      descriptionBoxExtendsClosedWorldDefinitions = (
+        t1.descriptionBoxExtendsClosedWorldDefinitions.to[Set] ++ 
+        t2.descriptionBoxExtendsClosedWorldDefinitions.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      descriptionBoxRefinements = (
+        t1.descriptionBoxRefinements.to[Set] ++ 
+        t2.descriptionBoxRefinements.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      binaryScalarRestrictions = (
+        t1.binaryScalarRestrictions.to[Set] ++ 
+        t2.binaryScalarRestrictions.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      iriScalarRestrictions = (
+        t1.iriScalarRestrictions.to[Set] ++ 
+        t2.iriScalarRestrictions.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      numericScalarRestrictions = (
+        t1.numericScalarRestrictions.to[Set] ++ 
+        t2.numericScalarRestrictions.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      plainLiteralScalarRestrictions = (
+        t1.plainLiteralScalarRestrictions.to[Set] ++ 
+        t2.plainLiteralScalarRestrictions.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      scalarOneOfRestrictions = (
+        t1.scalarOneOfRestrictions.to[Set] ++ 
+        t2.scalarOneOfRestrictions.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      scalarOneOfLiteralAxioms = (
+        t1.scalarOneOfLiteralAxioms.to[Set] ++ 
+        t2.scalarOneOfLiteralAxioms.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      stringScalarRestrictions = (
+        t1.stringScalarRestrictions.to[Set] ++ 
+        t2.stringScalarRestrictions.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      synonymScalarRestrictions = (
+        t1.synonymScalarRestrictions.to[Set] ++ 
+        t2.synonymScalarRestrictions.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      timeScalarRestrictions = (
+        t1.timeScalarRestrictions.to[Set] ++ 
+        t2.timeScalarRestrictions.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      entityScalarDataProperties = (
+        t1.entityScalarDataProperties.to[Set] ++ 
+        t2.entityScalarDataProperties.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      entityStructuredDataProperties = (
+        t1.entityStructuredDataProperties.to[Set] ++ 
+        t2.entityStructuredDataProperties.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      scalarDataProperties = (
+        t1.scalarDataProperties.to[Set] ++ 
+        t2.scalarDataProperties.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      structuredDataProperties = (
+        t1.structuredDataProperties.to[Set] ++ 
+        t2.structuredDataProperties.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      reifiedRelationships = (
+        t1.reifiedRelationships.to[Set] ++ 
+        t2.reifiedRelationships.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      unreifiedRelationships = (
+        t1.unreifiedRelationships.to[Set] ++ 
+        t2.unreifiedRelationships.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      chainRules = (
+        t1.chainRules.to[Set] ++ 
+        t2.chainRules.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      ruleBodySegments = (
+        t1.ruleBodySegments.to[Set] ++ 
+        t2.ruleBodySegments.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      aspectPredicates = (
+        t1.aspectPredicates.to[Set] ++ 
+        t2.aspectPredicates.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      conceptPredicates = (
+        t1.conceptPredicates.to[Set] ++ 
+        t2.conceptPredicates.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      reifiedRelationshipPredicates = (
+        t1.reifiedRelationshipPredicates.to[Set] ++ 
+        t2.reifiedRelationshipPredicates.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      reifiedRelationshipPropertyPredicates = (
+        t1.reifiedRelationshipPropertyPredicates.to[Set] ++ 
+        t2.reifiedRelationshipPropertyPredicates.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      reifiedRelationshipSourcePropertyPredicates = (
+        t1.reifiedRelationshipSourcePropertyPredicates.to[Set] ++ 
+        t2.reifiedRelationshipSourcePropertyPredicates.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      reifiedRelationshipTargetPropertyPredicates = (
+        t1.reifiedRelationshipTargetPropertyPredicates.to[Set] ++ 
+        t2.reifiedRelationshipTargetPropertyPredicates.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      unreifiedRelationshipPropertyPredicates = (
+        t1.unreifiedRelationshipPropertyPredicates.to[Set] ++ 
+        t2.unreifiedRelationshipPropertyPredicates.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      reifiedRelationshipInversePropertyPredicates = (
+        t1.reifiedRelationshipInversePropertyPredicates.to[Set] ++ 
+        t2.reifiedRelationshipInversePropertyPredicates.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      reifiedRelationshipSourceInversePropertyPredicates = (
+        t1.reifiedRelationshipSourceInversePropertyPredicates.to[Set] ++ 
+        t2.reifiedRelationshipSourceInversePropertyPredicates.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      reifiedRelationshipTargetInversePropertyPredicates = (
+        t1.reifiedRelationshipTargetInversePropertyPredicates.to[Set] ++ 
+        t2.reifiedRelationshipTargetInversePropertyPredicates.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      unreifiedRelationshipInversePropertyPredicates = (
+        t1.unreifiedRelationshipInversePropertyPredicates.to[Set] ++ 
+        t2.unreifiedRelationshipInversePropertyPredicates.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      entityExistentialRestrictionAxioms = (
+        t1.entityExistentialRestrictionAxioms.to[Set] ++ 
+        t2.entityExistentialRestrictionAxioms.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      entityUniversalRestrictionAxioms = (
+        t1.entityUniversalRestrictionAxioms.to[Set] ++ 
+        t2.entityUniversalRestrictionAxioms.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      entityScalarDataPropertyExistentialRestrictionAxioms = (
+        t1.entityScalarDataPropertyExistentialRestrictionAxioms.to[Set] ++ 
+        t2.entityScalarDataPropertyExistentialRestrictionAxioms.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      entityScalarDataPropertyParticularRestrictionAxioms = (
+        t1.entityScalarDataPropertyParticularRestrictionAxioms.to[Set] ++ 
+        t2.entityScalarDataPropertyParticularRestrictionAxioms.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      entityScalarDataPropertyUniversalRestrictionAxioms = (
+        t1.entityScalarDataPropertyUniversalRestrictionAxioms.to[Set] ++ 
+        t2.entityScalarDataPropertyUniversalRestrictionAxioms.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      entityStructuredDataPropertyParticularRestrictionAxioms = (
+        t1.entityStructuredDataPropertyParticularRestrictionAxioms.to[Set] ++ 
+        t2.entityStructuredDataPropertyParticularRestrictionAxioms.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      restrictionStructuredDataPropertyTuples = (
+        t1.restrictionStructuredDataPropertyTuples.to[Set] ++ 
+        t2.restrictionStructuredDataPropertyTuples.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      restrictionScalarDataPropertyValues = (
+        t1.restrictionScalarDataPropertyValues.to[Set] ++ 
+        t2.restrictionScalarDataPropertyValues.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      aspectSpecializationAxioms = (
+        t1.aspectSpecializationAxioms.to[Set] ++ 
+        t2.aspectSpecializationAxioms.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      conceptSpecializationAxioms = (
+        t1.conceptSpecializationAxioms.to[Set] ++ 
+        t2.conceptSpecializationAxioms.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      reifiedRelationshipSpecializationAxioms = (
+        t1.reifiedRelationshipSpecializationAxioms.to[Set] ++ 
+        t2.reifiedRelationshipSpecializationAxioms.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      subDataPropertyOfAxioms = (
+        t1.subDataPropertyOfAxioms.to[Set] ++ 
+        t2.subDataPropertyOfAxioms.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      subObjectPropertyOfAxioms = (
+        t1.subObjectPropertyOfAxioms.to[Set] ++ 
+        t2.subObjectPropertyOfAxioms.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      rootConceptTaxonomyAxioms = (
+        t1.rootConceptTaxonomyAxioms.to[Set] ++ 
+        t2.rootConceptTaxonomyAxioms.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      anonymousConceptUnionAxioms = (
+        t1.anonymousConceptUnionAxioms.to[Set] ++ 
+        t2.anonymousConceptUnionAxioms.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      specificDisjointConceptAxioms = (
+        t1.specificDisjointConceptAxioms.to[Set] ++ 
+        t2.specificDisjointConceptAxioms.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      conceptInstances = (
+        t1.conceptInstances.to[Set] ++ 
+        t2.conceptInstances.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      reifiedRelationshipInstances = (
+        t1.reifiedRelationshipInstances.to[Set] ++ 
+        t2.reifiedRelationshipInstances.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      reifiedRelationshipInstanceDomains = (
+        t1.reifiedRelationshipInstanceDomains.to[Set] ++ 
+        t2.reifiedRelationshipInstanceDomains.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      reifiedRelationshipInstanceRanges = (
+        t1.reifiedRelationshipInstanceRanges.to[Set] ++ 
+        t2.reifiedRelationshipInstanceRanges.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      unreifiedRelationshipInstanceTuples = (
+        t1.unreifiedRelationshipInstanceTuples.to[Set] ++ 
+        t2.unreifiedRelationshipInstanceTuples.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      singletonInstanceStructuredDataPropertyValues = (
+        t1.singletonInstanceStructuredDataPropertyValues.to[Set] ++ 
+        t2.singletonInstanceStructuredDataPropertyValues.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      singletonInstanceScalarDataPropertyValues = (
+        t1.singletonInstanceScalarDataPropertyValues.to[Set] ++ 
+        t2.singletonInstanceScalarDataPropertyValues.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      structuredDataPropertyTuples = (
+        t1.structuredDataPropertyTuples.to[Set] ++ 
+        t2.structuredDataPropertyTuples.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      scalarDataPropertyValues = (
+        t1.scalarDataPropertyValues.to[Set] ++ 
+        t2.scalarDataPropertyValues.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      annotationPropertyValues = (
+        t1.annotationPropertyValues.to[Set] ++ 
+        t2.annotationPropertyValues.to[Set]
+      ).to[Seq].sortBy(_.uuid))
   
   def readZipArchive
   (zipFile: ZipFile)

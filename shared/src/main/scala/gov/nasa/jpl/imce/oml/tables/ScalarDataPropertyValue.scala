@@ -115,7 +115,7 @@ object ScalarDataPropertyValueHelper {
     for {
     	  uuid <- c.downField("uuid").as[taggedTypes.ScalarDataPropertyValueUUID]
     	  scalarDataPropertyUUID <- c.downField("scalarDataPropertyUUID").as[taggedTypes.DataRelationshipToScalarUUID]
-    	  scalarPropertyValue <- c.downField("scalarPropertyValue").as[LiteralValue]
+    	  scalarPropertyValue <- c.downField("scalarPropertyValue").as[LiteralValue](LiteralValue.decodeLiteralValueArray)
     	  structuredDataPropertyContextUUID <- c.downField("structuredDataPropertyContextUUID").as[taggedTypes.SingletonInstanceStructuredDataPropertyContextUUID]
     	  valueTypeUUID <- Decoder.decodeOption(taggedTypes.decodeDataRangeUUID)(c.downField("valueTypeUUID").success.get)
     	} yield ScalarDataPropertyValue(
@@ -133,7 +133,7 @@ object ScalarDataPropertyValueHelper {
     = Json.obj(
     	  ("uuid", taggedTypes.encodeScalarDataPropertyValueUUID(x.uuid)),
     	  ("scalarDataPropertyUUID", taggedTypes.encodeDataRelationshipToScalarUUID(x.scalarDataPropertyUUID)),
-    	  ("scalarPropertyValue", LiteralValue.encodeLiteralValue(x.scalarPropertyValue)),
+    	  ("scalarPropertyValue", LiteralValue.encodeLiteralValueArray(x.scalarPropertyValue)),
     	  ("structuredDataPropertyContextUUID", taggedTypes.encodeSingletonInstanceStructuredDataPropertyContextUUID(x.structuredDataPropertyContextUUID)),
     	  ("valueTypeUUID", Encoder.encodeOption(taggedTypes.encodeDataRangeUUID).apply(x.valueTypeUUID))
     )

@@ -135,7 +135,7 @@ object IRIScalarRestrictionHelper {
     	  minLength <- Decoder.decodeOption(taggedTypes.decodePositiveIntegerLiteral)(c.downField("minLength").success.get)
     	  maxLength <- Decoder.decodeOption(taggedTypes.decodePositiveIntegerLiteral)(c.downField("maxLength").success.get)
     	  name <- c.downField("name").as[taggedTypes.LocalName]
-    	  pattern <- Decoder.decodeOption(taggedTypes.decodeLiteralPattern)(c.downField("pattern").success.get)
+    	  pattern <- Decoder.decodeOption(gov.nasa.jpl.imce.oml.taggedTypes.decodeArrayTag[taggedTypes.LiteralPatternTag])(c.downField("pattern").success.get)
     	} yield IRIScalarRestriction(
     	  uuid,
     	  tboxUUID,
@@ -159,7 +159,7 @@ object IRIScalarRestrictionHelper {
     	  ("minLength", Encoder.encodeOption(taggedTypes.encodePositiveIntegerLiteral).apply(x.minLength)),
     	  ("maxLength", Encoder.encodeOption(taggedTypes.encodePositiveIntegerLiteral).apply(x.maxLength)),
     	  ("name", taggedTypes.encodeLocalName(x.name)),
-    	  ("pattern", Encoder.encodeOption(taggedTypes.encodeLiteralPattern).apply(x.pattern))
+    	  ("pattern", Encoder.encodeOption(gov.nasa.jpl.imce.oml.taggedTypes.encodeArrayTag[taggedTypes.LiteralPatternTag]).apply(x.pattern))
     )
   }
 

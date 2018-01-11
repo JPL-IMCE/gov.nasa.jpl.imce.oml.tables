@@ -153,6 +153,14 @@ object LiteralValue {
     )
   }
 
+  val encodeLiteralValueArray: Encoder[LiteralValue] = new Encoder[LiteralValue] {
+    override final def apply(x: LiteralValue): Json
+    = Json.obj(
+      "literalType" -> LiteralType.encodeLiteralType(x.literalType),
+      "value" -> Encoder.encodeString(x.value)
+    )
+  }
+
   @JSExport
   def toJSON(c: LiteralValue)
   : String
@@ -170,6 +178,17 @@ object LiteralValue {
 
   }
 
+  val decodeLiteralValueArray: Decoder[LiteralValue]
+  = Decoder.instance[LiteralValue] { c: HCursor =>
+
+    import cats.syntax.either._
+
+    for {
+      literalType <- c.downField("literalType").as[LiteralType]
+      value <- c.downField("value").as[String]
+    } yield LiteralValue(literalType, value)
+
+  }
 
   @JSExport
   def fromJSON(c: String)

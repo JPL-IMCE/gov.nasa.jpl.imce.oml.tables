@@ -116,7 +116,7 @@ object ScalarOneOfLiteralAxiomHelper {
     	  uuid <- c.downField("uuid").as[taggedTypes.ScalarOneOfLiteralAxiomUUID]
     	  tboxUUID <- c.downField("tboxUUID").as[taggedTypes.TerminologyBoxUUID]
     	  axiomUUID <- c.downField("axiomUUID").as[taggedTypes.ScalarOneOfRestrictionUUID]
-    	  value <- c.downField("value").as[LiteralValue]
+    	  value <- c.downField("value").as[LiteralValue](LiteralValue.decodeLiteralValueArray)
     	  valueTypeUUID <- Decoder.decodeOption(taggedTypes.decodeDataRangeUUID)(c.downField("valueTypeUUID").success.get)
     	} yield ScalarOneOfLiteralAxiom(
     	  uuid,
@@ -134,7 +134,7 @@ object ScalarOneOfLiteralAxiomHelper {
     	  ("uuid", taggedTypes.encodeScalarOneOfLiteralAxiomUUID(x.uuid)),
     	  ("tboxUUID", taggedTypes.encodeTerminologyBoxUUID(x.tboxUUID)),
     	  ("axiomUUID", taggedTypes.encodeScalarOneOfRestrictionUUID(x.axiomUUID)),
-    	  ("value", LiteralValue.encodeLiteralValue(x.value)),
+    	  ("value", LiteralValue.encodeLiteralValueArray(x.value)),
     	  ("valueTypeUUID", Encoder.encodeOption(taggedTypes.encodeDataRangeUUID).apply(x.valueTypeUUID))
     )
   }

@@ -125,7 +125,7 @@ object SingletonInstanceScalarDataPropertyValueHelper {
     	  descriptionBoxUUID <- c.downField("descriptionBoxUUID").as[taggedTypes.DescriptionBoxUUID]
     	  singletonInstanceUUID <- c.downField("singletonInstanceUUID").as[taggedTypes.ConceptualEntitySingletonInstanceUUID]
     	  scalarDataPropertyUUID <- c.downField("scalarDataPropertyUUID").as[taggedTypes.EntityScalarDataPropertyUUID]
-    	  scalarPropertyValue <- c.downField("scalarPropertyValue").as[LiteralValue]
+    	  scalarPropertyValue <- c.downField("scalarPropertyValue").as[LiteralValue](LiteralValue.decodeLiteralValueArray)
     	  valueTypeUUID <- Decoder.decodeOption(taggedTypes.decodeDataRangeUUID)(c.downField("valueTypeUUID").success.get)
     	} yield SingletonInstanceScalarDataPropertyValue(
     	  uuid,
@@ -145,7 +145,7 @@ object SingletonInstanceScalarDataPropertyValueHelper {
     	  ("descriptionBoxUUID", taggedTypes.encodeDescriptionBoxUUID(x.descriptionBoxUUID)),
     	  ("singletonInstanceUUID", taggedTypes.encodeConceptualEntitySingletonInstanceUUID(x.singletonInstanceUUID)),
     	  ("scalarDataPropertyUUID", taggedTypes.encodeEntityScalarDataPropertyUUID(x.scalarDataPropertyUUID)),
-    	  ("scalarPropertyValue", LiteralValue.encodeLiteralValue(x.scalarPropertyValue)),
+    	  ("scalarPropertyValue", LiteralValue.encodeLiteralValueArray(x.scalarPropertyValue)),
     	  ("valueTypeUUID", Encoder.encodeOption(taggedTypes.encodeDataRangeUUID).apply(x.valueTypeUUID))
     )
   }

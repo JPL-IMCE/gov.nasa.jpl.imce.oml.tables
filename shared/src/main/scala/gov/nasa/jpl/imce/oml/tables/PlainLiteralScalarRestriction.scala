@@ -144,7 +144,7 @@ object PlainLiteralScalarRestrictionHelper {
     	  maxLength <- Decoder.decodeOption(taggedTypes.decodePositiveIntegerLiteral)(c.downField("maxLength").success.get)
     	  name <- c.downField("name").as[taggedTypes.LocalName]
     	  langRange <- Decoder.decodeOption(taggedTypes.decodeLanguageTagDataType)(c.downField("langRange").success.get)
-    	  pattern <- Decoder.decodeOption(taggedTypes.decodeLiteralPattern)(c.downField("pattern").success.get)
+    	  pattern <- Decoder.decodeOption(gov.nasa.jpl.imce.oml.taggedTypes.decodeArrayTag[taggedTypes.LiteralPatternTag])(c.downField("pattern").success.get)
     	} yield PlainLiteralScalarRestriction(
     	  uuid,
     	  tboxUUID,
@@ -170,7 +170,7 @@ object PlainLiteralScalarRestrictionHelper {
     	  ("maxLength", Encoder.encodeOption(taggedTypes.encodePositiveIntegerLiteral).apply(x.maxLength)),
     	  ("name", taggedTypes.encodeLocalName(x.name)),
     	  ("langRange", Encoder.encodeOption(taggedTypes.encodeLanguageTagDataType).apply(x.langRange)),
-    	  ("pattern", Encoder.encodeOption(taggedTypes.encodeLiteralPattern).apply(x.pattern))
+    	  ("pattern", Encoder.encodeOption(gov.nasa.jpl.imce.oml.taggedTypes.encodeArrayTag[taggedTypes.LiteralPatternTag]).apply(x.pattern))
     )
   }
 
