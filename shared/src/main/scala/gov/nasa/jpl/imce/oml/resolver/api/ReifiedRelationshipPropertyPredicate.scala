@@ -29,7 +29,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait ReifiedRelationshipPropertyPredicate
   extends BinarySegmentForwardPropertyPredicate
 {
-  val reifiedRelationship: ReifiedRelationship
+  val forwardProperty: ForwardProperty
 
   override def termPredicate
   (): Term

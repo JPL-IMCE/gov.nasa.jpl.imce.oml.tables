@@ -19,9 +19,10 @@
  
 package gov.nasa.jpl.imce.oml.tables
 
-trait EntityUniversalRestrictionAxiom extends EntityRestrictionAxiom {
-  override val uuid: taggedTypes.EntityUniversalRestrictionAxiomUUID
+trait EntityInverseReifiedRestrictionAxiom extends EntityReifiedRestrictionAxiom {
+  override val uuid: taggedTypes.EntityInverseReifiedRestrictionAxiomUUID
   override val tboxUUID: taggedTypes.TerminologyBoxUUID
+  val inversePropertyUUID: taggedTypes.InversePropertyUUID
   override val restrictedDomainUUID: taggedTypes.EntityUUID
   override val restrictedRangeUUID: taggedTypes.EntityUUID
 }

@@ -19,7 +19,7 @@
 package gov.nasa.jpl.imce.oml.resolver.api
 
 /*
- * An OML EntityRestrictionAxiom maps to an [OWL2 Object Property Restiction]
+ * An OML EntityRestrictionAxiom maps to an [OWL2 Object Property Restriction]
  * for an OML EntityRelationship.
  */
 trait EntityRestrictionAxiom
@@ -28,10 +28,11 @@ trait EntityRestrictionAxiom
 {
   override val uuid: taggedTypes.EntityRestrictionAxiomUUID
 
-  val restrictedRelation: EntityRelationship
   val restrictedRange: Entity
   val restrictedDomain: Entity
 
+  def restrictedRelation
+  (): EntityRelationship
   def allNestedElements
   ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: LogicalElement]
 }

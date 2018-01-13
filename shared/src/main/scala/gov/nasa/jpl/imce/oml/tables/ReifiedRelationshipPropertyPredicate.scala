@@ -25,40 +25,40 @@ import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
+  * @param forwardPropertyUUID[1,1]
   * @param bodySegmentUUID[1,1]
-  * @param reifiedRelationshipUUID[1,1]
   */
 @JSExportTopLevel("ReifiedRelationshipPropertyPredicate")
 case class ReifiedRelationshipPropertyPredicate
 (
   @(JSExport @field) override val uuid: taggedTypes.ReifiedRelationshipPropertyPredicateUUID,
-  @(JSExport @field) override val bodySegmentUUID: taggedTypes.RuleBodySegmentUUID,
-  @(JSExport @field) val reifiedRelationshipUUID: taggedTypes.ReifiedRelationshipUUID
+  @(JSExport @field) val forwardPropertyUUID: taggedTypes.ForwardPropertyUUID,
+  @(JSExport @field) override val bodySegmentUUID: taggedTypes.RuleBodySegmentUUID
 ) extends BinarySegmentForwardPropertyPredicate {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    bodySegmentUUID: taggedTypes.RuleBodySegmentUUID,
-    reifiedRelationshipUUID: taggedTypes.ReifiedRelationshipUUID)
+    forwardPropertyUUID: taggedTypes.ForwardPropertyUUID,
+    bodySegmentUUID: taggedTypes.RuleBodySegmentUUID)
   = this(
       taggedTypes.reifiedRelationshipPropertyPredicateUUID(oug.namespaceUUID(
         "ReifiedRelationshipPropertyPredicate",
-        "bodySegment" -> bodySegmentUUID,
-        "reifiedRelationship" -> reifiedRelationshipUUID).toString),
-      bodySegmentUUID,
-      reifiedRelationshipUUID)
+        "forwardProperty" -> forwardPropertyUUID,
+        "bodySegment" -> bodySegmentUUID).toString),
+      forwardPropertyUUID,
+      bodySegmentUUID)
 
 val vertexId: scala.Long = uuid.hashCode.toLong
 
   override val hashCode
   : scala.Int 
-  = (uuid, bodySegmentUUID, reifiedRelationshipUUID).##
+  = (uuid, forwardPropertyUUID, bodySegmentUUID).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: ReifiedRelationshipPropertyPredicate =>
   	  (this.uuid == that.uuid) &&
-  	  (this.bodySegmentUUID == that.bodySegmentUUID)  &&
-  	  (this.reifiedRelationshipUUID == that.reifiedRelationshipUUID) 
+  	  (this.forwardPropertyUUID == that.forwardPropertyUUID)  &&
+  	  (this.bodySegmentUUID == that.bodySegmentUUID) 
     case _ =>
       false
   }
@@ -83,12 +83,12 @@ object ReifiedRelationshipPropertyPredicateHelper {
   
     for {
     	  uuid <- c.downField("uuid").as[taggedTypes.ReifiedRelationshipPropertyPredicateUUID]
+    	  forwardPropertyUUID <- c.downField("forwardPropertyUUID").as[taggedTypes.ForwardPropertyUUID]
     	  bodySegmentUUID <- c.downField("bodySegmentUUID").as[taggedTypes.RuleBodySegmentUUID]
-    	  reifiedRelationshipUUID <- c.downField("reifiedRelationshipUUID").as[taggedTypes.ReifiedRelationshipUUID]
     	} yield ReifiedRelationshipPropertyPredicate(
     	  uuid,
-    	  bodySegmentUUID,
-    	  reifiedRelationshipUUID
+    	  forwardPropertyUUID,
+    	  bodySegmentUUID
     	)
   }
   
@@ -97,8 +97,8 @@ object ReifiedRelationshipPropertyPredicateHelper {
     override final def apply(x: ReifiedRelationshipPropertyPredicate): Json 
     = Json.obj(
     	  ("uuid", taggedTypes.encodeReifiedRelationshipPropertyPredicateUUID(x.uuid)),
-    	  ("bodySegmentUUID", taggedTypes.encodeRuleBodySegmentUUID(x.bodySegmentUUID)),
-    	  ("reifiedRelationshipUUID", taggedTypes.encodeReifiedRelationshipUUID(x.reifiedRelationshipUUID))
+    	  ("forwardPropertyUUID", taggedTypes.encodeForwardPropertyUUID(x.forwardPropertyUUID)),
+    	  ("bodySegmentUUID", taggedTypes.encodeRuleBodySegmentUUID(x.bodySegmentUUID))
     )
   }
 

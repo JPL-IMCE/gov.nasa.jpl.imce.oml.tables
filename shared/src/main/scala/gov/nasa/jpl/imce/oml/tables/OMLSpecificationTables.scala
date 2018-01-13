@@ -59,6 +59,8 @@ case class OMLSpecificationTables
   scalarDataProperties : Seq[ScalarDataProperty] = Seq.empty,
   structuredDataProperties : Seq[StructuredDataProperty] = Seq.empty,
   reifiedRelationships : Seq[ReifiedRelationship] = Seq.empty,
+  forwardProperties : Seq[ForwardProperty] = Seq.empty,
+  inverseProperties : Seq[InverseProperty] = Seq.empty,
   unreifiedRelationships : Seq[UnreifiedRelationship] = Seq.empty,
   chainRules : Seq[ChainRule] = Seq.empty,
   ruleBodySegments : Seq[RuleBodySegment] = Seq.empty,
@@ -73,8 +75,12 @@ case class OMLSpecificationTables
   reifiedRelationshipSourceInversePropertyPredicates : Seq[ReifiedRelationshipSourceInversePropertyPredicate] = Seq.empty,
   reifiedRelationshipTargetInversePropertyPredicates : Seq[ReifiedRelationshipTargetInversePropertyPredicate] = Seq.empty,
   unreifiedRelationshipInversePropertyPredicates : Seq[UnreifiedRelationshipInversePropertyPredicate] = Seq.empty,
-  entityExistentialRestrictionAxioms : Seq[EntityExistentialRestrictionAxiom] = Seq.empty,
-  entityUniversalRestrictionAxioms : Seq[EntityUniversalRestrictionAxiom] = Seq.empty,
+  entityExistentialForwardReifiedRestrictionAxioms : Seq[EntityExistentialForwardReifiedRestrictionAxiom] = Seq.empty,
+  entityExistentialInverseReifiedRestrictionAxioms : Seq[EntityExistentialInverseReifiedRestrictionAxiom] = Seq.empty,
+  entityExistentialUnreifiedRestrictionAxioms : Seq[EntityExistentialUnreifiedRestrictionAxiom] = Seq.empty,
+  entityUniversalForwardReifiedRestrictionAxioms : Seq[EntityUniversalForwardReifiedRestrictionAxiom] = Seq.empty,
+  entityUniversalInverseReifiedRestrictionAxioms : Seq[EntityUniversalInverseReifiedRestrictionAxiom] = Seq.empty,
+  entityUniversalUnreifiedRestrictionAxioms : Seq[EntityUniversalUnreifiedRestrictionAxiom] = Seq.empty,
   entityScalarDataPropertyExistentialRestrictionAxioms : Seq[EntityScalarDataPropertyExistentialRestrictionAxiom] = Seq.empty,
   entityScalarDataPropertyParticularRestrictionAxioms : Seq[EntityScalarDataPropertyParticularRestrictionAxiom] = Seq.empty,
   entityScalarDataPropertyUniversalRestrictionAxioms : Seq[EntityScalarDataPropertyUniversalRestrictionAxiom] = Seq.empty,
@@ -269,6 +275,18 @@ case class OMLSpecificationTables
     (reifiedRelationships.to[Set] ++ 
      readJSonTable(is, ReifiedRelationshipHelper.fromJSON).to[Set]
     ).to[Seq].sortBy(_.uuid))
+  def readForwardProperties(is: InputStream)
+  : OMLSpecificationTables
+  = copy(forwardProperties = 
+    (forwardProperties.to[Set] ++ 
+     readJSonTable(is, ForwardPropertyHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
+  def readInverseProperties(is: InputStream)
+  : OMLSpecificationTables
+  = copy(inverseProperties = 
+    (inverseProperties.to[Set] ++ 
+     readJSonTable(is, InversePropertyHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
   def readUnreifiedRelationships(is: InputStream)
   : OMLSpecificationTables
   = copy(unreifiedRelationships = 
@@ -353,17 +371,41 @@ case class OMLSpecificationTables
     (unreifiedRelationshipInversePropertyPredicates.to[Set] ++ 
      readJSonTable(is, UnreifiedRelationshipInversePropertyPredicateHelper.fromJSON).to[Set]
     ).to[Seq].sortBy(_.uuid))
-  def readEntityExistentialRestrictionAxioms(is: InputStream)
+  def readEntityExistentialForwardReifiedRestrictionAxioms(is: InputStream)
   : OMLSpecificationTables
-  = copy(entityExistentialRestrictionAxioms = 
-    (entityExistentialRestrictionAxioms.to[Set] ++ 
-     readJSonTable(is, EntityExistentialRestrictionAxiomHelper.fromJSON).to[Set]
+  = copy(entityExistentialForwardReifiedRestrictionAxioms = 
+    (entityExistentialForwardReifiedRestrictionAxioms.to[Set] ++ 
+     readJSonTable(is, EntityExistentialForwardReifiedRestrictionAxiomHelper.fromJSON).to[Set]
     ).to[Seq].sortBy(_.uuid))
-  def readEntityUniversalRestrictionAxioms(is: InputStream)
+  def readEntityExistentialInverseReifiedRestrictionAxioms(is: InputStream)
   : OMLSpecificationTables
-  = copy(entityUniversalRestrictionAxioms = 
-    (entityUniversalRestrictionAxioms.to[Set] ++ 
-     readJSonTable(is, EntityUniversalRestrictionAxiomHelper.fromJSON).to[Set]
+  = copy(entityExistentialInverseReifiedRestrictionAxioms = 
+    (entityExistentialInverseReifiedRestrictionAxioms.to[Set] ++ 
+     readJSonTable(is, EntityExistentialInverseReifiedRestrictionAxiomHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
+  def readEntityExistentialUnreifiedRestrictionAxioms(is: InputStream)
+  : OMLSpecificationTables
+  = copy(entityExistentialUnreifiedRestrictionAxioms = 
+    (entityExistentialUnreifiedRestrictionAxioms.to[Set] ++ 
+     readJSonTable(is, EntityExistentialUnreifiedRestrictionAxiomHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
+  def readEntityUniversalForwardReifiedRestrictionAxioms(is: InputStream)
+  : OMLSpecificationTables
+  = copy(entityUniversalForwardReifiedRestrictionAxioms = 
+    (entityUniversalForwardReifiedRestrictionAxioms.to[Set] ++ 
+     readJSonTable(is, EntityUniversalForwardReifiedRestrictionAxiomHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
+  def readEntityUniversalInverseReifiedRestrictionAxioms(is: InputStream)
+  : OMLSpecificationTables
+  = copy(entityUniversalInverseReifiedRestrictionAxioms = 
+    (entityUniversalInverseReifiedRestrictionAxioms.to[Set] ++ 
+     readJSonTable(is, EntityUniversalInverseReifiedRestrictionAxiomHelper.fromJSON).to[Set]
+    ).to[Seq].sortBy(_.uuid))
+  def readEntityUniversalUnreifiedRestrictionAxioms(is: InputStream)
+  : OMLSpecificationTables
+  = copy(entityUniversalUnreifiedRestrictionAxioms = 
+    (entityUniversalUnreifiedRestrictionAxioms.to[Set] ++ 
+     readJSonTable(is, EntityUniversalUnreifiedRestrictionAxiomHelper.fromJSON).to[Set]
     ).to[Seq].sortBy(_.uuid))
   def readEntityScalarDataPropertyExistentialRestrictionAxioms(is: InputStream)
   : OMLSpecificationTables
@@ -539,6 +581,8 @@ case class OMLSpecificationTables
     scalarDataProperties.isEmpty &&
     structuredDataProperties.isEmpty &&
     reifiedRelationships.isEmpty &&
+    forwardProperties.isEmpty &&
+    inverseProperties.isEmpty &&
     unreifiedRelationships.isEmpty &&
     chainRules.isEmpty &&
     ruleBodySegments.isEmpty &&
@@ -553,8 +597,12 @@ case class OMLSpecificationTables
     reifiedRelationshipSourceInversePropertyPredicates.isEmpty &&
     reifiedRelationshipTargetInversePropertyPredicates.isEmpty &&
     unreifiedRelationshipInversePropertyPredicates.isEmpty &&
-    entityExistentialRestrictionAxioms.isEmpty &&
-    entityUniversalRestrictionAxioms.isEmpty &&
+    entityExistentialForwardReifiedRestrictionAxioms.isEmpty &&
+    entityExistentialInverseReifiedRestrictionAxioms.isEmpty &&
+    entityExistentialUnreifiedRestrictionAxioms.isEmpty &&
+    entityUniversalForwardReifiedRestrictionAxioms.isEmpty &&
+    entityUniversalInverseReifiedRestrictionAxioms.isEmpty &&
+    entityUniversalUnreifiedRestrictionAxioms.isEmpty &&
     entityScalarDataPropertyExistentialRestrictionAxioms.isEmpty &&
     entityScalarDataPropertyParticularRestrictionAxioms.isEmpty &&
     entityScalarDataPropertyUniversalRestrictionAxioms.isEmpty &&
@@ -620,6 +668,8 @@ case class OMLSpecificationTables
     buff ++= showSeq("scalarDataProperties", scalarDataProperties)
     buff ++= showSeq("structuredDataProperties", structuredDataProperties)
     buff ++= showSeq("reifiedRelationships", reifiedRelationships)
+    buff ++= showSeq("forwardProperties", forwardProperties)
+    buff ++= showSeq("inverseProperties", inverseProperties)
     buff ++= showSeq("unreifiedRelationships", unreifiedRelationships)
     buff ++= showSeq("chainRules", chainRules)
     buff ++= showSeq("ruleBodySegments", ruleBodySegments)
@@ -634,8 +684,12 @@ case class OMLSpecificationTables
     buff ++= showSeq("reifiedRelationshipSourceInversePropertyPredicates", reifiedRelationshipSourceInversePropertyPredicates)
     buff ++= showSeq("reifiedRelationshipTargetInversePropertyPredicates", reifiedRelationshipTargetInversePropertyPredicates)
     buff ++= showSeq("unreifiedRelationshipInversePropertyPredicates", unreifiedRelationshipInversePropertyPredicates)
-    buff ++= showSeq("entityExistentialRestrictionAxioms", entityExistentialRestrictionAxioms)
-    buff ++= showSeq("entityUniversalRestrictionAxioms", entityUniversalRestrictionAxioms)
+    buff ++= showSeq("entityExistentialForwardReifiedRestrictionAxioms", entityExistentialForwardReifiedRestrictionAxioms)
+    buff ++= showSeq("entityExistentialInverseReifiedRestrictionAxioms", entityExistentialInverseReifiedRestrictionAxioms)
+    buff ++= showSeq("entityExistentialUnreifiedRestrictionAxioms", entityExistentialUnreifiedRestrictionAxioms)
+    buff ++= showSeq("entityUniversalForwardReifiedRestrictionAxioms", entityUniversalForwardReifiedRestrictionAxioms)
+    buff ++= showSeq("entityUniversalInverseReifiedRestrictionAxioms", entityUniversalInverseReifiedRestrictionAxioms)
+    buff ++= showSeq("entityUniversalUnreifiedRestrictionAxioms", entityUniversalUnreifiedRestrictionAxioms)
     buff ++= showSeq("entityScalarDataPropertyExistentialRestrictionAxioms", entityScalarDataPropertyExistentialRestrictionAxioms)
     buff ++= showSeq("entityScalarDataPropertyParticularRestrictionAxioms", entityScalarDataPropertyParticularRestrictionAxioms)
     buff ++= showSeq("entityScalarDataPropertyUniversalRestrictionAxioms", entityScalarDataPropertyUniversalRestrictionAxioms)
@@ -808,6 +862,14 @@ object OMLSpecificationTables {
         t1.reifiedRelationships.to[Set] ++ 
         t2.reifiedRelationships.to[Set]
       ).to[Seq].sortBy(_.uuid),
+      forwardProperties = (
+        t1.forwardProperties.to[Set] ++ 
+        t2.forwardProperties.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      inverseProperties = (
+        t1.inverseProperties.to[Set] ++ 
+        t2.inverseProperties.to[Set]
+      ).to[Seq].sortBy(_.uuid),
       unreifiedRelationships = (
         t1.unreifiedRelationships.to[Set] ++ 
         t2.unreifiedRelationships.to[Set]
@@ -864,13 +926,29 @@ object OMLSpecificationTables {
         t1.unreifiedRelationshipInversePropertyPredicates.to[Set] ++ 
         t2.unreifiedRelationshipInversePropertyPredicates.to[Set]
       ).to[Seq].sortBy(_.uuid),
-      entityExistentialRestrictionAxioms = (
-        t1.entityExistentialRestrictionAxioms.to[Set] ++ 
-        t2.entityExistentialRestrictionAxioms.to[Set]
+      entityExistentialForwardReifiedRestrictionAxioms = (
+        t1.entityExistentialForwardReifiedRestrictionAxioms.to[Set] ++ 
+        t2.entityExistentialForwardReifiedRestrictionAxioms.to[Set]
       ).to[Seq].sortBy(_.uuid),
-      entityUniversalRestrictionAxioms = (
-        t1.entityUniversalRestrictionAxioms.to[Set] ++ 
-        t2.entityUniversalRestrictionAxioms.to[Set]
+      entityExistentialInverseReifiedRestrictionAxioms = (
+        t1.entityExistentialInverseReifiedRestrictionAxioms.to[Set] ++ 
+        t2.entityExistentialInverseReifiedRestrictionAxioms.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      entityExistentialUnreifiedRestrictionAxioms = (
+        t1.entityExistentialUnreifiedRestrictionAxioms.to[Set] ++ 
+        t2.entityExistentialUnreifiedRestrictionAxioms.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      entityUniversalForwardReifiedRestrictionAxioms = (
+        t1.entityUniversalForwardReifiedRestrictionAxioms.to[Set] ++ 
+        t2.entityUniversalForwardReifiedRestrictionAxioms.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      entityUniversalInverseReifiedRestrictionAxioms = (
+        t1.entityUniversalInverseReifiedRestrictionAxioms.to[Set] ++ 
+        t2.entityUniversalInverseReifiedRestrictionAxioms.to[Set]
+      ).to[Seq].sortBy(_.uuid),
+      entityUniversalUnreifiedRestrictionAxioms = (
+        t1.entityUniversalUnreifiedRestrictionAxioms.to[Set] ++ 
+        t2.entityUniversalUnreifiedRestrictionAxioms.to[Set]
       ).to[Seq].sortBy(_.uuid),
       entityScalarDataPropertyExistentialRestrictionAxioms = (
         t1.entityScalarDataPropertyExistentialRestrictionAxioms.to[Set] ++ 
@@ -1032,6 +1110,10 @@ object OMLSpecificationTables {
   	    tables.readStructuredDataProperties(is)
   	  case ReifiedRelationshipHelper.TABLE_JSON_FILENAME =>
   	    tables.readReifiedRelationships(is)
+  	  case ForwardPropertyHelper.TABLE_JSON_FILENAME =>
+  	    tables.readForwardProperties(is)
+  	  case InversePropertyHelper.TABLE_JSON_FILENAME =>
+  	    tables.readInverseProperties(is)
   	  case UnreifiedRelationshipHelper.TABLE_JSON_FILENAME =>
   	    tables.readUnreifiedRelationships(is)
   	  case ChainRuleHelper.TABLE_JSON_FILENAME =>
@@ -1060,10 +1142,18 @@ object OMLSpecificationTables {
   	    tables.readReifiedRelationshipTargetInversePropertyPredicates(is)
   	  case UnreifiedRelationshipInversePropertyPredicateHelper.TABLE_JSON_FILENAME =>
   	    tables.readUnreifiedRelationshipInversePropertyPredicates(is)
-  	  case EntityExistentialRestrictionAxiomHelper.TABLE_JSON_FILENAME =>
-  	    tables.readEntityExistentialRestrictionAxioms(is)
-  	  case EntityUniversalRestrictionAxiomHelper.TABLE_JSON_FILENAME =>
-  	    tables.readEntityUniversalRestrictionAxioms(is)
+  	  case EntityExistentialForwardReifiedRestrictionAxiomHelper.TABLE_JSON_FILENAME =>
+  	    tables.readEntityExistentialForwardReifiedRestrictionAxioms(is)
+  	  case EntityExistentialInverseReifiedRestrictionAxiomHelper.TABLE_JSON_FILENAME =>
+  	    tables.readEntityExistentialInverseReifiedRestrictionAxioms(is)
+  	  case EntityExistentialUnreifiedRestrictionAxiomHelper.TABLE_JSON_FILENAME =>
+  	    tables.readEntityExistentialUnreifiedRestrictionAxioms(is)
+  	  case EntityUniversalForwardReifiedRestrictionAxiomHelper.TABLE_JSON_FILENAME =>
+  	    tables.readEntityUniversalForwardReifiedRestrictionAxioms(is)
+  	  case EntityUniversalInverseReifiedRestrictionAxiomHelper.TABLE_JSON_FILENAME =>
+  	    tables.readEntityUniversalInverseReifiedRestrictionAxioms(is)
+  	  case EntityUniversalUnreifiedRestrictionAxiomHelper.TABLE_JSON_FILENAME =>
+  	    tables.readEntityUniversalUnreifiedRestrictionAxioms(is)
   	  case EntityScalarDataPropertyExistentialRestrictionAxiomHelper.TABLE_JSON_FILENAME =>
   	    tables.readEntityScalarDataPropertyExistentialRestrictionAxioms(is)
   	  case EntityScalarDataPropertyParticularRestrictionAxiomHelper.TABLE_JSON_FILENAME =>
@@ -1304,6 +1394,18 @@ object OMLSpecificationTables {
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(ForwardPropertyHelper.TABLE_JSON_FILENAME))
+      tables.forwardProperties.foreach { t =>
+         val line = ForwardPropertyHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(InversePropertyHelper.TABLE_JSON_FILENAME))
+      tables.inverseProperties.foreach { t =>
+         val line = InversePropertyHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
       zos.putNextEntry(new java.util.zip.ZipEntry(UnreifiedRelationshipHelper.TABLE_JSON_FILENAME))
       tables.unreifiedRelationships.foreach { t =>
          val line = UnreifiedRelationshipHelper.toJSON(t)+"\n"
@@ -1388,15 +1490,39 @@ object OMLSpecificationTables {
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry()
-      zos.putNextEntry(new java.util.zip.ZipEntry(EntityExistentialRestrictionAxiomHelper.TABLE_JSON_FILENAME))
-      tables.entityExistentialRestrictionAxioms.foreach { t =>
-         val line = EntityExistentialRestrictionAxiomHelper.toJSON(t)+"\n"
+      zos.putNextEntry(new java.util.zip.ZipEntry(EntityExistentialForwardReifiedRestrictionAxiomHelper.TABLE_JSON_FILENAME))
+      tables.entityExistentialForwardReifiedRestrictionAxioms.foreach { t =>
+         val line = EntityExistentialForwardReifiedRestrictionAxiomHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry()
-      zos.putNextEntry(new java.util.zip.ZipEntry(EntityUniversalRestrictionAxiomHelper.TABLE_JSON_FILENAME))
-      tables.entityUniversalRestrictionAxioms.foreach { t =>
-         val line = EntityUniversalRestrictionAxiomHelper.toJSON(t)+"\n"
+      zos.putNextEntry(new java.util.zip.ZipEntry(EntityExistentialInverseReifiedRestrictionAxiomHelper.TABLE_JSON_FILENAME))
+      tables.entityExistentialInverseReifiedRestrictionAxioms.foreach { t =>
+         val line = EntityExistentialInverseReifiedRestrictionAxiomHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(EntityExistentialUnreifiedRestrictionAxiomHelper.TABLE_JSON_FILENAME))
+      tables.entityExistentialUnreifiedRestrictionAxioms.foreach { t =>
+         val line = EntityExistentialUnreifiedRestrictionAxiomHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(EntityUniversalForwardReifiedRestrictionAxiomHelper.TABLE_JSON_FILENAME))
+      tables.entityUniversalForwardReifiedRestrictionAxioms.foreach { t =>
+         val line = EntityUniversalForwardReifiedRestrictionAxiomHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(EntityUniversalInverseReifiedRestrictionAxiomHelper.TABLE_JSON_FILENAME))
+      tables.entityUniversalInverseReifiedRestrictionAxioms.foreach { t =>
+         val line = EntityUniversalInverseReifiedRestrictionAxiomHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(EntityUniversalUnreifiedRestrictionAxiomHelper.TABLE_JSON_FILENAME))
+      tables.entityUniversalUnreifiedRestrictionAxioms.foreach { t =>
+         val line = EntityUniversalUnreifiedRestrictionAxiomHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry()

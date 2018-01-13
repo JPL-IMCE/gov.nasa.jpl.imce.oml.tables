@@ -16,12 +16,16 @@
  * License Terms
  */
 
- 
-package gov.nasa.jpl.imce.oml.tables
+package gov.nasa.jpl.imce.oml.resolver.api
 
-trait EntityUniversalRestrictionAxiom extends EntityRestrictionAxiom {
-  override val uuid: taggedTypes.EntityUniversalRestrictionAxiomUUID
-  override val tboxUUID: taggedTypes.TerminologyBoxUUID
-  override val restrictedDomainUUID: taggedTypes.EntityUUID
-  override val restrictedRangeUUID: taggedTypes.EntityUUID
+/*
+ * An OML EntityUniversalUnreifiedRestrictionAxiom maps
+ * to an [OWL2 Object Property Existential Restriction] where
+ * the restricted relationship is the unreifiedRelationship of an OML ReifiedRelationship.
+ */
+trait EntityUniversalUnreifiedRestrictionAxiom
+  extends EntityExistentialRestrictionAxiom
+  with EntityUnreifiedRestrictionAxiom
+{
+  override val uuid: taggedTypes.EntityUniversalUnreifiedRestrictionAxiomUUID
 }

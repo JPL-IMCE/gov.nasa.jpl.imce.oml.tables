@@ -16,12 +16,19 @@
  * License Terms
  */
 
- 
-package gov.nasa.jpl.imce.oml.tables
+package gov.nasa.jpl.imce.oml.resolver.api
 
-trait EntityUniversalRestrictionAxiom extends EntityRestrictionAxiom {
-  override val uuid: taggedTypes.EntityUniversalRestrictionAxiomUUID
-  override val tboxUUID: taggedTypes.TerminologyBoxUUID
-  override val restrictedDomainUUID: taggedTypes.EntityUUID
-  override val restrictedRangeUUID: taggedTypes.EntityUUID
+/*
+ * An OML EntityForwardReifiedRestrictionAxiom is an OML EntityRestrictionAxiom
+ * where the restricted relationship is the forward property of an OML ReifiedRelationship.
+ */
+trait EntityForwardReifiedRestrictionAxiom
+  extends EntityReifiedRestrictionAxiom
+{
+  override val uuid: taggedTypes.EntityForwardReifiedRestrictionAxiomUUID
+
+  val forwardProperty: ForwardProperty
+
+  override def restrictedRelation
+  (): EntityRelationship
 }

@@ -18,16 +18,30 @@
 
 package gov.nasa.jpl.imce.oml.resolver.api
 
-/*
- * An OML ReifiedRelationship is an OML ConceptualEntity and a kind of OML EntityRelationship
- * where an instance has an intrinsic identity. This means that
- * an OML ReifiedRelationship can be involved as the domain or the
- * range of another OML EntityRelationship as well as the
- * domain of an OML DataRelationshipFromEntity.
- */
-trait ReifiedRelationship
-  extends EntityRelationship
-  with ConceptualEntity
+trait ForwardProperty
+  extends Resource
 {
-  override val uuid: taggedTypes.ReifiedRelationshipUUID
+  override val uuid: taggedTypes.ForwardPropertyUUID
+
+  val reifiedRelationship: ReifiedRelationship
+  override val name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName
+
+  override def iri
+  ()(implicit extent: Extent): scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI]
+  override def abbrevIRI
+  ()(implicit extent: Extent): scala.Option[scala.Predef.String]
+}
+
+object ForwardProperty {
+
+  def iri
+  (f: ForwardProperty, ext: Extent)
+  : scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI]
+  = f.iri()(ext)
+
+  def abbrevIRI
+  (f: ForwardProperty, ext: Extent)
+  : scala.Option[scala.Predef.String]
+  = f.abbrevIRI()(ext)
+
 }

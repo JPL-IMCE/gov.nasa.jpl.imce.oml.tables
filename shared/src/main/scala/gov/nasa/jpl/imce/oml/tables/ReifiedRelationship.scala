@@ -38,9 +38,8 @@ import scala.Predef.ArrowAssoc
   * @param isSymmetric[1,1]
   * @param isTransitive[1,1]
   * @param name[1,1]
-  * @param unreifiedPropertyName[1,1]
-  * @param unreifiedInversePropertyName[0,1]
   */
+@JSExportTopLevel("ReifiedRelationship")
 case class ReifiedRelationship
 (
   @(JSExport @field) override val uuid: taggedTypes.ReifiedRelationshipUUID,
@@ -56,48 +55,8 @@ case class ReifiedRelationship
   @(JSExport @field) override val isReflexive: scala.Boolean,
   @(JSExport @field) override val isSymmetric: scala.Boolean,
   @(JSExport @field) override val isTransitive: scala.Boolean,
-  @(JSExport @field) override val name: taggedTypes.LocalName,
-  @(JSExport @field) val unreifiedPropertyName: taggedTypes.LocalName,
-  @(JSExport @field) val unreifiedInversePropertyName: scala.Option[taggedTypes.LocalName]
+  @(JSExport @field) override val name: taggedTypes.LocalName
 ) extends ConceptualEntity with EntityRelationship {
-  def this(
-    uuid: taggedTypes.ReifiedRelationshipUUID,
-    tboxUUID: taggedTypes.TerminologyBoxUUID,
-    sourceUUID: taggedTypes.EntityUUID,
-    targetUUID: taggedTypes.EntityUUID,
-    isAsymmetric: scala.Boolean,
-    isEssential: scala.Boolean,
-    isFunctional: scala.Boolean,
-    isInverseEssential: scala.Boolean,
-    isInverseFunctional: scala.Boolean,
-    isIrreflexive: scala.Boolean,
-    isReflexive: scala.Boolean,
-    isSymmetric: scala.Boolean,
-    isTransitive: scala.Boolean,
-    name: taggedTypes.LocalName,
-    unreifiedPropertyName: taggedTypes.LocalName)
-  = this(
-      uuid,
-      tboxUUID,
-      sourceUUID,
-      targetUUID,
-      isAsymmetric,
-      isEssential,
-      isFunctional,
-      isInverseEssential,
-      isInverseFunctional,
-      isIrreflexive,
-      isReflexive,
-      isSymmetric,
-      isTransitive,
-      name,
-      unreifiedPropertyName,
-      scala.None /* unreifiedInversePropertyName */)
-
-  def withUnreifiedInversePropertyName(l: taggedTypes.LocalName)	 
-  : ReifiedRelationship
-  = copy(unreifiedInversePropertyName=scala.Some(l))
-  
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
@@ -113,8 +72,7 @@ case class ReifiedRelationship
     isReflexive: scala.Boolean,
     isSymmetric: scala.Boolean,
     isTransitive: scala.Boolean,
-    name: taggedTypes.LocalName,
-    unreifiedPropertyName: taggedTypes.LocalName)
+    name: taggedTypes.LocalName)
   = this(
       taggedTypes.reifiedRelationshipUUID(oug.namespaceUUID(
         tboxUUID,
@@ -131,14 +89,13 @@ case class ReifiedRelationship
       isReflexive,
       isSymmetric,
       isTransitive,
-      name,
-      unreifiedPropertyName)
+      name)
 
 val vertexId: scala.Long = uuid.hashCode.toLong
 
   override val hashCode
   : scala.Int 
-  = (uuid, tboxUUID, sourceUUID, targetUUID, isAsymmetric, isEssential, isFunctional, isInverseEssential, isInverseFunctional, isIrreflexive, isReflexive, isSymmetric, isTransitive, name, unreifiedPropertyName, unreifiedInversePropertyName).##
+  = (uuid, tboxUUID, sourceUUID, targetUUID, isAsymmetric, isEssential, isFunctional, isInverseEssential, isInverseFunctional, isIrreflexive, isReflexive, isSymmetric, isTransitive, name).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: ReifiedRelationship =>
@@ -155,9 +112,7 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   	  (this.isReflexive == that.isReflexive) &&
   	  (this.isSymmetric == that.isSymmetric) &&
   	  (this.isTransitive == that.isTransitive) &&
-  	  (this.name == that.name) &&
-  	  (this.unreifiedPropertyName == that.unreifiedPropertyName) &&
-  	  (this.unreifiedInversePropertyName == that.unreifiedInversePropertyName)
+  	  (this.name == that.name)
     case _ =>
       false
   }
@@ -195,8 +150,6 @@ object ReifiedRelationshipHelper {
     	  isSymmetric <- c.downField("isSymmetric").as[scala.Boolean]
     	  isTransitive <- c.downField("isTransitive").as[scala.Boolean]
     	  name <- c.downField("name").as[taggedTypes.LocalName]
-    	  unreifiedPropertyName <- c.downField("unreifiedPropertyName").as[taggedTypes.LocalName]
-    	  unreifiedInversePropertyName <- Decoder.decodeOption(taggedTypes.decodeLocalName)(c.downField("unreifiedInversePropertyName").success.get)
     	} yield ReifiedRelationship(
     	  uuid,
     	  tboxUUID,
@@ -211,9 +164,7 @@ object ReifiedRelationshipHelper {
     	  isReflexive,
     	  isSymmetric,
     	  isTransitive,
-    	  name,
-    	  unreifiedPropertyName,
-    	  unreifiedInversePropertyName
+    	  name
     	)
   }
   
@@ -234,9 +185,7 @@ object ReifiedRelationshipHelper {
     	  ("isReflexive", Encoder.encodeBoolean(x.isReflexive)),
     	  ("isSymmetric", Encoder.encodeBoolean(x.isSymmetric)),
     	  ("isTransitive", Encoder.encodeBoolean(x.isTransitive)),
-    	  ("name", taggedTypes.encodeLocalName(x.name)),
-    	  ("unreifiedPropertyName", taggedTypes.encodeLocalName(x.unreifiedPropertyName)),
-    	  ("unreifiedInversePropertyName", Encoder.encodeOption(taggedTypes.encodeLocalName).apply(x.unreifiedInversePropertyName))
+    	  ("name", taggedTypes.encodeLocalName(x.name))
     )
   }
 

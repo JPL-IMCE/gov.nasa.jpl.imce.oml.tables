@@ -430,10 +430,70 @@ package object api {
   	 	case 0 => 0 }
   }
   
+  implicit def entityExistentialForwardReifiedRestrictionAxiomOrdering
+  : scala.Ordering[EntityExistentialForwardReifiedRestrictionAxiom]
+  = new scala.Ordering[EntityExistentialForwardReifiedRestrictionAxiom] {
+  	def compare(x: EntityExistentialForwardReifiedRestrictionAxiom, y: EntityExistentialForwardReifiedRestrictionAxiom)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def entityExistentialInverseReifiedRestrictionAxiomOrdering
+  : scala.Ordering[EntityExistentialInverseReifiedRestrictionAxiom]
+  = new scala.Ordering[EntityExistentialInverseReifiedRestrictionAxiom] {
+  	def compare(x: EntityExistentialInverseReifiedRestrictionAxiom, y: EntityExistentialInverseReifiedRestrictionAxiom)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
   implicit def entityExistentialRestrictionAxiomOrdering
   : scala.Ordering[EntityExistentialRestrictionAxiom]
   = new scala.Ordering[EntityExistentialRestrictionAxiom] {
   	def compare(x: EntityExistentialRestrictionAxiom, y: EntityExistentialRestrictionAxiom)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def entityExistentialUnreifiedRestrictionAxiomOrdering
+  : scala.Ordering[EntityExistentialUnreifiedRestrictionAxiom]
+  = new scala.Ordering[EntityExistentialUnreifiedRestrictionAxiom] {
+  	def compare(x: EntityExistentialUnreifiedRestrictionAxiom, y: EntityExistentialUnreifiedRestrictionAxiom)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def entityForwardReifiedRestrictionAxiomOrdering
+  : scala.Ordering[EntityForwardReifiedRestrictionAxiom]
+  = new scala.Ordering[EntityForwardReifiedRestrictionAxiom] {
+  	def compare(x: EntityForwardReifiedRestrictionAxiom, y: EntityForwardReifiedRestrictionAxiom)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def entityInverseReifiedRestrictionAxiomOrdering
+  : scala.Ordering[EntityInverseReifiedRestrictionAxiom]
+  = new scala.Ordering[EntityInverseReifiedRestrictionAxiom] {
+  	def compare(x: EntityInverseReifiedRestrictionAxiom, y: EntityInverseReifiedRestrictionAxiom)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def entityReifiedRestrictionAxiomOrdering
+  : scala.Ordering[EntityReifiedRestrictionAxiom]
+  = new scala.Ordering[EntityReifiedRestrictionAxiom] {
+  	def compare(x: EntityReifiedRestrictionAxiom, y: EntityReifiedRestrictionAxiom)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid
@@ -540,6 +600,26 @@ package object api {
   	 	case 0 => 0 }
   }
   
+  implicit def entityUniversalForwardReifiedRestrictionAxiomOrdering
+  : scala.Ordering[EntityUniversalForwardReifiedRestrictionAxiom]
+  = new scala.Ordering[EntityUniversalForwardReifiedRestrictionAxiom] {
+  	def compare(x: EntityUniversalForwardReifiedRestrictionAxiom, y: EntityUniversalForwardReifiedRestrictionAxiom)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def entityUniversalInverseReifiedRestrictionAxiomOrdering
+  : scala.Ordering[EntityUniversalInverseReifiedRestrictionAxiom]
+  = new scala.Ordering[EntityUniversalInverseReifiedRestrictionAxiom] {
+  	def compare(x: EntityUniversalInverseReifiedRestrictionAxiom, y: EntityUniversalInverseReifiedRestrictionAxiom)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
   implicit def entityUniversalRestrictionAxiomOrdering
   : scala.Ordering[EntityUniversalRestrictionAxiom]
   = new scala.Ordering[EntityUniversalRestrictionAxiom] {
@@ -550,10 +630,40 @@ package object api {
   	 	case 0 => 0 }
   }
   
+  implicit def entityUniversalUnreifiedRestrictionAxiomOrdering
+  : scala.Ordering[EntityUniversalUnreifiedRestrictionAxiom]
+  = new scala.Ordering[EntityUniversalUnreifiedRestrictionAxiom] {
+  	def compare(x: EntityUniversalUnreifiedRestrictionAxiom, y: EntityUniversalUnreifiedRestrictionAxiom)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def entityUnreifiedRestrictionAxiomOrdering
+  : scala.Ordering[EntityUnreifiedRestrictionAxiom]
+  = new scala.Ordering[EntityUnreifiedRestrictionAxiom] {
+  	def compare(x: EntityUnreifiedRestrictionAxiom, y: EntityUnreifiedRestrictionAxiom)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
   implicit def extrinsicIdentityKindOrdering
   : scala.Ordering[ExtrinsicIdentityKind]
   = new scala.Ordering[ExtrinsicIdentityKind] {
   	def compare(x: ExtrinsicIdentityKind, y: ExtrinsicIdentityKind)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def forwardPropertyOrdering
+  : scala.Ordering[ForwardProperty]
+  = new scala.Ordering[ForwardProperty] {
+  	def compare(x: ForwardProperty, y: ForwardProperty)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid
@@ -584,6 +694,16 @@ package object api {
   : scala.Ordering[IntrinsicIdentityKind]
   = new scala.Ordering[IntrinsicIdentityKind] {
   	def compare(x: IntrinsicIdentityKind, y: IntrinsicIdentityKind)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def inversePropertyOrdering
+  : scala.Ordering[InverseProperty]
+  = new scala.Ordering[InverseProperty] {
+  	def compare(x: InverseProperty, y: InverseProperty)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid

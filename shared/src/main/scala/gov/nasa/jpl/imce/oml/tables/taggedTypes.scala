@@ -177,7 +177,13 @@ object taggedTypes {
   trait DisjointUnionOfConceptsAxiomTag <: ElementCrossReferenceTupleTag
   trait ElementCrossReferenceTupleTag <: CrossReferencableKindTag with ExtrinsicIdentityKindTag with LogicalElementTag
   trait EntityTag <: TermTag
+  trait EntityExistentialForwardReifiedRestrictionAxiomTag <: EntityExistentialRestrictionAxiomTag with EntityForwardReifiedRestrictionAxiomTag
+  trait EntityExistentialInverseReifiedRestrictionAxiomTag <: EntityExistentialRestrictionAxiomTag with EntityInverseReifiedRestrictionAxiomTag
   trait EntityExistentialRestrictionAxiomTag <: EntityRestrictionAxiomTag
+  trait EntityExistentialUnreifiedRestrictionAxiomTag <: EntityExistentialRestrictionAxiomTag with EntityUnreifiedRestrictionAxiomTag
+  trait EntityForwardReifiedRestrictionAxiomTag <: EntityReifiedRestrictionAxiomTag
+  trait EntityInverseReifiedRestrictionAxiomTag <: EntityReifiedRestrictionAxiomTag
+  trait EntityReifiedRestrictionAxiomTag <: EntityRestrictionAxiomTag
   trait EntityRelationshipTag <: DirectedBinaryRelationshipKindTag with TermTag
   trait EntityRestrictionAxiomTag <: ElementCrossReferenceTupleTag with TermAxiomTag
   trait EntityScalarDataPropertyTag <: DataRelationshipTag with DataRelationshipFromEntityTag with DataRelationshipToScalarTag
@@ -188,12 +194,18 @@ object taggedTypes {
   trait EntityStructuredDataPropertyTag <: DataRelationshipTag with DataRelationshipFromEntityTag with DataRelationshipToStructureTag
   trait EntityStructuredDataPropertyParticularRestrictionAxiomTag <: EntityStructuredDataPropertyRestrictionAxiomTag with RestrictionStructuredDataPropertyContextTag
   trait EntityStructuredDataPropertyRestrictionAxiomTag <: ElementCrossReferenceTupleTag with TermAxiomTag
+  trait EntityUniversalForwardReifiedRestrictionAxiomTag <: EntityExistentialRestrictionAxiomTag with EntityForwardReifiedRestrictionAxiomTag
+  trait EntityUniversalInverseReifiedRestrictionAxiomTag <: EntityExistentialRestrictionAxiomTag with EntityInverseReifiedRestrictionAxiomTag
   trait EntityUniversalRestrictionAxiomTag <: EntityRestrictionAxiomTag
+  trait EntityUniversalUnreifiedRestrictionAxiomTag <: EntityExistentialRestrictionAxiomTag with EntityUnreifiedRestrictionAxiomTag
+  trait EntityUnreifiedRestrictionAxiomTag <: EntityRestrictionAxiomTag
   trait ExtentTag
   trait ExtrinsicIdentityKindTag <: IdentityKindTag
+  trait ForwardPropertyTag <: ResourceTag
   trait IRIScalarRestrictionTag <: RestrictedDataRangeTag
   trait IdentityKindTag <: CrossReferencabilityKindTag
   trait IntrinsicIdentityKindTag <: CrossReferencableKindTag with IdentityKindTag
+  trait InversePropertyTag <: ResourceTag
   trait LiteralBooleanTag <: LiteralValueTag
   trait LiteralDateTimeTag <: LiteralValueTag
   trait LiteralDecimalTag <: LiteralNumberTag
@@ -1234,6 +1246,54 @@ object taggedTypes {
   	: Int = x.compareTo(y)
   }
   
+  type EntityExistentialForwardReifiedRestrictionAxiomUUID 
+  = String @@ EntityExistentialForwardReifiedRestrictionAxiomTag
+  
+  def entityExistentialForwardReifiedRestrictionAxiomUUID(uuid: String)
+  : EntityExistentialForwardReifiedRestrictionAxiomUUID
+  = covariantTag[EntityExistentialForwardReifiedRestrictionAxiomTag][String](uuid)
+  
+  implicit val decodeEntityExistentialForwardReifiedRestrictionAxiomUUID
+  : Decoder[EntityExistentialForwardReifiedRestrictionAxiomUUID]
+  = decodeTag[EntityExistentialForwardReifiedRestrictionAxiomTag]
+  
+  implicit val encodeEntityExistentialForwardReifiedRestrictionAxiomUUID
+  : Encoder[EntityExistentialForwardReifiedRestrictionAxiomUUID]
+  = encodeTag[EntityExistentialForwardReifiedRestrictionAxiomTag]
+  
+  implicit val orderingEntityExistentialForwardReifiedRestrictionAxiomUUID
+  : Ordering[EntityExistentialForwardReifiedRestrictionAxiomUUID] 
+  = new Ordering[EntityExistentialForwardReifiedRestrictionAxiomUUID] {
+  	override def compare
+  	(x: EntityExistentialForwardReifiedRestrictionAxiomUUID, 
+  	 y: EntityExistentialForwardReifiedRestrictionAxiomUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type EntityExistentialInverseReifiedRestrictionAxiomUUID 
+  = String @@ EntityExistentialInverseReifiedRestrictionAxiomTag
+  
+  def entityExistentialInverseReifiedRestrictionAxiomUUID(uuid: String)
+  : EntityExistentialInverseReifiedRestrictionAxiomUUID
+  = covariantTag[EntityExistentialInverseReifiedRestrictionAxiomTag][String](uuid)
+  
+  implicit val decodeEntityExistentialInverseReifiedRestrictionAxiomUUID
+  : Decoder[EntityExistentialInverseReifiedRestrictionAxiomUUID]
+  = decodeTag[EntityExistentialInverseReifiedRestrictionAxiomTag]
+  
+  implicit val encodeEntityExistentialInverseReifiedRestrictionAxiomUUID
+  : Encoder[EntityExistentialInverseReifiedRestrictionAxiomUUID]
+  = encodeTag[EntityExistentialInverseReifiedRestrictionAxiomTag]
+  
+  implicit val orderingEntityExistentialInverseReifiedRestrictionAxiomUUID
+  : Ordering[EntityExistentialInverseReifiedRestrictionAxiomUUID] 
+  = new Ordering[EntityExistentialInverseReifiedRestrictionAxiomUUID] {
+  	override def compare
+  	(x: EntityExistentialInverseReifiedRestrictionAxiomUUID, 
+  	 y: EntityExistentialInverseReifiedRestrictionAxiomUUID)
+  	: Int = x.compareTo(y)
+  }
+  
   type EntityExistentialRestrictionAxiomUUID 
   = String @@ EntityExistentialRestrictionAxiomTag
   
@@ -1255,6 +1315,102 @@ object taggedTypes {
   	override def compare
   	(x: EntityExistentialRestrictionAxiomUUID, 
   	 y: EntityExistentialRestrictionAxiomUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type EntityExistentialUnreifiedRestrictionAxiomUUID 
+  = String @@ EntityExistentialUnreifiedRestrictionAxiomTag
+  
+  def entityExistentialUnreifiedRestrictionAxiomUUID(uuid: String)
+  : EntityExistentialUnreifiedRestrictionAxiomUUID
+  = covariantTag[EntityExistentialUnreifiedRestrictionAxiomTag][String](uuid)
+  
+  implicit val decodeEntityExistentialUnreifiedRestrictionAxiomUUID
+  : Decoder[EntityExistentialUnreifiedRestrictionAxiomUUID]
+  = decodeTag[EntityExistentialUnreifiedRestrictionAxiomTag]
+  
+  implicit val encodeEntityExistentialUnreifiedRestrictionAxiomUUID
+  : Encoder[EntityExistentialUnreifiedRestrictionAxiomUUID]
+  = encodeTag[EntityExistentialUnreifiedRestrictionAxiomTag]
+  
+  implicit val orderingEntityExistentialUnreifiedRestrictionAxiomUUID
+  : Ordering[EntityExistentialUnreifiedRestrictionAxiomUUID] 
+  = new Ordering[EntityExistentialUnreifiedRestrictionAxiomUUID] {
+  	override def compare
+  	(x: EntityExistentialUnreifiedRestrictionAxiomUUID, 
+  	 y: EntityExistentialUnreifiedRestrictionAxiomUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type EntityForwardReifiedRestrictionAxiomUUID 
+  = String @@ EntityForwardReifiedRestrictionAxiomTag
+  
+  def entityForwardReifiedRestrictionAxiomUUID(uuid: String)
+  : EntityForwardReifiedRestrictionAxiomUUID
+  = covariantTag[EntityForwardReifiedRestrictionAxiomTag][String](uuid)
+  
+  implicit val decodeEntityForwardReifiedRestrictionAxiomUUID
+  : Decoder[EntityForwardReifiedRestrictionAxiomUUID]
+  = decodeTag[EntityForwardReifiedRestrictionAxiomTag]
+  
+  implicit val encodeEntityForwardReifiedRestrictionAxiomUUID
+  : Encoder[EntityForwardReifiedRestrictionAxiomUUID]
+  = encodeTag[EntityForwardReifiedRestrictionAxiomTag]
+  
+  implicit val orderingEntityForwardReifiedRestrictionAxiomUUID
+  : Ordering[EntityForwardReifiedRestrictionAxiomUUID] 
+  = new Ordering[EntityForwardReifiedRestrictionAxiomUUID] {
+  	override def compare
+  	(x: EntityForwardReifiedRestrictionAxiomUUID, 
+  	 y: EntityForwardReifiedRestrictionAxiomUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type EntityInverseReifiedRestrictionAxiomUUID 
+  = String @@ EntityInverseReifiedRestrictionAxiomTag
+  
+  def entityInverseReifiedRestrictionAxiomUUID(uuid: String)
+  : EntityInverseReifiedRestrictionAxiomUUID
+  = covariantTag[EntityInverseReifiedRestrictionAxiomTag][String](uuid)
+  
+  implicit val decodeEntityInverseReifiedRestrictionAxiomUUID
+  : Decoder[EntityInverseReifiedRestrictionAxiomUUID]
+  = decodeTag[EntityInverseReifiedRestrictionAxiomTag]
+  
+  implicit val encodeEntityInverseReifiedRestrictionAxiomUUID
+  : Encoder[EntityInverseReifiedRestrictionAxiomUUID]
+  = encodeTag[EntityInverseReifiedRestrictionAxiomTag]
+  
+  implicit val orderingEntityInverseReifiedRestrictionAxiomUUID
+  : Ordering[EntityInverseReifiedRestrictionAxiomUUID] 
+  = new Ordering[EntityInverseReifiedRestrictionAxiomUUID] {
+  	override def compare
+  	(x: EntityInverseReifiedRestrictionAxiomUUID, 
+  	 y: EntityInverseReifiedRestrictionAxiomUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type EntityReifiedRestrictionAxiomUUID 
+  = String @@ EntityReifiedRestrictionAxiomTag
+  
+  def entityReifiedRestrictionAxiomUUID(uuid: String)
+  : EntityReifiedRestrictionAxiomUUID
+  = covariantTag[EntityReifiedRestrictionAxiomTag][String](uuid)
+  
+  implicit val decodeEntityReifiedRestrictionAxiomUUID
+  : Decoder[EntityReifiedRestrictionAxiomUUID]
+  = decodeTag[EntityReifiedRestrictionAxiomTag]
+  
+  implicit val encodeEntityReifiedRestrictionAxiomUUID
+  : Encoder[EntityReifiedRestrictionAxiomUUID]
+  = encodeTag[EntityReifiedRestrictionAxiomTag]
+  
+  implicit val orderingEntityReifiedRestrictionAxiomUUID
+  : Ordering[EntityReifiedRestrictionAxiomUUID] 
+  = new Ordering[EntityReifiedRestrictionAxiomUUID] {
+  	override def compare
+  	(x: EntityReifiedRestrictionAxiomUUID, 
+  	 y: EntityReifiedRestrictionAxiomUUID)
   	: Int = x.compareTo(y)
   }
   
@@ -1498,6 +1654,54 @@ object taggedTypes {
   	: Int = x.compareTo(y)
   }
   
+  type EntityUniversalForwardReifiedRestrictionAxiomUUID 
+  = String @@ EntityUniversalForwardReifiedRestrictionAxiomTag
+  
+  def entityUniversalForwardReifiedRestrictionAxiomUUID(uuid: String)
+  : EntityUniversalForwardReifiedRestrictionAxiomUUID
+  = covariantTag[EntityUniversalForwardReifiedRestrictionAxiomTag][String](uuid)
+  
+  implicit val decodeEntityUniversalForwardReifiedRestrictionAxiomUUID
+  : Decoder[EntityUniversalForwardReifiedRestrictionAxiomUUID]
+  = decodeTag[EntityUniversalForwardReifiedRestrictionAxiomTag]
+  
+  implicit val encodeEntityUniversalForwardReifiedRestrictionAxiomUUID
+  : Encoder[EntityUniversalForwardReifiedRestrictionAxiomUUID]
+  = encodeTag[EntityUniversalForwardReifiedRestrictionAxiomTag]
+  
+  implicit val orderingEntityUniversalForwardReifiedRestrictionAxiomUUID
+  : Ordering[EntityUniversalForwardReifiedRestrictionAxiomUUID] 
+  = new Ordering[EntityUniversalForwardReifiedRestrictionAxiomUUID] {
+  	override def compare
+  	(x: EntityUniversalForwardReifiedRestrictionAxiomUUID, 
+  	 y: EntityUniversalForwardReifiedRestrictionAxiomUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type EntityUniversalInverseReifiedRestrictionAxiomUUID 
+  = String @@ EntityUniversalInverseReifiedRestrictionAxiomTag
+  
+  def entityUniversalInverseReifiedRestrictionAxiomUUID(uuid: String)
+  : EntityUniversalInverseReifiedRestrictionAxiomUUID
+  = covariantTag[EntityUniversalInverseReifiedRestrictionAxiomTag][String](uuid)
+  
+  implicit val decodeEntityUniversalInverseReifiedRestrictionAxiomUUID
+  : Decoder[EntityUniversalInverseReifiedRestrictionAxiomUUID]
+  = decodeTag[EntityUniversalInverseReifiedRestrictionAxiomTag]
+  
+  implicit val encodeEntityUniversalInverseReifiedRestrictionAxiomUUID
+  : Encoder[EntityUniversalInverseReifiedRestrictionAxiomUUID]
+  = encodeTag[EntityUniversalInverseReifiedRestrictionAxiomTag]
+  
+  implicit val orderingEntityUniversalInverseReifiedRestrictionAxiomUUID
+  : Ordering[EntityUniversalInverseReifiedRestrictionAxiomUUID] 
+  = new Ordering[EntityUniversalInverseReifiedRestrictionAxiomUUID] {
+  	override def compare
+  	(x: EntityUniversalInverseReifiedRestrictionAxiomUUID, 
+  	 y: EntityUniversalInverseReifiedRestrictionAxiomUUID)
+  	: Int = x.compareTo(y)
+  }
+  
   type EntityUniversalRestrictionAxiomUUID 
   = String @@ EntityUniversalRestrictionAxiomTag
   
@@ -1522,6 +1726,54 @@ object taggedTypes {
   	: Int = x.compareTo(y)
   }
   
+  type EntityUniversalUnreifiedRestrictionAxiomUUID 
+  = String @@ EntityUniversalUnreifiedRestrictionAxiomTag
+  
+  def entityUniversalUnreifiedRestrictionAxiomUUID(uuid: String)
+  : EntityUniversalUnreifiedRestrictionAxiomUUID
+  = covariantTag[EntityUniversalUnreifiedRestrictionAxiomTag][String](uuid)
+  
+  implicit val decodeEntityUniversalUnreifiedRestrictionAxiomUUID
+  : Decoder[EntityUniversalUnreifiedRestrictionAxiomUUID]
+  = decodeTag[EntityUniversalUnreifiedRestrictionAxiomTag]
+  
+  implicit val encodeEntityUniversalUnreifiedRestrictionAxiomUUID
+  : Encoder[EntityUniversalUnreifiedRestrictionAxiomUUID]
+  = encodeTag[EntityUniversalUnreifiedRestrictionAxiomTag]
+  
+  implicit val orderingEntityUniversalUnreifiedRestrictionAxiomUUID
+  : Ordering[EntityUniversalUnreifiedRestrictionAxiomUUID] 
+  = new Ordering[EntityUniversalUnreifiedRestrictionAxiomUUID] {
+  	override def compare
+  	(x: EntityUniversalUnreifiedRestrictionAxiomUUID, 
+  	 y: EntityUniversalUnreifiedRestrictionAxiomUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type EntityUnreifiedRestrictionAxiomUUID 
+  = String @@ EntityUnreifiedRestrictionAxiomTag
+  
+  def entityUnreifiedRestrictionAxiomUUID(uuid: String)
+  : EntityUnreifiedRestrictionAxiomUUID
+  = covariantTag[EntityUnreifiedRestrictionAxiomTag][String](uuid)
+  
+  implicit val decodeEntityUnreifiedRestrictionAxiomUUID
+  : Decoder[EntityUnreifiedRestrictionAxiomUUID]
+  = decodeTag[EntityUnreifiedRestrictionAxiomTag]
+  
+  implicit val encodeEntityUnreifiedRestrictionAxiomUUID
+  : Encoder[EntityUnreifiedRestrictionAxiomUUID]
+  = encodeTag[EntityUnreifiedRestrictionAxiomTag]
+  
+  implicit val orderingEntityUnreifiedRestrictionAxiomUUID
+  : Ordering[EntityUnreifiedRestrictionAxiomUUID] 
+  = new Ordering[EntityUnreifiedRestrictionAxiomUUID] {
+  	override def compare
+  	(x: EntityUnreifiedRestrictionAxiomUUID, 
+  	 y: EntityUnreifiedRestrictionAxiomUUID)
+  	: Int = x.compareTo(y)
+  }
+  
   type ExtrinsicIdentityKindUUID 
   = String @@ ExtrinsicIdentityKindTag
   
@@ -1543,6 +1795,30 @@ object taggedTypes {
   	override def compare
   	(x: ExtrinsicIdentityKindUUID, 
   	 y: ExtrinsicIdentityKindUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type ForwardPropertyUUID 
+  = String @@ ForwardPropertyTag
+  
+  def forwardPropertyUUID(uuid: String)
+  : ForwardPropertyUUID
+  = covariantTag[ForwardPropertyTag][String](uuid)
+  
+  implicit val decodeForwardPropertyUUID
+  : Decoder[ForwardPropertyUUID]
+  = decodeTag[ForwardPropertyTag]
+  
+  implicit val encodeForwardPropertyUUID
+  : Encoder[ForwardPropertyUUID]
+  = encodeTag[ForwardPropertyTag]
+  
+  implicit val orderingForwardPropertyUUID
+  : Ordering[ForwardPropertyUUID] 
+  = new Ordering[ForwardPropertyUUID] {
+  	override def compare
+  	(x: ForwardPropertyUUID, 
+  	 y: ForwardPropertyUUID)
   	: Int = x.compareTo(y)
   }
   
@@ -1615,6 +1891,30 @@ object taggedTypes {
   	override def compare
   	(x: IntrinsicIdentityKindUUID, 
   	 y: IntrinsicIdentityKindUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type InversePropertyUUID 
+  = String @@ InversePropertyTag
+  
+  def inversePropertyUUID(uuid: String)
+  : InversePropertyUUID
+  = covariantTag[InversePropertyTag][String](uuid)
+  
+  implicit val decodeInversePropertyUUID
+  : Decoder[InversePropertyUUID]
+  = decodeTag[InversePropertyTag]
+  
+  implicit val encodeInversePropertyUUID
+  : Encoder[InversePropertyUUID]
+  = encodeTag[InversePropertyTag]
+  
+  implicit val orderingInversePropertyUUID
+  : Ordering[InversePropertyUUID] 
+  = new Ordering[InversePropertyUUID] {
+  	override def compare
+  	(x: InversePropertyUUID, 
+  	 y: InversePropertyUUID)
   	: Int = x.compareTo(y)
   }
   

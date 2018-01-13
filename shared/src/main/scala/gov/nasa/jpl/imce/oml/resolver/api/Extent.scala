@@ -30,6 +30,7 @@ import scala.{Option,StringContext}
 // - DescriptionBox (descriptions)
 // - LogicalElement (common)
 // - Module (common)
+// - ReifiedRelationship (terminologies)
 // - RestrictionStructuredDataPropertyContext (terminologies)
 // - RuleBodySegment (terminologies)
 // - SingletonInstanceStructuredDataPropertyContext (descriptions)
@@ -41,6 +42,8 @@ import scala.{Option,StringContext}
 // - DescriptionBoxExtendsClosedWorldDefinitions (descriptions)
 // - DescriptionBoxRefinement (descriptions)
 // - DisjointUnionOfConceptsAxiom (bundles)
+// - ForwardProperty (terminologies)
+// - InverseProperty (terminologies)
 // - ReifiedRelationshipInstance (descriptions)
 // - ReifiedRelationshipInstanceDomain (descriptions)
 // - ReifiedRelationshipInstanceRange (descriptions)
@@ -84,6 +87,12 @@ case class Extent
   boxStatements
   : Map[TerminologyBox, Set[TerminologyBoxStatement]]
   = HashMap.empty[TerminologyBox, Set[TerminologyBoxStatement]],
+  forwardProperty
+  : Map[ReifiedRelationship, ForwardProperty]
+  = HashMap.empty[ReifiedRelationship, ForwardProperty],
+  inverseProperty
+  : Map[ReifiedRelationship, InverseProperty]
+  = HashMap.empty[ReifiedRelationship, InverseProperty],
   firstSegment
   : Map[ChainRule, RuleBodySegment]
   = HashMap.empty[ChainRule, RuleBodySegment],
@@ -154,6 +163,12 @@ case class Extent
   terminologyBoxOfTerminologyBoxStatement
   : Map[TerminologyBoxStatement, TerminologyBox]
   = HashMap.empty[TerminologyBoxStatement, TerminologyBox],
+  reifiedRelationshipOfForwardProperty
+  : Map[ForwardProperty, ReifiedRelationship]
+  = HashMap.empty[ForwardProperty, ReifiedRelationship],
+  reifiedRelationshipOfInverseProperty
+  : Map[InverseProperty, ReifiedRelationship]
+  = HashMap.empty[InverseProperty, ReifiedRelationship],
   chainRuleOfRuleBodySegment
   : Map[RuleBodySegment, ChainRule]
   = HashMap.empty[RuleBodySegment, ChainRule],
@@ -230,6 +245,12 @@ case class Extent
   disjointUnionOfConceptsAxiomByUUID
   : Map[taggedTypes.DisjointUnionOfConceptsAxiomUUID, DisjointUnionOfConceptsAxiom]
   = HashMap.empty[taggedTypes.DisjointUnionOfConceptsAxiomUUID, DisjointUnionOfConceptsAxiom],
+  forwardPropertyByUUID
+  : Map[taggedTypes.ForwardPropertyUUID, ForwardProperty]
+  = HashMap.empty[taggedTypes.ForwardPropertyUUID, ForwardProperty],
+  inversePropertyByUUID
+  : Map[taggedTypes.InversePropertyUUID, InverseProperty]
+  = HashMap.empty[taggedTypes.InversePropertyUUID, InverseProperty],
   reifiedRelationshipInstanceByUUID
   : Map[taggedTypes.ReifiedRelationshipInstanceUUID, ReifiedRelationshipInstance]
   = HashMap.empty[taggedTypes.ReifiedRelationshipInstanceUUID, ReifiedRelationshipInstance],
@@ -302,6 +323,16 @@ case class Extent
   : Map[TerminologyBox, Set[TerminologyBoxStatement]] 
   = boxStatements
     .updated(key, boxStatements.getOrElse(key, Set.empty[TerminologyBoxStatement]) + value)
+  
+  def withForwardProperty
+  (key: ReifiedRelationship, value: ForwardProperty)
+  : Map[ReifiedRelationship, ForwardProperty] 
+  = forwardProperty.updated(key, value)
+  
+  def withInverseProperty
+  (key: ReifiedRelationship, value: InverseProperty)
+  : Map[ReifiedRelationship, InverseProperty] 
+  = inverseProperty.updated(key, value)
   
   def withRuleBodySegment
   (key: ChainRule, value: RuleBodySegment)
@@ -596,6 +627,50 @@ case class Extent
   (uuid: taggedTypes.TerminologyBoxStatementUUID)
   : Option[TerminologyBoxStatement]
   = terminologyBoxStatementByUUID.get(uuid)
+    
+  def lookupForwardProperty
+  (key: Option[ReifiedRelationship])
+  : Option[ForwardProperty]
+  = key.flatMap { lookupForwardProperty }
+  
+  def lookupForwardProperty
+  (key: ReifiedRelationship)
+  : Option[ForwardProperty]
+  = forwardProperty.get(key)
+  
+  def lookupForwardProperty
+  (uuid: Option[taggedTypes.ForwardPropertyUUID])
+  : Option[ForwardProperty]
+  = uuid.flatMap {
+    lookupForwardProperty
+  }
+  
+  def lookupForwardProperty
+  (uuid: taggedTypes.ForwardPropertyUUID)
+  : Option[ForwardProperty]
+  = forwardPropertyByUUID.get(uuid)
+    
+  def lookupInverseProperty
+  (key: Option[ReifiedRelationship])
+  : Option[InverseProperty]
+  = key.flatMap { lookupInverseProperty }
+  
+  def lookupInverseProperty
+  (key: ReifiedRelationship)
+  : Option[InverseProperty]
+  = inverseProperty.get(key)
+  
+  def lookupInverseProperty
+  (uuid: Option[taggedTypes.InversePropertyUUID])
+  : Option[InverseProperty]
+  = uuid.flatMap {
+    lookupInverseProperty
+  }
+  
+  def lookupInverseProperty
+  (uuid: taggedTypes.InversePropertyUUID)
+  : Option[InverseProperty]
+  = inversePropertyByUUID.get(uuid)
     
   def lookupFirstSegment
   (key: Option[ChainRule])
@@ -1057,6 +1132,8 @@ case class Extent
   = lookupModule(uuid.asInstanceOf[taggedTypes.ModuleUUID]) orElse
     lookupTerminologyBoxAxiom(uuid.asInstanceOf[taggedTypes.TerminologyBoxAxiomUUID]) orElse
     lookupTerminologyBoxStatement(uuid.asInstanceOf[taggedTypes.TerminologyBoxStatementUUID]) orElse
+    lookupForwardProperty(uuid.asInstanceOf[taggedTypes.ForwardPropertyUUID]) orElse
+    lookupInverseProperty(uuid.asInstanceOf[taggedTypes.InversePropertyUUID]) orElse
     lookupRuleBodySegment(uuid.asInstanceOf[taggedTypes.RuleBodySegmentUUID]) orElse
     lookupSegmentPredicate(uuid.asInstanceOf[taggedTypes.SegmentPredicateUUID]) orElse
     lookupRuleBodySegment(uuid.asInstanceOf[taggedTypes.RuleBodySegmentUUID]) orElse
