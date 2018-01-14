@@ -46,8 +46,7 @@ object CovariantCollections extends Properties("CovariantCollections") {
           isReflexive = false,
           isSymmetric = false,
           isTransitive = false,
-          name = taggedTypes.localName(rrName),
-          unreifiedPropertyName = taggedTypes.localName(rrName))
+          name = taggedTypes.localName(rrName))
 
         val as = Seq(a1, a2)
         val as1 = as.find(_.uuid == a1.uuid)

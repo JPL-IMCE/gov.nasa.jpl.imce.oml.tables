@@ -121,12 +121,28 @@ object Extent2Tables {
         y.isReflexive,
         y.isSymmetric,
         y.isTransitive,
-        y.name,
-        y.unreifiedPropertyName,
-        y.unreifiedInversePropertyName))
+        y.name))
     case _ =>
       None
   }.to[Seq]
+
+  def convertForwardProperties
+  (acc: Seq[tables.ForwardProperty],
+   x: (api.ReifiedRelationship, api.ForwardProperty))
+  : Seq[tables.ForwardProperty]
+  = acc :+ tables.ForwardProperty(
+    taggedTypes.forwardPropertyUUID(x._2.uuid.toString),
+    x._2.name,
+    tables.taggedTypes.reifiedRelationshipUUID(x._1.uuid.toString))
+
+  def convertInverseProperties
+  (acc: Seq[tables.InverseProperty],
+   x: (api.ReifiedRelationship, api.InverseProperty))
+  : Seq[tables.InverseProperty]
+  =  acc :+ tables.InverseProperty(
+    taggedTypes.inversePropertyUUID(x._2.uuid.toString),
+    x._2.name,
+    tables.taggedTypes.reifiedRelationshipUUID(x._1.uuid.toString))
 
   def convertUnreifiedRelationships
   (acc: Seq[tables.UnreifiedRelationship],
@@ -376,7 +392,7 @@ object Extent2Tables {
               acc :+ tables.ReifiedRelationshipPropertyPredicate(
                 uuid=taggedTypes.reifiedRelationshipPropertyPredicateUUID(p.uuid.toString),
                 bodySegmentUUID=taggedTypes.ruleBodySegmentUUID(s.uuid.toString),
-                reifiedRelationshipUUID=taggedTypes.reifiedRelationshipUUID(p.reifiedRelationship.uuid.toString)))
+                forwardPropertyUUID=taggedTypes.forwardPropertyUUID(p.forwardProperty.uuid.toString)))
           case _ =>
             convertReifiedRelationshipPropertyPredicates(e.nextSegment.get(s), acc)
         }
@@ -516,7 +532,7 @@ object Extent2Tables {
               acc :+ tables.ReifiedRelationshipInversePropertyPredicate(
                 uuid=taggedTypes.reifiedRelationshipInversePropertyPredicateUUID(p.uuid.toString),
                 bodySegmentUUID=taggedTypes.ruleBodySegmentUUID(s.uuid.toString),
-                reifiedRelationshipUUID=taggedTypes.reifiedRelationshipUUID(p.reifiedRelationship.uuid.toString)))
+                inversePropertyUUID=taggedTypes.inversePropertyUUID(p.inverseProperty.uuid.toString)))
           case _ =>
             convertReifiedRelationshipInversePropertyPredicates(e.nextSegment.get(s), acc)
         }
@@ -952,34 +968,98 @@ object Extent2Tables {
       None
   }.to[Seq]
 
-  def convertEntityExistentialRestrictionAxioms
-  (acc: Seq[tables.EntityExistentialRestrictionAxiom],
+  def convertEntityExistentialForwardReifiedRestrictionAxioms
+  (acc: Seq[tables.EntityExistentialForwardReifiedRestrictionAxiom],
    x: (api.TerminologyBox, Set[api.TerminologyBoxStatement]))
-  : Seq[tables.EntityExistentialRestrictionAxiom]
+  : Seq[tables.EntityExistentialForwardReifiedRestrictionAxiom]
   = acc ++ x._2.flatMap {
-    case y: api.EntityExistentialRestrictionAxiom =>
-      Some(tables.EntityExistentialRestrictionAxiom(
-        taggedTypes.entityExistentialRestrictionAxiomUUID(y.uuid.toString),
+    case y: api.EntityExistentialForwardReifiedRestrictionAxiom =>
+      Some(tables.EntityExistentialForwardReifiedRestrictionAxiom(
+        taggedTypes.entityExistentialForwardReifiedRestrictionAxiomUUID(y.uuid.toString),
         taggedTypes.terminologyBoxUUID(x._1.uuid.toString),
-        taggedTypes.reifiedRelationshipUUID(y.restrictedRelation.uuid.toString),
+        taggedTypes.forwardPropertyUUID(y.forwardProperty.uuid.toString),
         taggedTypes.entityUUID(y.restrictedDomain.uuid.toString),
         taggedTypes.entityUUID(y.restrictedRange.uuid.toString)))
     case _ =>
       None
   }.to[Seq]
 
-  def convertEntityUniversalRestrictionAxioms
-  (acc: Seq[tables.EntityUniversalRestrictionAxiom],
+  def convertEntityExistentialInverseReifiedRestrictionAxioms
+  (acc: Seq[tables.EntityExistentialInverseReifiedRestrictionAxiom],
    x: (api.TerminologyBox, Set[api.TerminologyBoxStatement]))
-  : Seq[tables.EntityUniversalRestrictionAxiom]
+  : Seq[tables.EntityExistentialInverseReifiedRestrictionAxiom]
   = acc ++ x._2.flatMap {
-    case y: api.EntityUniversalRestrictionAxiom =>
-      Some(tables.EntityUniversalRestrictionAxiom(
-        taggedTypes.entityUniversalRestrictionAxiomUUID(y.uuid.toString),
+    case y: api.EntityExistentialInverseReifiedRestrictionAxiom =>
+      Some(tables.EntityExistentialInverseReifiedRestrictionAxiom(
+        taggedTypes.entityExistentialInverseReifiedRestrictionAxiomUUID(y.uuid.toString),
         taggedTypes.terminologyBoxUUID(x._1.uuid.toString),
-        taggedTypes.entityRelationshipUUID(y.restrictedRelation.uuid.toString),
+        taggedTypes.inversePropertyUUID(y.inverseProperty.uuid.toString),
         taggedTypes.entityUUID(y.restrictedDomain.uuid.toString),
         taggedTypes.entityUUID(y.restrictedRange.uuid.toString)))
+    case _ =>
+      None
+  }.to[Seq]
+
+  def convertEntityExistentialUnreifiedRestrictionAxioms
+  (acc: Seq[tables.EntityExistentialUnreifiedRestrictionAxiom],
+   x: (api.TerminologyBox, Set[api.TerminologyBoxStatement]))
+  : Seq[tables.EntityExistentialUnreifiedRestrictionAxiom]
+  = acc ++ x._2.flatMap {
+    case y: api.EntityExistentialUnreifiedRestrictionAxiom =>
+      Some(tables.EntityExistentialUnreifiedRestrictionAxiom(
+        taggedTypes.entityExistentialUnreifiedRestrictionAxiomUUID(y.uuid.toString),
+        taggedTypes.terminologyBoxUUID(x._1.uuid.toString),
+        taggedTypes.entityUUID(y.restrictedDomain.uuid.toString),
+        taggedTypes.entityUUID(y.restrictedRange.uuid.toString),
+        taggedTypes.unreifiedRelationshipUUID(y.restrictedUnreifiedRelationship.uuid.toString)))
+    case _ =>
+      None
+  }.to[Seq]
+  
+  def convertEntityUniversalForwardReifiedRestrictionAxioms
+  (acc: Seq[tables.EntityUniversalForwardReifiedRestrictionAxiom],
+   x: (api.TerminologyBox, Set[api.TerminologyBoxStatement]))
+  : Seq[tables.EntityUniversalForwardReifiedRestrictionAxiom]
+  = acc ++ x._2.flatMap {
+    case y: api.EntityUniversalForwardReifiedRestrictionAxiom =>
+      Some(tables.EntityUniversalForwardReifiedRestrictionAxiom(
+        taggedTypes.entityUniversalForwardReifiedRestrictionAxiomUUID(y.uuid.toString),
+        taggedTypes.terminologyBoxUUID(x._1.uuid.toString),
+        taggedTypes.forwardPropertyUUID(y.forwardProperty.uuid.toString),
+        taggedTypes.entityUUID(y.restrictedDomain.uuid.toString),
+        taggedTypes.entityUUID(y.restrictedRange.uuid.toString)))
+    case _ =>
+      None
+  }.to[Seq]
+
+  def convertEntityUniversalInverseReifiedRestrictionAxioms
+  (acc: Seq[tables.EntityUniversalInverseReifiedRestrictionAxiom],
+   x: (api.TerminologyBox, Set[api.TerminologyBoxStatement]))
+  : Seq[tables.EntityUniversalInverseReifiedRestrictionAxiom]
+  = acc ++ x._2.flatMap {
+    case y: api.EntityUniversalInverseReifiedRestrictionAxiom =>
+      Some(tables.EntityUniversalInverseReifiedRestrictionAxiom(
+        taggedTypes.entityUniversalInverseReifiedRestrictionAxiomUUID(y.uuid.toString),
+        taggedTypes.terminologyBoxUUID(x._1.uuid.toString),
+        taggedTypes.inversePropertyUUID(y.inverseProperty.uuid.toString),
+        taggedTypes.entityUUID(y.restrictedDomain.uuid.toString),
+        taggedTypes.entityUUID(y.restrictedRange.uuid.toString)))
+    case _ =>
+      None
+  }.to[Seq]
+
+  def convertEntityUniversalUnreifiedRestrictionAxioms
+  (acc: Seq[tables.EntityUniversalUnreifiedRestrictionAxiom],
+   x: (api.TerminologyBox, Set[api.TerminologyBoxStatement]))
+  : Seq[tables.EntityUniversalUnreifiedRestrictionAxiom]
+  = acc ++ x._2.flatMap {
+    case y: api.EntityUniversalUnreifiedRestrictionAxiom =>
+      Some(tables.EntityUniversalUnreifiedRestrictionAxiom(
+        taggedTypes.entityUniversalUnreifiedRestrictionAxiomUUID(y.uuid.toString),
+        taggedTypes.terminologyBoxUUID(x._1.uuid.toString),
+        taggedTypes.entityUUID(y.restrictedDomain.uuid.toString),
+        taggedTypes.entityUUID(y.restrictedRange.uuid.toString),
+        taggedTypes.unreifiedRelationshipUUID(y.restrictedUnreifiedRelationship.uuid.toString)))
     case _ =>
       None
   }.to[Seq]
@@ -1359,6 +1439,14 @@ object Extent2Tables {
             .foldLeft[Seq[tables.ReifiedRelationship]](Seq.empty)(convertReifiedRelationships)
             .sortBy(_.uuid.toString),
 
+          forwardProperties = e.forwardProperty
+              .foldLeft[Seq[tables.ForwardProperty]](Seq.empty)(convertForwardProperties)
+              .sortBy(_.uuid.toString),
+
+          inverseProperties = e.inverseProperty
+            .foldLeft[Seq[tables.InverseProperty]](Seq.empty)(convertInverseProperties)
+            .sortBy(_.uuid.toString),
+
           unreifiedRelationships = e.boxStatements
             .foldLeft[Seq[tables.UnreifiedRelationship]](Seq.empty)(convertUnreifiedRelationships)
             .sortBy(_.uuid.toString),
@@ -1507,12 +1595,28 @@ object Extent2Tables {
             .foldLeft[Seq[tables.ReifiedRelationshipSpecializationAxiom]](Seq.empty)(convertReifiedRelationshipSpecializationAxioms)
             .sortBy(_.uuid.toString),
 
-          entityExistentialRestrictionAxioms = e.boxStatements
-            .foldLeft[Seq[tables.EntityExistentialRestrictionAxiom]](Seq.empty)(convertEntityExistentialRestrictionAxioms)
+          entityExistentialForwardReifiedRestrictionAxioms = e.boxStatements
+            .foldLeft[Seq[tables.EntityExistentialForwardReifiedRestrictionAxiom]](Seq.empty)(convertEntityExistentialForwardReifiedRestrictionAxioms)
             .sortBy(_.uuid.toString),
 
-          entityUniversalRestrictionAxioms = e.boxStatements
-            .foldLeft[Seq[tables.EntityUniversalRestrictionAxiom]](Seq.empty)(convertEntityUniversalRestrictionAxioms)
+          entityExistentialInverseReifiedRestrictionAxioms = e.boxStatements
+              .foldLeft[Seq[tables.EntityExistentialInverseReifiedRestrictionAxiom]](Seq.empty)(convertEntityExistentialInverseReifiedRestrictionAxioms)
+              .sortBy(_.uuid.toString),
+
+          entityExistentialUnreifiedRestrictionAxioms = e.boxStatements
+              .foldLeft[Seq[tables.EntityExistentialUnreifiedRestrictionAxiom]](Seq.empty)(convertEntityExistentialUnreifiedRestrictionAxioms)
+              .sortBy(_.uuid.toString),
+
+          entityUniversalForwardReifiedRestrictionAxioms = e.boxStatements
+            .foldLeft[Seq[tables.EntityUniversalForwardReifiedRestrictionAxiom]](Seq.empty)(convertEntityUniversalForwardReifiedRestrictionAxioms)
+            .sortBy(_.uuid.toString),
+
+          entityUniversalInverseReifiedRestrictionAxioms = e.boxStatements
+            .foldLeft[Seq[tables.EntityUniversalInverseReifiedRestrictionAxiom]](Seq.empty)(convertEntityUniversalInverseReifiedRestrictionAxioms)
+            .sortBy(_.uuid.toString),
+
+          entityUniversalUnreifiedRestrictionAxioms = e.boxStatements
+            .foldLeft[Seq[tables.EntityUniversalUnreifiedRestrictionAxiom]](Seq.empty)(convertEntityUniversalUnreifiedRestrictionAxioms)
             .sortBy(_.uuid.toString),
 
           entityScalarDataPropertyExistentialRestrictionAxioms = e.boxStatements

@@ -43,7 +43,7 @@ case class InverseProperty
   = this(
       taggedTypes.inversePropertyUUID(oug.namespaceUUID(
         "InverseProperty",
-        "name" -> name.value,
+        "name" -> name,
         "reifiedRelationship" -> reifiedRelationshipUUID).toString),
       name,
       reifiedRelationshipUUID)

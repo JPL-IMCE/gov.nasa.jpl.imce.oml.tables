@@ -178,6 +178,21 @@ case class OMLTablesResolver private[resolver]
       .get(uuid)
   )
 
+  def lookupForwardProperty(uuid: api.taggedTypes.ForwardPropertyUUID)
+  : Option[resolver.api.ForwardProperty]
+  = OMLTablesResolver.collectFirstOption(allContexts)(
+    _
+      .forwardPropertyByUUID
+      .get(uuid)
+  )
+
+  def lookupInverseProperty(uuid: api.taggedTypes.InversePropertyUUID)
+  : Option[resolver.api.InverseProperty]
+  = OMLTablesResolver.collectFirstOption(allContexts)(
+    _
+      .inversePropertyByUUID
+      .get(uuid)
+  )
   def lookupBundleAxioms(key: Option[resolver.api.Bundle])
   : Set[resolver.api.TerminologyBundleAxiom]
   = key.fold[Set[resolver.api.TerminologyBundleAxiom]](Set.empty[resolver.api.TerminologyBundleAxiom]) {
@@ -1249,8 +1264,10 @@ object OMLTablesResolver {
     // Relational terms
     step4a <- mapRestrictedDataRanges(step3c)
     step4b <- mapReifiedRelationships(step4a)
-    step4c <- mapUnreifiedRelationships(step4b)
-    step4d <- mapChainRules(step4c)
+    step4c <- mapForwardProperties(step4b)
+    step4d <- mapInverseProperties(step4c)
+    step4e <- mapUnreifiedRelationships(step4d)
+    step4f <- mapChainRules(step4e)
 
     // DataRelationships
     step5a <- mapEntityScalarDataProperties(step4d)
@@ -1261,10 +1278,14 @@ object OMLTablesResolver {
     step6a <- mapScalarOneOfLiteralAxioms(step5d)
     // - TermAxioms
     // -- EntityRestrictionAxioms
-    step7a <- mapEntityExistentialRestrictionAxioms(step6a)
-    step7b <- mapEntityUniversalRestrictionAxioms(step7a)
+    step7a <- mapEntityExistentialForwardReifiedRestrictionAxioms(step6a)
+    step7b <- mapEntityExistentialInverseReifiedRestrictionAxioms(step7a)
+    step7c <- mapEntityExistentialUnreifiedRestrictionAxioms(step7b)
+    step7d <- mapEntityUniversalForwardReifiedRestrictionAxioms(step7c)
+    step7e <- mapEntityUniversalInverseReifiedRestrictionAxioms(step7d)
+    step7f <- mapEntityUniversalUnreifiedRestrictionAxioms(step7e)
     // -- EntityScalarDataPropertyRestrictionAxioms
-    step8a <- mapEntityScalarDataPropertyExistentialRestrictionAxioms(step7b)
+    step8a <- mapEntityScalarDataPropertyExistentialRestrictionAxioms(step7f)
     step8b <- mapEntityScalarDataPropertyParticularRestrictionAxioms(step8a)
     step8c <- mapEntityScalarDataPropertyUniversalRestrictionAxioms(step8b)
     step8d <- mapEntityStructuredDataPropertyParticularRestrictionAxioms(step8c)
@@ -1358,9 +1379,7 @@ object OMLTablesResolver {
             trr.isReflexive,
             trr.isSymmetric,
             trr.isTransitive,
-            trr.name,
-            trr.unreifiedPropertyName,
-            trr.unreifiedInversePropertyName)
+            trr.name)
 
           if (!ej.lookupBoxStatements(tboxM).contains(rrr))
             Failure(new IllegalArgumentException(s"ReifiedRelationship not in extent: $rrr"))
@@ -1374,6 +1393,98 @@ object OMLTablesResolver {
     s
   }
 
+  def mapForwardProperties
+  (r: OMLTablesResolver)
+  : Try[OMLTablesResolver]
+  = {
+    val byUUID =
+      r.queue.forwardProperties
+        .map { tp =>
+          api.taggedTypes.fromUUIDString(tp.reifiedRelationshipUUID) -> tp
+        }
+
+    val byTBox = for {
+      tuple <- byUUID
+      (relationshipUUID, tp) = tuple
+      rr = r.lookupTerminologyBoxStatement(relationshipUUID) match {
+        case Some(e: api.ReifiedRelationship) => Some(e)
+        case _ => None
+      }
+    } yield (rr, tp)
+
+
+    val unresolvable = byTBox.filter(tuple => tuple._1.isEmpty).map(_._2)
+    val resolvable = byTBox.flatMap {
+      case (Some(rM), tp) => Some(rM -> tp)
+      case _ => None
+    }
+
+    val s =
+      resolvable.foldLeft[Try[OMLTablesResolver]](Success(r.copy(queue = r.queue.copy(forwardProperties = unresolvable)))) {
+        case (Success(ri), (rr, tp)) =>
+          val (ej, rp) = ri.factory.createForwardProperty(
+            ri.context,
+            tp.name,
+            rr)
+
+          if (!ej.lookupForwardProperty(rr).contains(rp))
+            Failure(new IllegalArgumentException(s"ForwardProperty not in extent: $rp"))
+          else if (!ej.lookupForwardProperty(api.taggedTypes.fromUUIDString(tp.uuid)).contains(rp))
+            Failure(new IllegalArgumentException(s"ForwardProperty: $tp vs. $rp"))
+          else
+            Success(ri.copy(context = ej))
+        case (Failure(f), _) =>
+          Failure(f)
+      }
+    s
+  }
+
+  def mapInverseProperties
+  (r: OMLTablesResolver)
+  : Try[OMLTablesResolver]
+  = {
+    val byUUID =
+      r.queue.inverseProperties
+        .map { tp =>
+          api.taggedTypes.fromUUIDString(tp.reifiedRelationshipUUID) -> tp
+        }
+
+    val byTBox = for {
+      tuple <- byUUID
+      (relationshipUUID, tp) = tuple
+      rr = r.lookupTerminologyBoxStatement(relationshipUUID) match {
+        case Some(e: api.ReifiedRelationship) => Some(e)
+        case _ => None
+      }
+    } yield (rr, tp)
+
+
+    val unresolvable = byTBox.filter(tuple => tuple._1.isEmpty).map(_._2)
+    val resolvable = byTBox.flatMap {
+      case (Some(rM), tp) => Some(rM -> tp)
+      case _ => None
+    }
+
+    val s =
+      resolvable.foldLeft[Try[OMLTablesResolver]](Success(r.copy(queue = r.queue.copy(inverseProperties = unresolvable)))) {
+        case (Success(ri), (rr, tp)) =>
+          val (ej, rp) = ri.factory.createInverseProperty(
+            ri.context,
+            tp.name,
+            rr)
+
+          if (!ej.lookupInverseProperty(rr).contains(rp))
+            Failure(new IllegalArgumentException(s"InverseProperty not in extent: $rp"))
+          else if (!ej.lookupInverseProperty(api.taggedTypes.fromUUIDString(tp.uuid)).contains(rp))
+            Failure(new IllegalArgumentException(s"InverseProperty: $tp vs. $rp"))
+          else
+            Success(ri.copy(context = ej))
+        case (Failure(f), _) =>
+          Failure(f)
+      }
+    s
+  }
+  
   def mapUnreifiedRelationships
   (r: OMLTablesResolver)
   : Try[OMLTablesResolver]
@@ -1581,9 +1692,9 @@ object OMLTablesResolver {
               case None =>
                 rj.queue.reifiedRelationshipPropertyPredicates.find(_.bodySegmentUUID == puuid) match {
                   case Some(trrp: tables.ReifiedRelationshipPropertyPredicate) =>
-                    rj.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(trrp.reifiedRelationshipUUID)) match {
-                      case Some(rrr: api.ReifiedRelationship) =>
-                        val (ek, _) = rj.factory.createReifiedRelationshipPropertyPredicate(rj.context, rseg, rrr)
+                    rj.lookupForwardProperty(api.taggedTypes.fromUUIDString(trrp.forwardPropertyUUID)) match {
+                      case Some(rrr: api.ForwardProperty) =>
+                        val (ek, _) = rj.factory.createReifiedRelationshipPropertyPredicate(rj.context, rrr, rseg)
                         val rk = rj.copy(
                           context = ek,
                           queue = rj.queue.copy(reifiedRelationshipPropertyPredicates =
@@ -1595,7 +1706,7 @@ object OMLTablesResolver {
                             Success(rk)
                         }
                       case _ =>
-                        Failure(new IllegalArgumentException(s"ReifiedRelationshipPropertyPredicate: $trrp failed to resolve reified relationship: ${trrp.reifiedRelationshipUUID}"))
+                        Failure(new IllegalArgumentException(s"ReifiedRelationshipPropertyPredicate: $trrp failed to resolve forward property: ${trrp.forwardPropertyUUID}"))
                     }
                   case None =>
                     rj.queue.reifiedRelationshipSourcePropertyPredicates.find(_.bodySegmentUUID == puuid) match {
@@ -1657,9 +1768,9 @@ object OMLTablesResolver {
                               case None =>
                                 rj.queue.reifiedRelationshipInversePropertyPredicates.find(_.bodySegmentUUID == puuid) match {
                                   case Some(trrp: tables.ReifiedRelationshipInversePropertyPredicate) =>
-                                    rj.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(trrp.reifiedRelationshipUUID)) match {
-                                      case Some(rrr: api.ReifiedRelationship) =>
-                                        val (ek, _) = rj.factory.createReifiedRelationshipInversePropertyPredicate(rj.context, rseg, rrr)
+                                    rj.lookupInverseProperty(api.taggedTypes.fromUUIDString(trrp.inversePropertyUUID)) match {
+                                      case Some(rrr: api.InverseProperty) =>
+                                        val (ek, _) = rj.factory.createReifiedRelationshipInversePropertyPredicate(rj.context, rrr, rseg)
                                         val rk = rj.copy(
                                           context = ek,
                                           queue = rj.queue.copy(reifiedRelationshipInversePropertyPredicates =
@@ -1671,7 +1782,7 @@ object OMLTablesResolver {
                                             Success(rk)
                                         }
                                       case _ =>
-                                        Failure(new IllegalArgumentException(s"ReifiedRelationshipInversePropertyPredicate: $trrp failed to resolve reified relationship: ${trrp.reifiedRelationshipUUID}"))
+                                        Failure(new IllegalArgumentException(s"ReifiedRelationshipInversePropertyPredicate: $trrp failed to resolve inverse property: ${trrp.inversePropertyUUID}"))
                                     }
                                   case None =>
                                     rj.queue.reifiedRelationshipSourceInversePropertyPredicates.find(_.bodySegmentUUID == puuid) match {
@@ -2020,17 +2131,17 @@ object OMLTablesResolver {
     s
   }
 
-  def mapEntityExistentialRestrictionAxioms
+  def mapEntityExistentialForwardReifiedRestrictionAxioms
   (r: OMLTablesResolver)
   : Try[OMLTablesResolver]
   = {
     val byUUID =
-      r.queue.entityExistentialRestrictionAxioms
+      r.queue.entityExistentialForwardReifiedRestrictionAxioms
         .map { tra =>
           ( api.taggedTypes.fromUUIDString(tra.tboxUUID),
             api.taggedTypes.fromUUIDString(tra.restrictedDomainUUID),
             api.taggedTypes.fromUUIDString(tra.restrictedRangeUUID),
-            api.taggedTypes.fromUUIDString(tra.restrictedRelationUUID) ) -> tra
+            api.taggedTypes.fromUUIDString(tra.forwardPropertyUUID) ) -> tra
         }
 
     val byTBox = for {
@@ -2045,8 +2156,8 @@ object OMLTablesResolver {
         case Some(e: api.Entity) => Some(e)
         case _ => None
       }
-      relM = r.lookupTerminologyBoxStatement(relationUUID) match {
-        case Some(e: api.EntityRelationship) => Some(e)
+      relM = r.lookupForwardProperty(relationUUID) match {
+        case Some(e: api.ForwardProperty) => Some(e)
         case _ => None
       }
     } yield (tboxM, domainM, rangeM, relM, tra)
@@ -2054,7 +2165,7 @@ object OMLTablesResolver {
 
     val unresolvable = byTBox.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty || tuple._3.isEmpty || tuple._4.isEmpty).map(_._5)
     if (unresolvable.nonEmpty) {
-      java.lang.System.out.println(s"${unresolvable.size} entityExistentialRestrictionAxioms")
+      java.lang.System.out.println(s"${unresolvable.size} entityExistentialForwardReifiedRestrictionAxioms")
     }
     val resolvable = byTBox.flatMap {
       case (Some(tboxM), Some(domainM), Some(rangeM), Some(relM), tra) => Some(Tuple5(tboxM, domainM, rangeM, relM, tra))
@@ -2062,9 +2173,9 @@ object OMLTablesResolver {
     }
 
     val s =
-      resolvable.foldLeft[Try[OMLTablesResolver]](Success(r.copy(queue = r.queue.copy(entityExistentialRestrictionAxioms = unresolvable)))) {
+      resolvable.foldLeft[Try[OMLTablesResolver]](Success(r.copy(queue = r.queue.copy(entityExistentialForwardReifiedRestrictionAxioms = unresolvable)))) {
         case (Success(ri), (tboxM, domainM, rangeM, relM, tra)) =>
-          val (ej, rra) = ri.factory.createEntityExistentialRestrictionAxiom(
+          val (ej, rra) = ri.factory.createEntityExistentialForwardReifiedRestrictionAxiom(
             ri.context,
             tboxM,
             relM,
@@ -2072,9 +2183,9 @@ object OMLTablesResolver {
             rangeM)
 
           if (!ej.lookupBoxStatements(tboxM).contains(rra))
-            Failure(new IllegalArgumentException(s"EntityExistentialRestrictionAxiom not in extent: $rra"))
+            Failure(new IllegalArgumentException(s"EntityExistentialForwardReifiedRestrictionAxiom not in extent: $rra"))
           else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tra.uuid)).contains(rra))
-            Failure(new IllegalArgumentException(s"EntityExistentialRestrictionAxiom: $tra vs. $rra"))
+            Failure(new IllegalArgumentException(s"EntityExistentialForwardReifiedRestrictionAxiom: $tra vs. $rra"))
           else
             Success(ri.copy(context = ej))
         case (Failure(f), _) =>
@@ -2083,17 +2194,80 @@ object OMLTablesResolver {
     s
   }
 
-  def mapEntityUniversalRestrictionAxioms
+  def mapEntityExistentialInverseReifiedRestrictionAxioms
   (r: OMLTablesResolver)
   : Try[OMLTablesResolver]
   = {
     val byUUID =
-      r.queue.entityUniversalRestrictionAxioms
+      r.queue.entityExistentialInverseReifiedRestrictionAxioms
         .map { tra =>
           ( api.taggedTypes.fromUUIDString(tra.tboxUUID),
             api.taggedTypes.fromUUIDString(tra.restrictedDomainUUID),
             api.taggedTypes.fromUUIDString(tra.restrictedRangeUUID),
-            api.taggedTypes.fromUUIDString(tra.restrictedRelationUUID) ) -> tra
+            api.taggedTypes.fromUUIDString(tra.inversePropertyUUID) ) -> tra
+        }
+
+    val byTBox = for {
+      tuple <- byUUID
+      ((tboxUUID, domainUUID, rangeUUID, relationUUID), tra) = tuple
+      tboxM = r.lookupTerminologyBox(tboxUUID)
+      domainM = r.lookupTerminologyBoxStatement(domainUUID) match {
+        case Some(e: api.Entity) => Some(e)
+        case _ => None
+      }
+      rangeM = r.lookupTerminologyBoxStatement(rangeUUID) match {
+        case Some(e: api.Entity) => Some(e)
+        case _ => None
+      }
+      relM = r.lookupInverseProperty(relationUUID) match {
+        case Some(e: api.ForwardProperty) => Some(e)
+        case _ => None
+      }
+    } yield (tboxM, domainM, rangeM, relM, tra)
+
+
+    val unresolvable = byTBox.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty || tuple._3.isEmpty || tuple._4.isEmpty).map(_._5)
+    if (unresolvable.nonEmpty) {
+      java.lang.System.out.println(s"${unresolvable.size} entityExistentialInverseReifiedRestrictionAxioms")
+    }
+    val resolvable = byTBox.flatMap {
+      case (Some(tboxM), Some(domainM), Some(rangeM), Some(relM), tra) => Some(Tuple5(tboxM, domainM, rangeM, relM, tra))
+      case _ => None
+    }
+
+    val s =
+      resolvable.foldLeft[Try[OMLTablesResolver]](Success(r.copy(queue = r.queue.copy(entityExistentialInverseReifiedRestrictionAxioms = unresolvable)))) {
+        case (Success(ri), (tboxM, domainM, rangeM, relM, tra)) =>
+          val (ej, rra) = ri.factory.createEntityExistentialInverseReifiedRestrictionAxiom(
+            ri.context,
+            tboxM,
+            relM,
+            domainM,
+            rangeM)
+
+          if (!ej.lookupBoxStatements(tboxM).contains(rra))
+            Failure(new IllegalArgumentException(s"EntityExistentialInverseReifiedRestrictionAxiom not in extent: $rra"))
+          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tra.uuid)).contains(rra))
+            Failure(new IllegalArgumentException(s"EntityExistentialInverseReifiedRestrictionAxiom: $tra vs. $rra"))
+          else
+            Success(ri.copy(context = ej))
+        case (Failure(f), _) =>
+          Failure(f)
+      }
+    s
+  }
+
+  def mapEntityExistentialUnreifiedRestrictionAxioms
+  (r: OMLTablesResolver)
+  : Try[OMLTablesResolver]
+  = {
+    val byUUID =
+      r.queue.entityExistentialUnreifiedRestrictionAxioms
+        .map { tra =>
+          ( api.taggedTypes.fromUUIDString(tra.tboxUUID),
+            api.taggedTypes.fromUUIDString(tra.restrictedDomainUUID),
+            api.taggedTypes.fromUUIDString(tra.restrictedRangeUUID),
+            api.taggedTypes.fromUUIDString(tra.restrictedUnreifiedRelationshipUUID) ) -> tra
         }
 
     val byTBox = for {
@@ -2109,7 +2283,7 @@ object OMLTablesResolver {
         case _ => None
       }
       relM = r.lookupTerminologyBoxStatement(relationUUID) match {
-        case Some(e: api.EntityRelationship) => Some(e)
+        case Some(e: api.UnreifiedRelationship) => Some(e)
         case _ => None
       }
     } yield (tboxM, domainM, rangeM, relM, tra)
@@ -2117,7 +2291,7 @@ object OMLTablesResolver {
 
     val unresolvable = byTBox.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty || tuple._3.isEmpty || tuple._4.isEmpty).map(_._5)
     if (unresolvable.nonEmpty) {
-      java.lang.System.out.println(s"${unresolvable.size} entityUniversalRestrictionAxioms")
+      java.lang.System.out.println(s"${unresolvable.size} entityExistentialUnreifiedRestrictionAxioms")
     }
     val resolvable = byTBox.flatMap {
       case (Some(tboxM), Some(domainM), Some(rangeM), Some(relM), tra) => Some(Tuple5(tboxM, domainM, rangeM, relM, tra))
@@ -2125,9 +2299,72 @@ object OMLTablesResolver {
     }
 
     val s =
-      resolvable.foldLeft[Try[OMLTablesResolver]](Success(r.copy(queue = r.queue.copy(entityUniversalRestrictionAxioms = unresolvable)))) {
+      resolvable.foldLeft[Try[OMLTablesResolver]](Success(r.copy(queue = r.queue.copy(entityExistentialUnreifiedRestrictionAxioms = unresolvable)))) {
         case (Success(ri), (tboxM, domainM, rangeM, relM, tra)) =>
-          val (ej, rra) = ri.factory.createEntityUniversalRestrictionAxiom(
+          val (ej, rra) = ri.factory.createEntityExistentialUnreifiedRestrictionAxiom(
+            ri.context,
+            tboxM,
+            domainM,
+            rangeM,
+            relM)
+
+          if (!ej.lookupBoxStatements(tboxM).contains(rra))
+            Failure(new IllegalArgumentException(s"EntityExistentialUnreifiedRestrictionAxiom not in extent: $rra"))
+          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tra.uuid)).contains(rra))
+            Failure(new IllegalArgumentException(s"EntityExistentialUnreifiedRestrictionAxiom: $tra vs. $rra"))
+          else
+            Success(ri.copy(context = ej))
+        case (Failure(f), _) =>
+          Failure(f)
+      }
+    s
+  }
+
+  def mapEntityUniversalForwardReifiedRestrictionAxioms
+  (r: OMLTablesResolver)
+  : Try[OMLTablesResolver]
+  = {
+    val byUUID =
+      r.queue.entityUniversalForwardReifiedRestrictionAxioms
+        .map { tra =>
+          ( api.taggedTypes.fromUUIDString(tra.tboxUUID),
+            api.taggedTypes.fromUUIDString(tra.restrictedDomainUUID),
+            api.taggedTypes.fromUUIDString(tra.restrictedRangeUUID),
+            api.taggedTypes.fromUUIDString(tra.forwardPropertyUUID) ) -> tra
+        }
+
+    val byTBox = for {
+      tuple <- byUUID
+      ((tboxUUID, domainUUID, rangeUUID, relationUUID), tra) = tuple
+      tboxM = r.lookupTerminologyBox(tboxUUID)
+      domainM = r.lookupTerminologyBoxStatement(domainUUID) match {
+        case Some(e: api.Entity) => Some(e)
+        case _ => None
+      }
+      rangeM = r.lookupTerminologyBoxStatement(rangeUUID) match {
+        case Some(e: api.Entity) => Some(e)
+        case _ => None
+      }
+      relM = r.lookupForwardProperty(relationUUID) match {
+        case Some(e: api.ForwardProperty) => Some(e)
+        case _ => None
+      }
+    } yield (tboxM, domainM, rangeM, relM, tra)
+
+
+    val unresolvable = byTBox.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty || tuple._3.isEmpty || tuple._4.isEmpty).map(_._5)
+    if (unresolvable.nonEmpty) {
+      java.lang.System.out.println(s"${unresolvable.size} entityUniversalForwardReifiedRestrictionAxioms")
+    }
+    val resolvable = byTBox.flatMap {
+      case (Some(tboxM), Some(domainM), Some(rangeM), Some(relM), tra) => Some(Tuple5(tboxM, domainM, rangeM, relM, tra))
+      case _ => None
+    }
+
+    val s =
+      resolvable.foldLeft[Try[OMLTablesResolver]](Success(r.copy(queue = r.queue.copy(entityUniversalForwardReifiedRestrictionAxioms = unresolvable)))) {
+        case (Success(ri), (tboxM, domainM, rangeM, relM, tra)) =>
+          val (ej, rra) = ri.factory.createEntityUniversalForwardReifiedRestrictionAxiom(
             ri.context,
             tboxM,
             relM,
@@ -2135,9 +2372,135 @@ object OMLTablesResolver {
             rangeM)
 
           if (!ej.lookupBoxStatements(tboxM).contains(rra))
-            Failure(new IllegalArgumentException(s"EntityUniversalRestrictionAxiom not in extent: $rra"))
+            Failure(new IllegalArgumentException(s"EntityUniversalForwardReifiedRestrictionAxiom not in extent: $rra"))
           else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tra.uuid)).contains(rra))
-            Failure(new IllegalArgumentException(s"EntityUniversalRestrictionAxiom: $tra vs. $rra"))
+            Failure(new IllegalArgumentException(s"EntityUniversalForwardReifiedRestrictionAxiom: $tra vs. $rra"))
+          else
+            Success(ri.copy(context = ej))
+        case (Failure(f), _) =>
+          Failure(f)
+      }
+    s
+  }
+
+  def mapEntityUniversalInverseReifiedRestrictionAxioms
+  (r: OMLTablesResolver)
+  : Try[OMLTablesResolver]
+  = {
+    val byUUID =
+      r.queue.entityUniversalInverseReifiedRestrictionAxioms
+        .map { tra =>
+          ( api.taggedTypes.fromUUIDString(tra.tboxUUID),
+            api.taggedTypes.fromUUIDString(tra.restrictedDomainUUID),
+            api.taggedTypes.fromUUIDString(tra.restrictedRangeUUID),
+            api.taggedTypes.fromUUIDString(tra.inversePropertyUUID) ) -> tra
+        }
+
+    val byTBox = for {
+      tuple <- byUUID
+      ((tboxUUID, domainUUID, rangeUUID, relationUUID), tra) = tuple
+      tboxM = r.lookupTerminologyBox(tboxUUID)
+      domainM = r.lookupTerminologyBoxStatement(domainUUID) match {
+        case Some(e: api.Entity) => Some(e)
+        case _ => None
+      }
+      rangeM = r.lookupTerminologyBoxStatement(rangeUUID) match {
+        case Some(e: api.Entity) => Some(e)
+        case _ => None
+      }
+      relM = r.lookupInverseProperty(relationUUID) match {
+        case Some(e: api.ForwardProperty) => Some(e)
+        case _ => None
+      }
+    } yield (tboxM, domainM, rangeM, relM, tra)
+
+
+    val unresolvable = byTBox.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty || tuple._3.isEmpty || tuple._4.isEmpty).map(_._5)
+    if (unresolvable.nonEmpty) {
+      java.lang.System.out.println(s"${unresolvable.size} entityUniversalInverseReifiedRestrictionAxioms")
+    }
+    val resolvable = byTBox.flatMap {
+      case (Some(tboxM), Some(domainM), Some(rangeM), Some(relM), tra) => Some(Tuple5(tboxM, domainM, rangeM, relM, tra))
+      case _ => None
+    }
+
+    val s =
+      resolvable.foldLeft[Try[OMLTablesResolver]](Success(r.copy(queue = r.queue.copy(entityUniversalInverseReifiedRestrictionAxioms = unresolvable)))) {
+        case (Success(ri), (tboxM, domainM, rangeM, relM, tra)) =>
+          val (ej, rra) = ri.factory.createEntityUniversalInverseReifiedRestrictionAxiom(
+            ri.context,
+            tboxM,
+            relM,
+            domainM,
+            rangeM)
+
+          if (!ej.lookupBoxStatements(tboxM).contains(rra))
+            Failure(new IllegalArgumentException(s"EntityUniversalInverseReifiedRestrictionAxiom not in extent: $rra"))
+          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tra.uuid)).contains(rra))
+            Failure(new IllegalArgumentException(s"EntityUniversalInverseReifiedRestrictionAxiom: $tra vs. $rra"))
+          else
+            Success(ri.copy(context = ej))
+        case (Failure(f), _) =>
+          Failure(f)
+      }
+    s
+  }
+
+  def mapEntityUniversalUnreifiedRestrictionAxioms
+  (r: OMLTablesResolver)
+  : Try[OMLTablesResolver]
+  = {
+    val byUUID =
+      r.queue.entityUniversalUnreifiedRestrictionAxioms
+        .map { tra =>
+          ( api.taggedTypes.fromUUIDString(tra.tboxUUID),
+            api.taggedTypes.fromUUIDString(tra.restrictedDomainUUID),
+            api.taggedTypes.fromUUIDString(tra.restrictedRangeUUID),
+            api.taggedTypes.fromUUIDString(tra.restrictedUnreifiedRelationshipUUID) ) -> tra
+        }
+
+    val byTBox = for {
+      tuple <- byUUID
+      ((tboxUUID, domainUUID, rangeUUID, relationUUID), tra) = tuple
+      tboxM = r.lookupTerminologyBox(tboxUUID)
+      domainM = r.lookupTerminologyBoxStatement(domainUUID) match {
+        case Some(e: api.Entity) => Some(e)
+        case _ => None
+      }
+      rangeM = r.lookupTerminologyBoxStatement(rangeUUID) match {
+        case Some(e: api.Entity) => Some(e)
+        case _ => None
+      }
+      relM = r.lookupTerminologyBoxStatement(relationUUID) match {
+        case Some(e: api.UnreifiedRelationship) => Some(e)
+        case _ => None
+      }
+    } yield (tboxM, domainM, rangeM, relM, tra)
+
+
+    val unresolvable = byTBox.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty || tuple._3.isEmpty || tuple._4.isEmpty).map(_._5)
+    if (unresolvable.nonEmpty) {
+      java.lang.System.out.println(s"${unresolvable.size} entityUniversalUnreifiedRestrictionAxioms")
+    }
+    val resolvable = byTBox.flatMap {
+      case (Some(tboxM), Some(domainM), Some(rangeM), Some(relM), tra) => Some(Tuple5(tboxM, domainM, rangeM, relM, tra))
+      case _ => None
+    }
+
+    val s =
+      resolvable.foldLeft[Try[OMLTablesResolver]](Success(r.copy(queue = r.queue.copy(entityUniversalUnreifiedRestrictionAxioms = unresolvable)))) {
+        case (Success(ri), (tboxM, domainM, rangeM, relM, tra)) =>
+          val (ej, rra) = ri.factory.createEntityUniversalUnreifiedRestrictionAxiom(
+            ri.context,
+            tboxM,
+            domainM,
+            rangeM,
+            relM)
+
+          if (!ej.lookupBoxStatements(tboxM).contains(rra))
+            Failure(new IllegalArgumentException(s"EntityUniversalUnreifiedRestrictionAxiom not in extent: $rra"))
+          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tra.uuid)).contains(rra))
+            Failure(new IllegalArgumentException(s"EntityUniversalUnreifiedRestrictionAxiom: $tra vs. $rra"))
           else
             Success(ri.copy(context = ej))
         case (Failure(f), _) =>

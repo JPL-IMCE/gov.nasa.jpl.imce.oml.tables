@@ -1,0 +1,8 @@
+gov.nasa.jpl.imce.oml.tables 0.91 resolves major issues in 0.90
+
+## Issues Resolved
+
+
+- [#42 Add support for special character conversions.](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/42)
+
+- [#43 Update support for OML EntityRestriction direction](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/43)

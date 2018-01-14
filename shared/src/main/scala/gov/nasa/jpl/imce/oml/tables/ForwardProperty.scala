@@ -43,7 +43,7 @@ case class ForwardProperty
   = this(
       taggedTypes.forwardPropertyUUID(oug.namespaceUUID(
         "ForwardProperty",
-        "name" -> name.value,
+        "name" -> name,
         "reifiedRelationship" -> reifiedRelationshipUUID).toString),
       name,
       reifiedRelationshipUUID)

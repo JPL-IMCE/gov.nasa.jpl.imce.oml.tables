@@ -99,6 +99,32 @@ object OMLOps {
         Set.empty[api.ReifiedRelationship]
     }
 
+    def forwardProperties
+    (implicit ex: api.Extent)
+    : Set[api.ForwardProperty]
+    = m match {
+      case g: api.TerminologyBox =>
+        Set.empty[api.ForwardProperty] ++ ex.lookupBoxStatements(g).flatMap {
+          case rr: api.ForwardProperty => Some(rr)
+          case _ => None
+        }
+      case _ =>
+        Set.empty[api.ForwardProperty]
+    }
+
+    def inverseProperties
+    (implicit ex: api.Extent)
+    : Set[api.InverseProperty]
+    = m match {
+      case g: api.TerminologyBox =>
+        Set.empty[api.InverseProperty] ++ ex.lookupBoxStatements(g).flatMap {
+          case rr: api.InverseProperty => Some(rr)
+          case _ => None
+        }
+      case _ =>
+        Set.empty[api.InverseProperty]
+    }
+    
     def unreifiedRelationships
     (implicit ex: api.Extent)
     : Set[api.UnreifiedRelationship]

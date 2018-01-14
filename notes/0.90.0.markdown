@@ -47,7 +47,3 @@ gov.nasa.jpl.imce.oml.tables 0.90.0 resolves major issues in 0.80.0
 - [#40 OML AnnotationProperty refactoring](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/40)
 
 - [#41 Sync OML schema](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/41)
-
-- [#42 Add support for special character conversions.](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/42)
-
-- [#43 Update support for OML EntityRestriction direction](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/43)
