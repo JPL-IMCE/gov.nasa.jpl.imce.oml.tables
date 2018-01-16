@@ -72,3 +72,7 @@ Note that `uuid*` means that a 0.90 `uuid` needs to be recomputed in 0.91.
 | ---- | ---- |
 | [`createEntityExistentialForwardReifiedRestrictionAxiom(extent, tbox, restrictedRelation, restrictedDomain, restrictedRange)`](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/blob/0.90.0-M45/shared/src/main/scala/gov/nasa/jpl/imce/oml/resolver/api/OMLResolvedFactory.scala#L447) | `createEntityExistentialRestrictionAxiom(extent, tbox, restrictedDomain, restrictedRange, restrictedRelation.forwardProperty)` |
 | [`createEntityUniversalForwardReifiedRestrictionAxiom(extent, tbox, restrictedRelation, restrictedDomain, restrictedRange)`](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/blob/0.90.0-M45/shared/src/main/scala/gov/nasa/jpl/imce/oml/resolver/api/OMLResolvedFactory.scala#L648) | `createEntityUniversalRestrictionAxiom(extent, tbox, restrictedDomain, restrictedRange, restrictedRelation.forwardProperty)` |
+
+### [#44 Minor code generation update](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/44)
+
+Minor changes pertain to generated code only.

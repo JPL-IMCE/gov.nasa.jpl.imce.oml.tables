@@ -219,7 +219,7 @@ object taggedTypes {
   trait ReifiedRelationshipInstanceRangeTag <: ElementCrossReferenceTupleTag with TerminologyInstanceAssertionTag
   trait ReifiedRelationshipSpecializationAxiomTag <: SpecializationAxiomTag
   trait ResourceTag <: IntrinsicIdentityKindTag with LogicalElementTag
-  trait RestrictableRelationshipTag <: PredicateTag with ResourceTag
+  trait RestrictableRelationshipTag <: PredicateTag
   trait RestrictedDataRangeTag <: DataRangeTag
   trait RestrictionScalarDataPropertyValueTag <: LogicalElementTag with ValueCrossReferenceTupleTag
   trait RestrictionStructuredDataPropertyContextTag <: ElementCrossReferenceTupleTag with ModuleElementTag

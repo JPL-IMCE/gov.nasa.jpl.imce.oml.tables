@@ -19,6 +19,6 @@
  
 package gov.nasa.jpl.imce.oml.tables
 
-trait RestrictableRelationship extends Predicate with Resource {
+trait RestrictableRelationship extends Predicate {
   override val uuid: taggedTypes.RestrictableRelationshipUUID
 }

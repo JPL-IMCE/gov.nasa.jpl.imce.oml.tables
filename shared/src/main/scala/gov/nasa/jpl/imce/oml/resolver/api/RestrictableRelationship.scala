@@ -26,8 +26,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
  * and that can be involved in an OML SegmentPredicate for an OML ChainRule.
  */
 trait RestrictableRelationship
-  extends Resource
-  with Predicate
+  extends Predicate
 {
   override val uuid: taggedTypes.RestrictableRelationshipUUID
 
