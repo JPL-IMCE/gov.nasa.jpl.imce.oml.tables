@@ -2,7 +2,73 @@ gov.nasa.jpl.imce.oml.tables 0.91 resolves major issues in 0.90
 
 ## Issues Resolved
 
+### [#42 Add support for special character conversions.](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/42)
 
-- [#42 Add support for special character conversions.](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/42)
+### [#43 Update support for OML EntityRestriction direction](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/43)
 
-- [#43 Update support for OML EntityRestriction direction](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/43)
+#### 1) Migration from 0.90 to 0.91 in `gov.nasa.jpl.imce.oml.tables` API for concrete `SegmentPredicate`(s).
+
+Note that `uuid*` means that a 0.90 `uuid` needs to be recomputed in 0.91.
+
+| 0.90 | 0.91 | 
+| ---- | ---- |
+| [`AspectPredicate(uuid, aspectUUID, bodySegmentUUID)`](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/blob/0.90.0-M45/shared/src/main/scala/gov/nasa/jpl/imce/oml/tables/AspectPredicate.scala#L32) | `SegmentPredicate(uuid*, bodySegmentUUID, Some(aspectUUID), None, None, None, None, None)` |
+| [`ConceptPredicate(uuid, bodySegmentUUID, conceptUUID)`](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/blob/0.90.0-M45/shared/src/main/scala/gov/nasa/jpl/imce/oml/tables/ConceptPredicate.scala#L32) | `SegmentPredicate(uuid*, bodySegmentUUID, Some(conceptUUID), None, None, None, None, None)` |
+| [`ReifiedRelationshipPredicate(uuid, bodySegmentUUID, reifiedRelationshipUUID)`](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/blob/0.90.0-M45/shared/src/main/scala/gov/nasa/jpl/imce/oml/tables/ReifiedRelationshipPredicate.scala#L32) | `SegmentPredicate(uuid*, bodySegmentUUID, Some(reifiedRelationshipUUID), None, None, None, None, None)` |
+|---|---|
+| [`ReifiedRelationshipPropertyPredicate(uuid, bodySegmentUUID, reifiedRelationshipUUID)`](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/blob/0.90.0-M45/shared/src/main/scala/gov/nasa/jpl/imce/oml/tables/ReifiedRelationshipPropertyPredicate.scala#L32) | `SegmentPredicate(uuid*, bodySegmentUUID, Some(taggedTypes.ForwardPropertyUUID), None, None, None, None, None)` |
+| [`ReifiedRelationshipSourcePropertyPredicate(uuid, bodySegmentUUID, reifiedRelationshipUUID)`](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/blob/0.90.0-M45/shared/src/main/scala/gov/nasa/jpl/imce/oml/tables/ReifiedRelationshipSourcePropertyPredicate.scala#L32) | `SegmentPredicate(uuid*, bodySegmentUUID, None, Some(reifiedRelationshipUUID), None, None, None, None)` |
+| [`ReifiedRelationshipTargetPropertyPredicate(uuid, bodySegmentUUID, reifiedRelationshipUUID)`](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/blob/0.90.0-M45/shared/src/main/scala/gov/nasa/jpl/imce/oml/tables/ReifiedRelationshipTargetPropertyPredicate.scala#L32) | `SegmentPredicate(uuid*, bodySegmentUUID, None, None, None, Some(reifiedRelationshipUUID), None, None)` |
+| [`UnreifiedRelationshipPropertyPredicate(uuid, unreifiedRelationshipUUID, bodySegmentUUID)`](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/blob/0.90.0-M45/shared/src/main/scala/gov/nasa/jpl/imce/oml/tables/UnreifiedRelationshipPropertyPredicate.scala#L32) | `SegmentPredicate(uuid*, bodySegmentUUID, Some(unreifiedRelationshipUUID), None, None, None, None, None)` |
+|---|---|
+| [`ReifiedRelationshipInversePropertyPredicate(uuid, bodySegmentUUID, reifiedRelationshipUUID)`](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/blob/0.90.0-M45/shared/src/main/scala/gov/nasa/jpl/imce/oml/tables/ReifiedRelationshipInversePropertyPredicate.scala#L32) | `SegmentPredicate(uuid*, bodySegmentUUID, Some(taggedTypes.InversePropertyUUID), None, None, None, None, None)` |
+| [`ReifiedRelationshipSourceInversePropertyPredicate(uuid, bodySegmentUUID, reifiedRelationshipUUID)`](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/blob/0.90.0-M45/shared/src/main/scala/gov/nasa/jpl/imce/oml/tables/ReifiedRelationshipSourceInversePropertyPredicate.scala#L32) | `SegmentPredicate(uuid*, bodySegmentUUID, None, None, Some(reifiedRelationshipUUID), None, None, None)` |
+| [`ReifiedRelationshipTargetInversePropertyPredicate(uuid, bodySegmentUUID, reifiedRelationshipUUID)`](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/blob/0.90.0-M45/shared/src/main/scala/gov/nasa/jpl/imce/oml/tables/ReifiedRelationshipTargetInversePropertyPredicate.scala#L32) | `SegmentPredicate(uuid*, bodySegmentUUID, None, None, None, None, Some(reifiedRelationshipUUID), None)` |
+| [`UnreifiedRelationshipInversePropertyPredicate(uuid, unreifiedRelationshipUUID, bodySegmentUUID)`](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/blob/0.90.0-M45/shared/src/main/scala/gov/nasa/jpl/imce/oml/tables/UnreifiedRelationshipInversePropertyPredicate.scala#L32) | `SegmentPredicate(uuid*, bodySegmentUUID, None, None, None, None, None, Some(unreifiedRelationshipUUID))` |
+
+#### 2) Migration from 0.90 to 0.91 in `gov.nasa.jpl.imce.oml.tables` API for abstract `SegmentPredicate`(s).
+
+| 0.90 | 0.91 | 
+| ---- | ---- |
+| `UnarySegmentPredicate(uuid, bodySegmentUUID)` | `SegmentPredicate(uuid*, bodySegmentUUID, Some(taggedTypes.PredicateUUID), None, None, None, None, None)` |
+| `BinarySegmentPropertyPredicate(uuid, bodySegmentUUID)` | See `BinarySegmentForwardPropertyPredicate` and `BinarySegmentReversePropertyPredicate` |
+|---|---|
+| `BinarySegmentForwardPropertyPredicate(uuid, bodySegmentUUID)` | `SegmentPredicate(uuid*, bodySegmentUUID, Some(taggedTypes.ForwardPropertyUUID), None, None, None, None, None)` or |
+| | `SegmentPredicate(uuid*, bodySegmentUUID, Some(taggedTypes.UnreifiedRelationshipUUID), None, None, None, None, None)` or |
+| | `SegmentPredicate(uuid*, bodySegmentUUID, None, Some(taggedTypes.ReifiedRelationshipUUID), None, None, None, None)` or |
+| | `SegmentPredicate(uuid*, bodySegmentUUID, None, None, None, Some(taggedTypes.ReifiedRelationshipUUID), None, None)` |
+|---|---|
+| `BinarySegmentReversePropertyPredicate(uuid, bodySegmentUUID)` | `SegmentPredicate(uuid*, bodySegmentUUID, Some(taggedTypes.InversePropertyUUID), None, None, None, None, None)` or |
+| | `SegmentPredicate(uuid*, bodySegmentUUID, None, None, None, None, None, Some(taggedTypes.UnreifiedRelationshipUUID))` or |
+| | `SegmentPredicate(uuid*, bodySegmentUUID, None, None, Some(taggedTypes.ReifiedRelationshipUUID), None, None, None)` or |
+| | `SegmentPredicate(uuid*, bodySegmentUUID, None, None, None, None, Some(taggedTypes.ReifiedRelationshipUUID), None)` |
+
+#### 3) Migration from 0.90 to 0.91 in `gov.nasa.jpl.imce.oml.tables` API for concrete `EntityRestrictionAxiom`(s).
+
+Note that `uuid*` means that a 0.90 `uuid` needs to be recomputed in 0.91.
+
+| 0.90 | 0.91 | 
+| ---- | ---- |
+| [`EntityExistentialRestrictionAxiom(uuid, tboxUUID, restrictedRelationUUID, restrictedDomainUUID, restrictedRangeUUID)`](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/blob/0.90.0-M45/shared/src/main/scala/gov/nasa/jpl/imce/oml/tables/EntityExistentialRestrictionAxiom.scala#L34) | `EntityExistentialRestrictionAxiom(uuid, tboxUUID, restrictedDomainUUID, restrictedRangeUUID, <ReifiedRelationship.forwardProperty UUID>)`|
+| [`EntityUniversalRestrictionAxiom(uuid, tboxUUID, restrictedRelationUUID, restrictedDomainUUID, restrictedRangeUUID)`](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/blob/0.90.0-M45/shared/src/main/scala/gov/nasa/jpl/imce/oml/tables/EntityUniversalRestrictionAxiom.scala#L34) | `EntityUniversalRestrictionAxiom(uuid, tboxUUID, restrictedDomainUUID, restrictedRangeUUID, <ReifiedRelationship.forwardProperty UUID>)`|
+
+#### 4) Migration from 0.90 to 0.91 in `gov.nasa.jpl.imce.oml.resolver.api.OMLResolvedFactory`.
+
+| 0.90 | 0.91 |
+| ---- | ---- | 
+| [`createAspectPredicate(extent, aspect, bodySegment)`](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/blob/0.90.0-M45/shared/src/main/scala/gov/nasa/jpl/imce/oml/resolver/api/OMLResolvedFactory.scala#L118) | `createSegmentPredicate(extent, bodySegment, predicate=Some(aspect), reifiedRelationshipSource=None, reifiedRelationshipInverseSource=None, reifiedRelationshipTarget=None, reifiedRelationshipInverseTarget=None, unreifiedRelationshipInverse=None)` |
+| [`createConceptPredicate(extent, concept, bodySegment)`](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/blob/0.90.0-M45/shared/src/main/scala/gov/nasa/jpl/imce/oml/resolver/api/OMLResolvedFactory.scala#L330) | `createSegmentPredicate(extent, bodySegment, predicate=Some(concept), reifiedRelationshipSource=None, reifiedRelationshipInverseSource=None, reifiedRelationshipTarget=None, reifiedRelationshipInverseTarget=None, unreifiedRelationshipInverse=None)` |
+| [`createReifiedRelationshipPredicate(extent, bodySegment, reifiedRelationship)`](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/blob/0.90.0-M45/shared/src/main/scala/gov/nasa/jpl/imce/oml/resolver/api/OMLResolvedFactory.scala#L920) | `createSegmentPredicate(extent, bodySegment, predicate=Some(reifiedRelationship), reifiedRelationshipSource=None, reifiedRelationshipInverseSource=None, reifiedRelationshipTarget=None, reifiedRelationshipInverseTarget=None, unreifiedRelationshipInverse=None)` |
+| ---- | ---- |
+| [`createReifiedRelationshipPropertyPredicate(extent, bodySegment, reifiedRelationship)`](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/blob/0.90.0-M45/shared/src/main/scala/gov/nasa/jpl/imce/oml/resolver/api/OMLResolvedFactory.scala#L944) | `createSegmentPredicate(extent, bodySegment, predicate=Some(reifiedRelationship.forwardProperty), reifiedRelationshipSource=None, reifiedRelationshipInverseSource=None, reifiedRelationshipTarget=None, reifiedRelationshipInverseTarget=None, unreifiedRelationshipInverse=None)` |
+| [`createReifiedRelationshipSourcePropertyPredicate(extent, bodySegment, reifiedRelationship)`](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/blob/0.90.0-M45/shared/src/main/scala/gov/nasa/jpl/imce/oml/resolver/api/OMLResolvedFactory.scala#L992) | `createSegmentPredicate(extent, bodySegment, predicate=None, reifiedRelationshipSource=Some(reifiedRelationship), reifiedRelationshipInverseSource=None, reifiedRelationshipTarget=None, reifiedRelationshipInverseTarget=None, unreifiedRelationshipInverse=None)` |
+| [`createReifiedRelationshipTargetPropertyPredicate(extent, bodySegment, reifiedRelationship)`](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/blob/0.90.0-M45/shared/src/main/scala/gov/nasa/jpl/imce/oml/resolver/api/OMLResolvedFactory.scala#L1067) | `createSegmentPredicate(extent, bodySegment, predicate=None, reifiedRelationshipSource=None, reifiedRelationshipInverseSource=None, reifiedRelationshipTarget=Some(reifiedRelationship), reifiedRelationshipInverseTarget=None, unreifiedRelationshipInverse=None)` |
+| [`createUnreifiedRelationshipPropertyPredicate(extent, unreifiedRelationship, bodySegment)`](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/blob/0.90.0-M45/shared/src/main/scala/gov/nasa/jpl/imce/oml/resolver/api/OMLResolvedFactory.scala#L1778) | `createSegmentPredicate(extent, bodySegment, predicate=Some(unreifiedRelationship), reifiedRelationshipSource=None, reifiedRelationshipInverseSource=None, reifiedRelationshipTarget=None, reifiedRelationshipInverseTarget=None, unreifiedRelationshipInverse=None)` |
+| ---- | ---- |
+| [`createReifiedRelationshipInversePropertyPredicate(extent, bodySegment, reifiedRelationship)`](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/blob/0.90.0-M45/shared/src/main/scala/gov/nasa/jpl/imce/oml/resolver/api/OMLResolvedFactory.scala#L896) | `createSegmentPredicate(extent, bodySegment, predicate=Some(reifiedRelationship.inverseProperty), reifiedRelationshipSource=None, reifiedRelationshipInverseSource=None, reifiedRelationshipTarget=None, reifiedRelationshipInverseTarget=None, unreifiedRelationshipInverse=None)` |
+| [`createReifiedRelationshipSourceInversePropertyPredicate(extent, bodySegment, reifiedRelationship)`](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/blob/0.90.0-M45/shared/src/main/scala/gov/nasa/jpl/imce/oml/resolver/api/OMLResolvedFactory.scala#L968) | `createSegmentPredicate(extent, bodySegment, predicate=None, reifiedRelationshipSource=None, reifiedRelationshipInverseSource=Some(reifiedRelationship), reifiedRelationshipTarget=None, reifiedRelationshipInverseTarget=None, unreifiedRelationshipInverse=None)` |
+| [`createReifiedRelationshipTargetInversePropertyPredicate(extent, bodySegment, reifiedRelationship)`](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/blob/0.90.0-M45/shared/src/main/scala/gov/nasa/jpl/imce/oml/resolver/api/OMLResolvedFactory.scala#L1043) | `createSegmentPredicate(extent, bodySegment, predicate=None, reifiedRelationshipSource=None, reifiedRelationshipInverseSource=None, reifiedRelationshipTarget=None, reifiedRelationshipInverseTarget=Some(reifiedRelationship), unreifiedRelationshipInverse=None)` |
+| [`createUnreifiedRelationshipInversePropertyPredicate(extent, unreifiedRelationship, bodySegment)`](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/blob/0.90.0-M45/shared/src/main/scala/gov/nasa/jpl/imce/oml/resolver/api/OMLResolvedFactory.scala#L1754) | `createSegmentPredicate(extent, bodySegment, predicate=None, reifiedRelationshipSource=None, reifiedRelationshipInverseSource=None, reifiedRelationshipTarget=None, reifiedRelationshipInverseTarget=None, unreifiedRelationshipInverse=Some(unreifiedRelationship))` |
+| ---- | ---- |
+| [`createEntityExistentialForwardReifiedRestrictionAxiom(extent, tbox, restrictedRelation, restrictedDomain, restrictedRange)`](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/blob/0.90.0-M45/shared/src/main/scala/gov/nasa/jpl/imce/oml/resolver/api/OMLResolvedFactory.scala#L447) | `createEntityExistentialRestrictionAxiom(extent, tbox, restrictedDomain, restrictedRange, restrictedRelation.forwardProperty)` |
+| [`createEntityUniversalForwardReifiedRestrictionAxiom(extent, tbox, restrictedRelation, restrictedDomain, restrictedRange)`](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/blob/0.90.0-M45/shared/src/main/scala/gov/nasa/jpl/imce/oml/resolver/api/OMLResolvedFactory.scala#L648) | `createEntityUniversalRestrictionAxiom(extent, tbox, restrictedDomain, restrictedRange, restrictedRelation.forwardProperty)` |

@@ -21,7 +21,7 @@ package gov.nasa.jpl.imce.oml.resolver.api
 import java.lang.IllegalArgumentException
 import scala.collection.immutable.{::, HashMap, Map, Nil, Set}
 import scala.util.{Failure,Success,Try}
-import scala.{Option,StringContext}
+import scala.{Option,None,Some,StringContext}
 
 // Container types:
 // - Bundle (bundles)
@@ -490,45 +490,45 @@ case class Extent
   = lookupTerminologyGraph(uuid.asInstanceOf[taggedTypes.TerminologyGraphUUID]) orElse 
   lookupBundle(uuid.asInstanceOf[taggedTypes.BundleUUID])
   
-  def lookupTerminologyGraph //1
+  def lookupTerminologyGraph
   (uuid: Option[taggedTypes.TerminologyGraphUUID])
   : Option[TerminologyGraph]
   = uuid.flatMap {
     lookupTerminologyGraph
   } 
   
-  def lookupTerminologyGraph //2
+  def lookupTerminologyGraph
   (uuid: taggedTypes.TerminologyGraphUUID)
   : Option[TerminologyGraph]
   = terminologyGraphs.get(uuid)
     
   
-  def lookupBundle //1
+  def lookupBundle
   (uuid: Option[taggedTypes.BundleUUID])
   : Option[Bundle]
   = uuid.flatMap {
     lookupBundle
   } 
   
-  def lookupBundle //2
+  def lookupBundle
   (uuid: taggedTypes.BundleUUID)
   : Option[Bundle]
   = bundles.get(uuid)
     
   
-  def lookupDescriptionBox //1
+  def lookupDescriptionBox
   (uuid: Option[taggedTypes.DescriptionBoxUUID])
   : Option[DescriptionBox]
   = uuid.flatMap {
     lookupDescriptionBox
   } 
   
-  def lookupDescriptionBox //2
+  def lookupDescriptionBox
   (uuid: taggedTypes.DescriptionBoxUUID)
   : Option[DescriptionBox]
   = descriptionBoxes.get(uuid)
 
-    def lookupAnnotations //7
+    def lookupAnnotations
   (key: Option[LogicalElement])
   : Set[AnnotationPropertyValue]
   = key
@@ -536,24 +536,24 @@ case class Extent
   	Set.empty[AnnotationPropertyValue] 
   }{ lookupAnnotations }
   
-  def lookupAnnotations //8
+  def lookupAnnotations
   (key: LogicalElement)
   : Set[AnnotationPropertyValue]
   = annotations.getOrElse(key, Set.empty[AnnotationPropertyValue])
   
-  def lookupAnnotationPropertyValue //9
+  def lookupAnnotationPropertyValue
   (uuid: Option[taggedTypes.AnnotationPropertyValueUUID])
   : Option[AnnotationPropertyValue]
   = uuid.flatMap {
     lookupAnnotationPropertyValue
   }
   
-  def lookupAnnotationPropertyValue //10
+  def lookupAnnotationPropertyValue
   (uuid: taggedTypes.AnnotationPropertyValueUUID)
   : Option[AnnotationPropertyValue]
   = annotationPropertyValueByUUID.get(uuid)
     
-  def lookupAnnotationProperties //7
+  def lookupAnnotationProperties
   (key: Option[Module])
   : Set[AnnotationProperty]
   = key
@@ -561,24 +561,24 @@ case class Extent
   	Set.empty[AnnotationProperty] 
   }{ lookupAnnotationProperties }
   
-  def lookupAnnotationProperties //8
+  def lookupAnnotationProperties
   (key: Module)
   : Set[AnnotationProperty]
   = annotationProperties.getOrElse(key, Set.empty[AnnotationProperty])
   
-  def lookupAnnotationProperty //9
+  def lookupAnnotationProperty
   (uuid: Option[taggedTypes.AnnotationPropertyUUID])
   : Option[AnnotationProperty]
   = uuid.flatMap {
     lookupAnnotationProperty
   }
   
-  def lookupAnnotationProperty //10
+  def lookupAnnotationProperty
   (uuid: taggedTypes.AnnotationPropertyUUID)
   : Option[AnnotationProperty]
   = annotationPropertyByUUID.get(uuid)
     
-  def lookupBoxAxioms //7
+  def lookupBoxAxioms
   (key: Option[TerminologyBox])
   : Set[TerminologyBoxAxiom]
   = key
@@ -586,24 +586,24 @@ case class Extent
   	Set.empty[TerminologyBoxAxiom] 
   }{ lookupBoxAxioms }
   
-  def lookupBoxAxioms //8
+  def lookupBoxAxioms
   (key: TerminologyBox)
   : Set[TerminologyBoxAxiom]
   = boxAxioms.getOrElse(key, Set.empty[TerminologyBoxAxiom])
   
-  def lookupTerminologyBoxAxiom //9
+  def lookupTerminologyBoxAxiom
   (uuid: Option[taggedTypes.TerminologyBoxAxiomUUID])
   : Option[TerminologyBoxAxiom]
   = uuid.flatMap {
     lookupTerminologyBoxAxiom
   }
   
-  def lookupTerminologyBoxAxiom //10
+  def lookupTerminologyBoxAxiom
   (uuid: taggedTypes.TerminologyBoxAxiomUUID)
   : Option[TerminologyBoxAxiom]
   = terminologyBoxAxiomByUUID.get(uuid)
     
-  def lookupBoxStatements //7
+  def lookupBoxStatements
   (key: Option[TerminologyBox])
   : Set[TerminologyBoxStatement]
   = key
@@ -611,122 +611,94 @@ case class Extent
   	Set.empty[TerminologyBoxStatement] 
   }{ lookupBoxStatements }
   
-  def lookupBoxStatements //8
+  def lookupBoxStatements
   (key: TerminologyBox)
   : Set[TerminologyBoxStatement]
   = boxStatements.getOrElse(key, Set.empty[TerminologyBoxStatement])
   
-  def lookupTerminologyBoxStatement //9
+  def lookupTerminologyBoxStatement
   (uuid: Option[taggedTypes.TerminologyBoxStatementUUID])
   : Option[TerminologyBoxStatement]
   = uuid.flatMap {
     lookupTerminologyBoxStatement
   }
   
-  def lookupTerminologyBoxStatement //10
+  def lookupTerminologyBoxStatement
   (uuid: taggedTypes.TerminologyBoxStatementUUID)
   : Option[TerminologyBoxStatement]
   = terminologyBoxStatementByUUID.get(uuid)
     
-  def lookupForwardProperty //3
+  def lookupForwardProperty
   (key: Option[ReifiedRelationship])
   : Option[ForwardProperty]
   = key.flatMap { lookupForwardProperty }
   
-  def lookupForwardProperty //4
+  def lookupForwardProperty
   (key: ReifiedRelationship)
   : Option[ForwardProperty]
   = forwardProperty.get(key)
   
-  //def lookupForwardProperty //5
-  //(uuid: Option[taggedTypes.ForwardPropertyUUID])
-  //: Option[ForwardProperty]
-  //= uuid.flatMap {
-  //  lookupForwardProperty
-  //}
-  
-  def lookupForwardProperty //6
+  def lookupForwardProperty
   (uuid: taggedTypes.ForwardPropertyUUID)
   : Option[ForwardProperty]
   = forwardPropertyByUUID.get(uuid)
     
-  def lookupInverseProperty //3
+  def lookupInverseProperty
   (key: Option[ReifiedRelationship])
   : Option[InverseProperty]
   = key.flatMap { lookupInverseProperty }
   
-  def lookupInverseProperty //4
+  def lookupInverseProperty
   (key: ReifiedRelationship)
   : Option[InverseProperty]
   = inverseProperty.get(key)
   
-  //def lookupInverseProperty //5
-  //(uuid: Option[taggedTypes.InversePropertyUUID])
-  //: Option[InverseProperty]
-  //= uuid.flatMap {
-  //  lookupInverseProperty
-  //}
-  
-  def lookupInverseProperty //6
+  def lookupInverseProperty
   (uuid: taggedTypes.InversePropertyUUID)
   : Option[InverseProperty]
   = inversePropertyByUUID.get(uuid)
     
-  def lookupFirstSegment //3
+  def lookupFirstSegment
   (key: Option[ChainRule])
   : Option[RuleBodySegment]
   = key.flatMap { lookupFirstSegment }
   
-  def lookupFirstSegment //4
+  def lookupFirstSegment
   (key: ChainRule)
   : Option[RuleBodySegment]
   = firstSegment.get(key)
   
-  //def lookupRuleBodySegment //5
-  //(uuid: Option[taggedTypes.RuleBodySegmentUUID])
-  //: Option[RuleBodySegment]
-  //= uuid.flatMap {
-  //  lookupRuleBodySegment
-  //}
-  
-  def lookupRuleBodySegment //6
+  def lookupRuleBodySegment
   (uuid: taggedTypes.RuleBodySegmentUUID)
   : Option[RuleBodySegment]
   = ruleBodySegmentByUUID.get(uuid)
     
-  def lookupPredicate //3
+  def lookupPredicate
   (key: Option[RuleBodySegment])
   : Option[SegmentPredicate]
   = key.flatMap { lookupPredicate }
   
-  def lookupPredicate //4
+  def lookupPredicate
   (key: RuleBodySegment)
   : Option[SegmentPredicate]
   = predicate.get(key)
   
-  //def lookupSegmentPredicate //5
-  //(uuid: Option[taggedTypes.SegmentPredicateUUID])
-  //: Option[SegmentPredicate]
-  //= uuid.flatMap {
-  //  lookupSegmentPredicate
-  //}
-  
-  def lookupSegmentPredicate //6
+  def lookupSegmentPredicate
   (uuid: taggedTypes.SegmentPredicateUUID)
   : Option[SegmentPredicate]
   = segmentPredicateByUUID.get(uuid)
     
-  def lookupNextSegment //3
+  def lookupNextSegment
   (key: Option[RuleBodySegment])
   : Option[RuleBodySegment]
   = key.flatMap { lookupNextSegment }
   
-  def lookupNextSegment //4
+  def lookupNextSegment
   (key: RuleBodySegment)
   : Option[RuleBodySegment]
   = nextSegment.get(key)
     
-  def lookupStructuredDataPropertyRestrictions //7
+  def lookupStructuredDataPropertyRestrictions
   (key: Option[RestrictionStructuredDataPropertyContext])
   : Set[RestrictionStructuredDataPropertyTuple]
   = key
@@ -734,24 +706,24 @@ case class Extent
   	Set.empty[RestrictionStructuredDataPropertyTuple] 
   }{ lookupStructuredDataPropertyRestrictions }
   
-  def lookupStructuredDataPropertyRestrictions //8
+  def lookupStructuredDataPropertyRestrictions
   (key: RestrictionStructuredDataPropertyContext)
   : Set[RestrictionStructuredDataPropertyTuple]
   = structuredDataPropertyRestrictions.getOrElse(key, Set.empty[RestrictionStructuredDataPropertyTuple])
   
-  def lookupRestrictionStructuredDataPropertyTuple //9
+  def lookupRestrictionStructuredDataPropertyTuple
   (uuid: Option[taggedTypes.RestrictionStructuredDataPropertyTupleUUID])
   : Option[RestrictionStructuredDataPropertyTuple]
   = uuid.flatMap {
     lookupRestrictionStructuredDataPropertyTuple
   }
   
-  def lookupRestrictionStructuredDataPropertyTuple //10
+  def lookupRestrictionStructuredDataPropertyTuple
   (uuid: taggedTypes.RestrictionStructuredDataPropertyTupleUUID)
   : Option[RestrictionStructuredDataPropertyTuple]
   = restrictionStructuredDataPropertyTupleByUUID.get(uuid)
     
-  def lookupScalarDataPropertyRestrictions //7
+  def lookupScalarDataPropertyRestrictions
   (key: Option[RestrictionStructuredDataPropertyContext])
   : Set[RestrictionScalarDataPropertyValue]
   = key
@@ -759,24 +731,24 @@ case class Extent
   	Set.empty[RestrictionScalarDataPropertyValue] 
   }{ lookupScalarDataPropertyRestrictions }
   
-  def lookupScalarDataPropertyRestrictions //8
+  def lookupScalarDataPropertyRestrictions
   (key: RestrictionStructuredDataPropertyContext)
   : Set[RestrictionScalarDataPropertyValue]
   = scalarDataPropertyRestrictions.getOrElse(key, Set.empty[RestrictionScalarDataPropertyValue])
   
-  def lookupRestrictionScalarDataPropertyValue //9
+  def lookupRestrictionScalarDataPropertyValue
   (uuid: Option[taggedTypes.RestrictionScalarDataPropertyValueUUID])
   : Option[RestrictionScalarDataPropertyValue]
   = uuid.flatMap {
     lookupRestrictionScalarDataPropertyValue
   }
   
-  def lookupRestrictionScalarDataPropertyValue //10
+  def lookupRestrictionScalarDataPropertyValue
   (uuid: taggedTypes.RestrictionScalarDataPropertyValueUUID)
   : Option[RestrictionScalarDataPropertyValue]
   = restrictionScalarDataPropertyValueByUUID.get(uuid)
     
-  def lookupBundleAxioms //7
+  def lookupBundleAxioms
   (key: Option[Bundle])
   : Set[TerminologyBundleAxiom]
   = key
@@ -784,24 +756,24 @@ case class Extent
   	Set.empty[TerminologyBundleAxiom] 
   }{ lookupBundleAxioms }
   
-  def lookupBundleAxioms //8
+  def lookupBundleAxioms
   (key: Bundle)
   : Set[TerminologyBundleAxiom]
   = bundleAxioms.getOrElse(key, Set.empty[TerminologyBundleAxiom])
   
-  def lookupTerminologyBundleAxiom //9
+  def lookupTerminologyBundleAxiom
   (uuid: Option[taggedTypes.TerminologyBundleAxiomUUID])
   : Option[TerminologyBundleAxiom]
   = uuid.flatMap {
     lookupTerminologyBundleAxiom
   }
   
-  def lookupTerminologyBundleAxiom //10
+  def lookupTerminologyBundleAxiom
   (uuid: taggedTypes.TerminologyBundleAxiomUUID)
   : Option[TerminologyBundleAxiom]
   = terminologyBundleAxiomByUUID.get(uuid)
     
-  def lookupBundleStatements //7
+  def lookupBundleStatements
   (key: Option[Bundle])
   : Set[TerminologyBundleStatement]
   = key
@@ -809,24 +781,24 @@ case class Extent
   	Set.empty[TerminologyBundleStatement] 
   }{ lookupBundleStatements }
   
-  def lookupBundleStatements //8
+  def lookupBundleStatements
   (key: Bundle)
   : Set[TerminologyBundleStatement]
   = bundleStatements.getOrElse(key, Set.empty[TerminologyBundleStatement])
   
-  def lookupTerminologyBundleStatement //9
+  def lookupTerminologyBundleStatement
   (uuid: Option[taggedTypes.TerminologyBundleStatementUUID])
   : Option[TerminologyBundleStatement]
   = uuid.flatMap {
     lookupTerminologyBundleStatement
   }
   
-  def lookupTerminologyBundleStatement //10
+  def lookupTerminologyBundleStatement
   (uuid: taggedTypes.TerminologyBundleStatementUUID)
   : Option[TerminologyBundleStatement]
   = terminologyBundleStatementByUUID.get(uuid)
     
-  def lookupDisjunctions //7
+  def lookupDisjunctions
   (key: Option[ConceptTreeDisjunction])
   : Set[DisjointUnionOfConceptsAxiom]
   = key
@@ -834,24 +806,24 @@ case class Extent
   	Set.empty[DisjointUnionOfConceptsAxiom] 
   }{ lookupDisjunctions }
   
-  def lookupDisjunctions //8
+  def lookupDisjunctions
   (key: ConceptTreeDisjunction)
   : Set[DisjointUnionOfConceptsAxiom]
   = disjunctions.getOrElse(key, Set.empty[DisjointUnionOfConceptsAxiom])
   
-  def lookupDisjointUnionOfConceptsAxiom //9
+  def lookupDisjointUnionOfConceptsAxiom
   (uuid: Option[taggedTypes.DisjointUnionOfConceptsAxiomUUID])
   : Option[DisjointUnionOfConceptsAxiom]
   = uuid.flatMap {
     lookupDisjointUnionOfConceptsAxiom
   }
   
-  def lookupDisjointUnionOfConceptsAxiom //10
+  def lookupDisjointUnionOfConceptsAxiom
   (uuid: taggedTypes.DisjointUnionOfConceptsAxiomUUID)
   : Option[DisjointUnionOfConceptsAxiom]
   = disjointUnionOfConceptsAxiomByUUID.get(uuid)
     
-  def lookupDescriptionBoxRefinements //7
+  def lookupDescriptionBoxRefinements
   (key: Option[DescriptionBox])
   : Set[DescriptionBoxRefinement]
   = key
@@ -859,24 +831,24 @@ case class Extent
   	Set.empty[DescriptionBoxRefinement] 
   }{ lookupDescriptionBoxRefinements }
   
-  def lookupDescriptionBoxRefinements //8
+  def lookupDescriptionBoxRefinements
   (key: DescriptionBox)
   : Set[DescriptionBoxRefinement]
   = descriptionBoxRefinements.getOrElse(key, Set.empty[DescriptionBoxRefinement])
   
-  def lookupDescriptionBoxRefinement //9
+  def lookupDescriptionBoxRefinement
   (uuid: Option[taggedTypes.DescriptionBoxRefinementUUID])
   : Option[DescriptionBoxRefinement]
   = uuid.flatMap {
     lookupDescriptionBoxRefinement
   }
   
-  def lookupDescriptionBoxRefinement //10
+  def lookupDescriptionBoxRefinement
   (uuid: taggedTypes.DescriptionBoxRefinementUUID)
   : Option[DescriptionBoxRefinement]
   = descriptionBoxRefinementByUUID.get(uuid)
     
-  def lookupClosedWorldDefinitions //7
+  def lookupClosedWorldDefinitions
   (key: Option[DescriptionBox])
   : Set[DescriptionBoxExtendsClosedWorldDefinitions]
   = key
@@ -884,24 +856,24 @@ case class Extent
   	Set.empty[DescriptionBoxExtendsClosedWorldDefinitions] 
   }{ lookupClosedWorldDefinitions }
   
-  def lookupClosedWorldDefinitions //8
+  def lookupClosedWorldDefinitions
   (key: DescriptionBox)
   : Set[DescriptionBoxExtendsClosedWorldDefinitions]
   = closedWorldDefinitions.getOrElse(key, Set.empty[DescriptionBoxExtendsClosedWorldDefinitions])
   
-  def lookupDescriptionBoxExtendsClosedWorldDefinitions //9
+  def lookupDescriptionBoxExtendsClosedWorldDefinitions
   (uuid: Option[taggedTypes.DescriptionBoxExtendsClosedWorldDefinitionsUUID])
   : Option[DescriptionBoxExtendsClosedWorldDefinitions]
   = uuid.flatMap {
     lookupDescriptionBoxExtendsClosedWorldDefinitions
   }
   
-  def lookupDescriptionBoxExtendsClosedWorldDefinitions //10
+  def lookupDescriptionBoxExtendsClosedWorldDefinitions
   (uuid: taggedTypes.DescriptionBoxExtendsClosedWorldDefinitionsUUID)
   : Option[DescriptionBoxExtendsClosedWorldDefinitions]
   = descriptionBoxExtendsClosedWorldDefinitionsByUUID.get(uuid)
     
-  def lookupConceptInstances //7
+  def lookupConceptInstances
   (key: Option[DescriptionBox])
   : Set[ConceptInstance]
   = key
@@ -909,24 +881,24 @@ case class Extent
   	Set.empty[ConceptInstance] 
   }{ lookupConceptInstances }
   
-  def lookupConceptInstances //8
+  def lookupConceptInstances
   (key: DescriptionBox)
   : Set[ConceptInstance]
   = conceptInstances.getOrElse(key, Set.empty[ConceptInstance])
   
-  def lookupConceptInstance //9
+  def lookupConceptInstance
   (uuid: Option[taggedTypes.ConceptInstanceUUID])
   : Option[ConceptInstance]
   = uuid.flatMap {
     lookupConceptInstance
   }
   
-  def lookupConceptInstance //10
+  def lookupConceptInstance
   (uuid: taggedTypes.ConceptInstanceUUID)
   : Option[ConceptInstance]
   = conceptInstanceByUUID.get(uuid)
     
-  def lookupReifiedRelationshipInstances //7
+  def lookupReifiedRelationshipInstances
   (key: Option[DescriptionBox])
   : Set[ReifiedRelationshipInstance]
   = key
@@ -934,24 +906,24 @@ case class Extent
   	Set.empty[ReifiedRelationshipInstance] 
   }{ lookupReifiedRelationshipInstances }
   
-  def lookupReifiedRelationshipInstances //8
+  def lookupReifiedRelationshipInstances
   (key: DescriptionBox)
   : Set[ReifiedRelationshipInstance]
   = reifiedRelationshipInstances.getOrElse(key, Set.empty[ReifiedRelationshipInstance])
   
-  def lookupReifiedRelationshipInstance //9
+  def lookupReifiedRelationshipInstance
   (uuid: Option[taggedTypes.ReifiedRelationshipInstanceUUID])
   : Option[ReifiedRelationshipInstance]
   = uuid.flatMap {
     lookupReifiedRelationshipInstance
   }
   
-  def lookupReifiedRelationshipInstance //10
+  def lookupReifiedRelationshipInstance
   (uuid: taggedTypes.ReifiedRelationshipInstanceUUID)
   : Option[ReifiedRelationshipInstance]
   = reifiedRelationshipInstanceByUUID.get(uuid)
     
-  def lookupReifiedRelationshipInstanceDomains //7
+  def lookupReifiedRelationshipInstanceDomains
   (key: Option[DescriptionBox])
   : Set[ReifiedRelationshipInstanceDomain]
   = key
@@ -959,24 +931,24 @@ case class Extent
   	Set.empty[ReifiedRelationshipInstanceDomain] 
   }{ lookupReifiedRelationshipInstanceDomains }
   
-  def lookupReifiedRelationshipInstanceDomains //8
+  def lookupReifiedRelationshipInstanceDomains
   (key: DescriptionBox)
   : Set[ReifiedRelationshipInstanceDomain]
   = reifiedRelationshipInstanceDomains.getOrElse(key, Set.empty[ReifiedRelationshipInstanceDomain])
   
-  def lookupReifiedRelationshipInstanceDomain //9
+  def lookupReifiedRelationshipInstanceDomain
   (uuid: Option[taggedTypes.ReifiedRelationshipInstanceDomainUUID])
   : Option[ReifiedRelationshipInstanceDomain]
   = uuid.flatMap {
     lookupReifiedRelationshipInstanceDomain
   }
   
-  def lookupReifiedRelationshipInstanceDomain //10
+  def lookupReifiedRelationshipInstanceDomain
   (uuid: taggedTypes.ReifiedRelationshipInstanceDomainUUID)
   : Option[ReifiedRelationshipInstanceDomain]
   = reifiedRelationshipInstanceDomainByUUID.get(uuid)
     
-  def lookupReifiedRelationshipInstanceRanges //7
+  def lookupReifiedRelationshipInstanceRanges
   (key: Option[DescriptionBox])
   : Set[ReifiedRelationshipInstanceRange]
   = key
@@ -984,24 +956,24 @@ case class Extent
   	Set.empty[ReifiedRelationshipInstanceRange] 
   }{ lookupReifiedRelationshipInstanceRanges }
   
-  def lookupReifiedRelationshipInstanceRanges //8
+  def lookupReifiedRelationshipInstanceRanges
   (key: DescriptionBox)
   : Set[ReifiedRelationshipInstanceRange]
   = reifiedRelationshipInstanceRanges.getOrElse(key, Set.empty[ReifiedRelationshipInstanceRange])
   
-  def lookupReifiedRelationshipInstanceRange //9
+  def lookupReifiedRelationshipInstanceRange
   (uuid: Option[taggedTypes.ReifiedRelationshipInstanceRangeUUID])
   : Option[ReifiedRelationshipInstanceRange]
   = uuid.flatMap {
     lookupReifiedRelationshipInstanceRange
   }
   
-  def lookupReifiedRelationshipInstanceRange //10
+  def lookupReifiedRelationshipInstanceRange
   (uuid: taggedTypes.ReifiedRelationshipInstanceRangeUUID)
   : Option[ReifiedRelationshipInstanceRange]
   = reifiedRelationshipInstanceRangeByUUID.get(uuid)
     
-  def lookupUnreifiedRelationshipInstanceTuples //7
+  def lookupUnreifiedRelationshipInstanceTuples
   (key: Option[DescriptionBox])
   : Set[UnreifiedRelationshipInstanceTuple]
   = key
@@ -1009,24 +981,24 @@ case class Extent
   	Set.empty[UnreifiedRelationshipInstanceTuple] 
   }{ lookupUnreifiedRelationshipInstanceTuples }
   
-  def lookupUnreifiedRelationshipInstanceTuples //8
+  def lookupUnreifiedRelationshipInstanceTuples
   (key: DescriptionBox)
   : Set[UnreifiedRelationshipInstanceTuple]
   = unreifiedRelationshipInstanceTuples.getOrElse(key, Set.empty[UnreifiedRelationshipInstanceTuple])
   
-  def lookupUnreifiedRelationshipInstanceTuple //9
+  def lookupUnreifiedRelationshipInstanceTuple
   (uuid: Option[taggedTypes.UnreifiedRelationshipInstanceTupleUUID])
   : Option[UnreifiedRelationshipInstanceTuple]
   = uuid.flatMap {
     lookupUnreifiedRelationshipInstanceTuple
   }
   
-  def lookupUnreifiedRelationshipInstanceTuple //10
+  def lookupUnreifiedRelationshipInstanceTuple
   (uuid: taggedTypes.UnreifiedRelationshipInstanceTupleUUID)
   : Option[UnreifiedRelationshipInstanceTuple]
   = unreifiedRelationshipInstanceTupleByUUID.get(uuid)
     
-  def lookupSingletonScalarDataPropertyValues //7
+  def lookupSingletonScalarDataPropertyValues
   (key: Option[DescriptionBox])
   : Set[SingletonInstanceScalarDataPropertyValue]
   = key
@@ -1034,24 +1006,24 @@ case class Extent
   	Set.empty[SingletonInstanceScalarDataPropertyValue] 
   }{ lookupSingletonScalarDataPropertyValues }
   
-  def lookupSingletonScalarDataPropertyValues //8
+  def lookupSingletonScalarDataPropertyValues
   (key: DescriptionBox)
   : Set[SingletonInstanceScalarDataPropertyValue]
   = singletonScalarDataPropertyValues.getOrElse(key, Set.empty[SingletonInstanceScalarDataPropertyValue])
   
-  def lookupSingletonInstanceScalarDataPropertyValue //9
+  def lookupSingletonInstanceScalarDataPropertyValue
   (uuid: Option[taggedTypes.SingletonInstanceScalarDataPropertyValueUUID])
   : Option[SingletonInstanceScalarDataPropertyValue]
   = uuid.flatMap {
     lookupSingletonInstanceScalarDataPropertyValue
   }
   
-  def lookupSingletonInstanceScalarDataPropertyValue //10
+  def lookupSingletonInstanceScalarDataPropertyValue
   (uuid: taggedTypes.SingletonInstanceScalarDataPropertyValueUUID)
   : Option[SingletonInstanceScalarDataPropertyValue]
   = singletonInstanceScalarDataPropertyValueByUUID.get(uuid)
     
-  def lookupSingletonStructuredDataPropertyValues //7
+  def lookupSingletonStructuredDataPropertyValues
   (key: Option[DescriptionBox])
   : Set[SingletonInstanceStructuredDataPropertyValue]
   = key
@@ -1059,24 +1031,24 @@ case class Extent
   	Set.empty[SingletonInstanceStructuredDataPropertyValue] 
   }{ lookupSingletonStructuredDataPropertyValues }
   
-  def lookupSingletonStructuredDataPropertyValues //8
+  def lookupSingletonStructuredDataPropertyValues
   (key: DescriptionBox)
   : Set[SingletonInstanceStructuredDataPropertyValue]
   = singletonStructuredDataPropertyValues.getOrElse(key, Set.empty[SingletonInstanceStructuredDataPropertyValue])
   
-  def lookupSingletonInstanceStructuredDataPropertyValue //9
+  def lookupSingletonInstanceStructuredDataPropertyValue
   (uuid: Option[taggedTypes.SingletonInstanceStructuredDataPropertyValueUUID])
   : Option[SingletonInstanceStructuredDataPropertyValue]
   = uuid.flatMap {
     lookupSingletonInstanceStructuredDataPropertyValue
   }
   
-  def lookupSingletonInstanceStructuredDataPropertyValue //10
+  def lookupSingletonInstanceStructuredDataPropertyValue
   (uuid: taggedTypes.SingletonInstanceStructuredDataPropertyValueUUID)
   : Option[SingletonInstanceStructuredDataPropertyValue]
   = singletonInstanceStructuredDataPropertyValueByUUID.get(uuid)
     
-  def lookupStructuredPropertyTuples //7
+  def lookupStructuredPropertyTuples
   (key: Option[SingletonInstanceStructuredDataPropertyContext])
   : Set[StructuredDataPropertyTuple]
   = key
@@ -1084,24 +1056,24 @@ case class Extent
   	Set.empty[StructuredDataPropertyTuple] 
   }{ lookupStructuredPropertyTuples }
   
-  def lookupStructuredPropertyTuples //8
+  def lookupStructuredPropertyTuples
   (key: SingletonInstanceStructuredDataPropertyContext)
   : Set[StructuredDataPropertyTuple]
   = structuredPropertyTuples.getOrElse(key, Set.empty[StructuredDataPropertyTuple])
   
-  def lookupStructuredDataPropertyTuple //9
+  def lookupStructuredDataPropertyTuple
   (uuid: Option[taggedTypes.StructuredDataPropertyTupleUUID])
   : Option[StructuredDataPropertyTuple]
   = uuid.flatMap {
     lookupStructuredDataPropertyTuple
   }
   
-  def lookupStructuredDataPropertyTuple //10
+  def lookupStructuredDataPropertyTuple
   (uuid: taggedTypes.StructuredDataPropertyTupleUUID)
   : Option[StructuredDataPropertyTuple]
   = structuredDataPropertyTupleByUUID.get(uuid)
     
-  def lookupScalarDataPropertyValues //7
+  def lookupScalarDataPropertyValues
   (key: Option[SingletonInstanceStructuredDataPropertyContext])
   : Set[ScalarDataPropertyValue]
   = key
@@ -1109,24 +1081,35 @@ case class Extent
   	Set.empty[ScalarDataPropertyValue] 
   }{ lookupScalarDataPropertyValues }
   
-  def lookupScalarDataPropertyValues //8
+  def lookupScalarDataPropertyValues
   (key: SingletonInstanceStructuredDataPropertyContext)
   : Set[ScalarDataPropertyValue]
   = scalarDataPropertyValues.getOrElse(key, Set.empty[ScalarDataPropertyValue])
   
-  def lookupScalarDataPropertyValue //9
+  def lookupScalarDataPropertyValue
   (uuid: Option[taggedTypes.ScalarDataPropertyValueUUID])
   : Option[ScalarDataPropertyValue]
   = uuid.flatMap {
     lookupScalarDataPropertyValue
   }
   
-  def lookupScalarDataPropertyValue //10
+  def lookupScalarDataPropertyValue
   (uuid: taggedTypes.ScalarDataPropertyValueUUID)
   : Option[ScalarDataPropertyValue]
   = scalarDataPropertyValueByUUID.get(uuid)
 
   
+  def lookupPredicate(uuid: taggedTypes.PredicateUUID)
+  : Option[Predicate]
+  = forwardPropertyByUUID.get(uuid.asInstanceOf[taggedTypes.ForwardPropertyUUID]) orElse
+    inversePropertyByUUID.get(uuid.asInstanceOf[taggedTypes.InversePropertyUUID]) orElse
+    lookupTerminologyBoxStatement(uuid.asInstanceOf[taggedTypes.TerminologyBoxStatementUUID]) match {
+    case Some(p: Predicate) =>
+      Some(p)
+    case _ =>
+      None
+  }
+
   def lookupLogicalElement(uuid: taggedTypes.LogicalElementUUID)
   : Option[LogicalElement]
   = lookupModule(uuid.asInstanceOf[taggedTypes.ModuleUUID]) orElse

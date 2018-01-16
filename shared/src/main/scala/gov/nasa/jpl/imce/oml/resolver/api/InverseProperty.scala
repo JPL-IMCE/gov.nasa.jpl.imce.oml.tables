@@ -18,8 +18,12 @@
 
 package gov.nasa.jpl.imce.oml.resolver.api
 
+/*
+ * An OML InverseProperty is an optional part of an OML ReifiedRelationship.
+ * If defined, it corresponds to the inverse of the OML ReifiedRelationship's OML ForwardProperty.
+ */
 trait InverseProperty
-  extends Resource
+  extends RestrictableRelationship
 {
   override val uuid: taggedTypes.InversePropertyUUID
 
@@ -30,6 +34,8 @@ trait InverseProperty
   ()(implicit extent: Extent): scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI]
   override def abbrevIRI
   ()(implicit extent: Extent): scala.Option[scala.Predef.String]
+  override def relation
+  (): EntityRelationship
 }
 
 object InverseProperty {

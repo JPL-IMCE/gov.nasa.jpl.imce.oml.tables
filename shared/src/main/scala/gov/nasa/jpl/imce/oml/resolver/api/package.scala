@@ -70,16 +70,6 @@ package object api {
   	 	case 0 => 0 }
   }
   
-  implicit def aspectPredicateOrdering
-  : scala.Ordering[AspectPredicate]
-  = new scala.Ordering[AspectPredicate] {
-  	def compare(x: AspectPredicate, y: AspectPredicate)
-  	: scala.Int
-  	= x.uuid.compareTo(y.uuid) match {
-  	 	case c_uuid if 0 != c_uuid => c_uuid
-  	 	case 0 => 0 }
-  }
-  
   implicit def aspectSpecializationAxiomOrdering
   : scala.Ordering[AspectSpecializationAxiom]
   = new scala.Ordering[AspectSpecializationAxiom] {
@@ -94,36 +84,6 @@ package object api {
   : scala.Ordering[BinaryScalarRestriction]
   = new scala.Ordering[BinaryScalarRestriction] {
   	def compare(x: BinaryScalarRestriction, y: BinaryScalarRestriction)
-  	: scala.Int
-  	= x.uuid.compareTo(y.uuid) match {
-  	 	case c_uuid if 0 != c_uuid => c_uuid
-  	 	case 0 => 0 }
-  }
-  
-  implicit def binarySegmentForwardPropertyPredicateOrdering
-  : scala.Ordering[BinarySegmentForwardPropertyPredicate]
-  = new scala.Ordering[BinarySegmentForwardPropertyPredicate] {
-  	def compare(x: BinarySegmentForwardPropertyPredicate, y: BinarySegmentForwardPropertyPredicate)
-  	: scala.Int
-  	= x.uuid.compareTo(y.uuid) match {
-  	 	case c_uuid if 0 != c_uuid => c_uuid
-  	 	case 0 => 0 }
-  }
-  
-  implicit def binarySegmentPropertyPredicateOrdering
-  : scala.Ordering[BinarySegmentPropertyPredicate]
-  = new scala.Ordering[BinarySegmentPropertyPredicate] {
-  	def compare(x: BinarySegmentPropertyPredicate, y: BinarySegmentPropertyPredicate)
-  	: scala.Int
-  	= x.uuid.compareTo(y.uuid) match {
-  	 	case c_uuid if 0 != c_uuid => c_uuid
-  	 	case 0 => 0 }
-  }
-  
-  implicit def binarySegmentReversePropertyPredicateOrdering
-  : scala.Ordering[BinarySegmentReversePropertyPredicate]
-  = new scala.Ordering[BinarySegmentReversePropertyPredicate] {
-  	def compare(x: BinarySegmentReversePropertyPredicate, y: BinarySegmentReversePropertyPredicate)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid
@@ -184,16 +144,6 @@ package object api {
   : scala.Ordering[ConceptInstance]
   = new scala.Ordering[ConceptInstance] {
   	def compare(x: ConceptInstance, y: ConceptInstance)
-  	: scala.Int
-  	= x.uuid.compareTo(y.uuid) match {
-  	 	case c_uuid if 0 != c_uuid => c_uuid
-  	 	case 0 => 0 }
-  }
-  
-  implicit def conceptPredicateOrdering
-  : scala.Ordering[ConceptPredicate]
-  = new scala.Ordering[ConceptPredicate] {
-  	def compare(x: ConceptPredicate, y: ConceptPredicate)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid
@@ -430,70 +380,10 @@ package object api {
   	 	case 0 => 0 }
   }
   
-  implicit def entityExistentialForwardReifiedRestrictionAxiomOrdering
-  : scala.Ordering[EntityExistentialForwardReifiedRestrictionAxiom]
-  = new scala.Ordering[EntityExistentialForwardReifiedRestrictionAxiom] {
-  	def compare(x: EntityExistentialForwardReifiedRestrictionAxiom, y: EntityExistentialForwardReifiedRestrictionAxiom)
-  	: scala.Int
-  	= x.uuid.compareTo(y.uuid) match {
-  	 	case c_uuid if 0 != c_uuid => c_uuid
-  	 	case 0 => 0 }
-  }
-  
-  implicit def entityExistentialInverseReifiedRestrictionAxiomOrdering
-  : scala.Ordering[EntityExistentialInverseReifiedRestrictionAxiom]
-  = new scala.Ordering[EntityExistentialInverseReifiedRestrictionAxiom] {
-  	def compare(x: EntityExistentialInverseReifiedRestrictionAxiom, y: EntityExistentialInverseReifiedRestrictionAxiom)
-  	: scala.Int
-  	= x.uuid.compareTo(y.uuid) match {
-  	 	case c_uuid if 0 != c_uuid => c_uuid
-  	 	case 0 => 0 }
-  }
-  
   implicit def entityExistentialRestrictionAxiomOrdering
   : scala.Ordering[EntityExistentialRestrictionAxiom]
   = new scala.Ordering[EntityExistentialRestrictionAxiom] {
   	def compare(x: EntityExistentialRestrictionAxiom, y: EntityExistentialRestrictionAxiom)
-  	: scala.Int
-  	= x.uuid.compareTo(y.uuid) match {
-  	 	case c_uuid if 0 != c_uuid => c_uuid
-  	 	case 0 => 0 }
-  }
-  
-  implicit def entityExistentialUnreifiedRestrictionAxiomOrdering
-  : scala.Ordering[EntityExistentialUnreifiedRestrictionAxiom]
-  = new scala.Ordering[EntityExistentialUnreifiedRestrictionAxiom] {
-  	def compare(x: EntityExistentialUnreifiedRestrictionAxiom, y: EntityExistentialUnreifiedRestrictionAxiom)
-  	: scala.Int
-  	= x.uuid.compareTo(y.uuid) match {
-  	 	case c_uuid if 0 != c_uuid => c_uuid
-  	 	case 0 => 0 }
-  }
-  
-  implicit def entityForwardReifiedRestrictionAxiomOrdering
-  : scala.Ordering[EntityForwardReifiedRestrictionAxiom]
-  = new scala.Ordering[EntityForwardReifiedRestrictionAxiom] {
-  	def compare(x: EntityForwardReifiedRestrictionAxiom, y: EntityForwardReifiedRestrictionAxiom)
-  	: scala.Int
-  	= x.uuid.compareTo(y.uuid) match {
-  	 	case c_uuid if 0 != c_uuid => c_uuid
-  	 	case 0 => 0 }
-  }
-  
-  implicit def entityInverseReifiedRestrictionAxiomOrdering
-  : scala.Ordering[EntityInverseReifiedRestrictionAxiom]
-  = new scala.Ordering[EntityInverseReifiedRestrictionAxiom] {
-  	def compare(x: EntityInverseReifiedRestrictionAxiom, y: EntityInverseReifiedRestrictionAxiom)
-  	: scala.Int
-  	= x.uuid.compareTo(y.uuid) match {
-  	 	case c_uuid if 0 != c_uuid => c_uuid
-  	 	case 0 => 0 }
-  }
-  
-  implicit def entityReifiedRestrictionAxiomOrdering
-  : scala.Ordering[EntityReifiedRestrictionAxiom]
-  = new scala.Ordering[EntityReifiedRestrictionAxiom] {
-  	def compare(x: EntityReifiedRestrictionAxiom, y: EntityReifiedRestrictionAxiom)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid
@@ -600,50 +490,10 @@ package object api {
   	 	case 0 => 0 }
   }
   
-  implicit def entityUniversalForwardReifiedRestrictionAxiomOrdering
-  : scala.Ordering[EntityUniversalForwardReifiedRestrictionAxiom]
-  = new scala.Ordering[EntityUniversalForwardReifiedRestrictionAxiom] {
-  	def compare(x: EntityUniversalForwardReifiedRestrictionAxiom, y: EntityUniversalForwardReifiedRestrictionAxiom)
-  	: scala.Int
-  	= x.uuid.compareTo(y.uuid) match {
-  	 	case c_uuid if 0 != c_uuid => c_uuid
-  	 	case 0 => 0 }
-  }
-  
-  implicit def entityUniversalInverseReifiedRestrictionAxiomOrdering
-  : scala.Ordering[EntityUniversalInverseReifiedRestrictionAxiom]
-  = new scala.Ordering[EntityUniversalInverseReifiedRestrictionAxiom] {
-  	def compare(x: EntityUniversalInverseReifiedRestrictionAxiom, y: EntityUniversalInverseReifiedRestrictionAxiom)
-  	: scala.Int
-  	= x.uuid.compareTo(y.uuid) match {
-  	 	case c_uuid if 0 != c_uuid => c_uuid
-  	 	case 0 => 0 }
-  }
-  
   implicit def entityUniversalRestrictionAxiomOrdering
   : scala.Ordering[EntityUniversalRestrictionAxiom]
   = new scala.Ordering[EntityUniversalRestrictionAxiom] {
   	def compare(x: EntityUniversalRestrictionAxiom, y: EntityUniversalRestrictionAxiom)
-  	: scala.Int
-  	= x.uuid.compareTo(y.uuid) match {
-  	 	case c_uuid if 0 != c_uuid => c_uuid
-  	 	case 0 => 0 }
-  }
-  
-  implicit def entityUniversalUnreifiedRestrictionAxiomOrdering
-  : scala.Ordering[EntityUniversalUnreifiedRestrictionAxiom]
-  = new scala.Ordering[EntityUniversalUnreifiedRestrictionAxiom] {
-  	def compare(x: EntityUniversalUnreifiedRestrictionAxiom, y: EntityUniversalUnreifiedRestrictionAxiom)
-  	: scala.Int
-  	= x.uuid.compareTo(y.uuid) match {
-  	 	case c_uuid if 0 != c_uuid => c_uuid
-  	 	case 0 => 0 }
-  }
-  
-  implicit def entityUnreifiedRestrictionAxiomOrdering
-  : scala.Ordering[EntityUnreifiedRestrictionAxiom]
-  = new scala.Ordering[EntityUnreifiedRestrictionAxiom] {
-  	def compare(x: EntityUnreifiedRestrictionAxiom, y: EntityUnreifiedRestrictionAxiom)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid
@@ -790,6 +640,16 @@ package object api {
   	 	case 0 => 0 }
   }
   
+  implicit def predicateOrdering
+  : scala.Ordering[Predicate]
+  = new scala.Ordering[Predicate] {
+  	def compare(x: Predicate, y: Predicate)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
   implicit def reifiedRelationshipOrdering
   : scala.Ordering[ReifiedRelationship]
   = new scala.Ordering[ReifiedRelationship] {
@@ -830,56 +690,6 @@ package object api {
   	 	case 0 => 0 }
   }
   
-  implicit def reifiedRelationshipInversePropertyPredicateOrdering
-  : scala.Ordering[ReifiedRelationshipInversePropertyPredicate]
-  = new scala.Ordering[ReifiedRelationshipInversePropertyPredicate] {
-  	def compare(x: ReifiedRelationshipInversePropertyPredicate, y: ReifiedRelationshipInversePropertyPredicate)
-  	: scala.Int
-  	= x.uuid.compareTo(y.uuid) match {
-  	 	case c_uuid if 0 != c_uuid => c_uuid
-  	 	case 0 => 0 }
-  }
-  
-  implicit def reifiedRelationshipPredicateOrdering
-  : scala.Ordering[ReifiedRelationshipPredicate]
-  = new scala.Ordering[ReifiedRelationshipPredicate] {
-  	def compare(x: ReifiedRelationshipPredicate, y: ReifiedRelationshipPredicate)
-  	: scala.Int
-  	= x.uuid.compareTo(y.uuid) match {
-  	 	case c_uuid if 0 != c_uuid => c_uuid
-  	 	case 0 => 0 }
-  }
-  
-  implicit def reifiedRelationshipPropertyPredicateOrdering
-  : scala.Ordering[ReifiedRelationshipPropertyPredicate]
-  = new scala.Ordering[ReifiedRelationshipPropertyPredicate] {
-  	def compare(x: ReifiedRelationshipPropertyPredicate, y: ReifiedRelationshipPropertyPredicate)
-  	: scala.Int
-  	= x.uuid.compareTo(y.uuid) match {
-  	 	case c_uuid if 0 != c_uuid => c_uuid
-  	 	case 0 => 0 }
-  }
-  
-  implicit def reifiedRelationshipSourceInversePropertyPredicateOrdering
-  : scala.Ordering[ReifiedRelationshipSourceInversePropertyPredicate]
-  = new scala.Ordering[ReifiedRelationshipSourceInversePropertyPredicate] {
-  	def compare(x: ReifiedRelationshipSourceInversePropertyPredicate, y: ReifiedRelationshipSourceInversePropertyPredicate)
-  	: scala.Int
-  	= x.uuid.compareTo(y.uuid) match {
-  	 	case c_uuid if 0 != c_uuid => c_uuid
-  	 	case 0 => 0 }
-  }
-  
-  implicit def reifiedRelationshipSourcePropertyPredicateOrdering
-  : scala.Ordering[ReifiedRelationshipSourcePropertyPredicate]
-  = new scala.Ordering[ReifiedRelationshipSourcePropertyPredicate] {
-  	def compare(x: ReifiedRelationshipSourcePropertyPredicate, y: ReifiedRelationshipSourcePropertyPredicate)
-  	: scala.Int
-  	= x.uuid.compareTo(y.uuid) match {
-  	 	case c_uuid if 0 != c_uuid => c_uuid
-  	 	case 0 => 0 }
-  }
-  
   implicit def reifiedRelationshipSpecializationAxiomOrdering
   : scala.Ordering[ReifiedRelationshipSpecializationAxiom]
   = new scala.Ordering[ReifiedRelationshipSpecializationAxiom] {
@@ -890,30 +700,20 @@ package object api {
   	 	case 0 => 0 }
   }
   
-  implicit def reifiedRelationshipTargetInversePropertyPredicateOrdering
-  : scala.Ordering[ReifiedRelationshipTargetInversePropertyPredicate]
-  = new scala.Ordering[ReifiedRelationshipTargetInversePropertyPredicate] {
-  	def compare(x: ReifiedRelationshipTargetInversePropertyPredicate, y: ReifiedRelationshipTargetInversePropertyPredicate)
-  	: scala.Int
-  	= x.uuid.compareTo(y.uuid) match {
-  	 	case c_uuid if 0 != c_uuid => c_uuid
-  	 	case 0 => 0 }
-  }
-  
-  implicit def reifiedRelationshipTargetPropertyPredicateOrdering
-  : scala.Ordering[ReifiedRelationshipTargetPropertyPredicate]
-  = new scala.Ordering[ReifiedRelationshipTargetPropertyPredicate] {
-  	def compare(x: ReifiedRelationshipTargetPropertyPredicate, y: ReifiedRelationshipTargetPropertyPredicate)
-  	: scala.Int
-  	= x.uuid.compareTo(y.uuid) match {
-  	 	case c_uuid if 0 != c_uuid => c_uuid
-  	 	case 0 => 0 }
-  }
-  
   implicit def resourceOrdering
   : scala.Ordering[Resource]
   = new scala.Ordering[Resource] {
   	def compare(x: Resource, y: Resource)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def restrictableRelationshipOrdering
+  : scala.Ordering[RestrictableRelationship]
+  = new scala.Ordering[RestrictableRelationship] {
+  	def compare(x: RestrictableRelationship, y: RestrictableRelationship)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid
@@ -1300,16 +1100,6 @@ package object api {
   	 	case 0 => 0 }
   }
   
-  implicit def unarySegmentPredicateOrdering
-  : scala.Ordering[UnarySegmentPredicate]
-  = new scala.Ordering[UnarySegmentPredicate] {
-  	def compare(x: UnarySegmentPredicate, y: UnarySegmentPredicate)
-  	: scala.Int
-  	= x.uuid.compareTo(y.uuid) match {
-  	 	case c_uuid if 0 != c_uuid => c_uuid
-  	 	case 0 => 0 }
-  }
-  
   implicit def unaryTermKindOrdering
   : scala.Ordering[UnaryTermKind]
   = new scala.Ordering[UnaryTermKind] {
@@ -1334,26 +1124,6 @@ package object api {
   : scala.Ordering[UnreifiedRelationshipInstanceTuple]
   = new scala.Ordering[UnreifiedRelationshipInstanceTuple] {
   	def compare(x: UnreifiedRelationshipInstanceTuple, y: UnreifiedRelationshipInstanceTuple)
-  	: scala.Int
-  	= x.uuid.compareTo(y.uuid) match {
-  	 	case c_uuid if 0 != c_uuid => c_uuid
-  	 	case 0 => 0 }
-  }
-  
-  implicit def unreifiedRelationshipInversePropertyPredicateOrdering
-  : scala.Ordering[UnreifiedRelationshipInversePropertyPredicate]
-  = new scala.Ordering[UnreifiedRelationshipInversePropertyPredicate] {
-  	def compare(x: UnreifiedRelationshipInversePropertyPredicate, y: UnreifiedRelationshipInversePropertyPredicate)
-  	: scala.Int
-  	= x.uuid.compareTo(y.uuid) match {
-  	 	case c_uuid if 0 != c_uuid => c_uuid
-  	 	case 0 => 0 }
-  }
-  
-  implicit def unreifiedRelationshipPropertyPredicateOrdering
-  : scala.Ordering[UnreifiedRelationshipPropertyPredicate]
-  = new scala.Ordering[UnreifiedRelationshipPropertyPredicate] {
-  	def compare(x: UnreifiedRelationshipPropertyPredicate, y: UnreifiedRelationshipPropertyPredicate)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid

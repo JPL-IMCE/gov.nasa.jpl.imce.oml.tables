@@ -16,13 +16,23 @@
  * License Terms
  */
 
- 
-package gov.nasa.jpl.imce.oml.tables
+package gov.nasa.jpl.imce.oml.resolver.api
 
-trait EntityInverseReifiedRestrictionAxiom extends EntityReifiedRestrictionAxiom {
-  override val uuid: taggedTypes.EntityInverseReifiedRestrictionAxiomUUID
-  override val tboxUUID: taggedTypes.TerminologyBoxUUID
-  val inversePropertyUUID: taggedTypes.InversePropertyUUID
-  override val restrictedDomainUUID: taggedTypes.EntityUUID
-  override val restrictedRangeUUID: taggedTypes.EntityUUID
+/*
+ * An OML RestrictableRelationship is either an OML ForwardProperty,
+ * an OML InverseProperty or an OML UnreifiedRelationship.
+ * An OML RestrictableRelationship serves as an abstraction for the different kinds
+ * of relationships that can be restricted via an OML EntityRestrictionAxiom
+ * and that can be involved in an OML SegmentPredicate for an OML ChainRule.
+ */
+trait RestrictableRelationship
+  extends Resource
+  with Predicate
+{
+  override val uuid: taggedTypes.RestrictableRelationshipUUID
+
+  def relation
+  (): EntityRelationship
+  override def term
+  (): Term
 }

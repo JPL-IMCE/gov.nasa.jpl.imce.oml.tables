@@ -114,30 +114,6 @@ trait OMLResolvedFactory {
     name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, Aspect)
   
-  // AspectPredicate
-  def createAspectPredicate
-  ( extent: Extent,
-    aspect: Aspect,
-    bodySegment: RuleBodySegment )
-  : (Extent, AspectPredicate)
-  = {
-  	// implicitly derived uuid...
-    import scala.Predef.ArrowAssoc
-    val implicitUUID = taggedTypes.aspectPredicateUUID(namespaceUUID(
-      "AspectPredicate",
-      Seq.empty[(String, String)] ++
-          Seq("aspect" -> aspect.uuid.toString) ++
-          Seq("bodySegment" -> bodySegment.uuid.toString) : _*))
-    createAspectPredicate( extent, implicitUUID, aspect, bodySegment )
-  }
-  
-  def createAspectPredicate
-  ( extent: Extent,
-    uuid: taggedTypes.AspectPredicateUUID,
-    aspect: Aspect,
-    bodySegment: RuleBodySegment )
-  : (Extent, AspectPredicate)
-  
   // AspectSpecializationAxiom
   def createAspectSpecializationAxiom
   ( extent: Extent,
@@ -326,30 +302,6 @@ trait OMLResolvedFactory {
     name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, ConceptInstance)
   
-  // ConceptPredicate
-  def createConceptPredicate
-  ( extent: Extent,
-    bodySegment: RuleBodySegment,
-    concept: Concept )
-  : (Extent, ConceptPredicate)
-  = {
-  	// implicitly derived uuid...
-    import scala.Predef.ArrowAssoc
-    val implicitUUID = taggedTypes.conceptPredicateUUID(namespaceUUID(
-      "ConceptPredicate",
-      Seq.empty[(String, String)] ++
-          Seq("bodySegment" -> bodySegment.uuid.toString) ++
-          Seq("concept" -> concept.uuid.toString) : _*))
-    createConceptPredicate( extent, implicitUUID, bodySegment, concept )
-  }
-  
-  def createConceptPredicate
-  ( extent: Extent,
-    uuid: taggedTypes.ConceptPredicateUUID,
-    bodySegment: RuleBodySegment,
-    concept: Concept )
-  : (Extent, ConceptPredicate)
-  
   // ConceptSpecializationAxiom
   def createConceptSpecializationAxiom
   ( extent: Extent,
@@ -443,95 +395,35 @@ trait OMLResolvedFactory {
     refinedDescriptionBox: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI )
   : (Extent, DescriptionBoxRefinement)
   
-  // EntityExistentialForwardReifiedRestrictionAxiom
-  def createEntityExistentialForwardReifiedRestrictionAxiom
-  ( extent: Extent,
-    tbox: TerminologyBox,
-    forwardProperty: ForwardProperty,
-    restrictedDomain: Entity,
-    restrictedRange: Entity )
-  : (Extent, EntityExistentialForwardReifiedRestrictionAxiom)
-  = {
-  	// derived uuid...
-    import scala.Predef.ArrowAssoc
-    val uuid = taggedTypes.entityExistentialForwardReifiedRestrictionAxiomUUID(namespaceUUID(
-      "EntityExistentialForwardReifiedRestrictionAxiom",
-      Seq.empty[(String, String)] ++
-          Seq("tbox" -> tbox.uuid.toString) ++
-          Seq("forwardProperty" -> forwardProperty.uuid.toString) ++
-          Seq("restrictedDomain" -> restrictedDomain.uuid.toString) ++
-          Seq("restrictedRange" -> restrictedRange.uuid.toString) : _*))
-    createEntityExistentialForwardReifiedRestrictionAxiom( extent, uuid, tbox, forwardProperty, restrictedDomain, restrictedRange )
-  }
-  
-  def createEntityExistentialForwardReifiedRestrictionAxiom
-  ( extent: Extent,
-    uuid: taggedTypes.EntityExistentialForwardReifiedRestrictionAxiomUUID,
-    tbox: TerminologyBox,
-    forwardProperty: ForwardProperty,
-    restrictedDomain: Entity,
-    restrictedRange: Entity )
-  : (Extent, EntityExistentialForwardReifiedRestrictionAxiom)
-  
-  // EntityExistentialInverseReifiedRestrictionAxiom
-  def createEntityExistentialInverseReifiedRestrictionAxiom
-  ( extent: Extent,
-    tbox: TerminologyBox,
-    inverseProperty: InverseProperty,
-    restrictedDomain: Entity,
-    restrictedRange: Entity )
-  : (Extent, EntityExistentialInverseReifiedRestrictionAxiom)
-  = {
-  	// derived uuid...
-    import scala.Predef.ArrowAssoc
-    val uuid = taggedTypes.entityExistentialInverseReifiedRestrictionAxiomUUID(namespaceUUID(
-      "EntityExistentialInverseReifiedRestrictionAxiom",
-      Seq.empty[(String, String)] ++
-          Seq("tbox" -> tbox.uuid.toString) ++
-          Seq("inverseProperty" -> inverseProperty.uuid.toString) ++
-          Seq("restrictedDomain" -> restrictedDomain.uuid.toString) ++
-          Seq("restrictedRange" -> restrictedRange.uuid.toString) : _*))
-    createEntityExistentialInverseReifiedRestrictionAxiom( extent, uuid, tbox, inverseProperty, restrictedDomain, restrictedRange )
-  }
-  
-  def createEntityExistentialInverseReifiedRestrictionAxiom
-  ( extent: Extent,
-    uuid: taggedTypes.EntityExistentialInverseReifiedRestrictionAxiomUUID,
-    tbox: TerminologyBox,
-    inverseProperty: InverseProperty,
-    restrictedDomain: Entity,
-    restrictedRange: Entity )
-  : (Extent, EntityExistentialInverseReifiedRestrictionAxiom)
-  
-  // EntityExistentialUnreifiedRestrictionAxiom
-  def createEntityExistentialUnreifiedRestrictionAxiom
+  // EntityExistentialRestrictionAxiom
+  def createEntityExistentialRestrictionAxiom
   ( extent: Extent,
     tbox: TerminologyBox,
     restrictedDomain: Entity,
     restrictedRange: Entity,
-    restrictedUnreifiedRelationship: UnreifiedRelationship )
-  : (Extent, EntityExistentialUnreifiedRestrictionAxiom)
+    restrictedRelationship: RestrictableRelationship )
+  : (Extent, EntityExistentialRestrictionAxiom)
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid = taggedTypes.entityExistentialUnreifiedRestrictionAxiomUUID(namespaceUUID(
-      "EntityExistentialUnreifiedRestrictionAxiom",
+    val uuid = taggedTypes.entityExistentialRestrictionAxiomUUID(namespaceUUID(
+      "EntityExistentialRestrictionAxiom",
       Seq.empty[(String, String)] ++
           Seq("tbox" -> tbox.uuid.toString) ++
           Seq("restrictedDomain" -> restrictedDomain.uuid.toString) ++
           Seq("restrictedRange" -> restrictedRange.uuid.toString) ++
-          Seq("restrictedUnreifiedRelationship" -> restrictedUnreifiedRelationship.uuid.toString) : _*))
-    createEntityExistentialUnreifiedRestrictionAxiom( extent, uuid, tbox, restrictedDomain, restrictedRange, restrictedUnreifiedRelationship )
+          Seq("restrictedRelationship" -> restrictedRelationship.uuid.toString) : _*))
+    createEntityExistentialRestrictionAxiom( extent, uuid, tbox, restrictedDomain, restrictedRange, restrictedRelationship )
   }
   
-  def createEntityExistentialUnreifiedRestrictionAxiom
+  def createEntityExistentialRestrictionAxiom
   ( extent: Extent,
-    uuid: taggedTypes.EntityExistentialUnreifiedRestrictionAxiomUUID,
+    uuid: taggedTypes.EntityExistentialRestrictionAxiomUUID,
     tbox: TerminologyBox,
     restrictedDomain: Entity,
     restrictedRange: Entity,
-    restrictedUnreifiedRelationship: UnreifiedRelationship )
-  : (Extent, EntityExistentialUnreifiedRestrictionAxiom)
+    restrictedRelationship: RestrictableRelationship )
+  : (Extent, EntityExistentialRestrictionAxiom)
   
   // EntityScalarDataProperty
   def createEntityScalarDataProperty
@@ -704,95 +596,35 @@ trait OMLResolvedFactory {
     restrictedEntity: Entity )
   : (Extent, EntityStructuredDataPropertyParticularRestrictionAxiom)
   
-  // EntityUniversalForwardReifiedRestrictionAxiom
-  def createEntityUniversalForwardReifiedRestrictionAxiom
-  ( extent: Extent,
-    tbox: TerminologyBox,
-    forwardProperty: ForwardProperty,
-    restrictedDomain: Entity,
-    restrictedRange: Entity )
-  : (Extent, EntityUniversalForwardReifiedRestrictionAxiom)
-  = {
-  	// derived uuid...
-    import scala.Predef.ArrowAssoc
-    val uuid = taggedTypes.entityUniversalForwardReifiedRestrictionAxiomUUID(namespaceUUID(
-      "EntityUniversalForwardReifiedRestrictionAxiom",
-      Seq.empty[(String, String)] ++
-          Seq("tbox" -> tbox.uuid.toString) ++
-          Seq("forwardProperty" -> forwardProperty.uuid.toString) ++
-          Seq("restrictedDomain" -> restrictedDomain.uuid.toString) ++
-          Seq("restrictedRange" -> restrictedRange.uuid.toString) : _*))
-    createEntityUniversalForwardReifiedRestrictionAxiom( extent, uuid, tbox, forwardProperty, restrictedDomain, restrictedRange )
-  }
-  
-  def createEntityUniversalForwardReifiedRestrictionAxiom
-  ( extent: Extent,
-    uuid: taggedTypes.EntityUniversalForwardReifiedRestrictionAxiomUUID,
-    tbox: TerminologyBox,
-    forwardProperty: ForwardProperty,
-    restrictedDomain: Entity,
-    restrictedRange: Entity )
-  : (Extent, EntityUniversalForwardReifiedRestrictionAxiom)
-  
-  // EntityUniversalInverseReifiedRestrictionAxiom
-  def createEntityUniversalInverseReifiedRestrictionAxiom
-  ( extent: Extent,
-    tbox: TerminologyBox,
-    inverseProperty: InverseProperty,
-    restrictedDomain: Entity,
-    restrictedRange: Entity )
-  : (Extent, EntityUniversalInverseReifiedRestrictionAxiom)
-  = {
-  	// derived uuid...
-    import scala.Predef.ArrowAssoc
-    val uuid = taggedTypes.entityUniversalInverseReifiedRestrictionAxiomUUID(namespaceUUID(
-      "EntityUniversalInverseReifiedRestrictionAxiom",
-      Seq.empty[(String, String)] ++
-          Seq("tbox" -> tbox.uuid.toString) ++
-          Seq("inverseProperty" -> inverseProperty.uuid.toString) ++
-          Seq("restrictedDomain" -> restrictedDomain.uuid.toString) ++
-          Seq("restrictedRange" -> restrictedRange.uuid.toString) : _*))
-    createEntityUniversalInverseReifiedRestrictionAxiom( extent, uuid, tbox, inverseProperty, restrictedDomain, restrictedRange )
-  }
-  
-  def createEntityUniversalInverseReifiedRestrictionAxiom
-  ( extent: Extent,
-    uuid: taggedTypes.EntityUniversalInverseReifiedRestrictionAxiomUUID,
-    tbox: TerminologyBox,
-    inverseProperty: InverseProperty,
-    restrictedDomain: Entity,
-    restrictedRange: Entity )
-  : (Extent, EntityUniversalInverseReifiedRestrictionAxiom)
-  
-  // EntityUniversalUnreifiedRestrictionAxiom
-  def createEntityUniversalUnreifiedRestrictionAxiom
+  // EntityUniversalRestrictionAxiom
+  def createEntityUniversalRestrictionAxiom
   ( extent: Extent,
     tbox: TerminologyBox,
     restrictedDomain: Entity,
     restrictedRange: Entity,
-    restrictedUnreifiedRelationship: UnreifiedRelationship )
-  : (Extent, EntityUniversalUnreifiedRestrictionAxiom)
+    restrictedRelationship: RestrictableRelationship )
+  : (Extent, EntityUniversalRestrictionAxiom)
   = {
   	// derived uuid...
     import scala.Predef.ArrowAssoc
-    val uuid = taggedTypes.entityUniversalUnreifiedRestrictionAxiomUUID(namespaceUUID(
-      "EntityUniversalUnreifiedRestrictionAxiom",
+    val uuid = taggedTypes.entityUniversalRestrictionAxiomUUID(namespaceUUID(
+      "EntityUniversalRestrictionAxiom",
       Seq.empty[(String, String)] ++
           Seq("tbox" -> tbox.uuid.toString) ++
           Seq("restrictedDomain" -> restrictedDomain.uuid.toString) ++
           Seq("restrictedRange" -> restrictedRange.uuid.toString) ++
-          Seq("restrictedUnreifiedRelationship" -> restrictedUnreifiedRelationship.uuid.toString) : _*))
-    createEntityUniversalUnreifiedRestrictionAxiom( extent, uuid, tbox, restrictedDomain, restrictedRange, restrictedUnreifiedRelationship )
+          Seq("restrictedRelationship" -> restrictedRelationship.uuid.toString) : _*))
+    createEntityUniversalRestrictionAxiom( extent, uuid, tbox, restrictedDomain, restrictedRange, restrictedRelationship )
   }
   
-  def createEntityUniversalUnreifiedRestrictionAxiom
+  def createEntityUniversalRestrictionAxiom
   ( extent: Extent,
-    uuid: taggedTypes.EntityUniversalUnreifiedRestrictionAxiomUUID,
+    uuid: taggedTypes.EntityUniversalRestrictionAxiomUUID,
     tbox: TerminologyBox,
     restrictedDomain: Entity,
     restrictedRange: Entity,
-    restrictedUnreifiedRelationship: UnreifiedRelationship )
-  : (Extent, EntityUniversalUnreifiedRestrictionAxiom)
+    restrictedRelationship: RestrictableRelationship )
+  : (Extent, EntityUniversalRestrictionAxiom)
   
   // Extent
   def createExtent
@@ -1056,126 +888,6 @@ trait OMLResolvedFactory {
     range: ConceptualEntitySingletonInstance )
   : (Extent, ReifiedRelationshipInstanceRange)
   
-  // ReifiedRelationshipInversePropertyPredicate
-  def createReifiedRelationshipInversePropertyPredicate
-  ( extent: Extent,
-    inverseProperty: InverseProperty,
-    bodySegment: RuleBodySegment )
-  : (Extent, ReifiedRelationshipInversePropertyPredicate)
-  = {
-  	// implicitly derived uuid...
-    import scala.Predef.ArrowAssoc
-    val implicitUUID = taggedTypes.reifiedRelationshipInversePropertyPredicateUUID(namespaceUUID(
-      "ReifiedRelationshipInversePropertyPredicate",
-      Seq.empty[(String, String)] ++
-          Seq("inverseProperty" -> inverseProperty.uuid.toString) ++
-          Seq("bodySegment" -> bodySegment.uuid.toString) : _*))
-    createReifiedRelationshipInversePropertyPredicate( extent, implicitUUID, inverseProperty, bodySegment )
-  }
-  
-  def createReifiedRelationshipInversePropertyPredicate
-  ( extent: Extent,
-    uuid: taggedTypes.ReifiedRelationshipInversePropertyPredicateUUID,
-    inverseProperty: InverseProperty,
-    bodySegment: RuleBodySegment )
-  : (Extent, ReifiedRelationshipInversePropertyPredicate)
-  
-  // ReifiedRelationshipPredicate
-  def createReifiedRelationshipPredicate
-  ( extent: Extent,
-    bodySegment: RuleBodySegment,
-    reifiedRelationship: ReifiedRelationship )
-  : (Extent, ReifiedRelationshipPredicate)
-  = {
-  	// implicitly derived uuid...
-    import scala.Predef.ArrowAssoc
-    val implicitUUID = taggedTypes.reifiedRelationshipPredicateUUID(namespaceUUID(
-      "ReifiedRelationshipPredicate",
-      Seq.empty[(String, String)] ++
-          Seq("bodySegment" -> bodySegment.uuid.toString) ++
-          Seq("reifiedRelationship" -> reifiedRelationship.uuid.toString) : _*))
-    createReifiedRelationshipPredicate( extent, implicitUUID, bodySegment, reifiedRelationship )
-  }
-  
-  def createReifiedRelationshipPredicate
-  ( extent: Extent,
-    uuid: taggedTypes.ReifiedRelationshipPredicateUUID,
-    bodySegment: RuleBodySegment,
-    reifiedRelationship: ReifiedRelationship )
-  : (Extent, ReifiedRelationshipPredicate)
-  
-  // ReifiedRelationshipPropertyPredicate
-  def createReifiedRelationshipPropertyPredicate
-  ( extent: Extent,
-    forwardProperty: ForwardProperty,
-    bodySegment: RuleBodySegment )
-  : (Extent, ReifiedRelationshipPropertyPredicate)
-  = {
-  	// implicitly derived uuid...
-    import scala.Predef.ArrowAssoc
-    val implicitUUID = taggedTypes.reifiedRelationshipPropertyPredicateUUID(namespaceUUID(
-      "ReifiedRelationshipPropertyPredicate",
-      Seq.empty[(String, String)] ++
-          Seq("forwardProperty" -> forwardProperty.uuid.toString) ++
-          Seq("bodySegment" -> bodySegment.uuid.toString) : _*))
-    createReifiedRelationshipPropertyPredicate( extent, implicitUUID, forwardProperty, bodySegment )
-  }
-  
-  def createReifiedRelationshipPropertyPredicate
-  ( extent: Extent,
-    uuid: taggedTypes.ReifiedRelationshipPropertyPredicateUUID,
-    forwardProperty: ForwardProperty,
-    bodySegment: RuleBodySegment )
-  : (Extent, ReifiedRelationshipPropertyPredicate)
-  
-  // ReifiedRelationshipSourceInversePropertyPredicate
-  def createReifiedRelationshipSourceInversePropertyPredicate
-  ( extent: Extent,
-    bodySegment: RuleBodySegment,
-    reifiedRelationship: ReifiedRelationship )
-  : (Extent, ReifiedRelationshipSourceInversePropertyPredicate)
-  = {
-  	// implicitly derived uuid...
-    import scala.Predef.ArrowAssoc
-    val implicitUUID = taggedTypes.reifiedRelationshipSourceInversePropertyPredicateUUID(namespaceUUID(
-      "ReifiedRelationshipSourceInversePropertyPredicate",
-      Seq.empty[(String, String)] ++
-          Seq("bodySegment" -> bodySegment.uuid.toString) ++
-          Seq("reifiedRelationship" -> reifiedRelationship.uuid.toString) : _*))
-    createReifiedRelationshipSourceInversePropertyPredicate( extent, implicitUUID, bodySegment, reifiedRelationship )
-  }
-  
-  def createReifiedRelationshipSourceInversePropertyPredicate
-  ( extent: Extent,
-    uuid: taggedTypes.ReifiedRelationshipSourceInversePropertyPredicateUUID,
-    bodySegment: RuleBodySegment,
-    reifiedRelationship: ReifiedRelationship )
-  : (Extent, ReifiedRelationshipSourceInversePropertyPredicate)
-  
-  // ReifiedRelationshipSourcePropertyPredicate
-  def createReifiedRelationshipSourcePropertyPredicate
-  ( extent: Extent,
-    bodySegment: RuleBodySegment,
-    reifiedRelationship: ReifiedRelationship )
-  : (Extent, ReifiedRelationshipSourcePropertyPredicate)
-  = {
-  	// implicitly derived uuid...
-    import scala.Predef.ArrowAssoc
-    val implicitUUID = taggedTypes.reifiedRelationshipSourcePropertyPredicateUUID(namespaceUUID(
-      "ReifiedRelationshipSourcePropertyPredicate",
-      Seq.empty[(String, String)] ++
-          Seq("bodySegment" -> bodySegment.uuid.toString) ++
-          Seq("reifiedRelationship" -> reifiedRelationship.uuid.toString) : _*))
-    createReifiedRelationshipSourcePropertyPredicate( extent, implicitUUID, bodySegment, reifiedRelationship )
-  }
-  
-  def createReifiedRelationshipSourcePropertyPredicate
-  ( extent: Extent,
-    uuid: taggedTypes.ReifiedRelationshipSourcePropertyPredicateUUID,
-    bodySegment: RuleBodySegment,
-    reifiedRelationship: ReifiedRelationship )
-  : (Extent, ReifiedRelationshipSourcePropertyPredicate)
-  
   // ReifiedRelationshipSpecializationAxiom
   def createReifiedRelationshipSpecializationAxiom
   ( extent: Extent,
@@ -1202,54 +914,6 @@ trait OMLResolvedFactory {
     superRelationship: ReifiedRelationship,
     subRelationship: ReifiedRelationship )
   : (Extent, ReifiedRelationshipSpecializationAxiom)
-  
-  // ReifiedRelationshipTargetInversePropertyPredicate
-  def createReifiedRelationshipTargetInversePropertyPredicate
-  ( extent: Extent,
-    bodySegment: RuleBodySegment,
-    reifiedRelationship: ReifiedRelationship )
-  : (Extent, ReifiedRelationshipTargetInversePropertyPredicate)
-  = {
-  	// implicitly derived uuid...
-    import scala.Predef.ArrowAssoc
-    val implicitUUID = taggedTypes.reifiedRelationshipTargetInversePropertyPredicateUUID(namespaceUUID(
-      "ReifiedRelationshipTargetInversePropertyPredicate",
-      Seq.empty[(String, String)] ++
-          Seq("bodySegment" -> bodySegment.uuid.toString) ++
-          Seq("reifiedRelationship" -> reifiedRelationship.uuid.toString) : _*))
-    createReifiedRelationshipTargetInversePropertyPredicate( extent, implicitUUID, bodySegment, reifiedRelationship )
-  }
-  
-  def createReifiedRelationshipTargetInversePropertyPredicate
-  ( extent: Extent,
-    uuid: taggedTypes.ReifiedRelationshipTargetInversePropertyPredicateUUID,
-    bodySegment: RuleBodySegment,
-    reifiedRelationship: ReifiedRelationship )
-  : (Extent, ReifiedRelationshipTargetInversePropertyPredicate)
-  
-  // ReifiedRelationshipTargetPropertyPredicate
-  def createReifiedRelationshipTargetPropertyPredicate
-  ( extent: Extent,
-    bodySegment: RuleBodySegment,
-    reifiedRelationship: ReifiedRelationship )
-  : (Extent, ReifiedRelationshipTargetPropertyPredicate)
-  = {
-  	// implicitly derived uuid...
-    import scala.Predef.ArrowAssoc
-    val implicitUUID = taggedTypes.reifiedRelationshipTargetPropertyPredicateUUID(namespaceUUID(
-      "ReifiedRelationshipTargetPropertyPredicate",
-      Seq.empty[(String, String)] ++
-          Seq("bodySegment" -> bodySegment.uuid.toString) ++
-          Seq("reifiedRelationship" -> reifiedRelationship.uuid.toString) : _*))
-    createReifiedRelationshipTargetPropertyPredicate( extent, implicitUUID, bodySegment, reifiedRelationship )
-  }
-  
-  def createReifiedRelationshipTargetPropertyPredicate
-  ( extent: Extent,
-    uuid: taggedTypes.ReifiedRelationshipTargetPropertyPredicateUUID,
-    bodySegment: RuleBodySegment,
-    reifiedRelationship: ReifiedRelationship )
-  : (Extent, ReifiedRelationshipTargetPropertyPredicate)
   
   // RestrictionScalarDataPropertyValue
   def createRestrictionScalarDataPropertyValue
@@ -1485,6 +1149,45 @@ trait OMLResolvedFactory {
     restrictedRange: DataRange,
     name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, ScalarOneOfRestriction)
+  
+  // SegmentPredicate
+  def createSegmentPredicate
+  ( extent: Extent,
+    bodySegment: RuleBodySegment,
+    predicate: scala.Option[Predicate],
+    reifiedRelationshipSource: scala.Option[ReifiedRelationship],
+    reifiedRelationshipInverseSource: scala.Option[ReifiedRelationship],
+    reifiedRelationshipTarget: scala.Option[ReifiedRelationship],
+    reifiedRelationshipInverseTarget: scala.Option[ReifiedRelationship],
+    unreifiedRelationshipInverse: scala.Option[UnreifiedRelationship] )
+  : (Extent, SegmentPredicate)
+  = {
+  	// implicitly derived uuid...
+    import scala.Predef.ArrowAssoc
+    val implicitUUID = taggedTypes.segmentPredicateUUID(namespaceUUID(
+      "SegmentPredicate",
+      Seq.empty[(String, String)] ++
+          Seq("bodySegment" -> bodySegment.uuid.toString) ++
+        predicate.map { vt => "predicate" -> vt.uuid.toString } ++
+        reifiedRelationshipSource.map { vt => "reifiedRelationshipSource" -> vt.uuid.toString } ++
+        reifiedRelationshipInverseSource.map { vt => "reifiedRelationshipInverseSource" -> vt.uuid.toString } ++
+        reifiedRelationshipTarget.map { vt => "reifiedRelationshipTarget" -> vt.uuid.toString } ++
+        reifiedRelationshipInverseTarget.map { vt => "reifiedRelationshipInverseTarget" -> vt.uuid.toString } ++
+        unreifiedRelationshipInverse.map { vt => "unreifiedRelationshipInverse" -> vt.uuid.toString } : _*))
+    createSegmentPredicate( extent, implicitUUID, bodySegment, predicate, reifiedRelationshipSource, reifiedRelationshipInverseSource, reifiedRelationshipTarget, reifiedRelationshipInverseTarget, unreifiedRelationshipInverse )
+  }
+  
+  def createSegmentPredicate
+  ( extent: Extent,
+    uuid: taggedTypes.SegmentPredicateUUID,
+    bodySegment: RuleBodySegment,
+    predicate: scala.Option[Predicate],
+    reifiedRelationshipSource: scala.Option[ReifiedRelationship],
+    reifiedRelationshipInverseSource: scala.Option[ReifiedRelationship],
+    reifiedRelationshipTarget: scala.Option[ReifiedRelationship],
+    reifiedRelationshipInverseTarget: scala.Option[ReifiedRelationship],
+    unreifiedRelationshipInverse: scala.Option[UnreifiedRelationship] )
+  : (Extent, SegmentPredicate)
   
   // SingletonInstanceScalarDataPropertyValue
   def createSingletonInstanceScalarDataPropertyValue
@@ -1913,53 +1616,5 @@ trait OMLResolvedFactory {
     domain: ConceptualEntitySingletonInstance,
     range: ConceptualEntitySingletonInstance )
   : (Extent, UnreifiedRelationshipInstanceTuple)
-  
-  // UnreifiedRelationshipInversePropertyPredicate
-  def createUnreifiedRelationshipInversePropertyPredicate
-  ( extent: Extent,
-    unreifiedRelationship: UnreifiedRelationship,
-    bodySegment: RuleBodySegment )
-  : (Extent, UnreifiedRelationshipInversePropertyPredicate)
-  = {
-  	// implicitly derived uuid...
-    import scala.Predef.ArrowAssoc
-    val implicitUUID = taggedTypes.unreifiedRelationshipInversePropertyPredicateUUID(namespaceUUID(
-      "UnreifiedRelationshipInversePropertyPredicate",
-      Seq.empty[(String, String)] ++
-          Seq("unreifiedRelationship" -> unreifiedRelationship.uuid.toString) ++
-          Seq("bodySegment" -> bodySegment.uuid.toString) : _*))
-    createUnreifiedRelationshipInversePropertyPredicate( extent, implicitUUID, unreifiedRelationship, bodySegment )
-  }
-  
-  def createUnreifiedRelationshipInversePropertyPredicate
-  ( extent: Extent,
-    uuid: taggedTypes.UnreifiedRelationshipInversePropertyPredicateUUID,
-    unreifiedRelationship: UnreifiedRelationship,
-    bodySegment: RuleBodySegment )
-  : (Extent, UnreifiedRelationshipInversePropertyPredicate)
-  
-  // UnreifiedRelationshipPropertyPredicate
-  def createUnreifiedRelationshipPropertyPredicate
-  ( extent: Extent,
-    unreifiedRelationship: UnreifiedRelationship,
-    bodySegment: RuleBodySegment )
-  : (Extent, UnreifiedRelationshipPropertyPredicate)
-  = {
-  	// implicitly derived uuid...
-    import scala.Predef.ArrowAssoc
-    val implicitUUID = taggedTypes.unreifiedRelationshipPropertyPredicateUUID(namespaceUUID(
-      "UnreifiedRelationshipPropertyPredicate",
-      Seq.empty[(String, String)] ++
-          Seq("unreifiedRelationship" -> unreifiedRelationship.uuid.toString) ++
-          Seq("bodySegment" -> bodySegment.uuid.toString) : _*))
-    createUnreifiedRelationshipPropertyPredicate( extent, implicitUUID, unreifiedRelationship, bodySegment )
-  }
-  
-  def createUnreifiedRelationshipPropertyPredicate
-  ( extent: Extent,
-    uuid: taggedTypes.UnreifiedRelationshipPropertyPredicateUUID,
-    unreifiedRelationship: UnreifiedRelationship,
-    bodySegment: RuleBodySegment )
-  : (Extent, UnreifiedRelationshipPropertyPredicate)
   
 }

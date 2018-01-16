@@ -19,7 +19,7 @@
  
 package gov.nasa.jpl.imce.oml.tables
 
-trait Entity extends Term {
+trait Entity extends Predicate with Term {
   override val uuid: taggedTypes.EntityUUID
   override val tboxUUID: taggedTypes.TerminologyBoxUUID
   override val name: taggedTypes.LocalName

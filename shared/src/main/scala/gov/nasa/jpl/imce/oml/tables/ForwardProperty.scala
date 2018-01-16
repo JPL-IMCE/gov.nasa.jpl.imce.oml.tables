@@ -34,7 +34,7 @@ case class ForwardProperty
   @(JSExport @field) override val uuid: taggedTypes.ForwardPropertyUUID,
   @(JSExport @field) val name: taggedTypes.LocalName,
   @(JSExport @field) val reifiedRelationshipUUID: taggedTypes.ReifiedRelationshipUUID
-) extends Resource {
+) extends RestrictableRelationship {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

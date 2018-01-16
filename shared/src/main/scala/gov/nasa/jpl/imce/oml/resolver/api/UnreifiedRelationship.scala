@@ -27,6 +27,10 @@ package gov.nasa.jpl.imce.oml.resolver.api
  */
 trait UnreifiedRelationship
   extends EntityRelationship
+  with RestrictableRelationship
 {
   override val uuid: taggedTypes.UnreifiedRelationshipUUID
+
+  override def relation
+  (): EntityRelationship
 }

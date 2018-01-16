@@ -19,7 +19,6 @@
  
 package gov.nasa.jpl.imce.oml.tables
 
-trait BinarySegmentReversePropertyPredicate extends BinarySegmentPropertyPredicate {
-  override val uuid: taggedTypes.BinarySegmentReversePropertyPredicateUUID
-  override val bodySegmentUUID: taggedTypes.RuleBodySegmentUUID
+trait Predicate extends Resource {
+  override val uuid: taggedTypes.PredicateUUID
 }

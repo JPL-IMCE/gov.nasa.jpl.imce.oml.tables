@@ -26,6 +26,10 @@ package gov.nasa.jpl.imce.oml.resolver.api
  */
 trait Entity
   extends Term
+  with Predicate
 {
   override val uuid: taggedTypes.EntityUUID
+
+  override def term
+  (): Term
 }

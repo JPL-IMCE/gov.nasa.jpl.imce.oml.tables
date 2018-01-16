@@ -18,8 +18,12 @@
 
 package gov.nasa.jpl.imce.oml.resolver.api
 
+/*
+ * An OML ForwardProperty is an essential part of an OML ReifiedRelationship.
+ * An OML ForwardProperty defines the unreified relationship from the OML ReifiedRelationship's domain to its range.
+ */
 trait ForwardProperty
-  extends Resource
+  extends RestrictableRelationship
 {
   override val uuid: taggedTypes.ForwardPropertyUUID
 
@@ -30,6 +34,8 @@ trait ForwardProperty
   ()(implicit extent: Extent): scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI]
   override def abbrevIRI
   ()(implicit extent: Extent): scala.Option[scala.Predef.String]
+  override def relation
+  (): EntityRelationship
 }
 
 object ForwardProperty {

@@ -56,7 +56,7 @@ case class UnreifiedRelationship
   @(JSExport @field) override val isSymmetric: scala.Boolean,
   @(JSExport @field) override val isTransitive: scala.Boolean,
   @(JSExport @field) override val name: taggedTypes.LocalName
-) extends EntityRelationship {
+) extends EntityRelationship with RestrictableRelationship {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

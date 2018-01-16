@@ -16,20 +16,9 @@
  * License Terms
  */
 
-package gov.nasa.jpl.imce.oml.resolver.api
+ 
+package gov.nasa.jpl.imce.oml.tables
 
-/*
- * An OML AspectPredicate wraps a reference
- * to an OML Aspect as a unary predicate for an OML ChainRule.
- * This unary predicate is satisfied when its implicit variable is bound
- * to an instance of the referenced OML Aspect.
- */
-trait AspectPredicate
-  extends UnarySegmentPredicate
-{
-  val aspect: Aspect
-
-  override def termPredicate
-  (): Term
-  override val uuid: taggedTypes.AspectPredicateUUID
+trait RestrictableRelationship extends Predicate with Resource {
+  override val uuid: taggedTypes.RestrictableRelationshipUUID
 }

@@ -24,14 +24,19 @@ package gov.nasa.jpl.imce.oml.resolver.api
 trait SegmentPredicate
   extends ElementCrossReferenceTuple
 {
-  override val uuid: taggedTypes.SegmentPredicateUUID
-
   val bodySegment: RuleBodySegment
+  val predicate: scala.Option[Predicate]
+  val reifiedRelationshipSource: scala.Option[ReifiedRelationship]
+  val reifiedRelationshipInverseSource: scala.Option[ReifiedRelationship]
+  val reifiedRelationshipTarget: scala.Option[ReifiedRelationship]
+  val reifiedRelationshipInverseTarget: scala.Option[ReifiedRelationship]
+  val unreifiedRelationshipInverse: scala.Option[UnreifiedRelationship]
 
   def termPredicate
   (): Term
   def moduleContext
   ()(implicit extent: Extent): scala.Option[Module]
+  override val uuid: taggedTypes.SegmentPredicateUUID
 }
 
 object SegmentPredicate {

@@ -16,13 +16,13 @@
  * License Terms
  */
 
- 
-package gov.nasa.jpl.imce.oml.tables
+package gov.nasa.jpl.imce.oml.resolver.api
 
-trait EntityUnreifiedRestrictionAxiom extends EntityRestrictionAxiom {
-  override val uuid: taggedTypes.EntityUnreifiedRestrictionAxiomUUID
-  override val tboxUUID: taggedTypes.TerminologyBoxUUID
-  override val restrictedDomainUUID: taggedTypes.EntityUUID
-  override val restrictedRangeUUID: taggedTypes.EntityUUID
-  val restrictedUnreifiedRelationshipUUID: taggedTypes.UnreifiedRelationshipUUID
+trait Predicate
+  extends Resource
+{
+  override val uuid: taggedTypes.PredicateUUID
+
+  def term
+  (): Term
 }

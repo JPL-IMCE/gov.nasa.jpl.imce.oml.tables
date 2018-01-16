@@ -24,4 +24,5 @@ trait EntityRestrictionAxiom extends ElementCrossReferenceTuple with TermAxiom {
   override val tboxUUID: taggedTypes.TerminologyBoxUUID
   val restrictedDomainUUID: taggedTypes.EntityUUID
   val restrictedRangeUUID: taggedTypes.EntityUUID
+  val restrictedRelationshipUUID: taggedTypes.RestrictableRelationshipUUID
 }

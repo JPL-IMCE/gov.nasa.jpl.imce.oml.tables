@@ -28,13 +28,14 @@ trait EntityRestrictionAxiom
 {
   override val uuid: taggedTypes.EntityRestrictionAxiomUUID
 
+  val restrictedRelationship: RestrictableRelationship
   val restrictedRange: Entity
   val restrictedDomain: Entity
 
-  def restrictedRelation
-  (): EntityRelationship
   def allNestedElements
   ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: LogicalElement]
+  def restrictedRelation
+  (): EntityRelationship
 }
 
 object EntityRestrictionAxiom {
