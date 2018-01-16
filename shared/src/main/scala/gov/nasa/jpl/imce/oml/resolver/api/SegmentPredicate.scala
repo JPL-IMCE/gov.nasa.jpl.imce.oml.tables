@@ -33,7 +33,7 @@ trait SegmentPredicate
   val unreifiedRelationshipInverse: scala.Option[UnreifiedRelationship]
 
   def termPredicate
-  (): Term
+  (): scala.Option[Term]
   def moduleContext
   ()(implicit extent: Extent): scala.Option[Module]
   override val uuid: taggedTypes.SegmentPredicateUUID

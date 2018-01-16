@@ -36,6 +36,8 @@ trait ForwardProperty
   ()(implicit extent: Extent): scala.Option[scala.Predef.String]
   override def relation
   (): EntityRelationship
+  override def moduleContext
+  ()(implicit extent: Extent): scala.Option[Module]
 }
 
 object ForwardProperty {
@@ -49,5 +51,10 @@ object ForwardProperty {
   (f: ForwardProperty, ext: Extent)
   : scala.Option[scala.Predef.String]
   = f.abbrevIRI()(ext)
+
+  def moduleContext
+  (f: ForwardProperty, ext: Extent)
+  : scala.Option[Module]
+  = f.moduleContext()(ext)
 
 }

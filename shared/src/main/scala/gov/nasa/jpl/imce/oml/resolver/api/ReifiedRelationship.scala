@@ -30,4 +30,16 @@ trait ReifiedRelationship
   with ConceptualEntity
 {
   override val uuid: taggedTypes.ReifiedRelationshipUUID
+
+  override def allNestedElements
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: LogicalElement]
+}
+
+object ReifiedRelationship {
+
+  def allNestedElements
+  (r: ReifiedRelationship, ext: Extent)
+  : scala.collection.immutable.Set[_ <: LogicalElement]
+  = r.allNestedElements()(ext)
+
 }

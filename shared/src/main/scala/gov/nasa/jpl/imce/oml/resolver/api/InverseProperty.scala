@@ -36,6 +36,8 @@ trait InverseProperty
   ()(implicit extent: Extent): scala.Option[scala.Predef.String]
   override def relation
   (): EntityRelationship
+  override def moduleContext
+  ()(implicit extent: Extent): scala.Option[Module]
 }
 
 object InverseProperty {
@@ -49,5 +51,10 @@ object InverseProperty {
   (i: InverseProperty, ext: Extent)
   : scala.Option[scala.Predef.String]
   = i.abbrevIRI()(ext)
+
+  def moduleContext
+  (i: InverseProperty, ext: Extent)
+  : scala.Option[Module]
+  = i.moduleContext()(ext)
 
 }
