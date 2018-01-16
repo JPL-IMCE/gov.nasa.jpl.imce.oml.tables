@@ -2573,9 +2573,9 @@ object OMLTablesResolver {
         case (ri, (rsdp, rvt, tv)) =>
           val (ej, _) = ri.factory.createRestrictionScalarDataPropertyValue(
             ri.context,
+            rcontext,
             rsdp,
             tv.scalarPropertyValue,
-            rcontext,
             rvt)
           ri.copy(context = ej)
       }
@@ -2613,8 +2613,8 @@ object OMLTablesResolver {
         case ((ri, acc), (rsdp, tv)) =>
           val (ej, rv) = ri.factory.createRestrictionStructuredDataPropertyTuple(
             ri.context,
-            rsdp,
-            rcontext)
+            rcontext,
+            rsdp)
           (ri.copy(context = ej), acc :+ (tv.uuid -> rv))
       }
 
@@ -3367,9 +3367,9 @@ object OMLTablesResolver {
       case (Success(ri), (dpM, vtM, tvi)) =>
         val (ej, rvi) = ri.factory.createScalarDataPropertyValue(
           ri.context,
+          rcontext,
           dpM,
           tvi.scalarPropertyValue,
-          rcontext,
           vtM)
 
         if (!ej.lookupScalarDataPropertyValues(rcontext).contains(rvi))
@@ -3411,8 +3411,8 @@ object OMLTablesResolver {
           case (Success((ri, acc)), (dpM, tvi)) =>
             val (ej, rvi) = ri.factory.createStructuredDataPropertyTuple(
               ri.context,
-              dpM,
-              rcontext)
+              rcontext,
+              dpM)
 
             if (!ej.lookupStructuredPropertyTuples(rcontext).contains(rvi))
               Failure(new IllegalArgumentException(s"StructuredDataPropertyTuple not in extent: $rvi"))

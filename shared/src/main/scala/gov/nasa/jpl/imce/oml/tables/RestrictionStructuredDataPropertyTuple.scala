@@ -25,40 +25,40 @@ import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
-  * @param structuredDataPropertyUUID[1,1]
   * @param structuredDataPropertyContextUUID[1,1]
+  * @param structuredDataPropertyUUID[1,1]
   */
 @JSExportTopLevel("RestrictionStructuredDataPropertyTuple")
 case class RestrictionStructuredDataPropertyTuple
 (
   @(JSExport @field) override val uuid: taggedTypes.RestrictionStructuredDataPropertyTupleUUID,
-  @(JSExport @field) override val structuredDataPropertyUUID: taggedTypes.DataRelationshipToStructureUUID,
-  @(JSExport @field) val structuredDataPropertyContextUUID: taggedTypes.RestrictionStructuredDataPropertyContextUUID
+  @(JSExport @field) val structuredDataPropertyContextUUID: taggedTypes.RestrictionStructuredDataPropertyContextUUID,
+  @(JSExport @field) override val structuredDataPropertyUUID: taggedTypes.DataRelationshipToStructureUUID
 ) extends RestrictionStructuredDataPropertyContext {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    structuredDataPropertyUUID: taggedTypes.DataRelationshipToStructureUUID,
-    structuredDataPropertyContextUUID: taggedTypes.RestrictionStructuredDataPropertyContextUUID)
+    structuredDataPropertyContextUUID: taggedTypes.RestrictionStructuredDataPropertyContextUUID,
+    structuredDataPropertyUUID: taggedTypes.DataRelationshipToStructureUUID)
   = this(
       taggedTypes.restrictionStructuredDataPropertyTupleUUID(oug.namespaceUUID(
         "RestrictionStructuredDataPropertyTuple",
-        "structuredDataProperty" -> structuredDataPropertyUUID,
-        "structuredDataPropertyContext" -> structuredDataPropertyContextUUID).toString),
-      structuredDataPropertyUUID,
-      structuredDataPropertyContextUUID)
+        "structuredDataPropertyContext" -> structuredDataPropertyContextUUID,
+        "structuredDataProperty" -> structuredDataPropertyUUID).toString),
+      structuredDataPropertyContextUUID,
+      structuredDataPropertyUUID)
 
 val vertexId: scala.Long = uuid.hashCode.toLong
 
   override val hashCode
   : scala.Int 
-  = (uuid, structuredDataPropertyUUID, structuredDataPropertyContextUUID).##
+  = (uuid, structuredDataPropertyContextUUID, structuredDataPropertyUUID).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: RestrictionStructuredDataPropertyTuple =>
   	  (this.uuid == that.uuid) &&
-  	  (this.structuredDataPropertyUUID == that.structuredDataPropertyUUID)  &&
-  	  (this.structuredDataPropertyContextUUID == that.structuredDataPropertyContextUUID) 
+  	  (this.structuredDataPropertyContextUUID == that.structuredDataPropertyContextUUID)  &&
+  	  (this.structuredDataPropertyUUID == that.structuredDataPropertyUUID) 
     case _ =>
       false
   }
@@ -83,12 +83,12 @@ object RestrictionStructuredDataPropertyTupleHelper {
   
     for {
     	  uuid <- c.downField("uuid").as[taggedTypes.RestrictionStructuredDataPropertyTupleUUID]
-    	  structuredDataPropertyUUID <- c.downField("structuredDataPropertyUUID").as[taggedTypes.DataRelationshipToStructureUUID]
     	  structuredDataPropertyContextUUID <- c.downField("structuredDataPropertyContextUUID").as[taggedTypes.RestrictionStructuredDataPropertyContextUUID]
+    	  structuredDataPropertyUUID <- c.downField("structuredDataPropertyUUID").as[taggedTypes.DataRelationshipToStructureUUID]
     	} yield RestrictionStructuredDataPropertyTuple(
     	  uuid,
-    	  structuredDataPropertyUUID,
-    	  structuredDataPropertyContextUUID
+    	  structuredDataPropertyContextUUID,
+    	  structuredDataPropertyUUID
     	)
   }
   
@@ -97,8 +97,8 @@ object RestrictionStructuredDataPropertyTupleHelper {
     override final def apply(x: RestrictionStructuredDataPropertyTuple): Json 
     = Json.obj(
     	  ("uuid", taggedTypes.encodeRestrictionStructuredDataPropertyTupleUUID(x.uuid)),
-    	  ("structuredDataPropertyUUID", taggedTypes.encodeDataRelationshipToStructureUUID(x.structuredDataPropertyUUID)),
-    	  ("structuredDataPropertyContextUUID", taggedTypes.encodeRestrictionStructuredDataPropertyContextUUID(x.structuredDataPropertyContextUUID))
+    	  ("structuredDataPropertyContextUUID", taggedTypes.encodeRestrictionStructuredDataPropertyContextUUID(x.structuredDataPropertyContextUUID)),
+    	  ("structuredDataPropertyUUID", taggedTypes.encodeDataRelationshipToStructureUUID(x.structuredDataPropertyUUID))
     )
   }
 

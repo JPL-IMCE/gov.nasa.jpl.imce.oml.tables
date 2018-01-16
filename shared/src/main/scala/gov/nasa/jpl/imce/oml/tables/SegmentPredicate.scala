@@ -57,29 +57,29 @@ case class SegmentPredicate
       scala.None /* reifiedRelationshipInverseTargetUUID */,
       scala.None /* unreifiedRelationshipInverseUUID */)
 
-  def withPredicateUUID(l: taggedTypes.PredicateUUID)	 
+  def withPredicateUUID(oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator, l: taggedTypes.PredicateUUID)	 
   : SegmentPredicate
-  = copy(predicateUUID=scala.Some(l))
+  = copy(predicateUUID=scala.Some(l)).copy(uuid = calculateUUID(oug))
   
-  def withReifiedRelationshipSourceUUID(l: taggedTypes.ReifiedRelationshipUUID)	 
+  def withReifiedRelationshipSourceUUID(oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator, l: taggedTypes.ReifiedRelationshipUUID)	 
   : SegmentPredicate
-  = copy(reifiedRelationshipSourceUUID=scala.Some(l))
+  = copy(reifiedRelationshipSourceUUID=scala.Some(l)).copy(uuid = calculateUUID(oug))
   
-  def withReifiedRelationshipInverseSourceUUID(l: taggedTypes.ReifiedRelationshipUUID)	 
+  def withReifiedRelationshipInverseSourceUUID(oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator, l: taggedTypes.ReifiedRelationshipUUID)	 
   : SegmentPredicate
-  = copy(reifiedRelationshipInverseSourceUUID=scala.Some(l))
+  = copy(reifiedRelationshipInverseSourceUUID=scala.Some(l)).copy(uuid = calculateUUID(oug))
   
-  def withReifiedRelationshipTargetUUID(l: taggedTypes.ReifiedRelationshipUUID)	 
+  def withReifiedRelationshipTargetUUID(oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator, l: taggedTypes.ReifiedRelationshipUUID)	 
   : SegmentPredicate
-  = copy(reifiedRelationshipTargetUUID=scala.Some(l))
+  = copy(reifiedRelationshipTargetUUID=scala.Some(l)).copy(uuid = calculateUUID(oug))
   
-  def withReifiedRelationshipInverseTargetUUID(l: taggedTypes.ReifiedRelationshipUUID)	 
+  def withReifiedRelationshipInverseTargetUUID(oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator, l: taggedTypes.ReifiedRelationshipUUID)	 
   : SegmentPredicate
-  = copy(reifiedRelationshipInverseTargetUUID=scala.Some(l))
+  = copy(reifiedRelationshipInverseTargetUUID=scala.Some(l)).copy(uuid = calculateUUID(oug))
   
-  def withUnreifiedRelationshipInverseUUID(l: taggedTypes.UnreifiedRelationshipUUID)	 
+  def withUnreifiedRelationshipInverseUUID(oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator, l: taggedTypes.UnreifiedRelationshipUUID)	 
   : SegmentPredicate
-  = copy(unreifiedRelationshipInverseUUID=scala.Some(l))
+  = copy(unreifiedRelationshipInverseUUID=scala.Some(l)).copy(uuid = calculateUUID(oug))
   
   // Ctor(uuidWithContainer)   
   def this(
@@ -90,6 +90,24 @@ case class SegmentPredicate
         "SegmentPredicate",
         "bodySegment" -> bodySegmentUUID).toString),
       bodySegmentUUID)
+
+def calculateUUID(oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator): taggedTypes.SegmentPredicateUUID = 
+	  {
+	    import scala.collection.immutable.Seq
+	    import scala.Predef.String
+
+	    taggedTypes.segmentPredicateUUID(
+          oug.namespaceUUID("SegmentPredicate",  
+            Seq.empty[(String, String)] ++
+            Seq("bodySegment" -> bodySegmentUUID.toString) ++
+            predicateUUID.map { id => "predicate" -> id.toString } ++
+            reifiedRelationshipSourceUUID.map { id => "reifiedRelationshipSource" -> id.toString } ++
+            reifiedRelationshipInverseSourceUUID.map { id => "reifiedRelationshipInverseSource" -> id.toString } ++
+            reifiedRelationshipTargetUUID.map { id => "reifiedRelationshipTarget" -> id.toString } ++
+            reifiedRelationshipInverseTargetUUID.map { id => "reifiedRelationshipInverseTarget" -> id.toString } ++
+            unreifiedRelationshipInverseUUID.map { id => "unreifiedRelationshipInverse" -> id.toString } : _*).toString)
+	   }
+
 
 val vertexId: scala.Long = uuid.hashCode.toLong
 

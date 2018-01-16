@@ -25,29 +25,29 @@ import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
+  * @param structuredDataPropertyContextUUID[1,1]
   * @param scalarDataPropertyUUID[1,1]
   * @param scalarPropertyValue[1,1]
-  * @param structuredDataPropertyContextUUID[1,1]
   * @param valueTypeUUID[0,1]
   */
 case class RestrictionScalarDataPropertyValue
 (
   @(JSExport @field) override val uuid: taggedTypes.RestrictionScalarDataPropertyValueUUID,
+  @(JSExport @field) val structuredDataPropertyContextUUID: taggedTypes.RestrictionStructuredDataPropertyContextUUID,
   @(JSExport @field) val scalarDataPropertyUUID: taggedTypes.DataRelationshipToScalarUUID,
   @(JSExport @field) val scalarPropertyValue: LiteralValue,
-  @(JSExport @field) val structuredDataPropertyContextUUID: taggedTypes.RestrictionStructuredDataPropertyContextUUID,
   @(JSExport @field) val valueTypeUUID: scala.Option[taggedTypes.DataRangeUUID]
 ) extends LogicalElement with ValueCrossReferenceTuple {
   def this(
     uuid: taggedTypes.RestrictionScalarDataPropertyValueUUID,
+    structuredDataPropertyContextUUID: taggedTypes.RestrictionStructuredDataPropertyContextUUID,
     scalarDataPropertyUUID: taggedTypes.DataRelationshipToScalarUUID,
-    scalarPropertyValue: LiteralValue,
-    structuredDataPropertyContextUUID: taggedTypes.RestrictionStructuredDataPropertyContextUUID)
+    scalarPropertyValue: LiteralValue)
   = this(
       uuid,
+      structuredDataPropertyContextUUID,
       scalarDataPropertyUUID,
       scalarPropertyValue,
-      structuredDataPropertyContextUUID,
       scala.None /* valueTypeUUID */)
 
   def withValueTypeUUID(l: taggedTypes.DataRangeUUID)	 
@@ -57,31 +57,31 @@ case class RestrictionScalarDataPropertyValue
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
+    structuredDataPropertyContextUUID: taggedTypes.RestrictionStructuredDataPropertyContextUUID,
     scalarDataPropertyUUID: taggedTypes.DataRelationshipToScalarUUID,
-    scalarPropertyValue: LiteralValue,
-    structuredDataPropertyContextUUID: taggedTypes.RestrictionStructuredDataPropertyContextUUID)
+    scalarPropertyValue: LiteralValue)
   = this(
       taggedTypes.restrictionScalarDataPropertyValueUUID(oug.namespaceUUID(
         "RestrictionScalarDataPropertyValue",
+        "structuredDataPropertyContext" -> structuredDataPropertyContextUUID,
         "scalarDataProperty" -> scalarDataPropertyUUID,
-        "scalarPropertyValue" -> scalarPropertyValue.value,
-        "structuredDataPropertyContext" -> structuredDataPropertyContextUUID).toString),
+        "scalarPropertyValue" -> scalarPropertyValue.value).toString),
+      structuredDataPropertyContextUUID,
       scalarDataPropertyUUID,
-      scalarPropertyValue,
-      structuredDataPropertyContextUUID)
+      scalarPropertyValue)
 
 val vertexId: scala.Long = uuid.hashCode.toLong
 
   override val hashCode
   : scala.Int 
-  = (uuid, scalarDataPropertyUUID, scalarPropertyValue, structuredDataPropertyContextUUID, valueTypeUUID).##
+  = (uuid, structuredDataPropertyContextUUID, scalarDataPropertyUUID, scalarPropertyValue, valueTypeUUID).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: RestrictionScalarDataPropertyValue =>
   	  (this.uuid == that.uuid) &&
+  	  (this.structuredDataPropertyContextUUID == that.structuredDataPropertyContextUUID)  &&
   	  (this.scalarDataPropertyUUID == that.scalarDataPropertyUUID)  &&
   	  (this.scalarPropertyValue == that.scalarPropertyValue) &&
-  	  (this.structuredDataPropertyContextUUID == that.structuredDataPropertyContextUUID)  &&
   	  ((this.valueTypeUUID, that.valueTypeUUID) match {
   	      case (scala.Some(t1), scala.Some(t2)) =>
   	        t1 == t2
@@ -114,15 +114,15 @@ object RestrictionScalarDataPropertyValueHelper {
   
     for {
     	  uuid <- c.downField("uuid").as[taggedTypes.RestrictionScalarDataPropertyValueUUID]
+    	  structuredDataPropertyContextUUID <- c.downField("structuredDataPropertyContextUUID").as[taggedTypes.RestrictionStructuredDataPropertyContextUUID]
     	  scalarDataPropertyUUID <- c.downField("scalarDataPropertyUUID").as[taggedTypes.DataRelationshipToScalarUUID]
     	  scalarPropertyValue <- c.downField("scalarPropertyValue").as[LiteralValue](LiteralValue.decodeLiteralValueArray)
-    	  structuredDataPropertyContextUUID <- c.downField("structuredDataPropertyContextUUID").as[taggedTypes.RestrictionStructuredDataPropertyContextUUID]
     	  valueTypeUUID <- Decoder.decodeOption(taggedTypes.decodeDataRangeUUID)(c.downField("valueTypeUUID").success.get)
     	} yield RestrictionScalarDataPropertyValue(
     	  uuid,
+    	  structuredDataPropertyContextUUID,
     	  scalarDataPropertyUUID,
     	  scalarPropertyValue,
-    	  structuredDataPropertyContextUUID,
     	  valueTypeUUID
     	)
   }
@@ -132,9 +132,9 @@ object RestrictionScalarDataPropertyValueHelper {
     override final def apply(x: RestrictionScalarDataPropertyValue): Json 
     = Json.obj(
     	  ("uuid", taggedTypes.encodeRestrictionScalarDataPropertyValueUUID(x.uuid)),
+    	  ("structuredDataPropertyContextUUID", taggedTypes.encodeRestrictionStructuredDataPropertyContextUUID(x.structuredDataPropertyContextUUID)),
     	  ("scalarDataPropertyUUID", taggedTypes.encodeDataRelationshipToScalarUUID(x.scalarDataPropertyUUID)),
     	  ("scalarPropertyValue", LiteralValue.encodeLiteralValueArray(x.scalarPropertyValue)),
-    	  ("structuredDataPropertyContextUUID", taggedTypes.encodeRestrictionStructuredDataPropertyContextUUID(x.structuredDataPropertyContextUUID)),
     	  ("valueTypeUUID", Encoder.encodeOption(taggedTypes.encodeDataRangeUUID).apply(x.valueTypeUUID))
     )
   }

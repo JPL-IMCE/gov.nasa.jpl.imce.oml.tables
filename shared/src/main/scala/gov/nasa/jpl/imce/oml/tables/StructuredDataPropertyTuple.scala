@@ -25,40 +25,40 @@ import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
-  * @param structuredDataPropertyUUID[1,1]
   * @param structuredDataPropertyContextUUID[1,1]
+  * @param structuredDataPropertyUUID[1,1]
   */
 @JSExportTopLevel("StructuredDataPropertyTuple")
 case class StructuredDataPropertyTuple
 (
   @(JSExport @field) override val uuid: taggedTypes.StructuredDataPropertyTupleUUID,
-  @(JSExport @field) override val structuredDataPropertyUUID: taggedTypes.DataRelationshipToStructureUUID,
-  @(JSExport @field) val structuredDataPropertyContextUUID: taggedTypes.SingletonInstanceStructuredDataPropertyContextUUID
+  @(JSExport @field) val structuredDataPropertyContextUUID: taggedTypes.SingletonInstanceStructuredDataPropertyContextUUID,
+  @(JSExport @field) override val structuredDataPropertyUUID: taggedTypes.DataRelationshipToStructureUUID
 ) extends SingletonInstanceStructuredDataPropertyContext {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
-    structuredDataPropertyUUID: taggedTypes.DataRelationshipToStructureUUID,
-    structuredDataPropertyContextUUID: taggedTypes.SingletonInstanceStructuredDataPropertyContextUUID)
+    structuredDataPropertyContextUUID: taggedTypes.SingletonInstanceStructuredDataPropertyContextUUID,
+    structuredDataPropertyUUID: taggedTypes.DataRelationshipToStructureUUID)
   = this(
       taggedTypes.structuredDataPropertyTupleUUID(oug.namespaceUUID(
         "StructuredDataPropertyTuple",
-        "structuredDataProperty" -> structuredDataPropertyUUID,
-        "structuredDataPropertyContext" -> structuredDataPropertyContextUUID).toString),
-      structuredDataPropertyUUID,
-      structuredDataPropertyContextUUID)
+        "structuredDataPropertyContext" -> structuredDataPropertyContextUUID,
+        "structuredDataProperty" -> structuredDataPropertyUUID).toString),
+      structuredDataPropertyContextUUID,
+      structuredDataPropertyUUID)
 
 val vertexId: scala.Long = uuid.hashCode.toLong
 
   override val hashCode
   : scala.Int 
-  = (uuid, structuredDataPropertyUUID, structuredDataPropertyContextUUID).##
+  = (uuid, structuredDataPropertyContextUUID, structuredDataPropertyUUID).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: StructuredDataPropertyTuple =>
   	  (this.uuid == that.uuid) &&
-  	  (this.structuredDataPropertyUUID == that.structuredDataPropertyUUID)  &&
-  	  (this.structuredDataPropertyContextUUID == that.structuredDataPropertyContextUUID) 
+  	  (this.structuredDataPropertyContextUUID == that.structuredDataPropertyContextUUID)  &&
+  	  (this.structuredDataPropertyUUID == that.structuredDataPropertyUUID) 
     case _ =>
       false
   }
@@ -83,12 +83,12 @@ object StructuredDataPropertyTupleHelper {
   
     for {
     	  uuid <- c.downField("uuid").as[taggedTypes.StructuredDataPropertyTupleUUID]
-    	  structuredDataPropertyUUID <- c.downField("structuredDataPropertyUUID").as[taggedTypes.DataRelationshipToStructureUUID]
     	  structuredDataPropertyContextUUID <- c.downField("structuredDataPropertyContextUUID").as[taggedTypes.SingletonInstanceStructuredDataPropertyContextUUID]
+    	  structuredDataPropertyUUID <- c.downField("structuredDataPropertyUUID").as[taggedTypes.DataRelationshipToStructureUUID]
     	} yield StructuredDataPropertyTuple(
     	  uuid,
-    	  structuredDataPropertyUUID,
-    	  structuredDataPropertyContextUUID
+    	  structuredDataPropertyContextUUID,
+    	  structuredDataPropertyUUID
     	)
   }
   
@@ -97,8 +97,8 @@ object StructuredDataPropertyTupleHelper {
     override final def apply(x: StructuredDataPropertyTuple): Json 
     = Json.obj(
     	  ("uuid", taggedTypes.encodeStructuredDataPropertyTupleUUID(x.uuid)),
-    	  ("structuredDataPropertyUUID", taggedTypes.encodeDataRelationshipToStructureUUID(x.structuredDataPropertyUUID)),
-    	  ("structuredDataPropertyContextUUID", taggedTypes.encodeSingletonInstanceStructuredDataPropertyContextUUID(x.structuredDataPropertyContextUUID))
+    	  ("structuredDataPropertyContextUUID", taggedTypes.encodeSingletonInstanceStructuredDataPropertyContextUUID(x.structuredDataPropertyContextUUID)),
+    	  ("structuredDataPropertyUUID", taggedTypes.encodeDataRelationshipToStructureUUID(x.structuredDataPropertyUUID))
     )
   }
 

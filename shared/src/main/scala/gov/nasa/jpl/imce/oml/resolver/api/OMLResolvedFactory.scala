@@ -918,9 +918,9 @@ trait OMLResolvedFactory {
   // RestrictionScalarDataPropertyValue
   def createRestrictionScalarDataPropertyValue
   ( extent: Extent,
+    structuredDataPropertyContext: RestrictionStructuredDataPropertyContext,
     scalarDataProperty: DataRelationshipToScalar,
     scalarPropertyValue: gov.nasa.jpl.imce.oml.tables.LiteralValue,
-    structuredDataPropertyContext: RestrictionStructuredDataPropertyContext,
     valueType: scala.Option[DataRange] )
   : (Extent, RestrictionScalarDataPropertyValue)
   = {
@@ -929,26 +929,26 @@ trait OMLResolvedFactory {
     val uuid = taggedTypes.restrictionScalarDataPropertyValueUUID(namespaceUUID(
       "RestrictionScalarDataPropertyValue",
       Seq.empty[(String, String)] ++
+          Seq("structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString) ++
           Seq("scalarDataProperty" -> scalarDataProperty.uuid.toString) ++
-          Seq("scalarPropertyValue" -> scalarPropertyValue.value) ++
-          Seq("structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString) : _*))
-    createRestrictionScalarDataPropertyValue( extent, uuid, scalarDataProperty, scalarPropertyValue, structuredDataPropertyContext, valueType )
+          Seq("scalarPropertyValue" -> scalarPropertyValue.value) : _*))
+    createRestrictionScalarDataPropertyValue( extent, uuid, structuredDataPropertyContext, scalarDataProperty, scalarPropertyValue, valueType )
   }
   
   def createRestrictionScalarDataPropertyValue
   ( extent: Extent,
     uuid: taggedTypes.RestrictionScalarDataPropertyValueUUID,
+    structuredDataPropertyContext: RestrictionStructuredDataPropertyContext,
     scalarDataProperty: DataRelationshipToScalar,
     scalarPropertyValue: gov.nasa.jpl.imce.oml.tables.LiteralValue,
-    structuredDataPropertyContext: RestrictionStructuredDataPropertyContext,
     valueType: scala.Option[DataRange] )
   : (Extent, RestrictionScalarDataPropertyValue)
   
   // RestrictionStructuredDataPropertyTuple
   def createRestrictionStructuredDataPropertyTuple
   ( extent: Extent,
-    structuredDataProperty: DataRelationshipToStructure,
-    structuredDataPropertyContext: RestrictionStructuredDataPropertyContext )
+    structuredDataPropertyContext: RestrictionStructuredDataPropertyContext,
+    structuredDataProperty: DataRelationshipToStructure )
   : (Extent, RestrictionStructuredDataPropertyTuple)
   = {
   	// derived uuid...
@@ -956,16 +956,16 @@ trait OMLResolvedFactory {
     val uuid = taggedTypes.restrictionStructuredDataPropertyTupleUUID(namespaceUUID(
       "RestrictionStructuredDataPropertyTuple",
       Seq.empty[(String, String)] ++
-          Seq("structuredDataProperty" -> structuredDataProperty.uuid.toString) ++
-          Seq("structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString) : _*))
-    createRestrictionStructuredDataPropertyTuple( extent, uuid, structuredDataProperty, structuredDataPropertyContext )
+          Seq("structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString) ++
+          Seq("structuredDataProperty" -> structuredDataProperty.uuid.toString) : _*))
+    createRestrictionStructuredDataPropertyTuple( extent, uuid, structuredDataPropertyContext, structuredDataProperty )
   }
   
   def createRestrictionStructuredDataPropertyTuple
   ( extent: Extent,
     uuid: taggedTypes.RestrictionStructuredDataPropertyTupleUUID,
-    structuredDataProperty: DataRelationshipToStructure,
-    structuredDataPropertyContext: RestrictionStructuredDataPropertyContext )
+    structuredDataPropertyContext: RestrictionStructuredDataPropertyContext,
+    structuredDataProperty: DataRelationshipToStructure )
   : (Extent, RestrictionStructuredDataPropertyTuple)
   
   // RootConceptTaxonomyAxiom
@@ -1073,9 +1073,9 @@ trait OMLResolvedFactory {
   // ScalarDataPropertyValue
   def createScalarDataPropertyValue
   ( extent: Extent,
+    structuredDataPropertyContext: SingletonInstanceStructuredDataPropertyContext,
     scalarDataProperty: DataRelationshipToScalar,
     scalarPropertyValue: gov.nasa.jpl.imce.oml.tables.LiteralValue,
-    structuredDataPropertyContext: SingletonInstanceStructuredDataPropertyContext,
     valueType: scala.Option[DataRange] )
   : (Extent, ScalarDataPropertyValue)
   = {
@@ -1084,18 +1084,18 @@ trait OMLResolvedFactory {
     val uuid = taggedTypes.scalarDataPropertyValueUUID(namespaceUUID(
       "ScalarDataPropertyValue",
       Seq.empty[(String, String)] ++
+          Seq("structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString) ++
           Seq("scalarDataProperty" -> scalarDataProperty.uuid.toString) ++
-          Seq("scalarPropertyValue" -> scalarPropertyValue.value) ++
-          Seq("structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString) : _*))
-    createScalarDataPropertyValue( extent, uuid, scalarDataProperty, scalarPropertyValue, structuredDataPropertyContext, valueType )
+          Seq("scalarPropertyValue" -> scalarPropertyValue.value) : _*))
+    createScalarDataPropertyValue( extent, uuid, structuredDataPropertyContext, scalarDataProperty, scalarPropertyValue, valueType )
   }
   
   def createScalarDataPropertyValue
   ( extent: Extent,
     uuid: taggedTypes.ScalarDataPropertyValueUUID,
+    structuredDataPropertyContext: SingletonInstanceStructuredDataPropertyContext,
     scalarDataProperty: DataRelationshipToScalar,
     scalarPropertyValue: gov.nasa.jpl.imce.oml.tables.LiteralValue,
-    structuredDataPropertyContext: SingletonInstanceStructuredDataPropertyContext,
     valueType: scala.Option[DataRange] )
   : (Extent, ScalarDataPropertyValue)
   
@@ -1349,8 +1349,8 @@ trait OMLResolvedFactory {
   // StructuredDataPropertyTuple
   def createStructuredDataPropertyTuple
   ( extent: Extent,
-    structuredDataProperty: DataRelationshipToStructure,
-    structuredDataPropertyContext: SingletonInstanceStructuredDataPropertyContext )
+    structuredDataPropertyContext: SingletonInstanceStructuredDataPropertyContext,
+    structuredDataProperty: DataRelationshipToStructure )
   : (Extent, StructuredDataPropertyTuple)
   = {
   	// derived uuid...
@@ -1358,16 +1358,16 @@ trait OMLResolvedFactory {
     val uuid = taggedTypes.structuredDataPropertyTupleUUID(namespaceUUID(
       "StructuredDataPropertyTuple",
       Seq.empty[(String, String)] ++
-          Seq("structuredDataProperty" -> structuredDataProperty.uuid.toString) ++
-          Seq("structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString) : _*))
-    createStructuredDataPropertyTuple( extent, uuid, structuredDataProperty, structuredDataPropertyContext )
+          Seq("structuredDataPropertyContext" -> structuredDataPropertyContext.uuid.toString) ++
+          Seq("structuredDataProperty" -> structuredDataProperty.uuid.toString) : _*))
+    createStructuredDataPropertyTuple( extent, uuid, structuredDataPropertyContext, structuredDataProperty )
   }
   
   def createStructuredDataPropertyTuple
   ( extent: Extent,
     uuid: taggedTypes.StructuredDataPropertyTupleUUID,
-    structuredDataProperty: DataRelationshipToStructure,
-    structuredDataPropertyContext: SingletonInstanceStructuredDataPropertyContext )
+    structuredDataPropertyContext: SingletonInstanceStructuredDataPropertyContext,
+    structuredDataProperty: DataRelationshipToStructure )
   : (Extent, StructuredDataPropertyTuple)
   
   // SubDataPropertyOfAxiom

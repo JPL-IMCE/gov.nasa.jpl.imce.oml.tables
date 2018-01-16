@@ -25,29 +25,29 @@ import scala.Predef.ArrowAssoc
 
 /**
   * @param uuid[1,1]
+  * @param structuredDataPropertyContextUUID[1,1]
   * @param scalarDataPropertyUUID[1,1]
   * @param scalarPropertyValue[1,1]
-  * @param structuredDataPropertyContextUUID[1,1]
   * @param valueTypeUUID[0,1]
   */
 case class ScalarDataPropertyValue
 (
   @(JSExport @field) override val uuid: taggedTypes.ScalarDataPropertyValueUUID,
+  @(JSExport @field) val structuredDataPropertyContextUUID: taggedTypes.SingletonInstanceStructuredDataPropertyContextUUID,
   @(JSExport @field) val scalarDataPropertyUUID: taggedTypes.DataRelationshipToScalarUUID,
   @(JSExport @field) val scalarPropertyValue: LiteralValue,
-  @(JSExport @field) val structuredDataPropertyContextUUID: taggedTypes.SingletonInstanceStructuredDataPropertyContextUUID,
   @(JSExport @field) val valueTypeUUID: scala.Option[taggedTypes.DataRangeUUID]
 ) extends LogicalElement with ValueCrossReferenceTuple {
   def this(
     uuid: taggedTypes.ScalarDataPropertyValueUUID,
+    structuredDataPropertyContextUUID: taggedTypes.SingletonInstanceStructuredDataPropertyContextUUID,
     scalarDataPropertyUUID: taggedTypes.DataRelationshipToScalarUUID,
-    scalarPropertyValue: LiteralValue,
-    structuredDataPropertyContextUUID: taggedTypes.SingletonInstanceStructuredDataPropertyContextUUID)
+    scalarPropertyValue: LiteralValue)
   = this(
       uuid,
+      structuredDataPropertyContextUUID,
       scalarDataPropertyUUID,
       scalarPropertyValue,
-      structuredDataPropertyContextUUID,
       scala.None /* valueTypeUUID */)
 
   def withValueTypeUUID(l: taggedTypes.DataRangeUUID)	 
@@ -57,31 +57,31 @@ case class ScalarDataPropertyValue
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
+    structuredDataPropertyContextUUID: taggedTypes.SingletonInstanceStructuredDataPropertyContextUUID,
     scalarDataPropertyUUID: taggedTypes.DataRelationshipToScalarUUID,
-    scalarPropertyValue: LiteralValue,
-    structuredDataPropertyContextUUID: taggedTypes.SingletonInstanceStructuredDataPropertyContextUUID)
+    scalarPropertyValue: LiteralValue)
   = this(
       taggedTypes.scalarDataPropertyValueUUID(oug.namespaceUUID(
         "ScalarDataPropertyValue",
+        "structuredDataPropertyContext" -> structuredDataPropertyContextUUID,
         "scalarDataProperty" -> scalarDataPropertyUUID,
-        "scalarPropertyValue" -> scalarPropertyValue.value,
-        "structuredDataPropertyContext" -> structuredDataPropertyContextUUID).toString),
+        "scalarPropertyValue" -> scalarPropertyValue.value).toString),
+      structuredDataPropertyContextUUID,
       scalarDataPropertyUUID,
-      scalarPropertyValue,
-      structuredDataPropertyContextUUID)
+      scalarPropertyValue)
 
 val vertexId: scala.Long = uuid.hashCode.toLong
 
   override val hashCode
   : scala.Int 
-  = (uuid, scalarDataPropertyUUID, scalarPropertyValue, structuredDataPropertyContextUUID, valueTypeUUID).##
+  = (uuid, structuredDataPropertyContextUUID, scalarDataPropertyUUID, scalarPropertyValue, valueTypeUUID).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: ScalarDataPropertyValue =>
   	  (this.uuid == that.uuid) &&
+  	  (this.structuredDataPropertyContextUUID == that.structuredDataPropertyContextUUID)  &&
   	  (this.scalarDataPropertyUUID == that.scalarDataPropertyUUID)  &&
   	  (this.scalarPropertyValue == that.scalarPropertyValue) &&
-  	  (this.structuredDataPropertyContextUUID == that.structuredDataPropertyContextUUID)  &&
   	  ((this.valueTypeUUID, that.valueTypeUUID) match {
   	      case (scala.Some(t1), scala.Some(t2)) =>
   	        t1 == t2
@@ -114,15 +114,15 @@ object ScalarDataPropertyValueHelper {
   
     for {
     	  uuid <- c.downField("uuid").as[taggedTypes.ScalarDataPropertyValueUUID]
+    	  structuredDataPropertyContextUUID <- c.downField("structuredDataPropertyContextUUID").as[taggedTypes.SingletonInstanceStructuredDataPropertyContextUUID]
     	  scalarDataPropertyUUID <- c.downField("scalarDataPropertyUUID").as[taggedTypes.DataRelationshipToScalarUUID]
     	  scalarPropertyValue <- c.downField("scalarPropertyValue").as[LiteralValue](LiteralValue.decodeLiteralValueArray)
-    	  structuredDataPropertyContextUUID <- c.downField("structuredDataPropertyContextUUID").as[taggedTypes.SingletonInstanceStructuredDataPropertyContextUUID]
     	  valueTypeUUID <- Decoder.decodeOption(taggedTypes.decodeDataRangeUUID)(c.downField("valueTypeUUID").success.get)
     	} yield ScalarDataPropertyValue(
     	  uuid,
+    	  structuredDataPropertyContextUUID,
     	  scalarDataPropertyUUID,
     	  scalarPropertyValue,
-    	  structuredDataPropertyContextUUID,
     	  valueTypeUUID
     	)
   }
@@ -132,9 +132,9 @@ object ScalarDataPropertyValueHelper {
     override final def apply(x: ScalarDataPropertyValue): Json 
     = Json.obj(
     	  ("uuid", taggedTypes.encodeScalarDataPropertyValueUUID(x.uuid)),
+    	  ("structuredDataPropertyContextUUID", taggedTypes.encodeSingletonInstanceStructuredDataPropertyContextUUID(x.structuredDataPropertyContextUUID)),
     	  ("scalarDataPropertyUUID", taggedTypes.encodeDataRelationshipToScalarUUID(x.scalarDataPropertyUUID)),
     	  ("scalarPropertyValue", LiteralValue.encodeLiteralValueArray(x.scalarPropertyValue)),
-    	  ("structuredDataPropertyContextUUID", taggedTypes.encodeSingletonInstanceStructuredDataPropertyContextUUID(x.structuredDataPropertyContextUUID)),
     	  ("valueTypeUUID", Encoder.encodeOption(taggedTypes.encodeDataRangeUUID).apply(x.valueTypeUUID))
     )
   }

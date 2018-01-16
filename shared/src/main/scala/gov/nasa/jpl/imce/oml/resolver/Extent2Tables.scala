@@ -751,8 +751,8 @@ object Extent2Tables {
         .map(t => c -> t)
       val tuple = tables.RestrictionStructuredDataPropertyTuple(
         r.uuid,
-        r.structuredDataProperty.uuid,
-        c.uuid)
+        c.uuid,
+        r.structuredDataProperty.uuid)
       convertRestrictionStructuredDataPropertyTuples(more ++ queue.tail, acc :+ tuple)
     } else acc
 
@@ -793,9 +793,9 @@ object Extent2Tables {
         .map { v =>
           tables.RestrictionScalarDataPropertyValue(
             v.uuid,
+            c.uuid,
             v.scalarDataProperty.uuid,
             v.scalarPropertyValue,
-            c.uuid,
             v.valueType.map(dr => dr.uuid))
         }
       convertRestrictionScalarDataPropertyValues(more ++ queue.tail, acc ++ tuples)
@@ -974,9 +974,9 @@ object Extent2Tables {
   = x._2.foldLeft[Seq[tables.ScalarDataPropertyValue]](acc) { case (acc1, v) =>
     acc1 :+ tables.ScalarDataPropertyValue(
       v.uuid,
+      x._1.uuid,
       v.scalarDataProperty.uuid,
       v.scalarPropertyValue,
-      x._1.uuid,
       v.valueType.map(dr => dr.uuid))
   }
 
@@ -987,8 +987,8 @@ object Extent2Tables {
   = x._2.foldLeft[Seq[tables.StructuredDataPropertyTuple]](acc) { case (acc1, v) =>
     acc1 :+ tables.StructuredDataPropertyTuple(
       v.uuid,
-      v.structuredDataProperty.uuid,
-      x._1.uuid)
+      x._1.uuid,
+      v.structuredDataProperty.uuid)
   }
 
   def convertAnnotationPropertyValue
