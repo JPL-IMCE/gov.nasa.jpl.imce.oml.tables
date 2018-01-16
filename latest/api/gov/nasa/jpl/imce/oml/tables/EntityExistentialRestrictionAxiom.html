@@ -28,7 +28,7 @@
         </head>
         <body class="type">
       <div id="definition">
-        <img alt="Trait" src="../../../../../../lib/trait_big.png" />
+        <img alt="Class" src="../../../../../../lib/class_big.png" />
         <p id="owner"><a href="../../../../../package.html" class="extype" name="gov">gov</a>.<a href="../../../../package.html" class="extype" name="gov.nasa">nasa</a>.<a href="../../../package.html" class="extype" name="gov.nasa.jpl">jpl</a>.<a href="../../package.html" class="extype" name="gov.nasa.jpl.imce">imce</a>.<a href="../package.html" class="extype" name="gov.nasa.jpl.imce.oml">oml</a>.<a href="package.html" class="extype" name="gov.nasa.jpl.imce.oml.tables">tables</a></p>
         <h1>EntityExistentialRestrictionAxiom</h1><h3><span class="morelinks"><div>Related Doc:
             <a href="package.html" class="extype" name="gov.nasa.jpl.imce.oml.tables">package tables</a>
@@ -42,22 +42,25 @@
       <h4 id="signature" class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">trait</span>
+        <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">EntityExistentialRestrictionAxiom</span><span class="result"> extends <a href="EntityRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityRestrictionAxiom">EntityRestrictionAxiom</a></span>
+        <span class="name">EntityExistentialRestrictionAxiom</span><span class="params">(<span name="uuid">uuid: <a href="taggedTypes$.html#EntityExistentialRestrictionAxiomUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityExistentialRestrictionAxiomTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityExistentialRestrictionAxiomUUID">EntityExistentialRestrictionAxiomUUID</a></span>, <span name="tboxUUID">tboxUUID: <a href="taggedTypes$.html#TerminologyBoxUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.TerminologyBoxTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.TerminologyBoxUUID">TerminologyBoxUUID</a></span>, <span name="restrictedDomainUUID">restrictedDomainUUID: <a href="taggedTypes$.html#EntityUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityUUID">EntityUUID</a></span>, <span name="restrictedRangeUUID">restrictedRangeUUID: <a href="taggedTypes$.html#EntityUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityUUID">EntityUUID</a></span>, <span name="restrictedRelationshipUUID">restrictedRelationshipUUID: <a href="taggedTypes$.html#RestrictableRelationshipUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.RestrictableRelationshipTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.RestrictableRelationshipUUID">RestrictableRelationshipUUID</a></span>)</span><span class="result"> extends <a href="EntityRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityRestrictionAxiom">EntityRestrictionAxiom</a> with <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"></div><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@JSExportTopLevel</span><span class="args">(<span>
+      
+      <span class="symbol">&quot;EntityExistentialRestrictionAxiom&quot;</span>
+    </span>)</span>
+              
+        </dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a href="EntityRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityRestrictionAxiom">EntityRestrictionAxiom</a>, <a href="TermAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.TermAxiom">TermAxiom</a>, <a href="TerminologyBoxStatement.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.TerminologyBoxStatement">TerminologyBoxStatement</a>, <a href="ModuleElement.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ModuleElement">ModuleElement</a>, <a href="ElementCrossReferenceTuple.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ElementCrossReferenceTuple">ElementCrossReferenceTuple</a>, <a href="LogicalElement.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.LogicalElement">LogicalElement</a>, <a href="ExtrinsicIdentityKind.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ExtrinsicIdentityKind">ExtrinsicIdentityKind</a>, <a href="IdentityKind.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.IdentityKind">IdentityKind</a>, <a href="CrossReferencableKind.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.CrossReferencableKind">CrossReferencableKind</a>, <a href="CrossReferencabilityKind.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.CrossReferencabilityKind">CrossReferencabilityKind</a>, <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Any" class="extype" target="_top">Any</a></div>
-        </div><div class="toggleContainer block">
-            <span class="toggle">Known Subclasses</span>
-            <div class="subClasses hiddenContent"><a href="EntityExistentialForwardReifiedRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityExistentialForwardReifiedRestrictionAxiom">EntityExistentialForwardReifiedRestrictionAxiom</a>, <a href="EntityExistentialInverseReifiedRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityExistentialInverseReifiedRestrictionAxiom">EntityExistentialInverseReifiedRestrictionAxiom</a>, <a href="EntityExistentialUnreifiedRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityExistentialUnreifiedRestrictionAxiom">EntityExistentialUnreifiedRestrictionAxiom</a>, <a href="EntityUniversalForwardReifiedRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityUniversalForwardReifiedRestrictionAxiom">EntityUniversalForwardReifiedRestrictionAxiom</a>, <a href="EntityUniversalInverseReifiedRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityUniversalInverseReifiedRestrictionAxiom">EntityUniversalInverseReifiedRestrictionAxiom</a>, <a href="EntityUniversalUnreifiedRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityUniversalUnreifiedRestrictionAxiom">EntityUniversalUnreifiedRestrictionAxiom</a></div>
-          </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
+          <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Serializable" class="extype" target="_top">Serializable</a>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Product" class="extype" target="_top">Product</a>, <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Equals" class="extype" target="_top">Equals</a>, <a href="EntityRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityRestrictionAxiom">EntityRestrictionAxiom</a>, <a href="TermAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.TermAxiom">TermAxiom</a>, <a href="TerminologyBoxStatement.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.TerminologyBoxStatement">TerminologyBoxStatement</a>, <a href="ModuleElement.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ModuleElement">ModuleElement</a>, <a href="ElementCrossReferenceTuple.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ElementCrossReferenceTuple">ElementCrossReferenceTuple</a>, <a href="LogicalElement.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.LogicalElement">LogicalElement</a>, <a href="ExtrinsicIdentityKind.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ExtrinsicIdentityKind">ExtrinsicIdentityKind</a>, <a href="IdentityKind.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.IdentityKind">IdentityKind</a>, <a href="CrossReferencableKind.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.CrossReferencableKind">CrossReferencableKind</a>, <a href="CrossReferencabilityKind.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.CrossReferencabilityKind">CrossReferencabilityKind</a>, <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Any" class="extype" target="_top">Any</a></div>
+        </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
                 <span class="toggle diagram-link">Type Hierarchy</span>
-                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 1547.00 158.00" height="158pt" width="1547pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 154)" class="graph" id="graph0"><polygon points="-4,4 -4,-154 1543,-154 1543,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><!-- node0 --><g class="node this trait" id="graph1_0"><g id="a_this trait|graph1_0"><a xlink:title="gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom (this trait)" xlink:href="#inheritance-diagram"><polygon points="879.25,-88 688.75,-88 688.75,-62 879.25,-62 879.25,-88" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../../../lib/trait_diagram.png" y="-81" x="701" preserveAspectRatio="xMinYMin meet" height="12px" width="12px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-72.5" x="721" text-anchor="start">EntityExistentialRestrictionAxiom</text></a></g></g><!-- node1 --><g class="node class" id="graph1_1"><g id="a_class|graph1_1"><a xlink:title="gov.nasa.jpl.imce.oml.tables.EntityExistentialForwardReifiedRestrictionAxiom" xlink:href="EntityExistentialForwardReifiedRestrictionAxiom.html#inheritance-diagram"><polygon points="254.25,-26 -0.25,-26 -0.25,-0 254.25,-0 254.25,-26" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../../../../lib/class_diagram.png" y="-19" x="12" preserveAspectRatio="xMinYMin meet" height="12px" width="12px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-10.5" x="32" text-anchor="start">EntityExistentialForwardReifiedRestrictionAxiom</text></a></g></g><!-- node0&#45;&gt;node1 --><g class="edge inheritance" id="graph1_0_1"><g id="a_inheritance|graph1_0_1"><a xlink:title="EntityExistentialForwardReifiedRestrictionAxiom is a subtype of EntityExistentialRestrictionAxiom"><path d="M683.385,-64.8114C568.338,-54.3048 379.778,-37.0847 254.526,-25.6462" stroke="#d4d4d4" fill="none"></path><polygon points="683.328,-66.5634 688.467,-65.2755 683.646,-63.0779 683.328,-66.5634" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node2 --><g class="node class" id="graph1_2"><g id="a_class|graph1_2"><a xlink:title="gov.nasa.jpl.imce.oml.tables.EntityExistentialInverseReifiedRestrictionAxiom" xlink:href="EntityExistentialInverseReifiedRestrictionAxiom.html#inheritance-diagram"><polygon points="522.5,-26 273.5,-26 273.5,-0 522.5,-0 522.5,-26" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../../../../lib/class_diagram.png" y="-19" x="285" preserveAspectRatio="xMinYMin meet" height="12px" width="12px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-10.5" x="305" text-anchor="start">EntityExistentialInverseReifiedRestrictionAxiom</text></a></g></g><!-- node0&#45;&gt;node2 --><g class="edge inheritance" id="graph1_0_2"><g id="a_inheritance|graph1_0_2"><a xlink:title="EntityExistentialInverseReifiedRestrictionAxiom is a subtype of EntityExistentialRestrictionAxiom"><path d="M701.181,-61.1266C634.32,-50.7337 540.931,-36.2172 475.524,-26.0504" stroke="#d4d4d4" fill="none"></path><polygon points="701.142,-62.8915 706.351,-61.9303 701.68,-59.433 701.142,-62.8915" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node3 --><g class="node class" id="graph1_3"><g id="a_class|graph1_3"><a xlink:title="gov.nasa.jpl.imce.oml.tables.EntityExistentialUnreifiedRestrictionAxiom" xlink:href="EntityExistentialUnreifiedRestrictionAxiom.html#inheritance-diagram"><polygon points="770.25,-26 541.75,-26 541.75,-0 770.25,-0 770.25,-26" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../../../../lib/class_diagram.png" y="-19" x="554" preserveAspectRatio="xMinYMin meet" height="12px" width="12px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-10.5" x="574" text-anchor="start">EntityExistentialUnreifiedRestrictionAxiom</text></a></g></g><!-- node0&#45;&gt;node3 --><g class="edge inheritance" id="graph1_0_3"><g id="a_inheritance|graph1_0_3"><a xlink:title="EntityExistentialUnreifiedRestrictionAxiom is a subtype of EntityExistentialRestrictionAxiom"><path d="M753.552,-59.7273C731.705,-49.4867 702.587,-35.8374 681.864,-26.1238" stroke="#d4d4d4" fill="none"></path><polygon points="752.827,-61.3204 758.097,-61.8581 754.313,-58.1513 752.827,-61.3204" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node4 --><g class="node class" id="graph1_4"><g id="a_class|graph1_4"><a xlink:title="gov.nasa.jpl.imce.oml.tables.EntityUniversalForwardReifiedRestrictionAxiom" xlink:href="EntityUniversalForwardReifiedRestrictionAxiom.html#inheritance-diagram"><polygon points="1036.5,-26 789.5,-26 789.5,-0 1036.5,-0 1036.5,-26" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../../../../lib/class_diagram.png" y="-19" x="801" preserveAspectRatio="xMinYMin meet" height="12px" width="12px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-10.5" x="821" text-anchor="start">EntityUniversalForwardReifiedRestrictionAxiom</text></a></g></g><!-- node0&#45;&gt;node4 --><g class="edge inheritance" id="graph1_0_4"><g id="a_inheritance|graph1_0_4"><a xlink:title="EntityUniversalForwardReifiedRestrictionAxiom is a subtype of EntityExistentialRestrictionAxiom"><path d="M814.686,-59.7273C836.704,-49.4867 866.05,-35.8374 886.934,-26.1238" stroke="#d4d4d4" fill="none"></path><polygon points="813.901,-58.1626 810.105,-61.8581 815.377,-61.3362 813.901,-58.1626" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node5 --><g class="node class" id="graph1_5"><g id="a_class|graph1_5"><a xlink:title="gov.nasa.jpl.imce.oml.tables.EntityUniversalInverseReifiedRestrictionAxiom" xlink:href="EntityUniversalInverseReifiedRestrictionAxiom.html#inheritance-diagram"><polygon points="1299,-26 1055,-26 1055,-0 1299,-0 1299,-26" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../../../../lib/class_diagram.png" y="-19" x="1067" preserveAspectRatio="xMinYMin meet" height="12px" width="12px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-10.5" x="1087" text-anchor="start">EntityUniversalInverseReifiedRestrictionAxiom</text></a></g></g><!-- node0&#45;&gt;node5 --><g class="edge inheritance" id="graph1_0_5"><g id="a_inheritance|graph1_0_5"><a xlink:title="EntityUniversalInverseReifiedRestrictionAxiom is a subtype of EntityExistentialRestrictionAxiom"><path d="M868.321,-61.1266C936.395,-50.7337 1031.48,-36.2172 1098.07,-26.0504" stroke="#d4d4d4" fill="none"></path><polygon points="867.735,-59.4456 863.057,-61.9303 868.264,-62.9055 867.735,-59.4456" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node6 --><g class="node class" id="graph1_6"><g id="a_class|graph1_6"><a xlink:title="gov.nasa.jpl.imce.oml.tables.EntityUniversalUnreifiedRestrictionAxiom" xlink:href="EntityUniversalUnreifiedRestrictionAxiom.html#inheritance-diagram"><polygon points="1538.5,-26 1317.5,-26 1317.5,-0 1538.5,-0 1538.5,-26" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../../../../lib/class_diagram.png" y="-19" x="1329" preserveAspectRatio="xMinYMin meet" height="12px" width="12px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-10.5" x="1349" text-anchor="start">EntityUniversalUnreifiedRestrictionAxiom</text></a></g></g><!-- node0&#45;&gt;node6 --><g class="edge inheritance" id="graph1_0_6"><g id="a_inheritance|graph1_0_6"><a xlink:title="EntityUniversalUnreifiedRestrictionAxiom is a subtype of EntityExistentialRestrictionAxiom"><path d="M884.929,-65.0055C990.464,-55.5418 1160.89,-40.0929 1308,-26 1311.13,-25.7005 1314.3,-25.3949 1317.5,-25.0849" stroke="#d4d4d4" fill="none"></path><polygon points="884.464,-63.2901 879.64,-65.4797 884.777,-66.7761 884.464,-63.2901" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node7 --><g class="node trait" id="graph1_7"><g id="a_trait|graph1_7"><a xlink:title="gov.nasa.jpl.imce.oml.tables.EntityRestrictionAxiom" xlink:href="EntityRestrictionAxiom.html#inheritance-diagram"><polygon points="856.25,-150 711.75,-150 711.75,-124 856.25,-124 856.25,-150" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../../../lib/trait_diagram.png" y="-143" x="724" preserveAspectRatio="xMinYMin meet" height="12px" width="12px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-134.5" x="744" text-anchor="start">EntityRestrictionAxiom</text></a></g></g><!-- node7&#45;&gt;node0 --><g class="edge inheritance" id="graph1_7_0"><g id="a_inheritance|graph1_7_0"><a xlink:title="EntityExistentialRestrictionAxiom is a subtype of EntityRestrictionAxiom"><path d="M784,-118.683C784,-108.896 784,-96.9026 784,-88.1238" stroke="#d4d4d4" fill="none"></path><polygon points="782.25,-118.858 784,-123.858 785.75,-118.858 782.25,-118.858" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
+                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 364.00 120.00" height="120pt" width="364pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 116)" class="graph" id="graph0"><polygon points="-4,4 -4,-116 360,-116 360,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><!-- node0 --><g class="node this class" id="graph1_0"><g id="a_this class|graph1_0"><a xlink:title="gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom (this class)" xlink:href="#inheritance-diagram"><polygon points="297.25,-50 106.75,-50 106.75,-24 297.25,-24 297.25,-50" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../../../../lib/class_diagram.png" y="-43" x="119" preserveAspectRatio="xMinYMin meet" height="12px" width="12px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-34.5" x="139" text-anchor="start">EntityExistentialRestrictionAxiom</text></a></g></g><!-- node1 --><g class="node trait" id="graph1_1"><g id="a_trait|graph1_1"><a xlink:title="gov.nasa.jpl.imce.oml.tables.EntityRestrictionAxiom" xlink:href="EntityRestrictionAxiom.html#inheritance-diagram"><polygon points="144.25,-112 -0.25,-112 -0.25,-86 144.25,-86 144.25,-112" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../../../lib/trait_diagram.png" y="-105" x="12" preserveAspectRatio="xMinYMin meet" height="12px" width="12px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-96.5" x="32" text-anchor="start">EntityRestrictionAxiom</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="EntityExistentialRestrictionAxiom is a subtype of EntityRestrictionAxiom"><path d="M102.924,-83.7273C125.112,-73.4867 154.686,-59.8374 175.732,-50.1238" stroke="#d4d4d4" fill="none"></path><polygon points="102.114,-82.1738 98.3074,-85.8581 103.581,-85.3517 102.114,-82.1738" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node2 --><g class="node trait" id="graph1_2"><g id="a_trait|graph1_2"><a xlink:title="scala.Product"><polygon points="241.25,-112 162.75,-112 162.75,-86 241.25,-86 241.25,-112" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../../../lib/trait_diagram.png" y="-105" x="175" preserveAspectRatio="xMinYMin meet" height="12px" width="12px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-96.5" x="195" text-anchor="start">Product</text></a></g></g><!-- node2&#45;&gt;node0 --><g class="edge inheritance" id="graph1_2_0"><g id="a_inheritance|graph1_2_0"><a xlink:title="EntityExistentialRestrictionAxiom is a subtype of Product"><path d="M202,-80.6826C202,-70.8961 202,-58.9026 202,-50.1238" stroke="#d4d4d4" fill="none"></path><polygon points="200.25,-80.8581 202,-85.8581 203.75,-80.8581 200.25,-80.8581" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node3 --><g class="node trait" id="graph1_3"><g id="a_trait|graph1_3"><a xlink:title="scala.Serializable"><polygon points="356,-112 260,-112 260,-86 356,-86 356,-112" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../../../../lib/trait_diagram.png" y="-105" x="272" preserveAspectRatio="xMinYMin meet" height="12px" width="12px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-96.5" x="292" text-anchor="start">Serializable</text></a></g></g><!-- node3&#45;&gt;node0 --><g class="edge inheritance" id="graph1_3_0"><g id="a_inheritance|graph1_3_0"><a xlink:title="EntityExistentialRestrictionAxiom is a subtype of Serializable"><path d="M282.101,-83.34C264.089,-73.1447 240.364,-59.7155 223.419,-50.1238" stroke="#d4d4d4" fill="none"></path><polygon points="281.336,-84.918 286.549,-85.8581 283.06,-81.8721 281.336,-84.918" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
               </div></div>
         
 
@@ -75,7 +78,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom"><span>EntityExistentialRestrictionAxiom</span></li><li class="in" name="gov.nasa.jpl.imce.oml.tables.EntityRestrictionAxiom"><span>EntityRestrictionAxiom</span></li><li class="in" name="gov.nasa.jpl.imce.oml.tables.TermAxiom"><span>TermAxiom</span></li><li class="in" name="gov.nasa.jpl.imce.oml.tables.TerminologyBoxStatement"><span>TerminologyBoxStatement</span></li><li class="in" name="gov.nasa.jpl.imce.oml.tables.ModuleElement"><span>ModuleElement</span></li><li class="in" name="gov.nasa.jpl.imce.oml.tables.ElementCrossReferenceTuple"><span>ElementCrossReferenceTuple</span></li><li class="in" name="gov.nasa.jpl.imce.oml.tables.LogicalElement"><span>LogicalElement</span></li><li class="in" name="gov.nasa.jpl.imce.oml.tables.ExtrinsicIdentityKind"><span>ExtrinsicIdentityKind</span></li><li class="in" name="gov.nasa.jpl.imce.oml.tables.IdentityKind"><span>IdentityKind</span></li><li class="in" name="gov.nasa.jpl.imce.oml.tables.CrossReferencableKind"><span>CrossReferencableKind</span></li><li class="in" name="gov.nasa.jpl.imce.oml.tables.CrossReferencabilityKind"><span>CrossReferencabilityKind</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom"><span>EntityExistentialRestrictionAxiom</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.Product"><span>Product</span></li><li class="in" name="scala.Equals"><span>Equals</span></li><li class="in" name="gov.nasa.jpl.imce.oml.tables.EntityRestrictionAxiom"><span>EntityRestrictionAxiom</span></li><li class="in" name="gov.nasa.jpl.imce.oml.tables.TermAxiom"><span>TermAxiom</span></li><li class="in" name="gov.nasa.jpl.imce.oml.tables.TerminologyBoxStatement"><span>TerminologyBoxStatement</span></li><li class="in" name="gov.nasa.jpl.imce.oml.tables.ModuleElement"><span>ModuleElement</span></li><li class="in" name="gov.nasa.jpl.imce.oml.tables.ElementCrossReferenceTuple"><span>ElementCrossReferenceTuple</span></li><li class="in" name="gov.nasa.jpl.imce.oml.tables.LogicalElement"><span>LogicalElement</span></li><li class="in" name="gov.nasa.jpl.imce.oml.tables.ExtrinsicIdentityKind"><span>ExtrinsicIdentityKind</span></li><li class="in" name="gov.nasa.jpl.imce.oml.tables.IdentityKind"><span>IdentityKind</span></li><li class="in" name="gov.nasa.jpl.imce.oml.tables.CrossReferencableKind"><span>CrossReferencableKind</span></li><li class="in" name="gov.nasa.jpl.imce.oml.tables.CrossReferencabilityKind"><span>CrossReferencabilityKind</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -92,85 +95,51 @@
 
       <div id="template">
         <div id="allMembers">
-        
-
-        
-
-        <div id="values" class="values members">
-              <h3>Abstract Value Members</h3>
-              <ol><li name="gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom#restrictedDomainUUID" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="restrictedDomainUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityUUID"></a>
-      <a id="restrictedDomainUUID:EntityUUID"></a>
+        <div id="constructors" class="members">
+              <h3>Instance Constructors</h3>
+              <ol><li name="gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="&lt;init&gt;(oug:gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,tboxUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.TerminologyBoxUUID,restrictedDomainUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityUUID,restrictedRangeUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityUUID,restrictedRelationshipUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.RestrictableRelationshipUUID):gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom"></a>
+      <a id="&lt;init&gt;:EntityExistentialRestrictionAxiom"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">val</span>
+        <span class="modifier"></span>
+        <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">restrictedDomainUUID</span><span class="result">: <a href="taggedTypes$.html#EntityUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityUUID">EntityUUID</a></span>
+        <span class="name">EntityExistentialRestrictionAxiom</span><span class="params">(<span name="oug">oug: <a href="../uuid/OMLUUIDGenerator.html" class="extype" name="gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator">OMLUUIDGenerator</a></span>, <span name="tboxUUID">tboxUUID: <a href="taggedTypes$.html#TerminologyBoxUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.TerminologyBoxTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.TerminologyBoxUUID">TerminologyBoxUUID</a></span>, <span name="restrictedDomainUUID">restrictedDomainUUID: <a href="taggedTypes$.html#EntityUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityUUID">EntityUUID</a></span>, <span name="restrictedRangeUUID">restrictedRangeUUID: <a href="taggedTypes$.html#EntityUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityUUID">EntityUUID</a></span>, <span name="restrictedRelationshipUUID">restrictedRelationshipUUID: <a href="taggedTypes$.html#RestrictableRelationshipUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.RestrictableRelationshipTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.RestrictableRelationshipUUID">RestrictableRelationshipUUID</a></span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom@restrictedDomainUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityUUID" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom@&lt;init&gt;(oug:gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,tboxUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.TerminologyBoxUUID,restrictedDomainUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityUUID,restrictedRangeUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityUUID,restrictedRelationshipUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.RestrictableRelationshipUUID):gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom">EntityExistentialRestrictionAxiom</a> → <a href="EntityRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityRestrictionAxiom">EntityRestrictionAxiom</a></dd></dl></div>
-    </li><li name="gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom#restrictedRangeUUID" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="restrictedRangeUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityUUID"></a>
-      <a id="restrictedRangeUUID:EntityUUID"></a>
+      
+    </li><li name="gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="&lt;init&gt;(uuid:gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityExistentialRestrictionAxiomUUID,tboxUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.TerminologyBoxUUID,restrictedDomainUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityUUID,restrictedRangeUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityUUID,restrictedRelationshipUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.RestrictableRelationshipUUID):gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom"></a>
+      <a id="&lt;init&gt;:EntityExistentialRestrictionAxiom"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">val</span>
+        <span class="modifier"></span>
+        <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">restrictedRangeUUID</span><span class="result">: <a href="taggedTypes$.html#EntityUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityUUID">EntityUUID</a></span>
+        <span class="name">EntityExistentialRestrictionAxiom</span><span class="params">(<span name="uuid">uuid: <a href="taggedTypes$.html#EntityExistentialRestrictionAxiomUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityExistentialRestrictionAxiomTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityExistentialRestrictionAxiomUUID">EntityExistentialRestrictionAxiomUUID</a></span>, <span name="tboxUUID">tboxUUID: <a href="taggedTypes$.html#TerminologyBoxUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.TerminologyBoxTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.TerminologyBoxUUID">TerminologyBoxUUID</a></span>, <span name="restrictedDomainUUID">restrictedDomainUUID: <a href="taggedTypes$.html#EntityUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityUUID">EntityUUID</a></span>, <span name="restrictedRangeUUID">restrictedRangeUUID: <a href="taggedTypes$.html#EntityUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityUUID">EntityUUID</a></span>, <span name="restrictedRelationshipUUID">restrictedRelationshipUUID: <a href="taggedTypes$.html#RestrictableRelationshipUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.RestrictableRelationshipTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.RestrictableRelationshipUUID">RestrictableRelationshipUUID</a></span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom@restrictedRangeUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityUUID" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom@&lt;init&gt;(uuid:gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityExistentialRestrictionAxiomUUID,tboxUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.TerminologyBoxUUID,restrictedDomainUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityUUID,restrictedRangeUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityUUID,restrictedRelationshipUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.RestrictableRelationshipUUID):gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom">EntityExistentialRestrictionAxiom</a> → <a href="EntityRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityRestrictionAxiom">EntityRestrictionAxiom</a></dd></dl></div>
-    </li><li name="gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom#tboxUUID" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="tboxUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.TerminologyBoxUUID"></a>
-      <a id="tboxUUID:TerminologyBoxUUID"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">tboxUUID</span><span class="result">: <a href="taggedTypes$.html#TerminologyBoxUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.TerminologyBoxTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.TerminologyBoxUUID">TerminologyBoxUUID</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom@tboxUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.TerminologyBoxUUID" title="Permalink" target="_top">
-        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom">EntityExistentialRestrictionAxiom</a> → <a href="EntityRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityRestrictionAxiom">EntityRestrictionAxiom</a> → <a href="TermAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.TermAxiom">TermAxiom</a> → <a href="TerminologyBoxStatement.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.TerminologyBoxStatement">TerminologyBoxStatement</a></dd></dl></div>
-    </li><li name="gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom#uuid" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="uuid:gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityExistentialRestrictionAxiomUUID"></a>
-      <a id="uuid:EntityExistentialRestrictionAxiomUUID"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">uuid</span><span class="result">: <a href="taggedTypes$.html#EntityExistentialRestrictionAxiomUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityExistentialRestrictionAxiomTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityExistentialRestrictionAxiomUUID">EntityExistentialRestrictionAxiomUUID</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom@uuid:gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityExistentialRestrictionAxiomUUID" title="Permalink" target="_top">
-        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom">EntityExistentialRestrictionAxiom</a> → <a href="EntityRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityRestrictionAxiom">EntityRestrictionAxiom</a> → <a href="TermAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.TermAxiom">TermAxiom</a> → <a href="TerminologyBoxStatement.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.TerminologyBoxStatement">TerminologyBoxStatement</a> → <a href="ModuleElement.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ModuleElement">ModuleElement</a> → <a href="ElementCrossReferenceTuple.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ElementCrossReferenceTuple">ElementCrossReferenceTuple</a> → <a href="LogicalElement.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.LogicalElement">LogicalElement</a> → <a href="ExtrinsicIdentityKind.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ExtrinsicIdentityKind">ExtrinsicIdentityKind</a> → <a href="IdentityKind.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.IdentityKind">IdentityKind</a> → <a href="CrossReferencableKind.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.CrossReferencableKind">CrossReferencableKind</a> → <a href="CrossReferencabilityKind.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.CrossReferencabilityKind">CrossReferencabilityKind</a></dd></dl></div>
+      
     </li></ol>
             </div>
 
+        
+
+        
+
         <div id="values" class="values members">
-              <h3>Concrete Value Members</h3>
+              <h3>Value Members</h3>
               <ol><li name="scala.AnyRef#!=" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="!=(x$1:Any):Boolean"></a>
       <a id="!=(Any):Boolean"></a>
@@ -279,8 +248,8 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="scala.AnyRef#equals" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="equals(x$1:Any):Boolean"></a>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom#equals" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="equals(other:Any):Boolean"></a>
       <a id="equals(Any):Boolean"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -288,14 +257,14 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
+        <span class="name">equals</span><span class="params">(<span name="other">other: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom@equals(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom@equals(other:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom">EntityExistentialRestrictionAxiom</a> → Equals → AnyRef → Any</dd></dl></div>
     </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <a id="finalize():Unit"></a>
@@ -336,23 +305,23 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="hashCode():Int"></a>
-      <a id="hashCode():Int"></a>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="hashCode:Int"></a>
+      <a id="hashCode:Int"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">def</span>
+        <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Int" class="extype" target="_top">Int</a></span>
+        <span class="name">hashCode</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Int" class="extype" target="_top">Int</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom@hashCode():Int" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom@hashCode:Int" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom">EntityExistentialRestrictionAxiom</a> → AnyRef → Any</dd></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <a id="isInstanceOf[T0]:Boolean"></a>
@@ -421,6 +390,57 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom#restrictedDomainUUID" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="restrictedDomainUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityUUID"></a>
+      <a id="restrictedDomainUUID:EntityUUID"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">restrictedDomainUUID</span><span class="result">: <a href="taggedTypes$.html#EntityUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityUUID">EntityUUID</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom@restrictedDomainUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityUUID" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom">EntityExistentialRestrictionAxiom</a> → <a href="EntityRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityRestrictionAxiom">EntityRestrictionAxiom</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom#restrictedRangeUUID" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="restrictedRangeUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityUUID"></a>
+      <a id="restrictedRangeUUID:EntityUUID"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">restrictedRangeUUID</span><span class="result">: <a href="taggedTypes$.html#EntityUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityUUID">EntityUUID</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom@restrictedRangeUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityUUID" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom">EntityExistentialRestrictionAxiom</a> → <a href="EntityRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityRestrictionAxiom">EntityRestrictionAxiom</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom#restrictedRelationshipUUID" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="restrictedRelationshipUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.RestrictableRelationshipUUID"></a>
+      <a id="restrictedRelationshipUUID:RestrictableRelationshipUUID"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">restrictedRelationshipUUID</span><span class="result">: <a href="taggedTypes$.html#RestrictableRelationshipUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.RestrictableRelationshipTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.RestrictableRelationshipUUID">RestrictableRelationshipUUID</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom@restrictedRelationshipUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.RestrictableRelationshipUUID" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom">EntityExistentialRestrictionAxiom</a> → <a href="EntityRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityRestrictionAxiom">EntityRestrictionAxiom</a></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -438,23 +458,57 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="toString():String"></a>
-      <a id="toString():String"></a>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom#tboxUUID" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="tboxUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.TerminologyBoxUUID"></a>
+      <a id="tboxUUID:TerminologyBoxUUID"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">def</span>
+        <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+        <span class="name">tboxUUID</span><span class="result">: <a href="taggedTypes$.html#TerminologyBoxUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.TerminologyBoxTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.TerminologyBoxUUID">TerminologyBoxUUID</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom@toString():String" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom@tboxUUID:gov.nasa.jpl.imce.oml.tables.taggedTypes.TerminologyBoxUUID" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom">EntityExistentialRestrictionAxiom</a> → <a href="EntityRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityRestrictionAxiom">EntityRestrictionAxiom</a> → <a href="TermAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.TermAxiom">TermAxiom</a> → <a href="TerminologyBoxStatement.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.TerminologyBoxStatement">TerminologyBoxStatement</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom#uuid" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="uuid:gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityExistentialRestrictionAxiomUUID"></a>
+      <a id="uuid:EntityExistentialRestrictionAxiomUUID"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">uuid</span><span class="result">: <a href="taggedTypes$.html#EntityExistentialRestrictionAxiomUUID=gov.nasa.jpl.imce.oml.covariantTag.@@[String,gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityExistentialRestrictionAxiomTag]" class="extmbr" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityExistentialRestrictionAxiomUUID">EntityExistentialRestrictionAxiomUUID</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom@uuid:gov.nasa.jpl.imce.oml.tables.taggedTypes.EntityExistentialRestrictionAxiomUUID" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom">EntityExistentialRestrictionAxiom</a> → <a href="EntityRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityRestrictionAxiom">EntityRestrictionAxiom</a> → <a href="TermAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.TermAxiom">TermAxiom</a> → <a href="TerminologyBoxStatement.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.TerminologyBoxStatement">TerminologyBoxStatement</a> → <a href="ModuleElement.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ModuleElement">ModuleElement</a> → <a href="ElementCrossReferenceTuple.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ElementCrossReferenceTuple">ElementCrossReferenceTuple</a> → <a href="LogicalElement.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.LogicalElement">LogicalElement</a> → <a href="ExtrinsicIdentityKind.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.ExtrinsicIdentityKind">ExtrinsicIdentityKind</a> → <a href="IdentityKind.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.IdentityKind">IdentityKind</a> → <a href="CrossReferencableKind.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.CrossReferencableKind">CrossReferencableKind</a> → <a href="CrossReferencabilityKind.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.CrossReferencabilityKind">CrossReferencabilityKind</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom#vertexId" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="vertexId:Long"></a>
+      <a id="vertexId:Long"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">vertexId</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Long" class="extype" target="_top">Long</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.imce.oml.tables.EntityExistentialRestrictionAxiom@vertexId:Long" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>
@@ -533,7 +587,15 @@
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="gov.nasa.jpl.imce.oml.tables.EntityRestrictionAxiom">
+        <div class="parent" name="scala.Serializable">
+              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></h3>
+            </div><div class="parent" name="java.io.Serializable">
+              <h3>Inherited from <span class="extype" name="java.io.Serializable">Serializable</span></h3>
+            </div><div class="parent" name="scala.Product">
+              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Product" class="extype" target="_top">Product</a></h3>
+            </div><div class="parent" name="scala.Equals">
+              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Equals" class="extype" target="_top">Equals</a></h3>
+            </div><div class="parent" name="gov.nasa.jpl.imce.oml.tables.EntityRestrictionAxiom">
               <h3>Inherited from <a href="EntityRestrictionAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.EntityRestrictionAxiom">EntityRestrictionAxiom</a></h3>
             </div><div class="parent" name="gov.nasa.jpl.imce.oml.tables.TermAxiom">
               <h3>Inherited from <a href="TermAxiom.html" class="extype" name="gov.nasa.jpl.imce.oml.tables.TermAxiom">TermAxiom</a></h3>
