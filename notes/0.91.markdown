@@ -93,3 +93,5 @@ This API required special code generation because the refactoring of the OML Xco
 Xcore/Xtext pattern that was not used previously (see [OML 0.9.1 release notes, section 1.7](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml/blob/releases/0.9.1.0/notes/0.9.1.markdown#17-significant-changes-about-oml-segmentpredicate))
 
 - [`SegmentPredicate`](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/blob/0.91.6/shared/src/main/scala/gov/nasa/jpl/imce/oml/tables/SegmentPredicate.scala#L36)
+
+### [#46 Fix logic errors in OMLTablesResolver](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/46)

@@ -202,16 +202,20 @@ case class OMLTablesResolver private[resolver]
 
   def lookupRestrictableRelationship(uuid: api.taggedTypes.RestrictableRelationshipUUID)
   : Option[resolver.api.RestrictableRelationship]
-  = OMLTablesResolver.collectFirstOption(allContexts)( ext =>
-    ext.forwardPropertyByUUID.get(uuid.asInstanceOf[api.taggedTypes.ForwardPropertyUUID]) orElse
-    ext.inversePropertyByUUID.get(uuid.asInstanceOf[api.taggedTypes.InversePropertyUUID]) orElse
-    ext.lookupTerminologyBoxStatement(uuid.asInstanceOf[api.taggedTypes.UnreifiedRelationshipUUID]) match {
-      case Some(ur: resolver.api.UnreifiedRelationship) =>
-        Some(ur)
-      case _ =>
-        None
-    }
-  )
+  = OMLTablesResolver.collectFirstOption(allContexts) { ext =>
+    val result
+    : Option[resolver.api.RestrictableRelationship]
+    = ext.forwardPropertyByUUID.get(uuid.asInstanceOf[api.taggedTypes.ForwardPropertyUUID]) orElse
+      ext.inversePropertyByUUID.get(uuid.asInstanceOf[api.taggedTypes.InversePropertyUUID]) orElse
+      (ext.lookupTerminologyBoxStatement(uuid.asInstanceOf[api.taggedTypes.UnreifiedRelationshipUUID]) match {
+        case Some(ur: resolver.api.UnreifiedRelationship) =>
+          Some(ur)
+        case _ =>
+          None
+      })
+    result
+  }
+
   def lookupReifiedRelationship(uuid: api.taggedTypes.ReifiedRelationshipUUID)
   : Option[resolver.api.ReifiedRelationship]
   = OMLTablesResolver.collectFirstOption(allContexts)(
@@ -570,9 +574,10 @@ case class OMLTablesResolver private[resolver]
   (uuid: api.taggedTypes.SingletonInstanceStructuredDataPropertyContextUUID)
   : Option[resolver.api.SingletonInstanceStructuredDataPropertyContext]
   = lookupSingletonInstanceStructuredDataPropertyValue(
-    uuid.asInstanceOf[api.taggedTypes.SingletonInstanceStructuredDataPropertyValueUUID]) orElse
-    lookupStructuredDataPropertyTuple(
-      uuid.asInstanceOf[api.taggedTypes.StructuredDataPropertyTupleUUID])
+    uuid.asInstanceOf[api.taggedTypes.SingletonInstanceStructuredDataPropertyValueUUID]
+  ) orElse lookupStructuredDataPropertyTuple(
+    uuid.asInstanceOf[api.taggedTypes.StructuredDataPropertyTupleUUID]
+  )
 
   def lookupScalarDataPropertyValues(key: Option[resolver.api.SingletonInstanceStructuredDataPropertyContext])
   : Set[resolver.api.ScalarDataPropertyValue]
@@ -627,6 +632,7 @@ case class OMLTablesResolver private[resolver]
     case _ =>
       None
   }
+
 }
 
 object OMLTablesResolver {
@@ -1310,7 +1316,7 @@ object OMLTablesResolver {
     step4f <- mapChainRules(step4e)
 
     // DataRelationships
-    step5a <- mapEntityScalarDataProperties(step4d)
+    step5a <- mapEntityScalarDataProperties(step4f)
     step5b <- mapEntityStructuredDataProperties(step5a)
     step5c <- mapScalarDataProperties(step5b)
     step5d <- mapStructuredDataProperties(step5c)
