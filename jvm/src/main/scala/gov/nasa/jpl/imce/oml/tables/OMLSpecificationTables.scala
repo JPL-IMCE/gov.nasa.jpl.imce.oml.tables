@@ -21,6 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 
 import java.io.{File,InputStream}
 import org.apache.commons.compress.archivers.zip.{ZipArchiveEntry, ZipFile}
+import gov.nasa.jpl.imce.oml.parallelSort
 
 import scala.collection.immutable.{Seq,Set}
 import scala.collection.JavaConversions._
@@ -61,6 +62,7 @@ case class OMLSpecificationTables
   reifiedRelationships : Seq[ReifiedRelationship] = Seq.empty,
   forwardProperties : Seq[ForwardProperty] = Seq.empty,
   inverseProperties : Seq[InverseProperty] = Seq.empty,
+  specializedReifiedRelationships : Seq[SpecializedReifiedRelationship] = Seq.empty,
   unreifiedRelationships : Seq[UnreifiedRelationship] = Seq.empty,
   chainRules : Seq[ChainRule] = Seq.empty,
   ruleBodySegments : Seq[RuleBodySegment] = Seq.empty,
@@ -75,7 +77,6 @@ case class OMLSpecificationTables
   restrictionScalarDataPropertyValues : Seq[RestrictionScalarDataPropertyValue] = Seq.empty,
   aspectSpecializationAxioms : Seq[AspectSpecializationAxiom] = Seq.empty,
   conceptSpecializationAxioms : Seq[ConceptSpecializationAxiom] = Seq.empty,
-  reifiedRelationshipSpecializationAxioms : Seq[ReifiedRelationshipSpecializationAxiom] = Seq.empty,
   subDataPropertyOfAxioms : Seq[SubDataPropertyOfAxiom] = Seq.empty,
   subObjectPropertyOfAxioms : Seq[SubObjectPropertyOfAxiom] = Seq.empty,
   rootConceptTaxonomyAxioms : Seq[RootConceptTaxonomyAxiom] = Seq.empty,
@@ -96,363 +97,363 @@ case class OMLSpecificationTables
   def readTerminologyGraphs(is: InputStream)
   : OMLSpecificationTables
   = copy(terminologyGraphs = 
-    (terminologyGraphs.to[Set] ++ 
+    parallelSort.parSortBy((terminologyGraphs.to[Set] ++ 
      readJSonTable(is, TerminologyGraphHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: TerminologyGraph) => a.uuid))
   def readBundles(is: InputStream)
   : OMLSpecificationTables
   = copy(bundles = 
-    (bundles.to[Set] ++ 
+    parallelSort.parSortBy((bundles.to[Set] ++ 
      readJSonTable(is, BundleHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: Bundle) => a.uuid))
   def readDescriptionBoxes(is: InputStream)
   : OMLSpecificationTables
   = copy(descriptionBoxes = 
-    (descriptionBoxes.to[Set] ++ 
+    parallelSort.parSortBy((descriptionBoxes.to[Set] ++ 
      readJSonTable(is, DescriptionBoxHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: DescriptionBox) => a.uuid))
   def readAnnotationProperties(is: InputStream)
   : OMLSpecificationTables
   = copy(annotationProperties = 
-    (annotationProperties.to[Set] ++ 
+    parallelSort.parSortBy((annotationProperties.to[Set] ++ 
      readJSonTable(is, AnnotationPropertyHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: AnnotationProperty) => a.uuid))
   def readAspects(is: InputStream)
   : OMLSpecificationTables
   = copy(aspects = 
-    (aspects.to[Set] ++ 
+    parallelSort.parSortBy((aspects.to[Set] ++ 
      readJSonTable(is, AspectHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: Aspect) => a.uuid))
   def readConcepts(is: InputStream)
   : OMLSpecificationTables
   = copy(concepts = 
-    (concepts.to[Set] ++ 
+    parallelSort.parSortBy((concepts.to[Set] ++ 
      readJSonTable(is, ConceptHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: Concept) => a.uuid))
   def readScalars(is: InputStream)
   : OMLSpecificationTables
   = copy(scalars = 
-    (scalars.to[Set] ++ 
+    parallelSort.parSortBy((scalars.to[Set] ++ 
      readJSonTable(is, ScalarHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: Scalar) => a.uuid))
   def readStructures(is: InputStream)
   : OMLSpecificationTables
   = copy(structures = 
-    (structures.to[Set] ++ 
+    parallelSort.parSortBy((structures.to[Set] ++ 
      readJSonTable(is, StructureHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: Structure) => a.uuid))
   def readConceptDesignationTerminologyAxioms(is: InputStream)
   : OMLSpecificationTables
   = copy(conceptDesignationTerminologyAxioms = 
-    (conceptDesignationTerminologyAxioms.to[Set] ++ 
+    parallelSort.parSortBy((conceptDesignationTerminologyAxioms.to[Set] ++ 
      readJSonTable(is, ConceptDesignationTerminologyAxiomHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: ConceptDesignationTerminologyAxiom) => a.uuid))
   def readTerminologyExtensionAxioms(is: InputStream)
   : OMLSpecificationTables
   = copy(terminologyExtensionAxioms = 
-    (terminologyExtensionAxioms.to[Set] ++ 
+    parallelSort.parSortBy((terminologyExtensionAxioms.to[Set] ++ 
      readJSonTable(is, TerminologyExtensionAxiomHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: TerminologyExtensionAxiom) => a.uuid))
   def readTerminologyNestingAxioms(is: InputStream)
   : OMLSpecificationTables
   = copy(terminologyNestingAxioms = 
-    (terminologyNestingAxioms.to[Set] ++ 
+    parallelSort.parSortBy((terminologyNestingAxioms.to[Set] ++ 
      readJSonTable(is, TerminologyNestingAxiomHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: TerminologyNestingAxiom) => a.uuid))
   def readBundledTerminologyAxioms(is: InputStream)
   : OMLSpecificationTables
   = copy(bundledTerminologyAxioms = 
-    (bundledTerminologyAxioms.to[Set] ++ 
+    parallelSort.parSortBy((bundledTerminologyAxioms.to[Set] ++ 
      readJSonTable(is, BundledTerminologyAxiomHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: BundledTerminologyAxiom) => a.uuid))
   def readDescriptionBoxExtendsClosedWorldDefinitions(is: InputStream)
   : OMLSpecificationTables
   = copy(descriptionBoxExtendsClosedWorldDefinitions = 
-    (descriptionBoxExtendsClosedWorldDefinitions.to[Set] ++ 
+    parallelSort.parSortBy((descriptionBoxExtendsClosedWorldDefinitions.to[Set] ++ 
      readJSonTable(is, DescriptionBoxExtendsClosedWorldDefinitionsHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: DescriptionBoxExtendsClosedWorldDefinitions) => a.uuid))
   def readDescriptionBoxRefinements(is: InputStream)
   : OMLSpecificationTables
   = copy(descriptionBoxRefinements = 
-    (descriptionBoxRefinements.to[Set] ++ 
+    parallelSort.parSortBy((descriptionBoxRefinements.to[Set] ++ 
      readJSonTable(is, DescriptionBoxRefinementHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: DescriptionBoxRefinement) => a.uuid))
   def readBinaryScalarRestrictions(is: InputStream)
   : OMLSpecificationTables
   = copy(binaryScalarRestrictions = 
-    (binaryScalarRestrictions.to[Set] ++ 
+    parallelSort.parSortBy((binaryScalarRestrictions.to[Set] ++ 
      readJSonTable(is, BinaryScalarRestrictionHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: BinaryScalarRestriction) => a.uuid))
   def readIRIScalarRestrictions(is: InputStream)
   : OMLSpecificationTables
   = copy(iriScalarRestrictions = 
-    (iriScalarRestrictions.to[Set] ++ 
+    parallelSort.parSortBy((iriScalarRestrictions.to[Set] ++ 
      readJSonTable(is, IRIScalarRestrictionHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: IRIScalarRestriction) => a.uuid))
   def readNumericScalarRestrictions(is: InputStream)
   : OMLSpecificationTables
   = copy(numericScalarRestrictions = 
-    (numericScalarRestrictions.to[Set] ++ 
+    parallelSort.parSortBy((numericScalarRestrictions.to[Set] ++ 
      readJSonTable(is, NumericScalarRestrictionHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: NumericScalarRestriction) => a.uuid))
   def readPlainLiteralScalarRestrictions(is: InputStream)
   : OMLSpecificationTables
   = copy(plainLiteralScalarRestrictions = 
-    (plainLiteralScalarRestrictions.to[Set] ++ 
+    parallelSort.parSortBy((plainLiteralScalarRestrictions.to[Set] ++ 
      readJSonTable(is, PlainLiteralScalarRestrictionHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: PlainLiteralScalarRestriction) => a.uuid))
   def readScalarOneOfRestrictions(is: InputStream)
   : OMLSpecificationTables
   = copy(scalarOneOfRestrictions = 
-    (scalarOneOfRestrictions.to[Set] ++ 
+    parallelSort.parSortBy((scalarOneOfRestrictions.to[Set] ++ 
      readJSonTable(is, ScalarOneOfRestrictionHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: ScalarOneOfRestriction) => a.uuid))
   def readScalarOneOfLiteralAxioms(is: InputStream)
   : OMLSpecificationTables
   = copy(scalarOneOfLiteralAxioms = 
-    (scalarOneOfLiteralAxioms.to[Set] ++ 
+    parallelSort.parSortBy((scalarOneOfLiteralAxioms.to[Set] ++ 
      readJSonTable(is, ScalarOneOfLiteralAxiomHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: ScalarOneOfLiteralAxiom) => a.uuid))
   def readStringScalarRestrictions(is: InputStream)
   : OMLSpecificationTables
   = copy(stringScalarRestrictions = 
-    (stringScalarRestrictions.to[Set] ++ 
+    parallelSort.parSortBy((stringScalarRestrictions.to[Set] ++ 
      readJSonTable(is, StringScalarRestrictionHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: StringScalarRestriction) => a.uuid))
   def readSynonymScalarRestrictions(is: InputStream)
   : OMLSpecificationTables
   = copy(synonymScalarRestrictions = 
-    (synonymScalarRestrictions.to[Set] ++ 
+    parallelSort.parSortBy((synonymScalarRestrictions.to[Set] ++ 
      readJSonTable(is, SynonymScalarRestrictionHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: SynonymScalarRestriction) => a.uuid))
   def readTimeScalarRestrictions(is: InputStream)
   : OMLSpecificationTables
   = copy(timeScalarRestrictions = 
-    (timeScalarRestrictions.to[Set] ++ 
+    parallelSort.parSortBy((timeScalarRestrictions.to[Set] ++ 
      readJSonTable(is, TimeScalarRestrictionHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: TimeScalarRestriction) => a.uuid))
   def readEntityScalarDataProperties(is: InputStream)
   : OMLSpecificationTables
   = copy(entityScalarDataProperties = 
-    (entityScalarDataProperties.to[Set] ++ 
+    parallelSort.parSortBy((entityScalarDataProperties.to[Set] ++ 
      readJSonTable(is, EntityScalarDataPropertyHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: EntityScalarDataProperty) => a.uuid))
   def readEntityStructuredDataProperties(is: InputStream)
   : OMLSpecificationTables
   = copy(entityStructuredDataProperties = 
-    (entityStructuredDataProperties.to[Set] ++ 
+    parallelSort.parSortBy((entityStructuredDataProperties.to[Set] ++ 
      readJSonTable(is, EntityStructuredDataPropertyHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: EntityStructuredDataProperty) => a.uuid))
   def readScalarDataProperties(is: InputStream)
   : OMLSpecificationTables
   = copy(scalarDataProperties = 
-    (scalarDataProperties.to[Set] ++ 
+    parallelSort.parSortBy((scalarDataProperties.to[Set] ++ 
      readJSonTable(is, ScalarDataPropertyHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: ScalarDataProperty) => a.uuid))
   def readStructuredDataProperties(is: InputStream)
   : OMLSpecificationTables
   = copy(structuredDataProperties = 
-    (structuredDataProperties.to[Set] ++ 
+    parallelSort.parSortBy((structuredDataProperties.to[Set] ++ 
      readJSonTable(is, StructuredDataPropertyHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: StructuredDataProperty) => a.uuid))
   def readReifiedRelationships(is: InputStream)
   : OMLSpecificationTables
   = copy(reifiedRelationships = 
-    (reifiedRelationships.to[Set] ++ 
+    parallelSort.parSortBy((reifiedRelationships.to[Set] ++ 
      readJSonTable(is, ReifiedRelationshipHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: ReifiedRelationship) => a.uuid))
   def readForwardProperties(is: InputStream)
   : OMLSpecificationTables
   = copy(forwardProperties = 
-    (forwardProperties.to[Set] ++ 
+    parallelSort.parSortBy((forwardProperties.to[Set] ++ 
      readJSonTable(is, ForwardPropertyHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: ForwardProperty) => a.uuid))
   def readInverseProperties(is: InputStream)
   : OMLSpecificationTables
   = copy(inverseProperties = 
-    (inverseProperties.to[Set] ++ 
+    parallelSort.parSortBy((inverseProperties.to[Set] ++ 
      readJSonTable(is, InversePropertyHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: InverseProperty) => a.uuid))
+  def readSpecializedReifiedRelationships(is: InputStream)
+  : OMLSpecificationTables
+  = copy(specializedReifiedRelationships = 
+    parallelSort.parSortBy((specializedReifiedRelationships.to[Set] ++ 
+     readJSonTable(is, SpecializedReifiedRelationshipHelper.fromJSON).to[Set]
+    ).to[Seq], (a: SpecializedReifiedRelationship) => a.uuid))
   def readUnreifiedRelationships(is: InputStream)
   : OMLSpecificationTables
   = copy(unreifiedRelationships = 
-    (unreifiedRelationships.to[Set] ++ 
+    parallelSort.parSortBy((unreifiedRelationships.to[Set] ++ 
      readJSonTable(is, UnreifiedRelationshipHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: UnreifiedRelationship) => a.uuid))
   def readChainRules(is: InputStream)
   : OMLSpecificationTables
   = copy(chainRules = 
-    (chainRules.to[Set] ++ 
+    parallelSort.parSortBy((chainRules.to[Set] ++ 
      readJSonTable(is, ChainRuleHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: ChainRule) => a.uuid))
   def readRuleBodySegments(is: InputStream)
   : OMLSpecificationTables
   = copy(ruleBodySegments = 
-    (ruleBodySegments.to[Set] ++ 
+    parallelSort.parSortBy((ruleBodySegments.to[Set] ++ 
      readJSonTable(is, RuleBodySegmentHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: RuleBodySegment) => a.uuid))
   def readSegmentPredicates(is: InputStream)
   : OMLSpecificationTables
   = copy(segmentPredicates = 
-    (segmentPredicates.to[Set] ++ 
+    parallelSort.parSortBy((segmentPredicates.to[Set] ++ 
      readJSonTable(is, SegmentPredicateHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: SegmentPredicate) => a.uuid))
   def readEntityExistentialRestrictionAxioms(is: InputStream)
   : OMLSpecificationTables
   = copy(entityExistentialRestrictionAxioms = 
-    (entityExistentialRestrictionAxioms.to[Set] ++ 
+    parallelSort.parSortBy((entityExistentialRestrictionAxioms.to[Set] ++ 
      readJSonTable(is, EntityExistentialRestrictionAxiomHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: EntityExistentialRestrictionAxiom) => a.uuid))
   def readEntityUniversalRestrictionAxioms(is: InputStream)
   : OMLSpecificationTables
   = copy(entityUniversalRestrictionAxioms = 
-    (entityUniversalRestrictionAxioms.to[Set] ++ 
+    parallelSort.parSortBy((entityUniversalRestrictionAxioms.to[Set] ++ 
      readJSonTable(is, EntityUniversalRestrictionAxiomHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: EntityUniversalRestrictionAxiom) => a.uuid))
   def readEntityScalarDataPropertyExistentialRestrictionAxioms(is: InputStream)
   : OMLSpecificationTables
   = copy(entityScalarDataPropertyExistentialRestrictionAxioms = 
-    (entityScalarDataPropertyExistentialRestrictionAxioms.to[Set] ++ 
+    parallelSort.parSortBy((entityScalarDataPropertyExistentialRestrictionAxioms.to[Set] ++ 
      readJSonTable(is, EntityScalarDataPropertyExistentialRestrictionAxiomHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: EntityScalarDataPropertyExistentialRestrictionAxiom) => a.uuid))
   def readEntityScalarDataPropertyParticularRestrictionAxioms(is: InputStream)
   : OMLSpecificationTables
   = copy(entityScalarDataPropertyParticularRestrictionAxioms = 
-    (entityScalarDataPropertyParticularRestrictionAxioms.to[Set] ++ 
+    parallelSort.parSortBy((entityScalarDataPropertyParticularRestrictionAxioms.to[Set] ++ 
      readJSonTable(is, EntityScalarDataPropertyParticularRestrictionAxiomHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: EntityScalarDataPropertyParticularRestrictionAxiom) => a.uuid))
   def readEntityScalarDataPropertyUniversalRestrictionAxioms(is: InputStream)
   : OMLSpecificationTables
   = copy(entityScalarDataPropertyUniversalRestrictionAxioms = 
-    (entityScalarDataPropertyUniversalRestrictionAxioms.to[Set] ++ 
+    parallelSort.parSortBy((entityScalarDataPropertyUniversalRestrictionAxioms.to[Set] ++ 
      readJSonTable(is, EntityScalarDataPropertyUniversalRestrictionAxiomHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: EntityScalarDataPropertyUniversalRestrictionAxiom) => a.uuid))
   def readEntityStructuredDataPropertyParticularRestrictionAxioms(is: InputStream)
   : OMLSpecificationTables
   = copy(entityStructuredDataPropertyParticularRestrictionAxioms = 
-    (entityStructuredDataPropertyParticularRestrictionAxioms.to[Set] ++ 
+    parallelSort.parSortBy((entityStructuredDataPropertyParticularRestrictionAxioms.to[Set] ++ 
      readJSonTable(is, EntityStructuredDataPropertyParticularRestrictionAxiomHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: EntityStructuredDataPropertyParticularRestrictionAxiom) => a.uuid))
   def readRestrictionStructuredDataPropertyTuples(is: InputStream)
   : OMLSpecificationTables
   = copy(restrictionStructuredDataPropertyTuples = 
-    (restrictionStructuredDataPropertyTuples.to[Set] ++ 
+    parallelSort.parSortBy((restrictionStructuredDataPropertyTuples.to[Set] ++ 
      readJSonTable(is, RestrictionStructuredDataPropertyTupleHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: RestrictionStructuredDataPropertyTuple) => a.uuid))
   def readRestrictionScalarDataPropertyValues(is: InputStream)
   : OMLSpecificationTables
   = copy(restrictionScalarDataPropertyValues = 
-    (restrictionScalarDataPropertyValues.to[Set] ++ 
+    parallelSort.parSortBy((restrictionScalarDataPropertyValues.to[Set] ++ 
      readJSonTable(is, RestrictionScalarDataPropertyValueHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: RestrictionScalarDataPropertyValue) => a.uuid))
   def readAspectSpecializationAxioms(is: InputStream)
   : OMLSpecificationTables
   = copy(aspectSpecializationAxioms = 
-    (aspectSpecializationAxioms.to[Set] ++ 
+    parallelSort.parSortBy((aspectSpecializationAxioms.to[Set] ++ 
      readJSonTable(is, AspectSpecializationAxiomHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: AspectSpecializationAxiom) => a.uuid))
   def readConceptSpecializationAxioms(is: InputStream)
   : OMLSpecificationTables
   = copy(conceptSpecializationAxioms = 
-    (conceptSpecializationAxioms.to[Set] ++ 
+    parallelSort.parSortBy((conceptSpecializationAxioms.to[Set] ++ 
      readJSonTable(is, ConceptSpecializationAxiomHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
-  def readReifiedRelationshipSpecializationAxioms(is: InputStream)
-  : OMLSpecificationTables
-  = copy(reifiedRelationshipSpecializationAxioms = 
-    (reifiedRelationshipSpecializationAxioms.to[Set] ++ 
-     readJSonTable(is, ReifiedRelationshipSpecializationAxiomHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: ConceptSpecializationAxiom) => a.uuid))
   def readSubDataPropertyOfAxioms(is: InputStream)
   : OMLSpecificationTables
   = copy(subDataPropertyOfAxioms = 
-    (subDataPropertyOfAxioms.to[Set] ++ 
+    parallelSort.parSortBy((subDataPropertyOfAxioms.to[Set] ++ 
      readJSonTable(is, SubDataPropertyOfAxiomHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: SubDataPropertyOfAxiom) => a.uuid))
   def readSubObjectPropertyOfAxioms(is: InputStream)
   : OMLSpecificationTables
   = copy(subObjectPropertyOfAxioms = 
-    (subObjectPropertyOfAxioms.to[Set] ++ 
+    parallelSort.parSortBy((subObjectPropertyOfAxioms.to[Set] ++ 
      readJSonTable(is, SubObjectPropertyOfAxiomHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: SubObjectPropertyOfAxiom) => a.uuid))
   def readRootConceptTaxonomyAxioms(is: InputStream)
   : OMLSpecificationTables
   = copy(rootConceptTaxonomyAxioms = 
-    (rootConceptTaxonomyAxioms.to[Set] ++ 
+    parallelSort.parSortBy((rootConceptTaxonomyAxioms.to[Set] ++ 
      readJSonTable(is, RootConceptTaxonomyAxiomHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: RootConceptTaxonomyAxiom) => a.uuid))
   def readAnonymousConceptUnionAxioms(is: InputStream)
   : OMLSpecificationTables
   = copy(anonymousConceptUnionAxioms = 
-    (anonymousConceptUnionAxioms.to[Set] ++ 
+    parallelSort.parSortBy((anonymousConceptUnionAxioms.to[Set] ++ 
      readJSonTable(is, AnonymousConceptUnionAxiomHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: AnonymousConceptUnionAxiom) => a.uuid))
   def readSpecificDisjointConceptAxioms(is: InputStream)
   : OMLSpecificationTables
   = copy(specificDisjointConceptAxioms = 
-    (specificDisjointConceptAxioms.to[Set] ++ 
+    parallelSort.parSortBy((specificDisjointConceptAxioms.to[Set] ++ 
      readJSonTable(is, SpecificDisjointConceptAxiomHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: SpecificDisjointConceptAxiom) => a.uuid))
   def readConceptInstances(is: InputStream)
   : OMLSpecificationTables
   = copy(conceptInstances = 
-    (conceptInstances.to[Set] ++ 
+    parallelSort.parSortBy((conceptInstances.to[Set] ++ 
      readJSonTable(is, ConceptInstanceHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: ConceptInstance) => a.uuid))
   def readReifiedRelationshipInstances(is: InputStream)
   : OMLSpecificationTables
   = copy(reifiedRelationshipInstances = 
-    (reifiedRelationshipInstances.to[Set] ++ 
+    parallelSort.parSortBy((reifiedRelationshipInstances.to[Set] ++ 
      readJSonTable(is, ReifiedRelationshipInstanceHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: ReifiedRelationshipInstance) => a.uuid))
   def readReifiedRelationshipInstanceDomains(is: InputStream)
   : OMLSpecificationTables
   = copy(reifiedRelationshipInstanceDomains = 
-    (reifiedRelationshipInstanceDomains.to[Set] ++ 
+    parallelSort.parSortBy((reifiedRelationshipInstanceDomains.to[Set] ++ 
      readJSonTable(is, ReifiedRelationshipInstanceDomainHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: ReifiedRelationshipInstanceDomain) => a.uuid))
   def readReifiedRelationshipInstanceRanges(is: InputStream)
   : OMLSpecificationTables
   = copy(reifiedRelationshipInstanceRanges = 
-    (reifiedRelationshipInstanceRanges.to[Set] ++ 
+    parallelSort.parSortBy((reifiedRelationshipInstanceRanges.to[Set] ++ 
      readJSonTable(is, ReifiedRelationshipInstanceRangeHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: ReifiedRelationshipInstanceRange) => a.uuid))
   def readUnreifiedRelationshipInstanceTuples(is: InputStream)
   : OMLSpecificationTables
   = copy(unreifiedRelationshipInstanceTuples = 
-    (unreifiedRelationshipInstanceTuples.to[Set] ++ 
+    parallelSort.parSortBy((unreifiedRelationshipInstanceTuples.to[Set] ++ 
      readJSonTable(is, UnreifiedRelationshipInstanceTupleHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: UnreifiedRelationshipInstanceTuple) => a.uuid))
   def readSingletonInstanceStructuredDataPropertyValues(is: InputStream)
   : OMLSpecificationTables
   = copy(singletonInstanceStructuredDataPropertyValues = 
-    (singletonInstanceStructuredDataPropertyValues.to[Set] ++ 
+    parallelSort.parSortBy((singletonInstanceStructuredDataPropertyValues.to[Set] ++ 
      readJSonTable(is, SingletonInstanceStructuredDataPropertyValueHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: SingletonInstanceStructuredDataPropertyValue) => a.uuid))
   def readSingletonInstanceScalarDataPropertyValues(is: InputStream)
   : OMLSpecificationTables
   = copy(singletonInstanceScalarDataPropertyValues = 
-    (singletonInstanceScalarDataPropertyValues.to[Set] ++ 
+    parallelSort.parSortBy((singletonInstanceScalarDataPropertyValues.to[Set] ++ 
      readJSonTable(is, SingletonInstanceScalarDataPropertyValueHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: SingletonInstanceScalarDataPropertyValue) => a.uuid))
   def readStructuredDataPropertyTuples(is: InputStream)
   : OMLSpecificationTables
   = copy(structuredDataPropertyTuples = 
-    (structuredDataPropertyTuples.to[Set] ++ 
+    parallelSort.parSortBy((structuredDataPropertyTuples.to[Set] ++ 
      readJSonTable(is, StructuredDataPropertyTupleHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: StructuredDataPropertyTuple) => a.uuid))
   def readScalarDataPropertyValues(is: InputStream)
   : OMLSpecificationTables
   = copy(scalarDataPropertyValues = 
-    (scalarDataPropertyValues.to[Set] ++ 
+    parallelSort.parSortBy((scalarDataPropertyValues.to[Set] ++ 
      readJSonTable(is, ScalarDataPropertyValueHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: ScalarDataPropertyValue) => a.uuid))
   def readAnnotationPropertyValues(is: InputStream)
   : OMLSpecificationTables
   = copy(annotationPropertyValues = 
-    (annotationPropertyValues.to[Set] ++ 
+    parallelSort.parSortBy((annotationPropertyValues.to[Set] ++ 
      readJSonTable(is, AnnotationPropertyValueHelper.fromJSON).to[Set]
-    ).to[Seq].sortBy(_.uuid))
+    ).to[Seq], (a: AnnotationPropertyValue) => a.uuid))
   
   def isEmpty: Boolean
   = terminologyGraphs.isEmpty &&
@@ -485,6 +486,7 @@ case class OMLSpecificationTables
     reifiedRelationships.isEmpty &&
     forwardProperties.isEmpty &&
     inverseProperties.isEmpty &&
+    specializedReifiedRelationships.isEmpty &&
     unreifiedRelationships.isEmpty &&
     chainRules.isEmpty &&
     ruleBodySegments.isEmpty &&
@@ -499,7 +501,6 @@ case class OMLSpecificationTables
     restrictionScalarDataPropertyValues.isEmpty &&
     aspectSpecializationAxioms.isEmpty &&
     conceptSpecializationAxioms.isEmpty &&
-    reifiedRelationshipSpecializationAxioms.isEmpty &&
     subDataPropertyOfAxioms.isEmpty &&
     subObjectPropertyOfAxioms.isEmpty &&
     rootConceptTaxonomyAxioms.isEmpty &&
@@ -558,6 +559,7 @@ case class OMLSpecificationTables
     buff ++= showSeq("reifiedRelationships", reifiedRelationships)
     buff ++= showSeq("forwardProperties", forwardProperties)
     buff ++= showSeq("inverseProperties", inverseProperties)
+    buff ++= showSeq("specializedReifiedRelationships", specializedReifiedRelationships)
     buff ++= showSeq("unreifiedRelationships", unreifiedRelationships)
     buff ++= showSeq("chainRules", chainRules)
     buff ++= showSeq("ruleBodySegments", ruleBodySegments)
@@ -572,7 +574,6 @@ case class OMLSpecificationTables
     buff ++= showSeq("restrictionScalarDataPropertyValues", restrictionScalarDataPropertyValues)
     buff ++= showSeq("aspectSpecializationAxioms", aspectSpecializationAxioms)
     buff ++= showSeq("conceptSpecializationAxioms", conceptSpecializationAxioms)
-    buff ++= showSeq("reifiedRelationshipSpecializationAxioms", reifiedRelationshipSpecializationAxioms)
     buff ++= showSeq("subDataPropertyOfAxioms", subDataPropertyOfAxioms)
     buff ++= showSeq("subObjectPropertyOfAxioms", subObjectPropertyOfAxioms)
     buff ++= showSeq("rootConceptTaxonomyAxioms", rootConceptTaxonomyAxioms)
@@ -624,246 +625,246 @@ object OMLSpecificationTables {
   (t1: OMLSpecificationTables, t2: OMLSpecificationTables)
   : OMLSpecificationTables
   = OMLSpecificationTables(
-      terminologyGraphs = (
+      terminologyGraphs = parallelSort.parSortBy((
         t1.terminologyGraphs.to[Set] ++ 
         t2.terminologyGraphs.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      bundles = (
+      ).to[Seq], (a: TerminologyGraph) => a.uuid),
+      bundles = parallelSort.parSortBy((
         t1.bundles.to[Set] ++ 
         t2.bundles.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      descriptionBoxes = (
+      ).to[Seq], (a: Bundle) => a.uuid),
+      descriptionBoxes = parallelSort.parSortBy((
         t1.descriptionBoxes.to[Set] ++ 
         t2.descriptionBoxes.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      annotationProperties = (
+      ).to[Seq], (a: DescriptionBox) => a.uuid),
+      annotationProperties = parallelSort.parSortBy((
         t1.annotationProperties.to[Set] ++ 
         t2.annotationProperties.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      aspects = (
+      ).to[Seq], (a: AnnotationProperty) => a.uuid),
+      aspects = parallelSort.parSortBy((
         t1.aspects.to[Set] ++ 
         t2.aspects.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      concepts = (
+      ).to[Seq], (a: Aspect) => a.uuid),
+      concepts = parallelSort.parSortBy((
         t1.concepts.to[Set] ++ 
         t2.concepts.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      scalars = (
+      ).to[Seq], (a: Concept) => a.uuid),
+      scalars = parallelSort.parSortBy((
         t1.scalars.to[Set] ++ 
         t2.scalars.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      structures = (
+      ).to[Seq], (a: Scalar) => a.uuid),
+      structures = parallelSort.parSortBy((
         t1.structures.to[Set] ++ 
         t2.structures.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      conceptDesignationTerminologyAxioms = (
+      ).to[Seq], (a: Structure) => a.uuid),
+      conceptDesignationTerminologyAxioms = parallelSort.parSortBy((
         t1.conceptDesignationTerminologyAxioms.to[Set] ++ 
         t2.conceptDesignationTerminologyAxioms.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      terminologyExtensionAxioms = (
+      ).to[Seq], (a: ConceptDesignationTerminologyAxiom) => a.uuid),
+      terminologyExtensionAxioms = parallelSort.parSortBy((
         t1.terminologyExtensionAxioms.to[Set] ++ 
         t2.terminologyExtensionAxioms.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      terminologyNestingAxioms = (
+      ).to[Seq], (a: TerminologyExtensionAxiom) => a.uuid),
+      terminologyNestingAxioms = parallelSort.parSortBy((
         t1.terminologyNestingAxioms.to[Set] ++ 
         t2.terminologyNestingAxioms.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      bundledTerminologyAxioms = (
+      ).to[Seq], (a: TerminologyNestingAxiom) => a.uuid),
+      bundledTerminologyAxioms = parallelSort.parSortBy((
         t1.bundledTerminologyAxioms.to[Set] ++ 
         t2.bundledTerminologyAxioms.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      descriptionBoxExtendsClosedWorldDefinitions = (
+      ).to[Seq], (a: BundledTerminologyAxiom) => a.uuid),
+      descriptionBoxExtendsClosedWorldDefinitions = parallelSort.parSortBy((
         t1.descriptionBoxExtendsClosedWorldDefinitions.to[Set] ++ 
         t2.descriptionBoxExtendsClosedWorldDefinitions.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      descriptionBoxRefinements = (
+      ).to[Seq], (a: DescriptionBoxExtendsClosedWorldDefinitions) => a.uuid),
+      descriptionBoxRefinements = parallelSort.parSortBy((
         t1.descriptionBoxRefinements.to[Set] ++ 
         t2.descriptionBoxRefinements.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      binaryScalarRestrictions = (
+      ).to[Seq], (a: DescriptionBoxRefinement) => a.uuid),
+      binaryScalarRestrictions = parallelSort.parSortBy((
         t1.binaryScalarRestrictions.to[Set] ++ 
         t2.binaryScalarRestrictions.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      iriScalarRestrictions = (
+      ).to[Seq], (a: BinaryScalarRestriction) => a.uuid),
+      iriScalarRestrictions = parallelSort.parSortBy((
         t1.iriScalarRestrictions.to[Set] ++ 
         t2.iriScalarRestrictions.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      numericScalarRestrictions = (
+      ).to[Seq], (a: IRIScalarRestriction) => a.uuid),
+      numericScalarRestrictions = parallelSort.parSortBy((
         t1.numericScalarRestrictions.to[Set] ++ 
         t2.numericScalarRestrictions.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      plainLiteralScalarRestrictions = (
+      ).to[Seq], (a: NumericScalarRestriction) => a.uuid),
+      plainLiteralScalarRestrictions = parallelSort.parSortBy((
         t1.plainLiteralScalarRestrictions.to[Set] ++ 
         t2.plainLiteralScalarRestrictions.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      scalarOneOfRestrictions = (
+      ).to[Seq], (a: PlainLiteralScalarRestriction) => a.uuid),
+      scalarOneOfRestrictions = parallelSort.parSortBy((
         t1.scalarOneOfRestrictions.to[Set] ++ 
         t2.scalarOneOfRestrictions.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      scalarOneOfLiteralAxioms = (
+      ).to[Seq], (a: ScalarOneOfRestriction) => a.uuid),
+      scalarOneOfLiteralAxioms = parallelSort.parSortBy((
         t1.scalarOneOfLiteralAxioms.to[Set] ++ 
         t2.scalarOneOfLiteralAxioms.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      stringScalarRestrictions = (
+      ).to[Seq], (a: ScalarOneOfLiteralAxiom) => a.uuid),
+      stringScalarRestrictions = parallelSort.parSortBy((
         t1.stringScalarRestrictions.to[Set] ++ 
         t2.stringScalarRestrictions.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      synonymScalarRestrictions = (
+      ).to[Seq], (a: StringScalarRestriction) => a.uuid),
+      synonymScalarRestrictions = parallelSort.parSortBy((
         t1.synonymScalarRestrictions.to[Set] ++ 
         t2.synonymScalarRestrictions.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      timeScalarRestrictions = (
+      ).to[Seq], (a: SynonymScalarRestriction) => a.uuid),
+      timeScalarRestrictions = parallelSort.parSortBy((
         t1.timeScalarRestrictions.to[Set] ++ 
         t2.timeScalarRestrictions.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      entityScalarDataProperties = (
+      ).to[Seq], (a: TimeScalarRestriction) => a.uuid),
+      entityScalarDataProperties = parallelSort.parSortBy((
         t1.entityScalarDataProperties.to[Set] ++ 
         t2.entityScalarDataProperties.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      entityStructuredDataProperties = (
+      ).to[Seq], (a: EntityScalarDataProperty) => a.uuid),
+      entityStructuredDataProperties = parallelSort.parSortBy((
         t1.entityStructuredDataProperties.to[Set] ++ 
         t2.entityStructuredDataProperties.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      scalarDataProperties = (
+      ).to[Seq], (a: EntityStructuredDataProperty) => a.uuid),
+      scalarDataProperties = parallelSort.parSortBy((
         t1.scalarDataProperties.to[Set] ++ 
         t2.scalarDataProperties.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      structuredDataProperties = (
+      ).to[Seq], (a: ScalarDataProperty) => a.uuid),
+      structuredDataProperties = parallelSort.parSortBy((
         t1.structuredDataProperties.to[Set] ++ 
         t2.structuredDataProperties.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      reifiedRelationships = (
+      ).to[Seq], (a: StructuredDataProperty) => a.uuid),
+      reifiedRelationships = parallelSort.parSortBy((
         t1.reifiedRelationships.to[Set] ++ 
         t2.reifiedRelationships.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      forwardProperties = (
+      ).to[Seq], (a: ReifiedRelationship) => a.uuid),
+      forwardProperties = parallelSort.parSortBy((
         t1.forwardProperties.to[Set] ++ 
         t2.forwardProperties.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      inverseProperties = (
+      ).to[Seq], (a: ForwardProperty) => a.uuid),
+      inverseProperties = parallelSort.parSortBy((
         t1.inverseProperties.to[Set] ++ 
         t2.inverseProperties.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      unreifiedRelationships = (
+      ).to[Seq], (a: InverseProperty) => a.uuid),
+      specializedReifiedRelationships = parallelSort.parSortBy((
+        t1.specializedReifiedRelationships.to[Set] ++ 
+        t2.specializedReifiedRelationships.to[Set]
+      ).to[Seq], (a: SpecializedReifiedRelationship) => a.uuid),
+      unreifiedRelationships = parallelSort.parSortBy((
         t1.unreifiedRelationships.to[Set] ++ 
         t2.unreifiedRelationships.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      chainRules = (
+      ).to[Seq], (a: UnreifiedRelationship) => a.uuid),
+      chainRules = parallelSort.parSortBy((
         t1.chainRules.to[Set] ++ 
         t2.chainRules.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      ruleBodySegments = (
+      ).to[Seq], (a: ChainRule) => a.uuid),
+      ruleBodySegments = parallelSort.parSortBy((
         t1.ruleBodySegments.to[Set] ++ 
         t2.ruleBodySegments.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      segmentPredicates = (
+      ).to[Seq], (a: RuleBodySegment) => a.uuid),
+      segmentPredicates = parallelSort.parSortBy((
         t1.segmentPredicates.to[Set] ++ 
         t2.segmentPredicates.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      entityExistentialRestrictionAxioms = (
+      ).to[Seq], (a: SegmentPredicate) => a.uuid),
+      entityExistentialRestrictionAxioms = parallelSort.parSortBy((
         t1.entityExistentialRestrictionAxioms.to[Set] ++ 
         t2.entityExistentialRestrictionAxioms.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      entityUniversalRestrictionAxioms = (
+      ).to[Seq], (a: EntityExistentialRestrictionAxiom) => a.uuid),
+      entityUniversalRestrictionAxioms = parallelSort.parSortBy((
         t1.entityUniversalRestrictionAxioms.to[Set] ++ 
         t2.entityUniversalRestrictionAxioms.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      entityScalarDataPropertyExistentialRestrictionAxioms = (
+      ).to[Seq], (a: EntityUniversalRestrictionAxiom) => a.uuid),
+      entityScalarDataPropertyExistentialRestrictionAxioms = parallelSort.parSortBy((
         t1.entityScalarDataPropertyExistentialRestrictionAxioms.to[Set] ++ 
         t2.entityScalarDataPropertyExistentialRestrictionAxioms.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      entityScalarDataPropertyParticularRestrictionAxioms = (
+      ).to[Seq], (a: EntityScalarDataPropertyExistentialRestrictionAxiom) => a.uuid),
+      entityScalarDataPropertyParticularRestrictionAxioms = parallelSort.parSortBy((
         t1.entityScalarDataPropertyParticularRestrictionAxioms.to[Set] ++ 
         t2.entityScalarDataPropertyParticularRestrictionAxioms.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      entityScalarDataPropertyUniversalRestrictionAxioms = (
+      ).to[Seq], (a: EntityScalarDataPropertyParticularRestrictionAxiom) => a.uuid),
+      entityScalarDataPropertyUniversalRestrictionAxioms = parallelSort.parSortBy((
         t1.entityScalarDataPropertyUniversalRestrictionAxioms.to[Set] ++ 
         t2.entityScalarDataPropertyUniversalRestrictionAxioms.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      entityStructuredDataPropertyParticularRestrictionAxioms = (
+      ).to[Seq], (a: EntityScalarDataPropertyUniversalRestrictionAxiom) => a.uuid),
+      entityStructuredDataPropertyParticularRestrictionAxioms = parallelSort.parSortBy((
         t1.entityStructuredDataPropertyParticularRestrictionAxioms.to[Set] ++ 
         t2.entityStructuredDataPropertyParticularRestrictionAxioms.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      restrictionStructuredDataPropertyTuples = (
+      ).to[Seq], (a: EntityStructuredDataPropertyParticularRestrictionAxiom) => a.uuid),
+      restrictionStructuredDataPropertyTuples = parallelSort.parSortBy((
         t1.restrictionStructuredDataPropertyTuples.to[Set] ++ 
         t2.restrictionStructuredDataPropertyTuples.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      restrictionScalarDataPropertyValues = (
+      ).to[Seq], (a: RestrictionStructuredDataPropertyTuple) => a.uuid),
+      restrictionScalarDataPropertyValues = parallelSort.parSortBy((
         t1.restrictionScalarDataPropertyValues.to[Set] ++ 
         t2.restrictionScalarDataPropertyValues.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      aspectSpecializationAxioms = (
+      ).to[Seq], (a: RestrictionScalarDataPropertyValue) => a.uuid),
+      aspectSpecializationAxioms = parallelSort.parSortBy((
         t1.aspectSpecializationAxioms.to[Set] ++ 
         t2.aspectSpecializationAxioms.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      conceptSpecializationAxioms = (
+      ).to[Seq], (a: AspectSpecializationAxiom) => a.uuid),
+      conceptSpecializationAxioms = parallelSort.parSortBy((
         t1.conceptSpecializationAxioms.to[Set] ++ 
         t2.conceptSpecializationAxioms.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      reifiedRelationshipSpecializationAxioms = (
-        t1.reifiedRelationshipSpecializationAxioms.to[Set] ++ 
-        t2.reifiedRelationshipSpecializationAxioms.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      subDataPropertyOfAxioms = (
+      ).to[Seq], (a: ConceptSpecializationAxiom) => a.uuid),
+      subDataPropertyOfAxioms = parallelSort.parSortBy((
         t1.subDataPropertyOfAxioms.to[Set] ++ 
         t2.subDataPropertyOfAxioms.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      subObjectPropertyOfAxioms = (
+      ).to[Seq], (a: SubDataPropertyOfAxiom) => a.uuid),
+      subObjectPropertyOfAxioms = parallelSort.parSortBy((
         t1.subObjectPropertyOfAxioms.to[Set] ++ 
         t2.subObjectPropertyOfAxioms.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      rootConceptTaxonomyAxioms = (
+      ).to[Seq], (a: SubObjectPropertyOfAxiom) => a.uuid),
+      rootConceptTaxonomyAxioms = parallelSort.parSortBy((
         t1.rootConceptTaxonomyAxioms.to[Set] ++ 
         t2.rootConceptTaxonomyAxioms.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      anonymousConceptUnionAxioms = (
+      ).to[Seq], (a: RootConceptTaxonomyAxiom) => a.uuid),
+      anonymousConceptUnionAxioms = parallelSort.parSortBy((
         t1.anonymousConceptUnionAxioms.to[Set] ++ 
         t2.anonymousConceptUnionAxioms.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      specificDisjointConceptAxioms = (
+      ).to[Seq], (a: AnonymousConceptUnionAxiom) => a.uuid),
+      specificDisjointConceptAxioms = parallelSort.parSortBy((
         t1.specificDisjointConceptAxioms.to[Set] ++ 
         t2.specificDisjointConceptAxioms.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      conceptInstances = (
+      ).to[Seq], (a: SpecificDisjointConceptAxiom) => a.uuid),
+      conceptInstances = parallelSort.parSortBy((
         t1.conceptInstances.to[Set] ++ 
         t2.conceptInstances.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      reifiedRelationshipInstances = (
+      ).to[Seq], (a: ConceptInstance) => a.uuid),
+      reifiedRelationshipInstances = parallelSort.parSortBy((
         t1.reifiedRelationshipInstances.to[Set] ++ 
         t2.reifiedRelationshipInstances.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      reifiedRelationshipInstanceDomains = (
+      ).to[Seq], (a: ReifiedRelationshipInstance) => a.uuid),
+      reifiedRelationshipInstanceDomains = parallelSort.parSortBy((
         t1.reifiedRelationshipInstanceDomains.to[Set] ++ 
         t2.reifiedRelationshipInstanceDomains.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      reifiedRelationshipInstanceRanges = (
+      ).to[Seq], (a: ReifiedRelationshipInstanceDomain) => a.uuid),
+      reifiedRelationshipInstanceRanges = parallelSort.parSortBy((
         t1.reifiedRelationshipInstanceRanges.to[Set] ++ 
         t2.reifiedRelationshipInstanceRanges.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      unreifiedRelationshipInstanceTuples = (
+      ).to[Seq], (a: ReifiedRelationshipInstanceRange) => a.uuid),
+      unreifiedRelationshipInstanceTuples = parallelSort.parSortBy((
         t1.unreifiedRelationshipInstanceTuples.to[Set] ++ 
         t2.unreifiedRelationshipInstanceTuples.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      singletonInstanceStructuredDataPropertyValues = (
+      ).to[Seq], (a: UnreifiedRelationshipInstanceTuple) => a.uuid),
+      singletonInstanceStructuredDataPropertyValues = parallelSort.parSortBy((
         t1.singletonInstanceStructuredDataPropertyValues.to[Set] ++ 
         t2.singletonInstanceStructuredDataPropertyValues.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      singletonInstanceScalarDataPropertyValues = (
+      ).to[Seq], (a: SingletonInstanceStructuredDataPropertyValue) => a.uuid),
+      singletonInstanceScalarDataPropertyValues = parallelSort.parSortBy((
         t1.singletonInstanceScalarDataPropertyValues.to[Set] ++ 
         t2.singletonInstanceScalarDataPropertyValues.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      structuredDataPropertyTuples = (
+      ).to[Seq], (a: SingletonInstanceScalarDataPropertyValue) => a.uuid),
+      structuredDataPropertyTuples = parallelSort.parSortBy((
         t1.structuredDataPropertyTuples.to[Set] ++ 
         t2.structuredDataPropertyTuples.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      scalarDataPropertyValues = (
+      ).to[Seq], (a: StructuredDataPropertyTuple) => a.uuid),
+      scalarDataPropertyValues = parallelSort.parSortBy((
         t1.scalarDataPropertyValues.to[Set] ++ 
         t2.scalarDataPropertyValues.to[Set]
-      ).to[Seq].sortBy(_.uuid),
-      annotationPropertyValues = (
+      ).to[Seq], (a: ScalarDataPropertyValue) => a.uuid),
+      annotationPropertyValues = parallelSort.parSortBy((
         t1.annotationPropertyValues.to[Set] ++ 
         t2.annotationPropertyValues.to[Set]
-      ).to[Seq].sortBy(_.uuid))
+      ).to[Seq], (a: AnnotationPropertyValue) => a.uuid))
   
   def readZipArchive
   (zipFile: ZipFile)
@@ -932,6 +933,8 @@ object OMLSpecificationTables {
   	    tables.readForwardProperties(is)
   	  case InversePropertyHelper.TABLE_JSON_FILENAME =>
   	    tables.readInverseProperties(is)
+  	  case SpecializedReifiedRelationshipHelper.TABLE_JSON_FILENAME =>
+  	    tables.readSpecializedReifiedRelationships(is)
   	  case UnreifiedRelationshipHelper.TABLE_JSON_FILENAME =>
   	    tables.readUnreifiedRelationships(is)
   	  case ChainRuleHelper.TABLE_JSON_FILENAME =>
@@ -960,8 +963,6 @@ object OMLSpecificationTables {
   	    tables.readAspectSpecializationAxioms(is)
   	  case ConceptSpecializationAxiomHelper.TABLE_JSON_FILENAME =>
   	    tables.readConceptSpecializationAxioms(is)
-  	  case ReifiedRelationshipSpecializationAxiomHelper.TABLE_JSON_FILENAME =>
-  	    tables.readReifiedRelationshipSpecializationAxioms(is)
   	  case SubDataPropertyOfAxiomHelper.TABLE_JSON_FILENAME =>
   	    tables.readSubDataPropertyOfAxioms(is)
   	  case SubObjectPropertyOfAxiomHelper.TABLE_JSON_FILENAME =>
@@ -1196,6 +1197,12 @@ object OMLSpecificationTables {
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(SpecializedReifiedRelationshipHelper.TABLE_JSON_FILENAME))
+      tables.specializedReifiedRelationships.foreach { t =>
+         val line = SpecializedReifiedRelationshipHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
       zos.putNextEntry(new java.util.zip.ZipEntry(UnreifiedRelationshipHelper.TABLE_JSON_FILENAME))
       tables.unreifiedRelationships.foreach { t =>
          val line = UnreifiedRelationshipHelper.toJSON(t)+"\n"
@@ -1277,12 +1284,6 @@ object OMLSpecificationTables {
       zos.putNextEntry(new java.util.zip.ZipEntry(ConceptSpecializationAxiomHelper.TABLE_JSON_FILENAME))
       tables.conceptSpecializationAxioms.foreach { t =>
          val line = ConceptSpecializationAxiomHelper.toJSON(t)+"\n"
-         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
-      }
-      zos.closeEntry()
-      zos.putNextEntry(new java.util.zip.ZipEntry(ReifiedRelationshipSpecializationAxiomHelper.TABLE_JSON_FILENAME))
-      tables.reifiedRelationshipSpecializationAxioms.foreach { t =>
-         val line = ReifiedRelationshipSpecializationAxiomHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry()

@@ -23,10 +23,10 @@ import java.util.UUID
 
 import gov.nasa.jpl.imce.oml.covariantTag.@@
 import gov.nasa.jpl.imce.oml.{covariantTag, tables}
-
+import gov.nasa.jpl.imce.oml.parallelSort
 import scala.collection.immutable._
-import scala.{None, Option, Some, StringContext}
-import scala.Predef.{ArrowAssoc, String}
+import scala.{None,Option,Some,StringContext}
+import scala.Predef.{ArrowAssoc,String}
 
 object Extent2Tables {
 
@@ -621,17 +621,19 @@ object Extent2Tables {
       None
   }.to[Seq]
 
-  def convertReifiedRelationshipSpecializationAxioms
-  (acc: Seq[tables.ReifiedRelationshipSpecializationAxiom],
+  def convertSpecializedReifiedRelationships
+  (acc: Seq[tables.SpecializedReifiedRelationship],
    x: (api.TerminologyBox, Set[api.TerminologyBoxStatement]))
-  : Seq[tables.ReifiedRelationshipSpecializationAxiom]
+  : Seq[tables.SpecializedReifiedRelationship]
   = acc ++ x._2.flatMap {
-    case y: api.ReifiedRelationshipSpecializationAxiom =>
-      Some(tables.ReifiedRelationshipSpecializationAxiom(
+    case y: api.SpecializedReifiedRelationship =>
+      Some(tables.SpecializedReifiedRelationship(
         y.uuid,
         x._1.uuid,
-        y.superRelationship.uuid,
-        y.subRelationship.uuid))
+        y.source.uuid,
+        y.target.uuid,
+        y.general.uuid,
+        y.name))
     case _ =>
       None
   }.to[Seq]
@@ -907,7 +909,7 @@ object Extent2Tables {
   = acc :+ tables.ReifiedRelationshipInstance(
     x._1.uuid,
     x._2.uuid,
-    x._1.singletonReifiedRelationshipClassifier.uuid,
+    x._1.singletonConceptualRelationshipClassifier.uuid,
     x._1.name)
 
   def convertReifiedRelationshipInstanceDomains
@@ -1005,264 +1007,373 @@ object Extent2Tables {
   : tables.OMLSpecificationTables
   = {
     implicit val ext: api.Extent = e
-    val t =
-      tables
-        .OMLSpecificationTables.createEmptyOMLSpecificationTables()
+    val t = tables.OMLSpecificationTables.createEmptyOMLSpecificationTables()
         .copy(
           // modules
 
-          terminologyGraphs = e.terminologyGraphs.values
-            .foldLeft[Seq[tables.TerminologyGraph]](Seq.empty)(convertTerminologyGraph)
-            .sortBy(_.uuid.toString),
+          terminologyGraphs =
+            parallelSort.parSortBy(
+              e.terminologyGraphs.values.foldLeft[Seq[tables.TerminologyGraph]](Seq.empty)(convertTerminologyGraph),
+              (g: tables.TerminologyGraph) => g.uuid),
 
-          bundles = e.bundles.values
-            .foldLeft[Seq[tables.Bundle]](Seq.empty)(convertBundle)
-            .sortBy(_.uuid.toString),
+          bundles =
+            parallelSort.parSortBy(
+              e.bundles.values.foldLeft[Seq[tables.Bundle]](Seq.empty)(convertBundle),
+              (b: tables.Bundle) => b.uuid),
 
-          descriptionBoxes = e.descriptionBoxes.values
-            .foldLeft[Seq[tables.DescriptionBox]](Seq.empty)(convertDescriptionBox)
-            .sortBy(_.uuid.toString),
+          descriptionBoxes =
+            parallelSort.parSortBy(
+              e.descriptionBoxes.values.foldLeft[Seq[tables.DescriptionBox]](Seq.empty)(convertDescriptionBox),
+              (d: tables.DescriptionBox) => d.uuid),
 
           // annotation properties
 
-          annotationProperties = e.annotationProperties
-            .foldLeft[Seq[tables.AnnotationProperty]](Seq.empty)(convertAnnotationProperties(e))
-            .sortBy(_.uuid.toString),
+          annotationProperties =
+            parallelSort.parSortBy(
+              e.annotationProperties.foldLeft[Seq[tables.AnnotationProperty]](Seq.empty)(convertAnnotationProperties(e)),
+              (ap: tables.AnnotationProperty) => ap.uuid),
 
           // terms
 
-          aspects = e.boxStatements
-            .foldLeft[Seq[tables.Aspect]](Seq.empty)(convertAspects)
-            .sortBy(_.uuid.toString),
+          aspects =
+            parallelSort.parSortBy(
+              e.boxStatements.foldLeft[Seq[tables.Aspect]](Seq.empty)(convertAspects),
+              (a: tables.Aspect) => a.uuid),
 
-          concepts = e.boxStatements
-            .foldLeft[Seq[tables.Concept]](Seq.empty)(convertConcepts)
-            .sortBy(_.uuid.toString),
+          concepts =
+            parallelSort.parSortBy(
+              e.boxStatements
+                .foldLeft[Seq[tables.Concept]](Seq.empty)(convertConcepts),
+              (c: tables.Concept) => c.uuid),
 
-          reifiedRelationships = e.boxStatements
-            .foldLeft[Seq[tables.ReifiedRelationship]](Seq.empty)(convertReifiedRelationships)
-            .sortBy(_.uuid.toString),
+          reifiedRelationships =
+            parallelSort.parSortBy(
+              e.boxStatements
+                .foldLeft[Seq[tables.ReifiedRelationship]](Seq.empty)(convertReifiedRelationships),
+              (rr: tables.ReifiedRelationship) => rr.uuid),
 
-          forwardProperties = e.forwardProperty
-              .foldLeft[Seq[tables.ForwardProperty]](Seq.empty)(convertForwardProperties)
-              .sortBy(_.uuid.toString),
+          forwardProperties =
+            parallelSort.parSortBy(
+              e.forwardProperty
+                .foldLeft[Seq[tables.ForwardProperty]](Seq.empty)(convertForwardProperties),
+              (f: tables.ForwardProperty) => f.uuid),
 
-          inverseProperties = e.inverseProperty
-            .foldLeft[Seq[tables.InverseProperty]](Seq.empty)(convertInverseProperties)
-            .sortBy(_.uuid.toString),
+          inverseProperties =
+            parallelSort.parSortBy(
+              e.inverseProperty
+                .foldLeft[Seq[tables.InverseProperty]](Seq.empty)(convertInverseProperties),
+              (i: tables.InverseProperty) => i.uuid),
 
-          unreifiedRelationships = e.boxStatements
-            .foldLeft[Seq[tables.UnreifiedRelationship]](Seq.empty)(convertUnreifiedRelationships)
-            .sortBy(_.uuid.toString),
+          unreifiedRelationships =
+            parallelSort.parSortBy(
+              e.boxStatements
+                .foldLeft[Seq[tables.UnreifiedRelationship]](Seq.empty)(convertUnreifiedRelationships),
+              (u: tables.UnreifiedRelationship) => u.uuid),
 
-          scalars = e.boxStatements
-            .foldLeft[Seq[tables.Scalar]](Seq.empty)(convertScalars)
-            .sortBy(_.uuid.toString),
+          scalars =
+            parallelSort.parSortBy(
+              e.boxStatements
+                .foldLeft[Seq[tables.Scalar]](Seq.empty)(convertScalars),
+              (s: tables.Scalar) => s.uuid),
 
-          structures = e.boxStatements
-            .foldLeft[Seq[tables.Structure]](Seq.empty)(convertStructures)
-            .sortBy(_.uuid.toString),
+          structures =
+            parallelSort.parSortBy(
+              e.boxStatements
+                .foldLeft[Seq[tables.Structure]](Seq.empty)(convertStructures),
+              (s: tables.Structure) => s.uuid),
 
-          chainRules = e.boxStatements
-            .foldLeft[Seq[tables.ChainRule]](Seq.empty)(convertChainRules)
-            .sortBy(_.uuid.toString),
+          chainRules =
+            parallelSort.parSortBy(
+              e.boxStatements
+                .foldLeft[Seq[tables.ChainRule]](Seq.empty)(convertChainRules),
+              (r: tables.ChainRule) => r.uuid),
 
-          ruleBodySegments = e.boxStatements
-            .foldLeft[Seq[tables.RuleBodySegment]](Seq.empty)(convertRuleBodySegments(e))
-            .sortBy(_.uuid.toString),
+          ruleBodySegments =
+            parallelSort.parSortBy(
+              e.boxStatements
+                .foldLeft[Seq[tables.RuleBodySegment]](Seq.empty)(convertRuleBodySegments(e)),
+              (s: tables.RuleBodySegment) => s.uuid),
 
-          segmentPredicates = e.boxStatements
-            .foldLeft[Seq[tables.SegmentPredicate]](Seq.empty)(convertSegmentPredicates(e))
-            .sortBy(_.uuid.toString),
+          segmentPredicates =
+            parallelSort.parSortBy(
+              e.boxStatements
+                .foldLeft[Seq[tables.SegmentPredicate]](Seq.empty)(convertSegmentPredicates(e)),
+              (p: tables.SegmentPredicate) => p.uuid),
 
           // restriction axioms
 
-          entityExistentialRestrictionAxioms = e.boxStatements
-            .foldLeft[Seq[tables.EntityExistentialRestrictionAxiom]](Seq.empty)(convertEntityExistentialRestrictionAxioms)
-            .sortBy(_.uuid.toString),
+          entityExistentialRestrictionAxioms =
+            parallelSort.parSortBy(
+              e.boxStatements
+                .foldLeft[Seq[tables.EntityExistentialRestrictionAxiom]](Seq.empty)(convertEntityExistentialRestrictionAxioms),
+              (a: tables.EntityExistentialRestrictionAxiom) => a.uuid),
 
-          entityUniversalRestrictionAxioms = e.boxStatements
-            .foldLeft[Seq[tables.EntityUniversalRestrictionAxiom]](Seq.empty)(convertEntityUniversalRestrictionAxioms)
-            .sortBy(_.uuid.toString),
+          entityUniversalRestrictionAxioms =
+            parallelSort.parSortBy(
+              e.boxStatements
+                .foldLeft[Seq[tables.EntityUniversalRestrictionAxiom]](Seq.empty)(convertEntityUniversalRestrictionAxioms),
+              (a: tables.EntityUniversalRestrictionAxiom) => a.uuid),
 
           // data ranges
 
-          binaryScalarRestrictions = e.boxStatements
-            .foldLeft[Seq[tables.BinaryScalarRestriction]](Seq.empty)(convertBinaryScalarRestrictions)
-            .sortBy(_.uuid.toString),
+          binaryScalarRestrictions =
+            parallelSort.parSortBy(
+              e.boxStatements
+                .foldLeft[Seq[tables.BinaryScalarRestriction]](Seq.empty)(convertBinaryScalarRestrictions),
+              (r: tables.BinaryScalarRestriction) => r.uuid),
 
-          iriScalarRestrictions = e.boxStatements
-            .foldLeft[Seq[tables.IRIScalarRestriction]](Seq.empty)(convertIRIScalarRestrictions)
-            .sortBy(_.uuid.toString),
+          iriScalarRestrictions =
+            parallelSort.parSortBy(
+              e.boxStatements
+                .foldLeft[Seq[tables.IRIScalarRestriction]](Seq.empty)(convertIRIScalarRestrictions),
+              (r: tables.IRIScalarRestriction) => r.uuid),
 
-          numericScalarRestrictions = e.boxStatements
-            .foldLeft[Seq[tables.NumericScalarRestriction]](Seq.empty)(convertNumericScalarRestrictions)
-            .sortBy(_.uuid.toString),
+          numericScalarRestrictions =
+            parallelSort.parSortBy(
+              e.boxStatements
+                .foldLeft[Seq[tables.NumericScalarRestriction]](Seq.empty)(convertNumericScalarRestrictions),
+              (a: tables.NumericScalarRestriction) => a.uuid),
 
-          plainLiteralScalarRestrictions = e.boxStatements
-            .foldLeft[Seq[tables.PlainLiteralScalarRestriction]](Seq.empty)(convertPlainLiteralScalarRestrictions)
-            .sortBy(_.uuid.toString),
+          plainLiteralScalarRestrictions =
+            parallelSort.parSortBy(
+              e.boxStatements
+                .foldLeft[Seq[tables.PlainLiteralScalarRestriction]](Seq.empty)(convertPlainLiteralScalarRestrictions),
+              (r: tables.PlainLiteralScalarRestriction) => r.uuid),
 
-          stringScalarRestrictions = e.boxStatements
-            .foldLeft[Seq[tables.StringScalarRestriction]](Seq.empty)(convertStringScalarRestrictions)
-            .sortBy(_.uuid.toString),
+          stringScalarRestrictions =
+            parallelSort.parSortBy(
+              e.boxStatements
+                .foldLeft[Seq[tables.StringScalarRestriction]](Seq.empty)(convertStringScalarRestrictions),
+              (r: tables.StringScalarRestriction) => r.uuid),
 
-          synonymScalarRestrictions = e.boxStatements
-            .foldLeft[Seq[tables.SynonymScalarRestriction]](Seq.empty)(convertSynonymScalarRestrictions)
-            .sortBy(_.uuid.toString),
+          synonymScalarRestrictions =
+            parallelSort.parSortBy(
+              e.boxStatements
+                .foldLeft[Seq[tables.SynonymScalarRestriction]](Seq.empty)(convertSynonymScalarRestrictions),
+              (r: tables.SynonymScalarRestriction) => r.uuid),
 
-          timeScalarRestrictions = e.boxStatements
-            .foldLeft[Seq[tables.TimeScalarRestriction]](Seq.empty)(convertTimeScalarRestrictions)
-            .sortBy(_.uuid.toString),
+          timeScalarRestrictions =
+            parallelSort.parSortBy(
+              e.boxStatements
+                .foldLeft[Seq[tables.TimeScalarRestriction]](Seq.empty)(convertTimeScalarRestrictions),
+              (r: tables.TimeScalarRestriction) => r.uuid),
 
-          scalarOneOfRestrictions = e.boxStatements
-            .foldLeft[Seq[tables.ScalarOneOfRestriction]](Seq.empty)(convertScalarOneOfRestrictions)
-            .sortBy(_.uuid.toString),
+          scalarOneOfRestrictions =
+            parallelSort.parSortBy(
+              e.boxStatements
+                .foldLeft[Seq[tables.ScalarOneOfRestriction]](Seq.empty)(convertScalarOneOfRestrictions),
+              (r: tables.ScalarOneOfRestriction) => r.uuid),
 
-          scalarOneOfLiteralAxioms = e.boxStatements
-            .foldLeft[Seq[tables.ScalarOneOfLiteralAxiom]](Seq.empty)(convertScalarOneOfLiteralAxioms)
-            .sortBy(_.uuid.toString),
+          scalarOneOfLiteralAxioms =
+            parallelSort.parSortBy(
+              e.boxStatements
+                .foldLeft[Seq[tables.ScalarOneOfLiteralAxiom]](Seq.empty)(convertScalarOneOfLiteralAxioms),
+              (a: tables.ScalarOneOfLiteralAxiom) => a.uuid),
 
           // data properties
 
-          scalarDataProperties = e.boxStatements
-            .foldLeft[Seq[tables.ScalarDataProperty]](Seq.empty)(convertScalarDataProperties)
-            .sortBy(_.uuid.toString),
+          scalarDataProperties =
+            parallelSort.parSortBy(
+              e.boxStatements
+                .foldLeft[Seq[tables.ScalarDataProperty]](Seq.empty)(convertScalarDataProperties),
+              (a: tables.ScalarDataProperty) => a.uuid),
 
-          structuredDataProperties = e.boxStatements
-            .foldLeft[Seq[tables.StructuredDataProperty]](Seq.empty)(convertStructuredDataProperties)
-            .sortBy(_.uuid.toString),
+          structuredDataProperties =
+            parallelSort.parSortBy(
+              e.boxStatements
+                .foldLeft[Seq[tables.StructuredDataProperty]](Seq.empty)(convertStructuredDataProperties),
+              (a: tables.StructuredDataProperty) => a.uuid),
 
-          entityScalarDataProperties = e.boxStatements
-            .foldLeft[Seq[tables.EntityScalarDataProperty]](Seq.empty)(convertEntityScalarDataProperties)
-            .sortBy(_.uuid.toString),
+          entityScalarDataProperties =
+            parallelSort.parSortBy(
+              e.boxStatements
+                .foldLeft[Seq[tables.EntityScalarDataProperty]](Seq.empty)(convertEntityScalarDataProperties),
+              (a: tables.EntityScalarDataProperty) => a.uuid),
 
-          entityStructuredDataProperties = e.boxStatements
-            .foldLeft[Seq[tables.EntityStructuredDataProperty]](Seq.empty)(convertEntityStructuredDataProperties)
-            .sortBy(_.uuid.toString),
+          entityStructuredDataProperties =
+            parallelSort.parSortBy(
+              e.boxStatements
+                .foldLeft[Seq[tables.EntityStructuredDataProperty]](Seq.empty)(convertEntityStructuredDataProperties),
+              (a: tables.EntityStructuredDataProperty) => a.uuid),
 
           // terminology box axioms
 
-          conceptDesignationTerminologyAxioms = e.boxAxioms
-            .foldLeft[Seq[tables.ConceptDesignationTerminologyAxiom]](Seq.empty)(convertConceptDesignationTerminologyAxioms)
-            .sortBy(_.uuid.toString),
+          conceptDesignationTerminologyAxioms =
+            parallelSort.parSortBy(
+              e.boxAxioms
+                .foldLeft[Seq[tables.ConceptDesignationTerminologyAxiom]](Seq.empty)(convertConceptDesignationTerminologyAxioms),
+              (a: tables.ConceptDesignationTerminologyAxiom) => a.uuid),
 
-          terminologyExtensionAxioms = e.boxAxioms
-            .foldLeft[Seq[tables.TerminologyExtensionAxiom]](Seq.empty)(convertTerminologyExtensionAxioms)
-            .sortBy(_.uuid.toString),
+          terminologyExtensionAxioms =
+            parallelSort.parSortBy(
+              e.boxAxioms
+                .foldLeft[Seq[tables.TerminologyExtensionAxiom]](Seq.empty)(convertTerminologyExtensionAxioms),
+              (a: tables.TerminologyExtensionAxiom) => a.uuid),
 
-          terminologyNestingAxioms = e.boxAxioms
-            .foldLeft[Seq[tables.TerminologyNestingAxiom]](Seq.empty)(convertTerminologyNestingAxioms)
-            .sortBy(_.uuid.toString),
+          terminologyNestingAxioms =
+            parallelSort.parSortBy(
+              e.boxAxioms
+                .foldLeft[Seq[tables.TerminologyNestingAxiom]](Seq.empty)(convertTerminologyNestingAxioms),
+              (a: tables.TerminologyNestingAxiom) => a.uuid),
 
           // terminology box statements
 
-          aspectSpecializationAxioms = e.boxStatements
-            .foldLeft[Seq[tables.AspectSpecializationAxiom]](Seq.empty)(convertAspectSpecializationAxioms)
-            .sortBy(_.uuid.toString),
+          aspectSpecializationAxioms =
+            parallelSort.parSortBy(
+              e.boxStatements
+                .foldLeft[Seq[tables.AspectSpecializationAxiom]](Seq.empty)(convertAspectSpecializationAxioms),
+              (a: tables.AspectSpecializationAxiom) => a.uuid),
 
-          conceptSpecializationAxioms = e.boxStatements
-            .foldLeft[Seq[tables.ConceptSpecializationAxiom]](Seq.empty)(convertConceptSpecializationAxioms)
-            .sortBy(_.uuid.toString),
+          conceptSpecializationAxioms =
+            parallelSort.parSortBy(
+              e.boxStatements
+                .foldLeft[Seq[tables.ConceptSpecializationAxiom]](Seq.empty)(convertConceptSpecializationAxioms),
+              (a: tables.ConceptSpecializationAxiom) => a.uuid),
 
-          reifiedRelationshipSpecializationAxioms = e.boxStatements
-            .foldLeft[Seq[tables.ReifiedRelationshipSpecializationAxiom]](Seq.empty)(convertReifiedRelationshipSpecializationAxioms)
-            .sortBy(_.uuid.toString),
+          specializedReifiedRelationships =
+            parallelSort.parSortBy(
+              e.boxStatements
+                .foldLeft[Seq[tables.SpecializedReifiedRelationship]](Seq.empty)(convertSpecializedReifiedRelationships),
+              (a: tables.SpecializedReifiedRelationship) => a.uuid),
 
-          entityScalarDataPropertyExistentialRestrictionAxioms = e.boxStatements
-            .foldLeft[Seq[tables.EntityScalarDataPropertyExistentialRestrictionAxiom]](Seq.empty)(convertEntityScalarDataPropertyExistentialRestrictionAxioms)
-            .sortBy(_.uuid.toString),
+          entityScalarDataPropertyExistentialRestrictionAxioms =
+            parallelSort.parSortBy(
+              e.boxStatements
+                .foldLeft[Seq[tables.EntityScalarDataPropertyExistentialRestrictionAxiom]](Seq.empty)(convertEntityScalarDataPropertyExistentialRestrictionAxioms),
+              (a: tables.EntityScalarDataPropertyExistentialRestrictionAxiom) => a.uuid),
 
-          entityScalarDataPropertyParticularRestrictionAxioms = e.boxStatements
-            .foldLeft[Seq[tables.EntityScalarDataPropertyParticularRestrictionAxiom]](Seq.empty)(convertEntityScalarDataPropertyParticularRestrictionAxioms)
-            .sortBy(_.uuid.toString),
+          entityScalarDataPropertyParticularRestrictionAxioms =
+            parallelSort.parSortBy(
+              e.boxStatements
+                .foldLeft[Seq[tables.EntityScalarDataPropertyParticularRestrictionAxiom]](Seq.empty)(convertEntityScalarDataPropertyParticularRestrictionAxioms),
+              (a: tables.EntityScalarDataPropertyParticularRestrictionAxiom) => a.uuid),
 
-          entityScalarDataPropertyUniversalRestrictionAxioms = e.boxStatements
-            .foldLeft[Seq[tables.EntityScalarDataPropertyUniversalRestrictionAxiom]](Seq.empty)(convertEntityScalarDataPropertyUniversalRestrictionAxioms)
-            .sortBy(_.uuid.toString),
+          entityScalarDataPropertyUniversalRestrictionAxioms =
+            parallelSort.parSortBy(
+              e.boxStatements
+                .foldLeft[Seq[tables.EntityScalarDataPropertyUniversalRestrictionAxiom]](Seq.empty)(convertEntityScalarDataPropertyUniversalRestrictionAxioms),
+              (a: tables.EntityScalarDataPropertyUniversalRestrictionAxiom) => a.uuid),
 
-          entityStructuredDataPropertyParticularRestrictionAxioms = e.boxStatements
-            .foldLeft[Seq[tables.EntityStructuredDataPropertyParticularRestrictionAxiom]](Seq.empty)(convertEntityStructuredDataPropertyParticularRestrictionAxioms)
-            .sortBy(_.uuid.toString),
+          entityStructuredDataPropertyParticularRestrictionAxioms =
+            parallelSort.parSortBy(
+              e.boxStatements
+                .foldLeft[Seq[tables.EntityStructuredDataPropertyParticularRestrictionAxiom]](Seq.empty)(convertEntityStructuredDataPropertyParticularRestrictionAxioms),
+              (a: tables.EntityStructuredDataPropertyParticularRestrictionAxiom) => a.uuid),
 
-          restrictionStructuredDataPropertyTuples = e.boxStatements
-            .foldLeft[Seq[tables.RestrictionStructuredDataPropertyTuple]](Seq.empty)(convertRestrictionStructuredDataPropertyTuples(e))
-            .sortBy(_.uuid.toString),
+          restrictionStructuredDataPropertyTuples =
+            parallelSort.parSortBy(
+              e.boxStatements
+                .foldLeft[Seq[tables.RestrictionStructuredDataPropertyTuple]](Seq.empty)(convertRestrictionStructuredDataPropertyTuples(e)),
+              (a: tables.RestrictionStructuredDataPropertyTuple) => a.uuid),
 
-          restrictionScalarDataPropertyValues = e.boxStatements
-              .foldLeft[Seq[tables.RestrictionScalarDataPropertyValue]](Seq.empty)(convertRestrictionScalarDataPropertyValues(e))
-              .sortBy(_.uuid.toString),
+          restrictionScalarDataPropertyValues =
+            parallelSort.parSortBy(
+              e.boxStatements
+                .foldLeft[Seq[tables.RestrictionScalarDataPropertyValue]](Seq.empty)(convertRestrictionScalarDataPropertyValues(e)),
+              (a: tables.RestrictionScalarDataPropertyValue) => a.uuid),
 
           // bundle axioms
 
-          bundledTerminologyAxioms = e.bundleAxioms
-            .foldLeft[Seq[tables.BundledTerminologyAxiom]](Seq.empty)(convertBundledTerminologyAxioms)
-            .sortBy(_.uuid.toString),
+          bundledTerminologyAxioms =
+            parallelSort.parSortBy(
+              e.bundleAxioms
+                .foldLeft[Seq[tables.BundledTerminologyAxiom]](Seq.empty)(convertBundledTerminologyAxioms),
+              (a: tables.BundledTerminologyAxiom) => a.uuid),
 
           // bundle statements
 
-          anonymousConceptUnionAxioms = e.bundleStatements
-            .foldLeft[Seq[tables.AnonymousConceptUnionAxiom]](Seq.empty)(convertAnonymousConceptUnionAxioms)
-            .sortBy(_.uuid.toString),
+          anonymousConceptUnionAxioms =
+            parallelSort.parSortBy(
+              e.bundleStatements
+                .foldLeft[Seq[tables.AnonymousConceptUnionAxiom]](Seq.empty)(convertAnonymousConceptUnionAxioms),
+              (a: tables.AnonymousConceptUnionAxiom) => a.uuid),
 
-          rootConceptTaxonomyAxioms = e.bundleStatements
-            .foldLeft[Seq[tables.RootConceptTaxonomyAxiom]](Seq.empty)(convertRootConceptTaxonomyAxioms)
-            .sortBy(_.uuid.toString),
+          rootConceptTaxonomyAxioms =
+            parallelSort.parSortBy(
+              e.bundleStatements
+                .foldLeft[Seq[tables.RootConceptTaxonomyAxiom]](Seq.empty)(convertRootConceptTaxonomyAxioms),
+              (a: tables.RootConceptTaxonomyAxiom) => a.uuid),
 
-          specificDisjointConceptAxioms = e.bundleStatements
-            .foldLeft[Seq[tables.SpecificDisjointConceptAxiom]](Seq.empty)(convertSpecificDisjointConceptAxioms)
-            .sortBy(_.uuid.toString),
+          specificDisjointConceptAxioms =
+            parallelSort.parSortBy(
+              e.bundleStatements
+                .foldLeft[Seq[tables.SpecificDisjointConceptAxiom]](Seq.empty)(convertSpecificDisjointConceptAxioms),
+              (a: tables.SpecificDisjointConceptAxiom) => a.uuid),
 
           // description box statements
 
-          conceptInstances = e.descriptionBoxOfConceptInstance
-            .foldLeft[Seq[tables.ConceptInstance]](Seq.empty)(convertConceptInstances)
-            .sortBy(_.uuid.toString),
+          conceptInstances =
+            parallelSort.parSortBy(
+              e.descriptionBoxOfConceptInstance
+                .foldLeft[Seq[tables.ConceptInstance]](Seq.empty)(convertConceptInstances),
+              (a: tables.ConceptInstance) => a.uuid),
 
-          descriptionBoxExtendsClosedWorldDefinitions = e.descriptionBoxOfDescriptionBoxExtendsClosedWorldDefinitions
-            .foldLeft[Seq[tables.DescriptionBoxExtendsClosedWorldDefinitions]](Seq.empty)(convertDescriptionBoxExtendsClosedWorldDefinitions)
-            .sortBy(_.uuid.toString),
+          descriptionBoxExtendsClosedWorldDefinitions =
+            parallelSort.parSortBy(
+              e.descriptionBoxOfDescriptionBoxExtendsClosedWorldDefinitions
+                .foldLeft[Seq[tables.DescriptionBoxExtendsClosedWorldDefinitions]](Seq.empty)(convertDescriptionBoxExtendsClosedWorldDefinitions),
+              (a: tables.DescriptionBoxExtendsClosedWorldDefinitions) => a.uuid),
 
-          descriptionBoxRefinements = e.descriptionBoxOfDescriptionBoxRefinement
-            .foldLeft[Seq[tables.DescriptionBoxRefinement]](Seq.empty)(convertDescriptionBoxRefinements)
-            .sortBy(_.uuid.toString),
+          descriptionBoxRefinements =
+            parallelSort.parSortBy(
+              e.descriptionBoxOfDescriptionBoxRefinement
+                .foldLeft[Seq[tables.DescriptionBoxRefinement]](Seq.empty)(convertDescriptionBoxRefinements),
+              (a: tables.DescriptionBoxRefinement) => a.uuid),
 
-          reifiedRelationshipInstances = e.descriptionBoxOfReifiedRelationshipInstance
-            .foldLeft[Seq[tables.ReifiedRelationshipInstance]](Seq.empty)(convertReifiedRelationshipInstances)
-            .sortBy(_.uuid.toString),
+          reifiedRelationshipInstances =
+            parallelSort.parSortBy(
+              e.descriptionBoxOfReifiedRelationshipInstance
+                .foldLeft[Seq[tables.ReifiedRelationshipInstance]](Seq.empty)(convertReifiedRelationshipInstances),
+              (a: tables.ReifiedRelationshipInstance) => a.uuid),
 
-          reifiedRelationshipInstanceDomains = e.descriptionBoxOfReifiedRelationshipInstanceDomain
-            .foldLeft[Seq[tables.ReifiedRelationshipInstanceDomain]](Seq.empty)(convertReifiedRelationshipInstanceDomains)
-            .sortBy(_.uuid.toString),
+          reifiedRelationshipInstanceDomains =
+            parallelSort.parSortBy(
+              e.descriptionBoxOfReifiedRelationshipInstanceDomain
+                .foldLeft[Seq[tables.ReifiedRelationshipInstanceDomain]](Seq.empty)(convertReifiedRelationshipInstanceDomains),
+              (a: tables.ReifiedRelationshipInstanceDomain) => a.uuid),
 
-          reifiedRelationshipInstanceRanges = e.descriptionBoxOfReifiedRelationshipInstanceRange
-            .foldLeft[Seq[tables.ReifiedRelationshipInstanceRange]](Seq.empty)(convertReifiedRelationshipInstanceRanges)
-            .sortBy(_.uuid.toString),
+          reifiedRelationshipInstanceRanges =
+            parallelSort.parSortBy(
+              e.descriptionBoxOfReifiedRelationshipInstanceRange
+                .foldLeft[Seq[tables.ReifiedRelationshipInstanceRange]](Seq.empty)(convertReifiedRelationshipInstanceRanges),
+              (a: tables.ReifiedRelationshipInstanceRange) => a.uuid),
 
-          unreifiedRelationshipInstanceTuples = e.descriptionBoxOfUnreifiedRelationshipInstanceTuple
-            .foldLeft[Seq[tables.UnreifiedRelationshipInstanceTuple]](Seq.empty)(convertUnreifiedRelationshipInstanceTuples)
-            .sortBy(_.uuid.toString),
+          unreifiedRelationshipInstanceTuples =
+            parallelSort.parSortBy(
+              e.descriptionBoxOfUnreifiedRelationshipInstanceTuple
+                .foldLeft[Seq[tables.UnreifiedRelationshipInstanceTuple]](Seq.empty)(convertUnreifiedRelationshipInstanceTuples),
+              (a: tables.UnreifiedRelationshipInstanceTuple) => a.uuid),
 
-          singletonInstanceScalarDataPropertyValues = e.singletonScalarDataPropertyValues
-          .foldLeft[Seq[tables.SingletonInstanceScalarDataPropertyValue]](Seq.empty)(convertSingletonScalarDataPropertyValues)
-          .sortBy(_.uuid.toString),
+          singletonInstanceScalarDataPropertyValues =
+            parallelSort.parSortBy(
+              e.singletonScalarDataPropertyValues
+                .foldLeft[Seq[tables.SingletonInstanceScalarDataPropertyValue]](Seq.empty)(convertSingletonScalarDataPropertyValues),
+              (a: tables.SingletonInstanceScalarDataPropertyValue) => a.uuid),
 
-          singletonInstanceStructuredDataPropertyValues = e.singletonStructuredDataPropertyValues
-            .foldLeft[Seq[tables.SingletonInstanceStructuredDataPropertyValue]](Seq.empty)(convertSingletonStructuredDataPropertyValues)
-            .sortBy(_.uuid.toString),
+          singletonInstanceStructuredDataPropertyValues =
+            parallelSort.parSortBy(
+              e.singletonStructuredDataPropertyValues
+                .foldLeft[Seq[tables.SingletonInstanceStructuredDataPropertyValue]](Seq.empty)(convertSingletonStructuredDataPropertyValues),
+              (a: tables.SingletonInstanceStructuredDataPropertyValue) => a.uuid),
 
-          structuredDataPropertyTuples = e.structuredPropertyTuples
-            .foldLeft[Seq[tables.StructuredDataPropertyTuple]](Seq.empty)(convertStructuredDataPropertyTuples)
-            .sortBy(_.uuid.toString),
+          structuredDataPropertyTuples =
+            parallelSort.parSortBy(
+              e.structuredPropertyTuples
+                .foldLeft[Seq[tables.StructuredDataPropertyTuple]](Seq.empty)(convertStructuredDataPropertyTuples),
+              (t: tables.StructuredDataPropertyTuple) => t.uuid),
 
-          scalarDataPropertyValues = e.scalarDataPropertyValues
-            .foldLeft[Seq[tables.ScalarDataPropertyValue]](Seq.empty)(convertScalarDataPropertyValues)
-            .sortBy(_.uuid.toString),
+          scalarDataPropertyValues =
+            parallelSort.parSortBy(
+              e.scalarDataPropertyValues
+                .foldLeft[Seq[tables.ScalarDataPropertyValue]](Seq.empty)(convertScalarDataPropertyValues),
+              (v: tables.ScalarDataPropertyValue) => v.uuid),
 
-          annotationPropertyValues = e.annotationPropertyValueByUUID.values
-            .map(convertAnnotationPropertyValue)
-            .to[Seq]
-            .sortBy(_.uuid.toString)
+          annotationPropertyValues =
+            parallelSort.parSortBy(
+              e.annotationPropertyValueByUUID.values
+                .map(convertAnnotationPropertyValue)
+                .to[Seq],
+              (v: tables.AnnotationPropertyValue) => v.uuid)
         )
 
     t
