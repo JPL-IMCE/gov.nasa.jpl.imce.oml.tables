@@ -36,4 +36,15 @@ trait SpecializedReifiedRelationship
   (): Entity
   override def parent
   (): Entity
+  override def allNestedElements
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: LogicalElement]
+}
+
+object SpecializedReifiedRelationship {
+
+  def allNestedElements
+  (s: SpecializedReifiedRelationship, ext: Extent)
+  : scala.collection.immutable.Set[_ <: LogicalElement]
+  = s.allNestedElements()(ext)
+
 }
