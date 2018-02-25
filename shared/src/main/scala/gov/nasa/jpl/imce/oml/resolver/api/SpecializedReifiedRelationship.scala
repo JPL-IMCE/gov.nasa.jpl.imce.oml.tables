@@ -19,32 +19,21 @@
 package gov.nasa.jpl.imce.oml.resolver.api
 
 /*
- * An OML ReifiedRelationshipSpecializationAxiom is a logical axiom
- * about a taxonomic relationship between a specific and general
- * OML ReifiedRelationship.
+ * An OML SpecializedReifiedRelationship is an OML ConceptualRelationship
+ * that plays the role of a specific entity for an OML SpecializedReifiedRelationship
+ * with respect to an OML ConceptualRelationship as its general entity in the context
+ * of an OML SpecializationAxiom.
  */
-trait ReifiedRelationshipSpecializationAxiom
-  extends SpecializationAxiom
+trait SpecializedReifiedRelationship
+  extends ConceptualRelationship
+  with SpecializationAxiom
 {
-  override val uuid: taggedTypes.ReifiedRelationshipSpecializationAxiomUUID
+  override val uuid: taggedTypes.SpecializedReifiedRelationshipUUID
 
-  /*
-   * The sub (child) relationship
-   */
-  val subRelationship: ReifiedRelationship
-  /*
-   * The super (parent) relationship
-   */
-  val superRelationship: ReifiedRelationship
+  val general: ConceptualRelationship
 
-  /*
-   * Get the sub (child) entity
-   */
   override def child
   (): Entity
-  /*
-   * Get the super (parent) entity
-   */
   override def parent
   (): Entity
 }

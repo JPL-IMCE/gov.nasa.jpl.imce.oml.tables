@@ -24,14 +24,5 @@ trait EntityRelationship extends DirectedBinaryRelationshipKind with Term {
   override val tboxUUID: taggedTypes.TerminologyBoxUUID
   val sourceUUID: taggedTypes.EntityUUID
   val targetUUID: taggedTypes.EntityUUID
-  val isAsymmetric: scala.Boolean
-  val isEssential: scala.Boolean
-  val isFunctional: scala.Boolean
-  val isInverseEssential: scala.Boolean
-  val isInverseFunctional: scala.Boolean
-  val isIrreflexive: scala.Boolean
-  val isReflexive: scala.Boolean
-  val isSymmetric: scala.Boolean
-  val isTransitive: scala.Boolean
   override val name: taggedTypes.LocalName
 }

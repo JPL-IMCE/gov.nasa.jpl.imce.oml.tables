@@ -19,15 +19,16 @@
 package gov.nasa.jpl.imce.oml.resolver.api
 
 /*
- * An OML ReifiedRelationship is an OML ConceptualEntity and a kind of OML EntityRelationship
+ * An OML ReifiedRelationship is an OML ConceptualRelationship
+ * and a kind of OML CharacterizedEntityRelationship
  * where an instance has an intrinsic identity. This means that
  * an OML ReifiedRelationship can be involved as the domain or the
  * range of another OML EntityRelationship as well as the
  * domain of an OML DataRelationshipFromEntity.
  */
 trait ReifiedRelationship
-  extends EntityRelationship
-  with ConceptualEntity
+  extends ConceptualRelationship
+  with CharacterizedEntityRelationship
 {
   override val uuid: taggedTypes.ReifiedRelationshipUUID
 

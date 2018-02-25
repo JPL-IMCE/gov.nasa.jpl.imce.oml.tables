@@ -120,6 +120,16 @@ package object api {
   	 	case 0 => 0 }
   }
   
+  implicit def characterizedEntityRelationshipOrdering
+  : scala.Ordering[CharacterizedEntityRelationship]
+  = new scala.Ordering[CharacterizedEntityRelationship] {
+  	def compare(x: CharacterizedEntityRelationship, y: CharacterizedEntityRelationship)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
   implicit def conceptOrdering
   : scala.Ordering[Concept]
   = new scala.Ordering[Concept] {
@@ -184,6 +194,16 @@ package object api {
   : scala.Ordering[ConceptualEntitySingletonInstance]
   = new scala.Ordering[ConceptualEntitySingletonInstance] {
   	def compare(x: ConceptualEntitySingletonInstance, y: ConceptualEntitySingletonInstance)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def conceptualRelationshipOrdering
+  : scala.Ordering[ConceptualRelationship]
+  = new scala.Ordering[ConceptualRelationship] {
+  	def compare(x: ConceptualRelationship, y: ConceptualRelationship)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid
@@ -690,16 +710,6 @@ package object api {
   	 	case 0 => 0 }
   }
   
-  implicit def reifiedRelationshipSpecializationAxiomOrdering
-  : scala.Ordering[ReifiedRelationshipSpecializationAxiom]
-  = new scala.Ordering[ReifiedRelationshipSpecializationAxiom] {
-  	def compare(x: ReifiedRelationshipSpecializationAxiom, y: ReifiedRelationshipSpecializationAxiom)
-  	: scala.Int
-  	= x.uuid.compareTo(y.uuid) match {
-  	 	case c_uuid if 0 != c_uuid => c_uuid
-  	 	case 0 => 0 }
-  }
-  
   implicit def resourceOrdering
   : scala.Ordering[Resource]
   = new scala.Ordering[Resource] {
@@ -884,6 +894,16 @@ package object api {
   : scala.Ordering[SpecializationAxiom]
   = new scala.Ordering[SpecializationAxiom] {
   	def compare(x: SpecializationAxiom, y: SpecializationAxiom)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def specializedReifiedRelationshipOrdering
+  : scala.Ordering[SpecializedReifiedRelationship]
+  = new scala.Ordering[SpecializedReifiedRelationship] {
+  	def compare(x: SpecializedReifiedRelationship, y: SpecializedReifiedRelationship)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid

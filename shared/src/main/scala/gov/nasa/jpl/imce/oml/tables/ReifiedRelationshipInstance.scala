@@ -26,7 +26,7 @@ import scala.Predef.ArrowAssoc
 /**
   * @param uuid[1,1]
   * @param descriptionBoxUUID[1,1]
-  * @param singletonReifiedRelationshipClassifierUUID[1,1]
+  * @param singletonConceptualRelationshipClassifierUUID[1,1]
   * @param name[1,1]
   */
 @JSExportTopLevel("ReifiedRelationshipInstance")
@@ -34,34 +34,34 @@ case class ReifiedRelationshipInstance
 (
   @(JSExport @field) override val uuid: taggedTypes.ReifiedRelationshipInstanceUUID,
   @(JSExport @field) val descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
-  @(JSExport @field) val singletonReifiedRelationshipClassifierUUID: taggedTypes.ReifiedRelationshipUUID,
+  @(JSExport @field) val singletonConceptualRelationshipClassifierUUID: taggedTypes.ConceptualRelationshipUUID,
   @(JSExport @field) override val name: taggedTypes.LocalName
 ) extends ConceptualEntitySingletonInstance {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
-    singletonReifiedRelationshipClassifierUUID: taggedTypes.ReifiedRelationshipUUID,
+    singletonConceptualRelationshipClassifierUUID: taggedTypes.ConceptualRelationshipUUID,
     name: taggedTypes.LocalName)
   = this(
       taggedTypes.reifiedRelationshipInstanceUUID(oug.namespaceUUID(
         descriptionBoxUUID,
         "name" -> name).toString),
       descriptionBoxUUID,
-      singletonReifiedRelationshipClassifierUUID,
+      singletonConceptualRelationshipClassifierUUID,
       name)
 
 val vertexId: scala.Long = uuid.hashCode.toLong
 
   override val hashCode
   : scala.Int 
-  = (uuid, descriptionBoxUUID, singletonReifiedRelationshipClassifierUUID, name).##
+  = (uuid, descriptionBoxUUID, singletonConceptualRelationshipClassifierUUID, name).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
   	case that: ReifiedRelationshipInstance =>
   	  (this.uuid == that.uuid) &&
   	  (this.descriptionBoxUUID == that.descriptionBoxUUID)  &&
-  	  (this.singletonReifiedRelationshipClassifierUUID == that.singletonReifiedRelationshipClassifierUUID)  &&
+  	  (this.singletonConceptualRelationshipClassifierUUID == that.singletonConceptualRelationshipClassifierUUID)  &&
   	  (this.name == that.name)
     case _ =>
       false
@@ -88,12 +88,12 @@ object ReifiedRelationshipInstanceHelper {
     for {
     	  uuid <- c.downField("uuid").as[taggedTypes.ReifiedRelationshipInstanceUUID]
     	  descriptionBoxUUID <- c.downField("descriptionBoxUUID").as[taggedTypes.DescriptionBoxUUID]
-    	  singletonReifiedRelationshipClassifierUUID <- c.downField("singletonReifiedRelationshipClassifierUUID").as[taggedTypes.ReifiedRelationshipUUID]
+    	  singletonConceptualRelationshipClassifierUUID <- c.downField("singletonConceptualRelationshipClassifierUUID").as[taggedTypes.ConceptualRelationshipUUID]
     	  name <- c.downField("name").as[taggedTypes.LocalName]
     	} yield ReifiedRelationshipInstance(
     	  uuid,
     	  descriptionBoxUUID,
-    	  singletonReifiedRelationshipClassifierUUID,
+    	  singletonConceptualRelationshipClassifierUUID,
     	  name
     	)
   }
@@ -104,7 +104,7 @@ object ReifiedRelationshipInstanceHelper {
     = Json.obj(
     	  ("uuid", taggedTypes.encodeReifiedRelationshipInstanceUUID(x.uuid)),
     	  ("descriptionBoxUUID", taggedTypes.encodeDescriptionBoxUUID(x.descriptionBoxUUID)),
-    	  ("singletonReifiedRelationshipClassifierUUID", taggedTypes.encodeReifiedRelationshipUUID(x.singletonReifiedRelationshipClassifierUUID)),
+    	  ("singletonConceptualRelationshipClassifierUUID", taggedTypes.encodeConceptualRelationshipUUID(x.singletonConceptualRelationshipClassifierUUID)),
     	  ("name", taggedTypes.encodeLocalName(x.name))
     )
   }

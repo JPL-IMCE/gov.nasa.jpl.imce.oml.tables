@@ -56,7 +56,7 @@ case class ReifiedRelationship
   @(JSExport @field) override val isSymmetric: scala.Boolean,
   @(JSExport @field) override val isTransitive: scala.Boolean,
   @(JSExport @field) override val name: taggedTypes.LocalName
-) extends ConceptualEntity with EntityRelationship {
+) extends CharacterizedEntityRelationship with ConceptualRelationship {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

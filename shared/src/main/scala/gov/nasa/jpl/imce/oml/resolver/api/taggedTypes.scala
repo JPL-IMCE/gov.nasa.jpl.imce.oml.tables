@@ -234,6 +234,27 @@ object taggedTypes {
   	: Int = x.compareTo(y)
   }
   
+  type CharacterizedEntityRelationshipUUID
+  = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.CharacterizedEntityRelationshipTag
+  
+  def characterizedEntityRelationshipUUID(uuid: UUID): CharacterizedEntityRelationshipUUID
+  = covariantTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.CharacterizedEntityRelationshipTag][UUID](uuid)
+  
+  implicit val decodeCharacterizedEntityRelationshipUUID: Decoder[CharacterizedEntityRelationshipUUID]
+  = decodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.CharacterizedEntityRelationshipTag]
+  
+  implicit val encodeCharacterizedEntityRelationshipUUID: Encoder[CharacterizedEntityRelationshipUUID]
+  = encodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.CharacterizedEntityRelationshipTag]
+
+  implicit val orderingCharacterizedEntityRelationshipUUID
+  : Ordering[CharacterizedEntityRelationshipUUID]
+  = new Ordering[CharacterizedEntityRelationshipUUID] {
+  	override def compare
+  	(x: CharacterizedEntityRelationshipUUID, 
+  	 y: CharacterizedEntityRelationshipUUID)
+  	: Int = x.compareTo(y)
+  }
+  
   type ConceptUUID
   = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.ConceptTag
   
@@ -378,6 +399,27 @@ object taggedTypes {
   	override def compare
   	(x: ConceptualEntitySingletonInstanceUUID, 
   	 y: ConceptualEntitySingletonInstanceUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type ConceptualRelationshipUUID
+  = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.ConceptualRelationshipTag
+  
+  def conceptualRelationshipUUID(uuid: UUID): ConceptualRelationshipUUID
+  = covariantTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.ConceptualRelationshipTag][UUID](uuid)
+  
+  implicit val decodeConceptualRelationshipUUID: Decoder[ConceptualRelationshipUUID]
+  = decodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.ConceptualRelationshipTag]
+  
+  implicit val encodeConceptualRelationshipUUID: Encoder[ConceptualRelationshipUUID]
+  = encodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.ConceptualRelationshipTag]
+
+  implicit val orderingConceptualRelationshipUUID
+  : Ordering[ConceptualRelationshipUUID]
+  = new Ordering[ConceptualRelationshipUUID] {
+  	override def compare
+  	(x: ConceptualRelationshipUUID, 
+  	 y: ConceptualRelationshipUUID)
   	: Int = x.compareTo(y)
   }
   
@@ -1431,27 +1473,6 @@ object taggedTypes {
   	: Int = x.compareTo(y)
   }
   
-  type ReifiedRelationshipSpecializationAxiomUUID
-  = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.ReifiedRelationshipSpecializationAxiomTag
-  
-  def reifiedRelationshipSpecializationAxiomUUID(uuid: UUID): ReifiedRelationshipSpecializationAxiomUUID
-  = covariantTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.ReifiedRelationshipSpecializationAxiomTag][UUID](uuid)
-  
-  implicit val decodeReifiedRelationshipSpecializationAxiomUUID: Decoder[ReifiedRelationshipSpecializationAxiomUUID]
-  = decodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.ReifiedRelationshipSpecializationAxiomTag]
-  
-  implicit val encodeReifiedRelationshipSpecializationAxiomUUID: Encoder[ReifiedRelationshipSpecializationAxiomUUID]
-  = encodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.ReifiedRelationshipSpecializationAxiomTag]
-
-  implicit val orderingReifiedRelationshipSpecializationAxiomUUID
-  : Ordering[ReifiedRelationshipSpecializationAxiomUUID]
-  = new Ordering[ReifiedRelationshipSpecializationAxiomUUID] {
-  	override def compare
-  	(x: ReifiedRelationshipSpecializationAxiomUUID, 
-  	 y: ReifiedRelationshipSpecializationAxiomUUID)
-  	: Int = x.compareTo(y)
-  }
-  
   type ResourceUUID
   = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.ResourceTag
   
@@ -1848,6 +1869,27 @@ object taggedTypes {
   	override def compare
   	(x: SpecializationAxiomUUID, 
   	 y: SpecializationAxiomUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type SpecializedReifiedRelationshipUUID
+  = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.SpecializedReifiedRelationshipTag
+  
+  def specializedReifiedRelationshipUUID(uuid: UUID): SpecializedReifiedRelationshipUUID
+  = covariantTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.SpecializedReifiedRelationshipTag][UUID](uuid)
+  
+  implicit val decodeSpecializedReifiedRelationshipUUID: Decoder[SpecializedReifiedRelationshipUUID]
+  = decodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.SpecializedReifiedRelationshipTag]
+  
+  implicit val encodeSpecializedReifiedRelationshipUUID: Encoder[SpecializedReifiedRelationshipUUID]
+  = encodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.SpecializedReifiedRelationshipTag]
+
+  implicit val orderingSpecializedReifiedRelationshipUUID
+  : Ordering[SpecializedReifiedRelationshipUUID]
+  = new Ordering[SpecializedReifiedRelationshipUUID] {
+  	override def compare
+  	(x: SpecializedReifiedRelationshipUUID, 
+  	 y: SpecializedReifiedRelationshipUUID)
   	: Int = x.compareTo(y)
   }
   

@@ -19,14 +19,14 @@
 package gov.nasa.jpl.imce.oml.resolver.api
 
 /*
- * An OML ReifiedRelationshipInstance is an OML ConceptualEntitySingletonInstance  classified by an OML ReifiedRelationship.
+ * An OML ReifiedRelationshipInstance is an OML ConceptualEntitySingletonInstance  classified by an OML ConceptualRelationship.
  */
 trait ReifiedRelationshipInstance
   extends ConceptualEntitySingletonInstance
 {
   override val uuid: taggedTypes.ReifiedRelationshipInstanceUUID
 
-  val singletonReifiedRelationshipClassifier: ReifiedRelationship
+  val singletonConceptualRelationshipClassifier: ConceptualRelationship
 
   override def conceptualEntitySingletonClassifier
   (): ConceptualEntity

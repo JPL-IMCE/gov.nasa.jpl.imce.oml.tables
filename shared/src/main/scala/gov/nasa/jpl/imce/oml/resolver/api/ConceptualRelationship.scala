@@ -19,18 +19,12 @@
 package gov.nasa.jpl.imce.oml.resolver.api
 
 /*
- * An OML UnreifiedRelationship is a kind of OML CharacterizedEntityRelationship
- * where an instance has no intrinsic identity but rather structural
- * equivalence semantics as a tuple of references. This means
- * that an OML UnreifiedRelationship cannot be involved as the domain
- * or range of any kind of OML DirectedBinaryRelationshipKind.
+ * An OML ConceptualRelationship is a kind of OML ConceptualEntity
+ * that is also a kind of OML EntityRelationship.
  */
-trait UnreifiedRelationship
-  extends CharacterizedEntityRelationship
-  with RestrictableRelationship
+trait ConceptualRelationship
+  extends ConceptualEntity
+  with EntityRelationship
 {
-  override val uuid: taggedTypes.UnreifiedRelationshipUUID
-
-  override def relation
-  (): EntityRelationship
+  override val uuid: taggedTypes.ConceptualRelationshipUUID
 }

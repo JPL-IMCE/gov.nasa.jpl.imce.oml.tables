@@ -31,42 +31,6 @@ trait EntityRelationship
 
   val source: Entity
   val target: Entity
-  /*
-   * 0 <= target.size <= 1
-   */
-  val isFunctional: scala.Boolean
-  /*
-   * 0 <= source.size <= 1
-   */
-  val isInverseFunctional: scala.Boolean
-  /*
-   * 1 <= target.size
-   */
-  val isEssential: scala.Boolean
-  /*
-   * 1 <= source.size
-   */
-  val isInverseEssential: scala.Boolean
-  /*
-   * Whether this relationship is symmetric
-   */
-  val isSymmetric: scala.Boolean
-  /*
-   * Whether this relationship is asymmetric
-   */
-  val isAsymmetric: scala.Boolean
-  /*
-   * Whether this relationship is reflexive
-   */
-  val isReflexive: scala.Boolean
-  /*
-   * Whether this relationship is irreflexive
-   */
-  val isIrreflexive: scala.Boolean
-  /*
-   * Whether this relationship is transitive
-   */
-  val isTransitive: scala.Boolean
 
   override def relationDomain
   (): Term

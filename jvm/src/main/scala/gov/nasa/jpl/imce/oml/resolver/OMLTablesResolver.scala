@@ -1334,7 +1334,7 @@ object OMLTablesResolver {
     // -- SpecializationAxiom
     step9a <- mapAspectSpecializationAxioms(step8d)
     step9b <- mapConceptSpecializationAxioms(step9a)
-    step9c <- mapReifiedRelationshipSpecializationAxioms(step9b)
+    step9c <- mapSpecializedReifiedRelationships(step9b)
     // -- SubPropertyOfAxioms
     step9d <- mapSubDataPropertyOfAxioms(step9c)
     step9e <- mapSubObjectPropertyOfAxioms(step9d)
@@ -2738,52 +2738,59 @@ object OMLTablesResolver {
     s
   }
 
-  def mapReifiedRelationshipSpecializationAxioms
+  def mapSpecializedReifiedRelationships
   (r: OMLTablesResolver)
   : Try[OMLTablesResolver]
   = {
     val byUUID =
-      r.queue.reifiedRelationshipSpecializationAxioms
+      r.queue.specializedReifiedRelationships
         .map { tax =>
           ( api.taggedTypes.fromUUIDString(tax.tboxUUID),
-            api.taggedTypes.fromUUIDString(tax.superRelationshipUUID),
-            api.taggedTypes.fromUUIDString(tax.subRelationshipUUID) ) -> tax
+            api.taggedTypes.fromUUIDString(tax.sourceUUID),
+            api.taggedTypes.fromUUIDString(tax.targetUUID),
+            api.taggedTypes.fromUUIDString(tax.generalUUID) ) -> tax
         }
 
     val byTBox = for {
       tuple <- byUUID
-      ((tboxUUID, superUUID, subUUID), tax) = tuple
+      ((tboxUUID, sourceUUID, targetUUID, generalUUID), tax) = tuple
       tboxM = r.lookupTerminologyBox(tboxUUID)
-      superM = r.lookupTerminologyBoxStatement(superUUID) match {
-        case Some(e: api.ReifiedRelationship) => Some(e)
+      sourceM = r.lookupTerminologyBoxStatement(sourceUUID) match {
+        case Some(e: api.Entity) => Some(e)
         case _ => None
       }
-      subM = r.lookupTerminologyBoxStatement(subUUID) match {
-        case Some(e: api.ReifiedRelationship) => Some(e)
+      targetM = r.lookupTerminologyBoxStatement(targetUUID) match {
+        case Some(e: api.Entity) => Some(e)
         case _ => None
       }
-    } yield (tboxM, superM, subM, tax)
+      generalM = r.lookupTerminologyBoxStatement(generalUUID) match {
+        case Some(e: api.ConceptualRelationship) => Some(e)
+        case _ => None
+      }
+    } yield (tboxM, sourceM, targetM, generalM, tax)
 
 
-    val unresolvable = byTBox.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty || tuple._3.isEmpty).map(_._4)
+    val unresolvable = byTBox.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty || tuple._3.isEmpty || tuple._4.isEmpty).map(_._5)
     val resolvable = byTBox.flatMap {
-      case (Some(tboxM), Some(superM), Some(subM), tax) => Some(Tuple4(tboxM, superM, subM, tax))
+      case (Some(tboxM), Some(sourceM), Some(targetM), Some(generalM), tax) => Some(Tuple5(tboxM, sourceM, targetM, generalM, tax))
       case _ => None
     }
 
     val s =
-      resolvable.foldLeft[Try[OMLTablesResolver]](Success(r.copy(queue = r.queue.copy(reifiedRelationshipSpecializationAxioms = unresolvable)))) {
-        case (Success(ri), (tboxM, superM, subM, tax)) =>
-          val (ej, rax) = ri.factory.createReifiedRelationshipSpecializationAxiom(
+      resolvable.foldLeft[Try[OMLTablesResolver]](Success(r.copy(queue = r.queue.copy(specializedReifiedRelationships = unresolvable)))) {
+        case (Success(ri), (tboxM, sourceM, targetM, generalM, tax)) =>
+          val (ej, rax) = ri.factory.createSpecializedReifiedRelationship(
             ri.context,
             tboxM,
-            superM,
-            subM)
+            sourceM,
+            targetM,
+            generalM,
+            tax.name)
 
           if (!ej.lookupBoxStatements(tboxM).contains(rax))
-            Failure(new IllegalArgumentException(s"ReifiedRelationshipSpecializationAxiom not in extent: $rax"))
+            Failure(new IllegalArgumentException(s"SpecializedReifiedRelationship not in extent: $rax"))
           else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tax.uuid)).contains(rax))
-            Failure(new IllegalArgumentException(s"ReifiedRelationshipSpecializationAxiom: $tax vs. $rax"))
+            Failure(new IllegalArgumentException(s"SpecializedReifiedRelationship: $tax vs. $rax"))
           else
             Success(ri.copy(context = ej))
         case (Failure(f), _) =>
@@ -3050,10 +3057,10 @@ object OMLTablesResolver {
   = {
     val info = r.queue.reifiedRelationshipInstances.map { trri =>
       val dboxUUID = api.taggedTypes.fromUUIDString(trri.descriptionBoxUUID)
-      val rrUUID = api.taggedTypes.fromUUIDString(trri.singletonReifiedRelationshipClassifierUUID)
+      val rrUUID = api.taggedTypes.fromUUIDString(trri.singletonConceptualRelationshipClassifierUUID)
       val dboxM = r.lookupDescriptionBox(dboxUUID)
       val rrM = r.lookupTerminologyBoxStatement(rrUUID) match {
-        case Some(rr: api.ReifiedRelationship) => Some(rr)
+        case Some(rr: api.ConceptualRelationship) => Some(rr)
         case _ => None
       }
       (dboxM, rrM, trri)

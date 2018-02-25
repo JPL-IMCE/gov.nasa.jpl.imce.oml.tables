@@ -16,21 +16,22 @@
  * License Terms
  */
 
-package gov.nasa.jpl.imce.oml.resolver.api
+ 
+package gov.nasa.jpl.imce.oml.tables
 
-/*
- * An OML UnreifiedRelationship is a kind of OML CharacterizedEntityRelationship
- * where an instance has no intrinsic identity but rather structural
- * equivalence semantics as a tuple of references. This means
- * that an OML UnreifiedRelationship cannot be involved as the domain
- * or range of any kind of OML DirectedBinaryRelationshipKind.
- */
-trait UnreifiedRelationship
-  extends CharacterizedEntityRelationship
-  with RestrictableRelationship
-{
-  override val uuid: taggedTypes.UnreifiedRelationshipUUID
-
-  override def relation
-  (): EntityRelationship
+trait CharacterizedEntityRelationship extends EntityRelationship {
+  override val uuid: taggedTypes.CharacterizedEntityRelationshipUUID
+  override val tboxUUID: taggedTypes.TerminologyBoxUUID
+  override val sourceUUID: taggedTypes.EntityUUID
+  override val targetUUID: taggedTypes.EntityUUID
+  val isAsymmetric: scala.Boolean
+  val isEssential: scala.Boolean
+  val isFunctional: scala.Boolean
+  val isInverseEssential: scala.Boolean
+  val isInverseFunctional: scala.Boolean
+  val isIrreflexive: scala.Boolean
+  val isReflexive: scala.Boolean
+  val isSymmetric: scala.Boolean
+  val isTransitive: scala.Boolean
+  override val name: taggedTypes.LocalName
 }
