@@ -1,0 +1,7 @@
+gov.nasa.jpl.imce.oml.tables 0.92 resolves major issues in 0.91
+
+## Issues Resolved
+
+### [#47 Update for new SpecializedReifiedRelationship pattern](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/47)
+
+### [#48 Use Java8 parallel sort instead of the default sort algorithm.](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/48)
