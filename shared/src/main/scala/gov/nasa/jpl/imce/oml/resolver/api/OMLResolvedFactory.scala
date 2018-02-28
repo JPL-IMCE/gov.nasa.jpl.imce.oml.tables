@@ -738,6 +738,30 @@ trait OMLResolvedFactory {
     name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, NumericScalarRestriction)
   
+  // PartialReifiedRelationship
+  def createPartialReifiedRelationship
+  ( extent: Extent,
+    tbox: TerminologyBox,
+    source: Entity,
+    target: Entity,
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
+  : (Extent, PartialReifiedRelationship)
+  = {
+    // namespace uuid...
+    import scala.Predef.ArrowAssoc
+    val uuid = taggedTypes.partialReifiedRelationshipUUID(namespaceUUID(tbox.uuid.toString,  "name" -> name))
+    createPartialReifiedRelationship( extent, uuid, tbox, source, target, name )
+  }
+  
+  def createPartialReifiedRelationship
+  ( extent: Extent,
+    uuid: taggedTypes.PartialReifiedRelationshipUUID,
+    tbox: TerminologyBox,
+    source: Entity,
+    target: Entity,
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
+  : (Extent, PartialReifiedRelationship)
+  
   // PlainLiteralScalarRestriction
   def createPlainLiteralScalarRestriction
   ( extent: Extent,
@@ -887,6 +911,33 @@ trait OMLResolvedFactory {
     reifiedRelationshipInstance: ReifiedRelationshipInstance,
     range: ConceptualEntitySingletonInstance )
   : (Extent, ReifiedRelationshipInstanceRange)
+  
+  // ReifiedRelationshipSpecializationAxiom
+  def createReifiedRelationshipSpecializationAxiom
+  ( extent: Extent,
+    tbox: TerminologyBox,
+    superRelationship: ConceptualRelationship,
+    subRelationship: ConceptualRelationship )
+  : (Extent, ReifiedRelationshipSpecializationAxiom)
+  = {
+  	// derived uuid...
+    import scala.Predef.ArrowAssoc
+    val uuid = taggedTypes.reifiedRelationshipSpecializationAxiomUUID(namespaceUUID(
+      "ReifiedRelationshipSpecializationAxiom",
+      Seq.empty[(String, String)] ++
+          Seq("tbox" -> tbox.uuid.toString) ++
+          Seq("superRelationship" -> superRelationship.uuid.toString) ++
+          Seq("subRelationship" -> subRelationship.uuid.toString) : _*))
+    createReifiedRelationshipSpecializationAxiom( extent, uuid, tbox, superRelationship, subRelationship )
+  }
+  
+  def createReifiedRelationshipSpecializationAxiom
+  ( extent: Extent,
+    uuid: taggedTypes.ReifiedRelationshipSpecializationAxiomUUID,
+    tbox: TerminologyBox,
+    superRelationship: ConceptualRelationship,
+    subRelationship: ConceptualRelationship )
+  : (Extent, ReifiedRelationshipSpecializationAxiom)
   
   // RestrictionScalarDataPropertyValue
   def createRestrictionScalarDataPropertyValue
@@ -1220,32 +1271,6 @@ trait OMLResolvedFactory {
     singletonInstance: ConceptualEntitySingletonInstance,
     structuredDataProperty: DataRelationshipToStructure )
   : (Extent, SingletonInstanceStructuredDataPropertyValue)
-  
-  // SpecializedReifiedRelationship
-  def createSpecializedReifiedRelationship
-  ( extent: Extent,
-    tbox: TerminologyBox,
-    source: Entity,
-    target: Entity,
-    general: ConceptualRelationship,
-    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
-  : (Extent, SpecializedReifiedRelationship)
-  = {
-    // namespace uuid...
-    import scala.Predef.ArrowAssoc
-    val uuid = taggedTypes.specializedReifiedRelationshipUUID(namespaceUUID(tbox.uuid.toString,  "name" -> name))
-    createSpecializedReifiedRelationship( extent, uuid, tbox, source, target, general, name )
-  }
-  
-  def createSpecializedReifiedRelationship
-  ( extent: Extent,
-    uuid: taggedTypes.SpecializedReifiedRelationshipUUID,
-    tbox: TerminologyBox,
-    source: Entity,
-    target: Entity,
-    general: ConceptualRelationship,
-    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
-  : (Extent, SpecializedReifiedRelationship)
   
   // SpecificDisjointConceptAxiom
   def createSpecificDisjointConceptAxiom

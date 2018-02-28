@@ -19,28 +19,32 @@
 package gov.nasa.jpl.imce.oml.resolver.api
 
 /*
- * An OML ConceptualRelationship is a kind of OML ConceptualEntity
- * that is also a kind of OML EntityRelationship.
+ * An OML ReifiedRelationshipSpecializationAxiom is a logical axiom
+ * about a taxonomic relationship between a specific and general
+ * OML ConceptualRelationship.
  */
-trait ConceptualRelationship
-  extends ConceptualEntity
-  with EntityRelationship
+trait ReifiedRelationshipSpecializationAxiom
+  extends SpecializationAxiom
 {
-  override val uuid: taggedTypes.ConceptualRelationshipUUID
+  override val uuid: taggedTypes.ReifiedRelationshipSpecializationAxiomUUID
 
   /*
-   * The OML ReifiedRelationship(s) that are the root entities of
-   * the OML ConceptualRelationship.
+   * The sub (child) relationship
    */
-  def rootReifiedRelationships
-  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: ReifiedRelationship]
-}
+  val subRelationship: ConceptualRelationship
+  /*
+   * The super (parent) relationship
+   */
+  val superRelationship: ConceptualRelationship
 
-object ConceptualRelationship {
-
-  def rootReifiedRelationships
-  (c: ConceptualRelationship, ext: Extent)
-  : scala.collection.immutable.Set[_ <: ReifiedRelationship]
-  = c.rootReifiedRelationships()(ext)
-
+  /*
+   * Get the sub (child) entity
+   */
+  override def child
+  (): Entity
+  /*
+   * Get the super (parent) entity
+   */
+  override def parent
+  (): Entity
 }

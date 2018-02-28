@@ -66,14 +66,14 @@ import scala.{Option,None,Some,StringContext}
  */
 case class Extent
 ( terminologyGraphs
-  : Map[taggedTypes.TerminologyGraphUUID, TerminologyGraph] 
-  = HashMap.empty[taggedTypes.TerminologyGraphUUID, TerminologyGraph],
+  : Map[taggedTypes.ModuleUUID, TerminologyGraph] 
+  = HashMap.empty[taggedTypes.ModuleUUID, TerminologyGraph],
   bundles
-  : Map[taggedTypes.BundleUUID, Bundle] 
-  = HashMap.empty[taggedTypes.BundleUUID, Bundle],
+  : Map[taggedTypes.ModuleUUID, Bundle] 
+  = HashMap.empty[taggedTypes.ModuleUUID, Bundle],
   descriptionBoxes
-  : Map[taggedTypes.DescriptionBoxUUID, DescriptionBox] 
-  = HashMap.empty[taggedTypes.DescriptionBoxUUID, DescriptionBox],
+  : Map[taggedTypes.ModuleUUID, DescriptionBox] 
+  = HashMap.empty[taggedTypes.ModuleUUID, DescriptionBox],
 
   annotations
   : Map[LogicalElement, Set[AnnotationPropertyValue]]
@@ -474,57 +474,57 @@ case class Extent
   def lookupModule
   (uuid: taggedTypes.ModuleUUID)
   : Option[Module]
-  = lookupTerminologyBox(uuid.asInstanceOf[taggedTypes.TerminologyBoxUUID]) orElse
-  lookupDescriptionBox(uuid.asInstanceOf[taggedTypes.DescriptionBoxUUID])
+  = lookupTerminologyBox(uuid) orElse
+  lookupDescriptionBox(uuid)
   
   def lookupTerminologyBox
-  (uuid: Option[taggedTypes.TerminologyBoxUUID])
+  (uuid: Option[taggedTypes.ModuleUUID])
   : Option[TerminologyBox]
   = uuid.flatMap { 
   	lookupTerminologyBox
   }
   
   def lookupTerminologyBox
-  (uuid: taggedTypes.TerminologyBoxUUID)
+  (uuid: taggedTypes.ModuleUUID)
   : Option[TerminologyBox]
-  = lookupTerminologyGraph(uuid.asInstanceOf[taggedTypes.TerminologyGraphUUID]) orElse 
-  lookupBundle(uuid.asInstanceOf[taggedTypes.BundleUUID])
+  = lookupTerminologyGraph(uuid) orElse 
+  lookupBundle(uuid)
   
   def lookupTerminologyGraph
-  (uuid: Option[taggedTypes.TerminologyGraphUUID])
+  (uuid: Option[taggedTypes.ModuleUUID])
   : Option[TerminologyGraph]
   = uuid.flatMap {
     lookupTerminologyGraph
   } 
   
   def lookupTerminologyGraph
-  (uuid: taggedTypes.TerminologyGraphUUID)
+  (uuid: taggedTypes.ModuleUUID)
   : Option[TerminologyGraph]
   = terminologyGraphs.get(uuid)
     
   
   def lookupBundle
-  (uuid: Option[taggedTypes.BundleUUID])
+  (uuid: Option[taggedTypes.ModuleUUID])
   : Option[Bundle]
   = uuid.flatMap {
     lookupBundle
   } 
   
   def lookupBundle
-  (uuid: taggedTypes.BundleUUID)
+  (uuid: taggedTypes.ModuleUUID)
   : Option[Bundle]
   = bundles.get(uuid)
     
   
   def lookupDescriptionBox
-  (uuid: Option[taggedTypes.DescriptionBoxUUID])
+  (uuid: Option[taggedTypes.ModuleUUID])
   : Option[DescriptionBox]
   = uuid.flatMap {
     lookupDescriptionBox
   } 
   
   def lookupDescriptionBox
-  (uuid: taggedTypes.DescriptionBoxUUID)
+  (uuid: taggedTypes.ModuleUUID)
   : Option[DescriptionBox]
   = descriptionBoxes.get(uuid)
 

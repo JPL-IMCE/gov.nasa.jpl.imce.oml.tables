@@ -650,6 +650,16 @@ package object api {
   	 	case 0 => 0 }
   }
   
+  implicit def partialReifiedRelationshipOrdering
+  : scala.Ordering[PartialReifiedRelationship]
+  = new scala.Ordering[PartialReifiedRelationship] {
+  	def compare(x: PartialReifiedRelationship, y: PartialReifiedRelationship)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
   implicit def plainLiteralScalarRestrictionOrdering
   : scala.Ordering[PlainLiteralScalarRestriction]
   = new scala.Ordering[PlainLiteralScalarRestriction] {
@@ -704,6 +714,16 @@ package object api {
   : scala.Ordering[ReifiedRelationshipInstanceRange]
   = new scala.Ordering[ReifiedRelationshipInstanceRange] {
   	def compare(x: ReifiedRelationshipInstanceRange, y: ReifiedRelationshipInstanceRange)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def reifiedRelationshipSpecializationAxiomOrdering
+  : scala.Ordering[ReifiedRelationshipSpecializationAxiom]
+  = new scala.Ordering[ReifiedRelationshipSpecializationAxiom] {
+  	def compare(x: ReifiedRelationshipSpecializationAxiom, y: ReifiedRelationshipSpecializationAxiom)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid
@@ -894,16 +914,6 @@ package object api {
   : scala.Ordering[SpecializationAxiom]
   = new scala.Ordering[SpecializationAxiom] {
   	def compare(x: SpecializationAxiom, y: SpecializationAxiom)
-  	: scala.Int
-  	= x.uuid.compareTo(y.uuid) match {
-  	 	case c_uuid if 0 != c_uuid => c_uuid
-  	 	case 0 => 0 }
-  }
-  
-  implicit def specializedReifiedRelationshipOrdering
-  : scala.Ordering[SpecializedReifiedRelationship]
-  = new scala.Ordering[SpecializedReifiedRelationship] {
-  	def compare(x: SpecializedReifiedRelationship, y: SpecializedReifiedRelationship)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid

@@ -28,50 +28,45 @@ import scala.Predef.ArrowAssoc
   * @param tboxUUID[1,1]
   * @param sourceUUID[1,1]
   * @param targetUUID[1,1]
-  * @param generalUUID[1,1]
   * @param name[1,1]
   */
-@JSExportTopLevel("SpecializedReifiedRelationship")
-case class SpecializedReifiedRelationship
+@JSExportTopLevel("PartialReifiedRelationship")
+case class PartialReifiedRelationship
 (
-  @(JSExport @field) override val uuid: taggedTypes.SpecializedReifiedRelationshipUUID,
+  @(JSExport @field) override val uuid: taggedTypes.PartialReifiedRelationshipUUID,
   @(JSExport @field) override val tboxUUID: taggedTypes.TerminologyBoxUUID,
   @(JSExport @field) override val sourceUUID: taggedTypes.EntityUUID,
   @(JSExport @field) override val targetUUID: taggedTypes.EntityUUID,
-  @(JSExport @field) val generalUUID: taggedTypes.ConceptualRelationshipUUID,
   @(JSExport @field) override val name: taggedTypes.LocalName
-) extends ConceptualRelationship with SpecializationAxiom {
+) extends ConceptualRelationship {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     tboxUUID: taggedTypes.TerminologyBoxUUID,
     sourceUUID: taggedTypes.EntityUUID,
     targetUUID: taggedTypes.EntityUUID,
-    generalUUID: taggedTypes.ConceptualRelationshipUUID,
     name: taggedTypes.LocalName)
   = this(
-      taggedTypes.specializedReifiedRelationshipUUID(oug.namespaceUUID(
+      taggedTypes.partialReifiedRelationshipUUID(oug.namespaceUUID(
         tboxUUID,
         "name" -> name).toString),
       tboxUUID,
       sourceUUID,
       targetUUID,
-      generalUUID,
       name)
 
 val vertexId: scala.Long = uuid.hashCode.toLong
 
   override val hashCode
   : scala.Int 
-  = (uuid, tboxUUID, sourceUUID, targetUUID, generalUUID, name).##
+  = (uuid, tboxUUID, sourceUUID, targetUUID, name).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
-  	case that: SpecializedReifiedRelationship =>
+  	case that: PartialReifiedRelationship =>
   	  (this.uuid == that.uuid) &&
   	  (this.tboxUUID == that.tboxUUID)  &&
   	  (this.sourceUUID == that.sourceUUID)  &&
   	  (this.targetUUID == that.targetUUID)  &&
-  	  (this.generalUUID == that.generalUUID)  &&
   	  (this.name == that.name)
     case _ =>
       false
@@ -79,8 +74,8 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   
 }
 
-@JSExportTopLevel("SpecializedReifiedRelationshipHelper")
-object SpecializedReifiedRelationshipHelper {
+@JSExportTopLevel("PartialReifiedRelationshipHelper")
+object PartialReifiedRelationshipHelper {
 
   import io.circe.{Decoder, Encoder, HCursor, Json}
   import io.circe.parser.parse
@@ -88,54 +83,51 @@ object SpecializedReifiedRelationshipHelper {
 
   val TABLE_JSON_FILENAME 
   : String 
-  = "SpecializedReifiedRelationships.json"
+  = "PartialReifiedRelationships.json"
 
-  implicit val decodeSpecializedReifiedRelationship: Decoder[SpecializedReifiedRelationship]
-  = Decoder.instance[SpecializedReifiedRelationship] { c: HCursor =>
+  implicit val decodePartialReifiedRelationship: Decoder[PartialReifiedRelationship]
+  = Decoder.instance[PartialReifiedRelationship] { c: HCursor =>
     
     import cats.syntax.either._
   
     for {
-    	  uuid <- c.downField("uuid").as[taggedTypes.SpecializedReifiedRelationshipUUID]
+    	  uuid <- c.downField("uuid").as[taggedTypes.PartialReifiedRelationshipUUID]
     	  tboxUUID <- c.downField("tboxUUID").as[taggedTypes.TerminologyBoxUUID]
     	  sourceUUID <- c.downField("sourceUUID").as[taggedTypes.EntityUUID]
     	  targetUUID <- c.downField("targetUUID").as[taggedTypes.EntityUUID]
-    	  generalUUID <- c.downField("generalUUID").as[taggedTypes.ConceptualRelationshipUUID]
     	  name <- c.downField("name").as[taggedTypes.LocalName]
-    	} yield SpecializedReifiedRelationship(
+    	} yield PartialReifiedRelationship(
     	  uuid,
     	  tboxUUID,
     	  sourceUUID,
     	  targetUUID,
-    	  generalUUID,
     	  name
     	)
   }
   
-  implicit val encodeSpecializedReifiedRelationship: Encoder[SpecializedReifiedRelationship]
-  = new Encoder[SpecializedReifiedRelationship] {
-    override final def apply(x: SpecializedReifiedRelationship): Json 
+  implicit val encodePartialReifiedRelationship: Encoder[PartialReifiedRelationship]
+  = new Encoder[PartialReifiedRelationship] {
+    override final def apply(x: PartialReifiedRelationship): Json 
     = Json.obj(
-    	  ("uuid", taggedTypes.encodeSpecializedReifiedRelationshipUUID(x.uuid)),
+    	  ("uuid", taggedTypes.encodePartialReifiedRelationshipUUID(x.uuid)),
     	  ("tboxUUID", taggedTypes.encodeTerminologyBoxUUID(x.tboxUUID)),
     	  ("sourceUUID", taggedTypes.encodeEntityUUID(x.sourceUUID)),
     	  ("targetUUID", taggedTypes.encodeEntityUUID(x.targetUUID)),
-    	  ("generalUUID", taggedTypes.encodeConceptualRelationshipUUID(x.generalUUID)),
     	  ("name", taggedTypes.encodeLocalName(x.name))
     )
   }
 
   @JSExport
-  def toJSON(c: SpecializedReifiedRelationship)
+  def toJSON(c: PartialReifiedRelationship)
   : String
-  = encodeSpecializedReifiedRelationship(c).noSpaces
+  = encodePartialReifiedRelationship(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
-  : SpecializedReifiedRelationship
+  : PartialReifiedRelationship
   = parse(c) match {
   	case scala.Right(json) =>
-  	  decodeSpecializedReifiedRelationship(json.hcursor) match {
+  	  decodePartialReifiedRelationship(json.hcursor) match {
   	    	case scala.Right(result) =>
   	    	  result
   	    	case scala.Left(failure) =>

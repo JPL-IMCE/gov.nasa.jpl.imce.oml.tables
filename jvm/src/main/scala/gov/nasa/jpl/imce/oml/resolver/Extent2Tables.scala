@@ -114,6 +114,22 @@ object Extent2Tables {
       None
   }.to[Seq]
 
+  def convertPartialReifiedRelationships
+  (acc: Seq[tables.PartialReifiedRelationship],
+   x: (api.TerminologyBox, Set[api.TerminologyBoxStatement]))
+  : Seq[tables.PartialReifiedRelationship]
+  = acc ++ x._2.flatMap {
+    case y: api.PartialReifiedRelationship =>
+      Some(tables.PartialReifiedRelationship(
+        y.uuid,
+        x._1.uuid,
+        y.source.uuid,
+        y.target.uuid,
+        y.name))
+    case _ =>
+      None
+  }.to[Seq]
+
   def convertReifiedRelationships
   (acc: Seq[tables.ReifiedRelationship],
    x: (api.TerminologyBox, Set[api.TerminologyBoxStatement]))
@@ -621,19 +637,17 @@ object Extent2Tables {
       None
   }.to[Seq]
 
-  def convertSpecializedReifiedRelationships
-  (acc: Seq[tables.SpecializedReifiedRelationship],
+  def convertReifiedRelationshipSpecializationAxioms
+  (acc: Seq[tables.ReifiedRelationshipSpecializationAxiom],
    x: (api.TerminologyBox, Set[api.TerminologyBoxStatement]))
-  : Seq[tables.SpecializedReifiedRelationship]
+  : Seq[tables.ReifiedRelationshipSpecializationAxiom]
   = acc ++ x._2.flatMap {
-    case y: api.SpecializedReifiedRelationship =>
-      Some(tables.SpecializedReifiedRelationship(
+    case y: api.ReifiedRelationshipSpecializationAxiom =>
+      Some(tables.ReifiedRelationshipSpecializationAxiom(
         y.uuid,
         x._1.uuid,
-        y.source.uuid,
-        y.target.uuid,
-        y.general.uuid,
-        y.name))
+        y.subRelationship.uuid,
+        y.superRelationship.uuid))
     case _ =>
       None
   }.to[Seq]
@@ -1052,6 +1066,12 @@ object Extent2Tables {
                 .foldLeft[Seq[tables.ReifiedRelationship]](Seq.empty)(convertReifiedRelationships),
               (rr: tables.ReifiedRelationship) => rr.uuid),
 
+          partialReifiedRelationships =
+            parallelSort.parSortBy(
+              e.boxStatements
+                .foldLeft[Seq[tables.PartialReifiedRelationship]](Seq.empty)(convertPartialReifiedRelationships),
+              (rr: tables.PartialReifiedRelationship) => rr.uuid),
+
           forwardProperties =
             parallelSort.parSortBy(
               e.forwardProperty
@@ -1230,11 +1250,11 @@ object Extent2Tables {
                 .foldLeft[Seq[tables.ConceptSpecializationAxiom]](Seq.empty)(convertConceptSpecializationAxioms),
               (a: tables.ConceptSpecializationAxiom) => a.uuid),
 
-          specializedReifiedRelationships =
+          reifiedRelationshipSpecializationAxioms =
             parallelSort.parSortBy(
               e.boxStatements
-                .foldLeft[Seq[tables.SpecializedReifiedRelationship]](Seq.empty)(convertSpecializedReifiedRelationships),
-              (a: tables.SpecializedReifiedRelationship) => a.uuid),
+                .foldLeft[Seq[tables.ReifiedRelationshipSpecializationAxiom]](Seq.empty)(convertReifiedRelationshipSpecializationAxioms),
+              (a: tables.ReifiedRelationshipSpecializationAxiom) => a.uuid),
 
           entityScalarDataPropertyExistentialRestrictionAxioms =
             parallelSort.parSortBy(

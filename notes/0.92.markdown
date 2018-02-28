@@ -7,3 +7,5 @@ gov.nasa.jpl.imce.oml.tables 0.92 resolves major issues in 0.91
 ### [#48 Use Java8 parallel sort instead of the default sort algorithm.](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/48)
 
 ### [#49 SpecializedReifiedRelationship needs to override allNestedElements](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/49)
+
+### [#50 Restore the old ReifiedRelationshipSpecialization pattern](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/50)

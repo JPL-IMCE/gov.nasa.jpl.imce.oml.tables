@@ -19,32 +19,34 @@
 package gov.nasa.jpl.imce.oml.resolver.api
 
 /*
- * An OML SpecializedReifiedRelationship is an OML ConceptualRelationship
- * that plays the role of a specific entity for an OML SpecializedReifiedRelationship
- * with respect to an OML ConceptualRelationship as its general entity in the context
- * of an OML SpecializationAxiom.
+ * An OML PartialReifiedRelationship is an OML ConceptualRelationship
+ * that plays the role of a specific entity for one or more OML ReifiedRelationshipSpecializationAxioms
+ * with respect to an OML ConceptualRelationship as its general entity.
+ * Note that this statement is well formed in a given OML TerminologyBox
+ * iff it is the specific entity of at least one OML ReifiedRelationshipSpecializationAxiom
+ * asserted in that OML TerminologyBox.
  */
-trait SpecializedReifiedRelationship
+trait PartialReifiedRelationship
   extends ConceptualRelationship
-  with SpecializationAxiom
 {
-  override val uuid: taggedTypes.SpecializedReifiedRelationshipUUID
+  override val uuid: taggedTypes.PartialReifiedRelationshipUUID
 
-  val general: ConceptualRelationship
-
-  override def child
-  (): Entity
-  override def parent
-  (): Entity
   override def allNestedElements
   ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: LogicalElement]
+  override def rootReifiedRelationships
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: ReifiedRelationship]
 }
 
-object SpecializedReifiedRelationship {
+object PartialReifiedRelationship {
 
   def allNestedElements
-  (s: SpecializedReifiedRelationship, ext: Extent)
+  (p: PartialReifiedRelationship, ext: Extent)
   : scala.collection.immutable.Set[_ <: LogicalElement]
-  = s.allNestedElements()(ext)
+  = p.allNestedElements()(ext)
+
+  def rootReifiedRelationships
+  (p: PartialReifiedRelationship, ext: Extent)
+  : scala.collection.immutable.Set[_ <: ReifiedRelationship]
+  = p.rootReifiedRelationships()(ext)
 
 }

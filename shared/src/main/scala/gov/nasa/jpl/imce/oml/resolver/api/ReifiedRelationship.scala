@@ -34,6 +34,8 @@ trait ReifiedRelationship
 
   override def allNestedElements
   ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: LogicalElement]
+  override def rootReifiedRelationships
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: ReifiedRelationship]
 }
 
 object ReifiedRelationship {
@@ -42,5 +44,10 @@ object ReifiedRelationship {
   (r: ReifiedRelationship, ext: Extent)
   : scala.collection.immutable.Set[_ <: LogicalElement]
   = r.allNestedElements()(ext)
+
+  def rootReifiedRelationships
+  (r: ReifiedRelationship, ext: Extent)
+  : scala.collection.immutable.Set[_ <: ReifiedRelationship]
+  = r.rootReifiedRelationships()(ext)
 
 }

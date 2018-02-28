@@ -60,9 +60,9 @@ case class OMLSpecificationTables
   scalarDataProperties : Seq[ScalarDataProperty] = Seq.empty,
   structuredDataProperties : Seq[StructuredDataProperty] = Seq.empty,
   reifiedRelationships : Seq[ReifiedRelationship] = Seq.empty,
+  partialReifiedRelationships : Seq[PartialReifiedRelationship] = Seq.empty,
   forwardProperties : Seq[ForwardProperty] = Seq.empty,
   inverseProperties : Seq[InverseProperty] = Seq.empty,
-  specializedReifiedRelationships : Seq[SpecializedReifiedRelationship] = Seq.empty,
   unreifiedRelationships : Seq[UnreifiedRelationship] = Seq.empty,
   chainRules : Seq[ChainRule] = Seq.empty,
   ruleBodySegments : Seq[RuleBodySegment] = Seq.empty,
@@ -77,6 +77,7 @@ case class OMLSpecificationTables
   restrictionScalarDataPropertyValues : Seq[RestrictionScalarDataPropertyValue] = Seq.empty,
   aspectSpecializationAxioms : Seq[AspectSpecializationAxiom] = Seq.empty,
   conceptSpecializationAxioms : Seq[ConceptSpecializationAxiom] = Seq.empty,
+  reifiedRelationshipSpecializationAxioms : Seq[ReifiedRelationshipSpecializationAxiom] = Seq.empty,
   subDataPropertyOfAxioms : Seq[SubDataPropertyOfAxiom] = Seq.empty,
   subObjectPropertyOfAxioms : Seq[SubObjectPropertyOfAxiom] = Seq.empty,
   rootConceptTaxonomyAxioms : Seq[RootConceptTaxonomyAxiom] = Seq.empty,
@@ -262,6 +263,12 @@ case class OMLSpecificationTables
     parallelSort.parSortBy((reifiedRelationships.to[Set] ++ 
      readJSonTable(is, ReifiedRelationshipHelper.fromJSON).to[Set]
     ).to[Seq], (a: ReifiedRelationship) => a.uuid))
+  def readPartialReifiedRelationships(is: InputStream)
+  : OMLSpecificationTables
+  = copy(partialReifiedRelationships = 
+    parallelSort.parSortBy((partialReifiedRelationships.to[Set] ++ 
+     readJSonTable(is, PartialReifiedRelationshipHelper.fromJSON).to[Set]
+    ).to[Seq], (a: PartialReifiedRelationship) => a.uuid))
   def readForwardProperties(is: InputStream)
   : OMLSpecificationTables
   = copy(forwardProperties = 
@@ -274,12 +281,6 @@ case class OMLSpecificationTables
     parallelSort.parSortBy((inverseProperties.to[Set] ++ 
      readJSonTable(is, InversePropertyHelper.fromJSON).to[Set]
     ).to[Seq], (a: InverseProperty) => a.uuid))
-  def readSpecializedReifiedRelationships(is: InputStream)
-  : OMLSpecificationTables
-  = copy(specializedReifiedRelationships = 
-    parallelSort.parSortBy((specializedReifiedRelationships.to[Set] ++ 
-     readJSonTable(is, SpecializedReifiedRelationshipHelper.fromJSON).to[Set]
-    ).to[Seq], (a: SpecializedReifiedRelationship) => a.uuid))
   def readUnreifiedRelationships(is: InputStream)
   : OMLSpecificationTables
   = copy(unreifiedRelationships = 
@@ -364,6 +365,12 @@ case class OMLSpecificationTables
     parallelSort.parSortBy((conceptSpecializationAxioms.to[Set] ++ 
      readJSonTable(is, ConceptSpecializationAxiomHelper.fromJSON).to[Set]
     ).to[Seq], (a: ConceptSpecializationAxiom) => a.uuid))
+  def readReifiedRelationshipSpecializationAxioms(is: InputStream)
+  : OMLSpecificationTables
+  = copy(reifiedRelationshipSpecializationAxioms = 
+    parallelSort.parSortBy((reifiedRelationshipSpecializationAxioms.to[Set] ++ 
+     readJSonTable(is, ReifiedRelationshipSpecializationAxiomHelper.fromJSON).to[Set]
+    ).to[Seq], (a: ReifiedRelationshipSpecializationAxiom) => a.uuid))
   def readSubDataPropertyOfAxioms(is: InputStream)
   : OMLSpecificationTables
   = copy(subDataPropertyOfAxioms = 
@@ -484,9 +491,9 @@ case class OMLSpecificationTables
     scalarDataProperties.isEmpty &&
     structuredDataProperties.isEmpty &&
     reifiedRelationships.isEmpty &&
+    partialReifiedRelationships.isEmpty &&
     forwardProperties.isEmpty &&
     inverseProperties.isEmpty &&
-    specializedReifiedRelationships.isEmpty &&
     unreifiedRelationships.isEmpty &&
     chainRules.isEmpty &&
     ruleBodySegments.isEmpty &&
@@ -501,6 +508,7 @@ case class OMLSpecificationTables
     restrictionScalarDataPropertyValues.isEmpty &&
     aspectSpecializationAxioms.isEmpty &&
     conceptSpecializationAxioms.isEmpty &&
+    reifiedRelationshipSpecializationAxioms.isEmpty &&
     subDataPropertyOfAxioms.isEmpty &&
     subObjectPropertyOfAxioms.isEmpty &&
     rootConceptTaxonomyAxioms.isEmpty &&
@@ -557,9 +565,9 @@ case class OMLSpecificationTables
     buff ++= showSeq("scalarDataProperties", scalarDataProperties)
     buff ++= showSeq("structuredDataProperties", structuredDataProperties)
     buff ++= showSeq("reifiedRelationships", reifiedRelationships)
+    buff ++= showSeq("partialReifiedRelationships", partialReifiedRelationships)
     buff ++= showSeq("forwardProperties", forwardProperties)
     buff ++= showSeq("inverseProperties", inverseProperties)
-    buff ++= showSeq("specializedReifiedRelationships", specializedReifiedRelationships)
     buff ++= showSeq("unreifiedRelationships", unreifiedRelationships)
     buff ++= showSeq("chainRules", chainRules)
     buff ++= showSeq("ruleBodySegments", ruleBodySegments)
@@ -574,6 +582,7 @@ case class OMLSpecificationTables
     buff ++= showSeq("restrictionScalarDataPropertyValues", restrictionScalarDataPropertyValues)
     buff ++= showSeq("aspectSpecializationAxioms", aspectSpecializationAxioms)
     buff ++= showSeq("conceptSpecializationAxioms", conceptSpecializationAxioms)
+    buff ++= showSeq("reifiedRelationshipSpecializationAxioms", reifiedRelationshipSpecializationAxioms)
     buff ++= showSeq("subDataPropertyOfAxioms", subDataPropertyOfAxioms)
     buff ++= showSeq("subObjectPropertyOfAxioms", subObjectPropertyOfAxioms)
     buff ++= showSeq("rootConceptTaxonomyAxioms", rootConceptTaxonomyAxioms)
@@ -737,6 +746,10 @@ object OMLSpecificationTables {
         t1.reifiedRelationships.to[Set] ++ 
         t2.reifiedRelationships.to[Set]
       ).to[Seq], (a: ReifiedRelationship) => a.uuid),
+      partialReifiedRelationships = parallelSort.parSortBy((
+        t1.partialReifiedRelationships.to[Set] ++ 
+        t2.partialReifiedRelationships.to[Set]
+      ).to[Seq], (a: PartialReifiedRelationship) => a.uuid),
       forwardProperties = parallelSort.parSortBy((
         t1.forwardProperties.to[Set] ++ 
         t2.forwardProperties.to[Set]
@@ -745,10 +758,6 @@ object OMLSpecificationTables {
         t1.inverseProperties.to[Set] ++ 
         t2.inverseProperties.to[Set]
       ).to[Seq], (a: InverseProperty) => a.uuid),
-      specializedReifiedRelationships = parallelSort.parSortBy((
-        t1.specializedReifiedRelationships.to[Set] ++ 
-        t2.specializedReifiedRelationships.to[Set]
-      ).to[Seq], (a: SpecializedReifiedRelationship) => a.uuid),
       unreifiedRelationships = parallelSort.parSortBy((
         t1.unreifiedRelationships.to[Set] ++ 
         t2.unreifiedRelationships.to[Set]
@@ -805,6 +814,10 @@ object OMLSpecificationTables {
         t1.conceptSpecializationAxioms.to[Set] ++ 
         t2.conceptSpecializationAxioms.to[Set]
       ).to[Seq], (a: ConceptSpecializationAxiom) => a.uuid),
+      reifiedRelationshipSpecializationAxioms = parallelSort.parSortBy((
+        t1.reifiedRelationshipSpecializationAxioms.to[Set] ++ 
+        t2.reifiedRelationshipSpecializationAxioms.to[Set]
+      ).to[Seq], (a: ReifiedRelationshipSpecializationAxiom) => a.uuid),
       subDataPropertyOfAxioms = parallelSort.parSortBy((
         t1.subDataPropertyOfAxioms.to[Set] ++ 
         t2.subDataPropertyOfAxioms.to[Set]
@@ -929,12 +942,12 @@ object OMLSpecificationTables {
   	    tables.readStructuredDataProperties(is)
   	  case ReifiedRelationshipHelper.TABLE_JSON_FILENAME =>
   	    tables.readReifiedRelationships(is)
+  	  case PartialReifiedRelationshipHelper.TABLE_JSON_FILENAME =>
+  	    tables.readPartialReifiedRelationships(is)
   	  case ForwardPropertyHelper.TABLE_JSON_FILENAME =>
   	    tables.readForwardProperties(is)
   	  case InversePropertyHelper.TABLE_JSON_FILENAME =>
   	    tables.readInverseProperties(is)
-  	  case SpecializedReifiedRelationshipHelper.TABLE_JSON_FILENAME =>
-  	    tables.readSpecializedReifiedRelationships(is)
   	  case UnreifiedRelationshipHelper.TABLE_JSON_FILENAME =>
   	    tables.readUnreifiedRelationships(is)
   	  case ChainRuleHelper.TABLE_JSON_FILENAME =>
@@ -963,6 +976,8 @@ object OMLSpecificationTables {
   	    tables.readAspectSpecializationAxioms(is)
   	  case ConceptSpecializationAxiomHelper.TABLE_JSON_FILENAME =>
   	    tables.readConceptSpecializationAxioms(is)
+  	  case ReifiedRelationshipSpecializationAxiomHelper.TABLE_JSON_FILENAME =>
+  	    tables.readReifiedRelationshipSpecializationAxioms(is)
   	  case SubDataPropertyOfAxiomHelper.TABLE_JSON_FILENAME =>
   	    tables.readSubDataPropertyOfAxioms(is)
   	  case SubObjectPropertyOfAxiomHelper.TABLE_JSON_FILENAME =>
@@ -1185,6 +1200,12 @@ object OMLSpecificationTables {
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(PartialReifiedRelationshipHelper.TABLE_JSON_FILENAME))
+      tables.partialReifiedRelationships.foreach { t =>
+         val line = PartialReifiedRelationshipHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
       zos.putNextEntry(new java.util.zip.ZipEntry(ForwardPropertyHelper.TABLE_JSON_FILENAME))
       tables.forwardProperties.foreach { t =>
          val line = ForwardPropertyHelper.toJSON(t)+"\n"
@@ -1194,12 +1215,6 @@ object OMLSpecificationTables {
       zos.putNextEntry(new java.util.zip.ZipEntry(InversePropertyHelper.TABLE_JSON_FILENAME))
       tables.inverseProperties.foreach { t =>
          val line = InversePropertyHelper.toJSON(t)+"\n"
-         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
-      }
-      zos.closeEntry()
-      zos.putNextEntry(new java.util.zip.ZipEntry(SpecializedReifiedRelationshipHelper.TABLE_JSON_FILENAME))
-      tables.specializedReifiedRelationships.foreach { t =>
-         val line = SpecializedReifiedRelationshipHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry()
@@ -1284,6 +1299,12 @@ object OMLSpecificationTables {
       zos.putNextEntry(new java.util.zip.ZipEntry(ConceptSpecializationAxiomHelper.TABLE_JSON_FILENAME))
       tables.conceptSpecializationAxioms.foreach { t =>
          val line = ConceptSpecializationAxiomHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry()
+      zos.putNextEntry(new java.util.zip.ZipEntry(ReifiedRelationshipSpecializationAxiomHelper.TABLE_JSON_FILENAME))
+      tables.reifiedRelationshipSpecializationAxioms.foreach { t =>
+         val line = ReifiedRelationshipSpecializationAxiomHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry()

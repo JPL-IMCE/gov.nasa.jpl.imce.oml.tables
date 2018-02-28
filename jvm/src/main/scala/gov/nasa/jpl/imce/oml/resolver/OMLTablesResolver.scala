@@ -216,6 +216,28 @@ case class OMLTablesResolver private[resolver]
     result
   }
 
+  def lookupConceptualRelationship(uuid: api.taggedTypes.ConceptualRelationshipUUID)
+  : Option[resolver.api.ConceptualRelationship]
+  = OMLTablesResolver.collectFirstOption(allContexts)(
+    _.terminologyBoxStatementByUUID.get(uuid) match {
+      case Some(rr: resolver.api.ConceptualRelationship) =>
+        Some(rr)
+      case _ =>
+        None
+    }
+  )
+
+  def lookupPartialReifiedRelationship(uuid: api.taggedTypes.PartialReifiedRelationshipUUID)
+  : Option[resolver.api.PartialReifiedRelationship]
+  = OMLTablesResolver.collectFirstOption(allContexts)(
+    _.terminologyBoxStatementByUUID.get(uuid) match {
+      case Some(rr: resolver.api.PartialReifiedRelationship) =>
+        Some(rr)
+      case _ =>
+        None
+    }
+  )
+
   def lookupReifiedRelationship(uuid: api.taggedTypes.ReifiedRelationshipUUID)
   : Option[resolver.api.ReifiedRelationship]
   = OMLTablesResolver.collectFirstOption(allContexts)(
@@ -1183,42 +1205,42 @@ object OMLTablesResolver {
     val (r1, u1) =
       r.queue.binaryScalarRestrictions
         .groupBy(_.tboxUUID)
-        .map { case (uuid, ranges) => api.taggedTypes.fromUUIDString(uuid.asInstanceOf[tables.taggedTypes.TerminologyGraphUUID]) -> ranges }
+        .map { case (uuid, ranges) => api.taggedTypes.fromUUIDString(uuid) -> ranges }
         .partition { case (tboxUUID, _) => ns.contains(tboxUUID) }
     val (r2, u2) =
       r.queue.iriScalarRestrictions
         .groupBy(_.tboxUUID)
-        .map { case (uuid, ranges) => api.taggedTypes.fromUUIDString(uuid.asInstanceOf[tables.taggedTypes.TerminologyGraphUUID]) -> ranges }
+        .map { case (uuid, ranges) => api.taggedTypes.fromUUIDString(uuid) -> ranges }
         .partition { case (tboxUUID, _) => ns.contains(tboxUUID) }
     val (r3, u3) =
       r.queue.numericScalarRestrictions
         .groupBy(_.tboxUUID)
-        .map { case (uuid, ranges) => api.taggedTypes.fromUUIDString(uuid.asInstanceOf[tables.taggedTypes.TerminologyGraphUUID]) -> ranges }
+        .map { case (uuid, ranges) => api.taggedTypes.fromUUIDString(uuid) -> ranges }
         .partition { case (tboxUUID, _) => ns.contains(tboxUUID) }
     val (r4, u4) =
       r.queue.plainLiteralScalarRestrictions
         .groupBy(_.tboxUUID)
-        .map { case (uuid, ranges) => api.taggedTypes.fromUUIDString(uuid.asInstanceOf[tables.taggedTypes.TerminologyGraphUUID]) -> ranges }
+        .map { case (uuid, ranges) => api.taggedTypes.fromUUIDString(uuid) -> ranges }
         .partition { case (tboxUUID, _) => ns.contains(tboxUUID) }
     val (r5, u5) =
       r.queue.scalarOneOfRestrictions
         .groupBy(_.tboxUUID)
-        .map { case (uuid, ranges) => api.taggedTypes.fromUUIDString(uuid.asInstanceOf[tables.taggedTypes.TerminologyGraphUUID]) -> ranges }
+        .map { case (uuid, ranges) => api.taggedTypes.fromUUIDString(uuid) -> ranges }
         .partition { case (tboxUUID, _) => ns.contains(tboxUUID) }
     val (r6, u6) =
       r.queue.stringScalarRestrictions
         .groupBy(_.tboxUUID)
-        .map { case (uuid, ranges) => api.taggedTypes.fromUUIDString(uuid.asInstanceOf[tables.taggedTypes.TerminologyGraphUUID]) -> ranges }
+        .map { case (uuid, ranges) => api.taggedTypes.fromUUIDString(uuid) -> ranges }
         .partition { case (tboxUUID, _) => ns.contains(tboxUUID) }
     val (r7, u7) =
       r.queue.synonymScalarRestrictions
         .groupBy(_.tboxUUID)
-        .map { case (uuid, ranges) => api.taggedTypes.fromUUIDString(uuid.asInstanceOf[tables.taggedTypes.TerminologyGraphUUID]) -> ranges }
+        .map { case (uuid, ranges) => api.taggedTypes.fromUUIDString(uuid) -> ranges }
         .partition { case (tboxUUID, _) => ns.contains(tboxUUID) }
     val (r8, u8) =
       r.queue.timeScalarRestrictions
         .groupBy(_.tboxUUID)
-        .map { case (uuid, ranges) => api.taggedTypes.fromUUIDString(uuid.asInstanceOf[tables.taggedTypes.TerminologyGraphUUID]) -> ranges }
+        .map { case (uuid, ranges) => api.taggedTypes.fromUUIDString(uuid) -> ranges }
         .partition { case (tboxUUID, _) => ns.contains(tboxUUID) }
 
     val worklist = DataRangesToResolve(
@@ -1309,7 +1331,7 @@ object OMLTablesResolver {
     step3c <- mapDescriptionBoxRefinements(step3b)
     // Relational terms
     step4a <- mapRestrictedDataRanges(step3c)
-    step4b <- mapReifiedRelationships(step4a)
+    step4b <- mapConceptualRelationships(step4a)
     step4c <- mapForwardProperties(step4b)
     step4d <- mapInverseProperties(step4c)
     step4e <- mapUnreifiedRelationships(step4d)
@@ -1334,7 +1356,7 @@ object OMLTablesResolver {
     // -- SpecializationAxiom
     step9a <- mapAspectSpecializationAxioms(step8d)
     step9b <- mapConceptSpecializationAxioms(step9a)
-    step9c <- mapSpecializedReifiedRelationships(step9b)
+    step9c <- mapReifiedRelationshipSpecializationAxioms(step9b)
     // -- SubPropertyOfAxioms
     step9d <- mapSubDataPropertyOfAxioms(step9c)
     step9e <- mapSubObjectPropertyOfAxioms(step9d)
@@ -1371,68 +1393,37 @@ object OMLTablesResolver {
 
   type HyperGraphV = Try[Graph[api.Module, ModuleGraphEdge]]
 
-  def mapReifiedRelationships
+  def mapConceptualRelationships
   (r: OMLTablesResolver)
   : Try[OMLTablesResolver]
   = {
-    val byUUID =
+    val ns = r.context.terminologyGraphs
+
+    val rr_byUUID =
       r.queue.reifiedRelationships
         .map { trr =>
           ( api.taggedTypes.fromUUIDString(trr.tboxUUID),
             api.taggedTypes.fromUUIDString(trr.sourceUUID),
-            api.taggedTypes.fromUUIDString(trr.targetUUID) ) -> trr
+            api.taggedTypes.fromUUIDString(trr.targetUUID),
+            trr )
         }
 
-    val byTBox = for {
-      tuple <- byUUID
-      ((tboxUUID, sourceUUID, targetUUID), trr) = tuple
-      tboxM = r.lookupTerminologyBox(tboxUUID)
-      sourceM = r.lookupTerminologyBoxStatement(sourceUUID) match {
-        case Some(e: api.Entity) => Some(e)
-        case _ => None
-      }
-      targetM = r.lookupTerminologyBoxStatement(targetUUID) match {
-        case Some(e: api.Entity) => Some(e)
-        case _ => None
-      }
-    } yield (tboxM, sourceM, targetM, trr)
+    val (rr_resolvable, rr_unresolvable) = rr_byUUID.partition { case (tboxUUID, _, _, _) => ns.contains(tboxUUID) }
 
+    val pr_byUUID =
+      r.queue.partialReifiedRelationships
+        .map { trr =>
+          ( api.taggedTypes.fromUUIDString(trr.tboxUUID),
+            api.taggedTypes.fromUUIDString(trr.sourceUUID),
+            api.taggedTypes.fromUUIDString(trr.targetUUID),
+            trr )
+        }
 
-    val unresolvable = byTBox.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty || tuple._3.isEmpty).map(_._4)
-    val resolvable = byTBox.flatMap {
-      case (Some(tboxM), Some(sourceM), Some(targetM), trr) => Some(Tuple4(tboxM, sourceM, targetM, trr))
-      case _ => None
-    }
+    val (pr_resolvable, pr_unresolvable) = pr_byUUID.partition { case (tboxUUID, _, _, _) => ns.contains(tboxUUID) }
 
-    val s =
-      resolvable.foldLeft[Try[OMLTablesResolver]](Success(r.copy(queue = r.queue.copy(reifiedRelationships = unresolvable)))) {
-        case (Success(ri), (tboxM, sourceM, targetM, trr)) =>
-          val (ej, rrr) = ri.factory.createReifiedRelationship(
-            ri.context,
-            tboxM,
-            sourceM,
-            targetM,
-            trr.isAsymmetric,
-            trr.isEssential,
-            trr.isFunctional,
-            trr.isInverseEssential,
-            trr.isInverseFunctional,
-            trr.isIrreflexive,
-            trr.isReflexive,
-            trr.isSymmetric,
-            trr.isTransitive,
-            trr.name)
+    val cr2resolver = ConceptualRelationshipsToResolve(rr_resolvable, pr_resolvable, r)
+    cr2resolver.resolve()
 
-          if (!ej.lookupBoxStatements(tboxM).contains(rrr))
-            Failure(new IllegalArgumentException(s"ReifiedRelationship not in extent: $rrr"))
-          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(trr.uuid)).contains(rrr))
-            Failure(new IllegalArgumentException(s"ReifiedRelationship: $trr vs. $rrr"))
-          else
-            Success(ri.copy(context = ej))
-        case (Failure(f), _) =>
-          Failure(f)
-      }
-    s
   }
 
   def mapForwardProperties
@@ -2738,59 +2729,46 @@ object OMLTablesResolver {
     s
   }
 
-  def mapSpecializedReifiedRelationships
+  def mapReifiedRelationshipSpecializationAxioms
   (r: OMLTablesResolver)
   : Try[OMLTablesResolver]
   = {
     val byUUID =
-      r.queue.specializedReifiedRelationships
+      r.queue.reifiedRelationshipSpecializationAxioms
         .map { tax =>
           ( api.taggedTypes.fromUUIDString(tax.tboxUUID),
-            api.taggedTypes.fromUUIDString(tax.sourceUUID),
-            api.taggedTypes.fromUUIDString(tax.targetUUID),
-            api.taggedTypes.fromUUIDString(tax.generalUUID) ) -> tax
+            api.taggedTypes.fromUUIDString(tax.subRelationshipUUID),
+            api.taggedTypes.fromUUIDString(tax.superRelationshipUUID) ) -> tax
         }
 
     val byTBox = for {
       tuple <- byUUID
-      ((tboxUUID, sourceUUID, targetUUID, generalUUID), tax) = tuple
+      ((tboxUUID, subUUID, superUUID), tax) = tuple
       tboxM = r.lookupTerminologyBox(tboxUUID)
-      sourceM = r.lookupTerminologyBoxStatement(sourceUUID) match {
-        case Some(e: api.Entity) => Some(e)
-        case _ => None
-      }
-      targetM = r.lookupTerminologyBoxStatement(targetUUID) match {
-        case Some(e: api.Entity) => Some(e)
-        case _ => None
-      }
-      generalM = r.lookupTerminologyBoxStatement(generalUUID) match {
-        case Some(e: api.ConceptualRelationship) => Some(e)
-        case _ => None
-      }
-    } yield (tboxM, sourceM, targetM, generalM, tax)
+      subM = r.lookupConceptualRelationship(subUUID)
+      superM = r.lookupConceptualRelationship(superUUID)
+    } yield (tboxM, subM, superM, tax)
 
 
-    val unresolvable = byTBox.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty || tuple._3.isEmpty || tuple._4.isEmpty).map(_._5)
+    val unresolvable = byTBox.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty || tuple._3.isEmpty).map(_._4)
     val resolvable = byTBox.flatMap {
-      case (Some(tboxM), Some(sourceM), Some(targetM), Some(generalM), tax) => Some(Tuple5(tboxM, sourceM, targetM, generalM, tax))
+      case (Some(tboxM), Some(subM), Some(superM), tax) => Some(Tuple4(tboxM, subM, superM, tax))
       case _ => None
     }
 
     val s =
-      resolvable.foldLeft[Try[OMLTablesResolver]](Success(r.copy(queue = r.queue.copy(specializedReifiedRelationships = unresolvable)))) {
-        case (Success(ri), (tboxM, sourceM, targetM, generalM, tax)) =>
-          val (ej, rax) = ri.factory.createSpecializedReifiedRelationship(
+      resolvable.foldLeft[Try[OMLTablesResolver]](Success(r.copy(queue = r.queue.copy(reifiedRelationshipSpecializationAxioms = unresolvable)))) {
+        case (Success(ri), (tboxM, subM, superM, tax)) =>
+          val (ej, rax) = ri.factory.createReifiedRelationshipSpecializationAxiom(
             ri.context,
             tboxM,
-            sourceM,
-            targetM,
-            generalM,
-            tax.name)
+            subM,
+            superM)
 
           if (!ej.lookupBoxStatements(tboxM).contains(rax))
-            Failure(new IllegalArgumentException(s"SpecializedReifiedRelationship not in extent: $rax"))
+            Failure(new IllegalArgumentException(s"ReifiedRelationshipSpecializationAxiom not in extent: $rax"))
           else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tax.uuid)).contains(rax))
-            Failure(new IllegalArgumentException(s"SpecializedReifiedRelationship: $tax vs. $rax"))
+            Failure(new IllegalArgumentException(s"ReifiedRelationshipSpecializationAxiom: $tax vs. $rax"))
           else
             Success(ri.copy(context = ej))
         case (Failure(f), _) =>

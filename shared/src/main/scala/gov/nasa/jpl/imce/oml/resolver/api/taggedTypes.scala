@@ -1347,6 +1347,27 @@ object taggedTypes {
   	: Int = x.compareTo(y)
   }
   
+  type PartialReifiedRelationshipUUID
+  = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.PartialReifiedRelationshipTag
+  
+  def partialReifiedRelationshipUUID(uuid: UUID): PartialReifiedRelationshipUUID
+  = covariantTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.PartialReifiedRelationshipTag][UUID](uuid)
+  
+  implicit val decodePartialReifiedRelationshipUUID: Decoder[PartialReifiedRelationshipUUID]
+  = decodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.PartialReifiedRelationshipTag]
+  
+  implicit val encodePartialReifiedRelationshipUUID: Encoder[PartialReifiedRelationshipUUID]
+  = encodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.PartialReifiedRelationshipTag]
+
+  implicit val orderingPartialReifiedRelationshipUUID
+  : Ordering[PartialReifiedRelationshipUUID]
+  = new Ordering[PartialReifiedRelationshipUUID] {
+  	override def compare
+  	(x: PartialReifiedRelationshipUUID, 
+  	 y: PartialReifiedRelationshipUUID)
+  	: Int = x.compareTo(y)
+  }
+  
   type PlainLiteralScalarRestrictionUUID
   = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.PlainLiteralScalarRestrictionTag
   
@@ -1470,6 +1491,27 @@ object taggedTypes {
   	override def compare
   	(x: ReifiedRelationshipInstanceRangeUUID, 
   	 y: ReifiedRelationshipInstanceRangeUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type ReifiedRelationshipSpecializationAxiomUUID
+  = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.ReifiedRelationshipSpecializationAxiomTag
+  
+  def reifiedRelationshipSpecializationAxiomUUID(uuid: UUID): ReifiedRelationshipSpecializationAxiomUUID
+  = covariantTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.ReifiedRelationshipSpecializationAxiomTag][UUID](uuid)
+  
+  implicit val decodeReifiedRelationshipSpecializationAxiomUUID: Decoder[ReifiedRelationshipSpecializationAxiomUUID]
+  = decodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.ReifiedRelationshipSpecializationAxiomTag]
+  
+  implicit val encodeReifiedRelationshipSpecializationAxiomUUID: Encoder[ReifiedRelationshipSpecializationAxiomUUID]
+  = encodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.ReifiedRelationshipSpecializationAxiomTag]
+
+  implicit val orderingReifiedRelationshipSpecializationAxiomUUID
+  : Ordering[ReifiedRelationshipSpecializationAxiomUUID]
+  = new Ordering[ReifiedRelationshipSpecializationAxiomUUID] {
+  	override def compare
+  	(x: ReifiedRelationshipSpecializationAxiomUUID, 
+  	 y: ReifiedRelationshipSpecializationAxiomUUID)
   	: Int = x.compareTo(y)
   }
   
@@ -1869,27 +1911,6 @@ object taggedTypes {
   	override def compare
   	(x: SpecializationAxiomUUID, 
   	 y: SpecializationAxiomUUID)
-  	: Int = x.compareTo(y)
-  }
-  
-  type SpecializedReifiedRelationshipUUID
-  = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.SpecializedReifiedRelationshipTag
-  
-  def specializedReifiedRelationshipUUID(uuid: UUID): SpecializedReifiedRelationshipUUID
-  = covariantTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.SpecializedReifiedRelationshipTag][UUID](uuid)
-  
-  implicit val decodeSpecializedReifiedRelationshipUUID: Decoder[SpecializedReifiedRelationshipUUID]
-  = decodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.SpecializedReifiedRelationshipTag]
-  
-  implicit val encodeSpecializedReifiedRelationshipUUID: Encoder[SpecializedReifiedRelationshipUUID]
-  = encodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.SpecializedReifiedRelationshipTag]
-
-  implicit val orderingSpecializedReifiedRelationshipUUID
-  : Ordering[SpecializedReifiedRelationshipUUID]
-  = new Ordering[SpecializedReifiedRelationshipUUID] {
-  	override def compare
-  	(x: SpecializedReifiedRelationshipUUID, 
-  	 y: SpecializedReifiedRelationshipUUID)
   	: Int = x.compareTo(y)
   }
   
