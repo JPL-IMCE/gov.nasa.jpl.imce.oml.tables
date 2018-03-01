@@ -1,0 +1,5 @@
+gov.nasa.jpl.imce.oml.tables 0.93 is an API-breaking change from 0.92
+
+## Issues Resolved
+
+### [#51 PartialReifiedRelationship to ReifiedRelationshipRestriction update](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/51)

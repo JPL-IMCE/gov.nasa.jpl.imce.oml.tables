@@ -738,30 +738,6 @@ trait OMLResolvedFactory {
     name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, NumericScalarRestriction)
   
-  // PartialReifiedRelationship
-  def createPartialReifiedRelationship
-  ( extent: Extent,
-    tbox: TerminologyBox,
-    source: Entity,
-    target: Entity,
-    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
-  : (Extent, PartialReifiedRelationship)
-  = {
-    // namespace uuid...
-    import scala.Predef.ArrowAssoc
-    val uuid = taggedTypes.partialReifiedRelationshipUUID(namespaceUUID(tbox.uuid.toString,  "name" -> name))
-    createPartialReifiedRelationship( extent, uuid, tbox, source, target, name )
-  }
-  
-  def createPartialReifiedRelationship
-  ( extent: Extent,
-    uuid: taggedTypes.PartialReifiedRelationshipUUID,
-    tbox: TerminologyBox,
-    source: Entity,
-    target: Entity,
-    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
-  : (Extent, PartialReifiedRelationship)
-  
   // PlainLiteralScalarRestriction
   def createPlainLiteralScalarRestriction
   ( extent: Extent,
@@ -911,6 +887,30 @@ trait OMLResolvedFactory {
     reifiedRelationshipInstance: ReifiedRelationshipInstance,
     range: ConceptualEntitySingletonInstance )
   : (Extent, ReifiedRelationshipInstanceRange)
+  
+  // ReifiedRelationshipRestriction
+  def createReifiedRelationshipRestriction
+  ( extent: Extent,
+    tbox: TerminologyBox,
+    source: Entity,
+    target: Entity,
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
+  : (Extent, ReifiedRelationshipRestriction)
+  = {
+    // namespace uuid...
+    import scala.Predef.ArrowAssoc
+    val uuid = taggedTypes.reifiedRelationshipRestrictionUUID(namespaceUUID(tbox.uuid.toString,  "name" -> name))
+    createReifiedRelationshipRestriction( extent, uuid, tbox, source, target, name )
+  }
+  
+  def createReifiedRelationshipRestriction
+  ( extent: Extent,
+    uuid: taggedTypes.ReifiedRelationshipRestrictionUUID,
+    tbox: TerminologyBox,
+    source: Entity,
+    target: Entity,
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
+  : (Extent, ReifiedRelationshipRestriction)
   
   // ReifiedRelationshipSpecializationAxiom
   def createReifiedRelationshipSpecializationAxiom

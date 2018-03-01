@@ -227,11 +227,11 @@ case class OMLTablesResolver private[resolver]
     }
   )
 
-  def lookupPartialReifiedRelationship(uuid: api.taggedTypes.PartialReifiedRelationshipUUID)
-  : Option[resolver.api.PartialReifiedRelationship]
+  def lookupReifiedRelationshipRestriction(uuid: api.taggedTypes.ReifiedRelationshipRestrictionUUID)
+  : Option[resolver.api.ReifiedRelationshipRestriction]
   = OMLTablesResolver.collectFirstOption(allContexts)(
     _.terminologyBoxStatementByUUID.get(uuid) match {
-      case Some(rr: resolver.api.PartialReifiedRelationship) =>
+      case Some(rr: resolver.api.ReifiedRelationshipRestriction) =>
         Some(rr)
       case _ =>
         None
@@ -1411,7 +1411,7 @@ object OMLTablesResolver {
     val (rr_resolvable, rr_unresolvable) = rr_byUUID.partition { case (tboxUUID, _, _, _) => ns.contains(tboxUUID) }
 
     val pr_byUUID =
-      r.queue.partialReifiedRelationships
+      r.queue.reifiedRelationshipRestrictions
         .map { trr =>
           ( api.taggedTypes.fromUUIDString(trr.tboxUUID),
             api.taggedTypes.fromUUIDString(trr.sourceUUID),

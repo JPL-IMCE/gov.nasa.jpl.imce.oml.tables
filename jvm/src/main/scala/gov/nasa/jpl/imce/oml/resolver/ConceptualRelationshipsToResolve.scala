@@ -27,13 +27,13 @@ import scala.collection.immutable.Seq
 import scala.util.{Failure, Success, Try}
 
 case class ConceptualRelationshipsToResolve
-( reifiedRelationships: Seq[(api.taggedTypes.TerminologyBoxUUID, api.taggedTypes.EntityUUID, api.taggedTypes.EntityUUID, tables.ReifiedRelationship)],
-  partialRelationships: Seq[(api.taggedTypes.TerminologyBoxUUID, api.taggedTypes.EntityUUID, api.taggedTypes.EntityUUID, tables.PartialReifiedRelationship)],
-  r: OMLTablesResolver ) {
+(reifiedRelationships: Seq[(api.taggedTypes.TerminologyBoxUUID, api.taggedTypes.EntityUUID, api.taggedTypes.EntityUUID, tables.ReifiedRelationship)],
+ reifiedRelationshipRestrictions: Seq[(api.taggedTypes.TerminologyBoxUUID, api.taggedTypes.EntityUUID, api.taggedTypes.EntityUUID, tables.ReifiedRelationshipRestriction)],
+ r: OMLTablesResolver ) {
 
 
   def resolve(): Try[OMLTablesResolver]
-  = if (reifiedRelationships.isEmpty && partialRelationships.isEmpty)
+  = if (reifiedRelationships.isEmpty && reifiedRelationshipRestrictions.isEmpty)
     Success(r)
   else {
 
@@ -52,7 +52,7 @@ case class ConceptualRelationshipsToResolve
     } yield (tboxM, sourceM, targetM, trr)
 
     val pr_byTBox = for {
-      tuple <- partialRelationships
+      tuple <- reifiedRelationshipRestrictions
       (tboxUUID, sourceUUID, targetUUID, trr) = tuple
       tboxM = r.lookupTerminologyBox(tboxUUID)
       sourceM = r.lookupTerminologyBoxStatement(sourceUUID) match {
@@ -80,7 +80,7 @@ case class ConceptualRelationshipsToResolve
     val s1 =
       rr_resolvable.foldLeft[Try[OMLTablesResolver]](Success(r.copy(queue = r.queue.copy(
         reifiedRelationships = rr_unresolvable,
-        partialReifiedRelationships = pr_unresolvable)))) {
+        reifiedRelationshipRestrictions = pr_unresolvable)))) {
         case (Success(ri), (tboxM, sourceM, targetM, trr)) =>
           val (ej, rrr) = ri.factory.createReifiedRelationship(
             ri.context,
@@ -111,7 +111,7 @@ case class ConceptualRelationshipsToResolve
     val s2 =
       pr_resolvable.foldLeft[Try[OMLTablesResolver]](s1) {
         case (Success(ri), (tboxM, sourceM, targetM, trr)) =>
-          val (ej, rrr) = ri.factory.createPartialReifiedRelationship(
+          val (ej, rrr) = ri.factory.createReifiedRelationshipRestriction(
             ri.context,
             tboxM,
             sourceM,
@@ -119,9 +119,9 @@ case class ConceptualRelationshipsToResolve
             trr.name)
 
           if (!ej.lookupBoxStatements(tboxM).contains(rrr))
-            Failure(new IllegalArgumentException(s"PartialReifiedRelationship not in extent: $rrr"))
+            Failure(new IllegalArgumentException(s"ReifiedRelationshipRestriction not in extent: $rrr"))
           else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(trr.uuid)).contains(rrr))
-            Failure(new IllegalArgumentException(s"PartialReifiedRelationship: $trr vs. $rrr"))
+            Failure(new IllegalArgumentException(s"ReifiedRelationshipRestriction: $trr vs. $rrr"))
           else
             Success(ri.copy(context = ej))
         case (Failure(f), _) =>

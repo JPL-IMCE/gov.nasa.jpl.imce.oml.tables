@@ -19,17 +19,17 @@
 package gov.nasa.jpl.imce.oml.resolver.api
 
 /*
- * An OML PartialReifiedRelationship is an OML ConceptualRelationship
+ * An OML ReifiedRelationshipRestriction is an OML ConceptualRelationship
  * that plays the role of a specific entity for one or more OML ReifiedRelationshipSpecializationAxioms
  * with respect to an OML ConceptualRelationship as its general entity.
  * Note that this statement is well formed in a given OML TerminologyBox
  * iff it is the specific entity of at least one OML ReifiedRelationshipSpecializationAxiom
  * asserted in that OML TerminologyBox.
  */
-trait PartialReifiedRelationship
+trait ReifiedRelationshipRestriction
   extends ConceptualRelationship
 {
-  override val uuid: taggedTypes.PartialReifiedRelationshipUUID
+  override val uuid: taggedTypes.ReifiedRelationshipRestrictionUUID
 
   override def allNestedElements
   ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: LogicalElement]
@@ -37,16 +37,16 @@ trait PartialReifiedRelationship
   ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: ReifiedRelationship]
 }
 
-object PartialReifiedRelationship {
+object ReifiedRelationshipRestriction {
 
   def allNestedElements
-  (p: PartialReifiedRelationship, ext: Extent)
+  (r: ReifiedRelationshipRestriction, ext: Extent)
   : scala.collection.immutable.Set[_ <: LogicalElement]
-  = p.allNestedElements()(ext)
+  = r.allNestedElements()(ext)
 
   def rootReifiedRelationships
-  (p: PartialReifiedRelationship, ext: Extent)
+  (r: ReifiedRelationshipRestriction, ext: Extent)
   : scala.collection.immutable.Set[_ <: ReifiedRelationship]
-  = p.rootReifiedRelationships()(ext)
+  = r.rootReifiedRelationships()(ext)
 
 }

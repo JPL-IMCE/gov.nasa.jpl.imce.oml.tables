@@ -114,13 +114,13 @@ object Extent2Tables {
       None
   }.to[Seq]
 
-  def convertPartialReifiedRelationships
-  (acc: Seq[tables.PartialReifiedRelationship],
+  def convertReifiedRelationshipRestrictions
+  (acc: Seq[tables.ReifiedRelationshipRestriction],
    x: (api.TerminologyBox, Set[api.TerminologyBoxStatement]))
-  : Seq[tables.PartialReifiedRelationship]
+  : Seq[tables.ReifiedRelationshipRestriction]
   = acc ++ x._2.flatMap {
-    case y: api.PartialReifiedRelationship =>
-      Some(tables.PartialReifiedRelationship(
+    case y: api.ReifiedRelationshipRestriction =>
+      Some(tables.ReifiedRelationshipRestriction(
         y.uuid,
         x._1.uuid,
         y.source.uuid,
@@ -1066,11 +1066,11 @@ object Extent2Tables {
                 .foldLeft[Seq[tables.ReifiedRelationship]](Seq.empty)(convertReifiedRelationships),
               (rr: tables.ReifiedRelationship) => rr.uuid),
 
-          partialReifiedRelationships =
+          reifiedRelationshipRestrictions =
             parallelSort.parSortBy(
               e.boxStatements
-                .foldLeft[Seq[tables.PartialReifiedRelationship]](Seq.empty)(convertPartialReifiedRelationships),
-              (rr: tables.PartialReifiedRelationship) => rr.uuid),
+                .foldLeft[Seq[tables.ReifiedRelationshipRestriction]](Seq.empty)(convertReifiedRelationshipRestrictions),
+              (rr: tables.ReifiedRelationshipRestriction) => rr.uuid),
 
           forwardProperties =
             parallelSort.parSortBy(

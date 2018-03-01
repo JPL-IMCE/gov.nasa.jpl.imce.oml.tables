@@ -30,10 +30,10 @@ import scala.Predef.ArrowAssoc
   * @param targetUUID[1,1]
   * @param name[1,1]
   */
-@JSExportTopLevel("PartialReifiedRelationship")
-case class PartialReifiedRelationship
+@JSExportTopLevel("ReifiedRelationshipRestriction")
+case class ReifiedRelationshipRestriction
 (
-  @(JSExport @field) override val uuid: taggedTypes.PartialReifiedRelationshipUUID,
+  @(JSExport @field) override val uuid: taggedTypes.ReifiedRelationshipRestrictionUUID,
   @(JSExport @field) override val tboxUUID: taggedTypes.TerminologyBoxUUID,
   @(JSExport @field) override val sourceUUID: taggedTypes.EntityUUID,
   @(JSExport @field) override val targetUUID: taggedTypes.EntityUUID,
@@ -47,7 +47,7 @@ case class PartialReifiedRelationship
     targetUUID: taggedTypes.EntityUUID,
     name: taggedTypes.LocalName)
   = this(
-      taggedTypes.partialReifiedRelationshipUUID(oug.namespaceUUID(
+      taggedTypes.reifiedRelationshipRestrictionUUID(oug.namespaceUUID(
         tboxUUID,
         "name" -> name).toString),
       tboxUUID,
@@ -62,7 +62,7 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   = (uuid, tboxUUID, sourceUUID, targetUUID, name).##
   
   override def equals(other: scala.Any): scala.Boolean = other match {
-  	case that: PartialReifiedRelationship =>
+  	case that: ReifiedRelationshipRestriction =>
   	  (this.uuid == that.uuid) &&
   	  (this.tboxUUID == that.tboxUUID)  &&
   	  (this.sourceUUID == that.sourceUUID)  &&
@@ -74,8 +74,8 @@ val vertexId: scala.Long = uuid.hashCode.toLong
   
 }
 
-@JSExportTopLevel("PartialReifiedRelationshipHelper")
-object PartialReifiedRelationshipHelper {
+@JSExportTopLevel("ReifiedRelationshipRestrictionHelper")
+object ReifiedRelationshipRestrictionHelper {
 
   import io.circe.{Decoder, Encoder, HCursor, Json}
   import io.circe.parser.parse
@@ -83,20 +83,20 @@ object PartialReifiedRelationshipHelper {
 
   val TABLE_JSON_FILENAME 
   : String 
-  = "PartialReifiedRelationships.json"
+  = "ReifiedRelationshipRestrictions.json"
 
-  implicit val decodePartialReifiedRelationship: Decoder[PartialReifiedRelationship]
-  = Decoder.instance[PartialReifiedRelationship] { c: HCursor =>
+  implicit val decodeReifiedRelationshipRestriction: Decoder[ReifiedRelationshipRestriction]
+  = Decoder.instance[ReifiedRelationshipRestriction] { c: HCursor =>
     
     import cats.syntax.either._
   
     for {
-    	  uuid <- c.downField("uuid").as[taggedTypes.PartialReifiedRelationshipUUID]
+    	  uuid <- c.downField("uuid").as[taggedTypes.ReifiedRelationshipRestrictionUUID]
     	  tboxUUID <- c.downField("tboxUUID").as[taggedTypes.TerminologyBoxUUID]
     	  sourceUUID <- c.downField("sourceUUID").as[taggedTypes.EntityUUID]
     	  targetUUID <- c.downField("targetUUID").as[taggedTypes.EntityUUID]
     	  name <- c.downField("name").as[taggedTypes.LocalName]
-    	} yield PartialReifiedRelationship(
+    	} yield ReifiedRelationshipRestriction(
     	  uuid,
     	  tboxUUID,
     	  sourceUUID,
@@ -105,11 +105,11 @@ object PartialReifiedRelationshipHelper {
     	)
   }
   
-  implicit val encodePartialReifiedRelationship: Encoder[PartialReifiedRelationship]
-  = new Encoder[PartialReifiedRelationship] {
-    override final def apply(x: PartialReifiedRelationship): Json 
+  implicit val encodeReifiedRelationshipRestriction: Encoder[ReifiedRelationshipRestriction]
+  = new Encoder[ReifiedRelationshipRestriction] {
+    override final def apply(x: ReifiedRelationshipRestriction): Json 
     = Json.obj(
-    	  ("uuid", taggedTypes.encodePartialReifiedRelationshipUUID(x.uuid)),
+    	  ("uuid", taggedTypes.encodeReifiedRelationshipRestrictionUUID(x.uuid)),
     	  ("tboxUUID", taggedTypes.encodeTerminologyBoxUUID(x.tboxUUID)),
     	  ("sourceUUID", taggedTypes.encodeEntityUUID(x.sourceUUID)),
     	  ("targetUUID", taggedTypes.encodeEntityUUID(x.targetUUID)),
@@ -118,16 +118,16 @@ object PartialReifiedRelationshipHelper {
   }
 
   @JSExport
-  def toJSON(c: PartialReifiedRelationship)
+  def toJSON(c: ReifiedRelationshipRestriction)
   : String
-  = encodePartialReifiedRelationship(c).noSpaces
+  = encodeReifiedRelationshipRestriction(c).noSpaces
 
   @JSExport
   def fromJSON(c: String)
-  : PartialReifiedRelationship
+  : ReifiedRelationshipRestriction
   = parse(c) match {
   	case scala.Right(json) =>
-  	  decodePartialReifiedRelationship(json.hcursor) match {
+  	  decodeReifiedRelationshipRestriction(json.hcursor) match {
   	    	case scala.Right(result) =>
   	    	  result
   	    	case scala.Left(failure) =>

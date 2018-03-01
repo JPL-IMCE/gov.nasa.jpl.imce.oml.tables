@@ -60,7 +60,7 @@ case class OMLSpecificationTables
   scalarDataProperties : Seq[ScalarDataProperty] = Seq.empty,
   structuredDataProperties : Seq[StructuredDataProperty] = Seq.empty,
   reifiedRelationships : Seq[ReifiedRelationship] = Seq.empty,
-  partialReifiedRelationships : Seq[PartialReifiedRelationship] = Seq.empty,
+  reifiedRelationshipRestrictions : Seq[ReifiedRelationshipRestriction] = Seq.empty,
   forwardProperties : Seq[ForwardProperty] = Seq.empty,
   inverseProperties : Seq[InverseProperty] = Seq.empty,
   unreifiedRelationships : Seq[UnreifiedRelationship] = Seq.empty,
@@ -263,12 +263,12 @@ case class OMLSpecificationTables
     parallelSort.parSortBy((reifiedRelationships.to[Set] ++ 
      readJSonTable(is, ReifiedRelationshipHelper.fromJSON).to[Set]
     ).to[Seq], (a: ReifiedRelationship) => a.uuid))
-  def readPartialReifiedRelationships(is: InputStream)
+  def readReifiedRelationshipRestrictions(is: InputStream)
   : OMLSpecificationTables
-  = copy(partialReifiedRelationships = 
-    parallelSort.parSortBy((partialReifiedRelationships.to[Set] ++ 
-     readJSonTable(is, PartialReifiedRelationshipHelper.fromJSON).to[Set]
-    ).to[Seq], (a: PartialReifiedRelationship) => a.uuid))
+  = copy(reifiedRelationshipRestrictions = 
+    parallelSort.parSortBy((reifiedRelationshipRestrictions.to[Set] ++ 
+     readJSonTable(is, ReifiedRelationshipRestrictionHelper.fromJSON).to[Set]
+    ).to[Seq], (a: ReifiedRelationshipRestriction) => a.uuid))
   def readForwardProperties(is: InputStream)
   : OMLSpecificationTables
   = copy(forwardProperties = 
@@ -491,7 +491,7 @@ case class OMLSpecificationTables
     scalarDataProperties.isEmpty &&
     structuredDataProperties.isEmpty &&
     reifiedRelationships.isEmpty &&
-    partialReifiedRelationships.isEmpty &&
+    reifiedRelationshipRestrictions.isEmpty &&
     forwardProperties.isEmpty &&
     inverseProperties.isEmpty &&
     unreifiedRelationships.isEmpty &&
@@ -565,7 +565,7 @@ case class OMLSpecificationTables
     buff ++= showSeq("scalarDataProperties", scalarDataProperties)
     buff ++= showSeq("structuredDataProperties", structuredDataProperties)
     buff ++= showSeq("reifiedRelationships", reifiedRelationships)
-    buff ++= showSeq("partialReifiedRelationships", partialReifiedRelationships)
+    buff ++= showSeq("reifiedRelationshipRestrictions", reifiedRelationshipRestrictions)
     buff ++= showSeq("forwardProperties", forwardProperties)
     buff ++= showSeq("inverseProperties", inverseProperties)
     buff ++= showSeq("unreifiedRelationships", unreifiedRelationships)
@@ -746,10 +746,10 @@ object OMLSpecificationTables {
         t1.reifiedRelationships.to[Set] ++ 
         t2.reifiedRelationships.to[Set]
       ).to[Seq], (a: ReifiedRelationship) => a.uuid),
-      partialReifiedRelationships = parallelSort.parSortBy((
-        t1.partialReifiedRelationships.to[Set] ++ 
-        t2.partialReifiedRelationships.to[Set]
-      ).to[Seq], (a: PartialReifiedRelationship) => a.uuid),
+      reifiedRelationshipRestrictions = parallelSort.parSortBy((
+        t1.reifiedRelationshipRestrictions.to[Set] ++ 
+        t2.reifiedRelationshipRestrictions.to[Set]
+      ).to[Seq], (a: ReifiedRelationshipRestriction) => a.uuid),
       forwardProperties = parallelSort.parSortBy((
         t1.forwardProperties.to[Set] ++ 
         t2.forwardProperties.to[Set]
@@ -942,8 +942,8 @@ object OMLSpecificationTables {
   	    tables.readStructuredDataProperties(is)
   	  case ReifiedRelationshipHelper.TABLE_JSON_FILENAME =>
   	    tables.readReifiedRelationships(is)
-  	  case PartialReifiedRelationshipHelper.TABLE_JSON_FILENAME =>
-  	    tables.readPartialReifiedRelationships(is)
+  	  case ReifiedRelationshipRestrictionHelper.TABLE_JSON_FILENAME =>
+  	    tables.readReifiedRelationshipRestrictions(is)
   	  case ForwardPropertyHelper.TABLE_JSON_FILENAME =>
   	    tables.readForwardProperties(is)
   	  case InversePropertyHelper.TABLE_JSON_FILENAME =>
@@ -1200,9 +1200,9 @@ object OMLSpecificationTables {
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry()
-      zos.putNextEntry(new java.util.zip.ZipEntry(PartialReifiedRelationshipHelper.TABLE_JSON_FILENAME))
-      tables.partialReifiedRelationships.foreach { t =>
-         val line = PartialReifiedRelationshipHelper.toJSON(t)+"\n"
+      zos.putNextEntry(new java.util.zip.ZipEntry(ReifiedRelationshipRestrictionHelper.TABLE_JSON_FILENAME))
+      tables.reifiedRelationshipRestrictions.foreach { t =>
+         val line = ReifiedRelationshipRestrictionHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry()

@@ -1347,27 +1347,6 @@ object taggedTypes {
   	: Int = x.compareTo(y)
   }
   
-  type PartialReifiedRelationshipUUID
-  = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.PartialReifiedRelationshipTag
-  
-  def partialReifiedRelationshipUUID(uuid: UUID): PartialReifiedRelationshipUUID
-  = covariantTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.PartialReifiedRelationshipTag][UUID](uuid)
-  
-  implicit val decodePartialReifiedRelationshipUUID: Decoder[PartialReifiedRelationshipUUID]
-  = decodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.PartialReifiedRelationshipTag]
-  
-  implicit val encodePartialReifiedRelationshipUUID: Encoder[PartialReifiedRelationshipUUID]
-  = encodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.PartialReifiedRelationshipTag]
-
-  implicit val orderingPartialReifiedRelationshipUUID
-  : Ordering[PartialReifiedRelationshipUUID]
-  = new Ordering[PartialReifiedRelationshipUUID] {
-  	override def compare
-  	(x: PartialReifiedRelationshipUUID, 
-  	 y: PartialReifiedRelationshipUUID)
-  	: Int = x.compareTo(y)
-  }
-  
   type PlainLiteralScalarRestrictionUUID
   = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.PlainLiteralScalarRestrictionTag
   
@@ -1491,6 +1470,27 @@ object taggedTypes {
   	override def compare
   	(x: ReifiedRelationshipInstanceRangeUUID, 
   	 y: ReifiedRelationshipInstanceRangeUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type ReifiedRelationshipRestrictionUUID
+  = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.ReifiedRelationshipRestrictionTag
+  
+  def reifiedRelationshipRestrictionUUID(uuid: UUID): ReifiedRelationshipRestrictionUUID
+  = covariantTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.ReifiedRelationshipRestrictionTag][UUID](uuid)
+  
+  implicit val decodeReifiedRelationshipRestrictionUUID: Decoder[ReifiedRelationshipRestrictionUUID]
+  = decodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.ReifiedRelationshipRestrictionTag]
+  
+  implicit val encodeReifiedRelationshipRestrictionUUID: Encoder[ReifiedRelationshipRestrictionUUID]
+  = encodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.ReifiedRelationshipRestrictionTag]
+
+  implicit val orderingReifiedRelationshipRestrictionUUID
+  : Ordering[ReifiedRelationshipRestrictionUUID]
+  = new Ordering[ReifiedRelationshipRestrictionUUID] {
+  	override def compare
+  	(x: ReifiedRelationshipRestrictionUUID, 
+  	 y: ReifiedRelationshipRestrictionUUID)
   	: Int = x.compareTo(y)
   }
   
