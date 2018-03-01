@@ -30,7 +30,8 @@ package object parallelSort {
   (seq: Seq[A], f: A => B)
   (implicit ord: Ordering[B])
   : Seq[A]
-  = {
+  = if (seq.isEmpty) seq
+  else {
     val array = new java.util.ArrayList[A](seq.size)
     seq.par.zipWithIndex.foreach { case (a, i) =>
         array.set(i, a)
