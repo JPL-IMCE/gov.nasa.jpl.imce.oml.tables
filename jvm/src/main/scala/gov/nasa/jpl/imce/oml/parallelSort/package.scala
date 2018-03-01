@@ -33,9 +33,7 @@ package object parallelSort {
   = if (seq.isEmpty) seq
   else {
     val array = new java.util.ArrayList[A](seq.size)
-    seq.par.zipWithIndex.foreach { case (a, i) =>
-        array.set(i, a)
-    }
+    array.addAll(seq.asJava)
 
     val comparator: Comparator[_ >: A] = ord on f
 
