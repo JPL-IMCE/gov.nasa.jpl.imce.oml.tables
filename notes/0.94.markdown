@@ -1,0 +1,17 @@
+gov.nasa.jpl.imce.oml.tables 0.94 is a minor update of 0.93
+
+## Issues Resolved
+
+### [#54 OMLTablesResolver.mapReifiedRelationshipSpecializationAxioms](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/54)
+
+### [#55 Performance improvements](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/55)
+
+  This adds new dependency on the [Caffeine](https://github.com/ben-manes/caffeine) caching libraries:
+  
+  ```
+  "com.github.ben-manes.caffeine" % "caffeine" % "2.6.1"
+  "com.github.ben-manes.caffeine" % "guava" % "2.6.1"
+  "com.github.ben-manes.caffeine" % "jcache" % "2.6.1"
+  ```
+  
+### [#56 Parse LiteralRawStrings](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/56)
