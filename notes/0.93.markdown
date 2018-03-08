@@ -7,3 +7,9 @@ gov.nasa.jpl.imce.oml.tables 0.93 is an API-breaking change from 0.92
 ### [#52 Special case of empty array for parrallel sorting.](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/52)
 
 ### [#53 array conversion](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/53)
+
+### [#54 OMLTablesResolver.mapReifiedRelationshipSpecializationAxioms](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/54)
+
+### [#55 Performance improvements](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/55)
+
+### [#56 Parse LiteralRawStrings](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/56)
