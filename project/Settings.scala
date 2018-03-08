@@ -64,6 +64,12 @@ object Settings {
     "org.scala-lang.modules" %% "scala-java8-compat" % versions.scalaJ8CompatVersion,
     "org.scala-js" %% "scalajs-stubs" % scalaJSVersion % "provided",
     "com.novocode" % "junit-interface" % "0.11" % "test",
+
+    // https://github.com/ben-manes/caffeine
+    "com.github.ben-manes.caffeine" % "caffeine" % "2.6.1",
+    "com.github.ben-manes.caffeine" % "guava" % "2.6.1",
+    "com.github.ben-manes.caffeine" % "jcache" % "2.6.1",
+
     "gov.nasa.jpl.imce" %% "imce.third_party.scala_graph_libraries"
       % versions.scalaGraphLibraries % "compile" artifacts
       Artifact("imce.third_party.scala_graph_libraries", "zip", "zip", "resource")

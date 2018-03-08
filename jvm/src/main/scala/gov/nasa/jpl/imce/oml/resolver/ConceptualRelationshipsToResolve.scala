@@ -26,11 +26,26 @@ import scala.{None, Some, StringContext, Tuple4}
 import scala.collection.immutable.Seq
 import scala.util.{Failure, Success, Try}
 
-case class ConceptualRelationshipsToResolve
-(reifiedRelationships: Seq[(api.taggedTypes.TerminologyBoxUUID, api.taggedTypes.EntityUUID, api.taggedTypes.EntityUUID, tables.ReifiedRelationship)],
- reifiedRelationshipRestrictions: Seq[(api.taggedTypes.TerminologyBoxUUID, api.taggedTypes.EntityUUID, api.taggedTypes.EntityUUID, tables.ReifiedRelationshipRestriction)],
- r: OMLTablesResolver ) {
+object ConceptualRelationshipsToResolve {
 
+  type ReifiedRelationshipInfo
+  = (api.taggedTypes.TerminologyBoxUUID,
+     api.taggedTypes.EntityUUID,
+     api.taggedTypes.EntityUUID,
+     tables.ReifiedRelationship)
+
+  type ReifiedRelationshipRestrictionInfo
+  = (api.taggedTypes.TerminologyBoxUUID,
+     api.taggedTypes.EntityUUID,
+     api.taggedTypes.EntityUUID,
+     tables.ReifiedRelationshipRestriction)
+
+}
+
+case class ConceptualRelationshipsToResolve
+(reifiedRelationships: Seq[ConceptualRelationshipsToResolve.ReifiedRelationshipInfo],
+ reifiedRelationshipRestrictions: Seq[ConceptualRelationshipsToResolve.ReifiedRelationshipRestrictionInfo],
+ r: OMLTablesResolver ) {
 
   def resolve(): Try[OMLTablesResolver]
   = if (reifiedRelationships.isEmpty && reifiedRelationshipRestrictions.isEmpty)

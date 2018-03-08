@@ -23,11 +23,13 @@ import java.util.UUID
 
 import gov.nasa.jpl.imce.oml.{resolver, _}
 
+import com.github.benmanes.caffeine.cache.LoadingCache
+
 import scalax.collection.immutable.Graph
 import scala.annotation.tailrec
-import scala.collection.immutable.{Iterable,Seq,Set}
+import scala.collection.immutable.{Iterable, Map, Seq, Set}
 import scala.collection.parallel.immutable.ParSeq
-import scala.{Option, None, Some, StringContext, Tuple2, Tuple3, Tuple4, Tuple5}
+import scala.{None, Option, Some, StringContext, Tuple2, Tuple3, Tuple4, Tuple5}
 import scala.util.{Failure, Success, Try}
 import scala.Predef.ArrowAssoc
 
@@ -40,10 +42,23 @@ case class OMLTablesResolver private[resolver]
   lazy val allContexts: Seq[resolver.api.Extent]
   = context +: otherContexts
 
-  lazy val allModules: Seq[resolver.api.Module]
-  = allContexts.flatMap(_.terminologyGraphs.values) ++
-    allContexts.flatMap(_.bundles.values) ++
-    allContexts.flatMap(_.descriptionBoxes.values)
+  private lazy val allTerminologyGraphs
+  : Map[api.taggedTypes.ModuleUUID, resolver.api.TerminologyGraph]
+  = allContexts.foldLeft(Map.empty[api.taggedTypes.ModuleUUID, resolver.api.TerminologyGraph]) { case (acc, c) =>
+    acc ++ c.terminologyGraphs
+  }
+
+  private lazy val allBundles
+  : Map[api.taggedTypes.ModuleUUID, resolver.api.Bundle]
+  = allContexts.foldLeft(Map.empty[api.taggedTypes.ModuleUUID, resolver.api.Bundle]) { case (acc, c) =>
+    acc ++ c.bundles
+  }
+
+  private lazy val allDescriptionBoxes
+  : Map[api.taggedTypes.ModuleUUID, resolver.api.DescriptionBox]
+  = allContexts.foldLeft(Map.empty[api.taggedTypes.ModuleUUID, resolver.api.DescriptionBox]) { case (acc, c) =>
+    acc ++ c.descriptionBoxes
+  }
 
   def lookupModule(uuid: Option[api.taggedTypes.ModuleUUID])
   : Option[resolver.api.Module]
@@ -71,9 +86,15 @@ case class OMLTablesResolver private[resolver]
     lookupAnnotationProperty
   }
 
+  private lazy val allAnnotationProperties
+  : Map[api.taggedTypes.AnnotationPropertyUUID, resolver.api.AnnotationProperty]
+  = allContexts.foldLeft(Map.empty[api.taggedTypes.AnnotationPropertyUUID, resolver.api.AnnotationProperty]) {
+    case (acc, c) => acc ++ c.annotationPropertyByUUID
+  }
+
   def lookupAnnotationProperty(uuid: api.taggedTypes.AnnotationPropertyUUID)
   : Option[resolver.api.AnnotationProperty]
-  = OMLTablesResolver.collectFirstOption(allContexts)(_.annotationPropertyByUUID.get(uuid))
+  = allAnnotationProperties.get(uuid)
 
   def lookupTerminologyGraph(uuid: Option[api.taggedTypes.TerminologyGraphUUID])
   : Option[resolver.api.TerminologyGraph]
@@ -83,11 +104,7 @@ case class OMLTablesResolver private[resolver]
 
   def lookupTerminologyGraph(uuid: api.taggedTypes.ModuleUUID)
   : Option[resolver.api.TerminologyGraph]
-  = OMLTablesResolver.collectFirstOption(allContexts)(
-    _
-      .terminologyGraphs
-      .get(uuid.asInstanceOf[api.taggedTypes.TerminologyGraphUUID])
-  )
+  = allTerminologyGraphs.get(uuid)
 
   def lookupBundle(uuid: Option[api.taggedTypes.BundleUUID])
   : Option[resolver.api.Bundle]
@@ -97,11 +114,7 @@ case class OMLTablesResolver private[resolver]
 
   def lookupBundle(uuid: api.taggedTypes.ModuleUUID)
   : Option[resolver.api.Bundle]
-  = OMLTablesResolver.collectFirstOption(allContexts)(
-    _
-      .bundles
-      .get(uuid.asInstanceOf[api.taggedTypes.BundleUUID])
-  )
+  = allBundles.get(uuid)
 
   def lookupDescriptionBox(uuid: Option[api.taggedTypes.DescriptionBoxUUID])
   : Option[resolver.api.DescriptionBox]
@@ -111,11 +124,7 @@ case class OMLTablesResolver private[resolver]
 
   def lookupDescriptionBox(uuid: api.taggedTypes.ModuleUUID)
   : Option[resolver.api.DescriptionBox]
-  = OMLTablesResolver
-    .collectFirstOption(allContexts)(
-      _
-        .descriptionBoxes
-        .get(uuid.asInstanceOf[api.taggedTypes.DescriptionBoxUUID]))
+  = allDescriptionBoxes.get(uuid)
 
   def lookupAnnotations(key: Option[resolver.api.Module])
   : Set[resolver.api.AnnotationPropertyValue]
@@ -170,13 +179,21 @@ case class OMLTablesResolver private[resolver]
     lookupTerminologyBoxStatement
   }
 
+  private lazy val terminologyBoxStatementCache
+  : LoadingCache[api.taggedTypes.TerminologyBoxStatementUUID, Option[resolver.api.TerminologyBoxStatement]]
+  = LoadingCacheHelper
+    .makeLoadingCache[api.taggedTypes.TerminologyBoxStatementUUID, Option[resolver.api.TerminologyBoxStatement]](
+    (uuid: api.taggedTypes.TerminologyBoxStatementUUID) =>
+      OMLTablesResolver.collectFirstOption(allContexts)(
+        _
+          .terminologyBoxStatementByUUID
+          .get(uuid)
+      ),
+    allContexts.foldLeft(0L)(_ + _.terminologyBoxStatementByUUID.size))
+
   def lookupTerminologyBoxStatement(uuid: api.taggedTypes.TerminologyBoxStatementUUID)
   : Option[resolver.api.TerminologyBoxStatement]
-  = OMLTablesResolver.collectFirstOption(allContexts)(
-    _
-      .terminologyBoxStatementByUUID
-      .get(uuid)
-  )
+  = terminologyBoxStatementCache.get(uuid)
 
   def lookupForwardProperty(uuid: api.taggedTypes.ForwardPropertyUUID)
   : Option[resolver.api.ForwardProperty]

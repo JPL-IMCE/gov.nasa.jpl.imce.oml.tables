@@ -21,7 +21,7 @@ package gov.nasa.jpl.imce.oml.resolver
 import gov.nasa.jpl.imce.oml._
 
 import scala.collection.immutable.Seq
-import scala.{Product,StringContext}
+import scala.{Any,Boolean,Int,Product,StringContext}
 
 import scalax.collection.GraphEdge.{DiEdge, EdgeCopy, ExtendedKey, NodeProduct}
 import scalax.collection.GraphPredef.OuterEdge
@@ -36,6 +36,14 @@ case class ModuleGraphEdge[N]
   def keyAttributes = Seq(moduleEdge)
   override def copy[NN](newNodes: Product) = new ModuleGraphEdge[NN](newNodes, moduleEdge)
   override protected def attributesToString = s" $moduleEdge"
+
+  override val hashCode: Int = (nodes, moduleEdge).##
+
+  override def equals(other: Any): Boolean = other match {
+    case that: ModuleGraphEdge[n] =>
+      this.nodes == that.nodes &&
+      this.moduleEdge == that.moduleEdge
+  }
 }
 
 object ModuleGraphEdge {
