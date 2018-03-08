@@ -21,6 +21,7 @@ package gov.nasa.jpl.imce.oml.tables
 import io.circe._
 
 import scala.Option
+import scala.collection.immutable.Vector
 import scala.Predef.{ArrowAssoc, String, augmentString}
 import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel}
 
@@ -183,11 +184,24 @@ object LiteralValue {
 
     import cats.syntax.either._
 
-    for {
-      literalType <- c.downField("literalType").as[LiteralType]
-      value <- c.downField("value").as[String]
-    } yield LiteralValue(literalType, value)
+    val f1 = c.downField("literalType")
+    val f2 = c.downField("value")
+    val a = c.as[Vector[String]]
 
+    if (f1.succeeded && f2.succeeded)
+      for {
+        literalType <- f1.as[LiteralType]
+        value <- f2.as[String]
+      } yield LiteralValue(literalType, value)
+
+    else if (a.isRight)
+      for {
+        array <- a
+        s = array.mkString("")
+      } yield LiteralValue(LiteralStringType, s)
+
+    else
+      Decoder.failedWithMessage[LiteralValue]("unrecognized LiteralValue Json")(c)
   }
 
   @JSExport
@@ -215,10 +229,9 @@ object LiteralValue {
   : Option[LiteralValue]
   = parseLiteralBoolean(v)
     .orElse(LiteralDateTime.parseLiteralDateTime(v))
-    .orElse(parseLiteralString(v))
     .orElse(parseLiteralUUID(v))
     .orElse(parseLiteralURI(v))
-    .orElse(LiteralNumber.parseLiteralNumber(v))
+    .orElse(parseLiteralString(v))
 
   /**
     * @param v A string representation of a literal value of some kind
