@@ -2762,8 +2762,8 @@ object OMLTablesResolver {
           val (ej, rax) = ri.factory.createReifiedRelationshipSpecializationAxiom(
             ri.context,
             tboxM,
-            subM,
-            superM)
+            superM,
+            subM)
 
           if (!ej.lookupBoxStatements(tboxM).contains(rax))
             Failure(new IllegalArgumentException(s"ReifiedRelationshipSpecializationAxiom not in extent: $rax"))
