@@ -646,8 +646,8 @@ object Extent2Tables {
       Some(tables.ReifiedRelationshipSpecializationAxiom(
         y.uuid,
         x._1.uuid,
-        y.subRelationship.uuid,
-        y.superRelationship.uuid))
+        y.superRelationship.uuid,
+        y.subRelationship.uuid))
     case _ =>
       None
   }.to[Seq]
