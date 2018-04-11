@@ -17,3 +17,5 @@ gov.nasa.jpl.imce.oml.tables 0.94 is a minor update of 0.93
 ### [#56 Parse LiteralRawStrings](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/56)
 
 ### [#57 ReifiedRelationshipSpecializationAxiom sub/sup flip-flop](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/57)
+
+### [#58 Force a deterministic timestamp for OMLZip](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/58)
