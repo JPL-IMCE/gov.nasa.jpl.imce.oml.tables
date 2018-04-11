@@ -1041,7 +1041,7 @@ object OMLSpecificationTables {
          val line = TerminologyGraphHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(BundleHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1051,7 +1051,7 @@ object OMLSpecificationTables {
          val line = BundleHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(DescriptionBoxHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1061,7 +1061,7 @@ object OMLSpecificationTables {
          val line = DescriptionBoxHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(AnnotationPropertyHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1071,7 +1071,7 @@ object OMLSpecificationTables {
          val line = AnnotationPropertyHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(AspectHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1081,7 +1081,7 @@ object OMLSpecificationTables {
          val line = AspectHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(ConceptHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1091,7 +1091,7 @@ object OMLSpecificationTables {
          val line = ConceptHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(ScalarHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1101,7 +1101,7 @@ object OMLSpecificationTables {
          val line = ScalarHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(StructureHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1111,7 +1111,7 @@ object OMLSpecificationTables {
          val line = StructureHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(ConceptDesignationTerminologyAxiomHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1121,7 +1121,7 @@ object OMLSpecificationTables {
          val line = ConceptDesignationTerminologyAxiomHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(TerminologyExtensionAxiomHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1131,7 +1131,7 @@ object OMLSpecificationTables {
          val line = TerminologyExtensionAxiomHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(TerminologyNestingAxiomHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1141,7 +1141,7 @@ object OMLSpecificationTables {
          val line = TerminologyNestingAxiomHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(BundledTerminologyAxiomHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1151,7 +1151,7 @@ object OMLSpecificationTables {
          val line = BundledTerminologyAxiomHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(DescriptionBoxExtendsClosedWorldDefinitionsHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1161,7 +1161,7 @@ object OMLSpecificationTables {
          val line = DescriptionBoxExtendsClosedWorldDefinitionsHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(DescriptionBoxRefinementHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1171,7 +1171,7 @@ object OMLSpecificationTables {
          val line = DescriptionBoxRefinementHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(BinaryScalarRestrictionHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1181,7 +1181,7 @@ object OMLSpecificationTables {
          val line = BinaryScalarRestrictionHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(IRIScalarRestrictionHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1191,7 +1191,7 @@ object OMLSpecificationTables {
          val line = IRIScalarRestrictionHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(NumericScalarRestrictionHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1201,7 +1201,7 @@ object OMLSpecificationTables {
          val line = NumericScalarRestrictionHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(PlainLiteralScalarRestrictionHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1211,7 +1211,7 @@ object OMLSpecificationTables {
          val line = PlainLiteralScalarRestrictionHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(ScalarOneOfRestrictionHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1221,7 +1221,7 @@ object OMLSpecificationTables {
          val line = ScalarOneOfRestrictionHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(ScalarOneOfLiteralAxiomHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1231,7 +1231,7 @@ object OMLSpecificationTables {
          val line = ScalarOneOfLiteralAxiomHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(StringScalarRestrictionHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1241,7 +1241,7 @@ object OMLSpecificationTables {
          val line = StringScalarRestrictionHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(SynonymScalarRestrictionHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1251,7 +1251,7 @@ object OMLSpecificationTables {
          val line = SynonymScalarRestrictionHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(TimeScalarRestrictionHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1261,7 +1261,7 @@ object OMLSpecificationTables {
          val line = TimeScalarRestrictionHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(EntityScalarDataPropertyHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1271,7 +1271,7 @@ object OMLSpecificationTables {
          val line = EntityScalarDataPropertyHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(EntityStructuredDataPropertyHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1281,7 +1281,7 @@ object OMLSpecificationTables {
          val line = EntityStructuredDataPropertyHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(ScalarDataPropertyHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1291,7 +1291,7 @@ object OMLSpecificationTables {
          val line = ScalarDataPropertyHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(StructuredDataPropertyHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1301,7 +1301,7 @@ object OMLSpecificationTables {
          val line = StructuredDataPropertyHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(ReifiedRelationshipHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1311,7 +1311,7 @@ object OMLSpecificationTables {
          val line = ReifiedRelationshipHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(ReifiedRelationshipRestrictionHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1321,7 +1321,7 @@ object OMLSpecificationTables {
          val line = ReifiedRelationshipRestrictionHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(ForwardPropertyHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1331,7 +1331,7 @@ object OMLSpecificationTables {
          val line = ForwardPropertyHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(InversePropertyHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1341,7 +1341,7 @@ object OMLSpecificationTables {
          val line = InversePropertyHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(UnreifiedRelationshipHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1351,7 +1351,7 @@ object OMLSpecificationTables {
          val line = UnreifiedRelationshipHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(ChainRuleHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1361,7 +1361,7 @@ object OMLSpecificationTables {
          val line = ChainRuleHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(RuleBodySegmentHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1371,7 +1371,7 @@ object OMLSpecificationTables {
          val line = RuleBodySegmentHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(SegmentPredicateHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1381,7 +1381,7 @@ object OMLSpecificationTables {
          val line = SegmentPredicateHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(EntityExistentialRestrictionAxiomHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1391,7 +1391,7 @@ object OMLSpecificationTables {
          val line = EntityExistentialRestrictionAxiomHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(EntityUniversalRestrictionAxiomHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1401,7 +1401,7 @@ object OMLSpecificationTables {
          val line = EntityUniversalRestrictionAxiomHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(EntityScalarDataPropertyExistentialRestrictionAxiomHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1411,7 +1411,7 @@ object OMLSpecificationTables {
          val line = EntityScalarDataPropertyExistentialRestrictionAxiomHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(EntityScalarDataPropertyParticularRestrictionAxiomHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1421,7 +1421,7 @@ object OMLSpecificationTables {
          val line = EntityScalarDataPropertyParticularRestrictionAxiomHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(EntityScalarDataPropertyUniversalRestrictionAxiomHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1431,7 +1431,7 @@ object OMLSpecificationTables {
          val line = EntityScalarDataPropertyUniversalRestrictionAxiomHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(EntityStructuredDataPropertyParticularRestrictionAxiomHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1441,7 +1441,7 @@ object OMLSpecificationTables {
          val line = EntityStructuredDataPropertyParticularRestrictionAxiomHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(RestrictionStructuredDataPropertyTupleHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1451,7 +1451,7 @@ object OMLSpecificationTables {
          val line = RestrictionStructuredDataPropertyTupleHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(RestrictionScalarDataPropertyValueHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1461,7 +1461,7 @@ object OMLSpecificationTables {
          val line = RestrictionScalarDataPropertyValueHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(AspectSpecializationAxiomHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1471,7 +1471,7 @@ object OMLSpecificationTables {
          val line = AspectSpecializationAxiomHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(ConceptSpecializationAxiomHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1481,7 +1481,7 @@ object OMLSpecificationTables {
          val line = ConceptSpecializationAxiomHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(ReifiedRelationshipSpecializationAxiomHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1491,7 +1491,7 @@ object OMLSpecificationTables {
          val line = ReifiedRelationshipSpecializationAxiomHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(SubDataPropertyOfAxiomHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1501,7 +1501,7 @@ object OMLSpecificationTables {
          val line = SubDataPropertyOfAxiomHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(SubObjectPropertyOfAxiomHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1511,7 +1511,7 @@ object OMLSpecificationTables {
          val line = SubObjectPropertyOfAxiomHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(RootConceptTaxonomyAxiomHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1521,7 +1521,7 @@ object OMLSpecificationTables {
          val line = RootConceptTaxonomyAxiomHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(AnonymousConceptUnionAxiomHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1531,7 +1531,7 @@ object OMLSpecificationTables {
          val line = AnonymousConceptUnionAxiomHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(SpecificDisjointConceptAxiomHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1541,7 +1541,7 @@ object OMLSpecificationTables {
          val line = SpecificDisjointConceptAxiomHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(ConceptInstanceHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1551,7 +1551,7 @@ object OMLSpecificationTables {
          val line = ConceptInstanceHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(ReifiedRelationshipInstanceHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1561,7 +1561,7 @@ object OMLSpecificationTables {
          val line = ReifiedRelationshipInstanceHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(ReifiedRelationshipInstanceDomainHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1571,7 +1571,7 @@ object OMLSpecificationTables {
          val line = ReifiedRelationshipInstanceDomainHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(ReifiedRelationshipInstanceRangeHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1581,7 +1581,7 @@ object OMLSpecificationTables {
          val line = ReifiedRelationshipInstanceRangeHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(UnreifiedRelationshipInstanceTupleHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1591,7 +1591,7 @@ object OMLSpecificationTables {
          val line = UnreifiedRelationshipInstanceTupleHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(SingletonInstanceStructuredDataPropertyValueHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1601,7 +1601,7 @@ object OMLSpecificationTables {
          val line = SingletonInstanceStructuredDataPropertyValueHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(SingletonInstanceScalarDataPropertyValueHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1611,7 +1611,7 @@ object OMLSpecificationTables {
          val line = SingletonInstanceScalarDataPropertyValueHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(StructuredDataPropertyTupleHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1621,7 +1621,7 @@ object OMLSpecificationTables {
          val line = StructuredDataPropertyTupleHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(ScalarDataPropertyValueHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1631,7 +1631,7 @@ object OMLSpecificationTables {
          val line = ScalarDataPropertyValueHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       {
       	val e = new java.util.zip.ZipEntry(AnnotationPropertyValueHelper.TABLE_JSON_FILENAME)
       	e.setTime(0L)
@@ -1641,7 +1641,7 @@ object OMLSpecificationTables {
          val line = AnnotationPropertyValueHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
-      zos.closeEntry()
+      zos.closeEntry();
       
       zos.close()
   	  Success(())
