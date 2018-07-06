@@ -118,7 +118,7 @@ trait OMLResolvedFactory {
   def createAspectSpecializationAxiom
   ( extent: Extent,
     tbox: TerminologyBox,
-    superAspect: Aspect,
+    superAspect: AspectKind,
     subEntity: Entity )
   : (Extent, AspectSpecializationAxiom)
   = {
@@ -137,7 +137,7 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     uuid: taggedTypes.AspectSpecializationAxiomUUID,
     tbox: TerminologyBox,
-    superAspect: Aspect,
+    superAspect: AspectKind,
     subEntity: Entity )
   : (Extent, AspectSpecializationAxiom)
   
@@ -211,6 +211,90 @@ trait OMLResolvedFactory {
     bundledTerminology: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI )
   : (Extent, BundledTerminologyAxiom)
   
+  // CardinalityRestrictedAspect
+  def createCardinalityRestrictedAspect
+  ( extent: Extent,
+    tbox: TerminologyBox,
+    restrictedRange: scala.Option[Entity],
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName,
+    restrictedCardinality: gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral,
+    restrictedRelationship: RestrictableRelationship,
+    restrictionKind: gov.nasa.jpl.imce.oml.tables.CardinalityRestrictionKind )
+  : (Extent, CardinalityRestrictedAspect)
+  = {
+    // namespace uuid...
+    import scala.Predef.ArrowAssoc
+    val uuid = taggedTypes.cardinalityRestrictedAspectUUID(namespaceUUID(tbox.uuid.toString,  "name" -> name))
+    createCardinalityRestrictedAspect( extent, uuid, tbox, restrictedRange, name, restrictedCardinality, restrictedRelationship, restrictionKind )
+  }
+  
+  def createCardinalityRestrictedAspect
+  ( extent: Extent,
+    uuid: taggedTypes.CardinalityRestrictedAspectUUID,
+    tbox: TerminologyBox,
+    restrictedRange: scala.Option[Entity],
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName,
+    restrictedCardinality: gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral,
+    restrictedRelationship: RestrictableRelationship,
+    restrictionKind: gov.nasa.jpl.imce.oml.tables.CardinalityRestrictionKind )
+  : (Extent, CardinalityRestrictedAspect)
+  
+  // CardinalityRestrictedConcept
+  def createCardinalityRestrictedConcept
+  ( extent: Extent,
+    tbox: TerminologyBox,
+    restrictedRange: scala.Option[Entity],
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName,
+    restrictedCardinality: gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral,
+    restrictedRelationship: RestrictableRelationship,
+    restrictionKind: gov.nasa.jpl.imce.oml.tables.CardinalityRestrictionKind )
+  : (Extent, CardinalityRestrictedConcept)
+  = {
+    // namespace uuid...
+    import scala.Predef.ArrowAssoc
+    val uuid = taggedTypes.cardinalityRestrictedConceptUUID(namespaceUUID(tbox.uuid.toString,  "name" -> name))
+    createCardinalityRestrictedConcept( extent, uuid, tbox, restrictedRange, name, restrictedCardinality, restrictedRelationship, restrictionKind )
+  }
+  
+  def createCardinalityRestrictedConcept
+  ( extent: Extent,
+    uuid: taggedTypes.CardinalityRestrictedConceptUUID,
+    tbox: TerminologyBox,
+    restrictedRange: scala.Option[Entity],
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName,
+    restrictedCardinality: gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral,
+    restrictedRelationship: RestrictableRelationship,
+    restrictionKind: gov.nasa.jpl.imce.oml.tables.CardinalityRestrictionKind )
+  : (Extent, CardinalityRestrictedConcept)
+  
+  // CardinalityRestrictedReifiedRelationship
+  def createCardinalityRestrictedReifiedRelationship
+  ( extent: Extent,
+    tbox: TerminologyBox,
+    restrictedRange: scala.Option[Entity],
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName,
+    restrictedCardinality: gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral,
+    restrictedRelationship: RestrictableRelationship,
+    restrictionKind: gov.nasa.jpl.imce.oml.tables.CardinalityRestrictionKind )
+  : (Extent, CardinalityRestrictedReifiedRelationship)
+  = {
+    // namespace uuid...
+    import scala.Predef.ArrowAssoc
+    val uuid = taggedTypes.cardinalityRestrictedReifiedRelationshipUUID(namespaceUUID(tbox.uuid.toString,  "name" -> name))
+    createCardinalityRestrictedReifiedRelationship( extent, uuid, tbox, restrictedRange, name, restrictedCardinality, restrictedRelationship, restrictionKind )
+  }
+  
+  def createCardinalityRestrictedReifiedRelationship
+  ( extent: Extent,
+    uuid: taggedTypes.CardinalityRestrictedReifiedRelationshipUUID,
+    tbox: TerminologyBox,
+    restrictedRange: scala.Option[Entity],
+    name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName,
+    restrictedCardinality: gov.nasa.jpl.imce.oml.tables.taggedTypes.PositiveIntegerLiteral,
+    restrictedRelationship: RestrictableRelationship,
+    restrictionKind: gov.nasa.jpl.imce.oml.tables.CardinalityRestrictionKind )
+  : (Extent, CardinalityRestrictedReifiedRelationship)
+  
   // ChainRule
   def createChainRule
   ( extent: Extent,
@@ -257,7 +341,7 @@ trait OMLResolvedFactory {
   def createConceptDesignationTerminologyAxiom
   ( extent: Extent,
     tbox: TerminologyBox,
-    designatedConcept: Concept,
+    designatedConcept: ConceptKind,
     designatedTerminology: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI )
   : (Extent, ConceptDesignationTerminologyAxiom)
   = {
@@ -276,7 +360,7 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     uuid: taggedTypes.ConceptDesignationTerminologyAxiomUUID,
     tbox: TerminologyBox,
-    designatedConcept: Concept,
+    designatedConcept: ConceptKind,
     designatedTerminology: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI )
   : (Extent, ConceptDesignationTerminologyAxiom)
   
@@ -284,7 +368,7 @@ trait OMLResolvedFactory {
   def createConceptInstance
   ( extent: Extent,
     descriptionBox: DescriptionBox,
-    singletonConceptClassifier: Concept,
+    singletonConceptClassifier: ConceptKind,
     name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, ConceptInstance)
   = {
@@ -298,7 +382,7 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     uuid: taggedTypes.ConceptInstanceUUID,
     descriptionBox: DescriptionBox,
-    singletonConceptClassifier: Concept,
+    singletonConceptClassifier: ConceptKind,
     name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName )
   : (Extent, ConceptInstance)
   
@@ -306,8 +390,8 @@ trait OMLResolvedFactory {
   def createConceptSpecializationAxiom
   ( extent: Extent,
     tbox: TerminologyBox,
-    superConcept: Concept,
-    subConcept: Concept )
+    superConcept: ConceptKind,
+    subConcept: ConceptKind )
   : (Extent, ConceptSpecializationAxiom)
   = {
   	// derived uuid...
@@ -325,8 +409,8 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     uuid: taggedTypes.ConceptSpecializationAxiomUUID,
     tbox: TerminologyBox,
-    superConcept: Concept,
-    subConcept: Concept )
+    superConcept: ConceptKind,
+    subConcept: ConceptKind )
   : (Extent, ConceptSpecializationAxiom)
   
   // DescriptionBox
@@ -996,7 +1080,7 @@ trait OMLResolvedFactory {
   def createRootConceptTaxonomyAxiom
   ( extent: Extent,
     bundle: Bundle,
-    root: Concept )
+    root: ConceptKind )
   : (Extent, RootConceptTaxonomyAxiom)
   = {
   	// derived uuid...
@@ -1013,7 +1097,7 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     uuid: taggedTypes.RootConceptTaxonomyAxiomUUID,
     bundle: Bundle,
-    root: Concept )
+    root: ConceptKind )
   : (Extent, RootConceptTaxonomyAxiom)
   
   // RuleBodySegment
@@ -1276,7 +1360,7 @@ trait OMLResolvedFactory {
   def createSpecificDisjointConceptAxiom
   ( extent: Extent,
     disjointTaxonomyParent: ConceptTreeDisjunction,
-    disjointLeaf: Concept )
+    disjointLeaf: ConceptKind )
   : (Extent, SpecificDisjointConceptAxiom)
   = {
   	// derived uuid...
@@ -1293,7 +1377,7 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     uuid: taggedTypes.SpecificDisjointConceptAxiomUUID,
     disjointTaxonomyParent: ConceptTreeDisjunction,
-    disjointLeaf: Concept )
+    disjointLeaf: ConceptKind )
   : (Extent, SpecificDisjointConceptAxiom)
   
   // StringScalarRestriction
@@ -1516,7 +1600,7 @@ trait OMLResolvedFactory {
   def createTerminologyNestingAxiom
   ( extent: Extent,
     tbox: TerminologyBox,
-    nestingContext: Concept,
+    nestingContext: ConceptKind,
     nestingTerminology: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI )
   : (Extent, TerminologyNestingAxiom)
   = {
@@ -1535,7 +1619,7 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     uuid: taggedTypes.TerminologyNestingAxiomUUID,
     tbox: TerminologyBox,
-    nestingContext: Concept,
+    nestingContext: ConceptKind,
     nestingTerminology: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI )
   : (Extent, TerminologyNestingAxiom)
   

@@ -34,14 +34,14 @@ case class AspectSpecializationAxiom
 (
   @(JSExport @field) override val uuid: taggedTypes.AspectSpecializationAxiomUUID,
   @(JSExport @field) override val tboxUUID: taggedTypes.TerminologyBoxUUID,
-  @(JSExport @field) val superAspectUUID: taggedTypes.AspectUUID,
+  @(JSExport @field) val superAspectUUID: taggedTypes.AspectKindUUID,
   @(JSExport @field) val subEntityUUID: taggedTypes.EntityUUID
 ) extends SpecializationAxiom {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     tboxUUID: taggedTypes.TerminologyBoxUUID,
-    superAspectUUID: taggedTypes.AspectUUID,
+    superAspectUUID: taggedTypes.AspectKindUUID,
     subEntityUUID: taggedTypes.EntityUUID)
   = this(
       taggedTypes.aspectSpecializationAxiomUUID(oug.namespaceUUID(
@@ -90,7 +90,7 @@ object AspectSpecializationAxiomHelper {
     for {
     	  uuid <- c.downField("uuid").as[taggedTypes.AspectSpecializationAxiomUUID]
     	  tboxUUID <- c.downField("tboxUUID").as[taggedTypes.TerminologyBoxUUID]
-    	  superAspectUUID <- c.downField("superAspectUUID").as[taggedTypes.AspectUUID]
+    	  superAspectUUID <- c.downField("superAspectUUID").as[taggedTypes.AspectKindUUID]
     	  subEntityUUID <- c.downField("subEntityUUID").as[taggedTypes.EntityUUID]
     	} yield AspectSpecializationAxiom(
     	  uuid,
@@ -106,7 +106,7 @@ object AspectSpecializationAxiomHelper {
     = Json.obj(
     	  ("uuid", taggedTypes.encodeAspectSpecializationAxiomUUID(x.uuid)),
     	  ("tboxUUID", taggedTypes.encodeTerminologyBoxUUID(x.tboxUUID)),
-    	  ("superAspectUUID", taggedTypes.encodeAspectUUID(x.superAspectUUID)),
+    	  ("superAspectUUID", taggedTypes.encodeAspectKindUUID(x.superAspectUUID)),
     	  ("subEntityUUID", taggedTypes.encodeEntityUUID(x.subEntityUUID))
     )
   }

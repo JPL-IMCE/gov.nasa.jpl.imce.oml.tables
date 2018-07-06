@@ -110,6 +110,36 @@ package object tables {
   	 	case 0 => 0 }
   }
   
+  implicit def cardinalityRestrictedAspectOrdering
+  : scala.Ordering[CardinalityRestrictedAspect]
+  = new scala.Ordering[CardinalityRestrictedAspect] {
+  	def compare(x: CardinalityRestrictedAspect, y: CardinalityRestrictedAspect)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def cardinalityRestrictedConceptOrdering
+  : scala.Ordering[CardinalityRestrictedConcept]
+  = new scala.Ordering[CardinalityRestrictedConcept] {
+  	def compare(x: CardinalityRestrictedConcept, y: CardinalityRestrictedConcept)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def cardinalityRestrictedReifiedRelationshipOrdering
+  : scala.Ordering[CardinalityRestrictedReifiedRelationship]
+  = new scala.Ordering[CardinalityRestrictedReifiedRelationship] {
+  	def compare(x: CardinalityRestrictedReifiedRelationship, y: CardinalityRestrictedReifiedRelationship)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
   implicit def chainRuleOrdering
   : scala.Ordering[ChainRule]
   = new scala.Ordering[ChainRule] {

@@ -31,7 +31,7 @@ trait TerminologyNestingAxiom
   override val uuid: taggedTypes.TerminologyNestingAxiomUUID
 
   val nestingTerminology: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI
-  val nestingContext: Concept
+  val nestingContext: ConceptKind
 
   def nestedTerminology
   ()(implicit extent: Extent): scala.Option[TerminologyGraph]

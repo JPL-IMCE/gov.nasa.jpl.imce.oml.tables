@@ -31,7 +31,7 @@ trait ConceptDesignationTerminologyAxiom
   override val uuid: taggedTypes.ConceptDesignationTerminologyAxiomUUID
 
   val designatedTerminology: gov.nasa.jpl.imce.oml.tables.taggedTypes.IRI
-  val designatedConcept: Concept
+  val designatedConcept: ConceptKind
 
   def designationTerminologyGraph
   ()(implicit extent: Extent): scala.Option[TerminologyGraph]

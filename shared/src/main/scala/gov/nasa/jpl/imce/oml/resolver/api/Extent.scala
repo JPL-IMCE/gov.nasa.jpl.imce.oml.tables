@@ -246,11 +246,11 @@ case class Extent
   : Map[taggedTypes.DisjointUnionOfConceptsAxiomUUID, DisjointUnionOfConceptsAxiom]
   = HashMap.empty[taggedTypes.DisjointUnionOfConceptsAxiomUUID, DisjointUnionOfConceptsAxiom],
   forwardPropertyByUUID
-  : Map[taggedTypes.ForwardPropertyUUID, ForwardProperty]
-  = HashMap.empty[taggedTypes.ForwardPropertyUUID, ForwardProperty],
+  : Map[taggedTypes.RestrictableRelationshipUUID, ForwardProperty]
+  = HashMap.empty[taggedTypes.RestrictableRelationshipUUID, ForwardProperty],
   inversePropertyByUUID
-  : Map[taggedTypes.InversePropertyUUID, InverseProperty]
-  = HashMap.empty[taggedTypes.InversePropertyUUID, InverseProperty],
+  : Map[taggedTypes.RestrictableRelationshipUUID, InverseProperty]
+  = HashMap.empty[taggedTypes.RestrictableRelationshipUUID, InverseProperty],
   reifiedRelationshipInstanceByUUID
   : Map[taggedTypes.ReifiedRelationshipInstanceUUID, ReifiedRelationshipInstance]
   = HashMap.empty[taggedTypes.ReifiedRelationshipInstanceUUID, ReifiedRelationshipInstance],
@@ -627,7 +627,24 @@ case class Extent
   (uuid: taggedTypes.TerminologyBoxStatementUUID)
   : Option[TerminologyBoxStatement]
   = terminologyBoxStatementByUUID.get(uuid)
-    
+
+  def lookupRestrictableRelationship
+  (uuid: taggedTypes.RestrictableRelationshipUUID)
+  : Option[RestrictableRelationship]
+  = lookupForwardProperty(uuid) orElse
+    lookupInverseProperty(uuid) orElse
+    lookupUnreifiedRelationship(uuid)
+
+  def lookupUnreifiedRelationship
+  (uuid: taggedTypes.RestrictableRelationshipUUID)
+  : Option[UnreifiedRelationship]
+  = terminologyBoxStatementByUUID.get(taggedTypes.terminologyBoxStatementUUID(uuid)) match {
+    case Some(ur: UnreifiedRelationship) =>
+      Some(ur)
+    case _ =>
+      None
+  }
+
   def lookupForwardProperty
   (key: Option[ReifiedRelationship])
   : Option[ForwardProperty]
@@ -639,7 +656,7 @@ case class Extent
   = forwardProperty.get(key)
   
   def lookupForwardProperty
-  (uuid: taggedTypes.ForwardPropertyUUID)
+  (uuid: taggedTypes.RestrictableRelationshipUUID)
   : Option[ForwardProperty]
   = forwardPropertyByUUID.get(uuid)
     
@@ -654,7 +671,7 @@ case class Extent
   = inverseProperty.get(key)
   
   def lookupInverseProperty
-  (uuid: taggedTypes.InversePropertyUUID)
+  (uuid: taggedTypes.RestrictableRelationshipUUID)
   : Option[InverseProperty]
   = inversePropertyByUUID.get(uuid)
     

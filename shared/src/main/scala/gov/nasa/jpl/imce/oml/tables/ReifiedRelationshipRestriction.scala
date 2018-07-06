@@ -35,8 +35,8 @@ case class ReifiedRelationshipRestriction
 (
   @(JSExport @field) override val uuid: taggedTypes.ReifiedRelationshipRestrictionUUID,
   @(JSExport @field) override val tboxUUID: taggedTypes.TerminologyBoxUUID,
-  @(JSExport @field) override val sourceUUID: taggedTypes.EntityUUID,
-  @(JSExport @field) override val targetUUID: taggedTypes.EntityUUID,
+  @(JSExport @field) val sourceUUID: taggedTypes.EntityUUID,
+  @(JSExport @field) val targetUUID: taggedTypes.EntityUUID,
   @(JSExport @field) override val name: taggedTypes.LocalName
 ) extends ConceptualRelationship {
   // Ctor(uuidWithGenerator)   

@@ -29,7 +29,7 @@ trait RootConceptTaxonomyAxiom
   /*
    * The Concept that is at the root of a taxonomy of disjunctions.
    */
-  val root: Concept
+  val root: ConceptKind
 
   override val uuid: taggedTypes.RootConceptTaxonomyAxiomUUID
   override def bundleContainer

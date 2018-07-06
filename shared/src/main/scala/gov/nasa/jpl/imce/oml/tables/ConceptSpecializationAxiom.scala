@@ -34,15 +34,15 @@ case class ConceptSpecializationAxiom
 (
   @(JSExport @field) override val uuid: taggedTypes.ConceptSpecializationAxiomUUID,
   @(JSExport @field) override val tboxUUID: taggedTypes.TerminologyBoxUUID,
-  @(JSExport @field) val superConceptUUID: taggedTypes.ConceptUUID,
-  @(JSExport @field) val subConceptUUID: taggedTypes.ConceptUUID
+  @(JSExport @field) val superConceptUUID: taggedTypes.ConceptKindUUID,
+  @(JSExport @field) val subConceptUUID: taggedTypes.ConceptKindUUID
 ) extends SpecializationAxiom {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     tboxUUID: taggedTypes.TerminologyBoxUUID,
-    superConceptUUID: taggedTypes.ConceptUUID,
-    subConceptUUID: taggedTypes.ConceptUUID)
+    superConceptUUID: taggedTypes.ConceptKindUUID,
+    subConceptUUID: taggedTypes.ConceptKindUUID)
   = this(
       taggedTypes.conceptSpecializationAxiomUUID(oug.namespaceUUID(
         "ConceptSpecializationAxiom",
@@ -90,8 +90,8 @@ object ConceptSpecializationAxiomHelper {
     for {
     	  uuid <- c.downField("uuid").as[taggedTypes.ConceptSpecializationAxiomUUID]
     	  tboxUUID <- c.downField("tboxUUID").as[taggedTypes.TerminologyBoxUUID]
-    	  superConceptUUID <- c.downField("superConceptUUID").as[taggedTypes.ConceptUUID]
-    	  subConceptUUID <- c.downField("subConceptUUID").as[taggedTypes.ConceptUUID]
+    	  superConceptUUID <- c.downField("superConceptUUID").as[taggedTypes.ConceptKindUUID]
+    	  subConceptUUID <- c.downField("subConceptUUID").as[taggedTypes.ConceptKindUUID]
     	} yield ConceptSpecializationAxiom(
     	  uuid,
     	  tboxUUID,
@@ -106,8 +106,8 @@ object ConceptSpecializationAxiomHelper {
     = Json.obj(
     	  ("uuid", taggedTypes.encodeConceptSpecializationAxiomUUID(x.uuid)),
     	  ("tboxUUID", taggedTypes.encodeTerminologyBoxUUID(x.tboxUUID)),
-    	  ("superConceptUUID", taggedTypes.encodeConceptUUID(x.superConceptUUID)),
-    	  ("subConceptUUID", taggedTypes.encodeConceptUUID(x.subConceptUUID))
+    	  ("superConceptUUID", taggedTypes.encodeConceptKindUUID(x.superConceptUUID)),
+    	  ("subConceptUUID", taggedTypes.encodeConceptKindUUID(x.subConceptUUID))
     )
   }
 

@@ -28,8 +28,8 @@ trait ConceptSpecializationAxiom
 {
   override val uuid: taggedTypes.ConceptSpecializationAxiomUUID
 
-  val subConcept: Concept
-  val superConcept: Concept
+  val subConcept: ConceptKind
+  val superConcept: ConceptKind
 
   /*
    * Get the sub (child) entity

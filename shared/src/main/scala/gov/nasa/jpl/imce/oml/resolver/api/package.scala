@@ -70,6 +70,16 @@ package object api {
   	 	case 0 => 0 }
   }
   
+  implicit def aspectKindOrdering
+  : scala.Ordering[AspectKind]
+  = new scala.Ordering[AspectKind] {
+  	def compare(x: AspectKind, y: AspectKind)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
   implicit def aspectSpecializationAxiomOrdering
   : scala.Ordering[AspectSpecializationAxiom]
   = new scala.Ordering[AspectSpecializationAxiom] {
@@ -104,6 +114,36 @@ package object api {
   : scala.Ordering[BundledTerminologyAxiom]
   = new scala.Ordering[BundledTerminologyAxiom] {
   	def compare(x: BundledTerminologyAxiom, y: BundledTerminologyAxiom)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def cardinalityRestrictedAspectOrdering
+  : scala.Ordering[CardinalityRestrictedAspect]
+  = new scala.Ordering[CardinalityRestrictedAspect] {
+  	def compare(x: CardinalityRestrictedAspect, y: CardinalityRestrictedAspect)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def cardinalityRestrictedConceptOrdering
+  : scala.Ordering[CardinalityRestrictedConcept]
+  = new scala.Ordering[CardinalityRestrictedConcept] {
+  	def compare(x: CardinalityRestrictedConcept, y: CardinalityRestrictedConcept)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def cardinalityRestrictedReifiedRelationshipOrdering
+  : scala.Ordering[CardinalityRestrictedReifiedRelationship]
+  = new scala.Ordering[CardinalityRestrictedReifiedRelationship] {
+  	def compare(x: CardinalityRestrictedReifiedRelationship, y: CardinalityRestrictedReifiedRelationship)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid
@@ -154,6 +194,16 @@ package object api {
   : scala.Ordering[ConceptInstance]
   = new scala.Ordering[ConceptInstance] {
   	def compare(x: ConceptInstance, y: ConceptInstance)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def conceptKindOrdering
+  : scala.Ordering[ConceptKind]
+  = new scala.Ordering[ConceptKind] {
+  	def compare(x: ConceptKind, y: ConceptKind)
   	: scala.Int
   	= x.uuid.compareTo(y.uuid) match {
   	 	case c_uuid if 0 != c_uuid => c_uuid

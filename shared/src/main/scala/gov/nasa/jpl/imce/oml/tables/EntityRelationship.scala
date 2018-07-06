@@ -22,7 +22,5 @@ package gov.nasa.jpl.imce.oml.tables
 trait EntityRelationship extends DirectedBinaryRelationshipKind with Term {
   override val uuid: taggedTypes.EntityRelationshipUUID
   override val tboxUUID: taggedTypes.TerminologyBoxUUID
-  val sourceUUID: taggedTypes.EntityUUID
-  val targetUUID: taggedTypes.EntityUUID
   override val name: taggedTypes.LocalName
 }

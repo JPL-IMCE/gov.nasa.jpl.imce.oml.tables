@@ -31,6 +31,13 @@ trait ReifiedRelationshipRestriction
 {
   override val uuid: taggedTypes.ReifiedRelationshipRestrictionUUID
 
+  val source: Entity
+  val target: Entity
+
+  override def relationSource
+  (): Entity
+  override def relationTarget
+  (): Entity
   override def allNestedElements
   ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: LogicalElement]
   override def rootReifiedRelationships

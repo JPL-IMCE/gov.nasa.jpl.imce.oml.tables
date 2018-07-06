@@ -22,7 +22,5 @@ package gov.nasa.jpl.imce.oml.tables
 trait ConceptualRelationship extends ConceptualEntity with EntityRelationship {
   override val uuid: taggedTypes.ConceptualRelationshipUUID
   override val tboxUUID: taggedTypes.TerminologyBoxUUID
-  override val sourceUUID: taggedTypes.EntityUUID
-  override val targetUUID: taggedTypes.EntityUUID
   override val name: taggedTypes.LocalName
 }

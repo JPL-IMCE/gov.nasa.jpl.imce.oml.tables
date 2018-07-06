@@ -19,11 +19,10 @@
 package gov.nasa.jpl.imce.oml.resolver.api
 
 /*
- * An OML Concept is an OML ConceptualEntity of OML UnaryTermKind.
+ * An OML Concept is an OML ConceptKind defined by name only.
  */
 trait Concept
-  extends ConceptualEntity
-  with UnaryTermKind
+  extends ConceptKind
 {
   override val uuid: taggedTypes.ConceptUUID
 }

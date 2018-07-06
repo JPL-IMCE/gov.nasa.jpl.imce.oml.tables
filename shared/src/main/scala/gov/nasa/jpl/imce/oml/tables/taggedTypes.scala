@@ -140,16 +140,21 @@ object taggedTypes {
   trait AnnotationPropertyTag <: IntrinsicIdentityKindTag with NonLogicalElementTag
   trait AnnotationPropertyValueTag <: NonLogicalElementTag with ValueCrossReferenceTupleTag
   trait AnonymousConceptUnionAxiomTag <: ConceptTreeDisjunctionTag with DisjointUnionOfConceptsAxiomTag
-  trait AspectTag <: EntityTag with UnaryTermKindTag
+  trait AspectTag <: AspectKindTag
+  trait AspectKindTag <: EntityTag with UnaryTermKindTag
   trait AspectSpecializationAxiomTag <: SpecializationAxiomTag
   trait BinaryScalarRestrictionTag <: RestrictedDataRangeTag
   trait BundleTag <: TerminologyBoxTag
   trait BundledTerminologyAxiomTag <: TerminologyBundleAxiomTag
+  trait CardinalityRestrictedAspectTag <: AspectKindTag
+  trait CardinalityRestrictedConceptTag <: ConceptKindTag
+  trait CardinalityRestrictedReifiedRelationshipTag <: ConceptualRelationshipTag
   trait ChainRuleTag <: RuleTag
   trait CharacterizedEntityRelationshipTag <: EntityRelationshipTag
-  trait ConceptTag <: ConceptualEntityTag with UnaryTermKindTag
+  trait ConceptTag <: ConceptKindTag
   trait ConceptDesignationTerminologyAxiomTag <: TerminologyBoxAxiomTag
   trait ConceptInstanceTag <: ConceptualEntitySingletonInstanceTag
+  trait ConceptKindTag <: ConceptualEntityTag with UnaryTermKindTag
   trait ConceptSpecializationAxiomTag <: SpecializationAxiomTag
   trait ConceptTreeDisjunctionTag <: ElementCrossReferenceTupleTag
   trait ConceptualEntityTag <: EntityTag
@@ -362,6 +367,30 @@ object taggedTypes {
   	: Int = x.compareTo(y)
   }
   
+  type AspectKindUUID 
+  = String @@ AspectKindTag
+  
+  def aspectKindUUID(uuid: String)
+  : AspectKindUUID
+  = covariantTag[AspectKindTag][String](uuid)
+  
+  implicit val decodeAspectKindUUID
+  : Decoder[AspectKindUUID]
+  = decodeTag[AspectKindTag]
+  
+  implicit val encodeAspectKindUUID
+  : Encoder[AspectKindUUID]
+  = encodeTag[AspectKindTag]
+  
+  implicit val orderingAspectKindUUID
+  : Ordering[AspectKindUUID] 
+  = new Ordering[AspectKindUUID] {
+  	override def compare
+  	(x: AspectKindUUID, 
+  	 y: AspectKindUUID)
+  	: Int = x.compareTo(y)
+  }
+  
   type AspectSpecializationAxiomUUID 
   = String @@ AspectSpecializationAxiomTag
   
@@ -455,6 +484,78 @@ object taggedTypes {
   	override def compare
   	(x: BundledTerminologyAxiomUUID, 
   	 y: BundledTerminologyAxiomUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type CardinalityRestrictedAspectUUID 
+  = String @@ CardinalityRestrictedAspectTag
+  
+  def cardinalityRestrictedAspectUUID(uuid: String)
+  : CardinalityRestrictedAspectUUID
+  = covariantTag[CardinalityRestrictedAspectTag][String](uuid)
+  
+  implicit val decodeCardinalityRestrictedAspectUUID
+  : Decoder[CardinalityRestrictedAspectUUID]
+  = decodeTag[CardinalityRestrictedAspectTag]
+  
+  implicit val encodeCardinalityRestrictedAspectUUID
+  : Encoder[CardinalityRestrictedAspectUUID]
+  = encodeTag[CardinalityRestrictedAspectTag]
+  
+  implicit val orderingCardinalityRestrictedAspectUUID
+  : Ordering[CardinalityRestrictedAspectUUID] 
+  = new Ordering[CardinalityRestrictedAspectUUID] {
+  	override def compare
+  	(x: CardinalityRestrictedAspectUUID, 
+  	 y: CardinalityRestrictedAspectUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type CardinalityRestrictedConceptUUID 
+  = String @@ CardinalityRestrictedConceptTag
+  
+  def cardinalityRestrictedConceptUUID(uuid: String)
+  : CardinalityRestrictedConceptUUID
+  = covariantTag[CardinalityRestrictedConceptTag][String](uuid)
+  
+  implicit val decodeCardinalityRestrictedConceptUUID
+  : Decoder[CardinalityRestrictedConceptUUID]
+  = decodeTag[CardinalityRestrictedConceptTag]
+  
+  implicit val encodeCardinalityRestrictedConceptUUID
+  : Encoder[CardinalityRestrictedConceptUUID]
+  = encodeTag[CardinalityRestrictedConceptTag]
+  
+  implicit val orderingCardinalityRestrictedConceptUUID
+  : Ordering[CardinalityRestrictedConceptUUID] 
+  = new Ordering[CardinalityRestrictedConceptUUID] {
+  	override def compare
+  	(x: CardinalityRestrictedConceptUUID, 
+  	 y: CardinalityRestrictedConceptUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type CardinalityRestrictedReifiedRelationshipUUID 
+  = String @@ CardinalityRestrictedReifiedRelationshipTag
+  
+  def cardinalityRestrictedReifiedRelationshipUUID(uuid: String)
+  : CardinalityRestrictedReifiedRelationshipUUID
+  = covariantTag[CardinalityRestrictedReifiedRelationshipTag][String](uuid)
+  
+  implicit val decodeCardinalityRestrictedReifiedRelationshipUUID
+  : Decoder[CardinalityRestrictedReifiedRelationshipUUID]
+  = decodeTag[CardinalityRestrictedReifiedRelationshipTag]
+  
+  implicit val encodeCardinalityRestrictedReifiedRelationshipUUID
+  : Encoder[CardinalityRestrictedReifiedRelationshipUUID]
+  = encodeTag[CardinalityRestrictedReifiedRelationshipTag]
+  
+  implicit val orderingCardinalityRestrictedReifiedRelationshipUUID
+  : Ordering[CardinalityRestrictedReifiedRelationshipUUID] 
+  = new Ordering[CardinalityRestrictedReifiedRelationshipUUID] {
+  	override def compare
+  	(x: CardinalityRestrictedReifiedRelationshipUUID, 
+  	 y: CardinalityRestrictedReifiedRelationshipUUID)
   	: Int = x.compareTo(y)
   }
   
@@ -575,6 +676,30 @@ object taggedTypes {
   	override def compare
   	(x: ConceptInstanceUUID, 
   	 y: ConceptInstanceUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type ConceptKindUUID 
+  = String @@ ConceptKindTag
+  
+  def conceptKindUUID(uuid: String)
+  : ConceptKindUUID
+  = covariantTag[ConceptKindTag][String](uuid)
+  
+  implicit val decodeConceptKindUUID
+  : Decoder[ConceptKindUUID]
+  = decodeTag[ConceptKindTag]
+  
+  implicit val encodeConceptKindUUID
+  : Encoder[ConceptKindUUID]
+  = encodeTag[ConceptKindTag]
+  
+  implicit val orderingConceptKindUUID
+  : Ordering[ConceptKindUUID] 
+  = new Ordering[ConceptKindUUID] {
+  	override def compare
+  	(x: ConceptKindUUID, 
+  	 y: ConceptKindUUID)
   	: Int = x.compareTo(y)
   }
   

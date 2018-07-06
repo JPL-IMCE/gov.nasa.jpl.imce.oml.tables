@@ -34,14 +34,14 @@ case class ConceptDesignationTerminologyAxiom
 (
   @(JSExport @field) override val uuid: taggedTypes.ConceptDesignationTerminologyAxiomUUID,
   @(JSExport @field) override val tboxUUID: taggedTypes.TerminologyBoxUUID,
-  @(JSExport @field) val designatedConceptUUID: taggedTypes.ConceptUUID,
+  @(JSExport @field) val designatedConceptUUID: taggedTypes.ConceptKindUUID,
   @(JSExport @field) val designatedTerminologyIRI: taggedTypes.IRI
 ) extends TerminologyBoxAxiom {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     tboxUUID: taggedTypes.TerminologyBoxUUID,
-    designatedConceptUUID: taggedTypes.ConceptUUID,
+    designatedConceptUUID: taggedTypes.ConceptKindUUID,
     designatedTerminologyIRI: taggedTypes.IRI)
   = this(
       taggedTypes.conceptDesignationTerminologyAxiomUUID(oug.namespaceUUID(
@@ -90,7 +90,7 @@ object ConceptDesignationTerminologyAxiomHelper {
     for {
     	  uuid <- c.downField("uuid").as[taggedTypes.ConceptDesignationTerminologyAxiomUUID]
     	  tboxUUID <- c.downField("tboxUUID").as[taggedTypes.TerminologyBoxUUID]
-    	  designatedConceptUUID <- c.downField("designatedConceptUUID").as[taggedTypes.ConceptUUID]
+    	  designatedConceptUUID <- c.downField("designatedConceptUUID").as[taggedTypes.ConceptKindUUID]
     	  designatedTerminologyIRI <- c.downField("designatedTerminologyIRI").as[taggedTypes.IRI]
     	} yield ConceptDesignationTerminologyAxiom(
     	  uuid,
@@ -106,7 +106,7 @@ object ConceptDesignationTerminologyAxiomHelper {
     = Json.obj(
     	  ("uuid", taggedTypes.encodeConceptDesignationTerminologyAxiomUUID(x.uuid)),
     	  ("tboxUUID", taggedTypes.encodeTerminologyBoxUUID(x.tboxUUID)),
-    	  ("designatedConceptUUID", taggedTypes.encodeConceptUUID(x.designatedConceptUUID)),
+    	  ("designatedConceptUUID", taggedTypes.encodeConceptKindUUID(x.designatedConceptUUID)),
     	  ("designatedTerminologyIRI", taggedTypes.encodeIRI(x.designatedTerminologyIRI))
     )
   }

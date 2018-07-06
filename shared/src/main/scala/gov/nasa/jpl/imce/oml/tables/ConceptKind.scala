@@ -16,29 +16,11 @@
  * License Terms
  */
 
-package gov.nasa.jpl.imce.oml.resolver.api
+ 
+package gov.nasa.jpl.imce.oml.tables
 
-/*
- * An OML SpecificDisjointConceptAxiom specifies a leaf in a concept taxonomy tree.
- */
-trait SpecificDisjointConceptAxiom
-  extends DisjointUnionOfConceptsAxiom
-{
-  /*
-   * A Concept that is a disjoint leaf in a taxonomy tree.
-   */
-  val disjointLeaf: ConceptKind
-
-  override val uuid: taggedTypes.SpecificDisjointConceptAxiomUUID
-  def allNestedElements
-  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: LogicalElement]
-}
-
-object SpecificDisjointConceptAxiom {
-
-  def allNestedElements
-  (s: SpecificDisjointConceptAxiom, ext: Extent)
-  : scala.collection.immutable.Set[_ <: LogicalElement]
-  = s.allNestedElements()(ext)
-
+trait ConceptKind extends ConceptualEntity with UnaryTermKind {
+  override val uuid: taggedTypes.ConceptKindUUID
+  override val tboxUUID: taggedTypes.TerminologyBoxUUID
+  override val name: taggedTypes.LocalName
 }

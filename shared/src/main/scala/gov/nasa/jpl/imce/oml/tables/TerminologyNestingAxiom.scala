@@ -34,14 +34,14 @@ case class TerminologyNestingAxiom
 (
   @(JSExport @field) override val uuid: taggedTypes.TerminologyNestingAxiomUUID,
   @(JSExport @field) override val tboxUUID: taggedTypes.TerminologyBoxUUID,
-  @(JSExport @field) val nestingContextUUID: taggedTypes.ConceptUUID,
+  @(JSExport @field) val nestingContextUUID: taggedTypes.ConceptKindUUID,
   @(JSExport @field) val nestingTerminologyIRI: taggedTypes.IRI
 ) extends TerminologyBoxAxiom {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     tboxUUID: taggedTypes.TerminologyBoxUUID,
-    nestingContextUUID: taggedTypes.ConceptUUID,
+    nestingContextUUID: taggedTypes.ConceptKindUUID,
     nestingTerminologyIRI: taggedTypes.IRI)
   = this(
       taggedTypes.terminologyNestingAxiomUUID(oug.namespaceUUID(
@@ -90,7 +90,7 @@ object TerminologyNestingAxiomHelper {
     for {
     	  uuid <- c.downField("uuid").as[taggedTypes.TerminologyNestingAxiomUUID]
     	  tboxUUID <- c.downField("tboxUUID").as[taggedTypes.TerminologyBoxUUID]
-    	  nestingContextUUID <- c.downField("nestingContextUUID").as[taggedTypes.ConceptUUID]
+    	  nestingContextUUID <- c.downField("nestingContextUUID").as[taggedTypes.ConceptKindUUID]
     	  nestingTerminologyIRI <- c.downField("nestingTerminologyIRI").as[taggedTypes.IRI]
     	} yield TerminologyNestingAxiom(
     	  uuid,
@@ -106,7 +106,7 @@ object TerminologyNestingAxiomHelper {
     = Json.obj(
     	  ("uuid", taggedTypes.encodeTerminologyNestingAxiomUUID(x.uuid)),
     	  ("tboxUUID", taggedTypes.encodeTerminologyBoxUUID(x.tboxUUID)),
-    	  ("nestingContextUUID", taggedTypes.encodeConceptUUID(x.nestingContextUUID)),
+    	  ("nestingContextUUID", taggedTypes.encodeConceptKindUUID(x.nestingContextUUID)),
     	  ("nestingTerminologyIRI", taggedTypes.encodeIRI(x.nestingTerminologyIRI))
     )
   }

@@ -100,6 +100,23 @@ object Extent2Tables {
       None
   }.to[Seq]
 
+  def convertCardinalityRestrictedAspects
+  (acc: Seq[tables.CardinalityRestrictedAspect],
+   x: (api.TerminologyBox, Set[api.TerminologyBoxStatement]))
+  : Seq[tables.CardinalityRestrictedAspect]
+  = acc ++ x._2.flatMap {
+    case y: api.CardinalityRestrictedAspect =>
+      Some(tables.CardinalityRestrictedAspect(
+        y.uuid,
+        x._1.uuid,
+        y.restrictedRange.map(_.uuid),
+        y.name,
+        y.restrictedCardinality,
+        y.restrictedRelationship.uuid,
+        y.restrictionKind
+      ))
+  }
+
   def convertConcepts
   (acc: Seq[tables.Concept],
    x: (api.TerminologyBox, Set[api.TerminologyBoxStatement]))
@@ -113,6 +130,40 @@ object Extent2Tables {
     case _ =>
       None
   }.to[Seq]
+
+  def convertCardinalityRestrictedConcepts
+  (acc: Seq[tables.CardinalityRestrictedConcept],
+   x: (api.TerminologyBox, Set[api.TerminologyBoxStatement]))
+  : Seq[tables.CardinalityRestrictedConcept]
+  = acc ++ x._2.flatMap {
+    case y: api.CardinalityRestrictedConcept =>
+      Some(tables.CardinalityRestrictedConcept(
+        y.uuid,
+        x._1.uuid,
+        y.restrictedRange.map(_.uuid),
+        y.name,
+        y.restrictedCardinality,
+        y.restrictedRelationship.uuid,
+        y.restrictionKind
+      ))
+  }
+
+  def convertCardinalityRestrictedReifiedRelationships
+  (acc: Seq[tables.CardinalityRestrictedReifiedRelationship],
+   x: (api.TerminologyBox, Set[api.TerminologyBoxStatement]))
+  : Seq[tables.CardinalityRestrictedReifiedRelationship]
+  = acc ++ x._2.flatMap {
+    case y: api.CardinalityRestrictedReifiedRelationship =>
+      Some(tables.CardinalityRestrictedReifiedRelationship(
+        y.uuid,
+        x._1.uuid,
+        y.restrictedRange.map(_.uuid),
+        y.name,
+        y.restrictedCardinality,
+        y.restrictedRelationship.uuid,
+        y.restrictionKind
+      ))
+  }
 
   def convertReifiedRelationshipRestrictions
   (acc: Seq[tables.ReifiedRelationshipRestriction],
@@ -1054,11 +1105,21 @@ object Extent2Tables {
               e.boxStatements.foldLeft[Seq[tables.Aspect]](Seq.empty)(convertAspects),
               (a: tables.Aspect) => a.uuid),
 
+          cardinalityRestrictedAspects =
+            parallelSort.parSortBy(
+              e.boxStatements.foldLeft[Seq[tables.CardinalityRestrictedAspect]](Seq.empty)(convertCardinalityRestrictedAspects),
+              (a: tables.CardinalityRestrictedAspect) => a.uuid),
+
           concepts =
             parallelSort.parSortBy(
               e.boxStatements
                 .foldLeft[Seq[tables.Concept]](Seq.empty)(convertConcepts),
               (c: tables.Concept) => c.uuid),
+
+          cardinalityRestrictedConcepts =
+            parallelSort.parSortBy(
+              e.boxStatements.foldLeft[Seq[tables.CardinalityRestrictedConcept]](Seq.empty)(convertCardinalityRestrictedConcepts),
+              (c: tables.CardinalityRestrictedConcept) => c.uuid),
 
           reifiedRelationships =
             parallelSort.parSortBy(
@@ -1071,6 +1132,11 @@ object Extent2Tables {
               e.boxStatements
                 .foldLeft[Seq[tables.ReifiedRelationshipRestriction]](Seq.empty)(convertReifiedRelationshipRestrictions),
               (rr: tables.ReifiedRelationshipRestriction) => rr.uuid),
+
+          cardinalityRestrictedReifiedRelationships =
+            parallelSort.parSortBy(
+              e.boxStatements.foldLeft[Seq[tables.CardinalityRestrictedReifiedRelationship]](Seq.empty)(convertCardinalityRestrictedReifiedRelationships),
+              (rr: tables.CardinalityRestrictedReifiedRelationship) => rr.uuid),
 
           forwardProperties =
             parallelSort.parSortBy(
