@@ -27,17 +27,17 @@ import scala.collection.immutable.Seq
 import scala.util.{Failure, Success, Try}
 
 case class ConceptualRelationshipsToResolve(
-                                             cardinalityRestrictedAspects: Seq[
-                                               ConceptualRelationshipsToResolve.CardinalityRestrictedAspectInfo],
-                                             cardinalityRestrictedConcepts: Seq[
-                                               ConceptualRelationshipsToResolve.CardinalityRestrictedConceptInfo],
-                                             cardinalityRestrictedReifiedRelationships: Seq[
-                                               ConceptualRelationshipsToResolve.CardinalityRestrictedReifiedRelationshipInfo],
-                                             reifiedRelationships: Seq[
-                                               ConceptualRelationshipsToResolve.ReifiedRelationshipInfo],
-                                             reifiedRelationshipRestrictions: Seq[
-                                               ConceptualRelationshipsToResolve.ReifiedRelationshipRestrictionInfo],
-                                             r: OMLTablesResolver) {
+    cardinalityRestrictedAspects: Seq[
+      ConceptualRelationshipsToResolve.CardinalityRestrictedAspectInfo],
+    cardinalityRestrictedConcepts: Seq[
+      ConceptualRelationshipsToResolve.CardinalityRestrictedConceptInfo],
+    cardinalityRestrictedReifiedRelationships: Seq[
+      ConceptualRelationshipsToResolve.CardinalityRestrictedReifiedRelationshipInfo],
+    reifiedRelationships: Seq[
+      ConceptualRelationshipsToResolve.ReifiedRelationshipInfo],
+    reifiedRelationshipRestrictions: Seq[
+      ConceptualRelationshipsToResolve.ReifiedRelationshipRestrictionInfo],
+    r: OMLTablesResolver) {
   def isEmpty: Boolean =
     cardinalityRestrictedAspects.isEmpty &&
       cardinalityRestrictedConcepts.isEmpty &&
@@ -77,6 +77,7 @@ object ConceptualRelationshipsToResolve {
      api.taggedTypes.EntityUUID,
      tables.ReifiedRelationshipRestriction)
 
+  @scala.annotation.tailrec
   def resolve(s: ConceptualRelationshipsToResolve,
               progress: Int = 0): Try[OMLTablesResolver] =
     if (s.isEmpty)
@@ -408,17 +409,19 @@ object ConceptualRelationshipsToResolve {
       else {
         if (inc) {
           if (progress < 10) {
-            s2.flatMap {
-              nr =>
-              val next = s.copy(
-                cardinalityRestrictedAspects = ca_unresolvable,
-                cardinalityRestrictedConcepts = cc_unresolvable,
-                cardinalityRestrictedReifiedRelationships = crr_unresolvable,
-                reifiedRelationships = rr_unresolvable,
-                reifiedRelationshipRestrictions = pr_unresolvable,
-                r = nr
-              )
-              resolve(next, progress + 1)
+            s2 match {
+              case Success(nr) =>
+                val next = s.copy(
+                  cardinalityRestrictedAspects = ca_unresolvable,
+                  cardinalityRestrictedConcepts = cc_unresolvable,
+                  cardinalityRestrictedReifiedRelationships = crr_unresolvable,
+                  reifiedRelationships = rr_unresolvable,
+                  reifiedRelationshipRestrictions = pr_unresolvable,
+                  r = nr
+                )
+                resolve(next, progress + 1)
+              case Failure(t) =>
+                Failure(t)
             }
           } else
             Failure(
