@@ -92,7 +92,10 @@ case class OMLSpecificationTables
   singletonInstanceScalarDataPropertyValues : Seq[SingletonInstanceScalarDataPropertyValue] = Seq.empty,
   structuredDataPropertyTuples : Seq[StructuredDataPropertyTuple] = Seq.empty,
   scalarDataPropertyValues : Seq[ScalarDataPropertyValue] = Seq.empty,
-  annotationPropertyValues : Seq[AnnotationPropertyValue] = Seq.empty
+  annotationPropertyValues : Seq[AnnotationPropertyValue] = Seq.empty,
+  cardinalityRestrictedAspects : Seq[CardinalityRestrictedAspect] = Seq.empty,
+  cardinalityRestrictedConcepts : Seq[CardinalityRestrictedConcept] = Seq.empty,
+  cardinalityRestrictedReifiedRelationships : Seq[CardinalityRestrictedReifiedRelationship] = Seq.empty
 )
 {
   def readTerminologyGraphs(is: InputStream)
@@ -461,6 +464,24 @@ case class OMLSpecificationTables
     parallelSort.parSortBy((annotationPropertyValues.to[Set] ++ 
      readJSonTable(is, AnnotationPropertyValueHelper.fromJSON).to[Set]
     ).to[Seq], (a: AnnotationPropertyValue) => a.uuid))
+  def readCardinalityRestrictedAspects(is: InputStream)
+  : OMLSpecificationTables
+  = copy(cardinalityRestrictedAspects = 
+    parallelSort.parSortBy((cardinalityRestrictedAspects.to[Set] ++ 
+     readJSonTable(is, CardinalityRestrictedAspectHelper.fromJSON).to[Set]
+    ).to[Seq], (a: CardinalityRestrictedAspect) => a.uuid))
+  def readCardinalityRestrictedConcepts(is: InputStream)
+  : OMLSpecificationTables
+  = copy(cardinalityRestrictedConcepts = 
+    parallelSort.parSortBy((cardinalityRestrictedConcepts.to[Set] ++ 
+     readJSonTable(is, CardinalityRestrictedConceptHelper.fromJSON).to[Set]
+    ).to[Seq], (a: CardinalityRestrictedConcept) => a.uuid))
+  def readCardinalityRestrictedReifiedRelationships(is: InputStream)
+  : OMLSpecificationTables
+  = copy(cardinalityRestrictedReifiedRelationships = 
+    parallelSort.parSortBy((cardinalityRestrictedReifiedRelationships.to[Set] ++ 
+     readJSonTable(is, CardinalityRestrictedReifiedRelationshipHelper.fromJSON).to[Set]
+    ).to[Seq], (a: CardinalityRestrictedReifiedRelationship) => a.uuid))
   
   def isEmpty: Boolean
   = terminologyGraphs.isEmpty &&
@@ -523,7 +544,10 @@ case class OMLSpecificationTables
     singletonInstanceScalarDataPropertyValues.isEmpty &&
     structuredDataPropertyTuples.isEmpty &&
     scalarDataPropertyValues.isEmpty &&
-    annotationPropertyValues.isEmpty
+    annotationPropertyValues.isEmpty &&
+    cardinalityRestrictedAspects.isEmpty &&
+    cardinalityRestrictedConcepts.isEmpty &&
+    cardinalityRestrictedReifiedRelationships.isEmpty
   
   def show: String = {
   
@@ -598,6 +622,9 @@ case class OMLSpecificationTables
     buff ++= showSeq("structuredDataPropertyTuples", structuredDataPropertyTuples)
     buff ++= showSeq("scalarDataPropertyValues", scalarDataPropertyValues)
     buff ++= showSeq("annotationPropertyValues", annotationPropertyValues)
+    buff ++= showSeq("cardinalityRestrictedAspects", cardinalityRestrictedAspects)
+    buff ++= showSeq("cardinalityRestrictedConcepts", cardinalityRestrictedConcepts)
+    buff ++= showSeq("cardinalityRestrictedReifiedRelationships", cardinalityRestrictedReifiedRelationships)
   
     buff.toString
   }
@@ -877,7 +904,19 @@ object OMLSpecificationTables {
       annotationPropertyValues = parallelSort.parSortBy((
         t1.annotationPropertyValues.to[Set] ++ 
         t2.annotationPropertyValues.to[Set]
-      ).to[Seq], (a: AnnotationPropertyValue) => a.uuid))
+      ).to[Seq], (a: AnnotationPropertyValue) => a.uuid),
+      cardinalityRestrictedAspects = parallelSort.parSortBy((
+        t1.cardinalityRestrictedAspects.to[Set] ++ 
+        t2.cardinalityRestrictedAspects.to[Set]
+      ).to[Seq], (a: CardinalityRestrictedAspect) => a.uuid),
+      cardinalityRestrictedConcepts = parallelSort.parSortBy((
+        t1.cardinalityRestrictedConcepts.to[Set] ++ 
+        t2.cardinalityRestrictedConcepts.to[Set]
+      ).to[Seq], (a: CardinalityRestrictedConcept) => a.uuid),
+      cardinalityRestrictedReifiedRelationships = parallelSort.parSortBy((
+        t1.cardinalityRestrictedReifiedRelationships.to[Set] ++ 
+        t2.cardinalityRestrictedReifiedRelationships.to[Set]
+      ).to[Seq], (a: CardinalityRestrictedReifiedRelationship) => a.uuid))
   
   def readZipArchive
   (zipFile: ZipFile)
@@ -1008,6 +1047,12 @@ object OMLSpecificationTables {
   	    tables.readScalarDataPropertyValues(is)
   	  case AnnotationPropertyValueHelper.TABLE_JSON_FILENAME =>
   	    tables.readAnnotationPropertyValues(is)
+  	  case CardinalityRestrictedAspectHelper.TABLE_JSON_FILENAME =>
+  	    tables.readCardinalityRestrictedAspects(is)
+  	  case CardinalityRestrictedConceptHelper.TABLE_JSON_FILENAME =>
+  	    tables.readCardinalityRestrictedConcepts(is)
+  	  case CardinalityRestrictedReifiedRelationshipHelper.TABLE_JSON_FILENAME =>
+  	    tables.readCardinalityRestrictedReifiedRelationships(is)
     }
   }
   
@@ -1639,6 +1684,36 @@ object OMLSpecificationTables {
       }
       tables.annotationPropertyValues.foreach { t =>
          val line = AnnotationPropertyValueHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry();
+      {
+      	val e = new java.util.zip.ZipEntry(CardinalityRestrictedAspectHelper.TABLE_JSON_FILENAME)
+      	e.setTime(0L)
+      	zos.putNextEntry(e)
+      }
+      tables.cardinalityRestrictedAspects.foreach { t =>
+         val line = CardinalityRestrictedAspectHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry();
+      {
+      	val e = new java.util.zip.ZipEntry(CardinalityRestrictedConceptHelper.TABLE_JSON_FILENAME)
+      	e.setTime(0L)
+      	zos.putNextEntry(e)
+      }
+      tables.cardinalityRestrictedConcepts.foreach { t =>
+         val line = CardinalityRestrictedConceptHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry();
+      {
+      	val e = new java.util.zip.ZipEntry(CardinalityRestrictedReifiedRelationshipHelper.TABLE_JSON_FILENAME)
+      	e.setTime(0L)
+      	zos.putNextEntry(e)
+      }
+      tables.cardinalityRestrictedReifiedRelationships.foreach { t =>
+         val line = CardinalityRestrictedReifiedRelationshipHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry();

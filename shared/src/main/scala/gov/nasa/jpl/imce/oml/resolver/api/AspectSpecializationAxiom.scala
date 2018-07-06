@@ -35,7 +35,7 @@ trait AspectSpecializationAxiom
   /*
    * The super (parent) aspect
    */
-  val superAspect: Aspect
+  val superAspect: AspectKind
 
   /*
    * Get the sub (child) entity

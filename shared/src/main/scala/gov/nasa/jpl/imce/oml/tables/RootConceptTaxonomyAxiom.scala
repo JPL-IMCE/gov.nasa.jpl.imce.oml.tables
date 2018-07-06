@@ -33,13 +33,13 @@ case class RootConceptTaxonomyAxiom
 (
   @(JSExport @field) override val uuid: taggedTypes.RootConceptTaxonomyAxiomUUID,
   @(JSExport @field) override val bundleUUID: taggedTypes.BundleUUID,
-  @(JSExport @field) val rootUUID: taggedTypes.ConceptUUID
+  @(JSExport @field) val rootUUID: taggedTypes.ConceptKindUUID
 ) extends ConceptTreeDisjunction with TerminologyBundleStatement {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     bundleUUID: taggedTypes.BundleUUID,
-    rootUUID: taggedTypes.ConceptUUID)
+    rootUUID: taggedTypes.ConceptKindUUID)
   = this(
       taggedTypes.rootConceptTaxonomyAxiomUUID(oug.namespaceUUID(
         "RootConceptTaxonomyAxiom",
@@ -84,7 +84,7 @@ object RootConceptTaxonomyAxiomHelper {
     for {
     	  uuid <- c.downField("uuid").as[taggedTypes.RootConceptTaxonomyAxiomUUID]
     	  bundleUUID <- c.downField("bundleUUID").as[taggedTypes.BundleUUID]
-    	  rootUUID <- c.downField("rootUUID").as[taggedTypes.ConceptUUID]
+    	  rootUUID <- c.downField("rootUUID").as[taggedTypes.ConceptKindUUID]
     	} yield RootConceptTaxonomyAxiom(
     	  uuid,
     	  bundleUUID,
@@ -98,7 +98,7 @@ object RootConceptTaxonomyAxiomHelper {
     = Json.obj(
     	  ("uuid", taggedTypes.encodeRootConceptTaxonomyAxiomUUID(x.uuid)),
     	  ("bundleUUID", taggedTypes.encodeBundleUUID(x.bundleUUID)),
-    	  ("rootUUID", taggedTypes.encodeConceptUUID(x.rootUUID))
+    	  ("rootUUID", taggedTypes.encodeConceptKindUUID(x.rootUUID))
     )
   }
 

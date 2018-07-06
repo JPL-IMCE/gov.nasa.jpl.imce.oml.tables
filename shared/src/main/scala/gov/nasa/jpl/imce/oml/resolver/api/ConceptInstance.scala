@@ -26,7 +26,7 @@ trait ConceptInstance
 {
   override val uuid: taggedTypes.ConceptInstanceUUID
 
-  val singletonConceptClassifier: Concept
+  val singletonConceptClassifier: ConceptKind
 
   override def conceptualEntitySingletonClassifier
   (): ConceptualEntity

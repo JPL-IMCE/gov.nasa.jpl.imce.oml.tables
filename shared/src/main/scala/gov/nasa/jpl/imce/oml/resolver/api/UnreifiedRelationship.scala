@@ -31,6 +31,13 @@ trait UnreifiedRelationship
 {
   override val uuid: taggedTypes.UnreifiedRelationshipUUID
 
+  val source: Entity
+  val target: Entity
+
+  override def relationSource
+  (): Entity
+  override def relationTarget
+  (): Entity
   override def relation
   (): EntityRelationship
 }

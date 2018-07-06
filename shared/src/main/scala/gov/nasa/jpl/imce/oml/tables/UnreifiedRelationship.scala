@@ -44,8 +44,8 @@ case class UnreifiedRelationship
 (
   @(JSExport @field) override val uuid: taggedTypes.UnreifiedRelationshipUUID,
   @(JSExport @field) override val tboxUUID: taggedTypes.TerminologyBoxUUID,
-  @(JSExport @field) override val sourceUUID: taggedTypes.EntityUUID,
-  @(JSExport @field) override val targetUUID: taggedTypes.EntityUUID,
+  @(JSExport @field) val sourceUUID: taggedTypes.EntityUUID,
+  @(JSExport @field) val targetUUID: taggedTypes.EntityUUID,
   @(JSExport @field) override val isAsymmetric: scala.Boolean,
   @(JSExport @field) override val isEssential: scala.Boolean,
   @(JSExport @field) override val isFunctional: scala.Boolean,

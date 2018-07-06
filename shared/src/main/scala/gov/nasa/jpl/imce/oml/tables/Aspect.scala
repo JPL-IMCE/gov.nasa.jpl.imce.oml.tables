@@ -34,7 +34,7 @@ case class Aspect
   @(JSExport @field) override val uuid: taggedTypes.AspectUUID,
   @(JSExport @field) override val tboxUUID: taggedTypes.TerminologyBoxUUID,
   @(JSExport @field) override val name: taggedTypes.LocalName
-) extends Entity with UnaryTermKind {
+) extends AspectKind {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,

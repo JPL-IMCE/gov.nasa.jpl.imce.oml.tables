@@ -1,0 +1,5 @@
+gov.nasa.jpl.imce.oml.tables 0.95 adds new features to 0.94
+
+## Issues Resolved
+
+### [#59 Add support for OWL2-DL Object Property Cardinality Restrictions](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/59)

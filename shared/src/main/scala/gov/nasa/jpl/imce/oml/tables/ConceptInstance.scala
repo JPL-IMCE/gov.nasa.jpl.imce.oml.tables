@@ -34,14 +34,14 @@ case class ConceptInstance
 (
   @(JSExport @field) override val uuid: taggedTypes.ConceptInstanceUUID,
   @(JSExport @field) val descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
-  @(JSExport @field) val singletonConceptClassifierUUID: taggedTypes.ConceptUUID,
+  @(JSExport @field) val singletonConceptClassifierUUID: taggedTypes.ConceptKindUUID,
   @(JSExport @field) override val name: taggedTypes.LocalName
 ) extends ConceptualEntitySingletonInstance {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     descriptionBoxUUID: taggedTypes.DescriptionBoxUUID,
-    singletonConceptClassifierUUID: taggedTypes.ConceptUUID,
+    singletonConceptClassifierUUID: taggedTypes.ConceptKindUUID,
     name: taggedTypes.LocalName)
   = this(
       taggedTypes.conceptInstanceUUID(oug.namespaceUUID(
@@ -88,7 +88,7 @@ object ConceptInstanceHelper {
     for {
     	  uuid <- c.downField("uuid").as[taggedTypes.ConceptInstanceUUID]
     	  descriptionBoxUUID <- c.downField("descriptionBoxUUID").as[taggedTypes.DescriptionBoxUUID]
-    	  singletonConceptClassifierUUID <- c.downField("singletonConceptClassifierUUID").as[taggedTypes.ConceptUUID]
+    	  singletonConceptClassifierUUID <- c.downField("singletonConceptClassifierUUID").as[taggedTypes.ConceptKindUUID]
     	  name <- c.downField("name").as[taggedTypes.LocalName]
     	} yield ConceptInstance(
     	  uuid,
@@ -104,7 +104,7 @@ object ConceptInstanceHelper {
     = Json.obj(
     	  ("uuid", taggedTypes.encodeConceptInstanceUUID(x.uuid)),
     	  ("descriptionBoxUUID", taggedTypes.encodeDescriptionBoxUUID(x.descriptionBoxUUID)),
-    	  ("singletonConceptClassifierUUID", taggedTypes.encodeConceptUUID(x.singletonConceptClassifierUUID)),
+    	  ("singletonConceptClassifierUUID", taggedTypes.encodeConceptKindUUID(x.singletonConceptClassifierUUID)),
     	  ("name", taggedTypes.encodeLocalName(x.name))
     )
   }

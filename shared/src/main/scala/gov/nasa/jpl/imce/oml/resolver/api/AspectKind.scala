@@ -19,26 +19,13 @@
 package gov.nasa.jpl.imce.oml.resolver.api
 
 /*
- * An OML SpecificDisjointConceptAxiom specifies a leaf in a concept taxonomy tree.
+ * An OML AspectKind is a kind of OML Entity of OML UnaryTermKind.
+ * It is intended to be used as a specialization parent
+ * for one or more OML ConceptualEntity.
  */
-trait SpecificDisjointConceptAxiom
-  extends DisjointUnionOfConceptsAxiom
+trait AspectKind
+  extends Entity
+  with UnaryTermKind
 {
-  /*
-   * A Concept that is a disjoint leaf in a taxonomy tree.
-   */
-  val disjointLeaf: ConceptKind
-
-  override val uuid: taggedTypes.SpecificDisjointConceptAxiomUUID
-  def allNestedElements
-  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: LogicalElement]
-}
-
-object SpecificDisjointConceptAxiom {
-
-  def allNestedElements
-  (s: SpecificDisjointConceptAxiom, ext: Extent)
-  : scala.collection.immutable.Set[_ <: LogicalElement]
-  = s.allNestedElements()(ext)
-
+  override val uuid: taggedTypes.AspectKindUUID
 }

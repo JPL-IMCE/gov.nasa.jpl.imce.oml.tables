@@ -29,11 +29,12 @@ trait EntityRelationship
 {
   override val uuid: taggedTypes.EntityRelationshipUUID
 
-  val source: Entity
-  val target: Entity
-
+  def relationSource
+  (): Entity
   override def relationDomain
   (): Term
+  def relationTarget
+  (): Entity
   override def relationRange
   (): Term
 }

@@ -129,6 +129,27 @@ object taggedTypes {
   	: Int = x.compareTo(y)
   }
   
+  type AspectKindUUID
+  = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.AspectKindTag
+  
+  def aspectKindUUID(uuid: UUID): AspectKindUUID
+  = covariantTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.AspectKindTag][UUID](uuid)
+  
+  implicit val decodeAspectKindUUID: Decoder[AspectKindUUID]
+  = decodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.AspectKindTag]
+  
+  implicit val encodeAspectKindUUID: Encoder[AspectKindUUID]
+  = encodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.AspectKindTag]
+
+  implicit val orderingAspectKindUUID
+  : Ordering[AspectKindUUID]
+  = new Ordering[AspectKindUUID] {
+  	override def compare
+  	(x: AspectKindUUID, 
+  	 y: AspectKindUUID)
+  	: Int = x.compareTo(y)
+  }
+  
   type AspectSpecializationAxiomUUID
   = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.AspectSpecializationAxiomTag
   
@@ -210,6 +231,69 @@ object taggedTypes {
   	override def compare
   	(x: BundledTerminologyAxiomUUID, 
   	 y: BundledTerminologyAxiomUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type CardinalityRestrictedAspectUUID
+  = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.CardinalityRestrictedAspectTag
+  
+  def cardinalityRestrictedAspectUUID(uuid: UUID): CardinalityRestrictedAspectUUID
+  = covariantTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.CardinalityRestrictedAspectTag][UUID](uuid)
+  
+  implicit val decodeCardinalityRestrictedAspectUUID: Decoder[CardinalityRestrictedAspectUUID]
+  = decodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.CardinalityRestrictedAspectTag]
+  
+  implicit val encodeCardinalityRestrictedAspectUUID: Encoder[CardinalityRestrictedAspectUUID]
+  = encodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.CardinalityRestrictedAspectTag]
+
+  implicit val orderingCardinalityRestrictedAspectUUID
+  : Ordering[CardinalityRestrictedAspectUUID]
+  = new Ordering[CardinalityRestrictedAspectUUID] {
+  	override def compare
+  	(x: CardinalityRestrictedAspectUUID, 
+  	 y: CardinalityRestrictedAspectUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type CardinalityRestrictedConceptUUID
+  = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.CardinalityRestrictedConceptTag
+  
+  def cardinalityRestrictedConceptUUID(uuid: UUID): CardinalityRestrictedConceptUUID
+  = covariantTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.CardinalityRestrictedConceptTag][UUID](uuid)
+  
+  implicit val decodeCardinalityRestrictedConceptUUID: Decoder[CardinalityRestrictedConceptUUID]
+  = decodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.CardinalityRestrictedConceptTag]
+  
+  implicit val encodeCardinalityRestrictedConceptUUID: Encoder[CardinalityRestrictedConceptUUID]
+  = encodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.CardinalityRestrictedConceptTag]
+
+  implicit val orderingCardinalityRestrictedConceptUUID
+  : Ordering[CardinalityRestrictedConceptUUID]
+  = new Ordering[CardinalityRestrictedConceptUUID] {
+  	override def compare
+  	(x: CardinalityRestrictedConceptUUID, 
+  	 y: CardinalityRestrictedConceptUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type CardinalityRestrictedReifiedRelationshipUUID
+  = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.CardinalityRestrictedReifiedRelationshipTag
+  
+  def cardinalityRestrictedReifiedRelationshipUUID(uuid: UUID): CardinalityRestrictedReifiedRelationshipUUID
+  = covariantTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.CardinalityRestrictedReifiedRelationshipTag][UUID](uuid)
+  
+  implicit val decodeCardinalityRestrictedReifiedRelationshipUUID: Decoder[CardinalityRestrictedReifiedRelationshipUUID]
+  = decodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.CardinalityRestrictedReifiedRelationshipTag]
+  
+  implicit val encodeCardinalityRestrictedReifiedRelationshipUUID: Encoder[CardinalityRestrictedReifiedRelationshipUUID]
+  = encodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.CardinalityRestrictedReifiedRelationshipTag]
+
+  implicit val orderingCardinalityRestrictedReifiedRelationshipUUID
+  : Ordering[CardinalityRestrictedReifiedRelationshipUUID]
+  = new Ordering[CardinalityRestrictedReifiedRelationshipUUID] {
+  	override def compare
+  	(x: CardinalityRestrictedReifiedRelationshipUUID, 
+  	 y: CardinalityRestrictedReifiedRelationshipUUID)
   	: Int = x.compareTo(y)
   }
   
@@ -315,6 +399,27 @@ object taggedTypes {
   	override def compare
   	(x: ConceptInstanceUUID, 
   	 y: ConceptInstanceUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type ConceptKindUUID
+  = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.ConceptKindTag
+  
+  def conceptKindUUID(uuid: UUID): ConceptKindUUID
+  = covariantTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.ConceptKindTag][UUID](uuid)
+  
+  implicit val decodeConceptKindUUID: Decoder[ConceptKindUUID]
+  = decodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.ConceptKindTag]
+  
+  implicit val encodeConceptKindUUID: Encoder[ConceptKindUUID]
+  = encodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.ConceptKindTag]
+
+  implicit val orderingConceptKindUUID
+  : Ordering[ConceptKindUUID]
+  = new Ordering[ConceptKindUUID] {
+  	override def compare
+  	(x: ConceptKindUUID, 
+  	 y: ConceptKindUUID)
   	: Int = x.compareTo(y)
   }
   

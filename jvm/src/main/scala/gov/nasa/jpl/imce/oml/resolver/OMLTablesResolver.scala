@@ -276,6 +276,7 @@ case class OMLTablesResolver private[resolver]
         None
     }
   )
+
   def lookupBundleAxioms(key: Option[resolver.api.Bundle])
   : Set[resolver.api.TerminologyBundleAxiom]
   = key.fold[Set[resolver.api.TerminologyBundleAxiom]](Set.empty[resolver.api.TerminologyBundleAxiom]) {
@@ -820,7 +821,7 @@ object OMLTablesResolver {
 
     val unresolvable = byTBox.filter(_._1.isEmpty).flatMap(_._2).to[Seq]
     val resolvable = byTBox.flatMap {
-      case ((Some(tboxM), aspects)) => Some(Tuple2(tboxM, aspects))
+      case (Some(tboxM), aspects) => Some(Tuple2(tboxM, aspects))
       case _ => None
     }
 
@@ -1348,7 +1349,7 @@ object OMLTablesResolver {
     step3c <- mapDescriptionBoxRefinements(step3b)
     // Relational terms
     step4a <- mapRestrictedDataRanges(step3c)
-    step4b <- mapConceptualRelationships(step4a)
+    step4b <- mapConceptualRelationshipsAndCardinalityRestrictions(step4a)
     step4c <- mapForwardProperties(step4b)
     step4d <- mapInverseProperties(step4c)
     step4e <- mapUnreifiedRelationships(step4d)
@@ -1410,11 +1411,47 @@ object OMLTablesResolver {
 
   type HyperGraphV = Try[Graph[api.Module, ModuleGraphEdge]]
 
-  def mapConceptualRelationships
+  def mapConceptualRelationshipsAndCardinalityRestrictions
   (r: OMLTablesResolver)
   : Try[OMLTablesResolver]
   = {
     val ns = r.context.terminologyGraphs
+
+    val ca_byUUID =
+      r.queue.cardinalityRestrictedAspects
+        .map { cra =>
+          ( api.taggedTypes.fromUUIDString(cra.tboxUUID),
+            api.taggedTypes.fromUUIDString(cra.restrictedRelationshipUUID),
+            cra.restrictedRangeUUID.map(api.taggedTypes.fromUUIDString),
+            cra
+          )
+      }
+
+    val ca = ca_byUUID.filter { case (tboxUUID, _, _, _) => ns.contains(tboxUUID) }
+
+    val cc_byUUID =
+      r.queue.cardinalityRestrictedConcepts
+        .map { crc =>
+          ( api.taggedTypes.fromUUIDString(crc.tboxUUID),
+            api.taggedTypes.fromUUIDString(crc.restrictedRelationshipUUID),
+            crc.restrictedRangeUUID.map(api.taggedTypes.fromUUIDString),
+            crc
+          )
+        }
+
+    val cc = cc_byUUID.filter { case (tboxUUID, _, _, _) => ns.contains(tboxUUID) }
+
+    val crr_byUUID =
+      r.queue.cardinalityRestrictedReifiedRelationships
+        .map { crrr =>
+          ( api.taggedTypes.fromUUIDString(crrr.tboxUUID),
+            api.taggedTypes.fromUUIDString(crrr.restrictedRelationshipUUID),
+            crrr.restrictedRangeUUID.map(api.taggedTypes.fromUUIDString),
+            crrr
+          )
+        }
+
+    val crr = crr_byUUID.filter { case (tboxUUID, _, _, _) => ns.contains(tboxUUID) }
 
     val rr_byUUID =
       r.queue.reifiedRelationships
@@ -1425,7 +1462,7 @@ object OMLTablesResolver {
             trr )
         }
 
-    val (rr_resolvable, rr_unresolvable) = rr_byUUID.partition { case (tboxUUID, _, _, _) => ns.contains(tboxUUID) }
+    val rr = rr_byUUID.filter { case (tboxUUID, _, _, _) => ns.contains(tboxUUID) }
 
     val pr_byUUID =
       r.queue.reifiedRelationshipRestrictions
@@ -1436,10 +1473,10 @@ object OMLTablesResolver {
             trr )
         }
 
-    val (pr_resolvable, pr_unresolvable) = pr_byUUID.partition { case (tboxUUID, _, _, _) => ns.contains(tboxUUID) }
+    val pr = pr_byUUID.filter { case (tboxUUID, _, _, _) => ns.contains(tboxUUID) }
 
-    val cr2resolver = ConceptualRelationshipsToResolve(rr_resolvable, pr_resolvable, r)
-    cr2resolver.resolve()
+    val cr2resolver = ConceptualRelationshipsToResolve(ca, cc, crr, rr, pr, r)
+    ConceptualRelationshipsToResolve.resolve(cr2resolver)
 
   }
 

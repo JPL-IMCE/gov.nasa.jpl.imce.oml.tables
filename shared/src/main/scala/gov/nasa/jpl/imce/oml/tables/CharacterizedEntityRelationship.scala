@@ -22,8 +22,6 @@ package gov.nasa.jpl.imce.oml.tables
 trait CharacterizedEntityRelationship extends EntityRelationship {
   override val uuid: taggedTypes.CharacterizedEntityRelationshipUUID
   override val tboxUUID: taggedTypes.TerminologyBoxUUID
-  override val sourceUUID: taggedTypes.EntityUUID
-  override val targetUUID: taggedTypes.EntityUUID
   val isAsymmetric: scala.Boolean
   val isEssential: scala.Boolean
   val isFunctional: scala.Boolean

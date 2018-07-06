@@ -33,13 +33,13 @@ case class SpecificDisjointConceptAxiom
 (
   @(JSExport @field) override val uuid: taggedTypes.SpecificDisjointConceptAxiomUUID,
   @(JSExport @field) override val disjointTaxonomyParentUUID: taggedTypes.ConceptTreeDisjunctionUUID,
-  @(JSExport @field) val disjointLeafUUID: taggedTypes.ConceptUUID
+  @(JSExport @field) val disjointLeafUUID: taggedTypes.ConceptKindUUID
 ) extends DisjointUnionOfConceptsAxiom {
   // Ctor(uuidWithContainer)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     disjointTaxonomyParentUUID: taggedTypes.ConceptTreeDisjunctionUUID,
-    disjointLeafUUID: taggedTypes.ConceptUUID)
+    disjointLeafUUID: taggedTypes.ConceptKindUUID)
   = this(
       taggedTypes.specificDisjointConceptAxiomUUID(oug.namespaceUUID(
         "SpecificDisjointConceptAxiom",
@@ -84,7 +84,7 @@ object SpecificDisjointConceptAxiomHelper {
     for {
     	  uuid <- c.downField("uuid").as[taggedTypes.SpecificDisjointConceptAxiomUUID]
     	  disjointTaxonomyParentUUID <- c.downField("disjointTaxonomyParentUUID").as[taggedTypes.ConceptTreeDisjunctionUUID]
-    	  disjointLeafUUID <- c.downField("disjointLeafUUID").as[taggedTypes.ConceptUUID]
+    	  disjointLeafUUID <- c.downField("disjointLeafUUID").as[taggedTypes.ConceptKindUUID]
     	} yield SpecificDisjointConceptAxiom(
     	  uuid,
     	  disjointTaxonomyParentUUID,
@@ -98,7 +98,7 @@ object SpecificDisjointConceptAxiomHelper {
     = Json.obj(
     	  ("uuid", taggedTypes.encodeSpecificDisjointConceptAxiomUUID(x.uuid)),
     	  ("disjointTaxonomyParentUUID", taggedTypes.encodeConceptTreeDisjunctionUUID(x.disjointTaxonomyParentUUID)),
-    	  ("disjointLeafUUID", taggedTypes.encodeConceptUUID(x.disjointLeafUUID))
+    	  ("disjointLeafUUID", taggedTypes.encodeConceptKindUUID(x.disjointLeafUUID))
     )
   }
 
