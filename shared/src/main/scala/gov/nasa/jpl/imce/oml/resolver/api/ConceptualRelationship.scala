@@ -32,15 +32,15 @@ trait ConceptualRelationship
    * The OML ReifiedRelationship(s) that are the root entities of
    * the OML ConceptualRelationship.
    */
-  def rootReifiedRelationships
-  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: ReifiedRelationship]
+  def rootCharacterizedEntityRelationships
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: CharacterizedEntityRelationship]
 }
 
 object ConceptualRelationship {
 
-  def rootReifiedRelationships
+  def rootCharacterizedEntityRelationships
   (c: ConceptualRelationship, ext: Extent)
-  : scala.collection.immutable.Set[_ <: ReifiedRelationship]
-  = c.rootReifiedRelationships()(ext)
+  : scala.collection.immutable.Set[_ <: CharacterizedEntityRelationship]
+  = c.rootCharacterizedEntityRelationships()(ext)
 
 }
