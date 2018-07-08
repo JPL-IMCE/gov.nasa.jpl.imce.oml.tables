@@ -85,4 +85,15 @@ trait CardinalityRestrictedReifiedRelationship
   (): Entity
   override def relationTarget
   (): Entity
+  override def rootCharacterizedEntityRelationships
+  ()(implicit extent: Extent): scala.collection.immutable.Set[_ <: CharacterizedEntityRelationship]
+}
+
+object CardinalityRestrictedReifiedRelationship {
+
+  def rootCharacterizedEntityRelationships
+  (c: CardinalityRestrictedReifiedRelationship, ext: Extent)
+  : scala.collection.immutable.Set[_ <: CharacterizedEntityRelationship]
+  = c.rootCharacterizedEntityRelationships()(ext)
+
 }

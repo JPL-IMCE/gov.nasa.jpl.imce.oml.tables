@@ -234,17 +234,17 @@ case class Extent
   : Map[taggedTypes.AnnotationPropertyValueUUID, AnnotationPropertyValue]
   = HashMap.empty[taggedTypes.AnnotationPropertyValueUUID, AnnotationPropertyValue],
   conceptInstanceByUUID
-  : Map[taggedTypes.ConceptInstanceUUID, ConceptInstance]
-  = HashMap.empty[taggedTypes.ConceptInstanceUUID, ConceptInstance],
+  : Map[taggedTypes.ConceptualEntitySingletonInstanceUUID, ConceptInstance]
+  = HashMap.empty[taggedTypes.ConceptualEntitySingletonInstanceUUID, ConceptInstance],
   descriptionBoxExtendsClosedWorldDefinitionsByUUID
-  : Map[taggedTypes.DescriptionBoxExtendsClosedWorldDefinitionsUUID, DescriptionBoxExtendsClosedWorldDefinitions]
-  = HashMap.empty[taggedTypes.DescriptionBoxExtendsClosedWorldDefinitionsUUID, DescriptionBoxExtendsClosedWorldDefinitions],
+  : Map[taggedTypes.DescriptionBoxRelationshipUUID, DescriptionBoxExtendsClosedWorldDefinitions]
+  = HashMap.empty[taggedTypes.DescriptionBoxRelationshipUUID, DescriptionBoxExtendsClosedWorldDefinitions],
   descriptionBoxRefinementByUUID
-  : Map[taggedTypes.DescriptionBoxRefinementUUID, DescriptionBoxRefinement]
-  = HashMap.empty[taggedTypes.DescriptionBoxRefinementUUID, DescriptionBoxRefinement],
+  : Map[taggedTypes.DescriptionBoxRelationshipUUID, DescriptionBoxRefinement]
+  = HashMap.empty[taggedTypes.DescriptionBoxRelationshipUUID, DescriptionBoxRefinement],
   disjointUnionOfConceptsAxiomByUUID
-  : Map[taggedTypes.DisjointUnionOfConceptsAxiomUUID, DisjointUnionOfConceptsAxiom]
-  = HashMap.empty[taggedTypes.DisjointUnionOfConceptsAxiomUUID, DisjointUnionOfConceptsAxiom],
+  : Map[taggedTypes.ElementCrossReferenceTupleUUID, DisjointUnionOfConceptsAxiom]
+  = HashMap.empty[taggedTypes.ElementCrossReferenceTupleUUID, DisjointUnionOfConceptsAxiom],
   forwardPropertyByUUID
   : Map[taggedTypes.RestrictableRelationshipUUID, ForwardProperty]
   = HashMap.empty[taggedTypes.RestrictableRelationshipUUID, ForwardProperty],
@@ -252,8 +252,8 @@ case class Extent
   : Map[taggedTypes.RestrictableRelationshipUUID, InverseProperty]
   = HashMap.empty[taggedTypes.RestrictableRelationshipUUID, InverseProperty],
   reifiedRelationshipInstanceByUUID
-  : Map[taggedTypes.ReifiedRelationshipInstanceUUID, ReifiedRelationshipInstance]
-  = HashMap.empty[taggedTypes.ReifiedRelationshipInstanceUUID, ReifiedRelationshipInstance],
+  : Map[taggedTypes.ConceptualEntitySingletonInstanceUUID, ReifiedRelationshipInstance]
+  = HashMap.empty[taggedTypes.ConceptualEntitySingletonInstanceUUID, ReifiedRelationshipInstance],
   reifiedRelationshipInstanceDomainByUUID
   : Map[taggedTypes.ReifiedRelationshipInstanceDomainUUID, ReifiedRelationshipInstanceDomain]
   = HashMap.empty[taggedTypes.ReifiedRelationshipInstanceDomainUUID, ReifiedRelationshipInstanceDomain],
@@ -264,17 +264,17 @@ case class Extent
   : Map[taggedTypes.RestrictionScalarDataPropertyValueUUID, RestrictionScalarDataPropertyValue]
   = HashMap.empty[taggedTypes.RestrictionScalarDataPropertyValueUUID, RestrictionScalarDataPropertyValue],
   restrictionStructuredDataPropertyTupleByUUID
-  : Map[taggedTypes.RestrictionStructuredDataPropertyTupleUUID, RestrictionStructuredDataPropertyTuple]
-  = HashMap.empty[taggedTypes.RestrictionStructuredDataPropertyTupleUUID, RestrictionStructuredDataPropertyTuple],
+  : Map[taggedTypes.RestrictionStructuredDataPropertyContextUUID, RestrictionStructuredDataPropertyTuple]
+  = HashMap.empty[taggedTypes.RestrictionStructuredDataPropertyContextUUID, RestrictionStructuredDataPropertyTuple],
   ruleBodySegmentByUUID
-  : Map[taggedTypes.RuleBodySegmentUUID, RuleBodySegment]
-  = HashMap.empty[taggedTypes.RuleBodySegmentUUID, RuleBodySegment],
+  : Map[taggedTypes.ElementCrossReferenceTupleUUID, RuleBodySegment]
+  = HashMap.empty[taggedTypes.ElementCrossReferenceTupleUUID, RuleBodySegment],
   scalarDataPropertyValueByUUID
   : Map[taggedTypes.ScalarDataPropertyValueUUID, ScalarDataPropertyValue]
   = HashMap.empty[taggedTypes.ScalarDataPropertyValueUUID, ScalarDataPropertyValue],
   segmentPredicateByUUID
-  : Map[taggedTypes.SegmentPredicateUUID, SegmentPredicate]
-  = HashMap.empty[taggedTypes.SegmentPredicateUUID, SegmentPredicate],
+  : Map[taggedTypes.ElementCrossReferenceTupleUUID, SegmentPredicate]
+  = HashMap.empty[taggedTypes.ElementCrossReferenceTupleUUID, SegmentPredicate],
   singletonInstanceScalarDataPropertyValueByUUID
   : Map[taggedTypes.SingletonInstanceScalarDataPropertyValueUUID, SingletonInstanceScalarDataPropertyValue]
   = HashMap.empty[taggedTypes.SingletonInstanceScalarDataPropertyValueUUID, SingletonInstanceScalarDataPropertyValue],
@@ -282,20 +282,20 @@ case class Extent
   : Map[taggedTypes.SingletonInstanceStructuredDataPropertyValueUUID, SingletonInstanceStructuredDataPropertyValue]
   = HashMap.empty[taggedTypes.SingletonInstanceStructuredDataPropertyValueUUID, SingletonInstanceStructuredDataPropertyValue],
   structuredDataPropertyTupleByUUID
-  : Map[taggedTypes.StructuredDataPropertyTupleUUID, StructuredDataPropertyTuple]
-  = HashMap.empty[taggedTypes.StructuredDataPropertyTupleUUID, StructuredDataPropertyTuple],
+  : Map[taggedTypes.SingletonInstanceStructuredDataPropertyContextUUID, StructuredDataPropertyTuple]
+  = HashMap.empty[taggedTypes.SingletonInstanceStructuredDataPropertyContextUUID, StructuredDataPropertyTuple],
   terminologyBoxAxiomByUUID
-  : Map[taggedTypes.TerminologyBoxAxiomUUID, TerminologyBoxAxiom]
-  = HashMap.empty[taggedTypes.TerminologyBoxAxiomUUID, TerminologyBoxAxiom],
+  : Map[taggedTypes.TerminologyAxiomUUID, TerminologyBoxAxiom]
+  = HashMap.empty[taggedTypes.TerminologyAxiomUUID, TerminologyBoxAxiom],
   terminologyBoxStatementByUUID
-  : Map[taggedTypes.TerminologyBoxStatementUUID, TerminologyBoxStatement]
-  = HashMap.empty[taggedTypes.TerminologyBoxStatementUUID, TerminologyBoxStatement],
+  : Map[taggedTypes.ModuleElementUUID, TerminologyBoxStatement]
+  = HashMap.empty[taggedTypes.ModuleElementUUID, TerminologyBoxStatement],
   terminologyBundleAxiomByUUID
-  : Map[taggedTypes.TerminologyBundleAxiomUUID, TerminologyBundleAxiom]
-  = HashMap.empty[taggedTypes.TerminologyBundleAxiomUUID, TerminologyBundleAxiom],
+  : Map[taggedTypes.TerminologyAxiomUUID, TerminologyBundleAxiom]
+  = HashMap.empty[taggedTypes.TerminologyAxiomUUID, TerminologyBundleAxiom],
   terminologyBundleStatementByUUID
-  : Map[taggedTypes.TerminologyBundleStatementUUID, TerminologyBundleStatement]
-  = HashMap.empty[taggedTypes.TerminologyBundleStatementUUID, TerminologyBundleStatement],
+  : Map[taggedTypes.ModuleElementUUID, TerminologyBundleStatement]
+  = HashMap.empty[taggedTypes.ModuleElementUUID, TerminologyBundleStatement],
   unreifiedRelationshipInstanceTupleByUUID
   : Map[taggedTypes.UnreifiedRelationshipInstanceTupleUUID, UnreifiedRelationshipInstanceTuple]
   = HashMap.empty[taggedTypes.UnreifiedRelationshipInstanceTupleUUID, UnreifiedRelationshipInstanceTuple]
@@ -489,6 +489,24 @@ case class Extent
   : Option[TerminologyBox]
   = lookupTerminologyGraph(uuid) orElse 
   lookupBundle(uuid)
+
+  def lookupRestrictableRelationship
+  (uuid: taggedTypes.RestrictableRelationshipUUID)
+  : Option[RestrictableRelationship]
+  = lookupForwardProperty(uuid) orElse
+    lookupInverseProperty(uuid) orElse
+    lookupUnreifiedRelationship(uuid)
+
+  def lookupUnreifiedRelationship
+  (uuid: taggedTypes.RestrictableRelationshipUUID)
+  : Option[UnreifiedRelationship]
+  = terminologyBoxStatementByUUID.get(taggedTypes.terminologyBoxStatementUUID(uuid)) match {
+    case Some(ur: UnreifiedRelationship) =>
+      Some(ur)
+    case _ =>
+      None
+  }
+ 
   
   def lookupTerminologyGraph
   (uuid: Option[taggedTypes.ModuleUUID])
@@ -592,14 +610,14 @@ case class Extent
   = boxAxioms.getOrElse(key, Set.empty[TerminologyBoxAxiom])
   
   def lookupTerminologyBoxAxiom
-  (uuid: Option[taggedTypes.TerminologyBoxAxiomUUID])
+  (uuid: Option[taggedTypes.TerminologyAxiomUUID])
   : Option[TerminologyBoxAxiom]
   = uuid.flatMap {
     lookupTerminologyBoxAxiom
   }
   
   def lookupTerminologyBoxAxiom
-  (uuid: taggedTypes.TerminologyBoxAxiomUUID)
+  (uuid: taggedTypes.TerminologyAxiomUUID)
   : Option[TerminologyBoxAxiom]
   = terminologyBoxAxiomByUUID.get(uuid)
     
@@ -617,34 +635,17 @@ case class Extent
   = boxStatements.getOrElse(key, Set.empty[TerminologyBoxStatement])
   
   def lookupTerminologyBoxStatement
-  (uuid: Option[taggedTypes.TerminologyBoxStatementUUID])
+  (uuid: Option[taggedTypes.ModuleElementUUID])
   : Option[TerminologyBoxStatement]
   = uuid.flatMap {
     lookupTerminologyBoxStatement
   }
   
   def lookupTerminologyBoxStatement
-  (uuid: taggedTypes.TerminologyBoxStatementUUID)
+  (uuid: taggedTypes.ModuleElementUUID)
   : Option[TerminologyBoxStatement]
   = terminologyBoxStatementByUUID.get(uuid)
-
-  def lookupRestrictableRelationship
-  (uuid: taggedTypes.RestrictableRelationshipUUID)
-  : Option[RestrictableRelationship]
-  = lookupForwardProperty(uuid) orElse
-    lookupInverseProperty(uuid) orElse
-    lookupUnreifiedRelationship(uuid)
-
-  def lookupUnreifiedRelationship
-  (uuid: taggedTypes.RestrictableRelationshipUUID)
-  : Option[UnreifiedRelationship]
-  = terminologyBoxStatementByUUID.get(taggedTypes.terminologyBoxStatementUUID(uuid)) match {
-    case Some(ur: UnreifiedRelationship) =>
-      Some(ur)
-    case _ =>
-      None
-  }
-
+    
   def lookupForwardProperty
   (key: Option[ReifiedRelationship])
   : Option[ForwardProperty]
@@ -686,7 +687,7 @@ case class Extent
   = firstSegment.get(key)
   
   def lookupRuleBodySegment
-  (uuid: taggedTypes.RuleBodySegmentUUID)
+  (uuid: taggedTypes.ElementCrossReferenceTupleUUID)
   : Option[RuleBodySegment]
   = ruleBodySegmentByUUID.get(uuid)
     
@@ -701,7 +702,7 @@ case class Extent
   = predicate.get(key)
   
   def lookupSegmentPredicate
-  (uuid: taggedTypes.SegmentPredicateUUID)
+  (uuid: taggedTypes.ElementCrossReferenceTupleUUID)
   : Option[SegmentPredicate]
   = segmentPredicateByUUID.get(uuid)
     
@@ -729,14 +730,14 @@ case class Extent
   = structuredDataPropertyRestrictions.getOrElse(key, Set.empty[RestrictionStructuredDataPropertyTuple])
   
   def lookupRestrictionStructuredDataPropertyTuple
-  (uuid: Option[taggedTypes.RestrictionStructuredDataPropertyTupleUUID])
+  (uuid: Option[taggedTypes.RestrictionStructuredDataPropertyContextUUID])
   : Option[RestrictionStructuredDataPropertyTuple]
   = uuid.flatMap {
     lookupRestrictionStructuredDataPropertyTuple
   }
   
   def lookupRestrictionStructuredDataPropertyTuple
-  (uuid: taggedTypes.RestrictionStructuredDataPropertyTupleUUID)
+  (uuid: taggedTypes.RestrictionStructuredDataPropertyContextUUID)
   : Option[RestrictionStructuredDataPropertyTuple]
   = restrictionStructuredDataPropertyTupleByUUID.get(uuid)
     
@@ -779,14 +780,14 @@ case class Extent
   = bundleAxioms.getOrElse(key, Set.empty[TerminologyBundleAxiom])
   
   def lookupTerminologyBundleAxiom
-  (uuid: Option[taggedTypes.TerminologyBundleAxiomUUID])
+  (uuid: Option[taggedTypes.TerminologyAxiomUUID])
   : Option[TerminologyBundleAxiom]
   = uuid.flatMap {
     lookupTerminologyBundleAxiom
   }
   
   def lookupTerminologyBundleAxiom
-  (uuid: taggedTypes.TerminologyBundleAxiomUUID)
+  (uuid: taggedTypes.TerminologyAxiomUUID)
   : Option[TerminologyBundleAxiom]
   = terminologyBundleAxiomByUUID.get(uuid)
     
@@ -804,14 +805,14 @@ case class Extent
   = bundleStatements.getOrElse(key, Set.empty[TerminologyBundleStatement])
   
   def lookupTerminologyBundleStatement
-  (uuid: Option[taggedTypes.TerminologyBundleStatementUUID])
+  (uuid: Option[taggedTypes.ModuleElementUUID])
   : Option[TerminologyBundleStatement]
   = uuid.flatMap {
     lookupTerminologyBundleStatement
   }
   
   def lookupTerminologyBundleStatement
-  (uuid: taggedTypes.TerminologyBundleStatementUUID)
+  (uuid: taggedTypes.ModuleElementUUID)
   : Option[TerminologyBundleStatement]
   = terminologyBundleStatementByUUID.get(uuid)
     
@@ -829,14 +830,14 @@ case class Extent
   = disjunctions.getOrElse(key, Set.empty[DisjointUnionOfConceptsAxiom])
   
   def lookupDisjointUnionOfConceptsAxiom
-  (uuid: Option[taggedTypes.DisjointUnionOfConceptsAxiomUUID])
+  (uuid: Option[taggedTypes.ElementCrossReferenceTupleUUID])
   : Option[DisjointUnionOfConceptsAxiom]
   = uuid.flatMap {
     lookupDisjointUnionOfConceptsAxiom
   }
   
   def lookupDisjointUnionOfConceptsAxiom
-  (uuid: taggedTypes.DisjointUnionOfConceptsAxiomUUID)
+  (uuid: taggedTypes.ElementCrossReferenceTupleUUID)
   : Option[DisjointUnionOfConceptsAxiom]
   = disjointUnionOfConceptsAxiomByUUID.get(uuid)
     
@@ -854,14 +855,14 @@ case class Extent
   = descriptionBoxRefinements.getOrElse(key, Set.empty[DescriptionBoxRefinement])
   
   def lookupDescriptionBoxRefinement
-  (uuid: Option[taggedTypes.DescriptionBoxRefinementUUID])
+  (uuid: Option[taggedTypes.DescriptionBoxRelationshipUUID])
   : Option[DescriptionBoxRefinement]
   = uuid.flatMap {
     lookupDescriptionBoxRefinement
   }
   
   def lookupDescriptionBoxRefinement
-  (uuid: taggedTypes.DescriptionBoxRefinementUUID)
+  (uuid: taggedTypes.DescriptionBoxRelationshipUUID)
   : Option[DescriptionBoxRefinement]
   = descriptionBoxRefinementByUUID.get(uuid)
     
@@ -879,14 +880,14 @@ case class Extent
   = closedWorldDefinitions.getOrElse(key, Set.empty[DescriptionBoxExtendsClosedWorldDefinitions])
   
   def lookupDescriptionBoxExtendsClosedWorldDefinitions
-  (uuid: Option[taggedTypes.DescriptionBoxExtendsClosedWorldDefinitionsUUID])
+  (uuid: Option[taggedTypes.DescriptionBoxRelationshipUUID])
   : Option[DescriptionBoxExtendsClosedWorldDefinitions]
   = uuid.flatMap {
     lookupDescriptionBoxExtendsClosedWorldDefinitions
   }
   
   def lookupDescriptionBoxExtendsClosedWorldDefinitions
-  (uuid: taggedTypes.DescriptionBoxExtendsClosedWorldDefinitionsUUID)
+  (uuid: taggedTypes.DescriptionBoxRelationshipUUID)
   : Option[DescriptionBoxExtendsClosedWorldDefinitions]
   = descriptionBoxExtendsClosedWorldDefinitionsByUUID.get(uuid)
     
@@ -904,14 +905,14 @@ case class Extent
   = conceptInstances.getOrElse(key, Set.empty[ConceptInstance])
   
   def lookupConceptInstance
-  (uuid: Option[taggedTypes.ConceptInstanceUUID])
+  (uuid: Option[taggedTypes.ConceptualEntitySingletonInstanceUUID])
   : Option[ConceptInstance]
   = uuid.flatMap {
     lookupConceptInstance
   }
   
   def lookupConceptInstance
-  (uuid: taggedTypes.ConceptInstanceUUID)
+  (uuid: taggedTypes.ConceptualEntitySingletonInstanceUUID)
   : Option[ConceptInstance]
   = conceptInstanceByUUID.get(uuid)
     
@@ -929,14 +930,14 @@ case class Extent
   = reifiedRelationshipInstances.getOrElse(key, Set.empty[ReifiedRelationshipInstance])
   
   def lookupReifiedRelationshipInstance
-  (uuid: Option[taggedTypes.ReifiedRelationshipInstanceUUID])
+  (uuid: Option[taggedTypes.ConceptualEntitySingletonInstanceUUID])
   : Option[ReifiedRelationshipInstance]
   = uuid.flatMap {
     lookupReifiedRelationshipInstance
   }
   
   def lookupReifiedRelationshipInstance
-  (uuid: taggedTypes.ReifiedRelationshipInstanceUUID)
+  (uuid: taggedTypes.ConceptualEntitySingletonInstanceUUID)
   : Option[ReifiedRelationshipInstance]
   = reifiedRelationshipInstanceByUUID.get(uuid)
     
@@ -1079,14 +1080,14 @@ case class Extent
   = structuredPropertyTuples.getOrElse(key, Set.empty[StructuredDataPropertyTuple])
   
   def lookupStructuredDataPropertyTuple
-  (uuid: Option[taggedTypes.StructuredDataPropertyTupleUUID])
+  (uuid: Option[taggedTypes.SingletonInstanceStructuredDataPropertyContextUUID])
   : Option[StructuredDataPropertyTuple]
   = uuid.flatMap {
     lookupStructuredDataPropertyTuple
   }
   
   def lookupStructuredDataPropertyTuple
-  (uuid: taggedTypes.StructuredDataPropertyTupleUUID)
+  (uuid: taggedTypes.SingletonInstanceStructuredDataPropertyContextUUID)
   : Option[StructuredDataPropertyTuple]
   = structuredDataPropertyTupleByUUID.get(uuid)
     
