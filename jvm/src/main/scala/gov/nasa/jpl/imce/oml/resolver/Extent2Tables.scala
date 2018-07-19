@@ -115,6 +115,8 @@ object Extent2Tables {
         y.restrictedRelationship.uuid,
         y.restrictionKind
       ))
+    case _ =>
+      None
   }
 
   def convertConcepts
@@ -146,6 +148,8 @@ object Extent2Tables {
         y.restrictedRelationship.uuid,
         y.restrictionKind
       ))
+    case _ =>
+      None
   }
 
   def convertCardinalityRestrictedReifiedRelationships
@@ -163,6 +167,8 @@ object Extent2Tables {
         y.restrictedRelationship.uuid,
         y.restrictionKind
       ))
+    case _ =>
+      None
   }
 
   def convertReifiedRelationshipRestrictions
