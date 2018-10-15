@@ -35,14 +35,14 @@ case class ChainRule
   @(JSExport @field) override val uuid: taggedTypes.ChainRuleUUID,
   @(JSExport @field) override val tboxUUID: taggedTypes.TerminologyBoxUUID,
   @(JSExport @field) override val name: taggedTypes.LocalName,
-  @(JSExport @field) val headUUID: taggedTypes.UnreifiedRelationshipUUID
+  @(JSExport @field) val headUUID: taggedTypes.RestrictableRelationshipUUID
 ) extends Rule {
   // Ctor(uuidWithGenerator)   
   def this(
     oug: gov.nasa.jpl.imce.oml.uuid.OMLUUIDGenerator,
     tboxUUID: taggedTypes.TerminologyBoxUUID,
     name: taggedTypes.LocalName,
-    headUUID: taggedTypes.UnreifiedRelationshipUUID)
+    headUUID: taggedTypes.RestrictableRelationshipUUID)
   = this(
       taggedTypes.chainRuleUUID(oug.namespaceUUID(
         tboxUUID,
@@ -89,7 +89,7 @@ object ChainRuleHelper {
     	  uuid <- c.downField("uuid").as[taggedTypes.ChainRuleUUID]
     	  tboxUUID <- c.downField("tboxUUID").as[taggedTypes.TerminologyBoxUUID]
     	  name <- c.downField("name").as[taggedTypes.LocalName]
-    	  headUUID <- c.downField("headUUID").as[taggedTypes.UnreifiedRelationshipUUID]
+    	  headUUID <- c.downField("headUUID").as[taggedTypes.RestrictableRelationshipUUID]
     	} yield ChainRule(
     	  uuid,
     	  tboxUUID,
@@ -105,7 +105,7 @@ object ChainRuleHelper {
     	  ("uuid", taggedTypes.encodeChainRuleUUID(x.uuid)),
     	  ("tboxUUID", taggedTypes.encodeTerminologyBoxUUID(x.tboxUUID)),
     	  ("name", taggedTypes.encodeLocalName(x.name)),
-    	  ("headUUID", taggedTypes.encodeUnreifiedRelationshipUUID(x.headUUID))
+    	  ("headUUID", taggedTypes.encodeRestrictableRelationshipUUID(x.headUUID))
     )
   }
 

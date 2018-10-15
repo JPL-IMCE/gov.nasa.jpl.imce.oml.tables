@@ -22,10 +22,9 @@ import java.lang.IllegalArgumentException
 import java.util.UUID
 
 import gov.nasa.jpl.imce.oml.{resolver, _}
-
 import com.github.benmanes.caffeine.cache.LoadingCache
-
 import scalax.collection.immutable.Graph
+
 import scala.annotation.tailrec
 import scala.collection.immutable.{Iterable, Map, Seq, Set}
 import scala.collection.parallel.immutable.ParSeq
@@ -534,6 +533,116 @@ case class OMLTablesResolver private[resolver]
       .unreifiedRelationshipInstanceTupleByUUID
       .get(uuid)
   )
+
+  ///
+
+  def lookupInstanceRelationshipEnumerationRestrictions(key: Option[resolver.api.DescriptionBox])
+  : Set[resolver.api.InstanceRelationshipEnumerationRestriction]
+  = key.fold[Set[resolver.api.InstanceRelationshipEnumerationRestriction]](Set.empty[resolver.api.InstanceRelationshipEnumerationRestriction]) {
+    lookupInstanceRelationshipEnumerationRestrictions
+  }
+
+  def lookupInstanceRelationshipEnumerationRestrictions(key: resolver.api.DescriptionBox)
+  : Set[resolver.api.InstanceRelationshipEnumerationRestriction]
+  = OMLTablesResolver.collectFirstOption(allContexts)(_.instanceRelationshipEnumerationRestrictions.get(key))
+    .getOrElse(Set.empty[resolver.api.InstanceRelationshipEnumerationRestriction])
+
+  def lookupInstanceRelationshipEnumerationRestriction(uuid: Option[api.taggedTypes.InstanceRelationshipEnumerationRestrictionUUID])
+  : Option[resolver.api.InstanceRelationshipEnumerationRestriction]
+  = uuid.fold[Option[resolver.api.InstanceRelationshipEnumerationRestriction]](None) {
+    lookupInstanceRelationshipEnumerationRestriction
+  }
+
+  def lookupInstanceRelationshipEnumerationRestriction(uuid: api.taggedTypes.InstanceRelationshipEnumerationRestrictionUUID)
+  : Option[resolver.api.InstanceRelationshipEnumerationRestriction]
+  = OMLTablesResolver.collectFirstOption(allContexts)(
+    _
+      .instanceRelationshipEnumerationRestrictionByUUID
+      .get(uuid)
+  )
+  
+  ///
+
+  def lookupInstanceRelationshipValueRestrictions(key: Option[resolver.api.DescriptionBox])
+  : Set[resolver.api.InstanceRelationshipValueRestriction]
+  = key.fold[Set[resolver.api.InstanceRelationshipValueRestriction]](Set.empty[resolver.api.InstanceRelationshipValueRestriction]) {
+    lookupInstanceRelationshipValueRestrictions
+  }
+
+  def lookupInstanceRelationshipValueRestrictions(key: resolver.api.DescriptionBox)
+  : Set[resolver.api.InstanceRelationshipValueRestriction]
+  = OMLTablesResolver.collectFirstOption(allContexts)(_.instanceRelationshipValueRestrictions.get(key))
+    .getOrElse(Set.empty[resolver.api.InstanceRelationshipValueRestriction])
+
+  def lookupInstanceRelationshipValueRestriction(uuid: Option[api.taggedTypes.InstanceRelationshipValueRestrictionUUID])
+  : Option[resolver.api.InstanceRelationshipValueRestriction]
+  = uuid.fold[Option[resolver.api.InstanceRelationshipValueRestriction]](None) {
+    lookupInstanceRelationshipValueRestriction
+  }
+
+  def lookupInstanceRelationshipValueRestriction(uuid: api.taggedTypes.InstanceRelationshipValueRestrictionUUID)
+  : Option[resolver.api.InstanceRelationshipValueRestriction]
+  = OMLTablesResolver.collectFirstOption(allContexts)(
+    _
+      .instanceRelationshipValueRestrictionByUUID
+      .get(uuid)
+  )
+  
+  ///
+
+  def lookupInstanceRelationshipExistentialRangeRestrictions(key: Option[resolver.api.DescriptionBox])
+  : Set[resolver.api.InstanceRelationshipExistentialRangeRestriction]
+  = key.fold[Set[resolver.api.InstanceRelationshipExistentialRangeRestriction]](Set.empty[resolver.api.InstanceRelationshipExistentialRangeRestriction]) {
+    lookupInstanceRelationshipExistentialRangeRestrictions
+  }
+
+  def lookupInstanceRelationshipExistentialRangeRestrictions(key: resolver.api.DescriptionBox)
+  : Set[resolver.api.InstanceRelationshipExistentialRangeRestriction]
+  = OMLTablesResolver.collectFirstOption(allContexts)(_.instanceRelationshipExistentialRangeRestrictions.get(key))
+    .getOrElse(Set.empty[resolver.api.InstanceRelationshipExistentialRangeRestriction])
+
+  def lookupInstanceRelationshipExistentialRangeRestriction(uuid: Option[api.taggedTypes.InstanceRelationshipExistentialRangeRestrictionUUID])
+  : Option[resolver.api.InstanceRelationshipExistentialRangeRestriction]
+  = uuid.fold[Option[resolver.api.InstanceRelationshipExistentialRangeRestriction]](None) {
+    lookupInstanceRelationshipExistentialRangeRestriction
+  }
+
+  def lookupInstanceRelationshipExistentialRangeRestriction(uuid: api.taggedTypes.InstanceRelationshipExistentialRangeRestrictionUUID)
+  : Option[resolver.api.InstanceRelationshipExistentialRangeRestriction]
+  = OMLTablesResolver.collectFirstOption(allContexts)(
+    _
+      .instanceRelationshipExistentialRangeRestrictionByUUID
+      .get(uuid)
+  )
+
+  ///
+
+  def lookupInstanceRelationshipUniversalRangeRestrictions(key: Option[resolver.api.DescriptionBox])
+  : Set[resolver.api.InstanceRelationshipUniversalRangeRestriction]
+  = key.fold[Set[resolver.api.InstanceRelationshipUniversalRangeRestriction]](Set.empty[resolver.api.InstanceRelationshipUniversalRangeRestriction]) {
+    lookupInstanceRelationshipUniversalRangeRestrictions
+  }
+
+  def lookupInstanceRelationshipUniversalRangeRestrictions(key: resolver.api.DescriptionBox)
+  : Set[resolver.api.InstanceRelationshipUniversalRangeRestriction]
+  = OMLTablesResolver.collectFirstOption(allContexts)(_.instanceRelationshipUniversalRangeRestrictions.get(key))
+    .getOrElse(Set.empty[resolver.api.InstanceRelationshipUniversalRangeRestriction])
+
+  def lookupInstanceRelationshipUniversalRangeRestriction(uuid: Option[api.taggedTypes.InstanceRelationshipUniversalRangeRestrictionUUID])
+  : Option[resolver.api.InstanceRelationshipUniversalRangeRestriction]
+  = uuid.fold[Option[resolver.api.InstanceRelationshipUniversalRangeRestriction]](None) {
+    lookupInstanceRelationshipUniversalRangeRestriction
+  }
+
+  def lookupInstanceRelationshipUniversalRangeRestriction(uuid: api.taggedTypes.InstanceRelationshipUniversalRangeRestrictionUUID)
+  : Option[resolver.api.InstanceRelationshipUniversalRangeRestriction]
+  = OMLTablesResolver.collectFirstOption(allContexts)(
+    _
+      .instanceRelationshipUniversalRangeRestrictionByUUID
+      .get(uuid)
+  )
+  
+  ///
 
   def lookupSingletonScalarDataPropertyValues(key: Option[resolver.api.DescriptionBox])
   : Set[resolver.api.SingletonInstanceScalarDataPropertyValue]
@@ -1386,10 +1495,13 @@ object OMLTablesResolver {
     step11c <- mapReifiedRelationshipInstanceDomains(step11b)
     step11d <- mapReifiedRelationshipInstanceRanges(step11c)
     step11e <- mapUnreifiedRelationshipInstanceTuples(step11d)
-    step11f <- mapSingletonInstanceScalarDataPropertyValues(step11e)
-    step11g <- mapSingletonInstanceStructuredDataPropertyValues(step11f)
+    step11f <- mapInstanceRelationshipValueRestrictions(step11e)
+    step11g <- mapInstanceRelationshipExistentialRangeRestrictions(step11f)
+    step11h <- mapInstanceRelationshipUniversalRangeRestrictions(step11g)
+    step11i <- mapSingletonInstanceScalarDataPropertyValues(step11h)
+    step11j <- mapSingletonInstanceStructuredDataPropertyValues(step11i)
     // Annotations
-    step12 <- mapAnnotations(step11g)
+    step12 <- mapAnnotations(step11j)
   } yield
     step12
 
@@ -1653,7 +1765,7 @@ object OMLTablesResolver {
       tuple <- byUUID
       ((tboxUUID, headUUID), rule) = tuple
       tboxM = r.lookupTerminologyBox(tboxUUID)
-      headM = r.lookupUnreifiedRelationship(headUUID)
+      headM = r.lookupRestrictableRelationship(headUUID)
     } yield (tboxM, headM, rule)
 
     val unresolvable = info.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty).map(_._3)
@@ -2323,7 +2435,7 @@ object OMLTablesResolver {
           if (!ej.lookupBoxStatements(tboxM).contains(rra))
             Failure(new IllegalArgumentException(s"EntityUniversalRestrictionAxiom not in extent: $rra"))
           else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tra.uuid)).contains(rra))
-            Failure(new IllegalArgumentException(s"EntityUniversalRestrictionAxiom: $tra vs. $rra"))
+            Failure(new IllegalArgumentException(s"EntityUniversalRestrictionAxiom:\n$tra\nvs.\n$rra"))
           else
             Success(ri.copy(context = ej))
         case (Failure(f), _) =>
@@ -3253,6 +3365,150 @@ object OMLTablesResolver {
           Failure(new IllegalArgumentException(s"UnreifiedRelationshipInstanceTuple not in extent: $ruri"))
         else if (!ej.lookupUnreifiedRelationshipInstanceTuple(api.taggedTypes.fromUUIDString(turi.uuid)).contains(ruri))
           Failure(new IllegalArgumentException(s"UnreifiedRelationshipInstanceTuple: $ruri vs. $turi"))
+        else
+          Success(ri.copy(context = ej))
+      case (Failure(t), _) =>
+        Failure(t)
+    }
+
+    s
+  }
+
+  def mapInstanceRelationshipValueRestrictions
+  (r: OMLTablesResolver)
+  : Try[OMLTablesResolver]
+  = {
+    val info = r.queue.instanceRelationshipValueRestrictions.map { turi =>
+      val dboxUUID = api.taggedTypes.fromUUIDString(turi.descriptionBoxUUID)
+      val rrUUID = api.taggedTypes.fromUUIDString(turi.restrictedRelationshipUUID)
+      val dUUID = api.taggedTypes.fromUUIDString(turi.domainUUID)
+      val rUUID = api.taggedTypes.fromUUIDString(turi.rangeUUID)
+      val dboxM = r.lookupDescriptionBox(dboxUUID)
+      val rrM = r.lookupRestrictableRelationship(rrUUID)
+      val dM = r.lookupConceptualEntitySingletonInstance(dUUID)
+      val rM = r.lookupConceptualEntitySingletonInstance(rUUID)
+      (dboxM, rrM, dM, rM, turi)
+    }
+
+    val unresolvable = info.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty || tuple._3.isEmpty || tuple._4.isEmpty).map(_._5)
+    val resolvable = info.flatMap {
+      case (Some(dboxM), Some(rrM), Some(dM), Some(rM), turi) => Some((dboxM, rrM, dM, rM, turi))
+      case _ => None
+    }
+
+    val r1 = r.copy(queue = r.queue.copy(instanceRelationshipValueRestrictions = unresolvable))
+
+    val s = resolvable.foldLeft[Try[OMLTablesResolver]](Success(r1)) {
+      case (Success(ri), (dboxM, rrM, dM, rM, turi)) =>
+        val (ej, ruri) = ri.factory.createInstanceRelationshipValueRestriction(
+          ri.context,
+          dboxM,
+          dM,
+          rM,
+          rrM)
+
+        if (!ej.lookupInstanceRelationshipValueRestrictions(dboxM).contains(ruri))
+          Failure(new IllegalArgumentException(s"InstanceRelationshipValueRestriction not in extent: $ruri"))
+        else if (!ej.lookupInstanceRelationshipValueRestriction(api.taggedTypes.fromUUIDString(turi.uuid)).contains(ruri))
+          Failure(new IllegalArgumentException(s"InstanceRelationshipValueRestriction: $ruri vs. $turi"))
+        else
+          Success(ri.copy(context = ej))
+      case (Failure(t), _) =>
+        Failure(t)
+    }
+
+    s
+  }
+
+  def mapInstanceRelationshipExistentialRangeRestrictions
+  (r: OMLTablesResolver)
+  : Try[OMLTablesResolver]
+  = {
+    val info = r.queue.instanceRelationshipExistentialRangeRestrictions.map { turi =>
+      val dboxUUID = api.taggedTypes.fromUUIDString(turi.descriptionBoxUUID)
+      val rrUUID = api.taggedTypes.fromUUIDString(turi.restrictedRelationshipUUID)
+      val dUUID = api.taggedTypes.fromUUIDString(turi.domainUUID)
+      val rUUID = api.taggedTypes.fromUUIDString(turi.rangeUUID)
+      val dboxM = r.lookupDescriptionBox(dboxUUID)
+      val rrM = r.lookupRestrictableRelationship(rrUUID)
+      val dM = r.lookupConceptualEntitySingletonInstance(dUUID)
+      val rM = r.lookupLogicalElement(rUUID) match {
+        case Some(eM: api.Entity) => Some(eM)
+        case _ => None
+      }
+      (dboxM, rrM, dM, rM, turi)
+    }
+
+    val unresolvable = info.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty || tuple._3.isEmpty || tuple._4.isEmpty).map(_._5)
+    val resolvable = info.flatMap {
+      case (Some(dboxM), Some(rrM), Some(dM), Some(rM), turi) => Some((dboxM, rrM, dM, rM, turi))
+      case _ => None
+    }
+
+    val r1 = r.copy(queue = r.queue.copy(instanceRelationshipExistentialRangeRestrictions = unresolvable))
+
+    val s = resolvable.foldLeft[Try[OMLTablesResolver]](Success(r1)) {
+      case (Success(ri), (dboxM, rrM, dM, rM, turi)) =>
+        val (ej, ruri) = ri.factory.createInstanceRelationshipExistentialRangeRestriction(
+          ri.context,
+          dboxM,
+          dM,
+          rM,
+          rrM)
+
+        if (!ej.lookupInstanceRelationshipExistentialRangeRestrictions(dboxM).contains(ruri))
+          Failure(new IllegalArgumentException(s"InstanceRelationshipExistentialRangeRestriction not in extent: $ruri"))
+        else if (!ej.lookupInstanceRelationshipExistentialRangeRestriction(api.taggedTypes.fromUUIDString(turi.uuid)).contains(ruri))
+          Failure(new IllegalArgumentException(s"InstanceRelationshipExistentialRangeRestriction: $ruri vs. $turi"))
+        else
+          Success(ri.copy(context = ej))
+      case (Failure(t), _) =>
+        Failure(t)
+    }
+
+    s
+  }
+
+  def mapInstanceRelationshipUniversalRangeRestrictions
+  (r: OMLTablesResolver)
+  : Try[OMLTablesResolver]
+  = {
+    val info = r.queue.instanceRelationshipUniversalRangeRestrictions.map { turi =>
+      val dboxUUID = api.taggedTypes.fromUUIDString(turi.descriptionBoxUUID)
+      val rrUUID = api.taggedTypes.fromUUIDString(turi.restrictedRelationshipUUID)
+      val dUUID = api.taggedTypes.fromUUIDString(turi.domainUUID)
+      val rUUID = api.taggedTypes.fromUUIDString(turi.rangeUUID)
+      val dboxM = r.lookupDescriptionBox(dboxUUID)
+      val rrM = r.lookupRestrictableRelationship(rrUUID)
+      val dM = r.lookupConceptualEntitySingletonInstance(dUUID)
+      val rM = r.lookupLogicalElement(rUUID) match {
+        case Some(eM: api.Entity) => Some(eM)
+        case _ => None
+      }
+      (dboxM, rrM, dM, rM, turi)
+    }
+
+    val unresolvable = info.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty || tuple._3.isEmpty || tuple._4.isEmpty).map(_._5)
+    val resolvable = info.flatMap {
+      case (Some(dboxM), Some(rrM), Some(dM), Some(rM), turi) => Some((dboxM, rrM, dM, rM, turi))
+      case _ => None
+    }
+
+    val r1 = r.copy(queue = r.queue.copy(instanceRelationshipUniversalRangeRestrictions = unresolvable))
+
+    val s = resolvable.foldLeft[Try[OMLTablesResolver]](Success(r1)) {
+      case (Success(ri), (dboxM, rrM, dM, rM, turi)) =>
+        val (ej, ruri) = ri.factory.createInstanceRelationshipUniversalRangeRestriction(
+          ri.context,
+          dboxM,
+          dM,
+          rM,
+          rrM)
+
+        if (!ej.lookupInstanceRelationshipUniversalRangeRestrictions(dboxM).contains(ruri))
+          Failure(new IllegalArgumentException(s"InstanceRelationshipUniversalRangeRestriction not in extent: $ruri"))
+        else if (!ej.lookupInstanceRelationshipUniversalRangeRestriction(api.taggedTypes.fromUUIDString(turi.uuid)).contains(ruri))
+          Failure(new IllegalArgumentException(s"InstanceRelationshipUniversalRangeRestriction: $ruri vs. $turi"))
         else
           Success(ri.copy(context = ej))
       case (Failure(t), _) =>

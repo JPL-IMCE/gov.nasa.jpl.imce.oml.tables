@@ -47,5 +47,5 @@ trait ChainRule
 {
   override val uuid: taggedTypes.ChainRuleUUID
 
-  val head: UnreifiedRelationship
+  val head: RestrictableRelationship
 }

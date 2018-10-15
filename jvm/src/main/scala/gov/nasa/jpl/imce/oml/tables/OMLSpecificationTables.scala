@@ -95,7 +95,12 @@ case class OMLSpecificationTables
   annotationPropertyValues : Seq[AnnotationPropertyValue] = Seq.empty,
   cardinalityRestrictedAspects : Seq[CardinalityRestrictedAspect] = Seq.empty,
   cardinalityRestrictedConcepts : Seq[CardinalityRestrictedConcept] = Seq.empty,
-  cardinalityRestrictedReifiedRelationships : Seq[CardinalityRestrictedReifiedRelationship] = Seq.empty
+  cardinalityRestrictedReifiedRelationships : Seq[CardinalityRestrictedReifiedRelationship] = Seq.empty,
+  instanceRelationshipEnumerationRestrictions : Seq[InstanceRelationshipEnumerationRestriction] = Seq.empty,
+  instanceRelationshipExistentialRangeRestrictions : Seq[InstanceRelationshipExistentialRangeRestriction] = Seq.empty,
+  instanceRelationshipOneOfRestrictions : Seq[InstanceRelationshipOneOfRestriction] = Seq.empty,
+  instanceRelationshipUniversalRangeRestrictions : Seq[InstanceRelationshipUniversalRangeRestriction] = Seq.empty,
+  instanceRelationshipValueRestrictions : Seq[InstanceRelationshipValueRestriction] = Seq.empty
 )
 {
   def readTerminologyGraphs(is: InputStream)
@@ -482,6 +487,36 @@ case class OMLSpecificationTables
     parallelSort.parSortBy((cardinalityRestrictedReifiedRelationships.to[Set] ++ 
      readJSonTable(is, CardinalityRestrictedReifiedRelationshipHelper.fromJSON).to[Set]
     ).to[Seq], (a: CardinalityRestrictedReifiedRelationship) => a.uuid))
+  def readInstanceRelationshipEnumerationRestrictions(is: InputStream)
+  : OMLSpecificationTables
+  = copy(instanceRelationshipEnumerationRestrictions = 
+    parallelSort.parSortBy((instanceRelationshipEnumerationRestrictions.to[Set] ++ 
+     readJSonTable(is, InstanceRelationshipEnumerationRestrictionHelper.fromJSON).to[Set]
+    ).to[Seq], (a: InstanceRelationshipEnumerationRestriction) => a.uuid))
+  def readInstanceRelationshipExistentialRangeRestrictions(is: InputStream)
+  : OMLSpecificationTables
+  = copy(instanceRelationshipExistentialRangeRestrictions = 
+    parallelSort.parSortBy((instanceRelationshipExistentialRangeRestrictions.to[Set] ++ 
+     readJSonTable(is, InstanceRelationshipExistentialRangeRestrictionHelper.fromJSON).to[Set]
+    ).to[Seq], (a: InstanceRelationshipExistentialRangeRestriction) => a.uuid))
+  def readInstanceRelationshipOneOfRestrictions(is: InputStream)
+  : OMLSpecificationTables
+  = copy(instanceRelationshipOneOfRestrictions = 
+    parallelSort.parSortBy((instanceRelationshipOneOfRestrictions.to[Set] ++ 
+     readJSonTable(is, InstanceRelationshipOneOfRestrictionHelper.fromJSON).to[Set]
+    ).to[Seq], (a: InstanceRelationshipOneOfRestriction) => a.uuid))
+  def readInstanceRelationshipUniversalRangeRestrictions(is: InputStream)
+  : OMLSpecificationTables
+  = copy(instanceRelationshipUniversalRangeRestrictions = 
+    parallelSort.parSortBy((instanceRelationshipUniversalRangeRestrictions.to[Set] ++ 
+     readJSonTable(is, InstanceRelationshipUniversalRangeRestrictionHelper.fromJSON).to[Set]
+    ).to[Seq], (a: InstanceRelationshipUniversalRangeRestriction) => a.uuid))
+  def readInstanceRelationshipValueRestrictions(is: InputStream)
+  : OMLSpecificationTables
+  = copy(instanceRelationshipValueRestrictions = 
+    parallelSort.parSortBy((instanceRelationshipValueRestrictions.to[Set] ++ 
+     readJSonTable(is, InstanceRelationshipValueRestrictionHelper.fromJSON).to[Set]
+    ).to[Seq], (a: InstanceRelationshipValueRestriction) => a.uuid))
   
   def isEmpty: Boolean
   = terminologyGraphs.isEmpty &&
@@ -547,7 +582,12 @@ case class OMLSpecificationTables
     annotationPropertyValues.isEmpty &&
     cardinalityRestrictedAspects.isEmpty &&
     cardinalityRestrictedConcepts.isEmpty &&
-    cardinalityRestrictedReifiedRelationships.isEmpty
+    cardinalityRestrictedReifiedRelationships.isEmpty &&
+    instanceRelationshipEnumerationRestrictions.isEmpty &&
+    instanceRelationshipExistentialRangeRestrictions.isEmpty &&
+    instanceRelationshipOneOfRestrictions.isEmpty &&
+    instanceRelationshipUniversalRangeRestrictions.isEmpty &&
+    instanceRelationshipValueRestrictions.isEmpty
   
   def show: String = {
   
@@ -625,6 +665,11 @@ case class OMLSpecificationTables
     buff ++= showSeq("cardinalityRestrictedAspects", cardinalityRestrictedAspects)
     buff ++= showSeq("cardinalityRestrictedConcepts", cardinalityRestrictedConcepts)
     buff ++= showSeq("cardinalityRestrictedReifiedRelationships", cardinalityRestrictedReifiedRelationships)
+    buff ++= showSeq("instanceRelationshipEnumerationRestrictions", instanceRelationshipEnumerationRestrictions)
+    buff ++= showSeq("instanceRelationshipExistentialRangeRestrictions", instanceRelationshipExistentialRangeRestrictions)
+    buff ++= showSeq("instanceRelationshipOneOfRestrictions", instanceRelationshipOneOfRestrictions)
+    buff ++= showSeq("instanceRelationshipUniversalRangeRestrictions", instanceRelationshipUniversalRangeRestrictions)
+    buff ++= showSeq("instanceRelationshipValueRestrictions", instanceRelationshipValueRestrictions)
   
     buff.toString
   }
@@ -916,7 +961,27 @@ object OMLSpecificationTables {
       cardinalityRestrictedReifiedRelationships = parallelSort.parSortBy((
         t1.cardinalityRestrictedReifiedRelationships.to[Set] ++ 
         t2.cardinalityRestrictedReifiedRelationships.to[Set]
-      ).to[Seq], (a: CardinalityRestrictedReifiedRelationship) => a.uuid))
+      ).to[Seq], (a: CardinalityRestrictedReifiedRelationship) => a.uuid),
+      instanceRelationshipEnumerationRestrictions = parallelSort.parSortBy((
+        t1.instanceRelationshipEnumerationRestrictions.to[Set] ++ 
+        t2.instanceRelationshipEnumerationRestrictions.to[Set]
+      ).to[Seq], (a: InstanceRelationshipEnumerationRestriction) => a.uuid),
+      instanceRelationshipExistentialRangeRestrictions = parallelSort.parSortBy((
+        t1.instanceRelationshipExistentialRangeRestrictions.to[Set] ++ 
+        t2.instanceRelationshipExistentialRangeRestrictions.to[Set]
+      ).to[Seq], (a: InstanceRelationshipExistentialRangeRestriction) => a.uuid),
+      instanceRelationshipOneOfRestrictions = parallelSort.parSortBy((
+        t1.instanceRelationshipOneOfRestrictions.to[Set] ++ 
+        t2.instanceRelationshipOneOfRestrictions.to[Set]
+      ).to[Seq], (a: InstanceRelationshipOneOfRestriction) => a.uuid),
+      instanceRelationshipUniversalRangeRestrictions = parallelSort.parSortBy((
+        t1.instanceRelationshipUniversalRangeRestrictions.to[Set] ++ 
+        t2.instanceRelationshipUniversalRangeRestrictions.to[Set]
+      ).to[Seq], (a: InstanceRelationshipUniversalRangeRestriction) => a.uuid),
+      instanceRelationshipValueRestrictions = parallelSort.parSortBy((
+        t1.instanceRelationshipValueRestrictions.to[Set] ++ 
+        t2.instanceRelationshipValueRestrictions.to[Set]
+      ).to[Seq], (a: InstanceRelationshipValueRestriction) => a.uuid))
   
   def readZipArchive
   (zipFile: ZipFile)
@@ -1053,6 +1118,16 @@ object OMLSpecificationTables {
   	    tables.readCardinalityRestrictedConcepts(is)
   	  case CardinalityRestrictedReifiedRelationshipHelper.TABLE_JSON_FILENAME =>
   	    tables.readCardinalityRestrictedReifiedRelationships(is)
+  	  case InstanceRelationshipEnumerationRestrictionHelper.TABLE_JSON_FILENAME =>
+  	    tables.readInstanceRelationshipEnumerationRestrictions(is)
+  	  case InstanceRelationshipExistentialRangeRestrictionHelper.TABLE_JSON_FILENAME =>
+  	    tables.readInstanceRelationshipExistentialRangeRestrictions(is)
+  	  case InstanceRelationshipOneOfRestrictionHelper.TABLE_JSON_FILENAME =>
+  	    tables.readInstanceRelationshipOneOfRestrictions(is)
+  	  case InstanceRelationshipUniversalRangeRestrictionHelper.TABLE_JSON_FILENAME =>
+  	    tables.readInstanceRelationshipUniversalRangeRestrictions(is)
+  	  case InstanceRelationshipValueRestrictionHelper.TABLE_JSON_FILENAME =>
+  	    tables.readInstanceRelationshipValueRestrictions(is)
     }
   }
   
@@ -1714,6 +1789,56 @@ object OMLSpecificationTables {
       }
       tables.cardinalityRestrictedReifiedRelationships.foreach { t =>
          val line = CardinalityRestrictedReifiedRelationshipHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry();
+      {
+      	val e = new java.util.zip.ZipEntry(InstanceRelationshipEnumerationRestrictionHelper.TABLE_JSON_FILENAME)
+      	e.setTime(0L)
+      	zos.putNextEntry(e)
+      }
+      tables.instanceRelationshipEnumerationRestrictions.foreach { t =>
+         val line = InstanceRelationshipEnumerationRestrictionHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry();
+      {
+      	val e = new java.util.zip.ZipEntry(InstanceRelationshipExistentialRangeRestrictionHelper.TABLE_JSON_FILENAME)
+      	e.setTime(0L)
+      	zos.putNextEntry(e)
+      }
+      tables.instanceRelationshipExistentialRangeRestrictions.foreach { t =>
+         val line = InstanceRelationshipExistentialRangeRestrictionHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry();
+      {
+      	val e = new java.util.zip.ZipEntry(InstanceRelationshipOneOfRestrictionHelper.TABLE_JSON_FILENAME)
+      	e.setTime(0L)
+      	zos.putNextEntry(e)
+      }
+      tables.instanceRelationshipOneOfRestrictions.foreach { t =>
+         val line = InstanceRelationshipOneOfRestrictionHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry();
+      {
+      	val e = new java.util.zip.ZipEntry(InstanceRelationshipUniversalRangeRestrictionHelper.TABLE_JSON_FILENAME)
+      	e.setTime(0L)
+      	zos.putNextEntry(e)
+      }
+      tables.instanceRelationshipUniversalRangeRestrictions.foreach { t =>
+         val line = InstanceRelationshipUniversalRangeRestrictionHelper.toJSON(t)+"\n"
+         zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
+      }
+      zos.closeEntry();
+      {
+      	val e = new java.util.zip.ZipEntry(InstanceRelationshipValueRestrictionHelper.TABLE_JSON_FILENAME)
+      	e.setTime(0L)
+      	zos.putNextEntry(e)
+      }
+      tables.instanceRelationshipValueRestrictions.foreach { t =>
+         val line = InstanceRelationshipValueRestrictionHelper.toJSON(t)+"\n"
          zos.write(line.getBytes(java.nio.charset.Charset.forName("UTF-8")))
       }
       zos.closeEntry();

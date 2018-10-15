@@ -300,7 +300,7 @@ trait OMLResolvedFactory {
   ( extent: Extent,
     tbox: TerminologyBox,
     name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName,
-    head: UnreifiedRelationship )
+    head: RestrictableRelationship )
   : (Extent, ChainRule)
   = {
     // namespace uuid...
@@ -314,7 +314,7 @@ trait OMLResolvedFactory {
     uuid: taggedTypes.ChainRuleUUID,
     tbox: TerminologyBox,
     name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName,
-    head: UnreifiedRelationship )
+    head: RestrictableRelationship )
   : (Extent, ChainRule)
   
   // Concept
@@ -767,6 +767,147 @@ trait OMLResolvedFactory {
     name: gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName,
     pattern: scala.Option[gov.nasa.jpl.imce.oml.tables.taggedTypes.LiteralPattern] )
   : (Extent, IRIScalarRestriction)
+  
+  // InstanceRelationshipEnumerationRestriction
+  def createInstanceRelationshipEnumerationRestriction
+  ( extent: Extent,
+    descriptionBox: DescriptionBox,
+    domain: ConceptualEntitySingletonInstance,
+    restrictedRelationship: RestrictableRelationship )
+  : (Extent, InstanceRelationshipEnumerationRestriction)
+  = {
+  	// derived uuid...
+    import scala.Predef.ArrowAssoc
+    val uuid = taggedTypes.instanceRelationshipEnumerationRestrictionUUID(namespaceUUID(
+      "InstanceRelationshipEnumerationRestriction",
+      Seq.empty[(String, String)] ++
+          Seq("descriptionBox" -> descriptionBox.uuid.toString) ++
+          Seq("domain" -> domain.uuid.toString) ++
+          Seq("restrictedRelationship" -> restrictedRelationship.uuid.toString) : _*))
+    createInstanceRelationshipEnumerationRestriction( extent, uuid, descriptionBox, domain, restrictedRelationship )
+  }
+  
+  def createInstanceRelationshipEnumerationRestriction
+  ( extent: Extent,
+    uuid: taggedTypes.InstanceRelationshipEnumerationRestrictionUUID,
+    descriptionBox: DescriptionBox,
+    domain: ConceptualEntitySingletonInstance,
+    restrictedRelationship: RestrictableRelationship )
+  : (Extent, InstanceRelationshipEnumerationRestriction)
+  
+  // InstanceRelationshipExistentialRangeRestriction
+  def createInstanceRelationshipExistentialRangeRestriction
+  ( extent: Extent,
+    descriptionBox: DescriptionBox,
+    domain: ConceptualEntitySingletonInstance,
+    range: Entity,
+    restrictedRelationship: RestrictableRelationship )
+  : (Extent, InstanceRelationshipExistentialRangeRestriction)
+  = {
+  	// derived uuid...
+    import scala.Predef.ArrowAssoc
+    val uuid = taggedTypes.instanceRelationshipExistentialRangeRestrictionUUID(namespaceUUID(
+      "InstanceRelationshipExistentialRangeRestriction",
+      Seq.empty[(String, String)] ++
+          Seq("descriptionBox" -> descriptionBox.uuid.toString) ++
+          Seq("domain" -> domain.uuid.toString) ++
+          Seq("range" -> range.uuid.toString) ++
+          Seq("restrictedRelationship" -> restrictedRelationship.uuid.toString) : _*))
+    createInstanceRelationshipExistentialRangeRestriction( extent, uuid, descriptionBox, domain, range, restrictedRelationship )
+  }
+  
+  def createInstanceRelationshipExistentialRangeRestriction
+  ( extent: Extent,
+    uuid: taggedTypes.InstanceRelationshipExistentialRangeRestrictionUUID,
+    descriptionBox: DescriptionBox,
+    domain: ConceptualEntitySingletonInstance,
+    range: Entity,
+    restrictedRelationship: RestrictableRelationship )
+  : (Extent, InstanceRelationshipExistentialRangeRestriction)
+  
+  // InstanceRelationshipOneOfRestriction
+  def createInstanceRelationshipOneOfRestriction
+  ( extent: Extent,
+    range: ConceptualEntitySingletonInstance,
+    enumeration: InstanceRelationshipEnumerationRestriction )
+  : (Extent, InstanceRelationshipOneOfRestriction)
+  = {
+  	// derived uuid...
+    import scala.Predef.ArrowAssoc
+    val uuid = taggedTypes.instanceRelationshipOneOfRestrictionUUID(namespaceUUID(
+      "InstanceRelationshipOneOfRestriction",
+      Seq.empty[(String, String)] ++
+          Seq("range" -> range.uuid.toString) ++
+          Seq("enumeration" -> enumeration.uuid.toString) : _*))
+    createInstanceRelationshipOneOfRestriction( extent, uuid, range, enumeration )
+  }
+  
+  def createInstanceRelationshipOneOfRestriction
+  ( extent: Extent,
+    uuid: taggedTypes.InstanceRelationshipOneOfRestrictionUUID,
+    range: ConceptualEntitySingletonInstance,
+    enumeration: InstanceRelationshipEnumerationRestriction )
+  : (Extent, InstanceRelationshipOneOfRestriction)
+  
+  // InstanceRelationshipUniversalRangeRestriction
+  def createInstanceRelationshipUniversalRangeRestriction
+  ( extent: Extent,
+    descriptionBox: DescriptionBox,
+    domain: ConceptualEntitySingletonInstance,
+    range: Entity,
+    restrictedRelationship: RestrictableRelationship )
+  : (Extent, InstanceRelationshipUniversalRangeRestriction)
+  = {
+  	// derived uuid...
+    import scala.Predef.ArrowAssoc
+    val uuid = taggedTypes.instanceRelationshipUniversalRangeRestrictionUUID(namespaceUUID(
+      "InstanceRelationshipUniversalRangeRestriction",
+      Seq.empty[(String, String)] ++
+          Seq("descriptionBox" -> descriptionBox.uuid.toString) ++
+          Seq("domain" -> domain.uuid.toString) ++
+          Seq("range" -> range.uuid.toString) ++
+          Seq("restrictedRelationship" -> restrictedRelationship.uuid.toString) : _*))
+    createInstanceRelationshipUniversalRangeRestriction( extent, uuid, descriptionBox, domain, range, restrictedRelationship )
+  }
+  
+  def createInstanceRelationshipUniversalRangeRestriction
+  ( extent: Extent,
+    uuid: taggedTypes.InstanceRelationshipUniversalRangeRestrictionUUID,
+    descriptionBox: DescriptionBox,
+    domain: ConceptualEntitySingletonInstance,
+    range: Entity,
+    restrictedRelationship: RestrictableRelationship )
+  : (Extent, InstanceRelationshipUniversalRangeRestriction)
+  
+  // InstanceRelationshipValueRestriction
+  def createInstanceRelationshipValueRestriction
+  ( extent: Extent,
+    descriptionBox: DescriptionBox,
+    domain: ConceptualEntitySingletonInstance,
+    range: ConceptualEntitySingletonInstance,
+    restrictedRelationship: RestrictableRelationship )
+  : (Extent, InstanceRelationshipValueRestriction)
+  = {
+  	// derived uuid...
+    import scala.Predef.ArrowAssoc
+    val uuid = taggedTypes.instanceRelationshipValueRestrictionUUID(namespaceUUID(
+      "InstanceRelationshipValueRestriction",
+      Seq.empty[(String, String)] ++
+          Seq("descriptionBox" -> descriptionBox.uuid.toString) ++
+          Seq("domain" -> domain.uuid.toString) ++
+          Seq("range" -> range.uuid.toString) ++
+          Seq("restrictedRelationship" -> restrictedRelationship.uuid.toString) : _*))
+    createInstanceRelationshipValueRestriction( extent, uuid, descriptionBox, domain, range, restrictedRelationship )
+  }
+  
+  def createInstanceRelationshipValueRestriction
+  ( extent: Extent,
+    uuid: taggedTypes.InstanceRelationshipValueRestrictionUUID,
+    descriptionBox: DescriptionBox,
+    domain: ConceptualEntitySingletonInstance,
+    range: ConceptualEntitySingletonInstance,
+    restrictedRelationship: RestrictableRelationship )
+  : (Extent, InstanceRelationshipValueRestriction)
   
   // InverseProperty
   def createInverseProperty

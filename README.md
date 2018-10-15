@@ -282,7 +282,14 @@ For resolving, `.npmrc` needs:
 
 ## Testing JS library
 
+Make sure the Node environment is properly setup:
+
 ```
+nvm install stable
+nvm use stable
+npm install
+// See https://github.com/scala-js/scala-js/issues/2902#issuecomment-296776240
+npm install jsdom@9.12.0
 sbt fullOptJS
 node shared/test/js/index
 ```

@@ -196,6 +196,11 @@ object taggedTypes {
   trait ForwardPropertyTag <: RestrictableRelationshipTag
   trait IRIScalarRestrictionTag <: RestrictedDataRangeTag
   trait IdentityKindTag <: CrossReferencabilityKindTag
+  trait InstanceRelationshipEnumerationRestrictionTag <: ElementCrossReferenceTupleTag with TerminologyInstanceAssertionTag
+  trait InstanceRelationshipExistentialRangeRestrictionTag <: ElementCrossReferenceTupleTag with TerminologyInstanceAssertionTag
+  trait InstanceRelationshipOneOfRestrictionTag <: ElementCrossReferenceTupleTag
+  trait InstanceRelationshipUniversalRangeRestrictionTag <: ElementCrossReferenceTupleTag with TerminologyInstanceAssertionTag
+  trait InstanceRelationshipValueRestrictionTag <: ElementCrossReferenceTupleTag with TerminologyInstanceAssertionTag
   trait IntrinsicIdentityKindTag <: CrossReferencableKindTag with IdentityKindTag
   trait InversePropertyTag <: RestrictableRelationshipTag
   trait LiteralBooleanTag <: LiteralValueTag
@@ -1660,6 +1665,126 @@ object taggedTypes {
   	override def compare
   	(x: IdentityKindUUID, 
   	 y: IdentityKindUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type InstanceRelationshipEnumerationRestrictionUUID 
+  = String @@ InstanceRelationshipEnumerationRestrictionTag
+  
+  def instanceRelationshipEnumerationRestrictionUUID(uuid: String)
+  : InstanceRelationshipEnumerationRestrictionUUID
+  = covariantTag[InstanceRelationshipEnumerationRestrictionTag][String](uuid)
+  
+  implicit val decodeInstanceRelationshipEnumerationRestrictionUUID
+  : Decoder[InstanceRelationshipEnumerationRestrictionUUID]
+  = decodeTag[InstanceRelationshipEnumerationRestrictionTag]
+  
+  implicit val encodeInstanceRelationshipEnumerationRestrictionUUID
+  : Encoder[InstanceRelationshipEnumerationRestrictionUUID]
+  = encodeTag[InstanceRelationshipEnumerationRestrictionTag]
+  
+  implicit val orderingInstanceRelationshipEnumerationRestrictionUUID
+  : Ordering[InstanceRelationshipEnumerationRestrictionUUID] 
+  = new Ordering[InstanceRelationshipEnumerationRestrictionUUID] {
+  	override def compare
+  	(x: InstanceRelationshipEnumerationRestrictionUUID, 
+  	 y: InstanceRelationshipEnumerationRestrictionUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type InstanceRelationshipExistentialRangeRestrictionUUID 
+  = String @@ InstanceRelationshipExistentialRangeRestrictionTag
+  
+  def instanceRelationshipExistentialRangeRestrictionUUID(uuid: String)
+  : InstanceRelationshipExistentialRangeRestrictionUUID
+  = covariantTag[InstanceRelationshipExistentialRangeRestrictionTag][String](uuid)
+  
+  implicit val decodeInstanceRelationshipExistentialRangeRestrictionUUID
+  : Decoder[InstanceRelationshipExistentialRangeRestrictionUUID]
+  = decodeTag[InstanceRelationshipExistentialRangeRestrictionTag]
+  
+  implicit val encodeInstanceRelationshipExistentialRangeRestrictionUUID
+  : Encoder[InstanceRelationshipExistentialRangeRestrictionUUID]
+  = encodeTag[InstanceRelationshipExistentialRangeRestrictionTag]
+  
+  implicit val orderingInstanceRelationshipExistentialRangeRestrictionUUID
+  : Ordering[InstanceRelationshipExistentialRangeRestrictionUUID] 
+  = new Ordering[InstanceRelationshipExistentialRangeRestrictionUUID] {
+  	override def compare
+  	(x: InstanceRelationshipExistentialRangeRestrictionUUID, 
+  	 y: InstanceRelationshipExistentialRangeRestrictionUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type InstanceRelationshipOneOfRestrictionUUID 
+  = String @@ InstanceRelationshipOneOfRestrictionTag
+  
+  def instanceRelationshipOneOfRestrictionUUID(uuid: String)
+  : InstanceRelationshipOneOfRestrictionUUID
+  = covariantTag[InstanceRelationshipOneOfRestrictionTag][String](uuid)
+  
+  implicit val decodeInstanceRelationshipOneOfRestrictionUUID
+  : Decoder[InstanceRelationshipOneOfRestrictionUUID]
+  = decodeTag[InstanceRelationshipOneOfRestrictionTag]
+  
+  implicit val encodeInstanceRelationshipOneOfRestrictionUUID
+  : Encoder[InstanceRelationshipOneOfRestrictionUUID]
+  = encodeTag[InstanceRelationshipOneOfRestrictionTag]
+  
+  implicit val orderingInstanceRelationshipOneOfRestrictionUUID
+  : Ordering[InstanceRelationshipOneOfRestrictionUUID] 
+  = new Ordering[InstanceRelationshipOneOfRestrictionUUID] {
+  	override def compare
+  	(x: InstanceRelationshipOneOfRestrictionUUID, 
+  	 y: InstanceRelationshipOneOfRestrictionUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type InstanceRelationshipUniversalRangeRestrictionUUID 
+  = String @@ InstanceRelationshipUniversalRangeRestrictionTag
+  
+  def instanceRelationshipUniversalRangeRestrictionUUID(uuid: String)
+  : InstanceRelationshipUniversalRangeRestrictionUUID
+  = covariantTag[InstanceRelationshipUniversalRangeRestrictionTag][String](uuid)
+  
+  implicit val decodeInstanceRelationshipUniversalRangeRestrictionUUID
+  : Decoder[InstanceRelationshipUniversalRangeRestrictionUUID]
+  = decodeTag[InstanceRelationshipUniversalRangeRestrictionTag]
+  
+  implicit val encodeInstanceRelationshipUniversalRangeRestrictionUUID
+  : Encoder[InstanceRelationshipUniversalRangeRestrictionUUID]
+  = encodeTag[InstanceRelationshipUniversalRangeRestrictionTag]
+  
+  implicit val orderingInstanceRelationshipUniversalRangeRestrictionUUID
+  : Ordering[InstanceRelationshipUniversalRangeRestrictionUUID] 
+  = new Ordering[InstanceRelationshipUniversalRangeRestrictionUUID] {
+  	override def compare
+  	(x: InstanceRelationshipUniversalRangeRestrictionUUID, 
+  	 y: InstanceRelationshipUniversalRangeRestrictionUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type InstanceRelationshipValueRestrictionUUID 
+  = String @@ InstanceRelationshipValueRestrictionTag
+  
+  def instanceRelationshipValueRestrictionUUID(uuid: String)
+  : InstanceRelationshipValueRestrictionUUID
+  = covariantTag[InstanceRelationshipValueRestrictionTag][String](uuid)
+  
+  implicit val decodeInstanceRelationshipValueRestrictionUUID
+  : Decoder[InstanceRelationshipValueRestrictionUUID]
+  = decodeTag[InstanceRelationshipValueRestrictionTag]
+  
+  implicit val encodeInstanceRelationshipValueRestrictionUUID
+  : Encoder[InstanceRelationshipValueRestrictionUUID]
+  = encodeTag[InstanceRelationshipValueRestrictionTag]
+  
+  implicit val orderingInstanceRelationshipValueRestrictionUUID
+  : Ordering[InstanceRelationshipValueRestrictionUUID] 
+  = new Ordering[InstanceRelationshipValueRestrictionUUID] {
+  	override def compare
+  	(x: InstanceRelationshipValueRestrictionUUID, 
+  	 y: InstanceRelationshipValueRestrictionUUID)
   	: Int = x.compareTo(y)
   }
   

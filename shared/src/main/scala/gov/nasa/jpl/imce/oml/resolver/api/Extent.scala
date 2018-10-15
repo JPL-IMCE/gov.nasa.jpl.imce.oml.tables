@@ -28,6 +28,7 @@ import scala.{Option,None,Some,StringContext}
 // - ChainRule (terminologies)
 // - ConceptTreeDisjunction (bundles)
 // - DescriptionBox (descriptions)
+// - InstanceRelationshipEnumerationRestriction (descriptions)
 // - LogicalElement (common)
 // - Module (common)
 // - ReifiedRelationship (terminologies)
@@ -43,6 +44,11 @@ import scala.{Option,None,Some,StringContext}
 // - DescriptionBoxRefinement (descriptions)
 // - DisjointUnionOfConceptsAxiom (bundles)
 // - ForwardProperty (terminologies)
+// - InstanceRelationshipEnumerationRestriction (descriptions)
+// - InstanceRelationshipExistentialRangeRestriction (descriptions)
+// - InstanceRelationshipOneOfRestriction (descriptions)
+// - InstanceRelationshipUniversalRangeRestriction (descriptions)
+// - InstanceRelationshipValueRestriction (descriptions)
 // - InverseProperty (terminologies)
 // - ReifiedRelationshipInstance (descriptions)
 // - ReifiedRelationshipInstanceDomain (descriptions)
@@ -129,6 +135,18 @@ case class Extent
   reifiedRelationshipInstances
   : Map[DescriptionBox, Set[ReifiedRelationshipInstance]]
   = HashMap.empty[DescriptionBox, Set[ReifiedRelationshipInstance]],
+  instanceRelationshipEnumerationRestrictions
+  : Map[DescriptionBox, Set[InstanceRelationshipEnumerationRestriction]]
+  = HashMap.empty[DescriptionBox, Set[InstanceRelationshipEnumerationRestriction]],
+  instanceRelationshipValueRestrictions
+  : Map[DescriptionBox, Set[InstanceRelationshipValueRestriction]]
+  = HashMap.empty[DescriptionBox, Set[InstanceRelationshipValueRestriction]],
+  instanceRelationshipExistentialRangeRestrictions
+  : Map[DescriptionBox, Set[InstanceRelationshipExistentialRangeRestriction]]
+  = HashMap.empty[DescriptionBox, Set[InstanceRelationshipExistentialRangeRestriction]],
+  instanceRelationshipUniversalRangeRestrictions
+  : Map[DescriptionBox, Set[InstanceRelationshipUniversalRangeRestriction]]
+  = HashMap.empty[DescriptionBox, Set[InstanceRelationshipUniversalRangeRestriction]],
   reifiedRelationshipInstanceDomains
   : Map[DescriptionBox, Set[ReifiedRelationshipInstanceDomain]]
   = HashMap.empty[DescriptionBox, Set[ReifiedRelationshipInstanceDomain]],
@@ -150,6 +168,9 @@ case class Extent
   scalarDataPropertyValues
   : Map[SingletonInstanceStructuredDataPropertyContext, Set[ScalarDataPropertyValue]]
   = HashMap.empty[SingletonInstanceStructuredDataPropertyContext, Set[ScalarDataPropertyValue]],
+  references
+  : Map[InstanceRelationshipEnumerationRestriction, Set[InstanceRelationshipOneOfRestriction]]
+  = HashMap.empty[InstanceRelationshipEnumerationRestriction, Set[InstanceRelationshipOneOfRestriction]],
 
   logicalElementOfAnnotationPropertyValue
   : Map[AnnotationPropertyValue, LogicalElement]
@@ -205,6 +226,18 @@ case class Extent
   descriptionBoxOfReifiedRelationshipInstance
   : Map[ReifiedRelationshipInstance, DescriptionBox]
   = HashMap.empty[ReifiedRelationshipInstance, DescriptionBox],
+  descriptionBoxOfInstanceRelationshipEnumerationRestriction
+  : Map[InstanceRelationshipEnumerationRestriction, DescriptionBox]
+  = HashMap.empty[InstanceRelationshipEnumerationRestriction, DescriptionBox],
+  descriptionBoxOfInstanceRelationshipValueRestriction
+  : Map[InstanceRelationshipValueRestriction, DescriptionBox]
+  = HashMap.empty[InstanceRelationshipValueRestriction, DescriptionBox],
+  descriptionBoxOfInstanceRelationshipExistentialRangeRestriction
+  : Map[InstanceRelationshipExistentialRangeRestriction, DescriptionBox]
+  = HashMap.empty[InstanceRelationshipExistentialRangeRestriction, DescriptionBox],
+  descriptionBoxOfInstanceRelationshipUniversalRangeRestriction
+  : Map[InstanceRelationshipUniversalRangeRestriction, DescriptionBox]
+  = HashMap.empty[InstanceRelationshipUniversalRangeRestriction, DescriptionBox],
   descriptionBoxOfReifiedRelationshipInstanceDomain
   : Map[ReifiedRelationshipInstanceDomain, DescriptionBox]
   = HashMap.empty[ReifiedRelationshipInstanceDomain, DescriptionBox],
@@ -226,6 +259,9 @@ case class Extent
   singletonInstanceStructuredDataPropertyContextOfScalarDataPropertyValue
   : Map[ScalarDataPropertyValue, SingletonInstanceStructuredDataPropertyContext]
   = HashMap.empty[ScalarDataPropertyValue, SingletonInstanceStructuredDataPropertyContext],
+  instanceRelationshipEnumerationRestrictionOfInstanceRelationshipOneOfRestriction
+  : Map[InstanceRelationshipOneOfRestriction, InstanceRelationshipEnumerationRestriction]
+  = HashMap.empty[InstanceRelationshipOneOfRestriction, InstanceRelationshipEnumerationRestriction],
 
   annotationPropertyByUUID
   : Map[taggedTypes.AnnotationPropertyUUID, AnnotationProperty]
@@ -248,6 +284,21 @@ case class Extent
   forwardPropertyByUUID
   : Map[taggedTypes.RestrictableRelationshipUUID, ForwardProperty]
   = HashMap.empty[taggedTypes.RestrictableRelationshipUUID, ForwardProperty],
+  instanceRelationshipEnumerationRestrictionByUUID
+  : Map[taggedTypes.InstanceRelationshipEnumerationRestrictionUUID, InstanceRelationshipEnumerationRestriction]
+  = HashMap.empty[taggedTypes.InstanceRelationshipEnumerationRestrictionUUID, InstanceRelationshipEnumerationRestriction],
+  instanceRelationshipExistentialRangeRestrictionByUUID
+  : Map[taggedTypes.InstanceRelationshipExistentialRangeRestrictionUUID, InstanceRelationshipExistentialRangeRestriction]
+  = HashMap.empty[taggedTypes.InstanceRelationshipExistentialRangeRestrictionUUID, InstanceRelationshipExistentialRangeRestriction],
+  instanceRelationshipOneOfRestrictionByUUID
+  : Map[taggedTypes.ElementCrossReferenceTupleUUID, InstanceRelationshipOneOfRestriction]
+  = HashMap.empty[taggedTypes.ElementCrossReferenceTupleUUID, InstanceRelationshipOneOfRestriction],
+  instanceRelationshipUniversalRangeRestrictionByUUID
+  : Map[taggedTypes.InstanceRelationshipUniversalRangeRestrictionUUID, InstanceRelationshipUniversalRangeRestriction]
+  = HashMap.empty[taggedTypes.InstanceRelationshipUniversalRangeRestrictionUUID, InstanceRelationshipUniversalRangeRestriction],
+  instanceRelationshipValueRestrictionByUUID
+  : Map[taggedTypes.InstanceRelationshipValueRestrictionUUID, InstanceRelationshipValueRestriction]
+  = HashMap.empty[taggedTypes.InstanceRelationshipValueRestrictionUUID, InstanceRelationshipValueRestriction],
   inversePropertyByUUID
   : Map[taggedTypes.RestrictableRelationshipUUID, InverseProperty]
   = HashMap.empty[taggedTypes.RestrictableRelationshipUUID, InverseProperty],
@@ -403,6 +454,30 @@ case class Extent
   = reifiedRelationshipInstances
     .updated(key, reifiedRelationshipInstances.getOrElse(key, Set.empty[ReifiedRelationshipInstance]) + value)
   
+  def withInstanceRelationshipEnumerationRestriction
+  (key: DescriptionBox, value: InstanceRelationshipEnumerationRestriction)
+  : Map[DescriptionBox, Set[InstanceRelationshipEnumerationRestriction]] 
+  = instanceRelationshipEnumerationRestrictions
+    .updated(key, instanceRelationshipEnumerationRestrictions.getOrElse(key, Set.empty[InstanceRelationshipEnumerationRestriction]) + value)
+  
+  def withInstanceRelationshipValueRestriction
+  (key: DescriptionBox, value: InstanceRelationshipValueRestriction)
+  : Map[DescriptionBox, Set[InstanceRelationshipValueRestriction]] 
+  = instanceRelationshipValueRestrictions
+    .updated(key, instanceRelationshipValueRestrictions.getOrElse(key, Set.empty[InstanceRelationshipValueRestriction]) + value)
+  
+  def withInstanceRelationshipExistentialRangeRestriction
+  (key: DescriptionBox, value: InstanceRelationshipExistentialRangeRestriction)
+  : Map[DescriptionBox, Set[InstanceRelationshipExistentialRangeRestriction]] 
+  = instanceRelationshipExistentialRangeRestrictions
+    .updated(key, instanceRelationshipExistentialRangeRestrictions.getOrElse(key, Set.empty[InstanceRelationshipExistentialRangeRestriction]) + value)
+  
+  def withInstanceRelationshipUniversalRangeRestriction
+  (key: DescriptionBox, value: InstanceRelationshipUniversalRangeRestriction)
+  : Map[DescriptionBox, Set[InstanceRelationshipUniversalRangeRestriction]] 
+  = instanceRelationshipUniversalRangeRestrictions
+    .updated(key, instanceRelationshipUniversalRangeRestrictions.getOrElse(key, Set.empty[InstanceRelationshipUniversalRangeRestriction]) + value)
+  
   def withReifiedRelationshipInstanceDomain
   (key: DescriptionBox, value: ReifiedRelationshipInstanceDomain)
   : Map[DescriptionBox, Set[ReifiedRelationshipInstanceDomain]] 
@@ -444,6 +519,12 @@ case class Extent
   : Map[SingletonInstanceStructuredDataPropertyContext, Set[ScalarDataPropertyValue]] 
   = scalarDataPropertyValues
     .updated(key, scalarDataPropertyValues.getOrElse(key, Set.empty[ScalarDataPropertyValue]) + value)
+  
+  def withInstanceRelationshipOneOfRestriction
+  (key: InstanceRelationshipEnumerationRestriction, value: InstanceRelationshipOneOfRestriction)
+  : Map[InstanceRelationshipEnumerationRestriction, Set[InstanceRelationshipOneOfRestriction]] 
+  = references
+    .updated(key, references.getOrElse(key, Set.empty[InstanceRelationshipOneOfRestriction]) + value)
   
 
   def singleModule
@@ -941,6 +1022,106 @@ case class Extent
   : Option[ReifiedRelationshipInstance]
   = reifiedRelationshipInstanceByUUID.get(uuid)
     
+  def lookupInstanceRelationshipEnumerationRestrictions
+  (key: Option[DescriptionBox])
+  : Set[InstanceRelationshipEnumerationRestriction]
+  = key
+  .fold[Set[InstanceRelationshipEnumerationRestriction]] { 
+  	Set.empty[InstanceRelationshipEnumerationRestriction] 
+  }{ lookupInstanceRelationshipEnumerationRestrictions }
+  
+  def lookupInstanceRelationshipEnumerationRestrictions
+  (key: DescriptionBox)
+  : Set[InstanceRelationshipEnumerationRestriction]
+  = instanceRelationshipEnumerationRestrictions.getOrElse(key, Set.empty[InstanceRelationshipEnumerationRestriction])
+  
+  def lookupInstanceRelationshipEnumerationRestriction
+  (uuid: Option[taggedTypes.InstanceRelationshipEnumerationRestrictionUUID])
+  : Option[InstanceRelationshipEnumerationRestriction]
+  = uuid.flatMap {
+    lookupInstanceRelationshipEnumerationRestriction
+  }
+  
+  def lookupInstanceRelationshipEnumerationRestriction
+  (uuid: taggedTypes.InstanceRelationshipEnumerationRestrictionUUID)
+  : Option[InstanceRelationshipEnumerationRestriction]
+  = instanceRelationshipEnumerationRestrictionByUUID.get(uuid)
+    
+  def lookupInstanceRelationshipValueRestrictions
+  (key: Option[DescriptionBox])
+  : Set[InstanceRelationshipValueRestriction]
+  = key
+  .fold[Set[InstanceRelationshipValueRestriction]] { 
+  	Set.empty[InstanceRelationshipValueRestriction] 
+  }{ lookupInstanceRelationshipValueRestrictions }
+  
+  def lookupInstanceRelationshipValueRestrictions
+  (key: DescriptionBox)
+  : Set[InstanceRelationshipValueRestriction]
+  = instanceRelationshipValueRestrictions.getOrElse(key, Set.empty[InstanceRelationshipValueRestriction])
+  
+  def lookupInstanceRelationshipValueRestriction
+  (uuid: Option[taggedTypes.InstanceRelationshipValueRestrictionUUID])
+  : Option[InstanceRelationshipValueRestriction]
+  = uuid.flatMap {
+    lookupInstanceRelationshipValueRestriction
+  }
+  
+  def lookupInstanceRelationshipValueRestriction
+  (uuid: taggedTypes.InstanceRelationshipValueRestrictionUUID)
+  : Option[InstanceRelationshipValueRestriction]
+  = instanceRelationshipValueRestrictionByUUID.get(uuid)
+    
+  def lookupInstanceRelationshipExistentialRangeRestrictions
+  (key: Option[DescriptionBox])
+  : Set[InstanceRelationshipExistentialRangeRestriction]
+  = key
+  .fold[Set[InstanceRelationshipExistentialRangeRestriction]] { 
+  	Set.empty[InstanceRelationshipExistentialRangeRestriction] 
+  }{ lookupInstanceRelationshipExistentialRangeRestrictions }
+  
+  def lookupInstanceRelationshipExistentialRangeRestrictions
+  (key: DescriptionBox)
+  : Set[InstanceRelationshipExistentialRangeRestriction]
+  = instanceRelationshipExistentialRangeRestrictions.getOrElse(key, Set.empty[InstanceRelationshipExistentialRangeRestriction])
+  
+  def lookupInstanceRelationshipExistentialRangeRestriction
+  (uuid: Option[taggedTypes.InstanceRelationshipExistentialRangeRestrictionUUID])
+  : Option[InstanceRelationshipExistentialRangeRestriction]
+  = uuid.flatMap {
+    lookupInstanceRelationshipExistentialRangeRestriction
+  }
+  
+  def lookupInstanceRelationshipExistentialRangeRestriction
+  (uuid: taggedTypes.InstanceRelationshipExistentialRangeRestrictionUUID)
+  : Option[InstanceRelationshipExistentialRangeRestriction]
+  = instanceRelationshipExistentialRangeRestrictionByUUID.get(uuid)
+    
+  def lookupInstanceRelationshipUniversalRangeRestrictions
+  (key: Option[DescriptionBox])
+  : Set[InstanceRelationshipUniversalRangeRestriction]
+  = key
+  .fold[Set[InstanceRelationshipUniversalRangeRestriction]] { 
+  	Set.empty[InstanceRelationshipUniversalRangeRestriction] 
+  }{ lookupInstanceRelationshipUniversalRangeRestrictions }
+  
+  def lookupInstanceRelationshipUniversalRangeRestrictions
+  (key: DescriptionBox)
+  : Set[InstanceRelationshipUniversalRangeRestriction]
+  = instanceRelationshipUniversalRangeRestrictions.getOrElse(key, Set.empty[InstanceRelationshipUniversalRangeRestriction])
+  
+  def lookupInstanceRelationshipUniversalRangeRestriction
+  (uuid: Option[taggedTypes.InstanceRelationshipUniversalRangeRestrictionUUID])
+  : Option[InstanceRelationshipUniversalRangeRestriction]
+  = uuid.flatMap {
+    lookupInstanceRelationshipUniversalRangeRestriction
+  }
+  
+  def lookupInstanceRelationshipUniversalRangeRestriction
+  (uuid: taggedTypes.InstanceRelationshipUniversalRangeRestrictionUUID)
+  : Option[InstanceRelationshipUniversalRangeRestriction]
+  = instanceRelationshipUniversalRangeRestrictionByUUID.get(uuid)
+    
   def lookupReifiedRelationshipInstanceDomains
   (key: Option[DescriptionBox])
   : Set[ReifiedRelationshipInstanceDomain]
@@ -1115,6 +1296,31 @@ case class Extent
   (uuid: taggedTypes.ScalarDataPropertyValueUUID)
   : Option[ScalarDataPropertyValue]
   = scalarDataPropertyValueByUUID.get(uuid)
+    
+  def lookupReferences
+  (key: Option[InstanceRelationshipEnumerationRestriction])
+  : Set[InstanceRelationshipOneOfRestriction]
+  = key
+  .fold[Set[InstanceRelationshipOneOfRestriction]] { 
+  	Set.empty[InstanceRelationshipOneOfRestriction] 
+  }{ lookupReferences }
+  
+  def lookupReferences
+  (key: InstanceRelationshipEnumerationRestriction)
+  : Set[InstanceRelationshipOneOfRestriction]
+  = references.getOrElse(key, Set.empty[InstanceRelationshipOneOfRestriction])
+  
+  def lookupInstanceRelationshipOneOfRestriction
+  (uuid: Option[taggedTypes.ElementCrossReferenceTupleUUID])
+  : Option[InstanceRelationshipOneOfRestriction]
+  = uuid.flatMap {
+    lookupInstanceRelationshipOneOfRestriction
+  }
+  
+  def lookupInstanceRelationshipOneOfRestriction
+  (uuid: taggedTypes.ElementCrossReferenceTupleUUID)
+  : Option[InstanceRelationshipOneOfRestriction]
+  = instanceRelationshipOneOfRestrictionByUUID.get(uuid)
 
   
   def lookupPredicate(uuid: taggedTypes.PredicateUUID)
@@ -1147,12 +1353,17 @@ case class Extent
     lookupDescriptionBoxExtendsClosedWorldDefinitions(uuid.asInstanceOf[taggedTypes.DescriptionBoxExtendsClosedWorldDefinitionsUUID]) orElse
     lookupConceptInstance(uuid.asInstanceOf[taggedTypes.ConceptInstanceUUID]) orElse
     lookupReifiedRelationshipInstance(uuid.asInstanceOf[taggedTypes.ReifiedRelationshipInstanceUUID]) orElse
+    lookupInstanceRelationshipEnumerationRestriction(uuid.asInstanceOf[taggedTypes.InstanceRelationshipEnumerationRestrictionUUID]) orElse
+    lookupInstanceRelationshipValueRestriction(uuid.asInstanceOf[taggedTypes.InstanceRelationshipValueRestrictionUUID]) orElse
+    lookupInstanceRelationshipExistentialRangeRestriction(uuid.asInstanceOf[taggedTypes.InstanceRelationshipExistentialRangeRestrictionUUID]) orElse
+    lookupInstanceRelationshipUniversalRangeRestriction(uuid.asInstanceOf[taggedTypes.InstanceRelationshipUniversalRangeRestrictionUUID]) orElse
     lookupReifiedRelationshipInstanceDomain(uuid.asInstanceOf[taggedTypes.ReifiedRelationshipInstanceDomainUUID]) orElse
     lookupReifiedRelationshipInstanceRange(uuid.asInstanceOf[taggedTypes.ReifiedRelationshipInstanceRangeUUID]) orElse
     lookupUnreifiedRelationshipInstanceTuple(uuid.asInstanceOf[taggedTypes.UnreifiedRelationshipInstanceTupleUUID]) orElse
     lookupSingletonInstanceScalarDataPropertyValue(uuid.asInstanceOf[taggedTypes.SingletonInstanceScalarDataPropertyValueUUID]) orElse
     lookupSingletonInstanceStructuredDataPropertyValue(uuid.asInstanceOf[taggedTypes.SingletonInstanceStructuredDataPropertyValueUUID]) orElse
     lookupStructuredDataPropertyTuple(uuid.asInstanceOf[taggedTypes.StructuredDataPropertyTupleUUID]) orElse
-    lookupScalarDataPropertyValue(uuid.asInstanceOf[taggedTypes.ScalarDataPropertyValueUUID])
+    lookupScalarDataPropertyValue(uuid.asInstanceOf[taggedTypes.ScalarDataPropertyValueUUID]) orElse
+    lookupInstanceRelationshipOneOfRestriction(uuid.asInstanceOf[taggedTypes.InstanceRelationshipOneOfRestrictionUUID])
 
 }

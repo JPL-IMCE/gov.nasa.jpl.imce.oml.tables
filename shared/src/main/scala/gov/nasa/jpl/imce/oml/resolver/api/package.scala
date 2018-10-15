@@ -610,6 +610,56 @@ package object api {
   	 	case 0 => 0 }
   }
   
+  implicit def instanceRelationshipEnumerationRestrictionOrdering
+  : scala.Ordering[InstanceRelationshipEnumerationRestriction]
+  = new scala.Ordering[InstanceRelationshipEnumerationRestriction] {
+  	def compare(x: InstanceRelationshipEnumerationRestriction, y: InstanceRelationshipEnumerationRestriction)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def instanceRelationshipExistentialRangeRestrictionOrdering
+  : scala.Ordering[InstanceRelationshipExistentialRangeRestriction]
+  = new scala.Ordering[InstanceRelationshipExistentialRangeRestriction] {
+  	def compare(x: InstanceRelationshipExistentialRangeRestriction, y: InstanceRelationshipExistentialRangeRestriction)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def instanceRelationshipOneOfRestrictionOrdering
+  : scala.Ordering[InstanceRelationshipOneOfRestriction]
+  = new scala.Ordering[InstanceRelationshipOneOfRestriction] {
+  	def compare(x: InstanceRelationshipOneOfRestriction, y: InstanceRelationshipOneOfRestriction)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def instanceRelationshipUniversalRangeRestrictionOrdering
+  : scala.Ordering[InstanceRelationshipUniversalRangeRestriction]
+  = new scala.Ordering[InstanceRelationshipUniversalRangeRestriction] {
+  	def compare(x: InstanceRelationshipUniversalRangeRestriction, y: InstanceRelationshipUniversalRangeRestriction)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
+  implicit def instanceRelationshipValueRestrictionOrdering
+  : scala.Ordering[InstanceRelationshipValueRestriction]
+  = new scala.Ordering[InstanceRelationshipValueRestriction] {
+  	def compare(x: InstanceRelationshipValueRestriction, y: InstanceRelationshipValueRestriction)
+  	: scala.Int
+  	= x.uuid.compareTo(y.uuid) match {
+  	 	case c_uuid if 0 != c_uuid => c_uuid
+  	 	case 0 => 0 }
+  }
+  
   implicit def intrinsicIdentityKindOrdering
   : scala.Ordering[IntrinsicIdentityKind]
   = new scala.Ordering[IntrinsicIdentityKind] {

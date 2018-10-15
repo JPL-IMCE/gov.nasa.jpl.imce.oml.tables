@@ -1263,6 +1263,111 @@ object taggedTypes {
   	: Int = x.compareTo(y)
   }
   
+  type InstanceRelationshipEnumerationRestrictionUUID
+  = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.InstanceRelationshipEnumerationRestrictionTag
+  
+  def instanceRelationshipEnumerationRestrictionUUID(uuid: UUID): InstanceRelationshipEnumerationRestrictionUUID
+  = covariantTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.InstanceRelationshipEnumerationRestrictionTag][UUID](uuid)
+  
+  implicit val decodeInstanceRelationshipEnumerationRestrictionUUID: Decoder[InstanceRelationshipEnumerationRestrictionUUID]
+  = decodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.InstanceRelationshipEnumerationRestrictionTag]
+  
+  implicit val encodeInstanceRelationshipEnumerationRestrictionUUID: Encoder[InstanceRelationshipEnumerationRestrictionUUID]
+  = encodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.InstanceRelationshipEnumerationRestrictionTag]
+
+  implicit val orderingInstanceRelationshipEnumerationRestrictionUUID
+  : Ordering[InstanceRelationshipEnumerationRestrictionUUID]
+  = new Ordering[InstanceRelationshipEnumerationRestrictionUUID] {
+  	override def compare
+  	(x: InstanceRelationshipEnumerationRestrictionUUID, 
+  	 y: InstanceRelationshipEnumerationRestrictionUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type InstanceRelationshipExistentialRangeRestrictionUUID
+  = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.InstanceRelationshipExistentialRangeRestrictionTag
+  
+  def instanceRelationshipExistentialRangeRestrictionUUID(uuid: UUID): InstanceRelationshipExistentialRangeRestrictionUUID
+  = covariantTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.InstanceRelationshipExistentialRangeRestrictionTag][UUID](uuid)
+  
+  implicit val decodeInstanceRelationshipExistentialRangeRestrictionUUID: Decoder[InstanceRelationshipExistentialRangeRestrictionUUID]
+  = decodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.InstanceRelationshipExistentialRangeRestrictionTag]
+  
+  implicit val encodeInstanceRelationshipExistentialRangeRestrictionUUID: Encoder[InstanceRelationshipExistentialRangeRestrictionUUID]
+  = encodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.InstanceRelationshipExistentialRangeRestrictionTag]
+
+  implicit val orderingInstanceRelationshipExistentialRangeRestrictionUUID
+  : Ordering[InstanceRelationshipExistentialRangeRestrictionUUID]
+  = new Ordering[InstanceRelationshipExistentialRangeRestrictionUUID] {
+  	override def compare
+  	(x: InstanceRelationshipExistentialRangeRestrictionUUID, 
+  	 y: InstanceRelationshipExistentialRangeRestrictionUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type InstanceRelationshipOneOfRestrictionUUID
+  = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.InstanceRelationshipOneOfRestrictionTag
+  
+  def instanceRelationshipOneOfRestrictionUUID(uuid: UUID): InstanceRelationshipOneOfRestrictionUUID
+  = covariantTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.InstanceRelationshipOneOfRestrictionTag][UUID](uuid)
+  
+  implicit val decodeInstanceRelationshipOneOfRestrictionUUID: Decoder[InstanceRelationshipOneOfRestrictionUUID]
+  = decodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.InstanceRelationshipOneOfRestrictionTag]
+  
+  implicit val encodeInstanceRelationshipOneOfRestrictionUUID: Encoder[InstanceRelationshipOneOfRestrictionUUID]
+  = encodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.InstanceRelationshipOneOfRestrictionTag]
+
+  implicit val orderingInstanceRelationshipOneOfRestrictionUUID
+  : Ordering[InstanceRelationshipOneOfRestrictionUUID]
+  = new Ordering[InstanceRelationshipOneOfRestrictionUUID] {
+  	override def compare
+  	(x: InstanceRelationshipOneOfRestrictionUUID, 
+  	 y: InstanceRelationshipOneOfRestrictionUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type InstanceRelationshipUniversalRangeRestrictionUUID
+  = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.InstanceRelationshipUniversalRangeRestrictionTag
+  
+  def instanceRelationshipUniversalRangeRestrictionUUID(uuid: UUID): InstanceRelationshipUniversalRangeRestrictionUUID
+  = covariantTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.InstanceRelationshipUniversalRangeRestrictionTag][UUID](uuid)
+  
+  implicit val decodeInstanceRelationshipUniversalRangeRestrictionUUID: Decoder[InstanceRelationshipUniversalRangeRestrictionUUID]
+  = decodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.InstanceRelationshipUniversalRangeRestrictionTag]
+  
+  implicit val encodeInstanceRelationshipUniversalRangeRestrictionUUID: Encoder[InstanceRelationshipUniversalRangeRestrictionUUID]
+  = encodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.InstanceRelationshipUniversalRangeRestrictionTag]
+
+  implicit val orderingInstanceRelationshipUniversalRangeRestrictionUUID
+  : Ordering[InstanceRelationshipUniversalRangeRestrictionUUID]
+  = new Ordering[InstanceRelationshipUniversalRangeRestrictionUUID] {
+  	override def compare
+  	(x: InstanceRelationshipUniversalRangeRestrictionUUID, 
+  	 y: InstanceRelationshipUniversalRangeRestrictionUUID)
+  	: Int = x.compareTo(y)
+  }
+  
+  type InstanceRelationshipValueRestrictionUUID
+  = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.InstanceRelationshipValueRestrictionTag
+  
+  def instanceRelationshipValueRestrictionUUID(uuid: UUID): InstanceRelationshipValueRestrictionUUID
+  = covariantTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.InstanceRelationshipValueRestrictionTag][UUID](uuid)
+  
+  implicit val decodeInstanceRelationshipValueRestrictionUUID: Decoder[InstanceRelationshipValueRestrictionUUID]
+  = decodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.InstanceRelationshipValueRestrictionTag]
+  
+  implicit val encodeInstanceRelationshipValueRestrictionUUID: Encoder[InstanceRelationshipValueRestrictionUUID]
+  = encodeTag[gov.nasa.jpl.imce.oml.tables.taggedTypes.InstanceRelationshipValueRestrictionTag]
+
+  implicit val orderingInstanceRelationshipValueRestrictionUUID
+  : Ordering[InstanceRelationshipValueRestrictionUUID]
+  = new Ordering[InstanceRelationshipValueRestrictionUUID] {
+  	override def compare
+  	(x: InstanceRelationshipValueRestrictionUUID, 
+  	 y: InstanceRelationshipValueRestrictionUUID)
+  	: Int = x.compareTo(y)
+  }
+  
   type IntrinsicIdentityKindUUID
   = UUID @@ gov.nasa.jpl.imce.oml.tables.taggedTypes.IntrinsicIdentityKindTag
   

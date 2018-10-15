@@ -1014,6 +1014,66 @@ object Extent2Tables {
     x._1.domain.uuid,
     x._1.range.uuid)
 
+  def convertInstanceRelationshipEnumerationRestrictions
+  (acc: Seq[tables.InstanceRelationshipEnumerationRestriction],
+   x: (api.InstanceRelationshipEnumerationRestriction, api.DescriptionBox))
+  : Seq[tables.InstanceRelationshipEnumerationRestriction]
+  = acc :+ tables.InstanceRelationshipEnumerationRestriction(
+    x._1.uuid,
+    x._2.uuid,
+    x._1.domain.uuid,
+    x._1.restrictedRelationship.uuid)
+
+  def convertInstanceRelationshipOneOfRestrictions
+  (e: api.Extent)
+  (acc: Seq[tables.InstanceRelationshipOneOfRestriction],
+   x: (api.InstanceRelationshipEnumerationRestriction, api.DescriptionBox))
+  : Seq[tables.InstanceRelationshipOneOfRestriction]
+  = {
+    e.instanceRelationshipEnumerationRestrictionOfInstanceRelationshipOneOfRestriction.collect {
+      case (oneOf, enumRestriction) if enumRestriction == x._1 => oneOf
+    }.foldLeft[Seq[tables.InstanceRelationshipOneOfRestriction]](acc) { case (acc1, oneOf) =>
+      acc1 :+ tables.InstanceRelationshipOneOfRestriction(
+        oneOf.uuid,
+        oneOf.range.uuid,
+        x._1.uuid
+      )
+    }
+  }
+
+  def convertInstanceRelationshipValueRestrictions
+  (acc: Seq[tables.InstanceRelationshipValueRestriction],
+   x: (api.InstanceRelationshipValueRestriction, api.DescriptionBox))
+  : Seq[tables.InstanceRelationshipValueRestriction]
+  = acc :+ tables.InstanceRelationshipValueRestriction(
+    x._1.uuid,
+    x._2.uuid,
+    x._1.domain.uuid,
+    x._1.range.uuid,
+    x._1.restrictedRelationship.uuid)
+
+  def convertInstanceRelationshipExistentialRangeRestrictions
+  (acc: Seq[tables.InstanceRelationshipExistentialRangeRestriction],
+   x: (api.InstanceRelationshipExistentialRangeRestriction, api.DescriptionBox))
+  : Seq[tables.InstanceRelationshipExistentialRangeRestriction]
+  = acc :+ tables.InstanceRelationshipExistentialRangeRestriction(
+    x._1.uuid,
+    x._2.uuid,
+    x._1.domain.uuid,
+    x._1.range.uuid,
+    x._1.restrictedRelationship.uuid)
+
+  def convertInstanceRelationshipUniversalRangeRestrictions
+  (acc: Seq[tables.InstanceRelationshipUniversalRangeRestriction],
+   x: (api.InstanceRelationshipUniversalRangeRestriction, api.DescriptionBox))
+  : Seq[tables.InstanceRelationshipUniversalRangeRestriction]
+  = acc :+ tables.InstanceRelationshipUniversalRangeRestriction(
+    x._1.uuid,
+    x._2.uuid,
+    x._1.domain.uuid,
+    x._1.range.uuid,
+    x._1.restrictedRelationship.uuid)
+
   def convertSingletonScalarDataPropertyValues
   (acc: Seq[tables.SingletonInstanceScalarDataPropertyValue],
    x: (api.DescriptionBox, Set[api.SingletonInstanceScalarDataPropertyValue]))
@@ -1435,6 +1495,36 @@ object Extent2Tables {
               e.descriptionBoxOfUnreifiedRelationshipInstanceTuple
                 .foldLeft[Seq[tables.UnreifiedRelationshipInstanceTuple]](Seq.empty)(convertUnreifiedRelationshipInstanceTuples),
               (a: tables.UnreifiedRelationshipInstanceTuple) => a.uuid),
+
+          instanceRelationshipEnumerationRestrictions =
+            parallelSort.parSortBy(
+              e.descriptionBoxOfInstanceRelationshipEnumerationRestriction
+                .foldLeft[Seq[tables.InstanceRelationshipEnumerationRestriction]](Seq.empty)(convertInstanceRelationshipEnumerationRestrictions),
+              (a: tables.InstanceRelationshipEnumerationRestriction) => a.uuid),
+
+          instanceRelationshipOneOfRestrictions =
+            parallelSort.parSortBy(
+              e.descriptionBoxOfInstanceRelationshipEnumerationRestriction
+                .foldLeft[Seq[tables.InstanceRelationshipOneOfRestriction]](Seq.empty)(convertInstanceRelationshipOneOfRestrictions(e)),
+              (a: tables.InstanceRelationshipOneOfRestriction) => a.uuid),
+
+          instanceRelationshipValueRestrictions =
+            parallelSort.parSortBy(
+              e.descriptionBoxOfInstanceRelationshipValueRestriction
+                .foldLeft[Seq[tables.InstanceRelationshipValueRestriction]](Seq.empty)(convertInstanceRelationshipValueRestrictions),
+              (a: tables.InstanceRelationshipValueRestriction) => a.uuid),
+
+          instanceRelationshipExistentialRangeRestrictions =
+            parallelSort.parSortBy(
+              e.descriptionBoxOfInstanceRelationshipExistentialRangeRestriction
+                .foldLeft[Seq[tables.InstanceRelationshipExistentialRangeRestriction]](Seq.empty)(convertInstanceRelationshipExistentialRangeRestrictions),
+              (a: tables.InstanceRelationshipExistentialRangeRestriction) => a.uuid),
+
+          instanceRelationshipUniversalRangeRestrictions =
+            parallelSort.parSortBy(
+              e.descriptionBoxOfInstanceRelationshipUniversalRangeRestriction
+                .foldLeft[Seq[tables.InstanceRelationshipUniversalRangeRestriction]](Seq.empty)(convertInstanceRelationshipUniversalRangeRestrictions),
+              (a: tables.InstanceRelationshipUniversalRangeRestriction) => a.uuid),
 
           singletonInstanceScalarDataPropertyValues =
             parallelSort.parSortBy(
