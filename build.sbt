@@ -8,6 +8,7 @@ import de.heikoseeberger.sbtheader.CommentStyle
 
 import gov.nasa.jpl.imce.sbt._
 
+
 val oml_license =
   s"""|Copyright 2016 California Institute of Technology ("Caltech").
       |U.S. Government sponsorship acknowledged.
@@ -149,10 +150,6 @@ val Npm = config("npm")
 
 pomIncludeRepository in Global := { _ => false }
 
-publishTo in Global := Some(
-  "JPL-IMCE" at
-    s"https://api.bintray.com/content/jpl-imce/gov.nasa.jpl.imce/${Settings.dashName}/${version.value}")
-
 resolvers in Global += Resolver.bintrayRepo(Settings.organizationName.toLowerCase, Settings.organization)
 
 resolvers in Global += "Artima Maven Repository" at "http://repo.artima.com/releases"
@@ -215,10 +212,6 @@ lazy val tables = crossProject
     makePomConfiguration :=
       makePomConfiguration.value.copy(includeTypes = Set(Artifact.DefaultType, Artifact.PomType, "zip")),
 
-    publishTo := Some(
-      "JPL-IMCE" at
-        s"https://api.bintray.com/content/jpl-imce/gov.nasa.jpl.imce/${Settings.dashName}/${version.value}"),
-
     scalacOptions in (Compile, compile) += s"-P:artima-supersafe:config-file:${baseDirectory.value}/project/supersafe.cfg",
     scalacOptions in (Test, compile) += s"-P:artima-supersafe:config-file:${baseDirectory.value}/project/supersafe.cfg",
     scalacOptions in (Compile, doc) += "-Xplugin-disable:artima-supersafe",
@@ -246,6 +239,9 @@ lazy val tables = crossProject
     ) : _*
   )
   .jvmSettings(
+  
+    publishTo in Global := Some("JPL-IMCE" at s"https://api.bintray.com/content/jpl-imce/gov.nasa.jpl.imce/${Settings.name}/${version.value}"),
+
     libraryDependencies ++= Settings.jvmDependencies.value,
     dynamicScriptsResourceSettings(Settings.dashName),
 
@@ -308,6 +304,8 @@ lazy val tables = crossProject
     ) : _*
   )
   .jsSettings(
+
+    publishTo := Some("JPL-IMCE" at s"https://api.bintray.com/content/jpl-imce/gov.nasa.jpl.imce/${Settings.dashName}/${version.value}"),
 
     // For easier debugging, disable JavaScript optimizations
     // scalaJSLinkerConfig ~= { _.withOptimizer(false) },
