@@ -23,6 +23,7 @@ import java.util.UUID
 
 import gov.nasa.jpl.imce.oml.{resolver, _}
 import com.github.benmanes.caffeine.cache.LoadingCache
+import gov.nasa.jpl.imce.oml.resolver.api.Entity
 import scalax.collection.immutable.Graph
 
 import scala.annotation.tailrec
@@ -881,7 +882,7 @@ object OMLTablesResolver {
 
     val unresolvable = byModule.filter(_._1.isEmpty).flatMap(_._2).to[Seq]
     val resolvable = byModule.flatMap {
-      case ((Some(m), annotationProperties)) => Some(Tuple2(m, annotationProperties))
+      case (Some(m), annotationProperties) => Some(Tuple2(m, annotationProperties))
       case _ => None
     }
 
@@ -978,7 +979,7 @@ object OMLTablesResolver {
 
     val unresolvable = byTBox.filter(_._1.isEmpty).flatMap(_._2).to[Seq]
     val resolvable = byTBox.flatMap {
-      case ((Some(tboxM), concepts)) => Some(Tuple2(tboxM, concepts))
+      case (Some(tboxM), concepts) => Some(Tuple2(tboxM, concepts))
       case _ => None
     }
 
@@ -1023,7 +1024,7 @@ object OMLTablesResolver {
 
     val unresolvable = byTBox.filter(_._1.isEmpty).flatMap(_._2).to[Seq]
     val resolvable = byTBox.flatMap {
-      case ((Some(tboxM), scalars)) => Some(Tuple2(tboxM, scalars))
+      case (Some(tboxM), scalars) => Some(Tuple2(tboxM, scalars))
       case _ => None
     }
 
@@ -1068,7 +1069,7 @@ object OMLTablesResolver {
 
     val unresolvable = byTBox.filter(_._1.isEmpty).flatMap(_._2).to[Seq]
     val resolvable = byTBox.flatMap {
-      case ((Some(tboxM), structures)) => Some(Tuple2(tboxM, structures))
+      case (Some(tboxM), structures) => Some(Tuple2(tboxM, structures))
       case _ => None
     }
 
@@ -1463,9 +1464,12 @@ object OMLTablesResolver {
     step4d <- mapInverseProperties(step4c)
     step4e <- mapUnreifiedRelationships(step4d)
     step4f <- mapChainRules(step4e)
+    step4g <- mapCardinalityRestrictedAspects(step4f)
+    step4h <- mapCardinalityRestrictedConcepts(step4g)
+    step4i <- mapCardinalityRestrictedReifiedRelationships(step4h)
 
     // DataRelationships
-    step5a <- mapEntityScalarDataProperties(step4f)
+    step5a <- mapEntityScalarDataProperties(step4h)
     step5b <- mapEntityStructuredDataProperties(step5a)
     step5c <- mapScalarDataProperties(step5b)
     step5d <- mapStructuredDataProperties(step5c)
@@ -1804,6 +1808,180 @@ object OMLTablesResolver {
 
         case (Failure(t), _) =>
           Failure(t)
+      }
+    s
+  }
+
+  def mapCardinalityRestrictedAspects(r: OMLTablesResolver)
+  : Try[OMLTablesResolver]
+  = {
+    val byUUID =
+      r.queue.cardinalityRestrictedAspects
+        .map { cra =>
+          (api.taggedTypes.fromUUIDString(cra.tboxUUID),
+            api.taggedTypes.fromUUIDString(cra.restrictedRelationshipUUID),
+            cra.restrictedRangeUUID.map(api.taggedTypes.fromUUIDString)) -> cra
+        }
+
+    val byTBox = for {
+      tuple <- byUUID
+      ((tboxUUID, restrictableRelationshipUUID, optRangeUUID), cra) = tuple
+      tboxM = r.lookupTerminologyBox(tboxUUID)
+      restrictableRelationshipM = r.lookupRestrictableRelationship(restrictableRelationshipUUID)
+      hasRange = optRangeUUID.nonEmpty
+      optRangeM = optRangeUUID.flatMap(uuid => r.lookupLogicalElement(uuid) match {
+        case Some(e: Entity) => Some(e)
+        case _ => None
+      })
+    } yield (tboxM, restrictableRelationshipM, hasRange, optRangeM, cra)
+
+    val unresolvable = byTBox.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty || (tuple._3 && tuple._4.isEmpty)).map(_._5)
+    if (unresolvable.nonEmpty) {
+      java.lang.System.out.println(s"${unresolvable.size} cardinality restricted aspects")
+    }
+    val resolvable = byTBox.flatMap {
+      case (Some(tbox), Some(restrictableRelationship), true, Some(dataRange), cra) =>
+        Some(Tuple4(tbox, restrictableRelationship, Some(dataRange), cra))
+      case (Some(tbox), Some(restrictableRelationship), false, None, cra) =>
+        Some(Tuple4(tbox, restrictableRelationship, None, cra))
+      case _ =>
+        None
+    }
+    val s =
+      resolvable.foldLeft[Try[OMLTablesResolver]](Success(r.copy(queue = r.queue.copy(cardinalityRestrictedAspects = unresolvable)))) {
+        case (Success(ri), (tboxM, restrictableRelationshipM, optionDataRange, cra)) =>
+          val (ej, rra) = ri.factory.createCardinalityRestrictedAspect(
+            ri.context,
+            tboxM,
+            optionDataRange,
+            cra.name,
+            cra.restrictedCardinality,
+            restrictableRelationshipM,
+            cra.restrictionKind)
+          if (!ej.lookupBoxStatements(tboxM).contains(rra))
+            Failure(new IllegalArgumentException(s"CardinalityRestricted not in extent: $rra"))
+          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(cra.uuid)).contains(rra))
+            Failure(new IllegalArgumentException(s"CardinalityRestrictedAspect: $rra vs. $cra"))
+          else
+            Success(ri.copy(context = ej))
+        case (Failure(f), _) =>
+          Failure(f)
+      }
+    s
+  }
+
+  def mapCardinalityRestrictedConcepts(r: OMLTablesResolver)
+  : Try[OMLTablesResolver]
+  = {
+    val byUUID =
+      r.queue.cardinalityRestrictedConcepts
+        .map { crc =>
+          (api.taggedTypes.fromUUIDString(crc.tboxUUID),
+            api.taggedTypes.fromUUIDString(crc.restrictedRelationshipUUID),
+            crc.restrictedRangeUUID.map(api.taggedTypes.fromUUIDString)) -> crc
+        }
+
+    val byTBox = for {
+      tuple <- byUUID
+      ((tboxUUID, restrictableRelationshipUUID, optRangeUUID), crc) = tuple
+      tboxM = r.lookupTerminologyBox(tboxUUID)
+      restrictableRelationshipM = r.lookupRestrictableRelationship(restrictableRelationshipUUID)
+      hasRange = optRangeUUID.nonEmpty
+      optRangeM = optRangeUUID.flatMap(uuid => r.lookupLogicalElement(uuid) match {
+        case Some(e: Entity) => Some(e)
+        case _ => None
+      })
+    } yield (tboxM, restrictableRelationshipM, hasRange, optRangeM, crc)
+
+    val unresolvable = byTBox.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty || (tuple._3 && tuple._4.isEmpty)).map(_._5)
+    if (unresolvable.nonEmpty) {
+      java.lang.System.out.println(s"${unresolvable.size} cardinality restricted concepts")
+    }
+    val resolvable = byTBox.flatMap {
+      case (Some(tbox), Some(restrictableRelationship), true, Some(dataRange), crc) =>
+        Some(Tuple4(tbox, restrictableRelationship, Some(dataRange), crc))
+      case (Some(tbox), Some(restrictableRelationship), false, None, crc) =>
+        Some(Tuple4(tbox, restrictableRelationship, None, crc))
+      case _ =>
+        None
+    }
+    val s =
+      resolvable.foldLeft[Try[OMLTablesResolver]](Success(r.copy(queue = r.queue.copy(cardinalityRestrictedConcepts = unresolvable)))) {
+        case (Success(ri), (tboxM, restrictableRelationshipM, optionDataRange, crc)) =>
+          val (ej, rra) = ri.factory.createCardinalityRestrictedConcept(
+            ri.context,
+            tboxM,
+            optionDataRange,
+            crc.name,
+            crc.restrictedCardinality,
+            restrictableRelationshipM,
+            crc.restrictionKind)
+          if (!ej.lookupBoxStatements(tboxM).contains(rra))
+            Failure(new IllegalArgumentException(s"CardinalityRestricted not in extent: $rra"))
+          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(crc.uuid)).contains(rra))
+            Failure(new IllegalArgumentException(s"CardinalityRestrictedConcept: $rra vs. $crc"))
+          else
+            Success(ri.copy(context = ej))
+        case (Failure(f), _) =>
+          Failure(f)
+      }
+    s
+  }
+
+  def mapCardinalityRestrictedReifiedRelationships(r: OMLTablesResolver)
+  : Try[OMLTablesResolver]
+  = {
+    val byUUID =
+      r.queue.cardinalityRestrictedReifiedRelationships
+        .map { crr =>
+          (api.taggedTypes.fromUUIDString(crr.tboxUUID),
+            api.taggedTypes.fromUUIDString(crr.restrictedRelationshipUUID),
+            crr.restrictedRangeUUID.map(api.taggedTypes.fromUUIDString)) -> crr
+        }
+
+    val byTBox = for {
+      tuple <- byUUID
+      ((tboxUUID, restrictableRelationshipUUID, optRangeUUID), crr) = tuple
+      tboxM = r.lookupTerminologyBox(tboxUUID)
+      restrictableRelationshipM = r.lookupRestrictableRelationship(restrictableRelationshipUUID)
+      hasRange = optRangeUUID.nonEmpty
+      optRangeM = optRangeUUID.flatMap(uuid => r.lookupLogicalElement(uuid) match {
+        case Some(e: Entity) => Some(e)
+        case _ => None
+      })
+    } yield (tboxM, restrictableRelationshipM, hasRange, optRangeM, crr)
+
+    val unresolvable = byTBox.filter(tuple => tuple._1.isEmpty || tuple._2.isEmpty || (tuple._3 && tuple._4.isEmpty)).map(_._5)
+    if (unresolvable.nonEmpty) {
+      java.lang.System.out.println(s"${unresolvable.size} cardinality restricted reified relationships")
+    }
+    val resolvable = byTBox.flatMap {
+      case (Some(tbox), Some(restrictableRelationship), true, Some(dataRange), crr) =>
+        Some(Tuple4(tbox, restrictableRelationship, Some(dataRange), crr))
+      case (Some(tbox), Some(restrictableRelationship), false, None, crr) =>
+        Some(Tuple4(tbox, restrictableRelationship, None, crr))
+      case _ =>
+        None
+    }
+    val s =
+      resolvable.foldLeft[Try[OMLTablesResolver]](Success(r.copy(queue = r.queue.copy(cardinalityRestrictedReifiedRelationships = unresolvable)))) {
+        case (Success(ri), (tboxM, restrictableRelationshipM, optionDataRange, crr)) =>
+          val (ej, rrr) = ri.factory.createCardinalityRestrictedReifiedRelationship(
+            ri.context,
+            tboxM,
+            optionDataRange,
+            crr.name,
+            crr.restrictedCardinality,
+            restrictableRelationshipM,
+            crr.restrictionKind)
+          if (!ej.lookupBoxStatements(tboxM).contains(rrr))
+            Failure(new IllegalArgumentException(s"CardinalityRestricted not in extent: $rrr"))
+          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(crr.uuid)).contains(rrr))
+            Failure(new IllegalArgumentException(s"CardinalityRestrictedReifiedRelationship: $rrr vs. $crr"))
+          else
+            Success(ri.copy(context = ej))
+        case (Failure(f), _) =>
+          Failure(f)
       }
     s
   }

@@ -1,0 +1,5 @@
+gov.nasa.jpl.imce.oml.tables 0.96 adds new features to 0.95
+
+## Issues Resolved
+
+### [#64 AAdd support for OWL HasValue restriction on OML individuals](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/64)
