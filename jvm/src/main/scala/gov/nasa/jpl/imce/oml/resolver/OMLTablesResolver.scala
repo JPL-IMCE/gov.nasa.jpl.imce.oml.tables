@@ -1432,7 +1432,12 @@ object OMLTablesResolver {
     .copy(otherContexts = otr.otherContexts :+ otr.context)
     .copy(context = otr.factory.createExtent)
 
-  def resolve
+  /**
+    * Speed-up resolver with 1st of 3 passes focused on OML modules & atomic terms.
+    * @param otr tables resolver
+    * @return
+    */
+  def resolve1
   (otr: OMLTablesResolver)
   : Try[OMLTablesResolver]
   = for {
@@ -1449,6 +1454,19 @@ object OMLTablesResolver {
     step1b <- mapConcepts(step1a)
     step1c <- mapScalars(step1b)
     step1d <- mapStructures(step1c)
+  } yield step1d
+
+  /**
+    * Speed-up resolver with 2nd of 3 passes focused on relational terminology terms
+    * @param otr tables resolver
+    * @return
+    */
+  def resolve2
+  (otr: OMLTablesResolver)
+  : Try[OMLTablesResolver]
+  = for {
+    step1d <- Try.apply(otr)
+
     // TerminologyBoxAxiom relationships
     step2a <- mapTerminologyExtends(step1d)
     step2b <- mapTerminologyNestings(step2a)
@@ -1469,7 +1487,7 @@ object OMLTablesResolver {
     step4i <- mapCardinalityRestrictedReifiedRelationships(step4h)
 
     // DataRelationships
-    step5a <- mapEntityScalarDataProperties(step4h)
+    step5a <- mapEntityScalarDataProperties(step4i)
     step5b <- mapEntityStructuredDataProperties(step5a)
     step5c <- mapScalarDataProperties(step5b)
     step5d <- mapStructuredDataProperties(step5c)
@@ -1496,6 +1514,20 @@ object OMLTablesResolver {
     // DescriptionBoxStatements
     step11a <- mapConceptInstances(step10)
     step11b <- mapReifiedRelationshipInstances(step11a)
+  } yield
+    step11b
+
+  /**
+    * Speed-up resolver with 3rd of 3 passes focused on relational description box terms
+    * @param otr tables resolver
+    * @return
+    */
+  def resolve3
+  (otr: OMLTablesResolver)
+  : Try[OMLTablesResolver]
+  = for {
+    step11b <- Try.apply(otr)
+
     step11c <- mapReifiedRelationshipInstanceDomains(step11b)
     step11d <- mapReifiedRelationshipInstanceRanges(step11c)
     step11e <- mapUnreifiedRelationshipInstanceTuples(step11d)
@@ -2979,7 +3011,7 @@ object OMLTablesResolver {
       ((tboxUUID, superUUID, subUUID), tax) = tuple
       tboxM = r.lookupTerminologyBox(tboxUUID)
       superM = r.lookupTerminologyBoxStatement(superUUID) match {
-        case Some(e: api.Aspect) => Some(e)
+        case Some(e: api.AspectKind) => Some(e)
         case _ => None
       }
       subM = r.lookupTerminologyBoxStatement(subUUID) match {
@@ -3033,7 +3065,7 @@ object OMLTablesResolver {
       ((tboxUUID, superUUID, subUUID), tax) = tuple
       tboxM = r.lookupTerminologyBox(tboxUUID)
       superM = r.lookupTerminologyBoxStatement(superUUID) match {
-        case Some(e: api.Concept) => Some(e)
+        case Some(e: api.ConceptKind) => Some(e)
         case _ => None
       }
       subM = r.lookupTerminologyBoxStatement(subUUID) match {
