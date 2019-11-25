@@ -186,7 +186,6 @@ object LiteralValue {
 
     val f1 = c.downField("literalType")
     val f2 = c.downField("value")
-    val a = c.as[Vector[String]]
 
     if (f1.succeeded && f2.succeeded)
       for {
@@ -194,14 +193,16 @@ object LiteralValue {
         value <- f2.as[String]
       } yield LiteralValue(literalType, value)
 
-    else if (a.isRight)
-      for {
-        array <- a
-        s = array.mkString("")
-      } yield LiteralValue(LiteralStringType, s)
-
-    else
-      Decoder.failedWithMessage[LiteralValue]("unrecognized LiteralValue Json")(c)
+    else {
+      val a = c.as[Vector[String]]
+      if (a.isRight)
+        for {
+          array <- a
+          s = array.mkString("")
+        } yield LiteralValue(LiteralStringType, s)
+      else
+        Decoder.failedWithMessage[LiteralValue]("unrecognized LiteralValue Json")(c)
+    }
   }
 
   @JSExport

@@ -3,3 +3,5 @@ gov.nasa.jpl.imce.oml.tables 0.97 adds new features to 0.96
 ## Issues Resolved
 
 ### [#66 Missing support for CardinalityRestrictedEntities in table resolver](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/66)
+
+### [#69 Small serialization discrepancies w/ the Eclipse OMLZip serialization](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/issues/69)
