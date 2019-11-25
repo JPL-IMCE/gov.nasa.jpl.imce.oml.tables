@@ -60,9 +60,15 @@ object CardinalityRestrictionKind {
   = k match {
     case "MinCardinalityRestriction" =>
       MinCardinalityRestriction
+    case "<=" =>
+      MinCardinalityRestriction
     case "MaxCardinalityRestriction" =>
       MaxCardinalityRestriction
+    case ">=" =>
+      MaxCardinalityRestriction
     case "ExactCardinalityRestriction" =>
+      ExactCardinalityRestriction
+    case "==" =>
       ExactCardinalityRestriction
   }
 

@@ -19,8 +19,12 @@
  
 package gov.nasa.jpl.imce.oml.tables
 
+import io.circe.{DecodingFailure, JsonNumber, JsonObject}
+
 import scala.annotation.meta.field
-import scala.scalajs.js.annotation.{JSExport,JSExportTopLevel}
+import scala.{Boolean, Left, None, Right, Some}
+import scala.collection.immutable.Vector
+import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel}
 import scala.Predef.ArrowAssoc
 
 /**
@@ -100,7 +104,19 @@ object EntityScalarDataPropertyHelper {
     	  tboxUUID <- c.downField("tboxUUID").as[taggedTypes.TerminologyBoxUUID]
     	  domainUUID <- c.downField("domainUUID").as[taggedTypes.EntityUUID]
     	  rangeUUID <- c.downField("rangeUUID").as[taggedTypes.DataRangeUUID]
-    	  isIdentityCriteria <- c.downField("isIdentityCriteria").as[scala.Boolean]
+    	  isIdentityCriteria <- (c.downField("isIdentityCriteria").focus match {
+          case Some(json) =>
+            json.fold[Decoder.Result[Boolean]](
+              jsonNull = Left(DecodingFailure("null is not a legal boolean", c.history)),
+              jsonBoolean = (jb: Boolean) => Right(jb),
+              jsonNumber = (_: JsonNumber) => Left(DecodingFailure("null is not a legal boolean", c.history)),
+              jsonString = (s: String) => Right(java.lang.Boolean.parseBoolean(s)),
+              jsonArray = (_: Vector[Json]) =>  Left(DecodingFailure("array is not a legal boolean", c.history)),
+              jsonObject = (_: JsonObject) => Left(DecodingFailure("array is not a legal boolean", c.history))
+            )
+          case None =>
+            Left(DecodingFailure("Missing legal boolean value", c.history))
+        })
     	  name <- c.downField("name").as[taggedTypes.LocalName]
     	} yield EntityScalarDataProperty(
     	  uuid,
