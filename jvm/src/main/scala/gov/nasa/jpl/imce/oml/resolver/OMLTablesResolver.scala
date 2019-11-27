@@ -23,18 +23,21 @@ import java.util.UUID
 
 import gov.nasa.jpl.imce.oml.{resolver, _}
 import com.github.benmanes.caffeine.cache.LoadingCache
+import com.typesafe.config.{Config, ConfigFactory}
 import gov.nasa.jpl.imce.oml.resolver.api.Entity
 import scalax.collection.immutable.Graph
 
 import scala.annotation.tailrec
 import scala.collection.immutable.{Iterable, Map, Seq, Set}
 import scala.collection.parallel.immutable.ParSeq
-import scala.{None, Option, Some, StringContext, Tuple2, Tuple3, Tuple4, Tuple5}
+import scala.{Boolean, None, Option, Some, StringContext, Tuple2, Tuple3, Tuple4, Tuple5}
 import scala.util.{Failure, Success, Try}
-import scala.Predef.ArrowAssoc
+import scala.Predef.{classOf, ArrowAssoc}
+import scala.reflect.ClassTag
 
 case class OMLTablesResolver private[resolver]
 (context: resolver.api.Extent,
+ relaxUUIDMatch: Boolean,
  queue: tables.OMLSpecificationTables,
  factory: api.OMLResolvedFactory,
  otherContexts: Seq[resolver.api.Extent] = Seq.empty) {
@@ -183,13 +186,13 @@ case class OMLTablesResolver private[resolver]
   : LoadingCache[api.taggedTypes.TerminologyBoxStatementUUID, Option[resolver.api.TerminologyBoxStatement]]
   = LoadingCacheHelper
     .makeLoadingCache[api.taggedTypes.TerminologyBoxStatementUUID, Option[resolver.api.TerminologyBoxStatement]](
-    (uuid: api.taggedTypes.TerminologyBoxStatementUUID) =>
-      OMLTablesResolver.collectFirstOption(allContexts)(
-        _
-          .terminologyBoxStatementByUUID
-          .get(uuid)
-      ),
-    allContexts.foldLeft(0L)(_ + _.terminologyBoxStatementByUUID.size))
+      (uuid: api.taggedTypes.TerminologyBoxStatementUUID) =>
+        OMLTablesResolver.collectFirstOption(allContexts)(
+          _
+            .terminologyBoxStatementByUUID
+            .get(uuid)
+        ),
+      allContexts.foldLeft(0L)(_ + _.terminologyBoxStatementByUUID.size))
 
   def lookupTerminologyBoxStatement(uuid: api.taggedTypes.TerminologyBoxStatementUUID)
   : Option[resolver.api.TerminologyBoxStatement]
@@ -433,8 +436,8 @@ case class OMLTablesResolver private[resolver]
 
   def lookupReifiedRelationshipInstances(key: Option[resolver.api.DescriptionBox])
   : Set[resolver.api.ReifiedRelationshipInstance]
-  = key.fold[Set[resolver.api.ReifiedRelationshipInstance]](Set.empty[resolver.api.ReifiedRelationshipInstance]) { 
-    lookupReifiedRelationshipInstances 
+  = key.fold[Set[resolver.api.ReifiedRelationshipInstance]](Set.empty[resolver.api.ReifiedRelationshipInstance]) {
+    lookupReifiedRelationshipInstances
   }
 
   def lookupReifiedRelationshipInstances(key: resolver.api.DescriptionBox)
@@ -459,7 +462,7 @@ case class OMLTablesResolver private[resolver]
   def lookupConceptualEntitySingletonInstance(uuid: api.taggedTypes.ConceptualEntitySingletonInstanceUUID)
   : Option[resolver.api.ConceptualEntitySingletonInstance]
   = lookupConceptInstance(uuid) orElse lookupReifiedRelationshipInstance(uuid)
-  
+
   def lookupReifiedRelationshipInstanceDomains(key: Option[resolver.api.DescriptionBox])
   : Set[resolver.api.ReifiedRelationshipInstanceDomain]
   = key.fold[Set[resolver.api.ReifiedRelationshipInstanceDomain]](Set.empty[resolver.api.ReifiedRelationshipInstanceDomain]) {
@@ -561,7 +564,7 @@ case class OMLTablesResolver private[resolver]
       .instanceRelationshipEnumerationRestrictionByUUID
       .get(uuid)
   )
-  
+
   ///
 
   def lookupInstanceRelationshipValueRestrictions(key: Option[resolver.api.DescriptionBox])
@@ -588,7 +591,7 @@ case class OMLTablesResolver private[resolver]
       .instanceRelationshipValueRestrictionByUUID
       .get(uuid)
   )
-  
+
   ///
 
   def lookupInstanceRelationshipExistentialRangeRestrictions(key: Option[resolver.api.DescriptionBox])
@@ -642,7 +645,7 @@ case class OMLTablesResolver private[resolver]
       .instanceRelationshipUniversalRangeRestrictionByUUID
       .get(uuid)
   )
-  
+
   ///
 
   def lookupSingletonScalarDataPropertyValues(key: Option[resolver.api.DescriptionBox])
@@ -821,10 +824,9 @@ object OMLTablesResolver {
       val (ej, rg) = ri.factory.createTerminologyGraph(ri.context, tg.kind, tg.iri)
       if (!ej.lookupTerminologyGraph(rg.uuid).contains(rg))
         Failure(new IllegalArgumentException(s"TerminologyGraph not in extent: $rg"))
-      else if (!OMLOps.uuidEquivalent(rg.uuid, tg.uuid))
-        Failure(new IllegalArgumentException(s"TerminologyGraph: $tg vs. $rg"))
       else
-        Success(ri.copy(context = ej))
+        checkDerivedUUIDConsistency(tg, rg, OMLOps.uuidEquivalent(rg.uuid, tg.uuid), ri.copy(context = ej))
+
     case (Failure(f), _) =>
       Failure(f)
   }
@@ -832,17 +834,16 @@ object OMLTablesResolver {
   def mapBundles
   (r: OMLTablesResolver)
   : Try[OMLTablesResolver]
-  = r.queue.bundles.foldLeft[Try[OMLTablesResolver]]{
+  = r.queue.bundles.foldLeft[Try[OMLTablesResolver]] {
     Success(r.copy(queue = r.queue.copy(bundles = Seq.empty)))
   } {
     case (Success(ri), tb) =>
       val (ej, rb) = ri.factory.createBundle(ri.context, tb.kind, tb.iri)
       if (!ej.lookupBundle(rb.uuid).contains(rb))
         Failure(new IllegalArgumentException(s"Bundle not in extent: $rb"))
-      else if (!OMLOps.uuidEquivalent(rb.uuid, tb.uuid))
-        Failure(new IllegalArgumentException(s"Bundle: $tb vs. $rb"))
       else
-        Success(ri.copy(context = ej))
+        checkDerivedUUIDConsistency(tb, rb, OMLOps.uuidEquivalent(rb.uuid, tb.uuid), ri.copy(context = ej))
+
     case (Failure(f), _) =>
       Failure(f)
   }
@@ -850,17 +851,16 @@ object OMLTablesResolver {
   def mapDescriptionBoxes
   (r: OMLTablesResolver)
   : Try[OMLTablesResolver]
-  = r.queue.descriptionBoxes.foldLeft[Try[OMLTablesResolver]]{
+  = r.queue.descriptionBoxes.foldLeft[Try[OMLTablesResolver]] {
     Success(r.copy(queue = r.queue.copy(descriptionBoxes = Seq.empty)))
   } {
     case (Success(ri), tdb) =>
       val (ej, rdb) = ri.factory.createDescriptionBox(ri.context, tdb.kind, tdb.iri)
       if (!ej.lookupDescriptionBox(rdb.uuid).contains(rdb))
         Failure(new IllegalArgumentException(s"DescriptionBox not in extent: $rdb"))
-      else if (!OMLOps.uuidEquivalent(rdb.uuid, tdb.uuid))
-        Failure(new IllegalArgumentException(s"DescriptionBox: $tdb vs. $rdb"))
       else
-        Success(ri.copy(context = ej))
+        checkDerivedUUIDConsistency(tdb, rdb, OMLOps.uuidEquivalent(rdb.uuid, tdb.uuid), ri.copy(context = ej))
+
     case (Failure(f), _) =>
       Failure(f)
   }
@@ -900,10 +900,9 @@ object OMLTablesResolver {
                 tap.abbrevIRI)
               if (!ek.lookupAnnotationProperty(rap.uuid).contains(rap))
                 Failure(new IllegalArgumentException(s"AnnotationProperty not in extent: $rap"))
-              else if (!OMLOps.uuidEquivalent(rap.uuid, tap.uuid))
-                Failure(new IllegalArgumentException(s"AnnotationProperty: $tap vs. $rap"))
               else
-                Success(rk.copy(context = ek))
+                checkDerivedUUIDConsistency(tap, rap, OMLOps.uuidEquivalent(rap.uuid, tap.uuid), rk.copy(context = ek))
+
             case (Failure(f), _) =>
               Failure(f)
           }
@@ -948,10 +947,9 @@ object OMLTablesResolver {
                 taspect.name)
               if (!ek.lookupBoxStatements(tboxM).contains(raspect))
                 Failure(new IllegalArgumentException(s"Aspect not in extent: $raspect"))
-              else if (!OMLOps.uuidEquivalent(raspect.uuid, taspect.uuid))
-                Failure(new IllegalArgumentException(s"Aspect: $taspect vs. $raspect"))
               else
-                Success(rk.copy(context = ek))
+                checkDerivedUUIDConsistency(taspect, raspect, OMLOps.uuidEquivalent(raspect.uuid, taspect.uuid), rk.copy(context = ek))
+
             case (Failure(f), _) =>
               Failure(f)
           }
@@ -993,10 +991,9 @@ object OMLTablesResolver {
               val (ek, rconcept) = rk.factory.createConcept(rk.context, tboxM, tconcept.name)
               if (!ek.lookupBoxStatements(tboxM).contains(rconcept))
                 Failure(new IllegalArgumentException(s"Concept not in extent: $rconcept"))
-              else if (!OMLOps.uuidEquivalent(rconcept.uuid, tconcept.uuid))
-                Failure(new IllegalArgumentException(s"Concept: $tconcept vs. $rconcept"))
               else
-                Success(rk.copy(context = ek))
+                checkDerivedUUIDConsistency(tconcept, rconcept, OMLOps.uuidEquivalent(rconcept.uuid, tconcept.uuid), rk.copy(context = ek))
+
             case (Failure(f), _) =>
               Failure(f)
           }
@@ -1038,10 +1035,9 @@ object OMLTablesResolver {
               val (ek, rscalar) = rk.factory.createScalar(rk.context, tboxM, tscalar.name)
               if (!ek.lookupBoxStatements(tboxM).contains(rscalar))
                 Failure(new IllegalArgumentException(s"Scalar not in extent: $rscalar"))
-              else if (!OMLOps.uuidEquivalent(rscalar.uuid, tscalar.uuid))
-                Failure(new IllegalArgumentException(s"Scalar: $tscalar vs. $rscalar"))
               else
-                Success(rk.copy(context = ek))
+                checkDerivedUUIDConsistency(tscalar, rscalar, OMLOps.uuidEquivalent(rscalar.uuid, tscalar.uuid), rk.copy(context = ek))
+
             case (Failure(f), _) =>
               Failure(f)
           }
@@ -1083,10 +1079,9 @@ object OMLTablesResolver {
               val (ek, rconcept) = rk.factory.createStructure(rk.context, tboxM, tconcept.name)
               if (!ek.lookupBoxStatements(tboxM).contains(rconcept))
                 Failure(new IllegalArgumentException(s"Structure not in extent: $rconcept"))
-              else if (!OMLOps.uuidEquivalent(rconcept.uuid, tconcept.uuid))
-                Failure(new IllegalArgumentException(s"Structure: $tconcept vs. $rconcept"))
               else
-                Success(rk.copy(context = ek))
+                checkDerivedUUIDConsistency(tconcept, rconcept, OMLOps.uuidEquivalent(rconcept.uuid, tconcept.uuid), rk.copy(context = ek))
+
             case (Failure(f), _) =>
               Failure(f)
           }
@@ -1123,10 +1118,9 @@ object OMLTablesResolver {
           val (ej, rextension) = ri.factory.createTerminologyExtensionAxiom(ri.context, tboxMSource, textension.extendedTerminologyIRI)
           if (!ej.lookupBoxAxioms(tboxMSource).contains(rextension))
             Failure(new IllegalArgumentException(s"TerminologyExtensionAxiom not in extent: $rextension"))
-          else if (!OMLOps.uuidEquivalent(rextension.uuid, textension.uuid))
-            Failure(new IllegalArgumentException(s"TerminologyExtensionAxiom: $textension vs. $rextension"))
           else
-            Success(ri.copy(context = ej))
+            checkDerivedUUIDConsistency(textension, rextension, OMLOps.uuidEquivalent(rextension.uuid, textension.uuid), ri.copy(context = ej))
+
         case (Failure(f), _) =>
           Failure(f)
       }
@@ -1140,8 +1134,8 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.terminologyNestingAxioms
         .map { tAxiom =>
-          ( api.taggedTypes.fromUUIDString(tAxiom.tboxUUID),
-            api.taggedTypes.fromUUIDString(tAxiom.nestingContextUUID) ) -> tAxiom
+          (api.taggedTypes.fromUUIDString(tAxiom.tboxUUID),
+            api.taggedTypes.fromUUIDString(tAxiom.nestingContextUUID)) -> tAxiom
         }
 
     val byTBox = for {
@@ -1166,10 +1160,9 @@ object OMLTablesResolver {
           val (ej, rnesting) = ri.factory.createTerminologyNestingAxiom(ri.context, tboxMSource, tboxMConcept, tnesting.nestingTerminologyIRI)
           if (!ej.lookupBoxAxioms(tboxMSource).contains(rnesting))
             Failure(new IllegalArgumentException(s"TerminologyNestingAxiom not in extent: $rnesting"))
-          else if (!OMLOps.uuidEquivalent(rnesting.uuid, tnesting.uuid))
-            Failure(new IllegalArgumentException(s"TerminologyNestingAxiom: $tnesting vs. $rnesting"))
           else
-            Success(ri.copy(context = ej))
+            checkDerivedUUIDConsistency(tnesting, rnesting, OMLOps.uuidEquivalent(rnesting.uuid, tnesting.uuid), ri.copy(context = ej))
+
         case (Failure(f), _) =>
           Failure(f)
       }
@@ -1183,8 +1176,8 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.conceptDesignationTerminologyAxioms
         .map { tAxiom =>
-          ( api.taggedTypes.fromUUIDString(tAxiom.tboxUUID),
-            api.taggedTypes.fromUUIDString(tAxiom.designatedConceptUUID) ) -> tAxiom
+          (api.taggedTypes.fromUUIDString(tAxiom.tboxUUID),
+            api.taggedTypes.fromUUIDString(tAxiom.designatedConceptUUID)) -> tAxiom
         }
 
     val byTBox = for {
@@ -1209,10 +1202,9 @@ object OMLTablesResolver {
           val (ej, rConceptDesignation) = ri.factory.createConceptDesignationTerminologyAxiom(ri.context, tboxMSource, tboxMConcept, tConceptDesignation.designatedTerminologyIRI)
           if (!ej.lookupBoxAxioms(tboxMSource).contains(rConceptDesignation))
             Failure(new IllegalArgumentException(s"ConceptDesignationTerminologyAxiom: axiom not in extent: $rConceptDesignation"))
-          else if (!OMLOps.uuidEquivalent(rConceptDesignation.uuid, tConceptDesignation.uuid))
-            Failure(new IllegalArgumentException(s"ConceptDesignationTerminologyAxiom: $tConceptDesignation vs. $rConceptDesignation"))
           else
-            Success(ri.copy(context = ej))
+            checkDerivedUUIDConsistency(tConceptDesignation, rConceptDesignation, OMLOps.uuidEquivalent(rConceptDesignation.uuid, tConceptDesignation.uuid), ri.copy(context = ej))
+
         case (Failure(f), _) =>
           Failure(f)
       }
@@ -1245,10 +1237,9 @@ object OMLTablesResolver {
           val (ej, rBundleAxiom) = ri.factory.createBundledTerminologyAxiom(ri.context, bundleMSource, tBundleAxiom.bundledTerminologyIRI)
           if (!ej.lookupBundleAxioms(bundleMSource).contains(rBundleAxiom))
             Failure(new IllegalArgumentException(s"BundledTerminologyAxiom not in extent: $rBundleAxiom"))
-          else if (!OMLOps.uuidEquivalent(rBundleAxiom.uuid, tBundleAxiom.uuid))
-            Failure(new IllegalArgumentException(s"BundledTerminologyAxiom: $tBundleAxiom vs. $rBundleAxiom"))
           else
-            Success(ri.copy(context = ej))
+            checkDerivedUUIDConsistency(tBundleAxiom, rBundleAxiom, OMLOps.uuidEquivalent(rBundleAxiom.uuid, tBundleAxiom.uuid), ri.copy(context = ej))
+
         case (Failure(f), _) =>
           Failure(f)
       }
@@ -1280,10 +1271,9 @@ object OMLTablesResolver {
           val (ej, rAxiom) = ri.factory.createDescriptionBoxExtendsClosedWorldDefinitions(ri.context, dboxM, tAxiom.closedWorldDefinitionsIRI)
           if (!ej.lookupClosedWorldDefinitions(dboxM).contains(rAxiom))
             Failure(new IllegalArgumentException(s"DescriptionBoxExtendsClosedWorldDefinition not in extent: $rAxiom"))
-          else if (!OMLOps.uuidEquivalent(rAxiom.uuid, tAxiom.uuid))
-            Failure(new IllegalArgumentException(s"DescriptionBoxExtendsClosedWorldDefinition: $tAxiom vs. $rAxiom"))
           else
-            Success(ri.copy(context = ej))
+            checkDerivedUUIDConsistency(tAxiom, rAxiom, OMLOps.uuidEquivalent(rAxiom.uuid, tAxiom.uuid), ri.copy(context = ej))
+
         case (Failure(f), _) =>
           Failure(f)
       }
@@ -1315,10 +1305,9 @@ object OMLTablesResolver {
           val (ej, rAxiom) = ri.factory.createDescriptionBoxRefinement(ri.context, dboxM, tAxiom.refinedDescriptionBoxIRI)
           if (!ej.lookupDescriptionBoxRefinements(dboxM).contains(rAxiom))
             Failure(new IllegalArgumentException(s"DescriptionBoxRefinement not in extent: $rAxiom"))
-          else if (!OMLOps.uuidEquivalent(rAxiom.uuid, tAxiom.uuid))
-            Failure(new IllegalArgumentException(s"DescriptionBoxRefinement: $tAxiom vs. $rAxiom"))
           else
-            Success(ri.copy(context = ej))
+            checkDerivedUUIDConsistency(tAxiom, rAxiom, OMLOps.uuidEquivalent(rAxiom.uuid, tAxiom.uuid), ri.copy(context = ej))
+
         case (Failure(f), _) =>
           Failure(f)
       }
@@ -1420,10 +1409,16 @@ object OMLTablesResolver {
   def initializeTablesResolver
   (factory: api.OMLResolvedFactory)
   : OMLTablesResolver
-  = OMLTablesResolver(
-    factory.createExtent,
-    tables.OMLSpecificationTables.createEmptyOMLSpecificationTables(),
-    factory)
+  = {
+    val config: Config = ConfigFactory.load(classOf[OMLTablesResolver].getClassLoader)
+    val relaxUUIDMatch: Boolean = config.getBoolean("tables-resolver.relax-uuid-match")
+
+    OMLTablesResolver(
+      factory.createExtent,
+      relaxUUIDMatch,
+      tables.OMLSpecificationTables.createEmptyOMLSpecificationTables(),
+      factory)
+  }
 
   def accumulateResultContext
   (otr: OMLTablesResolver)
@@ -1434,6 +1429,7 @@ object OMLTablesResolver {
 
   /**
     * Speed-up resolver with 1st of 3 passes focused on OML modules & atomic terms.
+    *
     * @param otr tables resolver
     * @return
     */
@@ -1458,6 +1454,7 @@ object OMLTablesResolver {
 
   /**
     * Speed-up resolver with 2nd of 3 passes focused on relational terminology terms
+    *
     * @param otr tables resolver
     * @return
     */
@@ -1519,6 +1516,7 @@ object OMLTablesResolver {
 
   /**
     * Speed-up resolver with 3rd of 3 passes focused on relational description box terms
+    *
     * @param otr tables resolver
     * @return
     */
@@ -1559,6 +1557,37 @@ object OMLTablesResolver {
 
   type HyperGraphV = Try[Graph[api.Module, ModuleGraphEdge]]
 
+  def checkDerivedUUIDConsistency[T <: tables.CrossReferencabilityKind, R <: api.CrossReferencabilityKind](t: T, r: R, ok: Boolean, result: OMLTablesResolver)(implicit tag: ClassTag[T]): Try[OMLTablesResolver] = {
+    if (ok)
+      Success(result)
+    else if (result.relaxUUIDMatch) {
+      java.lang.System.err.println(s"\nUUID mismatch for ${tag.runtimeClass.getCanonicalName}:\n$t\nvs.\n$r")
+      Success(result)
+    } else
+      Failure(new IllegalArgumentException(s"UID mismatch for ${tag.runtimeClass.getCanonicalName}: $t vs. $r"))
+  }
+
+  def checkDerivedUUIDConsistencyOfValues[T <: tables.CrossReferencabilityKind, R <: api.CrossReferencabilityKind, V](t: T, r: R, ok: Boolean, result: OMLTablesResolver, values: V)(implicit tag: ClassTag[T]): Try[(OMLTablesResolver, V)] = {
+    if (ok)
+      Success(result -> values)
+    else if (result.relaxUUIDMatch) {
+      java.lang.System.err.println(s"\nUUID mismatch for ${tag.runtimeClass.getCanonicalName}:\n$t\nvs.\n$r")
+      Success(result -> values)
+    } else
+      Failure(new IllegalArgumentException(s"UID mismatch for ${tag.runtimeClass.getCanonicalName}: $t vs. $r"))
+  }
+
+  def checkDerivedUUIDConsistencyOfResult[T <: tables.CrossReferencabilityKind, R <: api.CrossReferencabilityKind](t: T, r: R, ok: Boolean, result: Try[OMLTablesResolver])(implicit tag: ClassTag[T]): Try[OMLTablesResolver] = {
+    if (ok)
+      result
+    else result match {
+      case Success(res) =>
+        checkDerivedUUIDConsistency(t, r, ok, res)
+      case Failure(t) =>
+        Failure(t)
+    }
+  }
+
   def mapConceptualRelationshipsAndCardinalityRestrictions
   (r: OMLTablesResolver)
   : Try[OMLTablesResolver]
@@ -1568,19 +1597,19 @@ object OMLTablesResolver {
     val ca_byUUID =
       r.queue.cardinalityRestrictedAspects
         .map { cra =>
-          ( api.taggedTypes.fromUUIDString(cra.tboxUUID),
+          (api.taggedTypes.fromUUIDString(cra.tboxUUID),
             api.taggedTypes.fromUUIDString(cra.restrictedRelationshipUUID),
             cra.restrictedRangeUUID.map(api.taggedTypes.fromUUIDString),
             cra
           )
-      }
+        }
 
     val ca = ca_byUUID.filter { case (tboxUUID, _, _, _) => ns.contains(tboxUUID) }
 
     val cc_byUUID =
       r.queue.cardinalityRestrictedConcepts
         .map { crc =>
-          ( api.taggedTypes.fromUUIDString(crc.tboxUUID),
+          (api.taggedTypes.fromUUIDString(crc.tboxUUID),
             api.taggedTypes.fromUUIDString(crc.restrictedRelationshipUUID),
             crc.restrictedRangeUUID.map(api.taggedTypes.fromUUIDString),
             crc
@@ -1592,7 +1621,7 @@ object OMLTablesResolver {
     val crr_byUUID =
       r.queue.cardinalityRestrictedReifiedRelationships
         .map { crrr =>
-          ( api.taggedTypes.fromUUIDString(crrr.tboxUUID),
+          (api.taggedTypes.fromUUIDString(crrr.tboxUUID),
             api.taggedTypes.fromUUIDString(crrr.restrictedRelationshipUUID),
             crrr.restrictedRangeUUID.map(api.taggedTypes.fromUUIDString),
             crrr
@@ -1604,10 +1633,10 @@ object OMLTablesResolver {
     val rr_byUUID =
       r.queue.reifiedRelationships
         .map { trr =>
-          ( api.taggedTypes.fromUUIDString(trr.tboxUUID),
+          (api.taggedTypes.fromUUIDString(trr.tboxUUID),
             api.taggedTypes.fromUUIDString(trr.sourceUUID),
             api.taggedTypes.fromUUIDString(trr.targetUUID),
-            trr )
+            trr)
         }
 
     val rr = rr_byUUID.filter { case (tboxUUID, _, _, _) => ns.contains(tboxUUID) }
@@ -1615,10 +1644,10 @@ object OMLTablesResolver {
     val pr_byUUID =
       r.queue.reifiedRelationshipRestrictions
         .map { trr =>
-          ( api.taggedTypes.fromUUIDString(trr.tboxUUID),
+          (api.taggedTypes.fromUUIDString(trr.tboxUUID),
             api.taggedTypes.fromUUIDString(trr.sourceUUID),
             api.taggedTypes.fromUUIDString(trr.targetUUID),
-            trr )
+            trr)
         }
 
     val pr = pr_byUUID.filter { case (tboxUUID, _, _, _) => ns.contains(tboxUUID) }
@@ -1664,10 +1693,9 @@ object OMLTablesResolver {
 
           if (!ej.lookupForwardProperty(rr).contains(rp))
             Failure(new IllegalArgumentException(s"ForwardProperty not in extent: $rp"))
-          else if (!ej.lookupForwardProperty(api.taggedTypes.fromUUIDString(tp.uuid)).contains(rp))
-            Failure(new IllegalArgumentException(s"ForwardProperty: $tp vs. $rp"))
           else
-            Success(ri.copy(context = ej))
+            checkDerivedUUIDConsistency(tp, rp, ej.lookupForwardProperty(api.taggedTypes.fromUUIDString(tp.uuid)).contains(rp), ri.copy(context = ej))
+
         case (Failure(f), _) =>
           Failure(f)
       }
@@ -1710,16 +1738,15 @@ object OMLTablesResolver {
 
           if (!ej.lookupInverseProperty(rr).contains(rp))
             Failure(new IllegalArgumentException(s"InverseProperty not in extent: $rp"))
-          else if (!ej.lookupInverseProperty(api.taggedTypes.fromUUIDString(tp.uuid)).contains(rp))
-            Failure(new IllegalArgumentException(s"InverseProperty: $tp vs. $rp"))
           else
-            Success(ri.copy(context = ej))
+            checkDerivedUUIDConsistency(tp, rp, ej.lookupInverseProperty(api.taggedTypes.fromUUIDString(tp.uuid)).contains(rp), ri.copy(context = ej))
+
         case (Failure(f), _) =>
           Failure(f)
       }
     s
   }
-  
+
   def mapUnreifiedRelationships
   (r: OMLTablesResolver)
   : Try[OMLTablesResolver]
@@ -1727,9 +1754,9 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.unreifiedRelationships
         .map { tur =>
-          ( api.taggedTypes.fromUUIDString(tur.tboxUUID),
+          (api.taggedTypes.fromUUIDString(tur.tboxUUID),
             api.taggedTypes.fromUUIDString(tur.sourceUUID),
-            api.taggedTypes.fromUUIDString(tur.targetUUID) ) -> tur
+            api.taggedTypes.fromUUIDString(tur.targetUUID)) -> tur
         }
 
     val byTBox = for {
@@ -1777,10 +1804,9 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rur))
             Failure(new IllegalArgumentException(s"UnreifiedRelationship not in extent: $rur"))
-          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tur.uuid)).contains(rur))
-            Failure(new IllegalArgumentException(s"UnreifiedRelationship: $tur vs. $rur"))
           else
-            Success(ri.copy(context = ej))
+            checkDerivedUUIDConsistency(tur, rur, ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tur.uuid)).contains(rur), ri.copy(context = ej))
+
         case (Failure(f), _) =>
           Failure(f)
       }
@@ -1793,8 +1819,8 @@ object OMLTablesResolver {
   = {
     val byUUID =
       r.queue.chainRules.map { rule =>
-        ( api.taggedTypes.fromUUIDString(rule.tboxUUID),
-          api.taggedTypes.fromUUIDString(rule.headUUID) ) -> rule
+        (api.taggedTypes.fromUUIDString(rule.tboxUUID),
+          api.taggedTypes.fromUUIDString(rule.headUUID)) -> rule
       }
 
     val info = for {
@@ -1825,18 +1851,18 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rrule))
             Failure(new IllegalArgumentException(s"ChainRule not in extent: $rrule"))
-          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(trule.uuid)).contains(rrule))
-            Failure(new IllegalArgumentException(s"ChainRule: $trule vs. $rrule"))
           else
-            ri.queue.ruleBodySegments
-              .find { seg =>
-                seg.ruleUUID.contains(trule.uuid)
-              } match {
-              case Some(tseg) =>
-                mapRuleSegments(ri.copy(context = ej), trule, tseg, None, rrule)
-              case None =>
-                Failure(new IllegalArgumentException(s"ChainRule: $trule lacks a first segment!"))
-            }
+            checkDerivedUUIDConsistencyOfResult(trule, rrule,
+              ok = ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(trule.uuid)).contains(rrule),
+              result = ri.queue.ruleBodySegments
+                .find { seg =>
+                  seg.ruleUUID.contains(trule.uuid)
+                } match {
+                case Some(tseg) =>
+                  mapRuleSegments(ri.copy(context = ej), trule, tseg, None, rrule)
+                case None =>
+                  Failure(new IllegalArgumentException(s"ChainRule: $trule lacks a first segment!"))
+              })
 
         case (Failure(t), _) =>
           Failure(t)
@@ -1892,10 +1918,9 @@ object OMLTablesResolver {
             cra.restrictionKind)
           if (!ej.lookupBoxStatements(tboxM).contains(rra))
             Failure(new IllegalArgumentException(s"CardinalityRestricted not in extent: $rra"))
-          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(cra.uuid)).contains(rra))
-            Failure(new IllegalArgumentException(s"CardinalityRestrictedAspect: $rra vs. $cra"))
           else
-            Success(ri.copy(context = ej))
+            checkDerivedUUIDConsistency(cra, rra, ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(cra.uuid)).contains(rra), ri.copy(context = ej))
+
         case (Failure(f), _) =>
           Failure(f)
       }
@@ -1950,10 +1975,9 @@ object OMLTablesResolver {
             crc.restrictionKind)
           if (!ej.lookupBoxStatements(tboxM).contains(rra))
             Failure(new IllegalArgumentException(s"CardinalityRestricted not in extent: $rra"))
-          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(crc.uuid)).contains(rra))
-            Failure(new IllegalArgumentException(s"CardinalityRestrictedConcept: $rra vs. $crc"))
           else
-            Success(ri.copy(context = ej))
+            checkDerivedUUIDConsistency(crc, rra, ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(crc.uuid)).contains(rra), ri.copy(context = ej))
+
         case (Failure(f), _) =>
           Failure(f)
       }
@@ -2008,10 +2032,9 @@ object OMLTablesResolver {
             crr.restrictionKind)
           if (!ej.lookupBoxStatements(tboxM).contains(rrr))
             Failure(new IllegalArgumentException(s"CardinalityRestricted not in extent: $rrr"))
-          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(crr.uuid)).contains(rrr))
-            Failure(new IllegalArgumentException(s"CardinalityRestrictedReifiedRelationship: $rrr vs. $crr"))
           else
-            Success(ri.copy(context = ej))
+            checkDerivedUUIDConsistency(crr, rrr,ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(crr.uuid)).contains(rrr), ri.copy(context = ej))
+
         case (Failure(f), _) =>
           Failure(f)
       }
@@ -2041,7 +2064,7 @@ object OMLTablesResolver {
         ri.queue.ruleBodySegments.filter(_ != tseg)))
     rj.queue.segmentPredicates.find(_.bodySegmentUUID == puuid) match {
       case Some(tap: tables.SegmentPredicate) =>
-        ( tap.predicateUUID,
+        (tap.predicateUUID,
           tap.predicateUUID.flatMap(id => rj.lookupPredicate(api.taggedTypes.fromUUIDString(id))),
           tap.reifiedRelationshipSourceUUID,
           tap.reifiedRelationshipSourceUUID.flatMap(id => rj.lookupReifiedRelationship(api.taggedTypes.fromUUIDString(id))),
@@ -2052,7 +2075,7 @@ object OMLTablesResolver {
           tap.reifiedRelationshipInverseTargetUUID,
           tap.reifiedRelationshipInverseTargetUUID.flatMap(id => rj.lookupReifiedRelationship(api.taggedTypes.fromUUIDString(id))),
           tap.unreifiedRelationshipInverseUUID,
-          tap.unreifiedRelationshipInverseUUID.flatMap(id => rj.lookupUnreifiedRelationship(api.taggedTypes.fromUUIDString(id))) ) match {
+          tap.unreifiedRelationshipInverseUUID.flatMap(id => rj.lookupUnreifiedRelationship(api.taggedTypes.fromUUIDString(id)))) match {
           case (
             // predicate
             Some(_), Some(rpred),
@@ -2246,12 +2269,12 @@ object OMLTablesResolver {
                 Success(rk)
             }
           case _ =>
-            Failure(new IllegalArgumentException(s"SegmentPredicate: $tap failed to resolve: "+
-              s"pred=${tap.predicateUUID}, "+
-              s"rrSource=${tap.reifiedRelationshipSourceUUID}, "+
-              s"rrInvSource=${tap.reifiedRelationshipInverseSourceUUID}, "+
-              s"rrTarget=${tap.reifiedRelationshipTargetUUID}, "+
-              s"rrInvTarget=${tap.reifiedRelationshipInverseTargetUUID}, "+
+            Failure(new IllegalArgumentException(s"SegmentPredicate: $tap failed to resolve: " +
+              s"pred=${tap.predicateUUID}, " +
+              s"rrSource=${tap.reifiedRelationshipSourceUUID}, " +
+              s"rrInvSource=${tap.reifiedRelationshipInverseSourceUUID}, " +
+              s"rrTarget=${tap.reifiedRelationshipTargetUUID}, " +
+              s"rrInvTarget=${tap.reifiedRelationshipInverseTargetUUID}, " +
               s"invUnreified=${tap.unreifiedRelationshipInverseUUID}"))
         }
       case None =>
@@ -2266,9 +2289,9 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.entityScalarDataProperties
         .map { tsdp =>
-          ( api.taggedTypes.fromUUIDString(tsdp.tboxUUID),
+          (api.taggedTypes.fromUUIDString(tsdp.tboxUUID),
             api.taggedTypes.fromUUIDString(tsdp.domainUUID),
-            api.taggedTypes.fromUUIDString(tsdp.rangeUUID) ) -> tsdp
+            api.taggedTypes.fromUUIDString(tsdp.rangeUUID)) -> tsdp
         }
 
     val byTBox = for {
@@ -2305,10 +2328,9 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rsdp))
             Failure(new IllegalArgumentException(s"EntityScalarDataProperty not in extent: $rsdp"))
-          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tsdp.uuid)).contains(rsdp))
-            Failure(new IllegalArgumentException(s"EntityScalarDataProperty: $tsdp vs. $rsdp"))
           else
-            Success(ri.copy(context = ej))
+            checkDerivedUUIDConsistency(tsdp, rsdp, ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tsdp.uuid)).contains(rsdp), ri.copy(context = ej))
+
         case (Failure(f), _) =>
           Failure(f)
       }
@@ -2322,9 +2344,9 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.entityStructuredDataProperties
         .map { tsdp =>
-          ( api.taggedTypes.fromUUIDString(tsdp.tboxUUID),
+          (api.taggedTypes.fromUUIDString(tsdp.tboxUUID),
             api.taggedTypes.fromUUIDString(tsdp.domainUUID),
-            api.taggedTypes.fromUUIDString(tsdp.rangeUUID) ) -> tsdp
+            api.taggedTypes.fromUUIDString(tsdp.rangeUUID)) -> tsdp
         }
 
     val byTBox = for {
@@ -2361,10 +2383,9 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rsdp))
             Failure(new IllegalArgumentException(s"EntityStructuredDataProperty not in extent: $rsdp"))
-          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tsdp.uuid)).contains(rsdp))
-            Failure(new IllegalArgumentException(s"EntityStructuredDataProperty: $tsdp vs. $rsdp"))
           else
-            Success(ri.copy(context = ej))
+            checkDerivedUUIDConsistency(tsdp, rsdp, ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tsdp.uuid)).contains(rsdp), ri.copy(context = ej))
+
         case (Failure(f), _) =>
           Failure(f)
       }
@@ -2378,9 +2399,9 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.scalarDataProperties
         .map { tsdp =>
-          ( api.taggedTypes.fromUUIDString(tsdp.tboxUUID),
+          (api.taggedTypes.fromUUIDString(tsdp.tboxUUID),
             api.taggedTypes.fromUUIDString(tsdp.domainUUID),
-            api.taggedTypes.fromUUIDString(tsdp.rangeUUID) ) -> tsdp
+            api.taggedTypes.fromUUIDString(tsdp.rangeUUID)) -> tsdp
         }
 
     val byTBox = for {
@@ -2416,10 +2437,9 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rsdp))
             Failure(new IllegalArgumentException(s"ScalarDataProperty not in extent: $rsdp"))
-          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tsdp.uuid)).contains(rsdp))
-            Failure(new IllegalArgumentException(s"ScalarDataProperty: $tsdp vs. $rsdp"))
           else
-            Success(ri.copy(context = ej))
+            checkDerivedUUIDConsistency(tsdp, rsdp, ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tsdp.uuid)).contains(rsdp), ri.copy(context = ej))
+
         case (Failure(f), _) =>
           Failure(f)
       }
@@ -2433,9 +2453,9 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.structuredDataProperties
         .map { tsdp =>
-          ( api.taggedTypes.fromUUIDString(tsdp.tboxUUID),
+          (api.taggedTypes.fromUUIDString(tsdp.tboxUUID),
             api.taggedTypes.fromUUIDString(tsdp.domainUUID),
-            api.taggedTypes.fromUUIDString(tsdp.rangeUUID) ) -> tsdp
+            api.taggedTypes.fromUUIDString(tsdp.rangeUUID)) -> tsdp
         }
 
     val byTBox = for {
@@ -2471,10 +2491,9 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rsdp))
             Failure(new IllegalArgumentException(s"StructuredDataProperty not in extent: $rsdp"))
-          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tsdp.uuid)).contains(rsdp))
-            Failure(new IllegalArgumentException(s"StructuredDataProperty: $tsdp vs. $rsdp"))
           else
-            Success(ri.copy(context = ej))
+            checkDerivedUUIDConsistency(tsdp, rsdp, ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tsdp.uuid)).contains(rsdp), ri.copy(context = ej))
+
         case (Failure(f), _) =>
           Failure(f)
       }
@@ -2488,9 +2507,9 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.scalarOneOfLiteralAxioms
         .map { tsool =>
-          ( api.taggedTypes.fromUUIDString(tsool.tboxUUID),
+          (api.taggedTypes.fromUUIDString(tsool.tboxUUID),
             api.taggedTypes.fromUUIDString(tsool.axiomUUID),
-            tsool.valueTypeUUID.map(id => api.taggedTypes.fromUUIDString(id)) ) -> tsool
+            tsool.valueTypeUUID.map(id => api.taggedTypes.fromUUIDString(id))) -> tsool
         }
 
     val byTBox = for {
@@ -2524,10 +2543,9 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rsool))
             Failure(new IllegalArgumentException(s"ScalarOneOfLiteralAxiom not in extent: $rsool"))
-          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tsool.uuid)).contains(rsool))
-            Failure(new IllegalArgumentException(s"ScalarOneOfLiteralAxiom: $tsool vs. $rsool"))
           else
-            Success(ri.copy(context = ej))
+            checkDerivedUUIDConsistency(tsool, rsool, ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tsool.uuid)).contains(rsool), ri.copy(context = ej))
+
         case (Failure(f), _) =>
           Failure(f)
       }
@@ -2541,10 +2559,10 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.entityExistentialRestrictionAxioms
         .map { tra =>
-          ( api.taggedTypes.fromUUIDString(tra.tboxUUID),
+          (api.taggedTypes.fromUUIDString(tra.tboxUUID),
             api.taggedTypes.fromUUIDString(tra.restrictedDomainUUID),
             api.taggedTypes.fromUUIDString(tra.restrictedRangeUUID),
-            api.taggedTypes.fromUUIDString(tra.restrictedRelationshipUUID) ) -> tra
+            api.taggedTypes.fromUUIDString(tra.restrictedRelationshipUUID)) -> tra
         }
 
     val byTBox = for {
@@ -2584,10 +2602,9 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rra))
             Failure(new IllegalArgumentException(s"EntityExistentialRestrictionAxiom not in extent: $rra"))
-          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tra.uuid)).contains(rra))
-            Failure(new IllegalArgumentException(s"EntityExistentialRestrictionAxiom: $tra vs. $rra"))
           else
-            Success(ri.copy(context = ej))
+            checkDerivedUUIDConsistency(tra, rra, ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tra.uuid)).contains(rra), ri.copy(context = ej))
+
         case (Failure(f), _) =>
           Failure(f)
       }
@@ -2601,10 +2618,10 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.entityUniversalRestrictionAxioms
         .map { tra =>
-          ( api.taggedTypes.fromUUIDString(tra.tboxUUID),
+          (api.taggedTypes.fromUUIDString(tra.tboxUUID),
             api.taggedTypes.fromUUIDString(tra.restrictedDomainUUID),
             api.taggedTypes.fromUUIDString(tra.restrictedRangeUUID),
-            api.taggedTypes.fromUUIDString(tra.restrictedRelationshipUUID) ) -> tra
+            api.taggedTypes.fromUUIDString(tra.restrictedRelationshipUUID)) -> tra
         }
 
     val byTBox = for {
@@ -2644,10 +2661,9 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rra))
             Failure(new IllegalArgumentException(s"EntityUniversalRestrictionAxiom not in extent: $rra"))
-          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tra.uuid)).contains(rra))
-            Failure(new IllegalArgumentException(s"EntityUniversalRestrictionAxiom:\n$tra\nvs.\n$rra"))
           else
-            Success(ri.copy(context = ej))
+            checkDerivedUUIDConsistency(tra, rra, ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tra.uuid)).contains(rra), ri.copy(context = ej))
+
         case (Failure(f), _) =>
           Failure(f)
       }
@@ -2661,10 +2677,10 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.entityScalarDataPropertyExistentialRestrictionAxioms
         .map { tra =>
-          ( api.taggedTypes.fromUUIDString(tra.tboxUUID),
+          (api.taggedTypes.fromUUIDString(tra.tboxUUID),
             api.taggedTypes.fromUUIDString(tra.restrictedEntityUUID),
             api.taggedTypes.fromUUIDString(tra.scalarPropertyUUID),
-            api.taggedTypes.fromUUIDString(tra.scalarRestrictionUUID) ) -> tra
+            api.taggedTypes.fromUUIDString(tra.scalarRestrictionUUID)) -> tra
         }
 
     val byTBox = for {
@@ -2704,10 +2720,9 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rra))
             Failure(new IllegalArgumentException(s"EntityScalarDataPropertyExistentialRestrictionAxiom not in extent: $rra"))
-          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tra.uuid)).contains(rra))
-            Failure(new IllegalArgumentException(s"EntityScalarDataPropertyExistentialRestrictionAxiom: $tra vs. $rra"))
           else
-            Success(ri.copy(context = ej))
+            checkDerivedUUIDConsistency(tra, rra, ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tra.uuid)).contains(rra), ri.copy(context = ej))
+
         case (Failure(f), _) =>
           Failure(f)
       }
@@ -2721,10 +2736,10 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.entityScalarDataPropertyUniversalRestrictionAxioms
         .map { tra =>
-          ( api.taggedTypes.fromUUIDString(tra.tboxUUID),
+          (api.taggedTypes.fromUUIDString(tra.tboxUUID),
             api.taggedTypes.fromUUIDString(tra.restrictedEntityUUID),
             api.taggedTypes.fromUUIDString(tra.scalarPropertyUUID),
-            api.taggedTypes.fromUUIDString(tra.scalarRestrictionUUID) ) -> tra
+            api.taggedTypes.fromUUIDString(tra.scalarRestrictionUUID)) -> tra
         }
 
     val byTBox = for {
@@ -2764,10 +2779,9 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rra))
             Failure(new IllegalArgumentException(s"EntityScalarDataPropertyUniversalRestrictionAxiom not in extent: $rra"))
-          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tra.uuid)).contains(rra))
-            Failure(new IllegalArgumentException(s"EntityScalarDataPropertyUniversalRestrictionAxiom: $tra vs. $rra"))
           else
-            Success(ri.copy(context = ej))
+            checkDerivedUUIDConsistency(tra, rra, ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tra.uuid)).contains(rra), ri.copy(context = ej))
+
         case (Failure(f), _) =>
           Failure(f)
       }
@@ -2781,7 +2795,7 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.entityScalarDataPropertyParticularRestrictionAxioms
         .map { tra =>
-          ( api.taggedTypes.fromUUIDString(tra.tboxUUID),
+          (api.taggedTypes.fromUUIDString(tra.tboxUUID),
             api.taggedTypes.fromUUIDString(tra.restrictedEntityUUID),
             api.taggedTypes.fromUUIDString(tra.scalarPropertyUUID),
             tra.valueTypeUUID.map(api.taggedTypes.fromUUIDString)) -> tra
@@ -2823,10 +2837,9 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rra))
             Failure(new IllegalArgumentException(s"EntityScalarDataPropertyParticularRestrictionAxiom not in extent: $rra"))
-          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tra.uuid)).contains(rra))
-            Failure(new IllegalArgumentException(s"EntityScalarDataPropertyParticularRestrictionAxiom: $tra vs. $rra"))
           else
-            Success(ri.copy(context = ej))
+            checkDerivedUUIDConsistency(tra, rra, ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tra.uuid)).contains(rra), ri.copy(context = ej))
+
         case (Failure(f), _) =>
           Failure(f)
       }
@@ -2839,11 +2852,11 @@ object OMLTablesResolver {
   = {
     val byUUID =
       r.queue.entityStructuredDataPropertyParticularRestrictionAxioms
-      .map { tra =>
-        ( api.taggedTypes.fromUUIDString(tra.tboxUUID),
-          api.taggedTypes.fromUUIDString(tra.restrictedEntityUUID),
-          api.taggedTypes.fromUUIDString(tra.structuredDataPropertyUUID)) -> tra
-      }
+        .map { tra =>
+          (api.taggedTypes.fromUUIDString(tra.tboxUUID),
+            api.taggedTypes.fromUUIDString(tra.restrictedEntityUUID),
+            api.taggedTypes.fromUUIDString(tra.structuredDataPropertyUUID)) -> tra
+        }
 
     val info = for {
       tuple <- byUUID
@@ -2875,10 +2888,10 @@ object OMLTablesResolver {
             entityM)
           if (!ej.lookupBoxStatements(tboxM).contains(rra))
             Failure(new IllegalArgumentException(s"EntityStructuredDataPropertyParticularRestrictionAxiom not in extent: $rra"))
-          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tra.uuid)).contains(rra))
-            Failure(new IllegalArgumentException(s"EntityStructuredDataPropertyParticularRestrictionAxiom: $tra vs. $rra"))
           else
-            mapRestrictionStructuredDataPropertyContext(ri.copy(context = ej), Seq(tra.uuid -> rra))
+            checkDerivedUUIDConsistencyOfResult(tra, rra, ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tra.uuid)).contains(rra),
+              mapRestrictionStructuredDataPropertyContext(ri.copy(context = ej), Seq(tra.uuid -> rra)))
+
         case (Failure(t), _) =>
           Failure(t)
       }
@@ -2980,16 +2993,16 @@ object OMLTablesResolver {
 
     val (r4, more) =
       tResolvable
-        .foldLeft[(OMLTablesResolver, Seq[(tables.taggedTypes.RestrictionStructuredDataPropertyContextUUID, api.RestrictionStructuredDataPropertyContext)])]{
-        (r3, Seq.empty[(tables.taggedTypes.RestrictionStructuredDataPropertyContextUUID, api.RestrictionStructuredDataPropertyContext)])
-      } {
-        case ((ri, acc), (rsdp, tv)) =>
-          val (ej, rv) = ri.factory.createRestrictionStructuredDataPropertyTuple(
-            ri.context,
-            rcontext,
-            rsdp)
-          (ri.copy(context = ej), acc :+ (tv.uuid -> rv))
-      }
+        .foldLeft[(OMLTablesResolver, Seq[(tables.taggedTypes.RestrictionStructuredDataPropertyContextUUID, api.RestrictionStructuredDataPropertyContext)])] {
+          (r3, Seq.empty[(tables.taggedTypes.RestrictionStructuredDataPropertyContextUUID, api.RestrictionStructuredDataPropertyContext)])
+        } {
+          case ((ri, acc), (rsdp, tv)) =>
+            val (ej, rv) = ri.factory.createRestrictionStructuredDataPropertyTuple(
+              ri.context,
+              rcontext,
+              rsdp)
+            (ri.copy(context = ej), acc :+ (tv.uuid -> rv))
+        }
 
     mapRestrictionStructuredDataPropertyContext(r4, more ++ queue.tail)
   }
@@ -3001,9 +3014,9 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.aspectSpecializationAxioms
         .map { tax =>
-          ( api.taggedTypes.fromUUIDString(tax.tboxUUID),
+          (api.taggedTypes.fromUUIDString(tax.tboxUUID),
             api.taggedTypes.fromUUIDString(tax.superAspectUUID),
-            api.taggedTypes.fromUUIDString(tax.subEntityUUID) ) -> tax
+            api.taggedTypes.fromUUIDString(tax.subEntityUUID)) -> tax
         }
 
     val byTBox = for {
@@ -3038,10 +3051,9 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rax))
             Failure(new IllegalArgumentException(s"AspectSpecializationAxiom not in extent: $rax"))
-          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tax.uuid)).contains(rax))
-            Failure(new IllegalArgumentException(s"AspectSpecializationAxiom: $tax vs. $rax"))
           else
-            Success(ri.copy(context = ej))
+            checkDerivedUUIDConsistency(tax, rax, ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tax.uuid)).contains(rax), ri.copy(context = ej))
+
         case (Failure(f), _) =>
           Failure(f)
       }
@@ -3055,9 +3067,9 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.conceptSpecializationAxioms
         .map { tax =>
-          ( api.taggedTypes.fromUUIDString(tax.tboxUUID),
+          (api.taggedTypes.fromUUIDString(tax.tboxUUID),
             api.taggedTypes.fromUUIDString(tax.superConceptUUID),
-            api.taggedTypes.fromUUIDString(tax.subConceptUUID) ) -> tax
+            api.taggedTypes.fromUUIDString(tax.subConceptUUID)) -> tax
         }
 
     val byTBox = for {
@@ -3095,10 +3107,9 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rax))
             Failure(new IllegalArgumentException(s"ConceptSpecializationAxiom not in extent: $rax"))
-          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tax.uuid)).contains(rax))
-            Failure(new IllegalArgumentException(s"ConceptSpecializationAxiom: $tax vs. $rax"))
           else
-            Success(ri.copy(context = ej))
+            checkDerivedUUIDConsistency(tax, rax, ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tax.uuid)).contains(rax), ri.copy(context = ej))
+
         case (Failure(f), _) =>
           Failure(f)
       }
@@ -3112,9 +3123,9 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.reifiedRelationshipSpecializationAxioms
         .map { tax =>
-          ( api.taggedTypes.fromUUIDString(tax.tboxUUID),
+          (api.taggedTypes.fromUUIDString(tax.tboxUUID),
             api.taggedTypes.fromUUIDString(tax.subRelationshipUUID),
-            api.taggedTypes.fromUUIDString(tax.superRelationshipUUID) ) -> tax
+            api.taggedTypes.fromUUIDString(tax.superRelationshipUUID)) -> tax
         }
 
     val byTBox = for {
@@ -3143,10 +3154,9 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rax))
             Failure(new IllegalArgumentException(s"ReifiedRelationshipSpecializationAxiom not in extent: $rax"))
-          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tax.uuid)).contains(rax))
-            Failure(new IllegalArgumentException(s"ReifiedRelationshipSpecializationAxiom: $tax vs. $rax"))
           else
-            Success(ri.copy(context = ej))
+            checkDerivedUUIDConsistency(tax, rax, ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tax.uuid)).contains(rax), ri.copy(context = ej))
+
         case (Failure(f), _) =>
           Failure(f)
       }
@@ -3160,9 +3170,9 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.subDataPropertyOfAxioms
         .map { tax =>
-          ( api.taggedTypes.fromUUIDString(tax.tboxUUID),
+          (api.taggedTypes.fromUUIDString(tax.tboxUUID),
             api.taggedTypes.fromUUIDString(tax.subPropertyUUID),
-            api.taggedTypes.fromUUIDString(tax.superPropertyUUID) ) -> tax
+            api.taggedTypes.fromUUIDString(tax.superPropertyUUID)) -> tax
         }
 
     val byTBox = for {
@@ -3197,10 +3207,9 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rax))
             Failure(new IllegalArgumentException(s"SubDataPropertyOfAxiom not in extent: $rax"))
-          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tax.uuid)).contains(rax))
-            Failure(new IllegalArgumentException(s"SubDataPropertyOfAxiom: $tax vs. $rax"))
           else
-            Success(ri.copy(context = ej))
+            checkDerivedUUIDConsistency(tax, rax, ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tax.uuid)).contains(rax), ri.copy(context = ej))
+
         case (Failure(f), _) =>
           Failure(f)
       }
@@ -3214,9 +3223,9 @@ object OMLTablesResolver {
     val byUUID =
       r.queue.subObjectPropertyOfAxioms
         .map { tax =>
-          ( api.taggedTypes.fromUUIDString(tax.tboxUUID),
+          (api.taggedTypes.fromUUIDString(tax.tboxUUID),
             api.taggedTypes.fromUUIDString(tax.subPropertyUUID),
-            api.taggedTypes.fromUUIDString(tax.superPropertyUUID) ) -> tax
+            api.taggedTypes.fromUUIDString(tax.superPropertyUUID)) -> tax
         }
 
     val byTBox = for {
@@ -3251,10 +3260,9 @@ object OMLTablesResolver {
 
           if (!ej.lookupBoxStatements(tboxM).contains(rax))
             Failure(new IllegalArgumentException(s"SubObjectPropertyOfAxiom not in extent: $rax"))
-          else if (!ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tax.uuid)).contains(rax))
-            Failure(new IllegalArgumentException(s"SubObjectPropertyOfAxiom: $tax vs. $rax"))
           else
-            Success(ri.copy(context = ej))
+            checkDerivedUUIDConsistency(tax, rax, ej.lookupTerminologyBoxStatement(api.taggedTypes.fromUUIDString(tax.uuid)).contains(rax), ri.copy(context = ej))
+
         case (Failure(f), _) =>
           Failure(f)
       }
@@ -3293,10 +3301,9 @@ object OMLTablesResolver {
 
           if (!ej.lookupBundleStatements(bundleM).contains(rax))
             Failure(new IllegalArgumentException(s"RootConceptTaxonomyAxiom not in extent: $rax"))
-          else if (!ej.lookupTerminologyBundleStatement(api.taggedTypes.fromUUIDString(tax.uuid)).contains(rax))
-            Failure(new IllegalArgumentException(s"RootConceptTaxonomyAxiom: $tax vs. $rax"))
           else
-            mapDisjunctions(ri.copy(context = ej), Seq(rax -> tax.uuid))
+            checkDerivedUUIDConsistencyOfResult(tax, rax, ej.lookupTerminologyBundleStatement(api.taggedTypes.fromUUIDString(tax.uuid)).contains(rax), mapDisjunctions(ri.copy(context = ej), Seq(rax -> tax.uuid)))
+
         case (Failure(f), _) =>
           Failure(f)
       }
@@ -3318,21 +3325,20 @@ object OMLTablesResolver {
       anonymousConceptUnionAxioms = as._2,
       specificDisjointConceptAxioms = ss._2))
 
-    val r2 = as._1.foldLeft[Try[(OMLTablesResolver, Seq[(api.ConceptTreeDisjunction, tables.taggedTypes.ConceptTreeDisjunctionUUID)])]]{
+    val r2 = as._1.foldLeft[Try[(OMLTablesResolver, Seq[(api.ConceptTreeDisjunction, tables.taggedTypes.ConceptTreeDisjunctionUUID)])]] {
       Success(r1 -> Seq.empty[(api.ConceptTreeDisjunction, tables.taggedTypes.ConceptTreeDisjunctionUUID)])
     } {
-        case (Success((ri, acc)), tax) =>
-          val (ej, rax) = ri.factory.createAnonymousConceptUnionAxiom(ri.context, conceptTreeDisjunctParent, tax.name)
+      case (Success((ri, acc)), tax) =>
+        val (ej, rax) = ri.factory.createAnonymousConceptUnionAxiom(ri.context, conceptTreeDisjunctParent, tax.name)
 
-          if (!ej.conceptTreeDisjunctionOfDisjointUnionOfConceptsAxiom.get(rax).contains(conceptTreeDisjunctParent))
-            Failure(new IllegalArgumentException(s"AnonymousConceptUnionAxiom not in conceptTreeDisjunctionOfDisjointUnionOfConceptsAxiom: $rax"))
-          else if (!ej.lookupDisjunctions(conceptTreeDisjunctParent).contains(rax))
-            Failure(new IllegalArgumentException(s"AnonymousConceptUnionAxiom: not in lookupDisjunctions: $tax vs. $rax"))
-          else
-            Success(ri.copy(context = ej) -> (acc :+ (rax -> tax.uuid)))
-        case (Failure(f), _) =>
-          Failure(f)
-      }
+        if (!ej.conceptTreeDisjunctionOfDisjointUnionOfConceptsAxiom.get(rax).contains(conceptTreeDisjunctParent))
+          Failure(new IllegalArgumentException(s"AnonymousConceptUnionAxiom not in conceptTreeDisjunctionOfDisjointUnionOfConceptsAxiom: $rax"))
+        else
+          checkDerivedUUIDConsistencyOfValues(tax, rax, ej.lookupDisjunctions(conceptTreeDisjunctParent).contains(rax), ri.copy(context = ej), acc :+ (rax -> tax.uuid))
+
+      case (Failure(f), _) =>
+        Failure(f)
+    }
 
     val r3 = ss._1.foldLeft[Try[(OMLTablesResolver, Seq[(api.ConceptTreeDisjunction, tables.taggedTypes.ConceptTreeDisjunctionUUID)])]](r2) {
       case (Success((ri, acc)), tax) =>
@@ -3342,10 +3348,9 @@ object OMLTablesResolver {
 
             if (!ej.conceptTreeDisjunctionOfDisjointUnionOfConceptsAxiom.get(rax).contains(conceptTreeDisjunctParent))
               Failure(new IllegalArgumentException(s"SpecificDisjointConceptAxiom not in conceptTreeDisjunctionOfDisjointUnionOfConceptsAxiom: $rax"))
-            else if (!ej.lookupDisjunctions(conceptTreeDisjunctParent).contains(rax))
-              Failure(new IllegalArgumentException(s"SpecificDisjointConceptAxiom: not in lookupDisjunctions: $tax vs. $rax"))
             else
-              Success(ri.copy(context = ej) -> acc)
+              checkDerivedUUIDConsistencyOfValues(tax, rax, ej.lookupDisjunctions(conceptTreeDisjunctParent).contains(rax), ri.copy(context = ej),  acc)
+
           case _ =>
             Failure(new IllegalArgumentException(s"SpecificDisjointConceptAxiom: leaf concept not found: ${tax.disjointLeafUUID}"))
         }
@@ -3394,10 +3399,9 @@ object OMLTablesResolver {
 
         if (!ej.lookupConceptInstances(dboxM).contains(rci))
           Failure(new IllegalArgumentException(s"ConceptInstance not in extent: $rci"))
-        else if (!ej.lookupConceptInstance(api.taggedTypes.fromUUIDString(tci.uuid)).contains(rci))
-          Failure(new IllegalArgumentException(s"ConceptInstance: $rci vs. $tci"))
         else
-          Success(ri.copy(context = ej))
+          checkDerivedUUIDConsistency(tci, rci, ej.lookupConceptInstance(api.taggedTypes.fromUUIDString(tci.uuid)).contains(rci), ri.copy(context = ej))
+
       case (Failure(t), _) =>
         Failure(t)
     }
@@ -3438,10 +3442,9 @@ object OMLTablesResolver {
 
         if (!ej.lookupReifiedRelationshipInstances(dboxM).contains(rrri))
           Failure(new IllegalArgumentException(s"ReifiedRelationshipInstance not in extent: $rrri"))
-        else if (!ej.lookupReifiedRelationshipInstance(api.taggedTypes.fromUUIDString(trri.uuid)).contains(rrri))
-          Failure(new IllegalArgumentException(s"ReifiedRelationshipInstance: $rrri vs. $trri"))
         else
-          Success(ri.copy(context = ej))
+          checkDerivedUUIDConsistency(trri, rrri, ej.lookupReifiedRelationshipInstance(api.taggedTypes.fromUUIDString(trri.uuid)).contains(rrri), ri.copy(context = ej))
+
       case (Failure(t), _) =>
         Failure(t)
     }
@@ -3481,10 +3484,9 @@ object OMLTablesResolver {
 
         if (!ej.lookupReifiedRelationshipInstanceDomains(dboxM).contains(rrrid))
           Failure(new IllegalArgumentException(s"ReifiedRelationshipInstanceDomain not in extent: $rrrid"))
-        else if (!ej.lookupReifiedRelationshipInstanceDomain(api.taggedTypes.fromUUIDString(trrid.uuid)).contains(rrrid))
-          Failure(new IllegalArgumentException(s"ReifiedRelationshipInstanceDomain: $rrrid vs. $trrid"))
         else
-          Success(ri.copy(context = ej))
+          checkDerivedUUIDConsistency(trrid, rrrid, ej.lookupReifiedRelationshipInstanceDomain(api.taggedTypes.fromUUIDString(trrid.uuid)).contains(rrrid), ri.copy(context = ej))
+
       case (Failure(t), _) =>
         Failure(t)
     }
@@ -3524,10 +3526,9 @@ object OMLTablesResolver {
 
         if (!ej.lookupReifiedRelationshipInstanceRanges(dboxM).contains(rrrir))
           Failure(new IllegalArgumentException(s"ReifiedRelationshipInstanceRange not in extent: $rrrir"))
-        else if (!ej.lookupReifiedRelationshipInstanceRange(api.taggedTypes.fromUUIDString(trrir.uuid)).contains(rrrir))
-          Failure(new IllegalArgumentException(s"ReifiedRelationshipInstanceRange: $rrrir vs. $trrir"))
         else
-          Success(ri.copy(context = ej))
+          checkDerivedUUIDConsistency(trrir, rrrir, ej.lookupReifiedRelationshipInstanceRange(api.taggedTypes.fromUUIDString(trrir.uuid)).contains(rrrir), ri.copy(context = ej))
+
       case (Failure(t), _) =>
         Failure(t)
     }
@@ -3573,10 +3574,9 @@ object OMLTablesResolver {
 
         if (!ej.lookupUnreifiedRelationshipInstanceTuples(dboxM).contains(ruri))
           Failure(new IllegalArgumentException(s"UnreifiedRelationshipInstanceTuple not in extent: $ruri"))
-        else if (!ej.lookupUnreifiedRelationshipInstanceTuple(api.taggedTypes.fromUUIDString(turi.uuid)).contains(ruri))
-          Failure(new IllegalArgumentException(s"UnreifiedRelationshipInstanceTuple: $ruri vs. $turi"))
         else
-          Success(ri.copy(context = ej))
+          checkDerivedUUIDConsistency(turi, ruri, ej.lookupUnreifiedRelationshipInstanceTuple(api.taggedTypes.fromUUIDString(turi.uuid)).contains(ruri), ri.copy(context = ej))
+
       case (Failure(t), _) =>
         Failure(t)
     }
@@ -3619,10 +3619,9 @@ object OMLTablesResolver {
 
         if (!ej.lookupInstanceRelationshipValueRestrictions(dboxM).contains(ruri))
           Failure(new IllegalArgumentException(s"InstanceRelationshipValueRestriction not in extent: $ruri"))
-        else if (!ej.lookupInstanceRelationshipValueRestriction(api.taggedTypes.fromUUIDString(turi.uuid)).contains(ruri))
-          Failure(new IllegalArgumentException(s"InstanceRelationshipValueRestriction: $ruri vs. $turi"))
         else
-          Success(ri.copy(context = ej))
+          checkDerivedUUIDConsistency(turi, ruri, ej.lookupInstanceRelationshipValueRestriction(api.taggedTypes.fromUUIDString(turi.uuid)).contains(ruri), ri.copy(context = ej))
+
       case (Failure(t), _) =>
         Failure(t)
     }
@@ -3668,10 +3667,9 @@ object OMLTablesResolver {
 
         if (!ej.lookupInstanceRelationshipExistentialRangeRestrictions(dboxM).contains(ruri))
           Failure(new IllegalArgumentException(s"InstanceRelationshipExistentialRangeRestriction not in extent: $ruri"))
-        else if (!ej.lookupInstanceRelationshipExistentialRangeRestriction(api.taggedTypes.fromUUIDString(turi.uuid)).contains(ruri))
-          Failure(new IllegalArgumentException(s"InstanceRelationshipExistentialRangeRestriction: $ruri vs. $turi"))
         else
-          Success(ri.copy(context = ej))
+          checkDerivedUUIDConsistency(turi, ruri, ej.lookupInstanceRelationshipExistentialRangeRestriction(api.taggedTypes.fromUUIDString(turi.uuid)).contains(ruri), ri.copy(context = ej))
+
       case (Failure(t), _) =>
         Failure(t)
     }
@@ -3717,10 +3715,9 @@ object OMLTablesResolver {
 
         if (!ej.lookupInstanceRelationshipUniversalRangeRestrictions(dboxM).contains(ruri))
           Failure(new IllegalArgumentException(s"InstanceRelationshipUniversalRangeRestriction not in extent: $ruri"))
-        else if (!ej.lookupInstanceRelationshipUniversalRangeRestriction(api.taggedTypes.fromUUIDString(turi.uuid)).contains(ruri))
-          Failure(new IllegalArgumentException(s"InstanceRelationshipUniversalRangeRestriction: $ruri vs. $turi"))
         else
-          Success(ri.copy(context = ej))
+          checkDerivedUUIDConsistency(turi, ruri, ej.lookupInstanceRelationshipUniversalRangeRestriction(api.taggedTypes.fromUUIDString(turi.uuid)).contains(ruri), ri.copy(context = ej))
+
       case (Failure(t), _) =>
         Failure(t)
     }
@@ -3743,10 +3740,12 @@ object OMLTablesResolver {
         case Some(dp: api.EntityScalarDataProperty) => Some(dp)
         case _ => None
       }
-      val vtM = vtUUID.flatMap { id => r.lookupTerminologyBoxStatement(id) match {
-        case Some(vt: api.DataRange) => Some(vt)
-        case _ => None
-      }}
+      val vtM = vtUUID.flatMap { id =>
+        r.lookupTerminologyBoxStatement(id) match {
+          case Some(vt: api.DataRange) => Some(vt)
+          case _ => None
+        }
+      }
       (dboxM, ciM, dpM, vtUUID, vtM, tvi)
     }
 
@@ -3770,10 +3769,9 @@ object OMLTablesResolver {
 
         if (!ej.lookupSingletonScalarDataPropertyValues(dboxM).contains(rvi))
           Failure(new IllegalArgumentException(s"SingletonInstanceScalarDataPropertyValue not in extent: $rvi"))
-        else if (!ej.lookupSingletonInstanceScalarDataPropertyValue(api.taggedTypes.fromUUIDString(tvi.uuid)).contains(rvi))
-          Failure(new IllegalArgumentException(s"SingletonInstanceScalarDataPropertyValue: $rvi vs. $tvi"))
         else
-          Success(ri.copy(context = ej))
+          checkDerivedUUIDConsistency(tvi, rvi, ej.lookupSingletonInstanceScalarDataPropertyValue(api.taggedTypes.fromUUIDString(tvi.uuid)).contains(rvi), ri.copy(context = ej))
+
       case (Failure(t), _) =>
         Failure(t)
     }
@@ -3816,10 +3814,9 @@ object OMLTablesResolver {
 
         if (!ej.lookupSingletonStructuredDataPropertyValues(dboxM).contains(rvi))
           Failure(new IllegalArgumentException(s"SingletonInstanceStructuredDataPropertyValue not in extent: $rvi"))
-        else if (!ej.lookupSingletonInstanceStructuredDataPropertyValue(api.taggedTypes.fromUUIDString(tvi.uuid)).contains(rvi))
-          Failure(new IllegalArgumentException(s"SingletonInstanceStructuredDataPropertyValue: $rvi vs. $tvi"))
         else
-          mapSingletonInstanceStructuredDataPropertyContext(ri.copy(context = ej), Seq(tvi.uuid -> rvi))
+          checkDerivedUUIDConsistencyOfResult(tvi, rvi, ej.lookupSingletonInstanceStructuredDataPropertyValue(api.taggedTypes.fromUUIDString(tvi.uuid)).contains(rvi), mapSingletonInstanceStructuredDataPropertyContext(ri.copy(context = ej), Seq(tvi.uuid -> rvi)))
+
       case (Failure(t), _) =>
         Failure(t)
     }
@@ -3852,18 +3849,20 @@ object OMLTablesResolver {
 
     val values =
       scr._1.map { tvi =>
-      val dpUUID = api.taggedTypes.fromUUIDString(tvi.scalarDataPropertyUUID)
-      val vtUUID = tvi.valueTypeUUID.map(id => api.taggedTypes.fromUUIDString(id))
-      val dpM = r.lookupTerminologyBoxStatement(dpUUID) match {
-        case Some(dp: api.DataRelationshipToScalar) => Some(dp)
-        case _ => None
+        val dpUUID = api.taggedTypes.fromUUIDString(tvi.scalarDataPropertyUUID)
+        val vtUUID = tvi.valueTypeUUID.map(id => api.taggedTypes.fromUUIDString(id))
+        val dpM = r.lookupTerminologyBoxStatement(dpUUID) match {
+          case Some(dp: api.DataRelationshipToScalar) => Some(dp)
+          case _ => None
+        }
+        val vtM = vtUUID.flatMap { id =>
+          r.lookupTerminologyBoxStatement(id) match {
+            case Some(vt: api.DataRange) => Some(vt)
+            case _ => None
+          }
+        }
+        (dpM, vtUUID, vtM, tvi)
       }
-      val vtM = vtUUID.flatMap { id => r.lookupTerminologyBoxStatement(id) match {
-        case Some(vt: api.DataRange) => Some(vt)
-        case _ => None
-      }}
-      (dpM, vtUUID, vtM, tvi)
-    }
 
     val vUnresolvable = values.filter(tuple => tuple._1.isEmpty || (tuple._2.nonEmpty && tuple._3.isEmpty)).map(_._4)
     val vResolvable = values.flatMap {
@@ -3885,10 +3884,9 @@ object OMLTablesResolver {
 
         if (!ej.lookupScalarDataPropertyValues(rcontext).contains(rvi))
           Failure(new IllegalArgumentException(s"ScalarDataPropertyValue not in extent: $rvi"))
-        else if (!ej.lookupScalarDataPropertyValue(api.taggedTypes.fromUUIDString(tvi.uuid)).contains(rvi))
-          Failure(new IllegalArgumentException(s"ScalarDataPropertyValue: $rvi vs. $tvi"))
         else
-          Success(ri.copy(context = ej))
+          checkDerivedUUIDConsistency(tvi, rvi, ej.lookupScalarDataPropertyValue(api.taggedTypes.fromUUIDString(tvi.uuid)).contains(rvi), ri.copy(context = ej))
+
       case (Failure(t), _) =>
         Failure(t)
     }
@@ -3917,23 +3915,22 @@ object OMLTablesResolver {
 
         val tr4 = tResolvable
           .foldLeft[Try[(OMLTablesResolver, Seq[(tables.taggedTypes.SingletonInstanceStructuredDataPropertyContextUUID, api.SingletonInstanceStructuredDataPropertyContext)])]] {
-          Success(r3 -> Seq.empty[(tables.taggedTypes.SingletonInstanceStructuredDataPropertyContextUUID, api.SingletonInstanceStructuredDataPropertyContext)])
-        } {
-          case (Success((ri, acc)), (dpM, tvi)) =>
-            val (ej, rvi) = ri.factory.createStructuredDataPropertyTuple(
-              ri.context,
-              rcontext,
-              dpM)
+            Success(r3 -> Seq.empty[(tables.taggedTypes.SingletonInstanceStructuredDataPropertyContextUUID, api.SingletonInstanceStructuredDataPropertyContext)])
+          } {
+            case (Success((ri, acc)), (dpM, tvi)) =>
+              val (ej, rvi) = ri.factory.createStructuredDataPropertyTuple(
+                ri.context,
+                rcontext,
+                dpM)
 
-            if (!ej.lookupStructuredPropertyTuples(rcontext).contains(rvi))
-              Failure(new IllegalArgumentException(s"StructuredDataPropertyTuple not in extent: $rvi"))
-            else if (!ej.lookupStructuredDataPropertyTuple(api.taggedTypes.fromUUIDString(tvi.uuid)).contains(rvi))
-              Failure(new IllegalArgumentException(s"StructuredDataPropertyTuple: $rvi vs. $tvi"))
-            else
-              Success(ri.copy(context = ej) -> (acc :+ (tvi.uuid -> rvi)))
-          case (Failure(t), _) =>
-            Failure(t)
-        }
+              if (!ej.lookupStructuredPropertyTuples(rcontext).contains(rvi))
+                Failure(new IllegalArgumentException(s"StructuredDataPropertyTuple not in extent: $rvi"))
+              else
+                checkDerivedUUIDConsistencyOfValues(tvi, rvi, ej.lookupStructuredDataPropertyTuple(api.taggedTypes.fromUUIDString(tvi.uuid)).contains(rvi), ri.copy(context = ej), acc :+ (tvi.uuid -> rvi))
+
+            case (Failure(t), _) =>
+              Failure(t)
+          }
 
         tr4 match {
           case Success((r4, more)) =>
@@ -3955,11 +3952,11 @@ object OMLTablesResolver {
     val byUUID
     : Seq[((Option[api.AnnotationProperty], Option[api.LogicalElement]), tables.AnnotationPropertyValue)]
     = r.queue.annotationPropertyValues
-        .map { apv =>
-          ( r.lookupAnnotationProperty(api.taggedTypes.fromUUIDString(apv.propertyUUID)),
-            r.lookupLogicalElement(api.taggedTypes.fromUUIDString(apv.subjectUUID))
-          ) -> apv
-        }
+      .map { apv =>
+        (r.lookupAnnotationProperty(api.taggedTypes.fromUUIDString(apv.propertyUUID)),
+          r.lookupLogicalElement(api.taggedTypes.fromUUIDString(apv.subjectUUID))
+        ) -> apv
+      }
 
     val unresolvable
     : Seq[tables.AnnotationPropertyValue]
@@ -3982,15 +3979,13 @@ object OMLTablesResolver {
     }
 
     val s =
-      resolvable.foldLeft[Try[OMLTablesResolver]]{
+      resolvable.foldLeft[Try[OMLTablesResolver]] {
         Success(r.copy(queue = r.queue.copy(annotationPropertyValues = unresolvable)))
       } {
         case (Success(ri), (rap, re, apv)) =>
           val (ej, ra) = ri.factory.createAnnotationPropertyValue(ri.context, re, rap, apv.value)
-          if (!ej.lookupAnnotationPropertyValue(ra.uuid).exists { a => a.property == rap && a.value == apv.value })
-            Failure(new IllegalArgumentException(s"Annotation not in extent: $ra"))
-          else
-            Success(ri.copy(context = ej))
+          checkDerivedUUIDConsistency(apv, ra, ej.lookupAnnotationPropertyValue(ra.uuid).exists { a => a.property == rap && a.value == apv.value },ri.copy(context = ej))
+
         case (Failure(f), _) =>
           Failure(f)
       }
